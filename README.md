@@ -1,7 +1,7 @@
 <div align="center">
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/TexasInstruments-Logo.svg" width="150"><br/>
-# MCU+ SDK
+# Industrial Communications SDK
 
 [Introduction](#introduction) | [Features](#features) | [Overview](#overview) | [Learn](#learn) | [Usage](#usage) | [Contribute](#contributing-to-the-project)
 
@@ -9,78 +9,28 @@
 
 ## Introduction
 
-MCU+ SDK is a software development package designed for usage with Sitara MCU+ class of devices from Texas Instruments. These devices currently include
+The Industrial Communications SDK enables real-time industrial communications for TI processors. Industrial communication is typically handled by the Programmable Real-Time Unit Industrial Communication Subsystem (PRU-ICSS). The PRU-ICSS is a co-processor subsystem containing Programmable Real-Time (PRU) cores and Ethernet media access controllers (EMACs), which implement the low level industrial Ethernet and fieldbus protocols through firmware.
+
+These devices currently include
 
 - [AM2431](https://www.ti.com/product/AM2431), [AM2432](https://www.ti.com/product/AM2432), [AM2434](https://www.ti.com/product/AM2434)
 - [AM2634](https://www.ti.com/product/AM2634), [AM2634-Q1](https://www.ti.com/product/AM2634-Q1)
-- [AM2732](https://www.ti.com/product/AM2732)
 - [AM6411](https://www.ti.com/product/AM6411), [AM6412](https://www.ti.com/product/AM6412), [AM6421](https://www.ti.com/product/AM6421), [AM6422](https://www.ti.com/product/AM6422), [AM6441](https://www.ti.com/product/AM6441), [AM6442](https://www.ti.com/product/AM6442)
-
-MCU+ SDK is designed with user experience and simplicity in mind. The SDK includes out-of-box application examples and peripheral usage examples to help users hit the ground running.
 
 ## Features
 
 - Out of Box peripheral and application Examples
-  - Peripheral Level Examples: UART, ADC, I2C, SPI etc.
   - Application Level Examples: Motor Drives, Industrial Communications etc.
 
 - Protocol stacks and middleware
-  - TinyUSB
-  - LwIP
   - Various Industrial Protocol Stacks
-  - FreeRTOS-FAT
-
-- Drivers and Hardware Abstraction Layer
-  - Board peripheral drivers - Flash, EEPROM, LED etc.
-  - SoC peripheral drivers - I2C, SPI, OSPI, ADC etc.
 
 - Industrial protocol firmware
   - ICCSG, ICSSM etc.
 
-- OS kernel layer
-  - Driver Porting Layer(DPL) which acts as an abstraction layer between driver and OS
-  - Out of Box Support for
-    - FreeRTOS
-    - Baremetal i.e NO RTOS builds
-
 ## Overview
 
----
-
-![Software Block Diagram](docs/sdk_block.png)
-
----
-
-MCU+ SDK source comprises of multiple repositories with the current repository
-at it's core. To build the SDK successfully, there are other repositories
-that need to be cloned and are listed below:
-
-- [Ethernet Low Level Driver (ENET LLD)](https://github.com/TexasInstruments/mcupsdk-enet-lld)
-- [FreeRTOS-Kernel](https://github.com/TexasInstruments/mcupsdk-FreeRTOS-Kernel)
-- [FreeRTOS-POSIX](https://github.com/TexasInstruments/mcupsdk-FreeRTOS-POSIX)
-- [FreeRTOS-FAT](https://github.com/TexasInstruments/mcupsdk-FreeRTOS-FAT)
-
-We use the [repo tool](https://gerrit.googlesource.com/git-repo) to clone and manage
-multiple repositories. To setup the repo tool, navigate to [repo tool setup](#repo-tool-setup) section.
-
-Prebuilt SDK installers  for specific devices are available at below links. Please note that installers are packaged specific to each device to reduce size.
-
-- [AM243x MCU+ SDK](https://www.ti.com/tool/MCU-PLUS-SDK-AM243X)
-- [AM263x MCU+ SDK](https://www.ti.com/tool/MCU-PLUS-SDK-AM263X)
-- [AM273x MCU+ SDK](https://www.ti.com/tool/MCU-PLUS-SDK-AM273X)
-- [AM64x  MCU+ SDK](https://www.ti.com/tool/download/MCU-PLUS-SDK-AM64X/08.04.00.17)
-
 ## Learn
-
-TI has an amazing collection of tutorials on MCU+ Academy to help you get started.
-
-- [AM243x MCU+ Academy](https://dev.ti.com/tirex/explore/node?node=A__AIo8NlrG3wSiDMUMT-uDWg__com.ti.MCU_PLUS_ACADEMY_AM243X__6zyEKJF__LATEST)
-
-- [AM263x MCU+ Academy](https://dev.ti.com/tirex/explore/node?node=A__ADxJvKS8txu3Or8Qrf1ZiQ__com.ti.MCU_PLUS_ACADEMY_AM263X__rGFXMCu__LATEST)
-
-- [AM273x MCU+ Academy](https://dev.ti.com/tirex/explore/node?node=A__AKYrWr.vaMFCFleLRjpj1g__com.ti.MCU_PLUS_ACADEMY_AM273X__VOimlOI__LATEST)
-
-- [AM64x MCU+ Academy](https://dev.ti.com/tirex/explore/node?node=A__AO9O5HWh6-TdOdGD-bZe-g__com.ti.MCU_PLUS_ACADEMY_AM64X__n6QeJt5__LATEST)
 
 ## Usage
 
@@ -95,7 +45,7 @@ TI has an amazing collection of tutorials on MCU+ Academy to help you get starte
 
 #### Repo Tool Setup
 
-MCU+ SDK has multiple components (in multiple repositories) and dependencies
+Industrial Communications SDK has multiple components (in multiple repositories) and dependencies
 (like compiler, CCS and other tools). We use repo tool from Google to manage these
 multiple repositories. Currently there is no support for native windows shells like
 CMD or Powershell. This will be added at a later point. Windows users can rely on
@@ -130,7 +80,7 @@ slightly different. So please choose the manifest folder according to the SoC of
 interest. For example, we are showing for am263x below.
 
 ```bash
-repo init -u https://github.com/TexasInstruments/mcupsdk-manifests.git -m am263x/dev.xml -b main
+repo init -u https://github.com/TexasInstruments/industrial-comms-manifests.git -m am243x/dev.xml -b main
 ```
 
 Note that repo uses symbolic links. So if you're on Windows and do not have permissions
@@ -139,7 +89,7 @@ to create symbolic links, the above command might fail for you. So you can eithe
 worktree feature of repo. To do this, initialize the repo like so:
 
 ```bash
-repo init --worktree -u https://github.com/TexasInstruments/mcupsdk-manifests.git -m am263x/dev.xml -b main
+repo init --worktree -u https://github.com/TexasInstruments/industrial-comms-manifests.git -m am243x/dev.xml -b main
 ```
 
 After the repo is initialized, do a
@@ -148,7 +98,7 @@ After the repo is initialized, do a
 repo sync
 ```
 
-This should clone all the repositories required for MCU+ SDK development. Now download and install the dependencies.
+This should clone all the repositories required for Industrial Communications SDK development. Now download and install the dependencies.
 
 #### Downloading And Installing Dependencies
 
@@ -157,30 +107,30 @@ You can replace that with the SoC of your choice like the `repo init` step.
 
 **To download and install dependencies in linux, follow the below steps**:
 
-Run the following from the same location where you have `mcu_plus_sdk` and `mcupsdk_setup`
+Run the following from the same location where you have `industrial_comms` and `industrial_comms_setup`
 folders.
 
 ```bash
-./mcupsdk_setup/am263x/download_components.sh
+./industrial_comms_setup/am243x/download_components.sh
 ```
 
 This will install all the required dependencies including Code Composer Studio (CCS).
-The script assumes that `mcu_plus_sdk` folder is in the same location from where
+The script assumes that `industrial_comms` folder is in the same location from where
 you have invoked the script, and that dependencies are installed into `${HOME}/ti`
 location. If these defaults don't work for you, please pass these as arguments to
 the script like
 
 ```bash
-./mcupsdk_setup/am263x/download_components.sh --install_dir=/path/to/tools
+./industrial_comms_setup/am243x/download_components.sh --install_dir=/path/to/tools
 
 OR
 
-./mcupsdk_setup/am263x/download_components.sh --mcu_plus_sdk_folder=/path/to/mcu_plus_sdk/folder
+./industrial_comms_setup/am243x/download_components.sh --industrial_comms_sdk_folder=/path/to/industrial_comms/folder
 ```
 and so on. For a complete list of arguments you can pass to the script, please run
 
 ```bash
-./mcupsdk_setup/am263x/download_components.sh -h
+./industrial_comms_setup/am243x/download_components.sh -h
 ```
 
 **In windows the dependencies has to be manually installed. Given below are the steps**:
@@ -199,9 +149,9 @@ and so on. For a complete list of arguments you can pass to the script, please r
 4. Download and install Node.js v12.18.4 LTS
   - Go to the [NodeJS Website](https://nodejs.org/en/) and use the installer to
     download and install v12.18.4 of node. Install in the default directory.
-  - After successful installation, run an `npm ci` inside the `mcu_plus_sdk` folder like so:
+  - After successful installation, run an `npm ci` inside the `industrial_comms` folder like so:
     ```bash
-    $ cd mcu_plus_sdk/
+    $ cd industrial_comms/
     $ npm ci
     $ cd ../
     ```
@@ -280,7 +230,7 @@ repo start dev --all
 
 - Use `gmake` in windows, add path to gmake present in CCS at `C:\ti\ccsxxxx\ccs\utils\bin` to your windows PATH. We have
   used `make` in below instructions.
-- Unless mentioned otherwise, all below commands are invoked from root folder of the "mcu_plus_sdk"  repository.
+- Unless mentioned otherwise, all below commands are invoked from root folder of the "industrial_comms"  repository.
 - Current supported device names are am64x, am243x, am263x, am273x and awr294x
 - Pass one of these values to `"DEVICE="`
 - You can also build components (examples, tests or libraries) in `release` or `debug`
@@ -317,43 +267,3 @@ repo start dev --all
    make -s -j4 clean DEVICE=am263x PROFILE=debug
    make -s -j4 all   DEVICE=am263x PROFILE=debug
    ```
-
-### More information on SDK usage
-
-For more details on SDK usage, please refer to the SDK userguide. User guides contain information on
-
-- Building the SDK
-- EVM setup,
-- CCS Setup, loading and running examples
-- Flashing the EVM
-- SBL, ROV and much more.
-
-Note that userguides are specific to a particular device. The links for all the supported devices are given below.
-
-- [AM243x User Guide](https://software-dl.ti.com/mcu-plus-sdk/esd/AM243X/latest/exports/docs/api_guide_am243x/index.html)
-- [AM263x User Guide](https://software-dl.ti.com/mcu-plus-sdk/esd/AM263X/latest/exports/docs/api_guide_am263x/index.html)
-- [AM273x User Guide](https://software-dl.ti.com/mcu-plus-sdk/esd/AM273X/latest/exports/docs/api_guide_am273x/index.html)
-- [AM64x  User Guide](https://software-dl.ti.com/mcu-plus-sdk/esd/AM64X/latest/exports/docs/api_guide_am64x/index.html)
-
-The documentation can also be generated as mentioned in the below section.
-
-### Generate Documentation
-
-- Goto mcu_plus_sdk and type below to build the documentation for the device of interest
-
-  ```bash
-  make docs DEVICE=am263x
-  ```
-
-- Browse API guide by opening below file for a DEVICE of interest
-
-  ```bash
-  README_FIRST_*.html
-  ```
-
-- Also note that code snippets added to “docs_src\docs\api_guide\doxy_samples” is valid code that can compile.
-  Above command also compiles the code snippets.
-
-## Contributing to the project
-
-This project is currently not accepting contributions. We expect to accept contributions from 3Q23.

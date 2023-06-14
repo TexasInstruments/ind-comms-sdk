@@ -2,5 +2,5 @@
 
 This project is currently not accepting any contributions.
 
-We expect to accept contributions in 1Q23.
+We expect to accept contributions in 2Q23.
 
