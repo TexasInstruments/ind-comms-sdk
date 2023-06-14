@@ -1,0 +1,16 @@
+{
+    "programDescription" : [
+        {
+            "coverageFile" : "coverage/profdata.json",
+            "linkInfo": "link_info.txli",
+            "topFunctionCount" : 500,
+            "memArray": ["R5F_TCMA", "R5F_TCMB0", "MSRAM"],
+            "coreID": 0,
+            "MemoryExcludeList" : [],
+            "smart-placement": true,
+            "optishare": false,
+            "smart-layout": false
+        }
+    ],
+    "sharedMemName": "MSRAM"
+}
