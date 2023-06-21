@@ -1,6 +1,23 @@
 {
+  "name": "INDUSTRIAL_COMMUNICATIONS_SDK",
+  "version": "09.00.00",
+  "description": "INDUSTRIAL COMMUNICATIONS SDK",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@bitbucket.itg.ti.com/processor-sdk-mcu/sandbox.git"
+  },
+  "author": "TI",
+  "license": "BSD-2-Clause",
   "dependencies": {
     "lodash": "^4.17.21",
-    "yargs": "^17.7.2"
+    "yargs": "^16.2.0"
   }
 }
