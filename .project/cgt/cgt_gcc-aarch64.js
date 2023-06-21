@@ -26,6 +26,7 @@ const cgt_common = {
     includes: {
         common: [
             "${MCU_PLUS_SDK_PATH}/source",
+            "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source",
         ],
     },
     cflags: {

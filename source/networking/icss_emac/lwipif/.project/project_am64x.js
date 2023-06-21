@@ -13,15 +13,15 @@ const files = {
 
 const filedirs = {
     common: [
-        "${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/lwipif/src",
-        "${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/source",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/src",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/source",
     ],
 };
 
 const includes = {
     common: [
 
-        "${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/lwipif/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc",
         "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include",
         "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
         "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am64x/r5f",

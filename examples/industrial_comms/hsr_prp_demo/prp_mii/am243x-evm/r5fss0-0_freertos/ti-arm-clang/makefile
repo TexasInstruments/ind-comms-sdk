@@ -63,12 +63,13 @@ FILES_PATH_common = \
 INCLUDES_common := \
 	-I${CG_TOOL_ROOT}/include/c \
 	-I${MCU_PLUS_SDK_PATH}/source \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source \
 	-I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include \
 	-I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F \
 	-I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am243x/r5f \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/hsr_prp_demo \
 	-I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/include \
-	-I${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/lwipif/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc \
 	-I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-contrib \
 	-I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-config/am243x \
 	-I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/include \
@@ -117,9 +118,9 @@ LIBS_PATH_common = \
 	-Wl,-i${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib \
 	-Wl,-i${MCU_PLUS_SDK_PATH}/source/drivers/lib \
 	-Wl,-i${MCU_PLUS_SDK_PATH}/source/board/lib \
-	-Wl,-i${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/lib \
-	-Wl,-i${MCU_PLUS_SDK_PATH}/source/networking//icss_emac/lwipif/lib \
-	-Wl,-i${MCU_PLUS_SDK_PATH}/source/networking/icss_timesync/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking//icss_emac/lwipif/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib \
 	-Wl,-i${MCU_PLUS_SDK_PATH}/source/networking/lwip/lib \
 	-Wl,-i${CG_TOOL_ROOT}/lib \
@@ -162,9 +163,9 @@ LIBS_PATH_NAME = \
 	${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib \
 	${MCU_PLUS_SDK_PATH}/source/drivers/lib \
 	${MCU_PLUS_SDK_PATH}/source/board/lib \
-	${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/lib \
-	${MCU_PLUS_SDK_PATH}/source/networking//icss_emac/lwipif/lib \
-	${MCU_PLUS_SDK_PATH}/source/networking/icss_timesync/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking//icss_emac/lwipif/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib \
 	${MCU_PLUS_SDK_PATH}/source/networking/lwip/lib \
 	${CG_TOOL_ROOT}/lib \

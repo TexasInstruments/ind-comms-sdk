@@ -30,11 +30,10 @@
 
 all:
 	$(MAKE) -f makefile.`device` libs
-	$(MAKE) -f makefile.`device` sbl
 	$(MAKE) -f makefile.`device` examples
 
-clean: libs-clean sbl-clean examples-clean
-scrub: libs-scrub sbl-scrub examples-scrub
+clean: libs-clean examples-clean
+scrub: libs-scrub examples-scrub
 
 help:
 	@echo  Notes,
@@ -279,57 +278,12 @@ examples-scrub-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_SCRUB_ALL)
 
 % }
 
-sbl: libs
-% for (example of args.example_list) {
-% if(example.isBootLoader) {
-	$(MAKE) -C `example.relpath` -f makefile all
-%}
-%}
-
-sbl-clean:
-% for (example of args.example_list) {
-% if(example.isBootLoader) {
-	$(MAKE) -C `example.relpath` -f makefile clean
-%}
-%}
-
-sbl-scrub:
-% for (example of args.example_list) {
-% if(example.isBootLoader) {
-	$(MAKE) -C `example.relpath` -f makefile scrub
-%}
-%}
-
-% if ((device == "am64x") || (device == "am243x")) {
-sbl-hs:
-% for (example of args.example_list) {
-% if(example.isBootLoader) {
-	$(MAKE) -C `example.relpath` -f makefile all DEVICE_TYPE=HS
-%}
-%}
-
-sbl-hs-clean:
-% for (example of args.example_list) {
-% if(example.isBootLoader) {
-	$(MAKE) -C `example.relpath` -f makefile clean DEVICE_TYPE=HS
-%}
-%}
-
-sbl-hs-scrub:
-% for (example of args.example_list) {
-% if(example.isBootLoader) {
-	$(MAKE) -C `example.relpath` -f makefile scrub DEVICE_TYPE=HS
-%}
-%}
-% }
-
 .PHONY: all clean scrub help
 .PHONY: libs libs-clean libs-scrub
 .PHONY: libs-private
 .PHONY: libs-prebuilt libs-prebuilt-clean libs-prebuilt-scrub
 .PHONY: examples examples-clean examples-scrub
 .PHONY: examples-private examples-private-clean examples-private-scrub
-.PHONY: sbl sbl-clean sbl-scrub
 .PHONY: $(BUILD_COMBO_ALL) $(BUILD_COMBO_CLEAN_ALL) $(BUILD_COMBO_SCRUB_ALL)
 .PHONY: $(BUILD_COMBO_EXAMPLE_ALL) $(BUILD_COMBO_EXAMPLE_CLEAN_ALL) $(BUILD_COMBO_EXAMPLE_SCRUB_ALL)
 .PHONY: $(BUILD_COMBO_EXAMPLE_PRIVATE_ALL) $(BUILD_COMBO_EXAMPLE_PRIVATE_CLEAN_ALL) $(BUILD_COMBO_EXAMPLE_PRIVATE_SCRUB_ALL)

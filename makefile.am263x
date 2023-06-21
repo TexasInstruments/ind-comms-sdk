@@ -4,11 +4,10 @@
 
 all:
 	$(MAKE) -f makefile.am263x libs
-	$(MAKE) -f makefile.am263x sbl
 	$(MAKE) -f makefile.am263x examples
 
-clean: libs-clean sbl-clean examples-clean
-scrub: libs-scrub sbl-scrub examples-scrub
+clean: libs-clean examples-clean
+scrub: libs-scrub examples-scrub
 
 help:
 	@echo  Notes,
@@ -167,20 +166,12 @@ examples-scrub-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_SCRUB_ALL)
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am263x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
 
-sbl: libs
-
-sbl-clean:
-
-sbl-scrub:
-
-
 .PHONY: all clean scrub help
 .PHONY: libs libs-clean libs-scrub
 .PHONY: libs-private
 .PHONY: libs-prebuilt libs-prebuilt-clean libs-prebuilt-scrub
 .PHONY: examples examples-clean examples-scrub
 .PHONY: examples-private examples-private-clean examples-private-scrub
-.PHONY: sbl sbl-clean sbl-scrub
 .PHONY: $(BUILD_COMBO_ALL) $(BUILD_COMBO_CLEAN_ALL) $(BUILD_COMBO_SCRUB_ALL)
 .PHONY: $(BUILD_COMBO_EXAMPLE_ALL) $(BUILD_COMBO_EXAMPLE_CLEAN_ALL) $(BUILD_COMBO_EXAMPLE_SCRUB_ALL)
 .PHONY: $(BUILD_COMBO_EXAMPLE_PRIVATE_ALL) $(BUILD_COMBO_EXAMPLE_PRIVATE_CLEAN_ALL) $(BUILD_COMBO_EXAMPLE_PRIVATE_SCRUB_ALL)

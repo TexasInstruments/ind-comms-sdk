@@ -31,12 +31,13 @@
         compilerBuildOptions="
             -I${CG_TOOL_ROOT}/include/c
             -I${MCU_PLUS_SDK_PATH}/source
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source
             -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include
             -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F
             -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am64x/r5f
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/hsr_prp_demo
             -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/include
-            -I${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/lwipif/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc
             -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-contrib
             -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-config/am64x
             -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/include
@@ -61,9 +62,9 @@
             -i${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib
             -i${MCU_PLUS_SDK_PATH}/source/drivers/lib
             -i${MCU_PLUS_SDK_PATH}/source/board/lib
-            -i${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/lib
-            -i${MCU_PLUS_SDK_PATH}/source/networking//icss_emac/lwipif/lib
-            -i${MCU_PLUS_SDK_PATH}/source/networking/icss_timesync/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking//icss_emac/lwipif/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib
             -i${MCU_PLUS_SDK_PATH}/source/networking/lwip/lib
             -i${CG_TOOL_ROOT}/lib

@@ -23,11 +23,12 @@ FILES_common := \
     icss_emac.c \
 
 FILES_PATH_common = \
-    ${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/source \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/source \
 
 INCLUDES_common := \
     -I${CG_TOOL_ROOT}/include/c \
     -I${MCU_PLUS_SDK_PATH}/source \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source \
 
 DEFINES_common := \
     -DSOC_AM64X \

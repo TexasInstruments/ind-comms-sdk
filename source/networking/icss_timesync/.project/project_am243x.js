@@ -14,7 +14,7 @@ const files = {
 
 const filedirs = {
     common: [
-        "${MCU_PLUS_SDK_PATH}/source/networking/icss_timesync",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync",
     ],
 };
 

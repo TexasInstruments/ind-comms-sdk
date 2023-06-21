@@ -42,9 +42,9 @@ const libdirs_freertos = {
         "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib",
         "${MCU_PLUS_SDK_PATH}/source/drivers/lib",
         "${MCU_PLUS_SDK_PATH}/source/board/lib",
-        "${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/lib",
-        "${MCU_PLUS_SDK_PATH}/source/networking//icss_emac/lwipif/lib",
-        "${MCU_PLUS_SDK_PATH}/source/networking/icss_timesync/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking//icss_emac/lwipif/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib",
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lib", /*Stack related*/
     ],
@@ -58,7 +58,7 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/hsr_prp_demo",
         //stack related includes
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/include",
-        "${MCU_PLUS_SDK_PATH}/source/networking/icss_emac/lwipif/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc",
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-contrib",
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-config/am243x",
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/include",
