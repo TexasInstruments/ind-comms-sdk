@@ -71,7 +71,7 @@ INCLUDES_common := \
     -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/freertos/include \
     -I${MCU_PLUS_SDK_PATH}/source/networking/enet/core/lwipif/inc \
     -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-contrib \
-    -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config/am243x \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config/am243x \
 
 DEFINES_common := \
     -DSOC_AM243X \

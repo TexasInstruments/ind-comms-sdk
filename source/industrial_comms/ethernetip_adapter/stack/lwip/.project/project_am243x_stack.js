@@ -205,7 +205,7 @@ const includes = {
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/include",
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/include",
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/freertos/include",
-        "${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config/am243x",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config/am243x",
 
         "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include",
         "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",

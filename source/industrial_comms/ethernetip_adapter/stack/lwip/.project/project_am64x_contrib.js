@@ -67,7 +67,7 @@ const includes = {
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/freertos/include",
         "${MCU_PLUS_SDK_PATH}/source/networking/enet/core/lwipif/inc",
         "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-contrib",
-        "${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config/am64x",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config/am64x",
     ],
 };
 

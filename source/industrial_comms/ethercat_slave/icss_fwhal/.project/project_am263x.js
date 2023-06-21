@@ -10,7 +10,7 @@ const files = {
 
 const includes = {
     common: [
-        "${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_slave/icss_fwhal/firmware/m_v2.3",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/icss_fwhal/firmware/m_v2.3",
     ],
 };
 
