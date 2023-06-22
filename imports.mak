@@ -35,7 +35,6 @@ else
         CGT_GCC_ARMV7_PATH=$(CGT_GCC_ARM_PATH)
     endif
 endif
-INDUSTRIAL_COMMUNICATIONS_SDK_PATH=$(TOOLS_PATH)/industrial_communications_sdk
 
 # Variable pointing to location of MCU+ SDK
 MCU_PLUS_SDK_PATH ?= $(TOOLS_PATH)/mcu_plus_sdk
