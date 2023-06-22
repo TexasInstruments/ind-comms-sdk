@@ -16,6 +16,7 @@ const component_file_list = [
     "source/industrial_comms/hsr_prp/stack/lwip/.project/project_emac_lwip_if.js",
     "source/networking/icss_emac/.project/project.js",
     "source/networking/icss_emac/lwipif/.project/project.js",
+    "source/networking/icss_timesync/.project/project.js",
 ];
 
 const device_defines = {

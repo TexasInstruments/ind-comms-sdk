@@ -2,6 +2,7 @@ const common = require("../common.js");
 
 const component_file_list = [
     "source/industrial_comms/ethercat_slave/icss_fwhal/.project/project.js",
+    "source/networking/icss_emac/.project/project.js",
 ];
 
 const device_defines = {
@@ -116,6 +117,10 @@ function getLinuxFwName(cpu) {
 }
 
 function getProductNameProjectSpec() {
+    return "INDUSTRIAL_COMMUNICATIONS_SDK_AM263X";
+}
+
+function getDependentProductNameProjectSpec() {
     return "MCU_PLUS_SDK_AM263X";
 }
 
