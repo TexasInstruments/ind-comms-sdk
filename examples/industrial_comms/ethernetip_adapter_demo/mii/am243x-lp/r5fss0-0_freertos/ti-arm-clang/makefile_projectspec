@@ -3,7 +3,7 @@
 #
 
 export INDUSTRIAL_COMMUNICATIONS_SDK_PATH?=$(abspath ../../../../../../..)
-export MCU_PLUS_SDK_PATH?=$(MCU_PLUS_SDK_PATH)
+export MCU_PLUS_SDK_PATH?=$(abspath ../../../../../../..)/../mcu_plus_sdk
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
 
 PROFILE?=Release
