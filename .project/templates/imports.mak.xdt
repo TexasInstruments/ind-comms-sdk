@@ -44,7 +44,7 @@ else
     endif
 endif
 % if((args.device == "am64x") || (isDevelopmentMode)) {
-INDUSTRIAL_COMMUNICATIONS_SDK_PATH=$(TOOLS_PATH)/industrial_comms
+INDUSTRIAL_COMMUNICATIONS_SDK_PATH=$(TOOLS_PATH)/industrial_communications_sdk
 % }
 
 # Variable pointing to location of MCU+ SDK
