@@ -26,6 +26,7 @@ const device_defines = {
 };
 
 const example_file_list = [
+    "examples/industrial_comms/ethercat_iolink_gateway_demo/.project/project.js",
     "examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/.project/project.js",
     "examples/industrial_comms/ethercat_slave_demo/cia402/.project/project.js",
     "examples/industrial_comms/ethercat_slave_demo/ctt/.project/project.js",

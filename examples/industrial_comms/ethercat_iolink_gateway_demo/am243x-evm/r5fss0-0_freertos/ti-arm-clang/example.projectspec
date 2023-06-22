@@ -12,7 +12,7 @@
     <project
         title="Ethercat Iolink Gateway Demo"
         name = "ethercat_iolink_gateway_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang"
-        products="sysconfig;com.ti.MCU_PLUS_SDK_AMXXX;com.ti.MCU_PLUS_IND_COMMS_LIBS"
+        products="sysconfig;com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX;com.ti.MCU_PLUS_SDK_AMXXX;com.ti.IND_COMMS_LIBS"
         configurations="
                 Debug,
                 Release,
@@ -31,28 +31,29 @@
         compilerBuildOptions="
             -I${CG_TOOL_ROOT}/include/c
             -I${MCU_PLUS_SDK_PATH}/source
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source
             -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include
             -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F
             -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am243x/r5f
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/osal
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/hwal
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/ethercat_slave
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLCommonStack
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLExtensions
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLExtensions/SMI_Serial
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLMasterStack
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLMasterStack/SMI
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/PRUICSS
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/PRUICSS/pru/IOLink/StackPort
-            -I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo
-            -I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common
-            -I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/board
-            -I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/board/am243evm/freertos
-            -I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/os
-            -I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/os/freertos
-            -I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/config/am243x_evm
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/osal
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/hwal
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/ethercat_slave
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLCommonStack
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLExtensions
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLExtensions/SMI_Serial
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLMasterStack
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLMasterStack/SMI
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/PRUICSS
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/PRUICSS/pru/IOLink/StackPort
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/board
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/board/am243evm/freertos
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/os
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/os/freertos
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/config/am243x_evm
             -mcpu=cortex-r5
             -mfloat-abi=hard
             -mfpu=vfpv3-d16
@@ -92,7 +93,7 @@
             -i${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib
             -i${MCU_PLUS_SDK_PATH}/source/drivers/lib
             -i${MCU_PLUS_SDK_PATH}/source/board/lib
-            -i${MCU_PLUS_SDK_IND_COMMS_LIBS_PATH}/ethercat_iolink_gateway
+            -i${IND_COMMS_LIBS_PATH}/ethercat_iolink_gateway
             -i${CG_TOOL_ROOT}/lib
             -m=ethercat_iolink_gateway_demo.${ConfigName}.map
             --diag_suppress=10063
@@ -146,7 +147,8 @@
             "
         ></configuration>
         <pathVariable name="MCU_PLUS_SDK_PATH" path="${COM_TI_MCU_PLUS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
-        <pathVariable name="MCU_PLUS_SDK_IND_COMMS_LIBS_PATH" path="${COM_TI_MCU_PLUS_IND_COMMS_LIBS}" scope="project" />
+        <pathVariable name="INDUSTRIAL_COMMUNICATIONS_SDK_PATH" path="${COM_TI_INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
+        <pathVariable name="IND_COMMS_LIBS_PATH" path="${COM_TI_IND_COMMS_LIBS}" scope="project" />
         <file path="../../../common/os/freertos/ESL_eeprom.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../common/os/freertos/ESL_OS_os.c" openOnCreation="false" excludeFromBuild="false" action="link">
@@ -161,7 +163,7 @@
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="${MCU_PLUS_SDK_PATH}/docs/api_guide_am243x/EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_IOLINK_GATEWAY_DEMO.html"
+        <file path="${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/docs/api_guide_am243x/EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_IOLINK_GATEWAY_DEMO.html"
                 openOnCreation="false" excludeFromBuild="false" targetName="README.html" action="link">
         </file>
         <file path="syscfg_c.rov.xs" openOnCreation="false" excludeFromBuild="false" action="copy">

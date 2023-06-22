@@ -2,9 +2,10 @@
 # Auto generated makefile
 #
 
-export MCU_PLUS_SDK_PATH?=$(abspath ../../../../../..)
-include $(MCU_PLUS_SDK_PATH)/imports.mak
-include $(MCU_PLUS_SDK_PATH)/devconfig/devconfig.mak
+export INDUSTRIAL_COMMUNICATIONS_SDK_PATH?=$(abspath ../../../../../..)
+export MCU_PLUS_SDK_PATH?=$(abspath ../../../../../../../mcu_plus_sdk)
+include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
+include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/devconfig/devconfig.mak
 
 CG_TOOL_ROOT=$(CGT_TI_ARM_CLANG_PATH)
 
@@ -62,28 +63,29 @@ FILES_PATH_common = \
 INCLUDES_common := \
 	-I${CG_TOOL_ROOT}/include/c \
 	-I${MCU_PLUS_SDK_PATH}/source \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source \
 	-I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include \
 	-I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F \
 	-I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am243x/r5f \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/osal \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/hwal \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/ethercat_slave \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLCommonStack \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLExtensions \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLExtensions/SMI_Serial \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLMasterStack \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLMasterStack/SMI \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/PRUICSS \
-	-I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/PRUICSS/pru/IOLink/StackPort \
-	-I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo \
-	-I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common \
-	-I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/board \
-	-I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/board/am243evm/freertos \
-	-I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/os \
-	-I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/os/freertos \
-	-I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/config/am243x_evm \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/osal \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/hwal \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/ethercat_slave \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLCommonStack \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLExtensions \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLExtensions/SMI_Serial \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLMasterStack \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/iolink_master/IOLMasterStack/SMI \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/PRUICSS \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/include/PRUICSS/pru/IOLink/StackPort \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/board \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/board/am243evm/freertos \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/os \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/common/os/freertos \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/config/am243x_evm \
 	-Igenerated \
 
 DEFINES_common := \
@@ -149,7 +151,7 @@ LIBS_PATH_common = \
 	-Wl,-i${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib \
 	-Wl,-i${MCU_PLUS_SDK_PATH}/source/drivers/lib \
 	-Wl,-i${MCU_PLUS_SDK_PATH}/source/board/lib \
-	-Wl,-i${MCU_PLUS_SDK_IND_COMMS_LIBS_PATH}/ethercat_iolink_gateway \
+	-Wl,-i${IND_COMMS_LIBS_PATH}/ethercat_iolink_gateway \
 	-Wl,-i${CG_TOOL_ROOT}/lib \
 
 LIBS_common = \
@@ -188,7 +190,7 @@ LIBS_PATH_NAME = \
 	${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib \
 	${MCU_PLUS_SDK_PATH}/source/drivers/lib \
 	${MCU_PLUS_SDK_PATH}/source/board/lib \
-	${MCU_PLUS_SDK_IND_COMMS_LIBS_PATH}/ethercat_iolink_gateway \
+	${IND_COMMS_LIBS_PATH}/ethercat_iolink_gateway \
 	${CG_TOOL_ROOT}/lib \
 
 FILES := $(FILES_common) $(FILES_$(PROFILE))
@@ -284,10 +286,10 @@ $(SYSCFG_GEN_FILES): syscfg
 
 syscfg: ../example.syscfg
 	@echo Generating SysConfig files ...
-	$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/dist/cli.js --product $(SYSCFG_SDKPRODUCT) --context r5fss0-0 --part ALV --package ALV --output generated/ ../example.syscfg
+	$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/dist/cli.js --product $(SYSCFG_MCUPLUSSDKPRODUCT) --product $(SYSCFG_SDKPRODUCT) --context r5fss0-0 --part ALV --package ALV --output generated/ ../example.syscfg
 
 syscfg-gui:
-	$(SYSCFG_NWJS) $(SYSCFG_PATH) --product $(SYSCFG_SDKPRODUCT) --device AM243x_ALV_beta --context r5fss0-0 --part ALV --package ALV --output generated/  ../example.syscfg
+	$(SYSCFG_NWJS) $(SYSCFG_PATH) --product $(SYSCFG_MCUPLUSSDKPRODUCT) --product $(SYSCFG_SDKPRODUCT) --device AM243x_ALV_beta --context r5fss0-0 --part ALV --package ALV --output generated/  ../example.syscfg
 
 #
 # Generation of boot image which can be loaded by Secondary Boot Loader (SBL)
