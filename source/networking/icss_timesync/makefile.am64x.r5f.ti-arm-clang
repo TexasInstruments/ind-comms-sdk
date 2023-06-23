@@ -3,6 +3,7 @@
 #
 
 export INDUSTRIAL_COMMUNICATIONS_SDK_PATH?=$(abspath ../../..)
+export MCU_PLUS_SDK_PATH?=$(abspath ../../../../mcu_plus_sdk)
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
 
 CG_TOOL_ROOT=$(CGT_TI_ARM_CLANG_PATH)

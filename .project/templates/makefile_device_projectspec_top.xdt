@@ -4,6 +4,7 @@
 
 % if (["am243x", "am64x"].includes(args.device)) {
 export `args.sdkPath`?=$(abspath `args.relPath`)
+export MCU_PLUS_SDK_PATH?=$(abspath `args.relPath`/../mcu_plus_sdk)
 include $(`args.sdkPath`)/imports.mak
 
 % }

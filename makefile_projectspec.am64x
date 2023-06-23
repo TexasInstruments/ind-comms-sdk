@@ -3,6 +3,7 @@
 #
 
 export INDUSTRIAL_COMMUNICATIONS_SDK_PATH?=$(abspath .)
+export MCU_PLUS_SDK_PATH?=$(abspath ./../mcu_plus_sdk)
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
 
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL =
