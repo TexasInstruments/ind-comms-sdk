@@ -3,7 +3,7 @@
 #
 
 export INDUSTRIAL_COMMUNICATIONS_SDK_PATH?=$(abspath ../../../../../..)
-export MCU_PLUS_SDK_PATH?=$(abspath ../../../../../../mcu_plus_sdk)
+export MCU_PLUS_SDK_PATH?=$(TOOLS_PATH)/mcu_plus_sdk
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/devconfig/devconfig.mak
 

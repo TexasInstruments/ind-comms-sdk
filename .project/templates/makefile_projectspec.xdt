@@ -3,7 +3,7 @@
 #
 
 export `args.sdkPath`?=$(abspath `args.relPath`)
-export MCU_PLUS_SDK_PATH?=$(abspath `args.relPath`/mcu_plus_sdk)
+export MCU_PLUS_SDK_PATH?=$(TOOLS_PATH)/mcu_plus_sdk
 include $(`args.sdkPath`)/imports.mak
 
 PROFILE?=Release
