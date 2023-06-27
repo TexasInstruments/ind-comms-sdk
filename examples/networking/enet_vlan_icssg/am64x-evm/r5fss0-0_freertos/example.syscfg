@@ -1,7 +1,7 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM64x_beta" --package "ALV" --part "Default" --context "r5fss0-0" --product "MCU_PLUS_SDK@07.03.01"
+ * @cliArgs --device "AM64x_beta" --package "ALV" --part "Default" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@09.00.00" --product "MCU_PLUS_SDK@07.03.01"
  * @versions {"tool":"1.14.0+2667"}
  */
 
@@ -102,7 +102,6 @@ enet_icss1.rxDmaChannel[0].sizeThreshEn   = 0;
 enet_icss1.rxDmaChannel[1].$name          = "ENET_DMA_RX_CH1";
 enet_icss1.rxDmaChannel[1].chIdx          = 1;
 enet_icss1.rxDmaChannel[1].useDefaultFlow = true;
-// enet_icss1.rxDmaChannel[1].macAddrCount   = 0;
 enet_icss1.rxDmaChannel[1].sizeThreshEn   = 0;
 enet_icss1.PRU_ICSSG1_RGMII1.$assign      = "PRU_ICSSG1_RGMII1";
 enet_icss1.PRU_ICSSG1_RGMII2.$assign      = "PRU_ICSSG1_RGMII2";

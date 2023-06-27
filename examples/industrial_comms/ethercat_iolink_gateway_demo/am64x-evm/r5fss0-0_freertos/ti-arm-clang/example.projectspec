@@ -12,7 +12,7 @@
     <project
         title="Ethercat Iolink Gateway Demo"
         name = "ethercat_iolink_gateway_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang"
-        products="sysconfig;com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX;com.ti.MCU_PLUS_SDK_AMXXX;com.ti.IND_COMMS_LIBS"
+        products="sysconfig;com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX;com.ti.MCU_PLUS_SDK_AMXXX"
         configurations="
                 Debug,
                 Release,
@@ -93,7 +93,7 @@
             -i${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib
             -i${MCU_PLUS_SDK_PATH}/source/drivers/lib
             -i${MCU_PLUS_SDK_PATH}/source/board/lib
-            -i${IND_COMMS_LIBS_PATH}/ethercat_iolink_gateway
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/stack/lib
             -i${CG_TOOL_ROOT}/lib
             -m=ethercat_iolink_gateway_demo.${ConfigName}.map
             --diag_suppress=10063
@@ -148,7 +148,6 @@
         ></configuration>
         <pathVariable name="MCU_PLUS_SDK_PATH" path="${COM_TI_MCU_PLUS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
         <pathVariable name="INDUSTRIAL_COMMUNICATIONS_SDK_PATH" path="${COM_TI_INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
-        <pathVariable name="IND_COMMS_LIBS_PATH" path="${COM_TI_IND_COMMS_LIBS}" scope="project" />
         <file path="../../../common/os/freertos/ESL_eeprom.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../common/os/freertos/ESL_OS_os.c" openOnCreation="false" excludeFromBuild="false" action="link">

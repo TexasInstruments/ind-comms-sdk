@@ -17,20 +17,6 @@
     {
         defaultAction = args.utils.getDefaultActionProjectSpec();
     }
-    indCommRequired = 0
-    obj = args.project.libdirs;
-    for (prop in obj) {
-        if ( obj.hasOwnProperty(prop) && Array.isArray(obj[prop]) && prop == 'common') {
-            for(let val of obj[prop]) {
-                if (val.includes("IND_COMMS_LIBS_PATH")) {
-                      indCommRequired = 1;
-                }
-            }
-        }
-    }
-    if (indCommRequired == 1) {
-        products+=";com.ti.IND_COMMS_LIBS";
-    }
 %%}
 <?xml version="1.0" encoding="UTF-8"?>
 <projectSpec>
@@ -268,9 +254,6 @@
         % }
         <pathVariable name="MCU_PLUS_SDK_PATH" path="${COM_TI_`dependentProductName`_INSTALL_DIR}" scope="project" />
         <pathVariable name="`args.sdkName`" path="${COM_TI_`productName`_INSTALL_DIR}" scope="project" />
-        % if (indCommRequired == 1) {
-        <pathVariable name="IND_COMMS_LIBS_PATH" path="${COM_TI_IND_COMMS_LIBS}" scope="project" />
-        % }
         % filelist = args.utils.getFileListProjectSpec(args.project.files, args.project.filedirs, args.project.dirPath)
         % for (file of filelist) {
         <file path="`file`" openOnCreation="false" excludeFromBuild="false" action="`defaultAction`">

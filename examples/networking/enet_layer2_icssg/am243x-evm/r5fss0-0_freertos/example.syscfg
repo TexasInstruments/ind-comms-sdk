@@ -1,7 +1,7 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM243x_ALV_beta" --package "ALV" --part "ALV" --context "r5fss0-0" --product "MCU_PLUS_SDK@07.03.01"
+ * @cliArgs --device "AM243x_ALV_beta" --package "ALV" --part "ALV" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@09.00.00" --product "MCU_PLUS_SDK@07.03.01"
  * @versions {"tool":"1.14.0+2667"}
  */
 
@@ -116,6 +116,7 @@ enet_icss2.txDmaChannel[0].PacketsCount   = 8;
 enet_icss2.rxDmaChannel[0].$name          = "ENET_DMA_RX_CH1";
 enet_icss2.rxDmaChannel[0].useDefaultFlow = true;
 enet_icss2.rxDmaChannel[0].PacketsCount   = 8;
+enet_icss2.PRU_ICSSG1_RGMII2.$assign      = "PRU_ICSSG1_RGMII2";
 
 enet_icss2.icss                          = pruicss1;
 enet_icss1.icss                          = pruicss1;
@@ -158,7 +159,6 @@ enet_icss1.PRU_ICSSG1_RGMII1.TD2.$suggestSolution        = "ball.W9";
 enet_icss1.PRU_ICSSG1_RGMII1.TD3.$suggestSolution        = "ball.AA9";
 enet_icss1.PRU_ICSSG1_RGMII1.TXC.$suggestSolution        = "ball.V9";
 enet_icss1.PRU_ICSSG1_RGMII1.TX_CTL.$suggestSolution     = "ball.Y9";
-enet_icss2.PRU_ICSSG1_RGMII2.$suggestSolution            = "PRU_ICSSG1_RGMII2";
 enet_icss2.PRU_ICSSG1_RGMII2.RD0.$suggestSolution        = "ball.W11";
 enet_icss2.PRU_ICSSG1_RGMII2.RD1.$suggestSolution        = "ball.V11";
 enet_icss2.PRU_ICSSG1_RGMII2.RD2.$suggestSolution        = "ball.AA12";
