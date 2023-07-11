@@ -77,7 +77,7 @@ const cgt_common = {
     includes: {
         common: [
             "${CG_TOOL_ROOT}/include",
-            "${MCU_PLUS_SDK_PATH}/source",
+            "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source",
             "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source",
         ],
     },

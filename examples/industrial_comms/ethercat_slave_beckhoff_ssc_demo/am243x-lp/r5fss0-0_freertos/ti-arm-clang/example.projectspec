@@ -12,10 +12,10 @@
     <project
         title="Ethercat Slave Beckhoff Ssc Demo"
         name = "ethercat_slave_beckhoff_ssc_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang"
-        products="sysconfig;com.ti.MCU_PLUS_SDK_AMXXX"
+        products="sysconfig;com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX;com.ti.MCU_PLUS_SDK_AMXXX"
         configurations="
-            Debug,
-            Release,
+                Debug,
+                Release,
         "
         connection="TIXDS110_Connection.xml"
         toolChain="TICLANG"
@@ -30,13 +30,14 @@
 
         compilerBuildOptions="
             -I${CG_TOOL_ROOT}/include/c
-            -I${MCU_PLUS_SDK_PATH}/source
-            -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include
-            -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F
-            -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am243x/r5f
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources
-            -I${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/stack_hal
-            -I${MCU_PLUS_SDK_PATH}/examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am243x/r5f
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/stack_hal
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/
             -mcpu=cortex-r5
             -mfloat-abi=hard
             -mfpu=vfpv3-d16
@@ -55,10 +56,10 @@
             -DTIESC_APPLICATION=1
         "
         linkerBuildOptions="
-            -i${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib
-            -i${MCU_PLUS_SDK_PATH}/source/drivers/lib
-            -i${MCU_PLUS_SDK_PATH}/source/board/lib
-            -i${MCU_PLUS_SDK_PATH}/source/industrial_comms/ethercat_slave/icss_fwhal/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/icss_fwhal/lib
             -i${CG_TOOL_ROOT}/lib
             -m=ethercat_slave_beckhoff_ssc_demo.${ConfigName}.map
             --diag_suppress=10063
@@ -68,7 +69,7 @@
             --use_memset=fast
         "
 
-        postBuildStep="$(MAKE) -C ${CCS_PROJECT_DIR} -f makefile_ccs_bootimage_gen OUTNAME=${BuildArtifactFileBaseName} PROFILE=${ConfigName} MCU_PLUS_SDK_PATH=${MCU_PLUS_SDK_PATH} CG_TOOL_ROOT=${CG_TOOL_ROOT} CCS_INSTALL_DIR=${CCS_INSTALL_DIR} CCS_IDE_MODE=${CCS_IDE_MODE}"
+        postBuildStep="$(MAKE) -C ${CCS_PROJECT_DIR} -f makefile_ccs_bootimage_gen OUTNAME=${BuildArtifactFileBaseName} PROFILE=${ConfigName} INDUSTRIAL_COMMUNICATIONS_SDK_PATH=${INDUSTRIAL_COMMUNICATIONS_SDK_PATH} CG_TOOL_ROOT=${CG_TOOL_ROOT} CCS_INSTALL_DIR=${CCS_INSTALL_DIR} CCS_IDE_MODE=${CCS_IDE_MODE} DEVICE=am243x"
 
         enableSysConfigTool="true"
         sysConfigBuildOptions="
@@ -103,7 +104,7 @@
                 -llibsysbm.a
             "
         ></configuration>
-        <pathVariable name="MCU_PLUS_SDK_PATH" path="${COM_TI_MCU_PLUS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
+        <pathVariable name="INDUSTRIAL_COMMUNICATIONS_SDK_PATH" path="${COM_TI_INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
         <file path="../../../../../../source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/bootmode.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/coeappl.c" openOnCreation="false" excludeFromBuild="false" action="link">
@@ -144,7 +145,7 @@
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="${MCU_PLUS_SDK_PATH}/docs/api_guide_am243x/EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_BECKHOFF_SSC_DEMO.html"
+        <file path="${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/docs/api_guide_am243x/EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_BECKHOFF_SSC_DEMO.html"
                 openOnCreation="false" excludeFromBuild="false" targetName="README.html" action="link">
         </file>
         <file path="syscfg_c.rov.xs" openOnCreation="false" excludeFromBuild="false" action="copy">

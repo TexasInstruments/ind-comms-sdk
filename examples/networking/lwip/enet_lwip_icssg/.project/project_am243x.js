@@ -31,37 +31,37 @@ const filedirs = {
 const libdirs_freertos = {
     common: [
 	    "generated",
-        "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib",
-        "${MCU_PLUS_SDK_PATH}/source/drivers/lib",
-        "${MCU_PLUS_SDK_PATH}/source/board/lib",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/lib",
-        "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib",
 
     ],
 };
 
 const includes_freertos_r5f = {
     common: [
-        "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include",
-        "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
-        "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am243x/r5f",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/utils/include",
-		"${MCU_PLUS_SDK_PATH}/source/networking/enet/utils/V3",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/core",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/core/include",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/core/include/phy",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/core/include/core",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/soc/k3/am64x_am243x",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/hw_include",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/hw_include/mdio/V4",
-        "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/include",
-        "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/include",
-        "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/freertos/include",
-        "${MCU_PLUS_SDK_PATH}/source/networking/enet/core/lwipif/inc",
-        "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-contrib",
-        "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-config/am243x",
-        "${MCU_PLUS_SDK_PATH}/examples/networking/lwip/enet_lwip_icssg/extPhyMgmt"
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am243x/r5f",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/utils/include",
+		"${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/utils/V3",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/include/phy",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/include/core",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/soc/k3/am64x_am243x",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/hw_include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/hw_include/mdio/V4",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwipif/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-contrib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am243x",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/networking/lwip/enet_lwip_icssg/extPhyMgmt"
     ],
 };
 

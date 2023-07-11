@@ -168,48 +168,48 @@ const files = {
 const filedirs = {
     common: [
        // picked from lwip apps
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/smtp",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/tftp",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/mqtt",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/tftp",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/netbiosns",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/mdns",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/altcp_tls",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/http",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/http/makefsdata",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/lwiperf",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/snmp",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/sntp",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/smtp",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/tftp",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/mqtt",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/tftp",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/netbiosns",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/mdns",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/altcp_tls",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/http",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/http/makefsdata",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/lwiperf",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/snmp",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/sntp",
 
        // picked from lwip netif
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/netif",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/netif/ppp",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/netif/ppp/polarssl",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/netif",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/netif/ppp",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/netif/ppp/polarssl",
 
        // picked from lwip core
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/core",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/core/ipv6",
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/core/ipv4",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/core",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/core/ipv6",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/core/ipv4",
 
        // picked from lwip api
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/api",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/api",
 
        // FreRTOS lwip port
-       "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/freertos/src",
+       "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/src",
 
     ],
 };
 
 const includes = {
     common: [
-        "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/include",
-        "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/include",
-        "${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/freertos/include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/stack/lwip/lwip-config/am64x",
 
-        "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include",
-        "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
-        "${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am64x/r5f",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am64x/r5f",
     ],
 };
 

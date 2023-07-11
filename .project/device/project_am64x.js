@@ -41,6 +41,8 @@ const example_file_list = [
     "examples/networking/enet_icssg_tas/.project/project.js",
     "examples/networking/enet_layer2_icssg/.project/project.js",
     "examples/networking/enet_vlan_icssg/.project/project.js",
+    "examples/networking/lwip/enet_icssg_tcpserver/.project/project.js",
+    "examples/networking/lwip/enet_lwip_icssg/.project/project.js",
 ];
 
 function getProjectSpecCpu(cpu) {

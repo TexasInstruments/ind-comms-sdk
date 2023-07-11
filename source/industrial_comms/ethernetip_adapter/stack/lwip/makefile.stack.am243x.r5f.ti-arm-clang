@@ -139,38 +139,38 @@ FILES_common := \
     sys_arch.c \
 
 FILES_PATH_common = \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/smtp \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/tftp \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/mqtt \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/tftp \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/netbiosns \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/mdns \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/altcp_tls \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/http \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/http/makefsdata \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/lwiperf \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/snmp \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/apps/sntp \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/netif \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/netif/ppp \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/netif/ppp/polarssl \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/core \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/core/ipv6 \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/core/ipv4 \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/api \
-    ${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/freertos/src \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/smtp \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/tftp \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/mqtt \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/tftp \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/netbiosns \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/mdns \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/altcp_tls \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/http \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/http/makefsdata \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/lwiperf \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/snmp \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/apps/sntp \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/netif \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/netif/ppp \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/netif/ppp/polarssl \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/core \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/core/ipv6 \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/core/ipv4 \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/api \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/src \
 
 INCLUDES_common := \
     -I${CG_TOOL_ROOT}/include/c \
-    -I${MCU_PLUS_SDK_PATH}/source \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source \
-    -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/include \
-    -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/include \
-    -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/freertos/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config/am243x \
-    -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include \
-    -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F \
-    -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am243x/r5f \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am243x/r5f \
 
 DEFINES_common := \
     -DSOC_AM243X \

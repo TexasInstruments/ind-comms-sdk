@@ -30,11 +30,11 @@
 
         compilerBuildOptions="
             -I${CG_TOOL_ROOT}/include/c
-            -I${MCU_PLUS_SDK_PATH}/source
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source
-            -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include
-            -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F
-            -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am243x/r5f
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am243x/r5f
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/cia402
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/os
@@ -63,9 +63,9 @@
             -DUSE_ECAT_TIMER=1
         "
         linkerBuildOptions="
-            -i${MCU_PLUS_SDK_PATH}/source/kernel/freertos/lib
-            -i${MCU_PLUS_SDK_PATH}/source/drivers/lib
-            -i${MCU_PLUS_SDK_PATH}/source/board/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/lib
             -i${CG_TOOL_ROOT}/lib
             -m=ethercat_slave_cia402_demo.${ConfigName}.map
@@ -76,7 +76,7 @@
             --use_memset=fast
         "
 
-        postBuildStep="$(MAKE) -C ${CCS_PROJECT_DIR} -f makefile_ccs_bootimage_gen OUTNAME=${BuildArtifactFileBaseName} PROFILE=${ConfigName} MCU_PLUS_SDK_PATH=${MCU_PLUS_SDK_PATH} CG_TOOL_ROOT=${CG_TOOL_ROOT} CCS_INSTALL_DIR=${CCS_INSTALL_DIR} CCS_IDE_MODE=${CCS_IDE_MODE} DEVICE=am243x"
+        postBuildStep="$(MAKE) -C ${CCS_PROJECT_DIR} -f makefile_ccs_bootimage_gen OUTNAME=${BuildArtifactFileBaseName} PROFILE=${ConfigName} INDUSTRIAL_COMMUNICATIONS_SDK_PATH=${INDUSTRIAL_COMMUNICATIONS_SDK_PATH} CG_TOOL_ROOT=${CG_TOOL_ROOT} CCS_INSTALL_DIR=${CCS_INSTALL_DIR} CCS_IDE_MODE=${CCS_IDE_MODE} DEVICE=am243x"
 
         enableSysConfigTool="true"
         sysConfigBuildOptions="
@@ -113,7 +113,6 @@
                 -llibsysbm.a
             "
         ></configuration>
-        <pathVariable name="MCU_PLUS_SDK_PATH" path="${COM_TI_MCU_PLUS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
         <pathVariable name="INDUSTRIAL_COMMUNICATIONS_SDK_PATH" path="${COM_TI_INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
         <file path="../../../../common/board/am243lp/freertos/ESL_BOARD_OS_config.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

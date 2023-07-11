@@ -26,17 +26,17 @@ FILES_PATH_common = \
 
 INCLUDES_common := \
     -I${CG_TOOL_ROOT}/include/c \
-    -I${MCU_PLUS_SDK_PATH}/source \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/source \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc \
-    -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/FreeRTOS-Kernel/include \
-    -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F \
-    -I${MCU_PLUS_SDK_PATH}/source/kernel/freertos/config/am243x/r5f \
-    -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-config/am243x \
-    -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/include \
-    -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-port/freertos/include \
-    -I${MCU_PLUS_SDK_PATH}/source/networking/lwip/lwip-stack/src/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am243x/r5f \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am243x \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include \
 
 DEFINES_common := \
     -DSOC_AM243X \

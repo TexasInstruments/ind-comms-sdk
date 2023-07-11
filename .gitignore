@@ -37,6 +37,8 @@ source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.c
 source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.h
 source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.dll
 source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.lib
+source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.rej
+source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.orig
 source/industrial_comms/ethercat_slave/stack/patch/SlaveFiles/*.c
 source/industrial_comms/ethercat_slave/stack/patch/SlaveFiles/*.h
 source/industrial_comms/ethercat_slave/stack/patch/SlaveFiles/*.dll
@@ -65,3 +67,4 @@ source/motor_control/position_sense/endat/firmware/*.obj
 source/motor_control/position_sense/endat/firmware/*.b00
 source/motor_control/position_sense/endat/firmware/*.xml
 !*boardcfg_*.bin
+mcu_plus_sdk
