@@ -120,10 +120,6 @@ function getProductNameProjectSpec() {
     return "INDUSTRIAL_COMMUNICATIONS_SDK_AM263X";
 }
 
-function getDependentProductNameProjectSpec() {
-    return "MCU_PLUS_SDK_AM263X";
-}
-
 function getFlashAddr() {
     return 0x60000000;
 }

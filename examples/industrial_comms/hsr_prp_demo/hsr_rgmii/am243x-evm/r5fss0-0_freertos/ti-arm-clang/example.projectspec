@@ -12,7 +12,7 @@
     <project
         title="Hsr Rgmii Demo"
         name = "hsr_rgmii_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang"
-        products="sysconfig;com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX;com.ti.MCU_PLUS_SDK_AMXXX"
+        products="sysconfig;com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX;"
         configurations="
                 Debug,
                 Release,
