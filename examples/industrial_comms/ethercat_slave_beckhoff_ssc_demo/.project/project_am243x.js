@@ -133,8 +133,8 @@ function getComponentProperty() {
     property.name = "ethercat_slave_beckhoff_ssc_demo";
     property.isInternal = false;
     property.buildOptionCombos = buildOptionCombos;
-    property.isSkipTopLevelBuild = false;
-    property.skipProjectSpec = false;
+    property.isSkipTopLevelBuild = true;
+    property.skipProjectSpec = true;
 
     return property;
 }
