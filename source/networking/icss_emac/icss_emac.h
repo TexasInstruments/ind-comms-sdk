@@ -387,6 +387,8 @@ extern "C" {
 #define ICSS_EMAC_IOCTL_VLAN_FILTER_CTRL                    (6u)
 /** \brief IOCTL select Port flush APIs command */
 #define ICSS_EMAC_IOCTL_PORT_FLUSH_CTRL                     (7u)
+/** \brief IOCTL select Special Unicast MAC address APIs command */
+#define ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL            (8u)
 /** @} */
 
 /**
@@ -434,6 +436,18 @@ extern "C" {
 /** @} */
 
 /**
+ *  \anchor ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_COMMANDS
+ *  \name ICSS-EMAC Special Unicast MAC IOCTL Command Options
+ *
+ *  @{
+ */
+/** \brief IOCTL Special Unicast MAC Disable command*/
+#define ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_DISABLE_CMD                (0u)
+/** \brief IOCTL Special Unicast MAC Enable command*/
+#define ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_ENABLE_CMD                 (1u)
+/** @} */
+
+/**
 * \brief Macros for different port states in learning module
 *
 */
@@ -466,26 +480,28 @@ typedef int32_t (*ICSS_EMAC_CallBack)(void *arg0, void *arg1, void *arg2);
  */
 typedef struct ICSS_EMAC_FwStaticMmap_s
 {
-    uint32_t versionOffset;             /**< Version offset for release 1 */
-    uint32_t version2Offset;            /**< Version offset for release 2 */
-    uint32_t featureOffset;             /**< Feature offset */
-    uint32_t futureFeatureOffset;       /**< Offset reserved for enhance features, future use*/
-    uint32_t statisticsOffset;          /**< Statistics offset */
-    uint32_t statisticsSize;            /**< Statistics block size */
-    uint32_t stormPreventionOffsetBC;   /**< Storm prevention offset */
-    uint32_t phySpeedOffset;            /**< Phy Speed Offset */
-    uint32_t portStatusOffset;          /**< Port Status Offset */
-    uint32_t portControlAddr;           /**< Port Control Addr offset */
-    uint32_t portMacAddr;               /**< Port Mac Addr offset*/
-    uint32_t rxInterruptStatusOffset;   /**< RX Interrupt Status Offset */
-    uint32_t stormPreventionOffsetMC;   /**< Storm prevention offset (multicast) */
-    uint32_t stormPreventionOffsetUC;   /**< Storm prevention offset (unicast) */
-    uint32_t p0QueueDescOffset;         /**< Port 0 QueueDescOffset */
-    uint32_t p0ColQueueDescOffset;      /**< Port 0 Collision QueueDescOffset */
-    uint32_t emacTtsConfigBaseOffset;   /**< TTS Config Base Offset */
-    uint32_t interfaceMacAddrOffset;    /**< Interface Mac AddressrOffset */
-    uint32_t colStatusAddr;             /**< Collision status address offset */
-    uint32_t promiscuousModeOffset;     /**< promiscuous mode feature control offset */
+    uint32_t versionOffset;                                  /**< Version offset for release 1 */
+    uint32_t version2Offset;                                 /**< Version offset for release 2 */
+    uint32_t featureOffset;                                  /**< Feature offset */
+    uint32_t futureFeatureOffset;                            /**< Offset reserved for enhance features, future use*/
+    uint32_t statisticsOffset;                               /**< Statistics offset */
+    uint32_t statisticsSize;                                 /**< Statistics block size */
+    uint32_t stormPreventionOffsetBC;                        /**< Storm prevention offset */
+    uint32_t phySpeedOffset;                                 /**< Phy Speed Offset */
+    uint32_t portStatusOffset;                               /**< Port Status Offset */
+    uint32_t portControlAddr;                                /**< Port Control Addr offset */
+    uint32_t portMacAddr;                                    /**< Port Mac Addr offset*/
+    uint32_t rxInterruptStatusOffset;                        /**< RX Interrupt Status Offset */
+    uint32_t stormPreventionOffsetMC;                        /**< Storm prevention offset (multicast) */
+    uint32_t stormPreventionOffsetUC;                        /**< Storm prevention offset (unicast) */
+    uint32_t p0QueueDescOffset;                              /**< Port 0 QueueDescOffset */
+    uint32_t p0ColQueueDescOffset;                           /**< Port 0 Collision QueueDescOffset */
+    uint32_t emacTtsConfigBaseOffset;                        /**< TTS Config Base Offset */
+    uint32_t interfaceMacAddrOffset;                         /**< Interface Mac AddressrOffset */
+    uint32_t colStatusAddr;                                  /**< Collision status address offset */
+    uint32_t promiscuousModeOffset;                          /**< promiscuous mode feature control offset */
+    uint32_t specialUnicastMACAddrOffset;                    /**< Special Unicast MAC address offset */
+    uint32_t specialUnicastMACAddressFeatureEnableOffset;    /**< Special Unicast MAC address feature enable/disable offset */
 } ICSS_EMAC_FwStaticMmap;
 
 /**
@@ -887,7 +903,8 @@ void ICSS_EMAC_close(ICSS_EMAC_Handle icssEmacHandle);
  *                                  \ref ICSS_EMAC_IOCTL_LEARNING_CTRL_COMMANDS,
  *                                  \ref ICSS_EMAC_IOCTL_STATISTICS_COMMANDS,
  *                                  \ref ICSS_EMAC_IOCTL_MULTICAST_FILTER_CTRL_COMMANDS,
- *                                  \ref ICSS_EMAC_IOCTL_VLAN_FILTER_CTRL_COMMANDS
+ *                                  \ref ICSS_EMAC_IOCTL_VLAN_FILTER_CTRL_COMMANDS,
+ *                                  \ref ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_COMMANDS
  *
  *
  *  \return         For "ioctlCommand = ICSS_EMAC_IOCTL_LEARNING_CTRL" and "ioctlParams.command = ICSS_EMAC_LEARN_CTRL_FIND_MAC",

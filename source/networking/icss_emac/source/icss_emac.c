@@ -166,6 +166,8 @@ static inline void ICSS_EMAC_memcpyLocal(void *dst, const void *src, size_t len)
 
 static inline void ICSS_EMAC_portFlush(ICSS_EMAC_Handle icssEmacHandle, uint8_t portNumber);
 
+/* Local function for disabling or enabling the Special Unicast MAC address handling feature and writing the required MAC address. It is called from the IOCTL */
+static inline int32_t ICSS_EMAC_handleSpecialUnicastMACAddress(ICSS_EMAC_Handle icssEmacHandle, uint8_t enableFeature, uint8_t *macAddress);
 
 /* ========================================================================== */
 /*                            Global Variables                                */
@@ -749,6 +751,21 @@ int32_t ICSS_EMAC_ioctl(ICSS_EMAC_Handle icssEmacHandle,
         case ICSS_EMAC_IOCTL_PORT_FLUSH_CTRL:
             ICSS_EMAC_portFlush(icssEmacHandle, portNo);
             retVal = SystemP_SUCCESS;
+            break;
+
+        case ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL:
+            switch(ioctlCmd->command)
+            {
+                case ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_DISABLE_CMD:
+                    retVal = ICSS_EMAC_handleSpecialUnicastMACAddress(icssEmacHandle, ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_DISABLE_CMD, (uint8_t *)ioctlData);
+                    break;
+                case ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_ENABLE_CMD:
+                    retVal = ICSS_EMAC_handleSpecialUnicastMACAddress(icssEmacHandle, ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_ENABLE_CMD, (uint8_t *)ioctlData);
+                    break;
+                default:
+                    retVal = SystemP_FAILURE;
+                    break;
+            }
             break;
 
         default:
@@ -2381,4 +2398,41 @@ static inline void ICSS_EMAC_portFlush(ICSS_EMAC_Handle icssEmacHandle, uint8_t 
         default:
         break;
     }
+}
+
+static inline int32_t ICSS_EMAC_handleSpecialUnicastMACAddress(ICSS_EMAC_Handle icssEmacHandle, uint8_t enableFeature, uint8_t *macAddress)
+{
+    int32_t                     retVal = SystemP_FAILURE;
+    ICSS_EMAC_FwStaticMmap      *pStaticMMap = (&((ICSS_EMAC_Object *)icssEmacHandle->object)->fwStaticMMap);
+    uint32_t                    temp_addr = 0U;
+    volatile uint8_t            *specialUnicastMACAddressPtr = NULL;
+    volatile uint8_t            *specialUnicastMACAddressFeatureEnablePtr = NULL;
+    PRUICSS_Handle              pruicssHandle = ((ICSS_EMAC_Object *)icssEmacHandle->object)->pruicssHandle;
+    PRUICSS_HwAttrs const       *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pruicssHandle->hwAttrs);
+
+    temp_addr = (pruicssHwAttrs->pru1DramBase + pStaticMMap->specialUnicastMACAddrOffset);
+    specialUnicastMACAddressPtr = (uint8_t*)(temp_addr);
+
+    temp_addr = (pruicssHwAttrs->pru1DramBase + pStaticMMap->specialUnicastMACAddressFeatureEnableOffset);
+    specialUnicastMACAddressFeatureEnablePtr = (uint8_t*)(temp_addr);
+
+    if(!enableFeature)
+    {
+        //Special Unicast MAC Address feature is disabled
+        *(specialUnicastMACAddressFeatureEnablePtr) = 0;
+        //Clear the MAC special unicast MAC address
+        uint8_t dummyMACAddr[6] = {0};
+        memcpy((void *)specialUnicastMACAddressPtr, dummyMACAddr, sizeof(dummyMACAddr));
+        retVal = SystemP_SUCCESS;
+    }
+    else
+    {
+        //Special Unicast MAC Address feature is enabled
+        *(specialUnicastMACAddressFeatureEnablePtr) = 1;
+        //Write back the special unicast MAC Address
+        memcpy((void *)specialUnicastMACAddressPtr, macAddress, 6);
+        retVal = SystemP_SUCCESS;
+
+    }
+    return retVal;
 }
