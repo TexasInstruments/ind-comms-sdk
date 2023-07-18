@@ -80,7 +80,7 @@ function getExampleList() {
 }
 
 function getSysCfgDevice(board) {
-    return "AM64x_beta";
+    return "AM64x";
 }
 
 function getProjectSpecDevice(board) {
