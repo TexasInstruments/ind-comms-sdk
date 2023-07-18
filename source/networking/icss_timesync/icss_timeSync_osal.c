@@ -348,7 +348,7 @@ void TimeSync_PdelayReqSendTask(void *args)
                             //             ((((ICSS_EmacObject *)
                             //                timeSyncHandle->emacHandle->object)->callBackHandle)->txCallBack)->userArg) ==
                             //         0)
-                            if(ICSS_EMAC_txPacket(&txArg, NULL) == SystemP_SUCCESS)
+                            if((ICSS_EMAC_txPacket(&txArg, NULL) & ICSS_EMAC_PORT1_TX_ERROR_MASK) == SystemP_SUCCESS)
                             {
                                 timeSyncHandle->tsRunTimeVar->pDelReqSequenceID[ICSS_EMAC_PORT_1 - 1]++;
                             }
@@ -368,7 +368,7 @@ void TimeSync_PdelayReqSendTask(void *args)
                             //                             timeSyncHandle->timeSyncBuff.pdelayReq_TxBuf[0],
                             //                             ICSS_EMAC_PORT_1,
                             //                             ICSS_EMAC_QUEUE1, TIMESYNC_PDELAY_BUF_SIZE) ==  0)
-                            if(ICSS_EMAC_txPacket(&txArg, NULL) == SystemP_SUCCESS)
+                            if((ICSS_EMAC_txPacket(&txArg, NULL)& ICSS_EMAC_PORT1_TX_ERROR_MASK) == SystemP_SUCCESS)
                             {
                                 timeSyncHandle->tsRunTimeVar->pDelReqSequenceID[ICSS_EMAC_PORT_1 - 1]++;
                             }
@@ -426,7 +426,7 @@ void TimeSync_PdelayReqSendTask(void *args)
                             //             ((((ICSS_EmacObject *)
                             //                timeSyncHandle->emacHandle->object)->callBackHandle)->txCallBack)->userArg) ==
                             //         0)
-                            if(ICSS_EMAC_txPacket(&txArg, NULL) == SystemP_SUCCESS)
+                            if((ICSS_EMAC_txPacket(&txArg, NULL)& ICSS_EMAC_PORT2_TX_ERROR_MASK) == SystemP_SUCCESS)
                             {
                                 timeSyncHandle->tsRunTimeVar->pDelReqSequenceID[ICSS_EMAC_PORT_2 - 1]++;
                             }
@@ -444,7 +444,7 @@ void TimeSync_PdelayReqSendTask(void *args)
                             //                             timeSyncHandle->timeSyncBuff.pdelayReq_TxBuf[1],
                             //                             ICSS_EMAC_PORT_2,
                             //                             ICSS_EMAC_QUEUE1, TIMESYNC_PDELAY_BUF_SIZE) ==  0)
-                            if(ICSS_EMAC_txPacket(&txArg, NULL) == SystemP_SUCCESS)
+                            if((ICSS_EMAC_txPacket(&txArg, NULL) & ICSS_EMAC_PORT2_TX_ERROR_MASK) == SystemP_SUCCESS)
                             {
                                 timeSyncHandle->tsRunTimeVar->pDelReqSequenceID[ICSS_EMAC_PORT_2 - 1]++;
                             }
@@ -507,10 +507,20 @@ void TimeSync_delayReqSendTask(void *args)
             //             &txArg, ((((ICSS_EmacObject *)
             //                        timeSyncHandle->emacHandle->object)->callBackHandle)->txCallBack)->userArg) ==
             //         0)
-            if(ICSS_EMAC_txPacket(&txArg, NULL) == SystemP_SUCCESS)
-            {
-                timeSyncHandle->tsRunTimeVar->delReqSequenceID++;
-            }
+			if (ICSS_EMAC_PORT_1 == txArg.portNumber)
+			{			
+                if((ICSS_EMAC_txPacket(&txArg, NULL) & ICSS_EMAC_PORT1_TX_ERROR_MASK) == SystemP_SUCCESS)
+                {
+                    timeSyncHandle->tsRunTimeVar->delReqSequenceID++;
+                }
+			}
+			else
+		    {
+			    if((ICSS_EMAC_txPacket(&txArg, NULL)& ICSS_EMAC_PORT2_TX_ERROR_MASK) == SystemP_SUCCESS)
+                {
+                    timeSyncHandle->tsRunTimeVar->delReqSequenceID++;
+                } 
+			}
         }
 
         else
@@ -525,10 +535,20 @@ void TimeSync_delayReqSendTask(void *args)
             //                             timeSyncHandle->timeSyncBuff.delayReq_TxBuf,
             //                             timeSyncHandle->tsRunTimeVar->syncPortNum,
             //                             ICSS_EMAC_QUEUE1, TIMESYNC_DELAY_REQ_BUF_SIZE) ==  0)
-            if(ICSS_EMAC_txPacket(&txArg, NULL) == SystemP_SUCCESS)
-            {
-                timeSyncHandle->tsRunTimeVar->delReqSequenceID++;
-            }
+			if (ICSS_EMAC_PORT_1 == txArg.portNumber)
+			{			
+                if((ICSS_EMAC_txPacket(&txArg, NULL)& ICSS_EMAC_PORT1_TX_ERROR_MASK) == SystemP_SUCCESS)
+                {
+                    timeSyncHandle->tsRunTimeVar->delReqSequenceID++;
+                }
+			}
+			else
+		    {
+			    if((ICSS_EMAC_txPacket(&txArg, NULL)& ICSS_EMAC_PORT2_TX_ERROR_MASK) == SystemP_SUCCESS)
+                {
+                    timeSyncHandle->tsRunTimeVar->delReqSequenceID++;
+                } 
+			}
         }
     }
 }

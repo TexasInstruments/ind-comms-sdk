@@ -1128,14 +1128,25 @@ int32_t ICSS_EMAC_txPacket(const ICSS_EMAC_TxArgument *txArg, void *userArg)
     }
     else
     {
-        ret1 = ICSS_EMAC_txPacketEnqueue(icssEmacHandle,
-                                        txArg->srcAddress,
-                                        portNumber,
-                                        queuePriority,
-                                        lengthOfPacket);
+		if (portNumber == ICSS_EMAC_PORT_1)
+		{
+            ret1 = ICSS_EMAC_txPacketEnqueue(icssEmacHandle,
+                                            txArg->srcAddress,
+                                            portNumber,
+                                            queuePriority,
+                                            lengthOfPacket);
+		}
+		else
+		{
+			ret2 = ICSS_EMAC_txPacketEnqueue(icssEmacHandle,
+                                            txArg->srcAddress,
+                                            portNumber,
+                                            queuePriority,
+                                            lengthOfPacket);
+		}
     }
 
-    return ((ret2 << 16) | (ret1));
+    return ((ret2 << 16) | (ret1 & 0xFFFF));
 }
 
 int32_t ICSS_EMAC_txPacketEnqueue(ICSS_EMAC_Handle  icssEmacHandle,
