@@ -38,6 +38,7 @@ const example_file_list = [
     "examples/industrial_comms/hsr_prp_demo/prp_mii/.project/project.js",
     "examples/industrial_comms/hsr_prp_demo/prp_rgmii/.project/project.js",
     "examples/industrial_comms/iolink_master_demo/.project/project.js",
+    "examples/networking/enet_loopback/enet_icssg_loopback/.project/project.js",
     "examples/networking/enet_icssg_tas/.project/project.js",
     "examples/networking/enet_layer2_icssg/.project/project.js",
     "examples/networking/enet_vlan_icssg/.project/project.js",
