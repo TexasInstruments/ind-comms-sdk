@@ -39,6 +39,7 @@ source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.dll
 source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.lib
 source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.rej
 source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.orig
+source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/*.sh
 source/industrial_comms/ethercat_slave/stack/patch/SlaveFiles/*.c
 source/industrial_comms/ethercat_slave/stack/patch/SlaveFiles/*.h
 source/industrial_comms/ethercat_slave/stack/patch/SlaveFiles/*.dll
