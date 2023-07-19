@@ -196,6 +196,10 @@ extern "C" {
 /** \brief Success code */
 #define ICSS_EMAC_SWITCH_SUCCESS                        (0u)
 
+#define ICSS_EMAC_PORT1_TX_ERROR_MASK                   (0xFFFFu)
+
+#define ICSS_EMAC_PORT2_TX_ERROR_MASK                   (0xFFFF0000u)
+
 /**  Error codes */
 /** \brief Device is not instantiated yet.*/
 #define ICSS_EMAC_ERR_DEV_NOT_INSTANTIATED              (ICSS_EMAC_SWITCH_ERROR_MAJOR + 1u)
