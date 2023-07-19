@@ -2,7 +2,7 @@
  * ecat_host_interface_bin.h
  * 
  * 
- * Copyright (c) 2015 - 2016, Texas Instruments Incorporated
+ * Copyright (c) 2023, Texas Instruments Incorporated
  * All rights reserved not granted herein.
  *
  * Limited License.
@@ -107,7 +107,7 @@ const unsigned int HostProc[]= {
 0x24000280,
 0x81340480,
 0x24059080,
-0x24050dc0,
+0x24050fc0,
 0x24080881,
 0x240f3bc1,
 0x24008082,
@@ -232,7 +232,7 @@ const unsigned int HostProc[]= {
 0x240e0ac1,
 0x90c11c21,
 0x51ff2105,
-0x240313c1,
+0x240310c1,
 0x90c11a01,
 0x12210101,
 0x80c11a01,
