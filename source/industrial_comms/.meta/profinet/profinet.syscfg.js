@@ -369,12 +369,6 @@ function getConfigurables()
                     description: "In this MDIO workaround FW Polls the PHY register for link status",
                 },
             ],
-            getDisabledOptions: () => {
-                return [{
-                    name: "Polling",
-                    reason: "Currently Not Supported"
-                }]
-            },
         });
     }
 
