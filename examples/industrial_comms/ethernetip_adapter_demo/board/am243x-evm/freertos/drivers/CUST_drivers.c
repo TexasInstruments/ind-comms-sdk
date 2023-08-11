@@ -7,34 +7,36 @@
  *  \author
  *  KUNBUS GmbH
  *
- *  \date
- *  2022-03-16
- *
  *  \copyright
  *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  All rights reserved.<br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 None.
+ *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:<br />
+ *  modification, are permitted provided that the following conditions are met:
+ *
  *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.</li>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
  *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.</li>
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
  *  </ol>
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
  *
  */
 
@@ -42,10 +44,6 @@
 #include "ti_drivers_open_close.h"
 
 #include <drivers/CUST_drivers.h>
-
-extern PRUICSS_Config gPruIcssConfig[];
-extern ETHPHY_Config  gEthPhyConfig[];
-extern ETHPHY_Handle  gEthPhyHandle[];
 
 #define WRITE_STACK_SIZE_BYTE     1024
 #define WRITE_FLASH_STACK_SIZE    (WRITE_STACK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
@@ -61,8 +59,8 @@ typedef struct CUST_DRIVERS_SPermWriteParam
 static void CUST_DRIVERS_flashWriteTask  (void *pArg_p);
 static void CUST_DRIVERS_eepromWriteTask (void *pArg_p);
 
-static OSAL_TASK_EPriority_t    eepromTaskPrio_s;
-static OSAL_TASK_EPriority_t    flashTaskPrio_s;
+static OSAL_TASK_Priority_t    eepromTaskPrio_s;
+static OSAL_TASK_Priority_t    flashTaskPrio_s;
 
 static char aOutStream_s[0x200] = {0};
 
@@ -70,7 +68,7 @@ static uint32_t writeOperationPendingCnt_s = 0;
 static bool     writeOperationPending_s    = false;
 
 static CUST_DRIVERS_SPermWriteParam_t  writeParam_s;
-static void*                           flashTaskHandle_s = NULL;
+static void*                           writeTaskHandle_s = NULL;
 static StackType_t                     writeTaskStack_s[WRITE_FLASH_STACK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
 
 /*!
@@ -90,11 +88,10 @@ static StackType_t                     writeTaskStack_s[WRITE_FLASH_STACK_SIZE] 
 */
 uint32_t CUST_DRIVERS_init(CUST_DRIVERS_SInit_t* pParams_p)
 {
-    uint32_t error = (uint32_t) CUST_DRIVERS_eERR_NOERROR;
-    CUST_PHY_SParams_t phyParams = { .pPruIcssCfg = CUST_DRIVERS_getPruIcssCfg(pParams_p->pruIcss.instance),
-                                     .pEthPhy0Cfg = CUST_DRIVERS_getEthPhyCfg (pParams_p->pruIcss.ethPhy.instance_0),
-                                     .pEthPhy1Cfg = CUST_DRIVERS_getEthPhyCfg (pParams_p->pruIcss.ethPhy.instance_1)
-                                   };
+    CUST_ETHPHY_SParams_t        ethPhyParams;
+    CUST_PRUICSS_InitParams_t    pruIcssParams;
+
+    uint32_t                     error = (uint32_t) CUST_DRIVERS_eERR_NOERROR;
 
     eepromTaskPrio_s = pParams_p->eeprom.taskPrio;
     flashTaskPrio_s  = pParams_p->flash.taskPrio;
@@ -109,15 +106,29 @@ uint32_t CUST_DRIVERS_init(CUST_DRIVERS_SInit_t* pParams_p)
         goto initErr;
     }
 
-    if (CUST_PHY_eERR_NOERROR != CUST_PHY_init(&phyParams))
+    ethPhyParams.pruIcssSysConfigId  = pParams_p->pruIcss.instance;
+    ethPhyParams.ethPhySysConfigId_0 = pParams_p->pruIcss.ethPhy.instance_0;
+    ethPhyParams.ethPhySysConfigId_1 = pParams_p->pruIcss.ethPhy.instance_1;
+
+    if (CUST_ETHPHY_eERR_NOERROR != CUST_ETHPHY_init(&ethPhyParams))
     {
-        error = (uint32_t) CUST_DRIVERS_eERR_PHY;
+        error = (uint32_t) CUST_DRIVERS_eERR_ETHPHY;
         goto initErr;
     }
 
     if (SystemP_SUCCESS != Board_driversOpen())
     {
         error = (uint32_t) CUST_DRIVERS_eERR_GENERALERROR;
+        goto initErr;
+    }
+
+    pruIcssParams.pruIcssId = pParams_p->pruIcss.instance;
+    pruIcssParams.ethPhy0Id = pParams_p->pruIcss.ethPhy.instance_0;
+    pruIcssParams.ethPhy1Id = pParams_p->pruIcss.ethPhy.instance_1;
+
+    if (CUST_PRUICSS_eERR_NOERROR != CUST_PRUICSS_init(&pruIcssParams))
+    {
+        error = (uint32_t) CUST_DRIVERS_eERR_PRUICSS;
         goto initErr;
     }
 
@@ -181,9 +192,9 @@ uint32_t CUST_DRIVERS_deinit(void)
         goto deinitErr;
     }
 
-    if (CUST_PHY_eERR_NOERROR != CUST_PHY_deInit())
+    if (CUST_ETHPHY_eERR_NOERROR != CUST_ETHPHY_deInit())
     {
-        error = (uint32_t) CUST_DRIVERS_eERR_PHY;
+        error = (uint32_t) CUST_DRIVERS_eERR_ETHPHY;
         goto deinitErr;
     }
 
@@ -199,117 +210,6 @@ uint32_t CUST_DRIVERS_deinit(void)
 
 deinitErr:
     return error;
-}
-
-/*!
-* <!-- Description: -->
-*
-* \brief
-* Provides pointer to specific SysConfig PRU-ICSS block configuration defined by instance.
-*
-*  <!-- Parameters and return values: -->
-*
-*  \param[in]  instance_p      Instance number
-*  \return     pointer to requested PRU-ICSS block configuration
-*
-*/
-PRUICSS_Config* CUST_DRIVERS_getPruIcssCfg (uint32_t instance_p)
-{
-    PRUICSS_Config* pPruIcssCfg = NULL;
-
-    pPruIcssCfg = &gPruIcssConfig[instance_p];
-
-    return pPruIcssCfg;
-}
-
-/*!
-* <!-- Description: -->
-*
-* \brief
-* Provides pointer to specific SysConfig ETHPHY configuration defined by instance.
-*
-*  <!-- Parameters and return values: -->
-*
-*  \param[in]  instance_p      Instance number
-*  \return     pointer to requested ETHPHY configuration
-*
-*/
-ETHPHY_Config*  CUST_DRIVERS_getEthPhyCfg (uint32_t instance_p)
-{
-    ETHPHY_Config* pEthPhyCfg = NULL;
-
-    pEthPhyCfg = &gEthPhyConfig[instance_p];
-
-    return pEthPhyCfg;
-}
-
-/*!
-* <!-- Description: -->
-*
-* \brief
-* Provides pointer to specific ETHPHY handler defined by instance.
-*
-*  <!-- Parameters and return values: -->
-*
-*  \param[in]  instance_p      Instance number
-*  \return     requested ETHPHY handler
-*
-*/
-ETHPHY_Handle CUST_DRIVERS_getEthPhyHandle (uint32_t instance_p)
-{
-    ETHPHY_Handle ethPhyHandle = NULL;
-
-    ethPhyHandle = gEthPhyHandle[instance_p];
-
-    return ethPhyHandle;
-}
-
-/*!
-* <!-- Description: -->
-*
-* \brief
-* Provides MDIO manual mode SysConfig setting.
-*
-*  <!-- Parameters and return values: -->
-*
-*  \return     MDIO manual mode ON/OFF setting
-*
-*  \retval     true   MDIO Manual Mode is ON.
-*  \retval     false  MDIO Manual Mode is OFF.
-*/
-bool CUST_DRIVERS_getMdioManualMode (void)
-{
-    bool result = false;
-
-#if (defined MDIO_MANUAL_MODE_ENABLED)
-    result = true;
-#endif
-
-    return result;
-}
-
-/*!
-* <!-- Description: -->
-*
-* \brief
-* Provides MDIO manual mode base address as defined in SysConfig.
-*
-*  <!-- Parameters and return values: -->
-*
-*  \return     MDIO manual mode base address
-*
-*  \retval     0      MDIO Manual Mode Base Address is not defined.
-*  \retval     other  MDIO Manual Mode Base Address as defined.
-*/
-uint32_t CUST_DRIVERS_getMdioManualModeBaseAddress (void)
-{
-    uint32_t result = 0;
-
-#if (defined MDIO_MANUAL_MODE_ENABLED) && (defined MDIO_MANUAL_MODE_BASE_ADDRESS)
-    result = MDIO_MANUAL_MODE_BASE_ADDRESS;
-#endif
-
-    return result;
 }
 
 /*!
@@ -527,6 +427,12 @@ uint32_t CUST_DRIVERS_PRM_write (void* handler_p, uint32_t type_p, uint32_t offs
                 OSAL_SCHED_sleep(100);
             }
 
+            if (NULL != writeTaskHandle_s)
+            {
+                OSAL_SCHED_killTask(writeTaskHandle_s);
+                writeTaskHandle_s = NULL;
+            }
+
             // allocate memory for data to be written
             writeParam_s.handle = handler_p;
             writeParam_s.offset = offset_p;
@@ -548,7 +454,7 @@ uint32_t CUST_DRIVERS_PRM_write (void* handler_p, uint32_t type_p, uint32_t offs
             writeOperationPending_s = true;
 
             // Start writing the flash in a thread so that the main task is not blocked
-            flashTaskHandle_s = OSAL_SCHED_startTask (CUST_DRIVERS_flashWriteTask,
+            writeTaskHandle_s = OSAL_SCHED_startTask (CUST_DRIVERS_flashWriteTask,
                                                       &writeParam_s,
                                                       flashTaskPrio_s,
                                                       (uint8_t*) writeTaskStack_s,
@@ -562,6 +468,12 @@ uint32_t CUST_DRIVERS_PRM_write (void* handler_p, uint32_t type_p, uint32_t offs
                 {
                     OSAL_SCHED_sleep(100);
                 }
+
+                if (NULL != writeTaskHandle_s)
+                {
+                    OSAL_SCHED_killTask(writeTaskHandle_s);
+                    writeTaskHandle_s = NULL;
+                }
             }
 
             err = (uint32_t) CUST_DRIVERS_eERR_NOERROR;
@@ -574,6 +486,12 @@ uint32_t CUST_DRIVERS_PRM_write (void* handler_p, uint32_t type_p, uint32_t offs
             while(true == writeOperationPending_s)
             {
                 OSAL_SCHED_sleep(100);
+            }
+
+            if (NULL != writeTaskHandle_s)
+            {
+                OSAL_SCHED_killTask(writeTaskHandle_s);
+                writeTaskHandle_s = NULL;
             }
 
             // allocate memory for data to be written
@@ -597,7 +515,7 @@ uint32_t CUST_DRIVERS_PRM_write (void* handler_p, uint32_t type_p, uint32_t offs
             writeOperationPending_s = true;
 
             // Start writing the flash in a thread so that the main task is not blocked
-            flashTaskHandle_s = OSAL_SCHED_startTask (CUST_DRIVERS_eepromWriteTask,
+            writeTaskHandle_s = OSAL_SCHED_startTask (CUST_DRIVERS_eepromWriteTask,
                                                       &writeParam_s,
                                                       eepromTaskPrio_s,
                                                       (uint8_t*) writeTaskStack_s,
@@ -610,6 +528,12 @@ uint32_t CUST_DRIVERS_PRM_write (void* handler_p, uint32_t type_p, uint32_t offs
                 while(true == writeOperationPending_s)
                 {
                     OSAL_SCHED_sleep(100);
+                }
+
+                if (NULL != writeTaskHandle_s)
+                {
+                    OSAL_SCHED_killTask(writeTaskHandle_s);
+                    writeTaskHandle_s = NULL;
                 }
             }
 

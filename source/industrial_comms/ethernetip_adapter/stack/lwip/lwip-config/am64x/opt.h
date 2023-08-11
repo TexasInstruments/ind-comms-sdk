@@ -33,6 +33,7 @@
  * This file is part of the lwIP TCP/IP stack.
  *
  * Author: Adam Dunkels <adam@sics.se>
+ * Author: KUNBUS GmbH
  *
  */
 

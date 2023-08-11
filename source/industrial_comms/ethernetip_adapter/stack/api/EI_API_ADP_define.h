@@ -7,34 +7,13 @@
 * \author
 * KUNBUS GmbH
 *
-* \date
-* 2022-07-15
-*
 * \copyright
 * Copyright (c) 2021, KUNBUS GmbH<br /><br />
-* All rights reserved.<br />
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:<br />
-* <ol>
-* <li>Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.</li>
-* <li>Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.</li>
-* <li>Neither the name of the copyright holder nor the names of its
-* contributors may be used to endorse or promote products derived from
-* this software without specific prior written permission.</li>
-* </ol>
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+* SPDX-License-Identifier: LicenseRef-Kunbus
+*
+* Copyright (c) 2023 None
+* All rights reserved.
+*
 *
 */
 
@@ -153,22 +132,22 @@ typedef struct EI_API_ADP_SPort
 
 typedef struct EI_API_ADP_SInit
 {
-    OSAL_TASK_EPriority_t taskPrioCyclicIo;                   /* Cyclic IO task priority */
-    OSAL_TASK_EPriority_t taskPrioPacket;                     /* Packet task priority */
-    OSAL_TASK_EPriority_t taskPrioStatistic;                  /* Statistic task priority */
+    OSAL_TASK_Priority_t taskPrioCyclicIo;                   /* Cyclic IO task priority */
+    OSAL_TASK_Priority_t taskPrioPacket;                     /* Packet task priority */
+    OSAL_TASK_Priority_t taskPrioStatistic;                  /* Statistic task priority */
 
-    struct                                                    /* Data-Link-Layer initialization parameters */
+    struct                                                   /* Data-Link-Layer initialization parameters */
     {
-        struct                                                /* Time SYNC initialization parameters */
+        struct                                               /* Time SYNC initialization parameters */
         {
-            OSAL_TASK_EPriority_t taskPrioTsDelayRqTx;        /* TimeSync task priority for TX Delay Request */
-            OSAL_TASK_EPriority_t taskPrioTxTimeStamp;        /* TimeSync task priority for TX Time Stamp P1 and P2*/
-            OSAL_TASK_EPriority_t taskPrioNRT;                /* TimeSync task priority for NRT */
-            OSAL_TASK_EPriority_t taskPrioBackground;         /* TimeSync task priority for Background thread*/
+            OSAL_TASK_Priority_t taskPrioTsDelayRqTx;        /* TimeSync task priority for TX Delay Request */
+            OSAL_TASK_Priority_t taskPrioTxTimeStamp;        /* TimeSync task priority for TX Time Stamp P1 and P2*/
+            OSAL_TASK_Priority_t taskPrioNRT;                /* TimeSync task priority for NRT */
+            OSAL_TASK_Priority_t taskPrioBackground;         /* TimeSync task priority for Background thread*/
         }ptp;
-        struct                                                /* LLDP initialization parameters */
+        struct                                               /* LLDP initialization parameters */
         {
-            OSAL_TASK_EPriority_t taskPrioReceive;            /* LLDP receive task priority */
+            OSAL_TASK_Priority_t taskPrioReceive;            /* LLDP receive task priority */
         }lldp;
     }dll;
 
@@ -184,14 +163,21 @@ typedef void*  ETHPHY_Handle;
 
 typedef struct EIP_SLoadParameter
 {
-    uint8_t                 ai8uMacAddr[EIP_MAC_ADDR_LEN];
-    uint32_t                pruIcssCfgId;               /* PRU-ICSS block enumeration id listed in SysConfig */
-    PRUICSS_ConfigPtr       pPruIcssCfg;                /* pointer to PRU-ICSS block configuration */
-    ETHPHY_ConfigPtr        pEthPhyCfg[2];              /* array of pointers to ETHPHY configurations */
-    ETHPHY_Handle           ethPhyHandle[2];            /* array of ETHPHY handlers */
-    bool                    mdioManualMode;             /* MDIO manual mode control flag */
-    uint32_t                mdioManualModeBaseAddress;  /* MDIO manual mode base address */
-    OSAL_TASK_EPriority_t   taskPrioPhyMdixTask;        /* PHY MDIX task priority */
+    uint8_t                 ai8uMacAddr[EIP_MAC_ADDR_LEN];  /* Device MAC address */
+    uint32_t                pruIcssCfgId;                   /* PRU-ICSS block enumeration id listed in SysConfig */
+    PRUICSS_ConfigPtr       pPruIcssCfg;                    /* pointer to PRU-ICSS block configuration */
+    uint32_t*               pPru0Firmware;                  /* pointer to PRU-ICSS PRU0 firmware */
+    uint32_t                pPru0FirmwareLength;            /* size of PRU-ICSS PRU0 firmware in bytes */
+    uint32_t*               pPru1Firmware;                  /* pointer to PRU-ICSS PRU1 firmware */
+    uint32_t                pPru1FirmwareLength;            /* size of PRU-ICSS PRU1 firmware in bytes */
+    ETHPHY_ConfigPtr        pEthPhyCfg[2];                  /* array of pointers to ETHPHY configurations */
+    ETHPHY_Handle           ethPhyHandle[2];                /* array of ETHPHY handlers */
+    bool                    mdioManualMode;                 /* MDIO manual mode control flag */
+    uint32_t                mdioManualModeBaseAddress;      /* MDIO manual mode base address */
+    uint32_t*               pMdioManualModeFirmware;        /* pointer to MDIO firmware (applied only when manual MDIO mode active) */
+    uint32_t                mdioManualModeFirmwareLength;   /* length of MDIO firmware (applied only when manual MDIO mode active) */
+    uint32_t                mdioManualModeFirmwareConfig;   /* configuration of MDIO manual mode firmware */
+    OSAL_TASK_Priority_t    taskPrioPhyMdixTask;            /* PHY MDIX task priority */
 } EIP_SLoadParameter;
 
 typedef enum

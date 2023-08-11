@@ -1,31 +1,19 @@
-/*
- *  Copyright (c) 2021, Kunbus GmbH
+/*!
+ *  \file EI_API_def.h
+ *
+ *  \brief
+ *  Basic declarations for EtherNet/IP and CIP API's.
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2023 None
  *  All rights reserved.
  *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
- *
- *  1. Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.
- *
- *  2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *
- *  3. Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -284,7 +272,7 @@ typedef struct EI_API_ADP_SCmgrForwardOpenInfo
     uint32_t o2tRPI;        // O->T RPI
     uint32_t o2tConPara;    // O->T Network Connection Parameters
     uint32_t t2oRPI;        // T->O RPI
-    uint16_t t2oConPara;    // T->O Network Connection Parameters
+    uint32_t t2oConPara;    // T->O Network Connection Parameters
     uint8_t typeTrigger;    // Transport Type/Trigger
     uint8_t conPathSize;    // Connection Path Size
     uint8_t conPath[80];    // Connection Path
@@ -339,10 +327,15 @@ typedef uint32_t(*EI_API_CIP_CBGetAttr)(EI_API_CIP_NODE_T* pCipNode_p, uint16_t 
 typedef uint32_t(*EI_API_CIP_CBGetAttr_CIPRouting)(EI_API_CIP_NODE_T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, uint16_t attrId_p, uint16_t *len_p, void* pvValue_p, uint16_t linkAddress_p);
 
 /*!
- *  \brief Function prototype for CIP get configuration assembly data callback function.
+ *  \brief Function prototype for CIP get configuration assembly data callback function. (with routing)
  *  \ingroup EI_API_CIP_CALLBACK
  */
 typedef uint32_t(*EI_API_CIP_CBCfgAssembly)(EI_API_CIP_NODE_T* pCipNode_p, uint16_t o2t_p, uint16_t t2o_p, uint16_t cfg_inst_p, const uint8_t* const cfg_data, uint16_t cfg_data_size, uint16_t linkAddress_p);
+/*!
+ *  \brief Function prototype for CIP get configuration assembly data callback function. (without routing)
+ *  \ingroup EI_API_CIP_CALLBACK
+ */
+typedef uint32_t(*EI_API_CIP_CBCfgAssemblySimple)(EI_API_CIP_NODE_T* pCipNode_p, uint16_t o2t_p, uint16_t t2o_p, uint16_t cfg_inst_p, const uint8_t* const cfg_data, uint16_t cfg_data_size);
 /*!
  *  \brief Function prototype for CIP set attribute callback function.
  *  \ingroup EI_API_CIP_CALLBACK

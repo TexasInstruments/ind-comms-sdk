@@ -1,3 +1,9 @@
+/**
+ * @file
+ *
+ * lwIP Protocol options configuration
+ */
+ 
 /*
  * Copyright (c) 2001-2003 Swedish Institute of Computer Science.
  * All rights reserved. 
@@ -27,6 +33,7 @@
  * This file is part of the lwIP TCP/IP stack.
  * 
  * Author: Adam Dunkels <adam@sics.se>
+ * Author: KUNBUS GmbH
  *
  */
 #ifndef LWIP_LWIPOPTS_H
