@@ -7,34 +7,36 @@
  *  \author
  *  KUNBUS GmbH
  *
- *  \date
- *  2021-05-18
- *
  *  \copyright
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  All rights reserved.<br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH.
+ *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:<br />
+ *  modification, are permitted provided that the following conditions are met:
+ *
  *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.</li>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
  *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.</li>
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
  *  </ol>
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
  *
  */
 
@@ -65,7 +67,7 @@
 #define BOARD_I2C_IOEXPANDER_ADDR       (0x22U)
 
 #define MAIN_TASK_SIZE_BYTE             (0x2000U)
-#define APPLLOOP_TASK_SIZE_BYTE         (0x800U)
+#define APPLLOOP_TASK_SIZE_BYTE         (0x1000U)
 
 #if ((defined FBTLPROVIDER) && (1==FBTLPROVIDER)) || ((defined FBTL_REMOTE) && (1==FBTL_REMOTE))
 #define FBTLCYCLIC_TASK_SIZE_BYTE       FBTL_GENERAL_STACK_SIZE_BYTE
@@ -85,7 +87,7 @@
 #define FBTLUART_TASK_SIZE_BYTE         FBTL_GENERAL_STACK_SIZE_BYTE
 #endif
 
-#if (defined DPRAM_REMOTE)
+#if (defined DPRAM_REMOTE) || (FBTL_REMOTE)
 #define APPRWRAP_TASK_SIZE_BYTE         (0x800U)
 #endif
 
@@ -116,7 +118,7 @@ typedef struct ESL_GPIO_STestPinCfg
 #define FBTLLEDIST_TASK_SIZE            (FBTLLEDIST_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
 #endif
 
-#if (defined DPRAM_REMOTE)
+#if (defined DPRAM_REMOTE) || (defined FBTL_REMOTE)
 #define APPRWRAP_TASK_SIZE              (APPRWRAP_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
 #endif
 

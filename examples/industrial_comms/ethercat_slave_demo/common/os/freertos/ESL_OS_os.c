@@ -7,34 +7,36 @@
  *  \author
  *  KUNBUS GmbH
  *
- *  \date
- *  2021-05-18
- *
  *  \copyright
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  All rights reserved.<br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH.
+ *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:<br />
+ *  modification, are permitted provided that the following conditions are met:
+ *
  *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.</li>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
  *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.</li>
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
  *  </ol>
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
  *
  */
 
@@ -57,28 +59,31 @@ typedef struct ESL_OS_I2C_SHandle
 //cppcheck-suppress misra-c2012-8.9
 static char                aOutStream_s[0x200] = {0};
 
-StackType_t EC_SLV_APP_mainTaskStack_g[MAIN_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
-StackType_t EC_SLV_APP_applLoopTaskStack_g[APPLLOOP_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
+#define CACHE_ALIGNED_THREADSTACK32 \
+    __attribute__((aligned(32), section(".threadstack")))
+
+StackType_t EC_SLV_APP_mainTaskStack_g[MAIN_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
+StackType_t EC_SLV_APP_applLoopTaskStack_g[APPLLOOP_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
 
 #if ((defined FBTLPROVIDER) && (1==FBTLPROVIDER)) || ((defined FBTL_REMOTE) && (1==FBTL_REMOTE))
-StackType_t SYSLIB_fbtlCyclicTaskStack_g[FBTLCYCLIC_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
-StackType_t SYSLIB_fbtlSendAcycTaskStack_g[FBTLSENDACYC_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
-StackType_t SYSLIB_fbtlAcycISTTaskStack_g[FBTLACYCIST_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
-StackType_t SYSLIB_fbtlSyncExecTaskStack_g[FBTLSYNCEXEC_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
-StackType_t SYSLIB_fbtlReceiverTaskStack_g[FBTLRECEIVER_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
-StackType_t SYSLIB_fbtlServiceTaskStack_g[FBTLSERVICE_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
-StackType_t SYSLIB_fbtlSlowServiceTaskStack_g[FBTLSLOWSERVICE_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
-StackType_t SYSLIB_fbtlUartTaskStack_g[FBTLUART_TASK_SIZE]     __attribute__((aligned(32), section(".threadstack")))           = {0};
+StackType_t SYSLIB_fbtlCyclicTaskStack_g[FBTLCYCLIC_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
+StackType_t SYSLIB_fbtlSendAcycTaskStack_g[FBTLSENDACYC_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
+StackType_t SYSLIB_fbtlAcycISTTaskStack_g[FBTLACYCIST_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
+StackType_t SYSLIB_fbtlSyncExecTaskStack_g[FBTLSYNCEXEC_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
+StackType_t SYSLIB_fbtlReceiverTaskStack_g[FBTLRECEIVER_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
+StackType_t SYSLIB_fbtlServiceTaskStack_g[FBTLSERVICE_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
+StackType_t SYSLIB_fbtlSlowServiceTaskStack_g[FBTLSLOWSERVICE_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
+StackType_t SYSLIB_fbtlUartTaskStack_g[FBTLUART_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
 
 #endif
 
 #if (defined FBTL_REMOTE) && (1==FBTL_REMOTE)
-StackType_t SYSLIB_fbtlSyncIstTaskStack_g[FBTLSYNCIST_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
-StackType_t SYSLIB_fbtlLedIstTaskStack_g[FBTLLEDIST_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
+StackType_t SYSLIB_fbtlSyncIstTaskStack_g[FBTLSYNCIST_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
+StackType_t SYSLIB_fbtlLedIstTaskStack_g[FBTLLEDIST_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
 #endif
 
-#if (defined DPRAM_REMOTE)
-StackType_t EC_SLV_APP_appRunWrapTaskStack_g[APPRWRAP_TASK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
+#if (defined DPRAM_REMOTE) || (FBTL_REMOTE)
+StackType_t EC_SLV_APP_appRunWrapTaskStack_g[APPRWRAP_TASK_SIZE] CACHE_ALIGNED_THREADSTACK32 = {0};
 #endif
 
 /*!
@@ -138,19 +143,22 @@ void ESL_OS_init(void)
  * */
 uint32_t ESL_OS_boardInit(uint32_t pruInstance_p)
 {
-    uint32_t retVal = OSAL_eERR_EINVAL;
+    uint32_t retVal = OSAL_ERR_InvalidParm;
 
     OSAL_TIMER_set100usecTickSupport(CONFIG_TIMER0_USEC_PER_TICK == 100u);
 
     Board_init();
     Drivers_open();
-    if (SystemP_SUCCESS != Board_driversOpen())
+
+    if(SystemP_SUCCESS != Board_driversOpen())
     {
-        retVal = OSAL_eERR_ENOENT;
+        retVal = OSAL_ERR_NoEntity;
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
     }
 
-    retVal = OSAL_eERR_NOERROR;
+    retVal = OSAL_ERR_NoError;
 Exit:
     return retVal;
 }
@@ -195,10 +203,13 @@ void ESL_OS_boardDeinit(void)
  *  \ingroup ESL_OS
  *
  * */
-void ESL_OS_manualMdioConfig(void* pEcSlvApi_p)
+void ESL_OS_manualMdioConfig(void *pEcSlvApi)
 {
 #if (defined MDIO_MANUAL_MODE_ENABLED)
-    EC_API_SLV_enableMdioManualMode(pEcSlvApi_p, MDIO_MANUAL_MODE_BASE_ADDRESS);
+    EC_API_SLV_enableMdioManualMode(
+        pEcSlvApi,
+        MDIO_MANUAL_MODE_BASE_ADDRESS,
+        MDIO_MANUAL_MODE_FW_CONFIG_VALUE);
 #endif
 }
 
@@ -287,7 +298,7 @@ clock_t ESL_OS_clockGet(void)
  *  \ingroup ESL_OS
  *
  * */
-clock_t  ESL_OS_clockDiff(clock_t reference_p, clock_t* pNow_p)
+clock_t  ESL_OS_clockDiff(clock_t reference_p, clock_t *pNow_p)
 {
     clock_t delta;
     clock_t current;
@@ -354,14 +365,16 @@ static uint32_t Board_getnumLedPerGroup(void)
  *  \ingroup ESL_OS
  *
  * */
-void* ESL_OS_ioexp_leds_init(void)
+void *ESL_OS_ioexp_leds_init(void)
 {
-    ESL_OS_I2C_SHandle_t*   pHandle = NULL;
+    ESL_OS_I2C_SHandle_t *pHandle = NULL;
     int32_t                 status = SystemP_FAILURE;
 
     pHandle = (ESL_OS_I2C_SHandle_t*)OSAL_MEMORY_calloc(1, sizeof(ESL_OS_I2C_SHandle_t));
     if (!pHandle)
     {
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
     }
 
@@ -420,30 +433,31 @@ Exit:
  *  \ingroup ESL_OS
  *
  * */
-void ESL_OS_ioexp_leds_write(void* pI2cHandle_p, uint8_t ledValue_p)
+void ESL_OS_ioexp_leds_write(void *pI2cHandle_p, uint8_t ledValue_p)
 {
-    ESL_OS_I2C_SHandle_t*   pHandle         = (ESL_OS_I2C_SHandle_t*)pI2cHandle_p;
-    int32_t                 status;
-
+    ESL_OS_I2C_SHandle_t *pHandle         = (ESL_OS_I2C_SHandle_t*)pI2cHandle_p;
+    
     if (!pHandle)
     {
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
     }
 
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
     if(pHandle->numLedPerGroup > 1U)
     {
-        status = LED_setMask(pHandle->ledHandle, ledValue_p);
+        (void)LED_setMask(pHandle->ledHandle, ledValue_p);
     }
     else
     {
         if (0 < ledValue_p)
         {
-            status = LED_on(pHandle->ledHandle, 0);
+            (void)LED_on(pHandle->ledHandle, 0);
         }
         else
         {
-            status = LED_off(pHandle->ledHandle, 0);
+            (void)LED_off(pHandle->ledHandle, 0);
         }
     }
 #endif
@@ -488,13 +502,9 @@ Exit:
  *  \ingroup ESL_OS
  *
  */
-void ESL_OS_printf(void* pContext_p, const char* __restrict pFormat_p, va_list arg_p)
+void ESL_OS_printf(void *pContext_p, const char *pFormat_p, va_list arg_p)
 {
-    /* @cppcheck_justify{unusedVariable} false-positive: variable is used */
-    //cppcheck-suppress unusedVariable
     int32_t             transferOK;
-    /* @cppcheck_justify{unusedVariable} false-positive: variable is used */
-    //cppcheck-suppress unusedVariable
     UART_Transaction    transaction;
 
     OSALUNREF_PARM(pContext_p);
