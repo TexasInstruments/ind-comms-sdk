@@ -112,7 +112,7 @@ const libs_freertos_r5f_evm = {
         "drivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "ethercat_slave.am243x_evm.r5f.ti-arm-clang.release.lib",
-        "ethercat_slave_bkhf_ssc.am243x_evm.r5f.ti-arm-clang.release.lib",
+        "ethercat_slave_bkhfSsc.am243x_evm.r5f.ti-arm-clang.release.lib",
     
     ],
 };
@@ -124,7 +124,7 @@ const libs_freertos_r5f_lp = {
         "drivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "ethercat_slave.am243x_lp.r5f.ti-arm-clang.release.lib",
-        "ethercat_slave_bkhf_ssc.am243x_lp.r5f.ti-arm-clang.release.lib",
+        "ethercat_slave_bkhfSsc.am243x_lp.r5f.ti-arm-clang.release.lib",
     
     ],
 };

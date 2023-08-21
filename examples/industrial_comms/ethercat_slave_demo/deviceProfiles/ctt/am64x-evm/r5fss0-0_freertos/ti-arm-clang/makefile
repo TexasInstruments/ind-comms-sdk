@@ -144,7 +144,7 @@ LIBS_common = \
 	-ldrivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lboard.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethercat_slave.am64x.r5f.ti-arm-clang.release.lib \
-	-lethercat_slave_bkhf_ssc.am64x.r5f.ti-arm-clang.release.lib \
+	-lethercat_slave_bkhfSsc.am64x.r5f.ti-arm-clang.release.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -161,7 +161,7 @@ LIBS_NAME = \
 	drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	board.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethercat_slave.am64x.r5f.ti-arm-clang.release.lib \
-	ethercat_slave_bkhf_ssc.am64x.r5f.ti-arm-clang.release.lib \
+	ethercat_slave_bkhfSsc.am64x.r5f.ti-arm-clang.release.lib \
 	libc.a \
 	libsysbm.a \
 
