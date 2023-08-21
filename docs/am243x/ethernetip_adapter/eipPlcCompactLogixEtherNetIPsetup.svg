@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generiert durch Microsoft Visio, SVG Export eipPlcCompactLogixEtherNetIPsetup.svg Zeichenblatt-1 -->
+<svg class="st9" width="5.5832in" height="2.0347in" color-interpolation-filters="sRGB" version="1.1" viewBox="0 0 401.99 146.5" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+	<title>Setup CompactLogix Studio 5000 EtherNet/IP Adapter</title>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st2 {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st3 {fill:#000000;font-family:Calibri;font-size:0.833336em}
+		.st4 {font-size:1em}
+		.st5 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st6 {fill:#000000;font-family:Calibri;font-size:0.499992em}
+		.st7 {stroke:#00b050;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st8 {fill:#000000}
+		.st9 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g transform="translate(-.375 -.37505)">
+		<title>Zeichenblatt-1</title>
+		<g transform="translate(.375 -18.441)">
+			<title>Tabelle.24</title>
+			<g transform="translate(49.323)">
+				<title>Rechteck.20</title>
+				<rect class="st1" y="157.86" width="7.0866" height="7.0866"/>
+			</g>
+			<g transform="translate(394.53 -38.268)">
+				<title>Rechteck.29</title>
+				<rect class="st1" y="157.86" width="7.0866" height="7.0866"/>
+			</g>
+			<g transform="translate(0 -1.559)">
+				<title>Tabelle.20</title>
+				<g transform="translate(0 -102.05)">
+					<title>Tabelle.5</title>
+					<desc>Studio 5000 Development System</desc>
+					<rect class="st2" y="122.42" width="114.42" height="42.52"/>
+					<text class="st3" x="4.3000002" y="135.42">Studio 5000 Development <tspan class="st4" x="42.540001" dy="1.2em">System</tspan></text>				</g>
+				<g transform="translate(189.02 -7.0866)">
+					<title>Rechteck.6</title>
+					<desc>Allen‑Bradley</desc>
+					<rect class="st5" y="94.076" width="49.606" height="70.866"/>
+					<text class="st6" x="8.4700003" y="101.48">Allen-Bradley</text>				</g>
+				<g transform="translate(189.02 -42.52)">
+					<title>Tabelle.9</title>
+					<desc>A</desc>
+					<rect class="st2" y="150.77" width="14.173" height="14.173"/>
+					<text class="st6" x="2" y="158.17">A</text>				</g>
+				<g transform="translate(224.45 -42.52)">
+					<title>Tabelle.10</title>
+					<desc>B</desc>
+					<rect class="st2" y="150.77" width="14.173" height="14.173"/>
+					<text class="st6" x="8.9099998" y="158.17">B</text>				</g>
+				<g transform="translate(156.61 -94.961)">
+					<title>Tabelle.11</title>
+					<desc>1769-L16ER-BB1B CompactLogix 5316ER EtherNet/IP Scanner</desc>
+					<rect class="st2" y="115.34" width="114.42" height="49.606"/>
+					<text class="st3" x="20.99" y="128.34">1769-L16ER-BB1B<tspan class="st4" x="12.27" dy="1.2em">CompactLogix 5316ER</tspan><tspan class="st4" x="15.65" dy="1.2em">EtherNet/IP Scanner</tspan></text>				</g>
+				<g transform="translate(302.4 -94.961)">
+					<title>Tabelle.12</title>
+					<desc>EtherNet/IP Adapter</desc>
+					<rect class="st2" y="115.34" width="85.039" height="49.606"/>
+					<text class="st3" x="18.379999" y="128.34">EtherNet/IP <tspan class="st4" x="26.07" dy="1.2em">Adapter</tspan></text>				</g>
+				<g transform="translate(394.53 -38.976)">
+					<title>Rechteck.20</title>
+					<rect class="st1" y="157.86" width="7.0866" height="7.0866"/>
+				</g>
+				<g transform="translate(295.32 -14.173)">
+					<title>Rechteck</title>
+					<desc>Sitara AM64x/AM243x EVM</desc>
+					<rect class="st5" y="108.25" width="99.213" height="56.693"/>
+					<text class="st3" x="20.49" y="133.60001">Sitara AM64x/<tspan class="st4" x="21.99" dy="1.2em">AM243x EVM</tspan></text>				</g>
+				<g transform="translate(231.54 -49.606)">
+					<title>Dynamischer Verbinder.17</title>
+					<path class="st7" d="m0 157.86h63.78"/>
+				</g>
+				<g transform="translate(196.11 -49.606)">
+					<title>Dynamischer Verbinder</title>
+					<path class="st7" d="m0 157.86h-96.38"/>
+				</g>
+				<g transform="translate(196.11 -49.606)">
+					<title>Quadrat</title>
+					<rect class="st5" y="150.77" width="14.173" height="14.173"/>
+				</g>
+				<g transform="translate(217.37 -49.606)">
+					<title>Square.8</title>
+					<rect class="st5" y="150.77" width="14.173" height="14.173"/>
+				</g>
+				<g transform="translate(295.32 -49.606)">
+					<title>Quadrat.8</title>
+					<rect class="st5" y="150.77" width="14.173" height="14.173"/>
+				</g>
+				<g transform="translate(14.689)">
+					<title>PC</title>
+					<g transform="translate(0 -5.6714)">
+						<title>Tabelle.2</title>
+						<path class="st5" d="m57.61 144.06v7.18h4.34l4.1 5.14h18.99v-65.13h-27.43v9.34h11.76v43.47zm11.76-43.47h-65.13v43.47h65.13zm3.51 64.35-10.93-13.7h-51.02l-10.93 13.7zm-30.71-20.88h-11.46v7.18h11.46z"/>
+					</g>
+					<g transform="translate(8.4634 -30.472)">
+						<title>Tabelle.3</title>
+						<path class="st5" d="m56.78 129.7h-56.78v35.24h56.78z"/>
+					</g>
+					<g transform="translate(9.9183 -8.5004)">
+						<title>Tabelle.4</title>
+						<path class="st8" d="m64.14 101.37h5.87v-2.29h-5.87zm0 4.07h5.87v-2.28h-5.87zm-14.37 54.19h-3.24l1.81 2.01h3.49zm-3.67-3.58h-2.79l1.95 2.17h3.06zm-1.31 3.58h-3.24l1.42 2.01h3.49zm-2.98-3.58h-2.79l1.53 2.17h3.06zm-2.01 3.58h-3.24l1.04 2.01h3.49zm-2.27-3.58h-2.79l1.11 2.21h3.07zm-2.71 3.58h-3.24l0.65 2.01h3.49zm-1.52-3.43h-2.81l0.65 2.06h3.07zm-3.46 3.43h-3.24l0.26 2.01h3.49zm-0.82-3.26h-2.83l0.25 2.02h3.09zm-4.36 0h-2.83l-0.13 2.02h3.08zm0.2 3.26h-3.24l-0.14 2.01h3.5zm-4.55-3.26h-2.83l-0.52 2.02h3.08zm-0.44 3.26h-3.23l-0.53 2.01h3.5zm17.77 3.3h-22.85l-0.59 2.01h24.43zm-21.68-6.56h-2.84l-0.91 2.02h3.09zm-1.07 3.26h-3.24l-0.91 2.01h3.49zm-3.29-3.26h-2.83l-1.3 2.02h3.08zm-1.69 3.26h-3.24l-1.3 2.01h3.49zm-2.66-3.26h-2.83l-1.69 2.02h3.08zm-2.32 3.26h-3.24l-1.69 2.01h3.49z"/>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+<metadata><rdf:RDF><cc:Work rdf:about=""><dc:title>Setup CompactLogix Studio 5000 EtherNet/IP Adapter</dc:title></cc:Work></rdf:RDF></metadata></svg>

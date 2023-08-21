@@ -1,0 +1,73 @@
+/*
+    In step by step instructions, use ordered lists.
+    After a number of steps, the expected result should be indicated.
+    Example:
+
+    <dl class="result">
+        <dt>&rArr;</dt>
+        <dd>The terminal windows opens.</dd>
+    </dl>
+   
+*/
+.result dt {
+    float: left;
+    font-weight: normal;
+    margin-left: 1em;
+}
+   
+
+/*
+    You may want to use a descriptive list with class="issue" to display
+    a fixed or know issues with releferences to Jira tickets.
+    Example:
+
+    <dl class="issue">
+        <dt>[DTKEIPA-123]</dt>
+        <dd>Text.</dd>
+        <dt>[DTKEIPA-456]</dt>
+        <dd>More text.</dd>
+        <dt>[DTKEIPA-789]</dt>
+        <dd>Even more text.</dd>
+    </dl>
+*/
+
+.issue dt {
+    float: left;
+    font-weight: normal;
+    margin-left: 0em;
+    width: 8em;
+}
+
+.issue dd {
+    margin-left: 8em;
+}
+
+
+/*
+    You may want to use a descriptive list with class="value" to display
+    a possible selection of parameter values.
+    Example:
+
+    <dl class="value">
+        <dt>0:</dt>
+        <dd>The devices shall use statically-assigned IP configuration values.</dd>
+        <dt>1:</dt>
+        <dd>Obtaining values via BOOTP is not supported.</dd>
+        <dt>2:</dt>
+        <dd>The device shall obtain its interface configuration values via DHCP.</dd>
+        <dt>3..15:</dt>
+        <dd>Reserved for future use.</dd>
+    </dl>
+*/
+
+.value dt {
+        float: left;
+        font-weight: normal;
+        margin-left: 0em;
+        width: 4em;
+    }
+
+.value dd {
+        margin-left: 4em;
+    }
+    
