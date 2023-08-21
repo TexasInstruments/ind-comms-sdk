@@ -59,7 +59,7 @@
 /*!
  *  \brief Application Webserver task's stack size.
  */
-#define APP_WEBSRV_TASK_STACK_SIZE     4096U
+#define APP_WEBSRV_TASK_STACK_SIZE     3072U
 
 /*!
  *  \brief Application Webserver task's stack.

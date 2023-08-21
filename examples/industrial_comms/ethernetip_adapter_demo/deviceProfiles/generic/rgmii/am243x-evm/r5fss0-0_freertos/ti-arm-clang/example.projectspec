@@ -148,6 +148,8 @@
         </file>
         <file path="../../../../../../board/am243x-evm/freertos/drivers/led/CUST_led.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
+        <file path="../../../../../../board/am243x-evm/freertos/drivers/pru_icss/CUST_pruIcss.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
         <file path="../../../../../../board/am243x-evm/freertos/drivers/uart/CUST_uart.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../customPhy/src/CUST_PHY_base.c" openOnCreation="false" excludeFromBuild="false" action="link">

@@ -76,6 +76,7 @@ FILES_PATH_common = \
 	../../../../../../board/am243x-evm/freertos/drivers/ethphy \
 	../../../../../../board/am243x-evm/freertos/drivers/flash \
 	../../../../../../board/am243x-evm/freertos/drivers/led \
+	../../../../../../board/am243x-evm/freertos/drivers/pru_icss \
 	../../../../../../board/am243x-evm/freertos/drivers/uart \
 	../../../../../../deviceProfiles \
 	../../../../../../deviceProfiles/generic \
