@@ -59,13 +59,25 @@ const libs_freertos_r5f = {
 
 const defines_r5f = {
     common: [
+    "OSAL_FREERTOS",
+    "SOC_AM64X",
+    "SOC_AM64X=1",
     ],
 };
 
 const cflags_r5f = {
     common: [
+        "-Wno-unused-but-set-variable",
         "-Wno-cpp",
-        "-Wno-unused-variable",
+    ],
+    debug: [
+        "-Og",
+    ],
+};
+const lflags_r5f = {
+    common: [
+        "--use_memcpy=fast",
+        "--use_memset=fast",
     ],
 };
 const lnkfiles = {
@@ -112,6 +124,7 @@ function getComponentBuildProperty(buildOption) {
             build_property.libs = libs_freertos_r5f;
             build_property.defines = defines_r5f;
             build_property.cflags = cflags_r5f;
+            build_property.lflags = lflags_r5f;
         }
     }
 

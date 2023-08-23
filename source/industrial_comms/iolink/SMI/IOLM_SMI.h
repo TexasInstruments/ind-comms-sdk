@@ -1,31 +1,19 @@
-/*
- *  Copyright (c) 2021, KUNBUS GmbH
+/*!
+ *  \file IOLM_SMI.h
+ *
+ *  \brief
+ *  Standardized Master Interface (SMI) APIs
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH
  *  All rights reserved.
  *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
- *
- *  1. Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.
- *
- *  2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *
- *  3. Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -111,11 +99,20 @@ a generic API for all services, or an API for each single service.
 - #IOLM_SMI_vMasterConfigurationReq
 - #IOLM_SMI_vPortConfigurationReq
 @if (IOLM_WIRELESS)
+- #IOLM_SMI_vWMasterConfigurationReq
+- #IOLM_SMI_vReadbackWMasterConfigurationReq
+- #IOLM_SMI_vWScanConfigReq
+- #IOLM_SMI_vWScanStatusReq
+- #IOLM_SMI_vWPortPairingReq
+- #IOLM_SMI_vWTrackStatusReq
+- #IOLM_SMI_vWQualityStatusReq
+@if (IOLM_SMI_SUPPORT_OLD_SERVICES == 1)
 - #IOLM_SMI_vTrackConfigurationReq
 - #IOLM_SMI_vReadbackTrackConfigurationReq
 - #IOLM_SMI_vTrackStatusReq
 - #IOLM_SMI_vScanReq
 - #IOLM_SMI_vPortPairingReq
+@endif
 @endif
 - #IOLM_SMI_vPortStatusReq
 - #IOLM_SMI_vReadbackPortConfigurationReq
@@ -130,6 +127,7 @@ a generic API for all services, or an API for each single service.
 @if IOL_SAFETY
 - #IOLM_SMI_vSPDUInReq
 - #IOLM_SMI_vSPDUOutReq
+- #IOLM_SMI_vFSPDInOutReq
 @endif
 - #IOLM_SMI_vPDInIQReq
 - #IOLM_SMI_vPDOutIQReq
@@ -147,10 +145,19 @@ a generic API for all services, or an API for each single service.
 - #IOLM_SMI_CBMasterConfigurationCnf
 - #IOLM_SMI_CBPortConfigurationCnf
 @if (IOLM_WIRELESS)
+- #IOLM_SMI_CBWMasterConfigurationCnf
+- #IOLM_SMI_CBReadbackWMasterConfigurationCnf
+- #IOLM_SMI_CBWScanConfigCnf
+- #IOLM_SMI_CBWScanStatusCnf
+- #IOLM_SMI_CBWPortPairingCnf
+- #IOLM_SMI_CBWTrackStatusCnf
+- #IOLM_SMI_CBWQualityStatusCnf
+@if (IOLM_SMI_SUPPORT_OLD_SERVICES == 1)
 - #IOLM_SMI_CBTrackConfigurationCnf
 - #IOLM_SMI_CBReadbackTrackConfigurationCnf
 - #IOLM_SMI_CBTrackStatusCnf
 - #IOLM_SMI_CBPortPairingCnf
+@endif
 @endif
 - #IOLM_SMI_CBReadbackPortConfigurationCnf
 - #IOLM_SMI_CBPortStatusCnf
@@ -170,6 +177,7 @@ a generic API for all services, or an API for each single service.
 @endif
 - #IOLM_SMI_CBPDInIQCnf
 - #IOLM_SMI_CBPDOutIQCnf
+- #IOLM_SMI_CBFSPDInOutCnf
 @endif
 - #IOLM_SMI_CBLoadNVCfg
 - #IOLM_SMI_CBSaveNVCfg
@@ -191,7 +199,6 @@ structures are available
 - #IOLM_SMI_SFSMasterAccess
 - #IOLM_SMI_SPortConfigList
 - #IOLM_SMI_SFSPortConfigList
-- #IOLM_SMI_SFSPortStatusList
 - #IOLM_SMI_SPortStatusList
 @endif
 - #IOLM_SMI_SPDIn
@@ -200,6 +207,7 @@ structures are available
 @if (!IOLM_WIRELESS)
 - #IOLM_SMI_SSPDUIn
 - #IOLM_SMI_SSPDUOut
+- #IOLM_SMI_SFSPDInOut
 @endif
 - #IOLM_SMI_SDeviceEvent
 - #IOLM_SMI_SPortEvent
@@ -208,7 +216,8 @@ structures are available
 \section sect_smi_directservice Direct Services
 
 @if (IOLM_WIRELESS)
-- #IOLM_SMI_u16TrackStatusReqCnf
+- #IOLM_SMI_u16WTrackStatusReqCnf
+- #IOLM_SMI_u16QualityStatusReqCnf
 - #IOLM_SMI_u16PortStatusReqCnf
 @else
 - #IOLM_SMI_u16PortPowerOffOnReqCnf
@@ -235,10 +244,19 @@ structures are available
 #define IOLM_SMI_PD_OUTPUT_LENGTH            (32)
 #define IOLM_SMI_SERIAL_NUMBER_MAX           (16)
 
+/* \brief API interface style */
+typedef IOL_ENUM_DECL IOLM_SMI_EOrigin
+{
+    IOLM_SMI_eOrigin_Unknown = 0,
+    IOLM_SMI_eOrigin_Native, ///< service specific functions and callbacks
+    IOLM_SMI_eOrigin_Generic, ///< Legacy Generic API
+    IOLM_SMI_eOrigin_Std, ///< For tester according IOL Spec
+}IOLM_SMI_EOrigin;
+
 typedef struct IOLM_SMI_SJob
 {
     IOLM_SMI_SHeader suHeader; ///< Header struct.
-    TBOOL boGeneric;    ///< TRUE if response should be by generic API.
+    IOLM_SMI_EOrigin u8Api;    ///< SMI API style
     INT8U u8Arg;        ///< Optional internal argument.
     INT16U u16ArgBlockReq;   ///< Request argument.
     INT32S s32TimeStart;///< SysTick start value for timeout.
@@ -260,9 +278,8 @@ typedef struct IOLM_SMI_SPortInstance
     INT8U u8PortStatusInfo;
     INT8U u8PortQualityInfo;
     // Diagnosis Unit Events 
-    INT8U u8DiagWritePos;
-    TBOOL boDiagFull;
-    INT8U au8DiagEvents[3 * IOLM_SMI_MAX_DIAG_ENTRIES];
+    INT8U u8DiagEntries;
+    INT8U au8DiagEvents[IOLM_SMI_DIAG_ENTRY_SIZE * IOLM_SMI_MAX_DIAG_ENTRIES];
     
 
     IOLM_SMI_SJobList suFastQueue; ///< For attributes without delayed response.
@@ -283,6 +300,7 @@ typedef struct IOLM_SMI_SPortInstance
     INT8U u8PDOutOffset; ///< Offset of non safe output Process Data.
     INT8U u8OutputDataLength; ///< Output data length
     INT8U au8PDOutCache[IOLM_SMI_PD_OUTPUT_LENGTH]; ///< Cache Process Data
+    INT8U u8PDOutIQ; ///< Latest state of IQ out 
 
     // Kunbus regression test attributes
     TBOOL boRegTestEnabled;
@@ -291,6 +309,8 @@ typedef struct IOLM_SMI_SPortInstance
     INT8U u8StackPortStatusInfo;
     INT8U au8SerialNumber[IOLM_SMI_SERIAL_NUMBER_MAX];
     TBOOL boSerialNumberSet;
+    TBOOL boDeviceEventActive;
+    TBOOL boDSActive;
 }IOLM_SMI_SPortInstance;
 
 typedef struct IOLM_SMI_SNVConfiguration
@@ -322,6 +342,7 @@ typedef struct IOLM_SMI_SInstance
     INT8U u8MaintenancePort;
 
     INT8U u8LogSettings; // bit 0 = enable/disable
+    INT8U u8LogClientId;
 
     INT8U u8DSPort;
     INT8U *pu8DSData; ///< If not NULL there is a waiting storage.
@@ -416,6 +437,12 @@ void IOLM_SMI_vGenericCnf(IOLM_SMI_SHeader *psuHeader_p, INT8U *pu8ArgBlock_p)
 
 */
 typedef void (*IOLM_SMI_CBGenericCnf)(IOLM_SMI_SHeader *psuHeader_p, INT8U *pu8ArgBlock_p);
+
+
+IOL_FUNC_DECL void IOLM_SMI_vStdReq(IOLM_SMI_SStdHeader* psuHeader_p, INT8U* pu8ArgBlock_p);
+
+typedef void (*IOLM_SMI_CBStdInd)(IOLM_SMI_SStdHeader* psuHeader_p, INT8U* pu8ArgBlock_p);
+
 
 /**
 \fn IOLM_SMI_CBMainLoopRequest
@@ -826,7 +853,6 @@ if (u16Error == IOL_eErrorType_NONE)
 */
 IOL_FUNC_DECL INT16U IOLM_SMI_u16PortStatusReqCnf(INT8U u8Port_p, INT16U *pu16ArgBlockLength_p, INT8U *pu8ArgBlock_p);
 
-
 /**
 \brief Backup to parameter server.
 
@@ -1060,6 +1086,23 @@ void IOLM_SMI_vDeviceReadCnf(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16Error
 typedef void (*IOLM_SMI_CBDeviceReadCnf)(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16Error_p, 
     INT16U u16ArgBlockLength_p, INT8U *pu8ArgBlock_p);
 
+
+/**
+\fn IOLM_SMI_vDeviceEventAck(INT8U u8ClientID_p, INT8U u8Port_p)
+\brief This service enables the acknowledgement of an event generated by the Device.
+
+Device Event acknowledge function must be called in IOLM_SMI_CBDeviceEventInd callback.
+
+\param[in]  u8ClientID_p            Client ID.
+\param[in]  u8Port_p                Port ID.
+
+\see IOLM_SMI_CBDeviceEventInd
+
+\ingroup grp_smi_event
+
+*/
+void IOLM_SMI_vDeviceEventAck(INT8U u8ClientID_p, INT8U u8Port_p);
+
 /**
 \fn IOLM_SMI_CBDeviceEventInd
 \brief Device Event indicator callback.
@@ -1082,12 +1125,18 @@ void IOLM_SMI_DeviceEventInd(INT8U u8Port_p, INT16U u16ArgBlockLength_p, INT8U *
     // Event Qualifier (according specification Annex A.6.4)
     psuEvent->u8EventQualifier;
 
+    // Send device event acknowledgment
+    IOLM_SMI_vDeviceEventAck(
+                             1,         // Client ID
+                             u8Port_p   // Port number
+                             );
+
     // Example Output
     UART_printf("IO-Link port %u: Device event - qualifier: 0x%02x - code: 0x%04x\n",
                 u8Port_p,
                 psuEvent->u8EventQualifier,
                 psuEvent->u16EventCode);
-
+                
     // ToDo: Insert application specific code here
 }
 \endcode
@@ -1525,6 +1574,41 @@ IOLM_SMI_vPDOutIQReq(
 IOL_FUNC_DECL void IOLM_SMI_vPDOutIQReq(INT8U u8ClientID_p, INT8U u8Port_p,
     INT16U u16ArgBlockLength_p, INT8U *pu8ArgBlock_p);
 
+/**
+\fn IOLM_SMI_CBPDReadbackOutIQCnf
+\brief Get output data confirmation callback.
+
+This service allows for cyclically reading output Process Data from an OutBuffer containing the value of the input "O" signal (Pin 2 at M12).
+Confirmation to the #IOLM_SMI_vPDReadbackOutIQReq request.
+
+\param[in]      u8ClientID_p            Client ID.
+\param[in]      u8Port_p                Port ID.
+\param[in]      u16Error_p              Error Message as #IOL_EErrorType.
+\param[in]      u16ArgBlockLength_p     Length of ArgBlock.
+\param[in]      pu8ArgBlock_p           Data Pointer which points to the PDOutIQ Data.
+
+\par Example
+
+\code{.c}
+void IOLM_SMI_vPDReadbackOutIQCnf(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16Error_p,
+    INT16U u16ArgBlockLength_p, INT8U *pu8ArgBlock_p)
+{
+    IOLM_SMI_SPDOutIQ *psuPDOutIQ = (IOLM_SMI_SPDOutIQ *)pu8ArgBlock_p;
+
+    // State of the input
+    psuPDOutIQ->u8IQ;
+
+    // ToDo: Insert application specific code here
+}
+\endcode
+
+\see IOLM_SMI_SCallbacks, IOLM_SMI_vInit, IOLM_SMI_EArgBlockID
+
+\ingroup grp_smi_pd
+
+*/
+typedef void (*IOLM_SMI_CBPDReadbackOutIQCnf)(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16Error_p,
+    INT16U u16ArgBlockLength_p, INT8U* pu8ArgBlock_p);
 
 /**
 \fn IOLM_SMI_CBPDOutIQCnf
@@ -1724,6 +1808,8 @@ Callbacks from the SMI API to the user application. Must be initialized via
 */
 typedef struct IOLM_SMI_SCallbacks
 {
+    /** \brief Callback for Std messages*/
+    IOLM_SMI_CBStdInd cbStdInd;
     /** \brief Callback for #IOLM_SMI_vGenericReq. */
     IOLM_SMI_CBGenericCnf cbGenericCnf;
     /** \brief Callback for #IOLM_SMI_vMasterIdentificationReq. */
@@ -1758,6 +1844,8 @@ typedef struct IOLM_SMI_SCallbacks
     IOLM_SMI_CBPDInIQCnf cbPDInIQCnf;
     /** \brief Callback for #IOLM_SMI_vPDOutIQReq. */
     IOLM_SMI_CBPDOutIQCnf cbPDOutIQCnf;
+    /** \brief Callback for #IOLM_SMI_vPDReadbackOutIQReq. */
+    IOLM_SMI_CBPDReadbackOutIQCnf cbPDReadbackOutIQCnf;
     /** \brief Callback for #IOLM_SMI_vMasterConfigurationReq. */
     IOLM_SMI_CBMasterConfigurationCnf cbMasterConfigurationCnf;
     /** \brief Callback for loading non volatile configuration . */
@@ -1867,10 +1955,10 @@ IOL_FUNC_DECL void IOLM_SMI_ClientManagerInit(void);
 
 /* for internal usage */
 
-void IOLM_SMI_vInternalCnf(IOLM_SMI_SJob* psuJob_p, IOLM_SMI_SHeader* psuHeader_p, INT8U* pu8ArgBlock_p, INT16U u16Error_p);
+void IOLM_SMI_vInternalCnf(IOLM_SMI_SJob* psuJob_p, IOLM_SMI_SHeader* psuHeader_p, INT8U* pu8ArgBlock_p, IOL_EErrorType eError_p);
 
 void IOLM_SMI_vGenericReqInternal(INT8U u8ClientID_p, IOLM_SMI_EServiceID eService_p,
-    TBOOL boGeneric_p, INT8U u8Instance_p, INT16U u16ExpArgBlock_p,
+    IOLM_SMI_EOrigin eOrigin_p, INT8U u8Instance_p, INT16U u16ExpArgBlock_p,
     INT16U u16ArgBlockLength_p, INT8U* pu8ArgBlock_p);
 
 #ifdef __cplusplus

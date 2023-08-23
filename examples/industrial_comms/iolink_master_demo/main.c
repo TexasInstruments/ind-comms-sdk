@@ -1,42 +1,44 @@
 /*!
-* \file main.c
-*
-* \brief
-* IO-Link Master main/init funtions
-*
-* \author
-* KUNBUS GmbH
-*
-* \date
-* 2021-05-19
-*
-* \copyright
-* Copyright (c) 2021, KUNBUS GmbH<br /><br />
-* All rights reserved.<br />
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:<br />
-* <ol>
-* <li>Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.</li>
-* <li>Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.</li>
-* <li>Neither the name of the copyright holder nor the names of its
-* contributors may be used to endorse or promote products derived from
-* this software without specific prior written permission.</li>
-* </ol>
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*/
+ *  \file main.c
+ *
+ *  \brief
+ *  IO-Link Master main/init funtions.
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ *
+ *  <ol>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
+ *  <li>Redistributions in binary form must reproduce the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
+ *  </ol>
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
+ *
+ */
 
 /* ========================================================================== */
 /*                             Include Files                                  */
@@ -63,6 +65,8 @@
 #include "ti_board_config.h"
 #include "ti_board_open_close.h"
 
+
+
 #include <IOLM_SMI.h>
 #include <IOLM_Sitara_Version.h>
 #include "IOLM_Port_Utils.h"
@@ -71,7 +75,9 @@
 #include "IOLinkPort/IOLM_Port_LEDTask.h"
 #include "IOLM_Port_smiExample.h"
 
+
 #define IOLM_MAIN_PRU_INSTANCE              (0)
+
 
 #define IOLM_MAIN_TASK_SIZE_DIVIDER         sizeof(configSTACK_DEPTH_TYPE)
 #define IOLM_MAIN_TASK_STACK_TYPE           StackType_t
@@ -94,7 +100,7 @@ static void* IOLM_pMainTaskHandle_s;
 static void* PRU_IOL_pLedTaskHandle_s;
 static void* IOLM_pExampleTaskHandle_s;
 
-OSAL_SCHED_SSignalHandle_t* pMainLoopRequested_g = NULL;
+OSAL_SCHED_SignalHandle_t* pMainLoopRequested_g = NULL;
 
 /*!
  *  \brief
@@ -105,6 +111,7 @@ static void IOLM_MAIN_sysInit()
     System_init();
     Board_init();
 }
+
 
 /*!
  *  \brief
@@ -143,9 +150,14 @@ uint32_t IOLM_MAIN_boardInit()
 
     IOLM_Phy_Init(pPhyStackCallbacks);
 
+
+
+
 laExit:
     return error;
 }
+
+
 
 /*!
  *  \brief
@@ -167,6 +179,7 @@ void IOLM_MAIN_exampleStart()
                    "Creating Example Task failed.\r\n");
     }
 }
+
 
 /*!
  *  \brief
@@ -260,7 +273,7 @@ void IOLM_MAIN_startupTask()
 
         for (;;)
         {
-            OSAL_SCHED_sleep(10000);
+            OSAL_SCHED_sleep(1000);
         }
     }
     else
@@ -314,6 +327,7 @@ int main(int argc, char* argv[])
         OSAL_error(__FILE__, __LINE__, OSAL_eERR_INVALIDSTATE, true, 1,
                    "Creating Startup Task failed.\r\n");
     }
+
 
     OSAL_startOs();
     OSAL_error(__FILE__, __LINE__, OSAL_eERR_INVALIDSTATE, true, 1, "OS startup failed.\r\n");

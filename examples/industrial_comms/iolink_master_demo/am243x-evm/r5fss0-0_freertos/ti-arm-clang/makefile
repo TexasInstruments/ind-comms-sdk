@@ -76,7 +76,8 @@ INCLUDES_common := \
 
 DEFINES_common := \
 	-DSOC_AM243X \
-	-DSOC_AM243X_ALV \
+	-DSOC_AM243X=1 \
+	-DOSAL_FREERTOS \
 
 CFLAGS_common := \
 	-mcpu=cortex-r5 \
@@ -88,8 +89,12 @@ CFLAGS_common := \
 	-g \
 	-Wno-gnu-variable-sized-type-not-at-end \
 	-Wno-unused-function \
+	-Wno-unused-but-set-variable \
 	-Wno-cpp \
-	-Wno-unused-variable \
+
+CFLAGS_debug := \
+	-D_DEBUG_=1 \
+	-Og \
 
 CFLAGS_cpp_common := \
 	-Wno-c99-designator \
@@ -102,9 +107,6 @@ CFLAGS_cpp_common := \
 	-Wno-reserved-user-defined-literal \
 	-Wno-unused-const-variable \
 	-x c++ \
-
-CFLAGS_debug := \
-	-D_DEBUG_=1 \
 
 CFLAGS_release := \
 	-Os \
@@ -131,6 +133,8 @@ LFLAGS_common = \
 	-Wl,--diag_suppress=10063 \
 	-Wl,--ram_model \
 	-Wl,--reread_libs \
+	-Wl,--use_memcpy=fast \
+	-Wl,--use_memset=fast \
 
 
 LIBS_NAME = \

@@ -1,31 +1,19 @@
-/*
- *  Copyright (c) 2021, KUNBUS GmbH
+/*!
+ *  \file IOLM_SMI_ExtTypes.h
+ *
+ *  \brief
+ *  Standardized Master Interface (SMI) Ext Types
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH
  *  All rights reserved.
  *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
- *
- *  1. Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.
- *
- *  2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *
- *  3. Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -91,6 +79,23 @@ typedef struct IOLM_FW_SFWUSegment
 
 }IOLM_FW_SFWUSegment;
 
+
+/**
+\brief This structure is used for firmware transfer
+
+The ArgBlockID(#IOLM_SMI_EArgBlockID) for this struct is IOLM_SMI_eArgBlockID_Firmware
+*/
+typedef struct IOLM_SMI_SFirmware
+{
+    INT16U u16ArgBlockID;       /**< \brief Big endian. */
+    union
+    {
+        INT8U u8SubService;
+        IOLM_FW_SFWUSegment suSegment;
+        IOLM_FW_SFWUHeader suHeader;
+    }uService;
+}IOLM_SMI_SFirmware;
+
 /**
 \brief This structure is used to identify configuration structures.
 */
@@ -120,6 +125,9 @@ typedef IOL_ENUM_DECL IOLM_ESettingsId
     IOLM_eSettingsId_SetFreqSpacing, // sets the frequency spacing (for a single track only)
     IOLM_eSettingsId_GetFreqSpacing, // reads the frequency spacing of the track
     IOLM_eSettingsId_AHTTest, // For testing of Adaptive Hopping Table (AHT)
+    IOLM_eSettingsId_FreqCalibrationTest, // For testing of carrier frequency calibration
+    IOLM_eSettingsId_WDTUControl,
+    IOLM_eSettingsId_WDTUReadLog,
 }IOLM_ESettingsId;
 
 typedef IOL_ENUM_DECL IOLM_EHWParamIdx
@@ -139,6 +147,21 @@ typedef struct IOLM_Settings_RF
 }IOLM_Settings_RF;
 
 
+/**
+\brief This structure is used for settings transfer
+
+The ArgBlockID(#IOLM_SMI_EArgBlockID) for this struct is IOLM_SMI_eArgBlockID_Settings
+*/
+typedef struct IOLM_SMI_SSettings
+{
+    INT16U u16ArgBlockID;       /**< \brief Big endian. */
+    union
+    {
+        INT8U u8SettingsId;
+        IOLM_Settings_RF suSettingsRf;
+        INT8U au8Payload[32]; // this array is variable and defined during runtime
+    }uService;
+}IOLM_SMI_SSettings;
 
 /**
 \brief This structure is used to identify firmware sub services.

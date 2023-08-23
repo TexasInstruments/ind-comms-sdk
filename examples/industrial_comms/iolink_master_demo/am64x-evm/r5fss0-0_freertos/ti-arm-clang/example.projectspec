@@ -50,9 +50,12 @@
             -g
             -Wno-gnu-variable-sized-type-not-at-end
             -Wno-unused-function
+            -Wno-unused-but-set-variable
             -Wno-cpp
-            -Wno-unused-variable
             -DSOC_AM64X
+            -DOSAL_FREERTOS
+            -DSOC_AM64X
+            -DSOC_AM64X=1
         "
         linkerBuildOptions="
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib
@@ -64,6 +67,8 @@
             --diag_suppress=10063
             --ram_model
             --reread_libs
+            --use_memcpy=fast
+            --use_memset=fast
         "
 
         postBuildStep="$(MAKE) -C ${CCS_PROJECT_DIR} -f makefile_ccs_bootimage_gen OUTNAME=${BuildArtifactFileBaseName} PROFILE=${ConfigName} INDUSTRIAL_COMMUNICATIONS_SDK_PATH=${INDUSTRIAL_COMMUNICATIONS_SDK_PATH} CG_TOOL_ROOT=${CG_TOOL_ROOT} CCS_INSTALL_DIR=${CCS_INSTALL_DIR} CCS_IDE_MODE=${CCS_IDE_MODE} DEVICE=am64x"
@@ -78,6 +83,7 @@
         <configuration name="Debug"
             compilerBuildOptions="
                 -D_DEBUG_=1
+                -Og
             "
             linkerBuildOptions="
                 -lfreertos.am64x.r5f.ti-arm-clang.debug.lib

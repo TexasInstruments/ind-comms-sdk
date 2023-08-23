@@ -1,61 +1,66 @@
 /*!
-* \file IOLM_Port_smiExample.c
-*
-* \brief
-* Example application to show how the IO-Link Master Stack can be used via the SMI.
-*
-* \author
-* KUNBUS GmbH
-*
-* \date
-* 2021-10-06
-*
-* \copyright
-* Copyright (c) 2021, KUNBUS GmbH<br /><br />
-* All rights reserved.<br />
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:<br />
-* <ol>
-* <li>Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.</li>
-* <li>Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.</li>
-* <li>Neither the name of the copyright holder nor the names of its
-* contributors may be used to endorse or promote products derived from
-* this software without specific prior written permission.</li>
-* </ol>
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*/
+ *  \file IOLM_Port_smiExample.c
+ *
+ *  \brief
+ *  Example application to show how the IO-Link Master Stack can be used via the SMI.
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ *
+ *  <ol>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
+ *  <li>Redistributions in binary form must reproduce the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
+ *  </ol>
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
+ *
+ */
 
 #include <stdint.h>
 #include "IOLM_Port_version.h"
 #include "IOLM_Port_smiExample.h"
 #include "IOLinkPort/IOLM_Port_SMI.h"
 
+/*** private function declarations ***/
+
 IOLM_SMI_SCallbacks IOLM_EXMPL_SSmiCallbacks_g =
 {
     /* Generic channel for SMI over UART */
     .cbChipInfo                 =       IOLM_EXMPL_cbChipInfo,
     .cbGenericCnf               =       IOLM_SMI_cbGenericCnf,
+    .cbStdInd                   =       IOLM_SMI_cbStdInd,
     /* Confirmation for port status request */
     .cbPortStatusCnf            =       IOLM_EXMPL_cbPortStatusCnf,
-#if (IOLM_EXMPL_ENABLE_STATE_MACHINE == 1)
-    /* Master Identification */
-    .cbMasterIdentificationCnf  =       IOLM_EXMPL_cbMasterIdentificationCnf,
     /* Event handling(acyclic) */
     .cbPortEventInd             =       IOLM_EXMPL_PortEventInd,
     .cbDeviceEventInd           =       IOLM_EXMPL_DeviceEventInd,
+#if (IOLM_EXMPL_ENABLE_STATE_MACHINE == 1)
+    /* Master Identification */
+    .cbMasterIdentificationCnf  =       IOLM_EXMPL_cbMasterIdentificationCnf,
     /* Communication establishment */
     .cbPortConfigurationCnf     =       IOLM_EXMPL_cbPortConfigurationCnf,
     /* Acyclic communication */
@@ -70,6 +75,51 @@ IOLM_SMI_SCallbacks IOLM_EXMPL_SSmiCallbacks_g =
 };
 
 IOLM_EXMPL_SPortDataValues_t port[IOLM_PORT_COUNT + 1];
+
+/*** private function definitions ***/
+
+/*!
+ * \brief Convert single digit 0-9 to corresponding character.
+ *
+ * \param[in] digit
+ *
+ * \return character
+ *
+ */
+/*!
+ * \brief Overwrite the given string from pos to pos-2 with
+ *        a three digit decimal, e.g. iolm_xxx -> iolm_001.
+ *
+ * \param[in]     instance Instance (e.g. port) number
+ * \param[out]    pFname   File name string
+ * \param[in]     pos      String position of last digit (1's)
+ *
+ * \return void
+ *
+ */
+/*!
+ * \brief Load non-volatile data storage
+ *
+ * \param[in]     instance Instance (e.g. port) number
+ * \param[out]    pData    Pointer to data buffer
+ * \param[in,out] pLength  Pointer to data length
+ *
+ * \return void
+ *
+ */
+
+/*!
+ * \brief Save non-volatile data storage
+ *
+ * \param[in]     instance Instance (e.g. port) number
+ * \param[in]     pData    Pointer to data buffer
+ * \param[in,out] pLength  Pointer to data length
+ *
+ * \return void
+ *
+ */
+
+/*** public function definitions ***/
 
 /*!
  * \brief
@@ -114,7 +164,7 @@ void IOLM_EXMPL_updateLEDs(uint8_t portNumber_p)
             IOLM_LED_setLedColorState(portNumber_p, IOLM_eLEDColor_green, IOLM_eLEDState_off);
             IOLM_LED_setLedColorState(portNumber_p, IOLM_eLEDColor_red, IOLM_eLEDState_off);
             break;
-        case IOLM_SMI_ePortStatus_PREOPERATE:
+        case IOLM_SMI_ePortStatus_RESERVED:
             IOLM_LED_setLedColorState(portNumber_p, IOLM_eLEDColor_green, IOLM_eLEDState_fast);
             IOLM_LED_setLedColorState(portNumber_p, IOLM_eLEDColor_red, IOLM_eLEDState_off);
             break;
@@ -439,6 +489,7 @@ void IOLM_EXMPL_cbMasterIdentificationCnf(uint8_t clientID_p, uint16_t error_p, 
     (void)clientID_p;
     (void)argBlockLength_p;
 
+
     if (error_p != IOL_eErrorType_NONE)
     {
         IOLM_EXMPL_printf("NO Master Identification Possible.\n");
@@ -498,6 +549,8 @@ void IOLM_EXMPL_DeviceEventInd(uint8_t port_p, uint16_t argBlockLength_p, uint8_
     (void)port_p;
     (void)argBlockLength_p;
     (void)pEvent;
+
+    IOLM_SMI_vDeviceEventAck(IOLM_SMI_CLIENT_APP,port_p);
 
     /* Example Output */
     IOLM_EXMPL_printf("IO-Link port %u: Device event - qualifier: 0x%02x - code: 0x%04x\n",

@@ -1,42 +1,21 @@
 /*!
-* \file pru.h
-*
-* \brief
-* PRU Integration Interface.
-*
-* \author
-* KUNBUS GmbH
-*
-* \date
-* 2022-02-14
-*
-* \copyright
-* Copyright (c) 2021, KUNBUS GmbH<br /><br />
-* All rights reserved.<br />
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:<br />
-* <ol>
-* <li>Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.</li>
-* <li>Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.</li>
-* <li>Neither the name of the copyright holder nor the names of its
-* contributors may be used to endorse or promote products derived from
-* this software without specific prior written permission.</li>
-* </ol>
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*/
+ *  \file pru.h
+ *
+ *  \brief
+ *  PRU Integration Interface.
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH
+ *  All rights reserved.
+ *
+ *
+ */
 
 #if !(defined __PRU_H__)
 #define __PRU_H__		1
@@ -55,13 +34,6 @@
 #endif // ECATSLAVE_SO
 
 /* PDK */
-#if (defined OSAL_LINUX) || (defined OSAL_TIRTOS) || (defined OSAL_FREERTOS_JACINTO)
-#define CSL_ICSSM_INTC_SECR0            CSL_ICSSINTC_SECR0
-#define CSL_ICSSM_INTC_SECR1            CSL_ICSSINTC_SECR1
-#define CSL_ICSSM_INTC_HIDISR           CSL_ICSSINTC_HIDISR
-#define CSL_ICSSM_INTC_HIEISR           CSL_ICSSINTC_HIEISR
-#define CSL_ICSSM_INTC_REVID            CSL_ICSSINTC_REVID
-#else
 #define CSL_ICSSM_INTC_SECR0            CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0
 #define CSL_ICSSM_INTC_SECR1            CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG1
 #define CSL_ICSSM_INTC_HIDISR           CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_HINT_ENABLE_CLR_INDEX_REG
@@ -73,7 +45,6 @@
 #define CSL_ICSSIEP_DIGIO_EXP_REG       CSL_ICSS_G_PR1_IEP1_SLV_DIGIO_EXP_REG
 #define CSL_ICSSIEP_GLOBAL_CFG_REG      CSL_ICSS_G_PR1_IEP1_SLV_GLOBAL_CFG_REG
 #define CSL_ICSSIEP_GLOBAL_STATUS_REG   CSL_ICSS_G_PR1_IEP1_SLV_GLOBAL_STATUS_REG
-#endif
 
 /* only defined in FreeRTOS */
 #if !(defined MDIO_LINKSEL_MDIO_MODE)
@@ -219,14 +190,15 @@ extern void         PRU_errReadIncrement    (void);
 extern void         PRU_prepare             (void);
 extern void         PRU_init                (uint32_t                   logicPruSelect_p
                                             ,int32_t                    irqBaseOffset_p);
-extern uint32_t     PRU_enableMdioManualMode(uint32_t                   manualMdioAddress_p);
+extern uint32_t PRU_enableMdioManualMode(uint32_t manualMdioAddress, uint32_t firmwareConfig);
 extern void         PRU_FB_startPhy         (void);
 extern void         PRU_exit                (void);
 extern void         PRU_FW_determine        (PRU_eFW_type_t             targetFirmware_p);
-extern uint32_t     PRU_FW_insertPruFirmware(uint8_t                    pruIdx_p
-                                            ,PRU_eFW_type_t             firmwareType_p
-                                            ,uint32_t*                  pFirmware_p
-                                            ,uint32_t                   firmwareSize_p);
+extern uint32_t     PRU_FW_insertPruFirmware(uint8_t                    pruIdx
+                                            , PRU_eFW_type_t             firmwareType
+                                            , uint32_t*                  pFirmware
+                                            , uint32_t                   firmwareSize
+                                            );
 extern void         PRU_FW_load             (void);
 extern PRU_API void PRU_FW_start            (void);
 extern void         PRU_FW_stop             (void);
