@@ -47,8 +47,8 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include <api/EI_API.h>
-#include <api/EI_API_def.h>
+#include <inc/EI_API.h>
+#include <inc/EI_API_def.h>
 
 #include <osal.h>
 #include <osal_error.h>

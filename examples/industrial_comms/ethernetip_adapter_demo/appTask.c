@@ -47,8 +47,8 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include <api/EI_API.h>
-#include <api/EI_API_def.h>
+#include <inc/EI_API.h>
+#include <inc/EI_API_def.h>
 
 #include "appNV.h"
 
@@ -71,7 +71,7 @@
 #include "appTask.h"
 #include "appCfg.h"
 #include "appRst.h"
-#include "deviceProfiles/app_device_profile.h"
+#include "device_profiles/app_device_profile.h"
 
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"

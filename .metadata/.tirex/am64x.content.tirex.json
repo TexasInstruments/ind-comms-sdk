@@ -138,9 +138,9 @@
         "resourceSubClass": [
             "example.general"
         ],
-        "description": "A Ethernetip Adapter Generic Io Mii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "ethernetip_adapter_generic_io_mii_demo",
-        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/deviceProfiles/generic/mii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "description": "A Ethernetip Adapter Generic Device Io Mii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethernetip_adapter_generic_device_io_mii_demo",
+        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -153,8 +153,8 @@
         "subCategories": [
             "industrial_comms",
             "ethernetip_adapter_demo",
-            "deviceProfiles",
-            "generic",
+            "device_profiles",
+            "generic_device",
             "mii",
             "r5fss0-0_freertos"
         ],
@@ -173,9 +173,9 @@
         "resourceSubClass": [
             "example.general"
         ],
-        "description": "A Ethernetip Adapter Generic Io Rgmii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "ethernetip_adapter_generic_io_rgmii_demo",
-        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/deviceProfiles/generic/rgmii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "description": "A Ethernetip Adapter Generic Device Io Rgmii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethernetip_adapter_generic_device_io_rgmii_demo",
+        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/rgmii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -188,8 +188,8 @@
         "subCategories": [
             "industrial_comms",
             "ethernetip_adapter_demo",
-            "deviceProfiles",
-            "generic",
+            "device_profiles",
+            "generic_device",
             "rgmii",
             "r5fss0-0_freertos"
         ],
@@ -208,9 +208,9 @@
         "resourceSubClass": [
             "example.general"
         ],
-        "description": "A Ethernetip Adapter Discrete Io Mii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "ethernetip_adapter_discrete_io_mii_demo",
-        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/deviceProfiles/discrete_io/mii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "description": "A Ethernetip Adapter Discrete Io Device Mii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethernetip_adapter_discrete_io_device_mii_demo",
+        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/mii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -223,8 +223,8 @@
         "subCategories": [
             "industrial_comms",
             "ethernetip_adapter_demo",
-            "deviceProfiles",
-            "discrete_io",
+            "device_profiles",
+            "discrete_io_device",
             "mii",
             "r5fss0-0_freertos"
         ],
@@ -243,9 +243,9 @@
         "resourceSubClass": [
             "example.general"
         ],
-        "description": "A Ethernetip Adapter Discrete Io Rgmii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "ethernetip_adapter_discrete_io_rgmii_demo",
-        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/deviceProfiles/discrete_io/rgmii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "description": "A Ethernetip Adapter Discrete Io Device Rgmii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethernetip_adapter_discrete_io_device_rgmii_demo",
+        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/rgmii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -258,8 +258,8 @@
         "subCategories": [
             "industrial_comms",
             "ethernetip_adapter_demo",
-            "deviceProfiles",
-            "discrete_io",
+            "device_profiles",
+            "discrete_io_device",
             "rgmii",
             "r5fss0-0_freertos"
         ],

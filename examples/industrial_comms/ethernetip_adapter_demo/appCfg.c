@@ -43,8 +43,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "api/EI_API.h"
-#include "api/EI_API_def.h"
+#include "inc/EI_API.h"
+#include "inc/EI_API_def.h"
 
 #include "drivers/CUST_drivers.h"
 
@@ -52,7 +52,7 @@
 #include "appNV.h"
 #include "appCfg.h"
 
-#include <deviceProfiles/app_device_profile.h>
+#include <device_profiles/app_device_profile.h>
 
 static bool EI_APP_CFG_getTcpip   (EI_API_ADP_T *pAdapter, uint16_t instanceId, uint16_t attrId, EI_API_CIP_ESc_t serviceCode, int16_t serviceFlag);
 static bool EI_APP_CFG_getTsync   (EI_API_ADP_T *pAdapter, uint16_t instanceId, uint16_t attrId, EI_API_CIP_ESc_t serviceCode, int16_t serviceFlag);

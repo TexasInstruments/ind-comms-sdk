@@ -43,8 +43,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "api/EI_API.h"
-#include "api/EI_API_def.h"
+#include "inc/EI_API.h"
+#include "inc/EI_API_def.h"
 
 #include "drivers/CUST_drivers.h"
 
@@ -53,7 +53,7 @@
 #include "appCfg.h"
 #include "appRst.h"
 
-#include <deviceProfiles/app_device_profile.h>
+#include <device_profiles/app_device_profile.h>
 
 const EI_APP_CFG_AdapterData_t  EI_APP_RST_adapterFactoryDefaultValues =
 {

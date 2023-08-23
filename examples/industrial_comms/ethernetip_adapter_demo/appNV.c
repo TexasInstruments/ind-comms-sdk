@@ -46,8 +46,8 @@
 #include <FreeRTOSConfig.h>
 #include <ti_board_open_close.h>
 
-#include "api/EI_API.h"
-#include "api/EI_API_def.h"
+#include "inc/EI_API.h"
+#include "inc/EI_API_def.h"
 #include "drivers/CUST_drivers.h"
 
 #include "appCipCodes.h"
