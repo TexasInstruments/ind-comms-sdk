@@ -294,7 +294,7 @@ index a27afd6..390eafb 100644
      {
          abort = pSdoPendFunc(u16StoreIndex,u8StoreSubindex,u32StoreDataSize,pStoreData,bStoreCompleteAccess);
 diff --git a/SlaveFiles/src/ecat_def.h b/SlaveFiles/src/ecat_def.h
-index d40330c..367342e 100644
+index d40330c..cf9aca5 100644
 --- a/SlaveFiles/src/ecat_def.h
 +++ b/SlaveFiles/src/ecat_def.h
 @@ -10,36 +10,45 @@
@@ -599,7 +599,8 @@ index d40330c..367342e 100644
 +/**
  AOE_SUPPORTED: If the AoE services are supported, then this switch shall be set. */
  #ifndef AOE_SUPPORTED
- #define AOE_SUPPORTED                             0
+-#define AOE_SUPPORTED                             0
++#define AOE_SUPPORTED                             1
  #endif
  
 -/** 
@@ -630,7 +631,7 @@ index d40330c..367342e 100644
  SDO_RES_INTERFACE: If a SDO response cannot be generated immediately (e.g. when access over<br>
  a serial interface is needed), this switch should be set. In that case ABORTIDX_WORKING shall be<br>
  returned from OBJ_Read or OBJ_Write and the response shall be sent by calling SDOS_SdoRes, when<br>
-@@ -288,26 +290,26 @@ the response is available. */
+@@ -288,40 +290,40 @@ the response is available. */
  #define SDO_RES_INTERFACE                         1
  #endif
  
@@ -661,8 +662,9 @@ index d40330c..367342e 100644
  DIAGNOSIS_SUPPORTED: If this define is set the slave stack supports diagnosis messages (Object 0x10F3). <br>
  To support diagnosis messages COE_SUPPORTED shall be enabled and the platform shall support dynamic memory allocation.<br>
  NOTE: this feature is implemented according to ETG.1020 */
-@@ -315,13 +317,13 @@ NOTE: this feature is implemented according to ETG.1020 */
- #define DIAGNOSIS_SUPPORTED                       0
+ #ifndef DIAGNOSIS_SUPPORTED
+-#define DIAGNOSIS_SUPPORTED                       0
++#define DIAGNOSIS_SUPPORTED                       1
  #endif
  
 -/** 
@@ -1560,7 +1562,7 @@ index d40330c..367342e 100644
  #ifndef MAX_MBX_SIZE
 -#define MAX_MBX_SIZE                              0x0080
 +/* increment from 0x80, since KB stack requires 0x100 MBX size, maybe this has to be overridden dynamically */
-+#define MAX_MBX_SIZE                              0x0100
++#define MAX_MBX_SIZE                              0x0400
  #endif
  
 -/** 

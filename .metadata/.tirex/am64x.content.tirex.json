@@ -41,7 +41,7 @@
         ],
         "description": "A Ethercat Slave Cia402 Demo Example. CPU is R5FSS0-0 running FREERTOS.",
         "name": "ethercat_slave_cia402_demo",
-        "location": "../../examples/industrial_comms/ethercat_slave_demo/cia402/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -54,7 +54,8 @@
         "subCategories": [
             "industrial_comms",
             "ethercat_slave_demo",
-            "cia402",
+            "device_profiles",
+            "402_cia",
             "r5fss0-0_freertos"
         ],
         "mainCategories": [
@@ -74,7 +75,7 @@
         ],
         "description": "A Ethercat Slave Ctt Demo Example. CPU is R5FSS0-0 running FREERTOS.",
         "name": "ethercat_slave_ctt_demo",
-        "location": "../../examples/industrial_comms/ethercat_slave_demo/ctt/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -87,6 +88,7 @@
         "subCategories": [
             "industrial_comms",
             "ethercat_slave_demo",
+            "device_profiles",
             "ctt",
             "r5fss0-0_freertos"
         ],
@@ -107,7 +109,7 @@
         ],
         "description": "A Ethercat Slave Simple Demo Example. CPU is R5FSS0-0 running FREERTOS.",
         "name": "ethercat_slave_simple_demo",
-        "location": "../../examples/industrial_comms/ethercat_slave_demo/simple/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -120,7 +122,8 @@
         "subCategories": [
             "industrial_comms",
             "ethercat_slave_demo",
-            "simple",
+            "device_profiles",
+            "401_simple",
             "r5fss0-0_freertos"
         ],
         "mainCategories": [

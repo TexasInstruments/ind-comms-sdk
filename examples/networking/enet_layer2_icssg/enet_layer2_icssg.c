@@ -1382,16 +1382,18 @@ static void EnetMp_initRxReadyPktQ(EnetDma_RxChHandle hRxCh)
 
     EnetQueue_initQ(&rxFreeQ);
 
+    for (uint32_t i= 0; i< ENET_SYSCFG_TOTAL_NUM_RX_PKT/ENET_SYSCFG_RX_FLOWS_NUM; i++)
+    {
+        pPktInfo = EnetMem_allocEthPkt(&gEnetMp,
+                                       ENETDMA_CACHELINE_ALIGNMENT,
+                                       ENET_ARRAYSIZE(scatterSegments),
+                                       scatterSegments);
+        EnetAppUtils_assert(pPktInfo != NULL);
 
-    pPktInfo = EnetMem_allocEthPkt(&gEnetMp,
-                                   ENETDMA_CACHELINE_ALIGNMENT,
-                                   ENET_ARRAYSIZE(scatterSegments),
-                                   scatterSegments);
-    EnetAppUtils_assert(pPktInfo != NULL);
+        ENET_UTILS_SET_PKT_APP_STATE(&pPktInfo->pktState, ENET_PKTSTATE_APP_WITH_FREEQ);
 
-    ENET_UTILS_SET_PKT_APP_STATE(&pPktInfo->pktState, ENET_PKTSTATE_APP_WITH_FREEQ);
-
-    EnetQueue_enq(&rxFreeQ, &pPktInfo->node);
+        EnetQueue_enq(&rxFreeQ, &pPktInfo->node);
+    }
 
 
     /* Retrieve any packets which are ready */

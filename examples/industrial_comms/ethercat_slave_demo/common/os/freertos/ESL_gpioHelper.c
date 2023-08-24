@@ -7,34 +7,36 @@
  *  \author
  *  KUNBUS GmbH
  *
- *  \date
- *  2021-05-18
- *
  *  \copyright
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  All rights reserved.<br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH.
+ *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:<br />
+ *  modification, are permitted provided that the following conditions are met:
+ *
  *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.</li>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
  *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.</li>
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
  *  </ol>
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
  *
  */
 
@@ -52,7 +54,6 @@ typedef struct ESL_GPIO_SHandle
 {
     uint32_t                dummy;
 } ESL_GPIO_SHandle_t;
-
 
 #if (defined GPIO_TEST_PINS) && (1==GPIO_TEST_PINS)
 static void ESL_GPIO_testPins_init(void);
@@ -95,6 +96,8 @@ void* ESL_GPIO_init ( void )
 
     if (NULL == pGpioHandle)
     {
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
     }
 
@@ -167,7 +170,10 @@ bool ESL_GPIO_setConfigMode(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, 
     switch (moduleId_p)
     {
     case ESL_GPIO_enMODULE_0:   baseAddr = CSL_MCU_GPIO0_BASE; break;
-    default: goto Exit;
+    default:
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
+        goto Exit;
     }
 
     switch(directionMode_p)
@@ -249,7 +255,10 @@ bool ESL_GPIO_read(void* pGpioHandle_p, ESL_GPIO_EModule_t  moduleId_p, ESL_GPIO
     switch (moduleId_p)
     {
     case ESL_GPIO_enMODULE_0:   baseAddr = CSL_MCU_GPIO0_BASE; break;
-    default: goto Exit;
+    default:
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
+        goto Exit;
     }
 
     value = GPIO_pinRead(baseAddr, pinId_p);
@@ -304,9 +313,14 @@ bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO
 
     switch (moduleId_p)
     {
-    case ESL_GPIO_enMODULE_0:       baseAddr = CSL_MCU_GPIO0_BASE; break;
+    case ESL_GPIO_enMODULE_0:       baseAddr = CSL_GPIO0_BASE; break;
+    case ESL_GPIO_enMODULE_1:       baseAddr = CSL_GPIO1_BASE; break;
+    case ESL_GPIO_enMODULE_2:       baseAddr = CSL_MCU_GPIO0_BASE; break;
     case ESL_GPIO_enMODULE_LED: break;
-    default: goto Exit;
+    default:
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
+        goto Exit;
     }
 
     if (ESL_GPIO_enMODULE_LED == moduleId_p)
@@ -333,9 +347,13 @@ bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO
         }
         else
         {
+            /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+            /* cppcheck-suppress misra-c2012-15.1 */
             goto Exit;
         }
 #else
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
 #endif
     }
@@ -351,6 +369,8 @@ bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO
         }
         else
         {
+            /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+            /* cppcheck-suppress misra-c2012-15.1 */
             goto Exit;
         }
     }

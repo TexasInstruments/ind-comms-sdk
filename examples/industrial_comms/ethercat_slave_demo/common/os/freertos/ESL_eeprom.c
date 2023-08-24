@@ -7,34 +7,36 @@
  *  \author
  *  KUNBUS GmbH
  *
- *  \date
- *  2021-05-18
- *
  *  \copyright
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  All rights reserved.<br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH.
+ *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:<br />
+ *  modification, are permitted provided that the following conditions are met:
+ *
  *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.</li>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
  *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.</li>
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
  *  </ol>
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
  *
  */
 
@@ -140,7 +142,6 @@ void EC_SLV_APP_EEP_writeEeprom(void *pContext_p, void* pEeprom_p, uint32_t leng
     uint32_t                pageCount   = 0;
     uint32_t                idx         = 0;
     uint32_t                blk,page;
-    uint8_t*                offloader   = NULL;
     uint32_t                flashMagic  = (uint32_t)pContext_p;
     SPI_SEepromHeader_t*    pageHead    = NULL;
 
@@ -159,8 +160,6 @@ void EC_SLV_APP_EEP_writeEeprom(void *pContext_p, void* pEeprom_p, uint32_t leng
     OSAL_MEMORY_memcpy((void*)&pageHead[1], pEeprom_p, length_p);
     pageHead[0].startMagic  = flashMagic;
     pageHead[0].dataSize    = length_p;
-
-    offloader = (uint8_t*)pageHead;
 
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
 #if (defined CONFIG_FLASH0)
@@ -227,17 +226,23 @@ bool EC_SLV_APP_EEP_loadEeprom(void* pContext_p, void* pEeprom_p, uint32_t* pLen
     status = Flash_read(gFlashHandle[CONFIG_FLASH0], offset, (uint8_t*)&pageProto, sizeof(SPI_SEepromHeader_t));
     if (SystemP_SUCCESS !=status)
     {
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
     }
 
     if (pageProto.startMagic != flashMagic)
     {
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
     }
 
     status = Flash_read(gFlashHandle[CONFIG_FLASH0], offset+sizeof(SPI_SEepromHeader_t), pEeprom_p, pageProto.dataSize);
     if (SystemP_SUCCESS !=status)
     {
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
     }
 
@@ -246,9 +251,13 @@ bool EC_SLV_APP_EEP_loadEeprom(void* pContext_p, void* pEeprom_p, uint32_t* pLen
         pLength_p[0] = pageProto.dataSize;
     }
 #else
+    /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+    /* cppcheck-suppress misra-c2012-15.1 */
     goto Exit;
 #endif
 #else
+    /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+    /* cppcheck-suppress misra-c2012-15.1 */
     goto Exit;
 #endif
 

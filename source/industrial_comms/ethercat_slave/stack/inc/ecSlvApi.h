@@ -1,42 +1,21 @@
 /*!
-* \file ecSlvApi.h
-*
-* \brief
-* EtherCAT User API interface.
-*
-* \author
-* KUNBUS GmbH
-*
-* \date
-* 2021-05-19
-*
-* \copyright
-* Copyright (c) 2021, KUNBUS GmbH<br /><br />
-* All rights reserved.<br />
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:<br />
-* <ol>
-* <li>Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.</li>
-* <li>Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.</li>
-* <li>Neither the name of the copyright holder nor the names of its
-* contributors may be used to endorse or promote products derived from
-* this software without specific prior written permission.</li>
-* </ol>
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*/
+ *  \file ecSlvApi.h
+ *
+ *  \brief
+ *  EtherCAT User API interface.
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH
+ *  All rights reserved.
+ *
+ *
+ */
 
 #if !(defined __ECSLVAPI_H__)
 #define __ECSLVAPI_H__		1
@@ -142,19 +121,19 @@ typedef struct EC_SLV_API_PDO_SEntryMap
 } OSAL_STRUCT_PACKED  EC_SLV_API_PDO_SEntryMap_t;
 
 /// TEntry describes an Entry of a PDO Mapping.
-typedef struct EC_API_SLV_SPdoEntry EC_API_SLV_SPdoEntry_t;
+typedef struct EC_API_SLV_PdoEntry EC_API_SLV_SPdoEntry_t;
 
 /// TPdo is used to describe the RxPDOs and TxPDOs
-typedef struct EC_API_SLV_SPdo EC_API_SLV_SPdo_t;
+typedef struct EC_API_SLV_Pdo EC_API_SLV_Pdo_t;
 
 /// TSdoEntry describes an OBD Object Entry
-typedef struct EC_API_SLV_SCoE_ObjEntry EC_API_SLV_SCoE_ObjEntry_t;
+typedef struct EC_API_SLV_CoE_ObjEntry EC_API_SLV_SCoE_ObjEntry_t;
 
 /// TSdo describes an Object Dictionary Object
-typedef struct EC_API_SLV_SCoE_Object EC_API_SLV_SCoE_Object_t;
+typedef struct EC_API_SLV_CoE_Object EC_API_SLV_SCoE_Object_t;
 
 /// EC_API_SLV_SHandle_t describes the EtherCAT Slave API
-typedef struct EC_API_SLV_SHandle EC_API_SLV_SHandle_t;
+typedef struct EC_API_SLV_Handle EC_API_SLV_SHandle_t;
 
 /** @}*/
 
@@ -259,7 +238,7 @@ typedef void(*EC_API_SLV_CBMsrmt_t)(void* pMsrmtCtxt_p, uint32_t measureChannel_
  *  \ingroup SLVAPI
  *
  * */
-typedef EC_API_SLV_EUserRetCodes_t (*EC_API_SLV_CBStartMbxHandler_t)(void* pContext_p);
+typedef uint16_t (*EC_API_SLV_CBStartMbxHandler_t)(void* pContext_p);
 
 /*!
  *  <!-- Description: -->
@@ -295,7 +274,7 @@ typedef void (*EC_API_SLV_CBStopMbxHandler_t)(void* pContext_p);
  *  \ingroup SLVAPI
  *
  * */
-typedef EC_API_SLV_EUserRetCodes_t (*EC_API_SLV_CBStartInputHandler_t)(void* pContext_p, uint16_t *pIntMask_p);
+typedef uint16_t (*EC_API_SLV_CBStartInputHandler_t)(void* pContext_p, uint16_t *pIntMask_p);
 
 /*!
  *  <!-- Description: -->
@@ -328,7 +307,7 @@ typedef void (*EC_API_SLV_CBStopInputHandler_t)(void* pContext_p);
  *  \ingroup SLVAPI
  *
  * */
-typedef EC_API_SLV_EUserRetCodes_t (*EC_API_SLV_CBStartOutputHandler_t)(void* pContext_p);
+typedef uint16_t (*EC_API_SLV_CBStartOutputHandler_t)(void* pContext_p);
 
 /*!
  *  <!-- Description: -->
@@ -1022,11 +1001,11 @@ extern ECATSLV_API  uint32_t                EC_API_SLV_load                     
                                                                                             ,OSAL_ERR_CBHandler_t           cbErrHandler_p
                                                                                             ,uint32_t                       pruSelect_p);
 extern ECATSLV_API  void                    EC_API_SLV_unLoad                               (void);
-extern ECATSLV_API  void                    EC_API_SLV_prepareTasks                         (OSAL_TASK_EPriority_t          pdiTaskPrio_p
-                                                                                            ,OSAL_TASK_EPriority_t          statusLEDTaskPrio_p
-                                                                                            ,OSAL_TASK_EPriority_t          sync0TaskPrio_p
-                                                                                            ,OSAL_TASK_EPriority_t          sync1TaskPrio_p
-                                                                                            ,OSAL_TASK_EPriority_t          eoeTaskPrio_p);
+extern ECATSLV_API  void                    EC_API_SLV_prepareTasks                         (OSAL_TASK_Priority_t           pdiTaskPrio_p
+                                                                                            ,OSAL_TASK_Priority_t           statusLEDTaskPrio_p
+                                                                                            ,OSAL_TASK_Priority_t           sync0TaskPrio_p
+                                                                                            ,OSAL_TASK_Priority_t           sync1TaskPrio_p
+                                                                                            ,OSAL_TASK_Priority_t           eoeTaskPrio_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_stackInit                            (void);
 extern ECATSLV_API  EC_API_SLV_SHandle_t*   EC_API_SLV_new                                  (void);
 extern ECATSLV_API  uint32_t                EC_API_SLV_obdCleanUp                           (EC_API_SLV_SHandle_t*          pEcSlaveApi_p);
@@ -1034,12 +1013,14 @@ extern ECATSLV_API  uint32_t                EC_API_SLV_delete                   
 extern ECATSLV_API  uint32_t                EC_API_SLV_init                                 (EC_API_SLV_SHandle_t*          pEcSlaveApi_p);
 
 #if !(defined FBTL_REMOTE) && !(defined DPRAM_REMOTE)
-extern ECATSLV_API  uint32_t                EC_API_SLV_stackInsertPruFirmware               (uint32_t*                      pFirmwareIn_p
-                                                                                            ,uint32_t                       lenFirmwareIn_p
-                                                                                            ,uint32_t*                      pFirmwareOut_p
-                                                                                            ,uint32_t                       lenFirmwareOut_p);
-extern ECATSLV_API  uint32_t                EC_API_SLV_stackInsertMdioManualFirmware        (uint32_t*                      pFirmware_p
-                                                                                            ,uint32_t                       lenFirmware_p);
+extern ECATSLV_API uint32_t EC_API_SLV_stackInsertPruFirmware(
+    uint32_t* pFirmwareIn,
+    uint32_t lenFirmwareIn,
+    uint32_t* pFirmwareOut,
+    uint32_t lenFirmwareOut);
+extern ECATSLV_API uint32_t EC_API_SLV_stackInsertMdioManualFirmware(
+    uint32_t* pFirmware,
+    uint32_t lenFirmware);
 #endif
 
 extern ECATSLV_API  uint32_t                EC_API_SLV_run                                  (EC_API_SLV_SHandle_t*          pEcSlaveApi_p);
@@ -1048,9 +1029,10 @@ extern ECATSLV_API  uint32_t                EC_API_SLV_reset                    
 extern ECATSLV_API  void                    EC_API_SLV_cbRegisterErrorHandler               (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,void*                          pContext_p
                                                                                             ,EC_API_SLV_CBStackError_t      cbFunc_p);
-extern ECATSLV_API  uint32_t                EC_API_SLV_enableMdioManualMode                 (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,uint32_t                       manualMdioAddress_p);
-
+extern ECATSLV_API uint32_t EC_API_SLV_enableMdioManualMode(
+    EC_API_SLV_SHandle_t *pEcSlaveApi,
+    uint32_t manualMdioAddress,
+    uint32_t firmwareConfig);
 
 extern ECATSLV_API  uint32_t                EC_API_SLV_ESI_parseFile                        (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,const char*                    pFilename_p);
@@ -1272,20 +1254,20 @@ extern ECATSLV_API  void                    EC_API_SLV_CiA402_registerLocalError
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_create                           (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,char*                          pName_p
                                                                                             ,uint16_t                       mapIndex_p
-                                                                                            ,EC_API_SLV_SPdo_t**            pOutPdo_p);
+                                                                                            ,EC_API_SLV_Pdo_t**             pOutPdo_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_get                              (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,uint16_t                       index_p
-                                                                                            ,EC_API_SLV_SPdo_t**            pOutPdo_p);
-extern ECATSLV_API  uint16_t                EC_API_SLV_PDO_getOffset                        (EC_API_SLV_SPdo_t*             pPdo_p);
-extern ECATSLV_API  uint16_t                EC_API_SLV_PDO_getLength                        (EC_API_SLV_SPdo_t*             pPdo_p);
+                                                                                            ,EC_API_SLV_Pdo_t**             pOutPdo_p);
+extern ECATSLV_API  uint16_t                EC_API_SLV_PDO_getOffset                        (EC_API_SLV_Pdo_t*              pPdo_p);
+extern ECATSLV_API  uint16_t                EC_API_SLV_PDO_getLength                        (EC_API_SLV_Pdo_t*              pPdo_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_createEntry                      (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,char*                          pName_p
                                                                                             ,EC_API_SLV_SCoE_ObjEntry_t*    pObjectEntry_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_getInputProcDataLength               (EC_API_SLV_SHandle_t*          pEcSlaveApi_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_getOutputProcDataLength              (EC_API_SLV_SHandle_t*          pEcSlaveApi_p);
-extern ECATSLV_API  uint8_t                 EC_API_SLV_PDO_getEntryCount                    (EC_API_SLV_SPdo_t*             pPdo_p);
-extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_getEntryDataLength               (EC_API_SLV_SPdo_t*             pPdo_p
+extern ECATSLV_API  uint8_t                 EC_API_SLV_PDO_getEntryCount                    (EC_API_SLV_Pdo_t*              pPdo_p);
+extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_getEntryDataLength               (EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,uint8_t                        subIndex_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_setInputData                         (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,uint32_t                       length_p
@@ -1294,61 +1276,60 @@ extern ECATSLV_API  uint32_t                EC_API_SLV_getOutputData            
                                                                                             ,uint32_t                       length_p
                                                                                             ,uint8_t*                       pOutputData_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_setData                          (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,uint32_t                       length_p
                                                                                             ,uint8_t*                       pData_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_getData                          (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,uint32_t                       length_p
                                                                                             ,uint8_t*                       pData_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_setEntryData                     (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,uint8_t                        subIndex_p
                                                                                             ,uint32_t                       length_p
                                                                                             ,uint8_t*                       pData_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_getEntryData                     (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,uint8_t                        subIndex_p
                                                                                             ,uint32_t                       length_p
                                                                                             ,uint8_t*                       pData_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_setFixed                         (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,bool                           fixed_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_enable                           (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p);
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_disable                          (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p);
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_enabled                          (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,bool*                          pEnabled_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_setAssignment                    (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,bool                           assignment_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_addPadding                       (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,uint8_t                        length_p);
 extern ECATSLV_API  void                    EC_API_SLV_PDO_registerAssignmentChanges        (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,void*                          pContext_p
                                                                                             ,EC_API_SLV_PDO_CBAssignmentChanges_t
                                                                                                                             cbFunc_p);
-
 extern ECATSLV_API  void                    EC_API_SLV_PDO_registerMappingChanges           (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,void*                          pContext_p
                                                                                             ,EC_API_SLV_PDO_CBMappingChanges_t
                                                                                                                             cbFunc_p);
-
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_getMappingInfo                   (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,uint8_t*                       pCount_p
                                                                                             ,EC_SLV_API_PDO_SEntryMap_t*    pPdoMapArray_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_getAssignmentInfo                (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,bool                           rx_p
                                                                                             ,uint8_t*                       pCount_p
                                                                                             ,uint16_t*                      pPdoIndexArray_p);
-
 extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_setMaxSubIndex                   (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
-                                                                                            ,EC_API_SLV_SPdo_t*             pPdo_p
+                                                                                            ,EC_API_SLV_Pdo_t*              pPdo_p
                                                                                             ,uint8_t                        maxSubIndex_p);
-
+extern ECATSLV_API  uint32_t                EC_API_SLV_PDO_setSyncManMaxSubIndex            (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
+                                                                                            ,uint8_t                        syncMan_p
+                                                                                            ,uint8_t                        maxSubIndex_p);
 extern ECATSLV_API  uint32_t                EC_API_SLV_CoE_getObject                        (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,uint16_t                       index_p
                                                                                             ,EC_API_SLV_SCoE_Object_t**     pObject_p);
@@ -1426,6 +1407,14 @@ extern ECATSLV_API  uint32_t                EC_API_SLV_CoE_configRecordSubIndex 
                                                                                             ,uint16_t                       type_p
                                                                                             ,uint16_t                       bitLen_p
                                                                                             ,uint16_t                       flags_p);
+
+extern ECATSLV_API  uint32_t                EC_API_SLV_CoE_odAddEnum                        (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
+                                                                                            ,uint16_t                       index_p
+                                                                                            ,EC_API_SLV_SCoE_Object_t**     pObject_p);
+extern ECATSLV_API  uint32_t                EC_API_SLV_CoE_configEnum                       (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
+                                                                                            ,EC_API_SLV_SCoE_Object_t*      pObject_p
+                                                                                            ,uint32_t                       value_p
+                                                                                            ,char*                          pName_p);
 
 extern ECATSLV_API  uint32_t                EC_API_SLV_CoE_subIdx0WrFlag                    (EC_API_SLV_SHandle_t*          pEcSlaveApi_p
                                                                                             ,EC_API_SLV_SCoE_Object_t*      pObject_p
