@@ -10,6 +10,7 @@ const files = {
         "IOLM_Port_spi.c",
         "IOLM_Port_smiExample.c",
         "IOLM_Port_Utils.c",
+        "nvram_driver.c",
         "main.c",
     ],
 };
@@ -20,8 +21,9 @@ const files = {
 const filedirs = {
     common: [
         "..",       /* core_os_combo base */
-        "../../..", /* Example base */
+        "../..", /* Example base */
         "../../IOLinkPort",
+        "../../KBDrv",
     ],
 };
 
@@ -42,6 +44,7 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/IOLinkPort",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/KBDrv",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI",
@@ -54,18 +57,31 @@ const libs_freertos_r5f = {
         "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "iolink.am64x.r5f.ti-arm-clang.release.lib",
+        "littlefs.am64x.r5f.ti-arm-clang.release.lib",
     ],
 };
 
 const defines_r5f = {
     common: [
+    "OSAL_FREERTOS",
+    "SOC_AM64X",
+    "SOC_AM64X=1",
     ],
 };
 
 const cflags_r5f = {
     common: [
+        "-Wno-unused-but-set-variable",
         "-Wno-cpp",
-        "-Wno-unused-variable",
+    ],
+    debug: [
+        "-Og",
+    ],
+};
+const lflags_r5f = {
+    common: [
+        "--use_memcpy=fast",
+        "--use_memset=fast",
     ],
 };
 const lnkfiles = {
@@ -112,6 +128,7 @@ function getComponentBuildProperty(buildOption) {
             build_property.libs = libs_freertos_r5f;
             build_property.defines = defines_r5f;
             build_property.cflags = cflags_r5f;
+            build_property.lflags = lflags_r5f;
         }
     }
 

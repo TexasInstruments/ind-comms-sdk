@@ -44,6 +44,7 @@ FILES_common := \
 	IOLM_Port_spi.c \
 	IOLM_Port_smiExample.c \
 	IOLM_Port_Utils.c \
+	nvram_driver.c \
 	main.c \
 	ti_drivers_config.c \
 	ti_drivers_open_close.c \
@@ -55,8 +56,9 @@ FILES_common := \
 
 FILES_PATH_common = \
 	.. \
-	../../.. \
+	../.. \
 	../../IOLinkPort \
+	../../KBDrv \
 	generated \
 
 INCLUDES_common := \
@@ -69,6 +71,7 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/IOLinkPort \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/KBDrv \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI \
@@ -76,6 +79,9 @@ INCLUDES_common := \
 
 DEFINES_common := \
 	-DSOC_AM64X \
+	-DOSAL_FREERTOS \
+	-DSOC_AM64X \
+	-DSOC_AM64X=1 \
 
 CFLAGS_common := \
 	-mcpu=cortex-r5 \
@@ -87,8 +93,12 @@ CFLAGS_common := \
 	-g \
 	-Wno-gnu-variable-sized-type-not-at-end \
 	-Wno-unused-function \
+	-Wno-unused-but-set-variable \
 	-Wno-cpp \
-	-Wno-unused-variable \
+
+CFLAGS_debug := \
+	-D_DEBUG_=1 \
+	-Og \
 
 CFLAGS_cpp_common := \
 	-Wno-c99-designator \
@@ -101,9 +111,6 @@ CFLAGS_cpp_common := \
 	-Wno-reserved-user-defined-literal \
 	-Wno-unused-const-variable \
 	-x c++ \
-
-CFLAGS_debug := \
-	-D_DEBUG_=1 \
 
 CFLAGS_release := \
 	-Os \
@@ -123,6 +130,7 @@ LIBS_common = \
 	-ldrivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lboard.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-liolink.am64x.r5f.ti-arm-clang.release.lib \
+	-llittlefs.am64x.r5f.ti-arm-clang.release.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -130,6 +138,8 @@ LFLAGS_common = \
 	-Wl,--diag_suppress=10063 \
 	-Wl,--ram_model \
 	-Wl,--reread_libs \
+	-Wl,--use_memcpy=fast \
+	-Wl,--use_memset=fast \
 
 
 LIBS_NAME = \
@@ -137,6 +147,7 @@ LIBS_NAME = \
 	drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	board.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	iolink.am64x.r5f.ti-arm-clang.release.lib \
+	littlefs.am64x.r5f.ti-arm-clang.release.lib \
 	libc.a \
 	libsysbm.a \
 

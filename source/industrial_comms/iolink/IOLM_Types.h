@@ -1,31 +1,19 @@
-/*
- *  Copyright (c) 2021, KUNBUS GmbH
+/*!
+ *  \file IOLM_Types.h
+ *
+ *  \brief
+ *  IO-Link Master Types
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH
  *  All rights reserved.
  *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
- *
- *  1. Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.
- *
- *  2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *
- *  3. Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -114,10 +102,14 @@ extern "C" {
 #define IOLM_PORT_READY_PULSE_MIN_DURATION_US   400U
 /** Upper limit of ready pulse length in us. */
 #define IOLM_PORT_READY_PULSE_MAX_DURATION_US   1100U 
-/** Timeout for ready pulse detection in ms. */
-#define IOLM_PORT_READY_PULSE_TIMEOUT_MS    5000U 
-/** Wait time between power off an power on in ms. */
-#define IOLM_PORT_READY_PULSE_POWER_OFF_ON_GAP_MS    1000U 
+/** Minimum time for ready pulse occurence in ms. */
+#define IOLM_PORT_MIN_TIME_TO_READY_PULSE_MS    5000U 
+/** Additional time to wait for ready pulse occurence in ms. */
+#define IOLM_PORT_READY_PULSE_WAIT_TIME_EXPANSION_MS 1000U
+/** Minimum wait time between power off and power on in ms. */
+#define IOLM_PORT_MIN_READY_PULSE_POWER_OFF_ON_GAP_MS    1000U 
+/** Maximum wait time between power off and power on in ms. */
+#define IOLM_PORT_MAX_READY_PULSE_POWER_OFF_ON_GAP_MS    10000U 
 
 // Checks 
 
@@ -142,7 +134,7 @@ extern "C" {
 #endif
 
 #ifndef IOLM_CRITICAL_START
-#define IOLM_CRITICAL_START(level)      (level) = IOLM_Port_vCriticalStart()
+#define IOLM_CRITICAL_START(level)      (level) = IOLM_Port_u32CriticalStart()
 #endif
 
 #ifndef IOLM_CRITICAL_END

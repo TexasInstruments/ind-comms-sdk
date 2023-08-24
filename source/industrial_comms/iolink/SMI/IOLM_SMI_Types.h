@@ -1,31 +1,19 @@
-/*
- *  Copyright (c) 2021, KUNBUS GmbH
+/*!
+ *  \file IOLM_SMI_Types.h
+ *
+ *  \brief
+ *  Standardized Master Interface (SMI) Types
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH
  *  All rights reserved.
  *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
- *
- *  1. Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.
- *
- *  2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *
- *  3. Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -54,6 +42,8 @@ extern "C" {
 #define IOLM_MAX_SCAN_RESULTS       128
 #endif
 
+#define IOLM_SMI_DIAG_ENTRY_SIZE (3)
+
 /**
 \addtogroup grp_smi_arg SMI Arg Blocks
 \{
@@ -70,7 +60,6 @@ extern "C" {
 /**
 \brief SGI dependent defines
 */
-#ifdef IOLM_SGI_ENABLED
 /**
 \brief Max lengh of the client name.
 */
@@ -95,7 +84,6 @@ extern "C" {
 \brief The id of the client which is allowed to setup rights
 */
 #define SGI_MANAGER_CLIENT_ID                           (240u)
-#endif //  
 
 
 
@@ -104,7 +92,6 @@ extern "C" {
 /**
 \brief SGI dependent enums
 */
-#ifdef IOLM_SGI_ENABLED
 /**
 \brief SMI client role
 
@@ -189,7 +176,6 @@ typedef IOL_ENUM_DECL IOLM_SGI_EGatewayStatusInfo
     IOLM_SGI_eRunning =                                 0x01,
     IOLM_SGI_eProcessDataOverride =                     0x02,
 }IOLM_SGI_EGatewayStatusInfo;
-#endif
 
 /**
 \brief SMI ServiceIDs (IDs >= 0x80 are used for non standard, proprietary services).
@@ -204,7 +190,9 @@ typedef IOL_ENUM_DECL IOLM_SMI_EServiceID
     IOLM_SMI_eServiceID_DSRestoreFromParServ =              0x05,
     IOLM_SMI_eServiceID_DeviceWrite =                       0x06,
     IOLM_SMI_eServiceID_DeviceRead =                        0x07,
+#if IOLM_SMI_SUPPORT_OLD_SERVICES == 1
     IOLM_SMI_eServiceID_PortPairing =                       0x08,
+#endif
     IOLM_SMI_eServiceID_DeviceEvent =                       0x09,
     IOLM_SMI_eServiceID_PortEvent =                         0x0A,
     IOLM_SMI_eServiceID_PDIn =                              0x0B,
@@ -214,17 +202,21 @@ typedef IOL_ENUM_DECL IOLM_SMI_EServiceID
     IOLM_SMI_eServiceID_PDOutIQ =                           0x0F,
     IOLM_SMI_eServiceID_MasterConfiguration =               0x10,
     IOLM_SMI_eServiceID_ReadbackMasterConfiguration =       0x11,
+#if IOLM_SMI_SUPPORT_OLD_SERVICES == 1
     IOLM_SMI_eServiceID_TrackConfiguration =                0x12,   //outdated: left for compatibility
     IOLM_SMI_eServiceID_ReadbackTrackConfiguration =        0x13,   //outdated: left for compatibility
     IOLM_SMI_eServiceID_TrackScanResult =                   0x14,   //outdated: left for compatibility
     IOLM_SMI_eServiceID_TrackScanEnd =                      0x15,   //outdated: left for compatibility
     IOLM_SMI_eServiceID_TrackStatus =                       0x16,   //outdated: left for compatibility
     IOLM_SMI_eServiceID_Scan =                              0x17,   //outdated: left for compatibility
+#endif
     IOLM_SMI_eServiceID_FSMasterAccess =                    0x18,
     IOLM_SMI_eServiceID_SPDUIn =                            0x19,
     IOLM_SMI_eServiceID_SPDUOut =                           0x1A,
     IOLM_SMI_eServiceID_PortPowerOffOn =                    0x1B,
-    
+    IOLM_SMI_eServiceID_FSPDInOut =                         0x1C,
+    IOLM_SMI_eServiceID_PDReadbackOutIQ =                   0x1D,
+
     // services added for wireless specification V1.1.3
     IOLM_SMI_V113_eServiceID_WMasterConfiguration =         0x20, // new SMI_WMasterConfiguration service in V1.1.3
     IOLM_SMI_V113_eServiceID_ReadbackWMasterConfiguration = 0x21, // new SMI_ReadbackWMasterConfiguration service in V1.1.3
@@ -243,10 +235,9 @@ typedef IOL_ENUM_DECL IOLM_SMI_EServiceID
     
     IOLM_SMI_eServiceID_FSPDIn =                            0xA0,
     IOLM_SMI_eServiceID_FSPDOut =                           0xA1,
-    IOLM_SMI_eServiceID_SPDUExchangeStarted =               0xA2,
+    IOLM_SMI_eServiceID_SCLEnabled =                        0xA2,
     IOLM_SMI_eServiceID_VerifyRecordSent =                  0xA3,
     IOLM_SMI_eServiceID_TestCommand =                       0xA4,
-#ifdef IOLM_SGI_ENABLED
     IOLM_SMI_eServiceID_GatewayManagerIdentification =      0xB0,
     IOLM_SMI_eServiceID_GatewayManagerStatus =              0xB1,
     IOLM_SMI_eServiceID_RegisterClient =                    0xB2,
@@ -260,10 +251,10 @@ typedef IOL_ENUM_DECL IOLM_SMI_EServiceID
     IOLM_SMI_eServiceID_TemporaryPDOutAccess =              0xBD,
     IOLM_SMI_eServiceID_ExclusiveAcyclicAccess =            0xBE,
     IOLM_SMI_eServiceID_ForcePDIn =                         0xBF,
-    IOLM_SMI_eServiceID_SetGWMAccessRights  =               0xC0,
+    IOLM_SMI_eServiceID_SetGWMAccessRights =                0xC0,
     IOLM_SMI_eServiceID_GetGWMAccessRights =                0xC1,
-#endif
     IOLM_SMI_eServiceID_KeepAlive =                         0xFF,
+    IOLM_SMI_eServiceID_Unknown =                           0x100,
 }IOLM_SMI_EServiceID;
 
 /**
@@ -312,6 +303,7 @@ typedef IOL_ENUM_DECL IOLM_SMI_EArgBlockID
     IOLM_SMI_eArgBlockID_PDInOut =                      0x1003,
     IOLM_SMI_eArgBlockID_SPDUIn =                       0x1101,
     IOLM_SMI_eArgBlockID_SPDUOut =                      0x1102,
+    IOLM_SMI_eArgBlockID_FSPDInOut =                    0x1103,
     IOLM_SMI_eArgBlockID_PDInIQ =                       0x1FFE,
     IOLM_SMI_eArgBlockID_PDOutIQ =                      0x1FFF,
 
@@ -362,8 +354,9 @@ typedef IOL_ENUM_DECL IOLM_SMI_EArgBlockID
     IOLM_SMI_eArgBlockID_StackInformation =             0xE000,
     IOLM_SMI_eArgBlockID_DataLog =                      0xE001,
     IOLM_SMI_eArgBlockID_TestCommand =                  0xE002,
+    IOLM_SMI_eArgBlockID_Firmware =                     0xE003,
+    IOLM_SMI_eArgBlockID_Settings =                     0xE004,
  
-#ifdef IOLM_SGI_ENABLED
     // SMI Management
     IOLM_SMI_eArgBlockID_GatewayManagerIdentification = 0xFF00,
     IOLM_SMI_eArgBlockID_GatewayManagerStatus =         0xFF01,
@@ -384,7 +377,6 @@ typedef IOL_ENUM_DECL IOLM_SMI_EArgBlockID
     IOLM_SMI_eArgBlockID_SetGWMAccessRights =           0xFF10,
     IOLM_SMI_eArgBlockID_GetGWMAccessRightsReq =        0xFF11,
     IOLM_SMI_eArgBlockID_GetGWMAccessRightsResp =       0xFF12,
-#endif
     IOLM_SMI_eArgBlockID_VoidBlock =                    0xFFF0,
     IOLM_SMI_eArgBlockID_JobError =                     0xFFFF,
 }IOLM_SMI_EArgBlockID;
@@ -486,8 +478,6 @@ typedef IOL_ENUM_DECL IOLM_SMI_EIQBehavior
     IOLM_SMI_ePortIQBehavior_NotSupported =             0,
     IOLM_SMI_ePortIQBehavior_DigitalInput =             1,
     IOLM_SMI_ePortIQBehavior_DigitalOutput =            2,
-    IOLM_SMI_ePortIQBehavior_AnalogInput =              3,
-    IOLM_SMI_ePortIQBehavior_AnalogOutput =             4,
     IOLM_SMI_ePortIQBehavior_Power2 =                   5,
 }IOLM_SMI_EIQBehavior;
 
@@ -499,12 +489,12 @@ typedef IOL_ENUM_DECL IOLM_SMI_EPortStatus
     IOLM_SMI_ePortStatus_NO_DEVICE =                    0,
     IOLM_SMI_ePortStatus_DEACTIVATED =                  1,
     IOLM_SMI_ePortStatus_PORT_DIAG =                    2,
-    IOLM_SMI_ePortStatus_PREOPERATE =                   3,
+    IOLM_SMI_ePortStatus_RESERVED =                     3,
     IOLM_SMI_ePortStatus_OPERATE =                      4,
     IOLM_SMI_ePortStatus_DI_CQ =                        5,
     IOLM_SMI_ePortStatus_DO_CQ =                        6,
     IOLM_SMI_ePortStatus_OSSDE =                        7,
-    IOLM_SMI_ePortStatus_SPDU_EXCHANGE =                8,
+    IOLM_SMI_ePortStatus_SCL_ENABLED =                  8,
     IOLM_SMI_ePortStatus_PAIRING_FAULT =                10,
     IOLM_SMI_ePortStatus_PORT_POWER_OFF =               254,
     IOLM_SMI_ePortStatus_NOT_AVAILABLE =                255,
@@ -655,7 +645,7 @@ typedef struct IOLM_SMI_SWMasterConfigListOld
     INT16U u16ArgBlockID; /**< \brief Big endian. */
     INT8U u8MasterID; /**< \brief 1 - 29. */
     INT8U u8AHTEnable; /**< \brief 0 = disabled, 1 = enabled. */
-    INT8U au8Blacklist[10];
+    INT8U au8Blocklist[10];
     INT16U u16PairingTimeout; /**< \brief Pairing timeout in seconds */
 } IOLM_SMI_SWMasterConfigListOld;
 #endif
@@ -732,6 +722,7 @@ typedef struct IOLM_SMI_SFSPortConfigList
     INT16U u16VendorID; /**< \brief Big endian. */
     INT32U u32DeviceID; /**< \brief Big endian. */
     INT16U u16FSPTime2Ready;
+    INT16U u16FSPMinShutDownTime;
     INT32U u32FSCPAuthenticity1;
     INT32U u32FSCPAuthenticity2;
     INT8U u8FSPPort;
@@ -789,7 +780,7 @@ typedef struct IOLM_SMI_SWPortStatusList
     INT16U u16VendorID; /**< \brief Big endian */
     INT32U u32DeviceID; /**< \brief Big endian */
     INT8U u8NumberOfDiags;
-    INT8U au8DiagData[3 * IOLM_SMI_MAX_DIAG_ENTRIES];
+    INT8U au8DiagData[IOLM_SMI_DIAG_ENTRY_SIZE * IOLM_SMI_MAX_DIAG_ENTRIES];
     INT8U u8WMasterCycleTimePDOut;
     INT8U u8WMasterCycleTimePDIn;
 }IOLM_SMI_SWPortStatusList;
@@ -813,7 +804,7 @@ typedef struct IOLM_SMI_V113_SWPortStatusList
     INT8U u8MasterCycleTimePDOut;
     INT8U u8MasterCycleTimePDIn;
     INT8U u8NumberOfDiags;
-    INT8U au8DiagData[3 * IOLM_SMI_MAX_DIAG_ENTRIES];
+    INT8U au8DiagData[IOLM_SMI_DIAG_ENTRY_SIZE * IOLM_SMI_MAX_DIAG_ENTRIES];
 }IOLM_SMI_V113_SWPortStatusList;
 
 /**
@@ -832,7 +823,7 @@ typedef struct IOLM_SMI_SWTrackStatusList
 /**
 \brief This structure is used to trigger a scan request.
 
-The ArgBlockID(#IOLM_SMI_EArgBlockID) for this struct is IOLM_SMI_eArgBlockID_WScanList.
+The ArgBlockID(#IOLM_SMI_EArgBlockID) for this struct is IOLM_SMI_V113_eArgBlockID_WScanConfigList.
 */
 typedef struct IOLM_SMI_SWScanConfigList
 {
@@ -865,30 +856,10 @@ typedef struct IOLM_SMI_SWTrackConfigList
 } IOLM_SMI_SWTrackConfigList;
 
 /**
-\brief This structure is used to store FS port status.
-
-The ArgBlockID(#IOLM_SMI_EArgBlockID) for this struct is IOLM_SMI_eArgBlockID_FSPortStatusList = 0x9100.
-*/
-typedef struct IOLM_SMI_SFSPortStatusList
-{
-    INT16U u16ArgBlockID; /**< \brief Big endian. */
-    INT8U u8PortStatusInfo; /**< \brief IOLM_SMI_EPortStatus. */
-    INT8U u8PortQualityInfo;
-    INT8U u8RevisionID;
-    INT8U u8TransmissionRate;
-    INT8U u8MasterCycleTime;
-    INT8U u8InputDataLength;
-    INT8U u8OutputDataLength;
-    INT16U u16VendorID; /**< \brief Big endian */
-    INT32U u32DeviceID; /**< \brief Big endian */
-    INT8U u8NumberOfDiags;
-    INT8U au8DiagData[3 * IOLM_SMI_MAX_DIAG_ENTRIES];
-}IOLM_SMI_SFSPortStatusList;
-
-/**
 \brief This structure is used to store port status.
 
-The ArgBlockID(#IOLM_SMI_EArgBlockID) for this struct is IOLM_SMI_eArgBlockID_PortStatusList = 0x9000.
+The ArgBlockID(#IOLM_SMI_EArgBlockID) for this struct is IOLM_SMI_eArgBlockID_PortStatusList = 0x9000 or
+IOLM_SMI_eArgBlockID_FSPortStatusList = 0x9100.
 */
 typedef struct IOLM_SMI_SPortStatusList
 {
@@ -903,7 +874,7 @@ typedef struct IOLM_SMI_SPortStatusList
     INT16U u16VendorID; /**< \brief Big endian. */
     INT32U u32DeviceID; /**< \brief Big endian. */
     INT8U u8NumberOfDiags;
-    INT8U au8DiagData[3 * IOLM_SMI_MAX_DIAG_ENTRIES];
+    INT8U au8DiagData[IOLM_SMI_DIAG_ENTRY_SIZE * IOLM_SMI_MAX_DIAG_ENTRIES];
 }IOLM_SMI_SPortStatusList;
 
 /**
@@ -995,6 +966,20 @@ typedef struct IOLM_SMI_SPDInOut
     INT8U au8Data[2 * (32 + 1)]; /**< \brief input len + data + output len + data */
 }IOLM_SMI_SPDInOut;
 #define IOLM_SMI_ARGBLOCK_PDINOUT_LEN(InputLen, OutputLen) (4 + 2 + InputLen + OutputLen)
+
+/**
+\brief This structure is used for FS Process Data input and output read back.
+
+The ArgBlockID(#IOLM_SMI_EArgBlockID) for this struct is IOLM_SMI_eArgBlockID_FSPDInOut = 0x1103.
+*/
+typedef struct IOLM_SMI_SFSPDInOut
+{
+    INT16U u16ArgBlockID; /**< \brief Big endian. */
+    INT8U u8PQI; /**< \brief Process Data qualifier. */
+    INT8U u8OE; /**< \brief Output enable. */
+    INT8U au8Data[2 * (32 + 1)]; /**< \brief input len + data + output len + data */
+}IOLM_SMI_SFSPDInOut;
+#define IOLM_SMI_ARGBLOCK_FSPDINOUT_LEN(InputLen, OutputLen) (4 + 2 + InputLen + OutputLen)
 
 /**
 \brief This generic structure is used for events.
@@ -1296,12 +1281,19 @@ typedef struct IOLM_SMI_SHeader
 {
     INT8U u8Service; /**< \brief IOLM_SMI_EServiceID. */
     INT8U u8Reserved; /**< \brief Reserved. */
-    INT16U u16ExpRefArgBlockId; /**< \brief Expected response or referenced ArgBlock Id in BigEndian */
+    INT16U u16ExpRefArgBlockId; /**< \brief Expected response or referenced ArgBlock Id in big endian. */
 
     INT8U u8Instance; /**< \brief Addressed instance (port, track, etc.). */
     INT8U u8ClientId; /**< \brief Client id. #IOLM_SMI_CLIENTID_INTERN and #IOLM_SMI_CLIENTID_BROADCAST are reserved. */
     INT16U u16ArgBlockLength;  /**< \brief Little endian. */
 }IOLM_SMI_SHeader;
+typedef struct IOLM_SMI_SStdHeader
+{
+    INT8U u8ClientId; /**< \brief Client id. #IOLM_SMI_CLIENTID_INTERN and #IOLM_SMI_CLIENTID_BROADCAST are reserved. */
+    INT8U u8Instance; /**< \brief Addressed instance (port, track, etc.). */
+    INT16U u16ExpRefArgBlockId; /**< \brief Expected response or referenced ArgBlock Id in big endian. */
+    INT16U u16ArgBlockLength; /**< \brief Big endian. */
+}IOLM_SMI_SStdHeader;
 
 /**
 \brief This structure follows the #IOLM_SMI_SHeader struct.

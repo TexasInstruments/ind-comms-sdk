@@ -1,42 +1,44 @@
 /*!
-* \file IOLM_Port_smiExample.h
-*
-* \brief
-* Example application to show how the IO-Link Master Stack can be used via the SMI.
-*
-* \author
-* KUNBUS GmbH
-*
-* \date
-* 2021-10-06
-*
-* \copyright
-* Copyright (c) 2021, KUNBUS GmbH<br /><br />
-* All rights reserved.<br />
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:<br />
-* <ol>
-* <li>Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.</li>
-* <li>Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.</li>
-* <li>Neither the name of the copyright holder nor the names of its
-* contributors may be used to endorse or promote products derived from
-* this software without specific prior written permission.</li>
-* </ol>
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*/
+ *  \file IOLM_Port_smiExample.h
+ *
+ *  \brief
+ *  Example application to show how the IO-Link Master Stack can be used via the SMI.
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ *
+ *  <ol>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
+ *  <li>Redistributions in binary form must reproduce the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
+ *  </ol>
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
+ *
+ */
 
 #if !(defined __IOLM_PORT_SMI_EXMPL_H__)
 #define __IOLM_PORT_SMI_EXMPL_H__       1
@@ -66,6 +68,8 @@
 #define IOLM_EXMPL_SMI_PORTS_NUMBER_START       (1U)
 /* wait time for osal in milisec */ 
 #define IOLM_EXMPL_DELAY_IN_MILISEC             (1000U)
+/* Placeholder for data storage port number in file system usage*/
+#define IOLM_EXMPL_DATA_STORAGE_PORT            (2U)
 /* Check if printf should be enabled */
 #if (defined IOLM_EXMPL_ENABLE_PRINTF) && (IOLM_EXMPL_ENABLE_PRINTF == 1)
 #define IOLM_EXMPL_printf           OSAL_printf

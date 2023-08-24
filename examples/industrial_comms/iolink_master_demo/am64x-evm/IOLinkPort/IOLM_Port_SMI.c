@@ -1,42 +1,46 @@
 /*!
-* \file IOLM_Port_SMI.c
-*
-* \brief
-* SOC/OS specific IO Link SMI functions
-*
-* \author
-* KUNBUS GmbH
-*
-* \date
-* 2021-05-19
-*
-* \copyright
-* Copyright (c) 2021, KUNBUS GmbH<br /><br />
-* All rights reserved.<br />
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:<br />
-* <ol>
-* <li>Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.</li>
-* <li>Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.</li>
-* <li>Neither the name of the copyright holder nor the names of its
-* contributors may be used to endorse or promote products derived from
-* this software without specific prior written permission.</li>
-* </ol>
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-*/
+ *  \file IOLM_Port_SMI.c
+ *
+ *  \brief
+ *  SOC/OS specific IO Link SMI functions.
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
+ *
+ *  <ol>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
+ *  <li>Redistributions in binary form must reproduce the above copyright notice,
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
+ *  </ol>
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
+ *
+ */
+
+
 
 
 #define IOLM_SMI_TASK_STACK_SIZE       (0x2000U / sizeof(configSTACK_DEPTH_TYPE))
@@ -49,8 +53,8 @@
 #include <IOL_Serial.h>
 #include "IOLM_Port_SMI.h"
 
-OSAL_SCHED_SMutexHandle_t*pSemSMI_g;
-OSAL_SCHED_SEventHandle_t *pSemUartWake_g;
+OSAL_SCHED_MutexHandle_t*pSemSMI_g;
+OSAL_SCHED_EventHandle_t *pSemUartWake_g;
 
 volatile bool boUartTxPending_g = false;
 volatile bool boUartRxComplete_g = false;
@@ -75,20 +79,6 @@ static void* IOLM_pSmiTaskHandle_s;
 static StackType_t IOLM_pSmiTaskStack_s[IOLM_SMI_TASK_STACK_SIZE]   \
                    __attribute__((aligned(32), section(".threadstack"))) = {0};
 
-/**
-\brief SMI generic confirmation
-
-The function is called on each confirmation and indication from the
-SMI module.
-
-\param[in]  pHeader_p     Header
-\param[in]  pArgBlock_p   Argblock
-
-*/
-void vUartSmiRxCallback(IOLM_SMI_SHeader* pHeader_p, INT8U* pArgBlock_p)
-{
-    IOLM_SMI_vGenericReq(pHeader_p, pArgBlock_p);
-}
 
 /**
 \brief UART Rx Callback
@@ -151,26 +141,26 @@ void OSAL_FUNC_NORETURN vUARTrun()
         }
         if (boUartRxComplete_g != false)
         {
+            INT8U u8HeaderLength = IOL_Serial_u8GetHeaderLength(&suUartSerial_g);
+
             /* interpret result */
             IOL_Serial_vReceive(&suUartSerial_g, au8UARTRXBuffer_g, u32ReceivedBytes_g);
 
             /* reset variables */
             u32ReceiveExpected_g = 0;
             /* prepare next message */
-            if (headerActive_g && (u32ReceivedBytes_g >= sizeof(IOLM_SMI_SHeader)))
+            if (headerActive_g && (u32ReceivedBytes_g >= u8HeaderLength))
             {
                 /* received header -> some data will follow */
-                IOLM_SMI_SHeader* pHead = (IOLM_SMI_SHeader*)au8UARTRXBuffer_g;
-
                 headerActive_g = false;
-                u32ReceiveExpected_g = pHead->u16ArgBlockLength;
+                u32ReceiveExpected_g = IOL_Serial_u16GetArgBlockLength(&suUartSerial_g);
                 s32LastRxCancelTime_g = OSAL_getMsTick();
             }
 
             if (u32ReceiveExpected_g == 0)
             {
                 /* no data follows -> wait for header */
-                u32ReceiveExpected_g = sizeof(IOLM_SMI_SHeader);
+                u32ReceiveExpected_g = u8HeaderLength;
                 headerActive_g = true;
             }
             /* start UART */
@@ -215,7 +205,13 @@ void IOLM_SMI_portInit(void)
     suUartSerial_g.pu32Length       = au32UartSerialLength_g;
     suUartSerial_g.pu8RxBuffer      = au8UartSerialDatRx_g;
     suUartSerial_g.u32RxBufferLen   = sizeof(au8UartSerialDatRx_g);
-    suUartSerial_g.cbRxCallback     = vUartSmiRxCallback;
+    suUartSerial_g.cbRxGeneric      = IOLM_SMI_vGenericReq;
+    suUartSerial_g.cbRxStd          = IOLM_SMI_vStdReq;
+#if IOLM_SERIAL_STD
+    suUartSerial_g.eCbType = IOLM_SMI_eOrigin_Std;
+#else
+    suUartSerial_g.eCbType = IOLM_SMI_eOrigin_Generic;
+#endif
 
     IOL_Serial_vInit(&suUartSerial_g);
 
@@ -269,4 +265,23 @@ void IOLM_SMI_cbGenericCnf(IOLM_SMI_SHeader* pHeader_p, INT8U* pArgBlock_p)
     OSAL_MTX_release(pSemSMI_g);
     OSAL_EVT_set(pSemUartWake_g);
 }
+
+/**
+\brief SMI std indication
+
+The function is called on each confirmation and indication from the
+SMI module.
+
+\param[in]  pHeader_p     Header
+\param[in]  pArgBlock_p   Argblock
+
+*/
+void IOLM_SMI_cbStdInd(IOLM_SMI_SStdHeader* pHeader_p, INT8U* pArgBlock_p)
+{
+    OSAL_MTX_get(pSemSMI_g, OSAL_WAIT_INFINITE, NULL);
+    IOL_Serial_vSendSmiStd(&suUartSerial_g, pHeader_p, pArgBlock_p);
+    OSAL_MTX_release(pSemSMI_g);
+    OSAL_EVT_set(pSemUartWake_g);
+}
+
 

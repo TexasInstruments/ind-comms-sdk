@@ -33,7 +33,7 @@ const files_lp = {
 const filedirs = {
     common: [
         "..",       /* core_os_combo base */
-        "../../..", /* Example base */
+        "../..", /* Example base */
         "../../IOLinkPort",
     ],
 };
@@ -95,22 +95,37 @@ const libs_freertos_r5f_lp = {
 
 const defines_r5f_evm = {
     common: [
-        "SOC_AM243X_ALV",
+        "SOC_AM243X=1",
+        "OSAL_FREERTOS",
     ],
 };
 
 const defines_r5f_lp = {
     common: [
-        "SOC_AM243X_ALX",
+        "SOC_AM243X=1",
+        "OSAL_FREERTOS",
     ],
 };
 
 const cflags_r5f = {
     common: [
+        "-Wno-unused-but-set-variable",
         "-Wno-cpp",
-        "-Wno-unused-variable",
+    ],
+    debug: [
+        "-Og",
     ],
 };
+
+const lflags_r5f = {
+    common: [
+        
+        "--use_memcpy=fast",
+        "--use_memset=fast",
+    
+    ],
+};
+
 const lnkfiles = {
     common: [
         "linker.cmd",
@@ -152,6 +167,7 @@ function getComponentBuildProperty(buildOption) {
         {
             build_property.libdirs = libdirs_freertos;
             build_property.cflags = cflags_r5f;
+            build_property.lflags = lflags_r5f;
             if(buildOption.board.match(/am243x-evm*/) )
             {
                 build_property.defines = defines_r5f_evm;

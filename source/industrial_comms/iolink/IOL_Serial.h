@@ -7,34 +7,13 @@
  *  \author
  *  KUNBUS GmbH
  *
- *  \date
- *  2020-07-15
- *
  *  \copyright
  *  Copyright (c) 2020, KUNBUS GmbH<br /><br />
- *  All rights reserved.<br />
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:<br />
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.</li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH
+ *  All rights reserved.
+ *
  *
  */
 
@@ -42,7 +21,7 @@
 #define __IOL_SERIAL_H__
 
 
-#include <IOLM_SMI.h>
+#include <SMI/IOLM_SMI.h>
 
 /** \brief Defines the receive default length */
 #define IOL_SERIAL_RX_DEFAULT_LENGTH (2048+100)
@@ -63,7 +42,9 @@ typedef struct IOL_Serial_SHandle
 
     INT32U u32RxBufferLen;              /**< Length of Rx buffer */
     INT8U* pu8RxBuffer;                 /**< Pointer to Rx buffer */
-    IOLM_SMI_CBGenericCnf cbRxCallback; /**< Pointer to receive callback function */
+    IOLM_SMI_EOrigin eCbType;           /**< Select used interface (Std or Generic) */
+    IOLM_SMI_CBGenericCnf cbRxGeneric;  /**< Pointer to receive callback function for eCbType Generic */
+    IOLM_SMI_CBStdInd cbRxStd;          /**< Pointer to receive callback function for eCbType Std*/
     INT8U u8ForceClientId;              /**< Actual ID or 0 if not used */
 
     volatile TBOOL boWritePending;      /**< Flag for write control (TRUE if write operation is pending) */
@@ -77,9 +58,12 @@ typedef struct IOL_Serial_SHandle
 
 INT8U* IOL_Serial_pu8GetTxBuffer(IOL_Serial_SHandle* psuHandle_p, INT32U* pu32Length_p);
 void IOL_Serial_vReleaseTxBuffer(IOL_Serial_SHandle* psuHandle_p);
+INT8U IOL_Serial_u8GetHeaderLength(IOL_Serial_SHandle* psuHandle_p);
+INT16U IOL_Serial_u16GetArgBlockLength(IOL_Serial_SHandle* psuHandle_p);
 INT32U IOL_Serial_vGetLenRemain(IOL_Serial_SHandle* psuHandle_p);
 void IOL_Serial_vSend(IOL_Serial_SHandle* psuHandle_p, INT8U* pu8Data_p, INT32U u32Length_p);
 void IOL_Serial_vSendSmi(IOL_Serial_SHandle* psuHandle_p, IOLM_SMI_SHeader* psuHeader_p, INT8U* pu8ArgBlock_p);
+void IOL_Serial_vSendSmiStd(IOL_Serial_SHandle* psuHandle_p, IOLM_SMI_SStdHeader* psuHeader_p, INT8U* pu8ArgBlock_p);
 void IOL_Serial_vInit(IOL_Serial_SHandle* psuHandle_p);
 
 void IOL_Serial_vReceive(IOL_Serial_SHandle* psuHandle_p, INT8U* pu8Data_p, INT32U u32Length_p);

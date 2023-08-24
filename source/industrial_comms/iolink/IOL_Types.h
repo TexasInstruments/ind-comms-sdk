@@ -1,31 +1,19 @@
-/*
- *  Copyright (c) 2021, KUNBUS GmbH
+/*!
+ *  \file IOL_Types.h
+ *
+ *  \brief
+ *  IO-Link Types
+ *
+ *  \author
+ *  KUNBUS GmbH
+ *
+ *  \copyright
+ *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH
  *  All rights reserved.
  *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
- *
- *  1. Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.
- *
- *  2. Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *
- *  3. Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -682,8 +670,11 @@ typedef IOL_ENUM_DECL IOL_EErrorType
     IOL_eErrorType_PORT_NUM_INVALID = 0x4011,
     IOL_eErrorType_ARGBLOCK_LENGTH_INVALID = 0x4034,
     IOL_eErrorType_SERVICE_TEMP_UNAVAILABLE = 0x4036,
+    IOL_eErrorType_INCONSISTENT_DS_DATA = 0x4039,
     IOL_eErrorType_PORT_CONFIG_INCONSISTENT = 0x4041,
     IOL_eErrorType_ACCESS_RIGHT_NOT_GRANTED = 0x4042,
+    /** \brief Kunbus specific SMI ErrorTypes.  */
+    IOL_eErrorType_WRONG_PD_OUT_LENGTH = 0x4080,
 } IOL_EErrorType;
 
 /**
@@ -793,26 +784,26 @@ application (instance = APP).
 typedef IOL_ENUM_DECL IOL_EEPortCode
 {
     /* 0x0000 - 0x17FF: Reserved. */
-    IOL_eEPortCode_NoDevice = 0x1800,
-    IOL_eEPortCode_StartupParamError = 0x1801,
-    IOL_eEPortCode_IncorrectVendorId = 0x1802,
-    IOL_eEPortCode_IncorrectDeviceId = 0x1803,
-    IOL_eEPortCode_ShortCircuit = 0x1804,
-    IOL_eEPortCode_PhyOvertemperature = 0x1805,
-    IOL_eEPortCode_ShortCircuitLP = 0x1806,
-    IOL_eEPortCode_OvercurrentAtLp = 0x1807,
+    IOL_eEPortCode_NoDevice = 0x1800,                   /* Event Instance: System */
+    IOL_eEPortCode_StartupParamError = 0x1801,          /* Event Instance: Application */
+    IOL_eEPortCode_IncorrectVendorId = 0x1802,          /* Event Instance: System */
+    IOL_eEPortCode_IncorrectDeviceId = 0x1803,          /* Event Instance: System */
+    IOL_eEPortCode_ShortCircuit = 0x1804,               /* Event Instance: Application */
+    IOL_eEPortCode_PhyOvertemperature = 0x1805,         /* Event Instance: Application */
+    IOL_eEPortCode_ShortCircuitLP = 0x1806,             /* Event Instance: Application */
+    IOL_eEPortCode_OvercurrentAtLp = 0x1807,            /* Event Instance: Application */
     IOL_eEPortCode_DeviceEventOverflow = 0x1808,
-    IOL_eEPortCode_BackupMemOutOfRange = 0x1809,
-    IOL_eEPortCode_BackupIdentityFault = 0x180A,
-    IOL_eEPortCode_BackupUnspecificError = 0x180B,
-    IOL_eEPortCode_BackupUploadFault = 0x180C,
-    IOL_eEPortCode_BackupDownloadFault = 0x180D,
-    IOL_eEPortCode_P24MissingUndervoltage = 0x180E,
-    IOL_eEPortCode_ShortCircuitP24 = 0x180F,
-    IOL_eEPortCode_ShortCircuitIQ = 0x1810,
-    IOL_eEPortCode_ShortCircuitAtCQ = 0x1811,
-    IOL_eEPortCode_OvercurrentIQ = 0x1812,
-    IOL_eEPortCode_OvercurrentCQ = 0x1813,
+    IOL_eEPortCode_BackupMemOutOfRange = 0x1809,        /* Event Instance: System */
+    IOL_eEPortCode_BackupIdentityFault = 0x180A,        /* Event Instance: System */
+    IOL_eEPortCode_BackupUnspecificError = 0x180B,      /* Event Instance: System */
+    IOL_eEPortCode_BackupUploadFault = 0x180C,          /* Event Instance: System */
+    IOL_eEPortCode_BackupDownloadFault = 0x180D,        /* Event Instance. System */
+    IOL_eEPortCode_P24MissingUndervoltage = 0x180E,     /* Event Instance: Application */
+    IOL_eEPortCode_ShortCircuitP24 = 0x180F,            /* Event Instance: Application */
+    IOL_eEPortCode_ShortCircuitIQ = 0x1810,             /* Event Instance: Application */
+    IOL_eEPortCode_ShortCircuitAtCQ = 0x1811,           /* Event Instance: Application */
+    IOL_eEPortCode_OvercurrentIQ = 0x1812,              /* Event Instance: Application */
+    IOL_eEPortCode_OvercurrentCQ = 0x1813,              /* Event Instance: Application */
 
     /* 0x1814 - 0x1EFF: Reserved. */
     /* 0x1F00 - 0x1FFF: VendorSpecific. */
@@ -821,9 +812,9 @@ typedef IOL_ENUM_DECL IOL_EEPortCode
     /* 0x3000 - 0x2FFF: Wireless Extension. */
     /* 0x4000 - 0x5FFF: Reserved. */
 
-    IOL_eEPortCode_InvalidCycleTime = 0x6000,
-    IOL_eEPortCode_RevisionFault = 0x6001,
-    IOL_eEPortCode_ISDUBatchFailed = 0x6002,
+    IOL_eEPortCode_InvalidCycleTime = 0x6000,           /* Event Instance: System */
+    IOL_eEPortCode_RevisionFault = 0x6001,              /* Event Instance: System */
+    IOL_eEPortCode_ISDUBatchFailed = 0x6002,            /* Event Instance: System */
     /* 0x8003 - 0xFF20 Reserved. */
 
     /** \brief Mode indication. */
@@ -837,8 +828,8 @@ typedef IOL_ENUM_DECL IOL_EEPortCode
     /** \brief Data Storage parameter access denied. */
     IOL_eEPortCode_DS_ACCESS_DENIED = 0xFF25,
     /** \brief Incorrect event signaling. */
-    IOL_eEPortCode_PortStatusChanged = 0xFF26,
-    IOL_eEPortCode_DataStorageComplete = 0xFF27,
+    IOL_eEPortCode_PortStatusChanged = 0xFF26,          /* Event Instance: System */
+    IOL_eEPortCode_DataStorageComplete = 0xFF27,        /* Event Instance: System */
     /* 0xFF28 - 0xFF30: Reserved. */
 
     IOL_eEPortCode_IncorectEventSignalling = 0xFF31,
@@ -864,7 +855,7 @@ typedef IOL_ENUM_DECL IOL_EEInstance
     IOL_eEInstance_DL, /**< \brief Source is IO-Link data link layer */
     IOL_eEInstance_AL, /**< \brief Source is IO-Link application layer */
     IOL_eEInstance_APPLICATION, /**< \brief Event source is application layer */
-    IOL_eEInstance_RESERVED_4,
+    IOL_eEInstance_SYSTEM, /**< \brief Event source is system layer */
     IOL_eEInstance_RESERVED_5,
     IOL_eEInstance_RESERVED_6
 } IOL_EEInstance;

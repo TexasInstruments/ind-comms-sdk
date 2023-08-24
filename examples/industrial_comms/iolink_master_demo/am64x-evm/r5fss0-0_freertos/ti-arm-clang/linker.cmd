@@ -30,6 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 --stack_size=0x1000
 --heap_size=0x10000
 
@@ -132,7 +133,7 @@ MEMORY
     /* when using multi-core application's i.e more than one R5F/M4F active, make sure
      * this memory does not overlap with other R5F's
      */
-    MSRAM   : ORIGIN = 0x70100000 , LENGTH = 0x000D0000
+    MSRAM   : ORIGIN = 0x70080000 , LENGTH = 0x000D0000
 
     /* shared memories that are used by all cores */
     /* On R5F,
