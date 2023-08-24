@@ -82,12 +82,12 @@ help:
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_iolink_gateway_demo/am243x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am243x-evm/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am243x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
-	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/402_cia/am243x-evm/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
-	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/402_cia/am243x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
-	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/ctt/am243x-evm/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
-	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/ctt/am243x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
-	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/401_simple/am243x-evm/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
-	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/401_simple/am243x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-evm/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-evm/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-evm/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_demo/mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_demo/mii/am243x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_demo/rgmii/am243x-evm/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
@@ -464,22 +464,22 @@ examples-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_ALL)
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
  ethercat_slave_cia402_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/402_cia/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile all
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
  ethercat_slave_cia402_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/402_cia/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
  ethercat_slave_ctt_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/ctt/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile all
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
  ethercat_slave_ctt_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/ctt/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
  ethercat_slave_simple_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/401_simple/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile all
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
  ethercat_slave_simple_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/401_simple/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
  ethernetip_adapter_mii_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile all
@@ -621,22 +621,22 @@ examples-private-clean: $(BUILD_COMBO_EXAMPLE_PRIVATE_CLEAN_ALL)
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
  ethercat_slave_cia402_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/402_cia/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
  ethercat_slave_cia402_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/402_cia/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
  ethercat_slave_ctt_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/ctt/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
  ethercat_slave_ctt_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/ctt/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
  ethercat_slave_simple_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/401_simple/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
  ethercat_slave_simple_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/401_simple/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
  ethernetip_adapter_mii_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile clean
@@ -778,22 +778,22 @@ examples-scrub-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_SCRUB_ALL)
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
  ethercat_slave_cia402_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang_scrub:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/402_cia/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
  ethercat_slave_cia402_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/402_cia/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
  ethercat_slave_ctt_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang_scrub:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/ctt/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
  ethercat_slave_ctt_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/ctt/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
  ethercat_slave_simple_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang_scrub:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/401_simple/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
  ethercat_slave_simple_demo_am243x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
-	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/deviceProfiles/401_simple/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
  ethernetip_adapter_mii_demo_am243x-evm_r5fss0-0_freertos_ti-arm-clang_scrub:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
