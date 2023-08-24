@@ -72,6 +72,8 @@ enet_icss1.$name                          = "CONFIG_ENET_ICSS0";
 enet_icss1.phyToMacInterfaceMode          = "RGMII";
 enet_icss1.mdioMode                       = "MDIO_MODE_MANUAL";
 enet_icss1.LargePoolPktCount              = 80;
+enet_icss1.phyAddr1                       = 3;
+enet_icss1.phyAddr2                       = 15;
 enet_icss1.txDmaChannel[0].$name          = "ENET_DMA_TX_CH0";
 enet_icss1.rxDmaChannel.create(2);
 enet_icss1.rxDmaChannel[0].$name          = "ENET_DMA_RX_CH0";

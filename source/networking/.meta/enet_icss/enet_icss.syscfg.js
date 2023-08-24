@@ -113,18 +113,6 @@ const enet_icssg_board_config = {
             displayFormat: "dec",
             isInteger:true,
             range: [0, 31],
-               readOnly: true,
-            getValue:function (inst) {
-                const icssgPhyAddrInfoMap = new Map(
-                                           [
-                                             ['am64x-evm',{phyAddr1: 15, phyAddr2: 3}],
-                                             ['am243x-evm', {phyAddr1: 15, phyAddr2: 3}],
-                                             ['am243x-lp',{phyAddr1: 3, phyAddr2: 15,}],
-                                           ],
-                                         );
-                let phyInfo =  icssgPhyAddrInfoMap.get(device);
-                return phyInfo.phyAddr1;
-            },
         },
         {
             name: "phyAddr2",
@@ -134,18 +122,6 @@ const enet_icssg_board_config = {
             displayFormat: "dec",
             isInteger:true,
             range: [0, 31],
-            readOnly: true,
-            getValue:function (inst) {
-                const icssgPhyAddrInfoMap = new Map(
-                                           [
-                                             ['am64x-evm',{phyAddr1: 15, phyAddr2: 3}],
-                                             ['am243x-evm', {phyAddr1: 15, phyAddr2: 3}],
-                                             ['am243x-lp',{phyAddr1: 3, phyAddr2: 15,}],
-                                           ],
-                                         );
-                let phyInfo =  icssgPhyAddrInfoMap.get(device);
-                return phyInfo.phyAddr2;
-            },
         },
     ],
 };
