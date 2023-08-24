@@ -16,6 +16,7 @@ const files = {
         "objdef.c",
         "ecatslv.c",
         "emcy.c",
+        "diag.c",
         "sdoserv.c",
         "mailbox.c",
         "ecataoe.c",
@@ -35,6 +36,8 @@ const filedirs = {
 
 const includes = {
     common: [
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/patch/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/patch/src",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/patch/SlaveFiles/src",
@@ -53,6 +56,7 @@ const defines = {
         "SSC_CHECKTIMER=1",
         "USE_ECAT_TIMER=1",
         "PRUICSS_ETHERCAT_SUPPORT",
+	"OSAL_FREERTOS=1",
     ],
 };
 
@@ -76,7 +80,7 @@ function getComponentProperty() {
 
     property.dirPath = path.resolve(__dirname, "..");
     property.type = "library";
-    property.name = "ethercat_slave_bkhfSsc";
+    property.name = "ethercat_slave_bkhf_ssc";
     property.isInternal = false;
     property.isSkipTopLevelBuild = true;
     property.buildOptionCombos = buildOptionCombos;

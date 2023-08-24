@@ -9,7 +9,7 @@ Examples in "examples/industrial_comms/ethercat_slave_demo" use an evaluation ve
     - unzip the downloaded SSC_V5i13.zip into a temporary directory SSC_V5i13
     - enter SSC_V5i13 and unzip SlaveFiles.zip into SlaveFiles
     - copy SlaveFiles/src/* to ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/stack/patch/SlaveFiles/src
-
+    
 (2) Download additional tools
 
 Windows
@@ -17,7 +17,7 @@ Windows
     - Download unix2dos-Text file format converters from gnuwin32 sourceforge(https://sourceforge.net/projects/dos2unix/). (Note that this is not a TI tool. See licensing information(http://www.freebsd.org/copyright/freebsd-license.html) page for more details)
     - patch.exe, dos2unix.exe, unix2dos.exe utilities can be found in their respective bin folders.
     - Copy those binaries to ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/stack/patch
-
+    
 Linux
     - install dos2unix and patch from your package manager
 
@@ -27,4 +27,7 @@ Linux
     - $(MAKE) -s -f makefile.custom-ssc ssc
     - the resulting custom SSC libraries are in ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/stack
 
-(4) Rebuild the example with custom SSC
+(4) Build the example with custom SSC
+
+    - copy the SSC lib for your board into your project
+    - rebuild
