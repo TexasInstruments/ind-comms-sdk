@@ -29,7 +29,7 @@ var group__grp__smi__arg =
       [ "u32FSCPAuthenticity2", "struct_i_o_l_m___s_m_i___s_f_s_c_p_authenticity.html#a2555dd7e70afe0d6a99e50dd79b0cb2d", null ]
     ] ],
     [ "IOLM_SMI_SWMasterConfigListOld", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html", [
-      [ "au8Blacklist", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#a83509fd11a2446f652891b14809426df", null ],
+      [ "au8Blocklist", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#a3af5dea3c67b429241776d2ae5193469", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#a78f03bc76d92f200aaff6a3e61ae388d", null ],
       [ "u16PairingTimeout", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#adbe8e89938a5c76e92e8403a081f413d", null ],
       [ "u8AHTEnable", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#aa1799e65c9d602f1ffa15e78793c5e54", null ],
@@ -78,6 +78,7 @@ var group__grp__smi__arg =
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a3b03fcf1efc8747b0606767b83f3c71c", null ],
       [ "u16FSPAuthentCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a98e435c180780d06c47319215c00b282", null ],
       [ "u16FSPIOStructCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a62a2a9d9b0b03e994dd3585c3abc7671", null ],
+      [ "u16FSPMinShutDownTime", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#aedd0e3a33783b93c3e80e28f670cdaa2", null ],
       [ "u16FSPProtParCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ab547f6b7e92d7ec01990150711ab5a1e", null ],
       [ "u16FSPTime2Ready", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#acfcd17d9be512e9dab844fe80f429386", null ],
       [ "u16FSPWatchdogTime", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a35b8a7c81b2953056813b55ded479ffe", null ],
@@ -115,7 +116,7 @@ var group__grp__smi__arg =
       [ "u8ValidationBackup", "struct_i_o_l_m___s_m_i___s_port_config_list.html#aabd2af3148304c548b0df2aa54747c2f", null ]
     ] ],
     [ "IOLM_SMI_SWPortStatusList", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html", [
-      [ "au8DiagData", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#aac7ebe97e6b44ec8ebff78dfdfa5376a", null ],
+      [ "au8DiagData", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a2d4ef6ec40073c07a3ac19e4934fd2cd", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a63fd687f0fe79554cb1d69ccf5d1e067", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#ad57184e9cc680e7b460f23c8585d97e1", null ],
       [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a9fc5c1cec93eac30bc083fa13f7fa481", null ],
@@ -131,7 +132,7 @@ var group__grp__smi__arg =
       [ "u8WMasterCycleTimePDOut", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a9339dd37b0905a275aa70177c33310e5", null ]
     ] ],
     [ "IOLM_SMI_V113_SWPortStatusList", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html", [
-      [ "au8DiagData", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a8296f733c6b2d0fb66eca52539ae89d4", null ],
+      [ "au8DiagData", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a4fb602ee80a093def3ccbae4b5e54509", null ],
       [ "au8Reserved", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a36d9c13c5e3385c0e6e10037b6baa861", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a33ae8b44090178939b3bb19cb05778d9", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a930286451a65cf33db39c34a13a104b1", null ],
@@ -164,22 +165,8 @@ var group__grp__smi__arg =
       [ "u8TrackMode", "struct_i_o_l_m___s_m_i___s_w_track_config_list.html#a4223bf88e37e414cbe8ee398426c8cb9", null ],
       [ "u8TXPower", "struct_i_o_l_m___s_m_i___s_w_track_config_list.html#a84f7571aab021ddd10a7e8d6c9debf39", null ]
     ] ],
-    [ "IOLM_SMI_SFSPortStatusList", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html", [
-      [ "au8DiagData", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a2663cbccaa1fab1e2ec1e912dad82667", null ],
-      [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a46fa129cde0b7370b99597c0b04f83c6", null ],
-      [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#ae1652a41f120db72545ea3fe11b6e4ce", null ],
-      [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a035713dd43da10a76c7db5c4f5bcd2c3", null ],
-      [ "u8InputDataLength", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#acc120744fcd3589d9ad625b7e25488eb", null ],
-      [ "u8MasterCycleTime", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a46029a0ac7c5187649e60a3379400832", null ],
-      [ "u8NumberOfDiags", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a9d1e80448466440c6200aec8b72cc1c9", null ],
-      [ "u8OutputDataLength", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a3a2de8e0c124c77d582021976b751b3b", null ],
-      [ "u8PortQualityInfo", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a9a042d5404751c223829791d5c1a76c5", null ],
-      [ "u8PortStatusInfo", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#ab5f9a5cb5fe22032ab51ce1da429d2b8", null ],
-      [ "u8RevisionID", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#ada976e7d666cbe4b992f14d8ba55fca7", null ],
-      [ "u8TransmissionRate", "struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a5918b51028952d4a449fb12bde3df1c0", null ]
-    ] ],
     [ "IOLM_SMI_SPortStatusList", "struct_i_o_l_m___s_m_i___s_port_status_list.html", [
-      [ "au8DiagData", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a000bb14196a76d6eba1672d2ae22d062", null ],
+      [ "au8DiagData", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a83dd51906894c72193a29b7fdc2e5cac", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_port_status_list.html#aa07abd24c42ee416641fe0538880ff4b", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a91fc3075515058d45b0cacda247b97e1", null ],
       [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a4376c0e6a49c1ce657d2c96a67f230db", null ],
@@ -225,6 +212,12 @@ var group__grp__smi__arg =
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_p_d_in_out.html#a86ae34507173e0e547cb7e1cb0997ef3", null ],
       [ "u8OE", "struct_i_o_l_m___s_m_i___s_p_d_in_out.html#acb17d54cb26be2232a3bb2d13894e0dd", null ],
       [ "u8PQI", "struct_i_o_l_m___s_m_i___s_p_d_in_out.html#ad7da50c1d8bbaa13a1fc1c531e8af4f2", null ]
+    ] ],
+    [ "IOLM_SMI_SFSPDInOut", "struct_i_o_l_m___s_m_i___s_f_s_p_d_in_out.html", [
+      [ "au8Data", "struct_i_o_l_m___s_m_i___s_f_s_p_d_in_out.html#a9736d8e3bba2110019e668c3e08ea91d", null ],
+      [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_f_s_p_d_in_out.html#a9c88956de9b32d233c80d33d64e0f84a", null ],
+      [ "u8OE", "struct_i_o_l_m___s_m_i___s_f_s_p_d_in_out.html#ad1e07c2603db3553e578f30aae992c77", null ],
+      [ "u8PQI", "struct_i_o_l_m___s_m_i___s_f_s_p_d_in_out.html#afd3e5313b6338163c950f315503b3394", null ]
     ] ],
     [ "IOLM_SMI_SPortEvent", "struct_i_o_l_m___s_m_i___s_generic_event.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_generic_event.html#a3d8ec6c3f90d8e25fd293d708a2e2413", null ],
@@ -281,6 +274,12 @@ var group__grp__smi__arg =
       [ "u8Reserved", "struct_i_o_l_m___s_m_i___s_header.html#a7d5b51556f6a454e3c551f79be0e7767", null ],
       [ "u8Service", "struct_i_o_l_m___s_m_i___s_header.html#a3485c9aa50c9a8c4282f2726c00d41f6", null ]
     ] ],
+    [ "IOLM_SMI_SStdHeader", "struct_i_o_l_m___s_m_i___s_std_header.html", [
+      [ "u16ArgBlockLength", "struct_i_o_l_m___s_m_i___s_std_header.html#a18a34e0e66c646f9c585651c8f1c6ae3", null ],
+      [ "u16ExpRefArgBlockId", "struct_i_o_l_m___s_m_i___s_std_header.html#a3ba36a8ff811db4108a9eb34dedd37fa", null ],
+      [ "u8ClientId", "struct_i_o_l_m___s_m_i___s_std_header.html#ae5b1292c547a71d6db1a12ee7a9041c0", null ],
+      [ "u8Instance", "struct_i_o_l_m___s_m_i___s_std_header.html#a9a111ff83496a31fc245dd9987f7ea79", null ]
+    ] ],
     [ "IOLM_SMI_SArgBlockParam", "struct_i_o_l_m___s_m_i___s_arg_block_param.html", [
       [ "pu8ArgBlock", "struct_i_o_l_m___s_m_i___s_arg_block_param.html#aa398b5c2d57016ddf508c6f77947a6b8", null ],
       [ "u16ArgBlockLength", "struct_i_o_l_m___s_m_i___s_arg_block_param.html#acd300e15b2d56ad5ecb3f51fcca9e69f", null ],
@@ -289,8 +288,15 @@ var group__grp__smi__arg =
     ] ],
     [ "IOLM_SMI_SDeviceEvent", "struct_i_o_l_m___s_m_i___s_device_event.html", null ],
     [ "IOLM_SMI_SPortEvent", "struct_i_o_l_m___s_m_i___s_port_event.html", null ],
+    [ "IOLM_SGI_AUTO_RELEASE_TIME_MAX", "group__grp__smi__arg.html#gaee89e7f96d830581a5e72890524acaad", null ],
+    [ "IOLM_SGI_AUTO_RELEASE_TIME_MIN", "group__grp__smi__arg.html#ga236ece4131632b88851fa2df52c4ff3b", null ],
+    [ "IOLM_SGI_CLIENT_MAX_NAME_LENGTH", "group__grp__smi__arg.html#gad01fe7c982a6e34dff45eeed6579e199", null ],
+    [ "IOLM_SGI_EXCLUSIVE_ACYCLIC_TIMEOUT_MAX", "group__grp__smi__arg.html#ga76c6bb9b4cc5fbf55efbafa47c4866a0", null ],
+    [ "IOLM_SGI_EXCLUSIVE_ACYCLIC_TIMEOUT_MIN", "group__grp__smi__arg.html#ga7ed8dd9e411cf65a1f49483d5e856afb", null ],
     [ "IOLM_SMI_CLIENTID_BROADCAST", "group__grp__smi__arg.html#gab40768eef630521047d9a44214d294e0", null ],
     [ "IOLM_SMI_CLIENTID_INTERN", "group__grp__smi__arg.html#ga1697387793dc36d9f2a0bd02489c0c1a", null ],
+    [ "SGI_MANAGER_CLIENT_ID", "group__grp__smi__arg.html#ga22dff4441bb0574a221e00cde0c08516", null ],
+    [ "IOLM_SGI_SClientRole", "group__grp__smi__arg.html#ga6f6fcf28784821d3a6bacd715e5a2db3", null ],
     [ "IOLM_SMI_EArgBlockID", "group__grp__smi__arg.html#ga397dc25ca3a0ea33e10451a24b98b0fa", null ],
     [ "IOLM_SMI_EIQBehavior", "group__grp__smi__arg.html#gad16c2f75faf3fc7e08af7df45663a252", null ],
     [ "IOLM_SMI_EMasterTypes", "group__grp__smi__arg.html#ga9e6947dd4dc22e3e830217b848a3a519", null ],

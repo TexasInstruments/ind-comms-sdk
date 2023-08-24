@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.04</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -125,6 +125,90 @@ Redistributions in binary form must reproduce the above copyright notice, this l
 Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
 </ol>
 <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h1><a class="anchor" id="version_release10906"></a>
+Release Version 1.09.06</h1>
+<p><b>Fixed Issues:</b> </p><ul>
+<li>
+[OSS1-1608] Path correction to “${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk” <br  />
+  </li>
+</ul>
+<h1><a class="anchor" id="version_release10905"></a>
+Release Version 1.09.05</h1>
+<p><b>New Features:</b> </p><ul>
+<li>
+[OSS1-1194] Updated MCU+SDK to 9.00.00.01 for AM64x/AM243x <br  />
+ Updated example projects and documentation to the latest MCU+SDK. <br  />
+  </li>
+<li>
+[OSS1-928] Structure Alignment to other stacks. <br  />
+  </li>
+<li>
+[OSS1-720] AM64x/AM243x HSFS Upgrades. <br  />
+  </li>
+<li>
+[OSS1-869] Partial Conformity with IO-Link 1.13, ref. Known Issues for failing tests. <br  />
+  </li>
+</ul>
+<h1><a class="anchor" id="version_release10905SNAPSHOT"></a>
+Release Version 1.09.05-SNAPSHOT</h1>
+<p><b>New Features:</b> </p><ul>
+<li>
+Enable IOLM_PD_CYCLE_IRQ. <br  />
+  </li>
+<li>
+Implement roll-back if data storage upload failed. <br  />
+  </li>
+<li>
+IO-Link Master Release v1.08.00. <br  />
+  </li>
+<li>
+Implement non-volatile data storage in example application. <br  />
+  </li>
+<li>
+Upgrade to OSAL v1.1 <br  />
+  </li>
+<li>
+Remove not needed event handling from the example. <br  />
+  </li>
+<li>
+Master start-up with overwrite of the RID (incompatible). <br  />
+  </li>
+<li>
+Master start-up with overwrite of the RID (compatible). <br  />
+  </li>
+<li>
+Master start-up with incorrect DID (V1.0). <br  />
+  </li>
+<li>
+Feature/OSS1-722 implement corrigendum. <br  />
+  </li>
+<li>
+SMI header conversion. <br  />
+  </li>
+<li>
+Remove "nested interrupts" workaround. <br  />
+  </li>
+</ul>
+<p><b>Fixed Issues:</b> </p><ul>
+<li>
+Port deactivated after power cycle. <br  />
+  </li>
+<li>
+Fix delay time of master messages. <br  />
+  </li>
+<li>
+Fix ISDU write response with illegal service code. <br  />
+  </li>
+<li>
+Fix multiple data storage issues. <br  />
+  </li>
+<li>
+Fix port event failures. <br  />
+  </li>
+<li>
+Fix memory footprint in documentation. <br  />
+  </li>
+</ul>
 <h1><a class="anchor" id="version_release10904"></a>
 Release Version 1.09.04</h1>
 <p><b>New Features:</b> </p><ul>
@@ -135,6 +219,17 @@ Release Version 1.09.04</h1>
 <li>
 [OSS1-413] Updated MCU+ SDK to 8.06.00.22 for AM64x/AM243x <br  />
  Updated example projects and documentation to the latest MCU+ SDK. <br  />
+  </li>
+</ul>
+<p><b>Fixed Issues:</b> </p><ul>
+<li>
+[IOL8M-1629] Issues with nested Interrupts on MCU+SDK 8.05.00.01 for AM64x/AM243x. <br  />
+ The issue with nested interrupts has been resolved in 08.06.00.22. The issue <br  />
+ in previous versions could be corrected by: <br  />
+ To fix the issue comment out following line in <br  />
+ "source/kernel/freertos/dpl/r5/HwiP_armv7r_handlers_freertos.c" <br  />
+ #define HWIP_NESTED_INTERRUPTS_IRQ_ENABLE <br  />
+ and rebuild the SDK. <br  />
   </li>
 </ul>
 <h1><a class="anchor" id="version_release10903"></a>
@@ -339,7 +434,7 @@ Release Version 1.04.00</h1>
  AM243x Launchpad GPIO Configuration for IOLink Booster. <br  />
   </li>
 <li>
-[IOL8M-217] AM243x Launchpad Uart SMI <br  />
+[IOL8M-217] AM243x Launchpad UART SMI <br  />
  SMI Interface over UART for Launchpad. <br  />
   </li>
 <li>
@@ -386,7 +481,7 @@ Release Version 1.03.00</h1>
 <p><b>New Features:</b> </p><ul>
 <li>
 [IOL8M-101] LED Port <br  />
- The LEDS on the IOLink/Breakout board have been ported to the AM64x and are correctly signalling the port status. <br  />
+ The LEDS on the IOLink/Breakout board have been ported to the AM64x and are correctly signaling the port status. <br  />
   </li>
 <li>
 [IOL8M-129] PRU IRQ Mapping <br  />

@@ -22,8 +22,8 @@ var group__grp__api__port =
     [ "IOLM_Port_PL_vTransferTrig", "group__grp__api__port.html#ga3c426594ce09a3fc95e3bbeab3b5dec2", null ],
     [ "IOLM_Port_pu8MemAlloc", "group__grp__api__port.html#ga9ec3b72bdc3be3b1993c91bb1c333c17", null ],
     [ "IOLM_Port_s32SysTickVal", "group__grp__api__port.html#ga65eb361bc638770d50681bd9977cfedc", null ],
+    [ "IOLM_Port_u32CriticalStart", "group__grp__api__port.html#gad88902def476d3a678332f397971c2e2", null ],
     [ "IOLM_Port_vCriticalEnd", "group__grp__api__port.html#gae817659f830a5117389894311c8a9083", null ],
-    [ "IOLM_Port_vCriticalStart", "group__grp__api__port.html#gac43e83f22bafc07fbae15b17e1be8ee6", null ],
     [ "IOLM_Port_vMemFree", "group__grp__api__port.html#gaa177a19185ed64c2f6f7ad7da0118489", null ],
     [ "IOLM_Port_vStartTimer", "group__grp__api__port.html#ga5048c43ab45f1f2bcf4571605f41f24b", null ]
 ];

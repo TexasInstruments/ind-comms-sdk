@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.04</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -168,7 +168,7 @@ Functions</h2></td></tr>
 <div class="line">}</div>
 <div class="ttc" id="agroup__group__iol__types_html_ga78652f3b63fcce62df6251974e3816f5"><div class="ttname"><a href="group__group__iol__types.html#ga78652f3b63fcce62df6251974e3816f5">INT16U</a></div><div class="ttdeci">uint16_t INT16U</div><div class="ttdoc">16 bit unsigned integer</div><div class="ttdef"><b>Definition:</b> IOL_Port_Types.h:70</div></div>
 <div class="ttc" id="agroup__group__iol__types_html_gaae113da6bf0dff8b771a8f485228b09b"><div class="ttname"><a href="group__group__iol__types.html#gaae113da6bf0dff8b771a8f485228b09b">INT8U</a></div><div class="ttdeci">uint8_t INT8U</div><div class="ttdoc">8 bit unsigned integer</div><div class="ttdef"><b>Definition:</b> IOL_Port_Types.h:68</div></div>
-<div class="ttc" id="agroup__group__iol__types_html_gga687635072155b67395446ba399c5fec1a3db0b58dcfd9d9770c36c97b30daed25"><div class="ttname"><a href="group__group__iol__types.html#gga687635072155b67395446ba399c5fec1a3db0b58dcfd9d9770c36c97b30daed25">IOL_eErrorType_NONE</a></div><div class="ttdeci">@ IOL_eErrorType_NONE</div><div class="ttdoc">No error.</div><div class="ttdef"><b>Definition:</b> IOL_Types.h:553</div></div>
+<div class="ttc" id="agroup__group__iol__types_html_gga687635072155b67395446ba399c5fec1a3db0b58dcfd9d9770c36c97b30daed25"><div class="ttname"><a href="group__group__iol__types.html#gga687635072155b67395446ba399c5fec1a3db0b58dcfd9d9770c36c97b30daed25">IOL_eErrorType_NONE</a></div><div class="ttdeci">@ IOL_eErrorType_NONE</div><div class="ttdoc">No error.</div><div class="ttdef"><b>Definition:</b> IOL_Types.h:541</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="struct_i_o_l_m___s_m_i___s_callbacks.html" title="SMI Callbacks. Must be initialized via IOLM_SMI_vInit.">IOLM_SMI_SCallbacks</a>, <a class="el" href="group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb" title="Initialize SMI interface.">IOLM_SMI_vInit</a>, <a class="el" href="group__grp__smi__arg.html#ga397dc25ca3a0ea33e10451a24b98b0fa" title="SMI ArgBlock IDs.">IOLM_SMI_EArgBlockID</a> </dd></dl>
 
 </div>
@@ -279,10 +279,10 @@ Functions</h2></td></tr>
 <div class="line">);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Wait for IOLM_SMI_CBDeviceReadCnf</span></div>
-<div class="ttc" id="agroup__grp__smi__onreq_html_gaa3e44bf12da3d55a7823ecbc0e6b444f"><div class="ttname"><a href="group__grp__smi__onreq.html#gaa3e44bf12da3d55a7823ecbc0e6b444f">IOLM_SMI_vDeviceReadReq</a></div><div class="ttdeci">IOL_FUNC_DECL void IOLM_SMI_vDeviceReadReq(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16ArgBlockLength_p, INT8U *pu8ArgBlock_p)</div><div class="ttdoc">Get Device On-request Data.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_API.c:452</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_on_request_data_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_on_request_data.html">IOLM_SMI_SOnRequestData</a></div><div class="ttdoc">This structure is used for On-request Data.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_Types.h:1154</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_on_request_data_html_a52ad8bd0c327f53b5219564a7afbaab5"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_on_request_data.html#a52ad8bd0c327f53b5219564a7afbaab5">IOLM_SMI_SOnRequestData::u16ArgBlockID</a></div><div class="ttdeci">INT16U u16ArgBlockID</div><div class="ttdoc">Big endian.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_Types.h:1155</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_on_request_data_html_a7ed10181435bf65a7214bbe55ba79f1c"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_on_request_data.html#a7ed10181435bf65a7214bbe55ba79f1c">IOLM_SMI_SOnRequestData::u16Index</a></div><div class="ttdeci">INT16U u16Index</div><div class="ttdoc">Big endian.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_Types.h:1156</div></div>
+<div class="ttc" id="agroup__grp__smi__onreq_html_gaa3e44bf12da3d55a7823ecbc0e6b444f"><div class="ttname"><a href="group__grp__smi__onreq.html#gaa3e44bf12da3d55a7823ecbc0e6b444f">IOLM_SMI_vDeviceReadReq</a></div><div class="ttdeci">IOL_FUNC_DECL void IOLM_SMI_vDeviceReadReq(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16ArgBlockLength_p, INT8U *pu8ArgBlock_p)</div><div class="ttdoc">Get Device On-request Data.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_API.c:929</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_on_request_data_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_on_request_data.html">IOLM_SMI_SOnRequestData</a></div><div class="ttdoc">This structure is used for On-request Data.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_Types.h:1139</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_on_request_data_html_a52ad8bd0c327f53b5219564a7afbaab5"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_on_request_data.html#a52ad8bd0c327f53b5219564a7afbaab5">IOLM_SMI_SOnRequestData::u16ArgBlockID</a></div><div class="ttdeci">INT16U u16ArgBlockID</div><div class="ttdoc">Big endian.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_Types.h:1140</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_on_request_data_html_a7ed10181435bf65a7214bbe55ba79f1c"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_on_request_data.html#a7ed10181435bf65a7214bbe55ba79f1c">IOLM_SMI_SOnRequestData::u16Index</a></div><div class="ttdeci">INT16U u16Index</div><div class="ttdoc">Big endian.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_Types.h:1141</div></div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -355,7 +355,7 @@ Functions</h2></td></tr>
 <div class="line">);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Wait for IOLM_SMI_CBDeviceWriteCnf</span></div>
-<div class="ttc" id="agroup__grp__smi__onreq_html_ga648d7354b3b6afa4b98ba0bfa8318f17"><div class="ttname"><a href="group__grp__smi__onreq.html#ga648d7354b3b6afa4b98ba0bfa8318f17">IOLM_SMI_vDeviceWriteReq</a></div><div class="ttdeci">IOL_FUNC_DECL void IOLM_SMI_vDeviceWriteReq(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16ArgBlockLength_p, INT8U *pu8ArgBlock_p)</div><div class="ttdoc">Set Device On-request Data.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_API.c:440</div></div>
+<div class="ttc" id="agroup__grp__smi__onreq_html_ga648d7354b3b6afa4b98ba0bfa8318f17"><div class="ttname"><a href="group__grp__smi__onreq.html#ga648d7354b3b6afa4b98ba0bfa8318f17">IOLM_SMI_vDeviceWriteReq</a></div><div class="ttdeci">IOL_FUNC_DECL void IOLM_SMI_vDeviceWriteReq(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16ArgBlockLength_p, INT8U *pu8ArgBlock_p)</div><div class="ttdoc">Set Device On-request Data.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI_API.c:906</div></div>
 </div><!-- fragment --> 
 </div>
 </div>

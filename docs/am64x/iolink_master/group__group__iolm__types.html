@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.04</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -200,10 +200,14 @@ Macros</h2></td></tr>
 <tr class="separator:ga75afb1d5462983993a0fbc20429c4182"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga08ec8a418dd225233ef97d73b799c662"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__types.html#ga08ec8a418dd225233ef97d73b799c662">IOLM_PORT_READY_PULSE_MAX_DURATION_US</a>&#160;&#160;&#160;1100U</td></tr>
 <tr class="separator:ga08ec8a418dd225233ef97d73b799c662"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga53c5f544ebc96ff663d2fe5fceef94d2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__types.html#ga53c5f544ebc96ff663d2fe5fceef94d2">IOLM_PORT_READY_PULSE_TIMEOUT_MS</a>&#160;&#160;&#160;5000U</td></tr>
-<tr class="separator:ga53c5f544ebc96ff663d2fe5fceef94d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8a4dded6c80f0fbdf4b59d2c53aa9941"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__types.html#ga8a4dded6c80f0fbdf4b59d2c53aa9941">IOLM_PORT_READY_PULSE_POWER_OFF_ON_GAP_MS</a>&#160;&#160;&#160;1000U</td></tr>
-<tr class="separator:ga8a4dded6c80f0fbdf4b59d2c53aa9941"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf6be3ea1a46c78243773c7f330909b1a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__types.html#gaf6be3ea1a46c78243773c7f330909b1a">IOLM_PORT_MIN_TIME_TO_READY_PULSE_MS</a>&#160;&#160;&#160;5000U</td></tr>
+<tr class="separator:gaf6be3ea1a46c78243773c7f330909b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf04e5b1411a2a76fa49fd02b4b69ea87"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__types.html#gaf04e5b1411a2a76fa49fd02b4b69ea87">IOLM_PORT_READY_PULSE_WAIT_TIME_EXPANSION_MS</a>&#160;&#160;&#160;1000U</td></tr>
+<tr class="separator:gaf04e5b1411a2a76fa49fd02b4b69ea87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadc1d4a725d018897d7a98878d59d9734"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__types.html#gadc1d4a725d018897d7a98878d59d9734">IOLM_PORT_MIN_READY_PULSE_POWER_OFF_ON_GAP_MS</a>&#160;&#160;&#160;1000U</td></tr>
+<tr class="separator:gadc1d4a725d018897d7a98878d59d9734"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga99d88a6177cbb8fbc5ca2902cfdd5488"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__types.html#ga99d88a6177cbb8fbc5ca2902cfdd5488">IOLM_PORT_MAX_READY_PULSE_POWER_OFF_ON_GAP_MS</a>&#160;&#160;&#160;10000U</td></tr>
+<tr class="separator:ga99d88a6177cbb8fbc5ca2902cfdd5488"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga198c31c91fca3f459ed4071d8584bd9c"><td class="memItemLeft" align="right" valign="top"><a id="ga198c31c91fca3f459ed4071d8584bd9c"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>IOLM_SMI_ENABLED</b>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:ga198c31c91fca3f459ed4071d8584bd9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -428,6 +432,51 @@ Enumerations</h2></td></tr>
 <tr class="separator:ga7781adaa90a1f786ae5aebb5c938d337"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga99d88a6177cbb8fbc5ca2902cfdd5488"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga99d88a6177cbb8fbc5ca2902cfdd5488">&#9670;&nbsp;</a></span>IOLM_PORT_MAX_READY_PULSE_POWER_OFF_ON_GAP_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IOLM_PORT_MAX_READY_PULSE_POWER_OFF_ON_GAP_MS&#160;&#160;&#160;10000U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Maximum wait time between power off and power on in ms. </p>
+
+</div>
+</div>
+<a id="gadc1d4a725d018897d7a98878d59d9734"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadc1d4a725d018897d7a98878d59d9734">&#9670;&nbsp;</a></span>IOLM_PORT_MIN_READY_PULSE_POWER_OFF_ON_GAP_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IOLM_PORT_MIN_READY_PULSE_POWER_OFF_ON_GAP_MS&#160;&#160;&#160;1000U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Minimum wait time between power off and power on in ms. </p>
+
+</div>
+</div>
+<a id="gaf6be3ea1a46c78243773c7f330909b1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf6be3ea1a46c78243773c7f330909b1a">&#9670;&nbsp;</a></span>IOLM_PORT_MIN_TIME_TO_READY_PULSE_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IOLM_PORT_MIN_TIME_TO_READY_PULSE_MS&#160;&#160;&#160;5000U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Minimum time for ready pulse occurence in ms. </p>
+
+</div>
+</div>
 <a id="ga08ec8a418dd225233ef97d73b799c662"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga08ec8a418dd225233ef97d73b799c662">&#9670;&nbsp;</a></span>IOLM_PORT_READY_PULSE_MAX_DURATION_US</h2>
 
@@ -458,33 +507,18 @@ Enumerations</h2></td></tr>
 
 </div>
 </div>
-<a id="ga8a4dded6c80f0fbdf4b59d2c53aa9941"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8a4dded6c80f0fbdf4b59d2c53aa9941">&#9670;&nbsp;</a></span>IOLM_PORT_READY_PULSE_POWER_OFF_ON_GAP_MS</h2>
+<a id="gaf04e5b1411a2a76fa49fd02b4b69ea87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf04e5b1411a2a76fa49fd02b4b69ea87">&#9670;&nbsp;</a></span>IOLM_PORT_READY_PULSE_WAIT_TIME_EXPANSION_MS</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define IOLM_PORT_READY_PULSE_POWER_OFF_ON_GAP_MS&#160;&#160;&#160;1000U</td>
+          <td class="memname">#define IOLM_PORT_READY_PULSE_WAIT_TIME_EXPANSION_MS&#160;&#160;&#160;1000U</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Wait time between power off an power on in ms. </p>
-
-</div>
-</div>
-<a id="ga53c5f544ebc96ff663d2fe5fceef94d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga53c5f544ebc96ff663d2fe5fceef94d2">&#9670;&nbsp;</a></span>IOLM_PORT_READY_PULSE_TIMEOUT_MS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define IOLM_PORT_READY_PULSE_TIMEOUT_MS&#160;&#160;&#160;5000U</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Timeout for ready pulse detection in ms. </p>
+<p>Additional time to wait for ready pulse occurence in ms. </p>
 
 </div>
 </div>

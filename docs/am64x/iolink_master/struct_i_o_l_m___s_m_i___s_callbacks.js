@@ -18,11 +18,13 @@ var struct_i_o_l_m___s_m_i___s_callbacks =
     [ "cbPDInOutCnf", "struct_i_o_l_m___s_m_i___s_callbacks.html#a73e17118379d8ac6865b9cfaabeee3fb", null ],
     [ "cbPDOutCnf", "struct_i_o_l_m___s_m_i___s_callbacks.html#a907443437cf6d3903c8f333651a23089", null ],
     [ "cbPDOutIQCnf", "struct_i_o_l_m___s_m_i___s_callbacks.html#a4e7f2275c8341ce5296e3a1e0b9da684", null ],
+    [ "cbPDReadbackOutIQCnf", "struct_i_o_l_m___s_m_i___s_callbacks.html#a6eda99b8d6bb92cf659c9680bb1dac5e", null ],
     [ "cbPortConfigurationCnf", "struct_i_o_l_m___s_m_i___s_callbacks.html#a942c19baf3983652d023dfa2ebcebac1", null ],
     [ "cbPortEventInd", "struct_i_o_l_m___s_m_i___s_callbacks.html#aeddec6145f3903b835433a03b743345d", null ],
     [ "cbPortStatusCnf", "struct_i_o_l_m___s_m_i___s_callbacks.html#a6066612214cbbea8ba83745faa562c02", null ],
     [ "cbReadbackPortConfigurationCnf", "struct_i_o_l_m___s_m_i___s_callbacks.html#a854a17a587f09ef5e00eb382aa4dcdde", null ],
     [ "cbResetDefaults", "struct_i_o_l_m___s_m_i___s_callbacks.html#a802a744ec351a415efdfa3825aee8281", null ],
     [ "cbSaveNvCfg", "struct_i_o_l_m___s_m_i___s_callbacks.html#afaa3488d5ddb01580296308a29799ab8", null ],
-    [ "cbSettings", "struct_i_o_l_m___s_m_i___s_callbacks.html#a47e17dafbb9892c4ddbf64b540ae6997", null ]
+    [ "cbSettings", "struct_i_o_l_m___s_m_i___s_callbacks.html#a47e17dafbb9892c4ddbf64b540ae6997", null ],
+    [ "cbStdInd", "struct_i_o_l_m___s_m_i___s_callbacks.html#aa1ffa279cf2e17dc869215639d5362b8", null ]
 ];

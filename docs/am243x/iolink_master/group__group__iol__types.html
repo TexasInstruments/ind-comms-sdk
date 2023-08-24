@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.04</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -538,8 +538,11 @@ Enumerations</h2></td></tr>
 , <b>IOL_eErrorType_ARGBLOCK_LENGTH_INVALID</b> = 0x4034
 , <br />
 &#160;&#160;<b>IOL_eErrorType_SERVICE_TEMP_UNAVAILABLE</b> = 0x4036
+, <b>IOL_eErrorType_INCONSISTENT_DS_DATA</b> = 0x4039
 , <b>IOL_eErrorType_PORT_CONFIG_INCONSISTENT</b> = 0x4041
 , <b>IOL_eErrorType_ACCESS_RIGHT_NOT_GRANTED</b> = 0x4042
+, <br />
+&#160;&#160;<a class="el" href="group__group__iol__types.html#gga687635072155b67395446ba399c5fec1a0bf52d0ad2ec90fc54d55031f922f27a">IOL_eErrorType_WRONG_PD_OUT_LENGTH</a> = 0x4080
 <br />
  }</td></tr>
 <tr class="memdesc:ga687635072155b67395446ba399c5fec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This enumeration indicates the permissible ISDU ErrorTypes resulting from the Device application.  <a href="group__group__iol__types.html#ga687635072155b67395446ba399c5fec1">More...</a><br /></td></tr>
@@ -663,7 +666,7 @@ Enumerations</h2></td></tr>
 , <a class="el" href="group__group__iol__types.html#gga88f063dc795b0f9609744827bde174baaa68fd792cb331e494286b40858e050c8">IOL_eEInstance_AL</a>
 , <br />
 &#160;&#160;<a class="el" href="group__group__iol__types.html#gga88f063dc795b0f9609744827bde174baaeed4012ee8bd7a02fa966f510b09f649">IOL_eEInstance_APPLICATION</a>
-, <b>IOL_eEInstance_RESERVED_4</b>
+, <a class="el" href="group__group__iol__types.html#gga88f063dc795b0f9609744827bde174baa4a770cb8f8a2cfbca322e067ccc4a0d9">IOL_eEInstance_SYSTEM</a>
 , <b>IOL_eEInstance_RESERVED_5</b>
 , <b>IOL_eEInstance_RESERVED_6</b>
 <br />
@@ -1000,6 +1003,8 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="gga88f063dc795b0f9609744827bde174baaeed4012ee8bd7a02fa966f510b09f649"></a>IOL_eEInstance_APPLICATION&#160;</td><td class="fielddoc"><p>Event source is application layer. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga88f063dc795b0f9609744827bde174baa4a770cb8f8a2cfbca322e067ccc4a0d9"></a>IOL_eEInstance_SYSTEM&#160;</td><td class="fielddoc"><p>Event source is system layer. </p>
+</td></tr>
 </table>
 
 </div>
@@ -1194,6 +1199,9 @@ Enumerations</h2></td></tr>
 <p>The Master generates a negative service response with this ErrorType, if its data link layer detects an ISDU illegal service primitive. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga687635072155b67395446ba399c5fec1ad7f094c200cf6dff5e27ad0f846fff27"></a>IOL_eErrorType_ARGBLOCK_NOT_SUPPORTED&#160;</td><td class="fielddoc"><p>SMI ErrorTypes. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga687635072155b67395446ba399c5fec1a0bf52d0ad2ec90fc54d55031f922f27a"></a>IOL_eErrorType_WRONG_PD_OUT_LENGTH&#160;</td><td class="fielddoc"><p>Kunbus specific SMI ErrorTypes. <br  />
+ </p>
 </td></tr>
 </table>
 

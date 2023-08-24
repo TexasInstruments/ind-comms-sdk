@@ -3,6 +3,7 @@ var struct_i_o_l_m___s_m_i___s_f_s_port_config_list =
     [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a3b03fcf1efc8747b0606767b83f3c71c", null ],
     [ "u16FSPAuthentCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a98e435c180780d06c47319215c00b282", null ],
     [ "u16FSPIOStructCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a62a2a9d9b0b03e994dd3585c3abc7671", null ],
+    [ "u16FSPMinShutDownTime", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#aedd0e3a33783b93c3e80e28f670cdaa2", null ],
     [ "u16FSPProtParCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ab547f6b7e92d7ec01990150711ab5a1e", null ],
     [ "u16FSPTime2Ready", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#acfcd17d9be512e9dab844fe80f429386", null ],
     [ "u16FSPWatchdogTime", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a35b8a7c81b2953056813b55ded479ffe", null ],

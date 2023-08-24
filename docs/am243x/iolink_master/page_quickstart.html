@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.04</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -106,25 +106,23 @@ $(document).ready(function(){initNavTree('page_quickstart.html',''); initResizab
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="qs_installation_software"></a>
 Software Installation</h1>
-<p>To start working with the Eight Port IO-Link Master, you need the software Code Composer Studio&trade;(CCS).</p>
+<p>To start working with the IO-Link Master, you need the software Code Composer Studio&trade;(CCS).</p>
 <p>This example has been compiled and tested with the following versions: </p><table class="doxtable">
 <tr>
 <th>Software Package </th><th>Version  </th></tr>
 <tr>
-<td>Code Composer Studio&trade;(CCS) </td><td>12.2.0  </td></tr>
+<td>Code Composer Studio&trade;(CCS) </td><td>12.4.0  </td></tr>
 <tr>
-<td>MCU+ SDK </td><td>08.06.00.22  </td></tr>
+<td>MCU+ SDK </td><td>09.00.00.01  </td></tr>
 <tr>
-<td>TI ARM clang </td><td>2.1.2.LTS  </td></tr>
+<td>TI ARM clang </td><td>2.1.3.LTS  </td></tr>
 <tr>
-<td>SysConfig Tool </td><td>1.15.0  </td></tr>
+<td>SysConfig Tool </td><td>1.17.0  </td></tr>
 </table>
 <h1><a class="anchor" id="page_example"></a>
 CCS Example Project</h1>
-<h2><a class="anchor" id="qs_installation_connect"></a>
-Connect the Evaluation Board</h2>
-<h3><a class="anchor" id="connect_eval_board_am243x_lp"></a>
-LP-AM243</h3>
+<h2><a class="anchor" id="connect_eval_board_am243x_lp"></a>
+Connect the Evaluation Board LP-AM243</h2>
 <ul>
 <li>
 Connect the <b>IO-Link/Breakout Board BOOSTXL-IOLINKM-8</b> to the <b>LP-AM243</b> board via <b>J1/J3</b>, <b>J2/J4</b>, <b>J5/J7</b>, and <b>J6/J8</b> connectors. </li>
@@ -136,8 +134,8 @@ Connect the <b>J7</b> connector on the <b>IO-Link/Breakout Board BOOSTXL-IOLINKM
 Connect the <b>LP-AM243</b> to a computer using a micro-USB cable going to the <b>J20</b> connector. This is for <b>UART</b> <br  />
  (for IOLink SMI Communication) as well as <b>JTAG</b> (for uploading and debugging). </li>
 </ul>
-<h3><a class="anchor" id="connect_eval_board_am243x_evm"></a>
-AM243x EVM</h3>
+<h2><a class="anchor" id="connect_eval_board_am243x_evm"></a>
+Connect the Evaluation Board AM243x EVM</h2>
 <ul>
 <li>
 Connect the <b>IO-Link/Breakout Board TMDS64DC01EVM</b> to the <b>AM243x EVM</b> board via <b>J2</b> and <b>J3</b>. </li>
@@ -153,70 +151,75 @@ Connect the evaluation board to a computer using two micro-USB cables going to <
 Steps to Run the Example</h2>
 <ul>
 <li>
-When using CCS projects to build, import the CCS project for the required combination and build it using the CCS project menu, see <a href="http://software-dl.ti.com/mcu-plus-sdk/esd/AM243X/latest/exports/docs/api_guide_am243x/CCS_PROJECTS_PAGE.html">Using SDK with CCS Projects</a>. </li>
+When using CCS projects to build, import the CCS project for the required combination and build it using the CCS project menu, see <a href="http://software-dl.ti.com/mcu-plus-sdk/esd/AM243X/latest/exports/docs/api_guide_am243x/CCS_PROJECTS_PAGE.html">Using SDK with CCS Projects</a>.</li>
 <li>
 When using makefiles to build, note the required combination and build using make command, see <a href="http://software-dl.ti.com/mcu-plus-sdk/esd/AM243X/latest/exports/docs/api_guide_am243x/MAKEFILE_BUILD_PAGE.html">Using SDK with Makefiles</a>. </li>
 <li>
-Launch a CCS debug session and run the executable, see <a href="http://software-dl.ti.com/mcu-plus-sdk/esd/AM243X/latest/exports/docs/api_guide_am243x/CCS_LAUNCH_PAGE.html">CCS Launch, Load and Run</a>. </li>
+Launch a CCS debug session and run the executable, see <a href="http://software-dl.ti.com/mcu-plus-sdk/esd/AM243X/latest/exports/docs/api_guide_am243x/CCS_LAUNCH_PAGE.html">CCS Launch, Load and Run</a>.</li>
 </ul>
 <h2><a class="anchor" id="qs_example_import"></a>
 Import Project in CCS</h2>
 <p><b>Importing the project into your CCS workspace</b></p>
 <ul>
 <li>
-Click on <b>File &rarr; Import</b>.</li>
-</ul>
-<p><img src="CCS_Example_01.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<ul>
+Click on <b>File &rarr; Import</b>.<br  />
+ <img src="CCS_Example_01.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
 <li>
-Select <b>C/C++ &rarr; CCS Projects</b>. <ul>
+Select <b>C/C++ &rarr; CCS Projects</b>. </li>
 <li>
-Click on <b>Next</b>.</li>
-</ul>
-</li>
-</ul>
-<p><img src="CCS_Example_02.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<ul>
+Click on <b>Next</b>.<br  />
+ <img src="CCS_Example_02.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
 <li>
 Navigate to the <b>examples/industrial_comms/iolink_master_demo</b> folder using the <b>Browse...</b> button. </li>
 <li>
 <b>Select the folder</b> of the board you want to import. </li>
 <li>
-Click on <b>Select folder</b>. </li>
-</ul>
-<p><img src="CCS_Example_03_64x.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<p>CCS should have discovered and selected the project. </p><ul>
+Click on <b>Select folder</b>.<br  />
+ <img src="CCS_Example_03_64x.PNG" alt="" width="600px" height="auto" class="inline"/><br  />
+ CCS should have discovered and selected the project. </li>
 <li>
-Click on <b>Finish</b> to import the project.</li>
+Click on <b>Finish</b> to import the project.<br  />
+ <img src="CCS_Example_04_64x.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
 </ul>
-<p><img src="CCS_Example_04_64x.PNG" alt="" width="600px" height="auto" class="inline"/></p>
 <h2><a class="anchor" id="qs_example_debug"></a>
 Compile, Run and Debug Project</h2>
-<p>Make sure the IO-Link Master USB JTAG is connected to the PC and the Master is powered on.Since we are running the application on the R5F, one needs to initialize the whole board through the DMSC M3.<br  />
- The MCU+ SDK includes a launch script which does all the initalization steps. <br  />
- It is located in the MCU+ SDK folder at <b>mcu_plus_sdk_am243x_08_06_00_22 /tools/ccs_load/am64x_am243x/</b>. <br  />
- Depending on your CCS setup, one needs to edit the paths to fit the local installation in the <b>load_dmsc.js</b> file, <br  />
- which can be seen in the Screenshot below. The version number needs to be changed to the installed MCU+ SDK version if it is not automatically detected. <img src="CCS_Example_launch01_64x.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<p>After that, one needs to check your Debug Configuration in <b>Run-&gt;Debug Configurations</b>.<br  />
- See if the configured launch file location fits to your setup environment.<br  />
- Otherwise one also needs to edit this line.<br  />
- <img src="CCS_Example_launch00_64x.PNG" alt="" width="600px" height="auto" class="inline"/></p>
 <ul>
 <li>
-Click on <b>Debug</b>.</li>
+Make sure the IO-Link Master <b>USB JTAG is connected</b> to the PC and the <b>Master is powered on.</b>  </li>
+<li>
+Since we are running the application on the R5F, one needs to <b>initialize the whole board through the DMSC M3.</b><br  />
+ The MCU+ SDK includes a launch script which does all the initalization steps.<br  />
+ It is located in the MCU+ SDK folder at <b>mcu_plus_sdk_am243x_09_00_00_01 /tools/ccs_load/am64x_am243x/</b>. </li>
+<li>
+Depending on the local CCS setup, one needs to <b>edit the paths</b> to fit the local installation <b>in theload_dmsc.js</b> file,<br  />
+ which can be seen in the screenshot below. The version number needs to be changed to the installed MCU+ SDK version if it is not automatically detected or already the correct version.<br  />
+ <img src="CCS_Example_launch01_64x.PNG" alt="" width="600px" height="auto" class="inline"/>  </li>
+<li>
+After that, one needs to check your Debug Configuration in <b>Run &rarr; Debug Configurations</b>.<br  />
+ See if the configured launch file location fits to your setup environment.<br  />
+ Otherwise one also needs to edit this line.<br  />
+ <img src="CCS_Example_launch00_64x.PNG" alt="" width="600px" height="auto" class="inline"/>  </li>
+<li>
+Click on <b>Debug</b>.<br  />
+ <img src="CCS_Example_07_64x.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
 </ul>
-<p><img src="CCS_Example_07_64x.PNG" alt="" width="600px" height="auto" class="inline"/></p>
 <p>CCS automatically builds the project, connects to the Master,<br  />
  transfers the compiled binary project data into the Master's RAM and starts a debugging session.</p>
 <p>When the transfer is complete the debugger halts at the <b>main()</b> function.</p>
 <ul>
 <li>
-Click on <b>Run</b> to execute the program.</li>
+Click on <b>Run</b> to execute the program.<br  />
+ <img src="CCS_Example_08_64x.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
 </ul>
-<p><img src="CCS_Example_08_64x.PNG" alt="" width="600px" height="auto" class="inline"/></p>
+<p><b>Be aware that the IO-Link AM437x IDK Main Board revision differs from the regular IDK<br  />
+ and does not support SD storage.</b><br  />
+</p>
+<p>To run your code without the CCS debugger, you need to manually flash the compiled binary data<br  />
+ (including a compatible bootloader) into the devices QSPI attached flash memory.<br  />
+ (See <u><a href="https://downloads.ti.com/mcu-plus-sdk/esd/AM243X/latest/exports/docs/api_guide_am243x/GETTING_STARTED_FLASH.html">Flash a Hello World example</a></u>)</p>
 <h2><a class="anchor" id="qs_example_modify"></a>
 Modify Example</h2>
-<p>This example runs the Master stack functions in its own seperate task. This task initializes<br  />
+<p>This example runs the Master stack functions in its own separate task. This task initializes<br  />
  all needed interfaces and then executes the <b>IOLM_exampleRun()</b> function in an endless loop.<br  />
  The <b>IOLM_exampleRun()</b> function is located in the <b>ExampleSMI.c</b> file,<br  />
  where it is possible to add or modify code to fit the desired environment.<br  />
@@ -224,24 +227,27 @@ Modify Example</h2>
 <h1><a class="anchor" id="page_gui"></a>
 SMI - Graphical User Interface</h1>
 <p>The <a href="http://software-dl.ti.com/mcu-plus-sdk/esd/common/IOL_Master_GUI.zip">IO-Link Master GUI</a> can be used to connect to the IO-Link Master's<br  />
- Standardized Master Interface (<a class="el" href="page_smi.html">SMI</a>) via usb, set up configuration parameters,<br  />
+ Standardized Master Interface (<a class="el" href="page_smi.html">SMI</a>) via USB, to set up configuration parameters,<br  />
  read status information and communicate with attached IO-Link devices.<br  />
 </p>
-<h2><a class="anchor" id="qs_gui_connect"></a>
-Connect to the Master</h2>
-<p>Now one can connect a micro USB cable to the UART USB portfor the AM243x EVM or to XDS110 MAIN UART0 USB port (J20) for the AM243x Launchpad.<br  />
-</p>
-<ul>
-<li>Make sure the example project is running on the IO-Link Master.</li>
-<li>Start the <b>IO-Link Master GUI</b> tool.</li>
-<li>Wait for it to scan available interfaces</li>
-<li><b>COMX: Master</b> should appear in <b>Serial Connection &rarr; Port</b>.</li>
-<li>Click on <b>Serial Connection &rarr; Connect</b></li>
+<pre class="fragment">\subsection qs_gui_connect Connect to the Master
+</pre><p> Now one can connect a micro USB cable to the UART USB port for the AM243x EVM or to XDS110 MAIN UART0 USB port (J20) for the AM243x Launchpad.<br  />
+ </p><ul>
+<li>
+Make sure the example project is running on the IO-Link Master. </li>
+<li>
+Start the <a href="http://software-dl.ti.com/mcu-plus-sdk/esd/common/IOL_Master_GUI.zip">IO-Link Master GUI</a> tool. </li>
+<li>
+Wait for it to scan available interfaces </li>
+<li>
+<b>COMx: Master</b> should appear in <b>Serial Connection &rarr; Port</b>. </li>
+<li>
+Click on <b>Serial Connection &rarr; Connect</b><br  />
+ <img src="IOL_Master_GUI_USB_02.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
 </ul>
-<p><img src="IOL_Master_GUI_USB_02.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<h3><a class="anchor" id="qs_gui_ports"></a>
-Port Configuration</h3>
-<p>In the <b>Std Port Config</b> tab the configuration and status of the Master's eight ports<br  />
+<h2><a class="anchor" id="qs_gui_ports"></a>
+Port Configuration</h2>
+<p>In the <b>Std Port Config</b> tab the configuration and status of the Master's ports<br  />
  can be read and changed.</p>
 <p>You can retrieve the Master's current port configuration and port status<br  />
  by clicking the corresponding buttons.<br  />
@@ -249,90 +255,81 @@ Port Configuration</h3>
 <p>The default setting sets all ports except the first one (port number: 0) to <b>DEACTIVED</b>.<br  />
  Port 0 is by default set to <b>IOL_AUTOSTART</b>, which starts an auto-detect-sequence.<br  />
  For more details on port modes see the section <a class="el" href="page_startcom.html#sect_startcom_start">Set up IO Link Port</a> <br  />
-and the <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>.<br  />
+and the <a class="el" href="references.html#section_iol_spec_1_1_3">IO-Link Specification v1.1.3</a>.<br  />
 </p>
 <p>After changing the Master's port configuration it will be saved in its internal<br  />
  non-volatile memory and remain even after restarting or turning it off.</p>
-<p>To connect a Device to a certain port, its mode has to be changed to <b>IOL_AUTOSTART</b>.</p>
+<p>To connect a device to a certain port, its mode has to be changed to <b>IOL_AUTOSTART</b>.</p>
 <ul>
 <li>
-Physically connect your Device to the IO-Link add-on board. </li>
+Physically connect your device to the IO-Link add-on board. </li>
 <li>
-Set the <b>Port Number</b> to the desired port one wants to configure.</li>
+Set the <b>Port Number</b> to the desired port one wants to configure.<br  />
+ <img src="IOL_Master_GUI_19.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
+<li>
+Open the dropdown list <b>Port Mode:</b> and select the desired mode.<br  />
+ <img src="IOL_Master_GUI_20.PNG" alt="" width="600px" height="auto" class="inline"/><br  />
+ </li>
+<li>
+Click on <b>Set Port Config</b> to send your altered configuration to the Master.<br  />
+ <img src="IOL_Master_GUI_21.PNG" alt="" width="600px" height="auto" class="inline"/><br  />
+ If a device is connected and the communication is established, the port's status changes<br  />
+ from <b>DEACTIVED</b> to <b>OPERATE</b>. </li>
+<li>
+Click on <b>Get Port Status</b> to see if the device is connected.<br  />
+ <img src="IOL_Master_GUI_22.PNG" alt="" width="600px" height="auto" class="inline"/></li>
 </ul>
-<p><img src="IOL_Master_GUI_19.PNG" alt="" width="600px" height="auto" class="inline"/></p>
+<h2><a class="anchor" id="qs_gui_acyclic"></a>
+Read/Write Process Data</h2>
 <ul>
 <li>
-Open the dropdown list <b>Port Mode:</b>. </li>
+To read Process Data from a device go to the <b>Process Data</b> tab </li>
 <li>
-Select the desired mode.</li>
+and set <b>Port:</b> to its corresponding port number. </li>
+<li>
+Click on <b>Read</b> to read Process Data.<br  />
+ <img src="IOL_Master_GUI_10.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
+<li>
+Enable <b>Auto (ms):</b> </li>
+<li>
+Click on <b>Read</b> to get continuous data.<br  />
+ <img src="IOL_Master_GUI_11.PNG" alt="" width="600px" height="auto" class="inline"/></li>
 </ul>
-<p><img src="IOL_Master_GUI_20.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<ul>
-<li>
-Click on <b>Set Port Config</b> to send your altered configuration to the Master.</li>
-</ul>
-<p><img src="IOL_Master_GUI_21.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<p>If a Device is connected and the communication is established, the port's status changes<br  />
- from <b>DEACTIVED</b> to <b>OPERATE</b>.</p>
-<ul>
-<li>
-Click on <b>Get Port Status</b> to see if the device is connected.</li>
-</ul>
-<p><img src="IOL_Master_GUI_22.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<h3><a class="anchor" id="qs_gui_acyclic"></a>
-Read/Write Process Data</h3>
-<p>To read Process Data from a Device go to the <b>Process Data</b> tab<br  />
- and set <b>Port:</b> to its corresponding port number.<br  />
-</p>
-<ul>
-<li>
-Click on <b>Read</b> to read Process Data.</li>
-</ul>
-<p><img src="IOL_Master_GUI_10.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<ul>
-<li>
-Select <b>Auto (ms):</b>. </li>
-<li>
-Click on <b>Read</b> to get continuous data.</li>
-</ul>
-<p><img src="IOL_Master_GUI_11.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<h3><a class="anchor" id="qs_gui_isdu"></a>
-Read/Write ISDUs</h3>
+<h2><a class="anchor" id="qs_gui_isdu"></a>
+Read/Write ISDUs</h2>
 <p>In the <b>On Request Data</b> tab you can request Indexed Service Data Units (ISDUs)<br  />
- from the Device or send ISDUs to the Device.<br  />
- For more information on ISDUs see the <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>.<br  />
-</p>
-<p>As an example, you can get the vendor name by setting the <b>Index</b> to <b>16</b><br  />
- and leaving the <b>Sub-Index</b> set to <b>0</b>.</p>
-<p><img src="IOL_Master_GUI_12.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<h3><a class="anchor" id="qs_gui_iodd"></a>
-Load IODD files</h3>
-<p>It is possible to import IO Device Description (IODD) files for ones connected Devices<br  />
- in the <b>Std Port Config</b> tab. This makes it easier to read and set Device parameters.<br  />
- For more information on IODD files see the <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a> and the <u><a href="https://io-link.com/en/IODDfinder/IODDfinder.php">IODDFinder</a></u>.</p>
+ from the device or send ISDUs to the device.<br  />
+ For more information on ISDUs see the <a class="el" href="references.html#section_iol_spec_1_1_3">IO-Link Specification v1.1.3</a>.<br  />
+ </p><ul>
+<li>
+As an example, you can get the vendor name by setting <br  />
+ the <b>Index</b> to <b>16</b> and leaving the <b>Sub-Index</b> set to <b>0</b>.<br  />
+ <img src="IOL_Master_GUI_12.PNG" alt="" width="600px" height="auto" class="inline"/></li>
+</ul>
+<h2><a class="anchor" id="qs_gui_iodd"></a>
+Load IODD files</h2>
+<p>It is possible to import IO Device Description (IODD) files for ones connected devices<br  />
+ in the <b>Std Port Config</b> tab. This makes it easier to read and set device parameters.<br  />
+ For more information on IODD files see the <a class="el" href="references.html#section_iol_spec_1_1_3">IO-Link Specification v1.1.3</a> and the <u><a href="https://io-link.com/en/IODDfinder/IODDfinder.php">IODDFinder</a></u>.</p>
 <ul>
 <li>
 Make sure the port status is in <b>OPERATE</b> mode. </li>
 <li>
-Click on <b>Read IODD</b>.</li>
-</ul>
-<p><img src="IOL_Master_GUI_14.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<ul>
+Click on <b>Read IODD</b>.<br  />
+ <img src="IOL_Master_GUI_14.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
 <li>
-Navigate to the specific IODD file for the Device. </li>
+Navigate to the specific IODD file for the device. </li>
 <li>
-Click on Open.</li>
-</ul>
-<p><img src="IOL_Master_GUI_13.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<ul>
+Click on Open.<br  />
+ <img src="IOL_Master_GUI_13.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
 <li>
 Click on the <b>ISDU Request Data</b> tab. </li>
 <li>
-Click on <b>Update List</b> to read all available ISDUs from the Device.</li>
+Click on <b>Update List</b> to read all available ISDUs from the device.<br  />
+ <img src="IOL_Master_GUI_16.PNG" alt="" width="600px" height="auto" class="inline"/> </li>
+<li>
+Values which aren't read-only can be changed and then sent to the device by pressing the <b>Write</b> button.</li>
 </ul>
-<p><img src="IOL_Master_GUI_16.PNG" alt="" width="600px" height="auto" class="inline"/></p>
-<p>Values which aren't read-only can be changed and then sent to the Device by pressing the <b>Write</b> button. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

@@ -31,6 +31,8 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 1.09.06", "releasenotes.html#version_release10906", null ],
+      [ "Release Version 1.09.05", "releasenotes.html#version_release10905", null ],
       [ "Release Version 1.09.04", "releasenotes.html#version_release10904", null ],
       [ "Release Version 1.09.03", "releasenotes.html#version_release10903", null ],
       [ "Release Version 1.09.02", "releasenotes.html#version_release10902", null ],
@@ -70,7 +72,7 @@ var NAVTREE =
     [ "Quickstart - IO-Link Master", "page_quickstart.html", [
       [ "Software Installation", "page_quickstart.html#qs_installation_software", null ],
       [ "Example", "page_quickstart.html#page_example", null ],
-      [ "Connect the Evaluation Board", "page_quickstart.html#qs_installation_connect", null ],
+      [ "Connect the Evaluation Board", "@ref qs_installation_connect", null ],
       [ "SMI - Graphical User Interface", "page_quickstart.html#page_gui", null ]
     ] ],
     [ "SMI", "page_smi.html", [
@@ -107,18 +109,18 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Related Information", "usergroup0.html", [
-      [ "KUNBUS GmbH", "^http://www.kunbus.com", null ]
+      [ "KUNBUS GmbH", "^https://www.kunbus.com", null ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"_implementation.html",
-"group__group__iol__types.html#ggad0ca49c3bb7c13c80fd6a22eea40bccfa4a5c77b1bda674c148a94ac31dbdb2eb",
-"releasenotes.html#version_release10201",
-"struct_i_o_l_m___s_m_i___s_instance.html#a49137fa210be7c872a645a1e097058d3",
-"struct_i_o_l_m___s_p_d_buffer.html"
+"@ref qs_installation_connect",
+"group__group__iol__types.html#ggab840d2419d921adc28bb477237ad1704ab0f46a8a78f8d31d6b4ab63738bf0e53",
+"page_smi.html",
+"struct_i_o_l_m___s_m_i___s_generic_event.html",
+"struct_i_o_l_m___s_m_i___s_w_single_scan_status_list.html#a76d840e63188eafc1ebbc1ae62e5992a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

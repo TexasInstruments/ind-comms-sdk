@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.04</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -173,7 +173,7 @@ Process Data API</h1>
 </ul>
 <h1><a class="anchor" id="section_isdu_api_functions"></a>
 ISDU/Parameter API</h1>
-<p>The ISDU/Parameter API is used to access parameters of a Device. Requests are sent with the Req functions. If the request is finished (which takes multiple IO-Link cycles), the corresponding Cnf function is called with the result. If a Device needs too much time to respond, the request can be aborted. There is also a auto timeout of IOL_ISDU_TIMEOUT_MS milliseconds.</p>
+<p>The ISDU/Parameter API is used to access parameters of a device. Requests are sent with the Req functions. If the request is finished (which takes multiple IO-Link cycles), the corresponding Cnf function is called with the result. If a device needs too much time to respond, the request can be aborted. There is also a auto timeout of IOL_ISDU_TIMEOUT_MS milliseconds.</p>
 <ul>
 <li><a class="el" href="group__grp__api__isdu.html#ga5cd1e237d30eec6b6a062baa23e24d3f" title="Send ISDU read request.">IOLM_API_AL_eReadReq()</a></li>
 <li><a class="el" href="group__grp__api__isdu.html#ga7f46e638ea6459280f328bdec8891cb8" title="Send ISDU write request.">IOLM_API_AL_eWriteReq()</a></li>
@@ -187,7 +187,7 @@ Event API</h1>
 <ul>
 <li><a class="el" href="group__grp__api__evt.html#ga16de8a1e22142a205651011dfc6dc93c" title="Event indication.">IOLM_Port_AL_vEventInd()</a></li>
 </ul>
-<p>Events must always be acknowledged. The application will receive no further Device Event until the last one is acknowledged by the following function.</p>
+<p>Events must always be acknowledged. The application will receive no further device Event until the last one is acknowledged by the following function.</p>
 <ul>
 <li><a class="el" href="group__grp__api__evt.html#ga32c751319969c793018239e1f2d9c7f5" title="Acknowledge Device Events.">IOLM_API_AL_vEventRsp()</a></li>
 </ul>

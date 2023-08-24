@@ -1,5 +1,6 @@
 var group__group__iolm__port__definition =
 [
+    [ "IOL_SERIAL_DISABLE_CLIENT_FILTER", "group__group__iolm__port__definition.html#gaf89dfc414397ee97c5f3f5fbab548eca", null ],
     [ "IOLM_ADDITIONAL_MSEQ_TIMEOUT", "group__group__iolm__port__definition.html#ga7bf3f53fa907e2cf680639f7814ee4c0", null ],
     [ "IOLM_CRITICAL_DECL", "group__group__iolm__port__definition.html#ga64b1830b4e58b1eb1345f7883eb68705", null ],
     [ "IOLM_CRITICAL_DECL", "group__group__iolm__port__definition.html#ga64b1830b4e58b1eb1345f7883eb68705", null ],
@@ -17,6 +18,7 @@ var group__group__iolm__port__definition =
     [ "IOLM_PHY_CYCLETIMER", "group__group__iolm__port__definition.html#ga45668c4d756e3cd328f4bb3800377740", null ],
     [ "IOLM_PHY_FRAMEHANDLER", "group__group__iolm__port__definition.html#ga0f036681baf6aca54b7a50b9d78416b1", null ],
     [ "IOLM_PORT_COUNT", "group__group__iolm__port__definition.html#gab2bf19bb72577e08170754784cbf341c", null ],
+    [ "IOLM_PORT_POWER_OFF_ON_CORRECTION_VALUE_MS", "group__group__iolm__port__definition.html#ga6a169132efc7c7b6c555bc00ff4b0150", null ],
     [ "IOLM_SMI_ENABLED", "group__group__iolm__port__definition.html#ga198c31c91fca3f459ed4071d8584bd9c", null ],
     [ "IOLM_SYSTICK_INTERVAL_MS", "group__group__iolm__port__definition.html#gad813661ce234e847efbcd96a203c5001", null ],
     [ "IOLM_WAKE_RETRY_TIMEOUT", "group__group__iolm__port__definition.html#ga4b46393d7656981da4c8b48df0247983", null ],

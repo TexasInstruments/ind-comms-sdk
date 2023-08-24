@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.04</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -178,6 +178,13 @@ Macros</h2></td></tr>
 <tr class="memitem:ga6dd18d8fb90d06f78e2d219dc5c044ee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__port__definition.html#ga6dd18d8fb90d06f78e2d219dc5c044ee">IOLM_WAKEUP_PULSE_TIMER_US</a>&#160;&#160;&#160;75</td></tr>
 <tr class="memdesc:ga6dd18d8fb90d06f78e2d219dc5c044ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake-up pulse timer length in microseconds (pulse needs to be 75-85 us).  <a href="group__group__iolm__port__definition.html#ga6dd18d8fb90d06f78e2d219dc5c044ee">More...</a><br /></td></tr>
 <tr class="separator:ga6dd18d8fb90d06f78e2d219dc5c044ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf89dfc414397ee97c5f3f5fbab548eca"><td class="memItemLeft" align="right" valign="top"><a id="gaf89dfc414397ee97c5f3f5fbab548eca"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__port__definition.html#gaf89dfc414397ee97c5f3f5fbab548eca">IOL_SERIAL_DISABLE_CLIENT_FILTER</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:gaf89dfc414397ee97c5f3f5fbab548eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">the define can be used to disable the client filter on std filter. This is required if there are multiple endpoints behind the IOL_Serial Std interface. It prevents the floating with not requested packages on the interface <br /></td></tr>
+<tr class="separator:gaf89dfc414397ee97c5f3f5fbab548eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6a169132efc7c7b6c555bc00ff4b0150"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__port__definition.html#ga6a169132efc7c7b6c555bc00ff4b0150">IOLM_PORT_POWER_OFF_ON_CORRECTION_VALUE_MS</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:ga6a169132efc7c7b6c555bc00ff4b0150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjustment value in ms for PowerOffTime of PowerPowerOffOn service.  <a href="group__group__iolm__port__definition.html#ga6a169132efc7c7b6c555bc00ff4b0150">More...</a><br /></td></tr>
+<tr class="separator:ga6a169132efc7c7b6c555bc00ff4b0150"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga7bf3f53fa907e2cf680639f7814ee4c0"></a>
@@ -433,6 +440,23 @@ Macros</h2></td></tr>
 <p>PD cycle indication as fast as possible *. </p>
 <p>If this value is set, the functions <a class="el" href="group__grp__api__pd.html#gaf9be96ef02ec99b72d29aba9c00d7297" title="Process Data cycle.">IOLM_Port_AL_vPDCycle</a> and <a class="el" href="group__grp__api__pd.html#ga8d5143f08e3503fca1d5ec8a0d9f4b14" title="New input indication.">IOLM_Port_AL_vNewInput()</a> are called in the receive functions of the stack. This can be in interrupt context. If the user application needs a lot of time, this can delay the IO-Link cycle. It should be used if the user application needs the Process Data as fast as possible.</p>
 <p>If the value is set to 0, the functions are called in the following Mainloop call and not in interrupt context. It guarantees that the time critical operations are handled before the indication to the user application. </p>
+
+</div>
+</div>
+<a id="ga6a169132efc7c7b6c555bc00ff4b0150"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6a169132efc7c7b6c555bc00ff4b0150">&#9670;&nbsp;</a></span>IOLM_PORT_POWER_OFF_ON_CORRECTION_VALUE_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IOLM_PORT_POWER_OFF_ON_CORRECTION_VALUE_MS&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adjustment value in ms for PowerOffTime of PowerPowerOffOn service. </p>
+<p>This value is used to fine adjust the timing for the individual master device implementation. </p>
 
 </div>
 </div>

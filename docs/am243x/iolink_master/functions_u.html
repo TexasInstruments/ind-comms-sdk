@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.04</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -106,12 +106,13 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 <li>u16ArgBlockID
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_data_log.html#abf17012875e34e9eeb82ff6056179bef">IOLM_SMI_SDataLog</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_d_s_data.html#a38ed44f5e99a9ff7bd3ee4f1b64d2d61">IOLM_SMI_SDSData</a>
+, <a class="el" href="struct_i_o_l_m___s_m_i___s_firmware.html#aea47adecd8c21e8d659ec7a25a1efa41">IOLM_SMI_SFirmware</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_c_p_authenticity.html#acb7cbcd85e00be5bc9c44532b5d1e70d">IOLM_SMI_SFSCPAuthenticity</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_master_access.html#a92a9b1050550c314b01f8dd7c7bfb139">IOLM_SMI_SFSMasterAccess</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_p_d_in.html#a50e4cc2ff18de7cab00893bef20d62a5">IOLM_SMI_SFSPDIn</a>
+, <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_p_d_in_out.html#a9c88956de9b32d233c80d33d64e0f84a">IOLM_SMI_SFSPDInOut</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_p_d_out.html#aa7d4a3b54c355a06d3c89c2adcb10fdd">IOLM_SMI_SFSPDOut</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a3b03fcf1efc8747b0606767b83f3c71c">IOLM_SMI_SFSPortConfigList</a>
-, <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a46fa129cde0b7370b99597c0b04f83c6">IOLM_SMI_SFSPortStatusList</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_generic_event.html#a3d8ec6c3f90d8e25fd293d708a2e2413">IOLM_SMI_SPortEvent</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_job_error.html#a27e5be8f4d63a2ac7af13bbf2875197a">IOLM_SMI_SJobError</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_masterident.html#aaf0217e0508624674f27170a32aa2428">IOLM_SMI_SMasterident</a>
@@ -125,6 +126,7 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_port_power_off_on.html#af8fe0f4ec06993a6ef67183cb2fc6428">IOLM_SMI_SPortPowerOffOn</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_port_status_list.html#aa07abd24c42ee416641fe0538880ff4b">IOLM_SMI_SPortStatusList</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_scan_result.html#a3193233a1584e18cce4110de2fb68de7">IOLM_SMI_SScanResult</a>
+, <a class="el" href="struct_i_o_l_m___s_m_i___s_settings.html#a7906fc00725db5ee9527c032f4c6f075">IOLM_SMI_SSettings</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_s_p_d_u_in.html#a711305833362c9e973106a54442ea9a2">IOLM_SMI_SSPDUIn</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_s_p_d_u_out.html#ae262d1d7fba358a1b7603faf4029c6a7">IOLM_SMI_SSPDUOut</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_stack_information.html#a3d36ab4ace45a2320192954a17513b5c">IOLM_SMI_SStackInformation</a>
@@ -145,6 +147,7 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 <li>u16ArgBlockLength
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_arg_block_param.html#acd300e15b2d56ad5ecb3f51fcca9e69f">IOLM_SMI_SArgBlockParam</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_header.html#a45d124aa0bd888bd68805856e765bffa">IOLM_SMI_SHeader</a>
+, <a class="el" href="struct_i_o_l_m___s_m_i___s_std_header.html#a18a34e0e66c646f9c585651c8f1c6ae3">IOLM_SMI_SStdHeader</a>
 </li>
 <li>u16ArgBlockLengthMax
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_arg_block_param.html#a20bf651e7d128a088944bc91b8b0b19a">IOLM_SMI_SArgBlockParam</a>
@@ -167,6 +170,7 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 <li>u16ExpRefArgBlockId
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_arg_block_param.html#a16168c058aa12429fa9cafa71c5d37bf">IOLM_SMI_SArgBlockParam</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_header.html#a32f2ebdce3aca1cc2646d4abf3238d11">IOLM_SMI_SHeader</a>
+, <a class="el" href="struct_i_o_l_m___s_m_i___s_std_header.html#a3ba36a8ff811db4108a9eb34dedd37fa">IOLM_SMI_SStdHeader</a>
 </li>
 <li>u16FunctionID
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_d_s_data.html#a6c151356b0452f8ac662667f103fef55">IOLM_SMI_SDSData</a>
@@ -186,7 +190,6 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 <li>u16VendorID
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_d_s_data.html#ad7859939a13be6e328bec4f6250f1b25">IOLM_SMI_SDSData</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a8776369f0ea4f9afcf454b6afe53d8c0">IOLM_SMI_SFSPortConfigList</a>
-, <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#ae1652a41f120db72545ea3fe11b6e4ce">IOLM_SMI_SFSPortStatusList</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_masterident.html#a0988d21ac866bb36f3ff3030c66d7d5b">IOLM_SMI_SMasterident</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_port_config_list.html#a235dd656b07c525f1a77b9c3cd689033">IOLM_SMI_SPortConfigList</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_port_status_list.html#a91fc3075515058d45b0cacda247b97e1">IOLM_SMI_SPortStatusList</a>
@@ -201,7 +204,6 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 <li>u32DeviceID
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_d_s_data.html#a333b6ac8fd805afa1954153959ffa08a">IOLM_SMI_SDSData</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ab3d6b328713f90de52ab3a240209fb92">IOLM_SMI_SFSPortConfigList</a>
-, <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#a035713dd43da10a76c7db5c4f5bcd2c3">IOLM_SMI_SFSPortStatusList</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_port_config_list.html#ae2ec62858e0ca2789833f7fc086cfff0">IOLM_SMI_SPortConfigList</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_port_status_list.html#a4376c0e6a49c1ce657d2c96a67f230db">IOLM_SMI_SPortStatusList</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_w_port_config_list.html#aa157645c8ba1e85cafcef20e70c67dea">IOLM_SMI_SWPortConfigList</a>
@@ -236,12 +238,16 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 <li>u8AHTEnable
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#aa1799e65c9d602f1ffa15e78793c5e54">IOLM_SMI_SWMasterConfigListOld</a>
 </li>
+<li>u8Api
+: <a class="el" href="struct_i_o_l_m___s_m_i___s_job.html#a1c691088e30aaacf8e4450c3cb523713">IOLM_SMI_SJob</a>
+</li>
 <li>u8Arg
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_job.html#af79fad8df1c32559072cd39d7f93eaa6">IOLM_SMI_SJob</a>
 </li>
 <li>u8ClientId
 : <a class="el" href="struct_i_o_l_m___s_g_i___s_client.html#adeba5949cbde1838dfef73ecfefe0580">IOLM_SGI_SClient</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_header.html#aacac497a27e3eac3329465c66f9e12a7">IOLM_SMI_SHeader</a>
+, <a class="el" href="struct_i_o_l_m___s_m_i___s_std_header.html#ae5b1292c547a71d6db1a12ee7a9041c0">IOLM_SMI_SStdHeader</a>
 </li>
 <li>u8ConfiguredCycleTime
 : <a class="el" href="struct_i_o_l_m___s_port_config.html#a3714d1f5de669e716900059591a1de1b">IOLM_SPortConfig</a>
@@ -266,6 +272,7 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 </li>
 <li>u8Instance
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_header.html#aed9e17d1ae5a7db8b2af34b2801faad8">IOLM_SMI_SHeader</a>
+, <a class="el" href="struct_i_o_l_m___s_m_i___s_std_header.html#a9a111ff83496a31fc245dd9987f7ea79">IOLM_SMI_SStdHeader</a>
 </li>
 <li>u8IQ
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_p_d_in_i_q.html#ac73dd195a277a754e52727afad60b9d5">IOLM_SMI_SPDInIQ</a>
@@ -282,7 +289,8 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#aec054a2e74ad8bbc354198298f71c569">IOLM_SMI_SWMasterConfigListOld</a>
 </li>
 <li>u8OE
-: <a class="el" href="struct_i_o_l_m___s_m_i___s_p_d_in_out.html#acb17d54cb26be2232a3bb2d13894e0dd">IOLM_SMI_SPDInOut</a>
+: <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_p_d_in_out.html#ad1e07c2603db3553e578f30aae992c77">IOLM_SMI_SFSPDInOut</a>
+, <a class="el" href="struct_i_o_l_m___s_m_i___s_p_d_in_out.html#acb17d54cb26be2232a3bb2d13894e0dd">IOLM_SMI_SPDInOut</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_p_d_out.html#acb1a2fedd05a956c286275a7761a11a8">IOLM_SMI_SPDOut</a>
 </li>
 <li>u8OperatorAck
@@ -304,6 +312,9 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 <li>u8PdInLength
 : <a class="el" href="struct_i_o_l_m___s_real_port_config.html#a05dbc68f0483521aa9ecfe8eefa46463">IOLM_SRealPortConfig</a>
 </li>
+<li>u8PDOutIQ
+: <a class="el" href="struct_i_o_l_m___s_m_i___s_port_instance.html#ab48b6f5e5f67ed0d19b9b1ace2ae13a7">IOLM_SMI_SPortInstance</a>
+</li>
 <li>u8PdOutLength
 : <a class="el" href="struct_i_o_l_m___s_real_port_config.html#a069bfb3e8be96b80a1257ac8aeca6eb8">IOLM_SRealPortConfig</a>
 </li>
@@ -314,13 +325,13 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 : <a class="el" href="struct_i_o_l_m___s_m_i___s_port_config_list.html#a9e396fc755e59d3e31947267446c43be">IOLM_SMI_SPortConfigList</a>
 </li>
 <li>u8PortStatusInfo
-: <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_port_status_list.html#ab5f9a5cb5fe22032ab51ce1da429d2b8">IOLM_SMI_SFSPortStatusList</a>
-, <a class="el" href="struct_i_o_l_m___s_m_i___s_port_status_list.html#ab36f594ed990c4fe6b13fa4c6935b631">IOLM_SMI_SPortStatusList</a>
+: <a class="el" href="struct_i_o_l_m___s_m_i___s_port_status_list.html#ab36f594ed990c4fe6b13fa4c6935b631">IOLM_SMI_SPortStatusList</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a388016bbe100f27f613255f7f0d7e6d9">IOLM_SMI_SWPortStatusList</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a7518413768ab6296406ec5cf025f6d39">IOLM_SMI_V113_SWPortStatusList</a>
 </li>
 <li>u8PQI
-: <a class="el" href="struct_i_o_l_m___s_m_i___s_p_d_in.html#afa0688a090377404964e55ec23ecf0b2">IOLM_SMI_SPDIn</a>
+: <a class="el" href="struct_i_o_l_m___s_m_i___s_f_s_p_d_in_out.html#afd3e5313b6338163c950f315503b3394">IOLM_SMI_SFSPDInOut</a>
+, <a class="el" href="struct_i_o_l_m___s_m_i___s_p_d_in.html#afa0688a090377404964e55ec23ecf0b2">IOLM_SMI_SPDIn</a>
 , <a class="el" href="struct_i_o_l_m___s_m_i___s_p_d_in_out.html#ad7da50c1d8bbaa13a1fc1c531e8af4f2">IOLM_SMI_SPDInOut</a>
 </li>
 <li>u8Reading
