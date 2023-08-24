@@ -106,54 +106,107 @@ $(document).ready(function(){initNavTree('eip_studio5000_example.html',''); init
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#quickstart_example_plc_studio5000_device_installation">Studio 5000 and Device Description Installation</a></li>
-<li class="level1"><a href="#quickstart_example_plc_rslogix">Creating a RSLogix 5000 Project</a></li>
-<li class="level1"><a href="#quickstart_example_plc_ld">Implementing the PLC Code in Ladder Logic</a></li>
+<ul><li class="level1"><a href="#quickstart_example_plc_studio5000_device_installation">Studio 5000 and Device Description Installation</a><ul><li class="level2"><a href="#page_quickstart_allen_bradely_stud5000_eds">Addding an EDS File</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#page_quickstart_allen_bradely_stud5000_structure">Example Structure</a></li>
+<li class="level1"><a href="#page_quickstart_allen_bradely_stud5000_running">Running the Example on PLC</a><ul><li class="level2"><a href="#page_quickstart_allen_bradely_stud5000_download">Download the Example to the PLC</a></li>
+<li class="level2"><a href="#page_quickstart_allen_bradely_stud5000_online">Getting Online with The PLC</a></li>
+<li class="level2"><a href="#page_quickstart_allen_bradely_stud5000_tags">Monitoring changes through Controller Tags</a></li>
+</ul>
+</li>
 </ul>
 </div>
-<div class="textblock"><h1><a class="anchor" id="quickstart_example_plc_studio5000_device_installation"></a>
+<div class="textblock"><p>This example is prepared to run on <b>Allen-Bradely CompactLogix 5370 controllers</b> to communticate with <b>EtherNet/IP Adapter</b> for General Purpose of Discrete I/O Device profile running on <b>am243-lp.</b> Explicit and Implicit messaging are implemented in this example.</p>
+<h1><a class="anchor" id="quickstart_example_plc_studio5000_device_installation"></a>
 Studio 5000 and Device Description Installation</h1>
-<p>The follwonig example assumes that you have the RSLogix 5000 software by Rockwell Automation installed and fully activated on your development system. The example has been created with RSLogixStandard Edition V20.05.00. The example program itself is coded in ladder logic, which is commonly used to program PLCs for sequential process control.</p>
-<p>After RSLogix has been started the following development environment is available.</p>
-<p><img src="RSLogix_5000.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>Before creating and configuring a new project for the EtherNet/IP Adapter example, the corresponding device description files must be installed. Open the Rockwell Automation EDS Wizard by selecting EDS Hardware Installation Tool under the Tools drop down menu.</p>
-<p><img src="RSLogix_5000_Hardware_Installation.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>The Rockwell Automation EDS Wizard dialog window opens:</p>
-<p><img src="RSLogix_5000_EDS_Wizard.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>From the available options, select Register an EDS file(s).</p>
-<p><img src="RSLogix_5000_EDS_Wizard_Register_EDS.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>Select Register a single file.</p>
-<p><img src="RSLogix_5000_EDS_Wizard_Register_Single_EDS.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>After importing the file, the EDS File Installation Test Results are presented, and the user is given the option to change the icon with which the EtherNet/IP Adapter example is represented in the Control Organizer of the RSLogix software.</p>
-<p><img src="RSLogix_5000_EDS_Wizard_Register_EDS_Results.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p><img src="RSLogix_5000_EDS_Wizard_Register_EDS_Results_final.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>Finally, a summary of the devices installed is displayed.</p>
-<p><img src="RSLogix_5000_EDS_Wizard_Register_EDS_Summary.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<h1><a class="anchor" id="quickstart_example_plc_rslogix"></a>
-Creating a RSLogix 5000 Project</h1>
-<p>Now that RSLogix and the device repository have been prepared, a new project can be created. Under the File drop down menu, select New..., alternatively use the keyboard shortcut <code>Ctrl+N</code>. The New Controller dialog opens. Select the PLC that you will use as EtherNet/IP Scanner device, here we use a Rockwell type 1769-L16ER-BB1B CompactLogix&trade; 5370 Controller. Enter a project name and configure the number of Expansion I/O modules.</p>
-<p><img src="RSLogix_5000_New_Controller.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>Next, the EtherNet/IP Adapter device is added under I/O Configuration &rarr; Ethernet in the Controller Organizer. Right-click on Ethernet and select New Module... The Select Module Type dialog is displayed. In the dialog you may apply a search text to filter for specific devices, for example by Texas Instruments.</p>
-<p><img src="RSLogix_5000_Select_Module_Type.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p><img src="RSLogix_5000_Select_Module_Texas.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>Select the EtherNet/IP(tm) Adapter and Create the device. In the New Module dialog, you can assign a device name, the IP address of the device or, under Connections, the requested packet interval.</p>
-<p><img src="RSLogix_5000_New_Module.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>The new device appears in the Controller Organizer and can be configured further.</p>
-<p><img src="RSLogix_5000_Module_Properties.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<h1><a class="anchor" id="quickstart_example_plc_ld"></a>
-Implementing the PLC Code in Ladder Logic</h1>
-<p>In the final steps the actual program task(s) are created.</p>
-<p>Controller Tags under the Controller EtherNetIP matching the imported EtherNetIP_Adapter are created during the Create New Module process.</p>
-<p><img src="RSLogix_5000_Controller_Tags.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>Program Tags that control the actual program flow are created next. In this particular case we require a set of timers and two boolean variables to start those timers.</p>
-<p><img src="RSLogix_5000_Program_Tags.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>The following screen shot shows the final implementation of the MainRoutine in ladder logic.</p>
-<p><img src="RSLogix_5000_MainRoutine_final.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>The RSLogix environment is still in Offline mode. Right click on the small icon to the right of the mode display and select Download.</p>
-<p><img src="RSLogix_5000_MainRoutine_Download.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>When finalizing the download process a confirmation to switch the PLC to Run Mode is requested.</p>
-<p><img src="RSLogix_5000_MainRoutine_Remote_Run.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
-<p>To start the timers and the program flow, the SetOut boolean variable must be toggled once manually. </p>
+<p>Allen-Bradely CompactLogix 5370, model 1769-L16ER, controller is programmed using Studio 5000 development environment.</p>
+<h2><a class="anchor" id="page_quickstart_allen_bradely_stud5000_eds"></a>
+Addding an EDS File</h2>
+<p>To add a different EDS file that is not listed in the known EDS files click on "Tools -&gt; EDS Hardwatre Installation Tool". You need to do that if you are using EVM board instead of Launchpad becasue the EDS of Launchpad is already in the structure of this example</p>
+<h1><a class="anchor" id="page_quickstart_allen_bradely_stud5000_structure"></a>
+Example Structure</h1>
+<p>The project is created in Structured Text and divided into three rountines that are run from the main routine and trigerred by a timer every 3 seconds. </p><div class="fragment"><div class="line">TONR(FbdTimer1);</div>
+<div class="line">FbdTimer1.PRE := 3000;</div>
+<div class="line">FbdTimer1.TimerEnable := NOT FbdTimer1.DN;</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> FbdTimer1.DN then</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Get Attribute Single requests per 3 secs</span></div>
+<div class="line">    JSR(ExplicitMsg_with_AbPointIO);</div>
+<div class="line">    JSR(ImplicitMsg_with_DTK);</div>
+<div class="line">    JSR(ExplicitMsg_with_DTK);</div>
+<div class="line"> </div>
+<div class="line">end_if;</div>
+</div><!-- fragment --><p> The subrountines are: </p><ul>
+<li>
+<b>ExplicitMsg_with_DTK</b> </li>
+</ul>
+<p>Sends explicit messages for Identity and TCP/IP objects as well as the Discrete Output Point (Class ID = 0x09) Object's first instance. </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">Routine of CIP Explicit Messaging example </span></div>
+<div class="line"><span class="comment">for the Allen-Bradley 1743-AENT PointIO</span></div>
+<div class="line"><span class="comment">*/</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">case</span> LocalCounter of</div>
+<div class="line">    0:  <span class="comment">//Identity Object&#39;s (0x01), Vendor ID attribute (0x01)</span></div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Class := 16#01;</div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Attribute := 16#01;</div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Instance := 16#01;     </div>
+<div class="line">    1:  <span class="comment">//Identity Object&#39;s (0x01), Serial number attribute (0x01)      </span></div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Class := 16#01;</div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Attribute := 16#06;</div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Instance := 16#01;</div>
+<div class="line">    2:  <span class="comment">//TCP/IP Object&#39;s (0xF5), Configuration Capability attribute (0x02)</span></div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Class := 16#F5;</div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Attribute := 16#02;</div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Instance := 16#01; </div>
+<div class="line">    3:  <span class="comment">//DOP Object&#39;s (0x09), Get Attr Single (0x0E)</span></div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Class := 16#09;</div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Attribute := 16#03;</div>
+<div class="line">        CIPGetAttrSingle_DTK_Eip.Instance := 16#01;         </div>
+<div class="line">end_case;</div>
+<div class="line">        </div>
+<div class="line"><span class="keywordflow">if</span> LocalCounter &lt; 3 then</div>
+<div class="line">    LocalCounter := LocalCounter + 1;</div>
+<div class="line"><span class="keywordflow">else</span></div>
+<div class="line">    LocalCounter := 0;</div>
+<div class="line">end_if;</div>
+<div class="line"> </div>
+<div class="line">MSG(CIPGetAttrSingle_DTK_Eip);</div>
+</div><!-- fragment --><ul>
+<li>
+<b>ImplicitMsg_with_DTK</b> </li>
+</ul>
+<p>Sends implicit messages to Configuration Assembly to set the mode (ENABLED/DISABLED) of Discrete Output Object I/O communication. This example checks the two bytes of the Configuration Assembly and sets the Output Assemblies represented as two instances of Discrete Output Object. The results can be read on Input Assemblies represented as two instances of Discrete Input Object.</p>
+<p>If the first byte of Configuration Assembly is set to "0" Discrete Output Object's first instance will be disabled for the I/O messaging. If it is set to "1" I/O communication for that instance will be enabled and changes on Output Assembly can be seen both on Input Assembly and LED on the board.</p>
+<p>Example below shows that Configuration Assemblies set to "1" and enabled for both of the Discrete Output Object's instances. Industrial LEDs (LD 15 &amp; LD 14)controlled by TPIC2810 will be toggled.</p>
+<div class="fragment"><div class="line">DTK_Discrete:C.Data[0]:= 16#01;  </div>
+<div class="line">DTK_Discrete:C.Data[0]:= 16#01;    </div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> LedStatus then</div>
+<div class="line">    DTK_Discrete:O.Data[0]:= 16#00; </div>
+<div class="line">    DTK_Discrete:O.Data[1]:= 16#00; </div>
+<div class="line">    LedStatus:=0;</div>
+<div class="line"><span class="keywordflow">else</span></div>
+<div class="line">    DTK_Discrete:O.Data[0]:= 16#01; </div>
+<div class="line">    DTK_Discrete:O.Data[1]:= 16#01;   </div>
+<div class="line">    LedStatus:=1;</div>
+<div class="line">end_if;</div>
+</div><!-- fragment --><p><img src="Allen-Bradely-ImplicitMessaging.PNG" alt="" width="600px" height="auto" border="1" class="inline"/></p>
+<h1><a class="anchor" id="page_quickstart_allen_bradely_stud5000_running"></a>
+Running the Example on PLC</h1>
+<h2><a class="anchor" id="page_quickstart_allen_bradely_stud5000_download"></a>
+Download the Example to the PLC</h2>
+<p>In order to download the example to the PLC, from dropdown menue click "Download". </p>
+<p><img src="Allen-Bradely-Download.PNG" alt="" width="600px" height="auto" border="1" class="inline"/></p>
+<h2><a class="anchor" id="page_quickstart_allen_bradely_stud5000_online"></a>
+Getting Online with The PLC</h2>
+<p>After downloading if you are not automatically prompted to move to "Rem Run", from the dropdown menue click "Run Mode". </p>
+<p><img src="Allen-Bradely-Run.PNG" alt="" width="600px" height="auto" border="1" class="inline"/></p>
+<h2><a class="anchor" id="page_quickstart_allen_bradely_stud5000_tags"></a>
+Monitoring changes through Controller Tags</h2>
+<p>When online, you can observe these Implicit messages changes from Controller Tags on the left menue bar. In this example we can specifically observe "DTK_Discrete:O.Data[0]" &amp; "DTK_Discrete:O.Data[1]" and "DTK_Discrete:I.Data[0]" &amp; "DTK_Discrete:I.Data[1]" changing. </p>
+<p><img src="Allen-Bradely-Tags.PNG" alt="" width="600px" height="auto" border="1" class="inline"/></p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

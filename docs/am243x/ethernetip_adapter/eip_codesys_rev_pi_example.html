@@ -157,7 +157,7 @@ Creating a CODESYS Project</h1>
 <p>All devices are running, and you can continue with implementing your IEC 61131-3 program.</p>
 <h1><a class="anchor" id="quickstart_example_plcRevPi_st"></a>
 Implementing the PLC Code in Structured Text</h1>
-<p>The EtherNet/IP Adapter example for AM24ximplements a vendor specific object with class ID 0x0070 and attributes in the vendor specific index ranges following 0x0300. Attributes at index 0x0300 to 0x0304 are added to a producing assembly, at index 0x0308 to 0x030C to a consuming assembly. Of those, the attribute at index 0x0308 is linked to an LED array on the AM24xevaluation kit.</p>
+<p>The EtherNet/IP Adapter example for AM24ximplements a vendor specific object with class ID 0x0065 and attributes in the vendor specific index ranges following 0x0300. Attributes at index 0x0300 to 0x0302 are added to a Discrete Output Point Object (Class ID = 0x09), the consuming assembly. Of those, the attribute at index 0x0300 is linked to an LED on the AM24xevaluation kit.</p>
 <p>Below a simple PLC program coded in Structured Test is demonstrated that controls this LED array.</p>
 <p>Start with double clicking on PLC_PRG in the project browser. An empty PLC_PRG opens in the central workspace, that by default contains the frame for the variable declaration on top and the programming area below.</p>
 <p><img src="CODESYS_Empty_Program.png" alt="" width="600px" height="auto" border="1" class="inline"/></p>
