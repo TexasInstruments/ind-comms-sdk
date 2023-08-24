@@ -4,9 +4,11 @@ var group___e_c___a_p_i___s_l_v___b_a_s_i_c =
     [ "EC_API_SLV_getVersionStr", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga05b939cc86a4ef109dfc524cd5eb1def.html#ga05b939cc86a4ef109dfc524cd5eb1def", null ],
     [ "EC_API_SLV_getVersionId", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga7f824413b95ecdc0f3582d10ac75706d.html#ga7f824413b95ecdc0f3582d10ac75706d", null ],
     [ "EC_API_SLV_stackInit", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_gacb8b3043fdad1862017496b8b8396ba6.html#gacb8b3043fdad1862017496b8b8396ba6", null ],
-    [ "EC_API_SLV_new", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga1ba64fbee164d960e5fb7ddea2ed59ed.html#ga1ba64fbee164d960e5fb7ddea2ed59ed", null ],
+    [ "EC_API_SLV_new", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_gaa3b632bd8cda26df235e7570e26e46ce.html#gaa3b632bd8cda26df235e7570e26e46ce", null ],
     [ "EC_API_SLV_delete", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga9225322244739bb3720a66e80c67c962.html#ga9225322244739bb3720a66e80c67c962", null ],
     [ "EC_API_SLV_init", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga5835de86b796042d04c50bc60f48cc60.html#ga5835de86b796042d04c50bc60f48cc60", null ],
+    [ "EC_API_SLV_stackInsertPruFirmware", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga665e94d7a3cbf151205e0cb9e3c45d83.html#ga665e94d7a3cbf151205e0cb9e3c45d83", null ],
+    [ "EC_API_SLV_stackInsertMdioManualFirmware", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_gaf7243356de2ddcbc5834b715792af5f2.html#gaf7243356de2ddcbc5834b715792af5f2", null ],
     [ "EC_API_SLV_run", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_gae8fd647dd229ca8feb5dcc0e65ba2104.html#gae8fd647dd229ca8feb5dcc0e65ba2104", null ],
     [ "EC_API_SLV_stop", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga4a92d62f04eb104ba9b4db4adb30f64b.html#ga4a92d62f04eb104ba9b4db4adb30f64b", null ],
     [ "EC_API_SLV_reset", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga59080b9be04d1e48f1c694b47c07539e.html#ga59080b9be04d1e48f1c694b47c07539e", null ],
@@ -23,6 +25,6 @@ var group___e_c___a_p_i___s_l_v___b_a_s_i_c =
     [ "EC_API_SLV_writeDoubleWordEscRegister", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_gae4a99719a4067c269c85935b69aa7590.html#gae4a99719a4067c269c85935b69aa7590", null ],
     [ "EC_API_SLV_mainLoopCyclic", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga8ad770a2074cee7067ffe27e3cd9207c.html#ga8ad770a2074cee7067ffe27e3cd9207c", null ],
     [ "EC_API_SLV_cbRegisterErrorHandler", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_gaf7518a155141eb475b225a2721e715e8.html#gaf7518a155141eb475b225a2721e715e8", null ],
-    [ "EC_API_SLV_enableMdioManualMode", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga7299f9d4809e54c65005977014211c33.html#ga7299f9d4809e54c65005977014211c33", null ],
+    [ "EC_API_SLV_enableMdioManualMode", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga70df6304baccbbdf5a3f6d1d3ac2d0ca.html#ga70df6304baccbbdf5a3f6d1d3ac2d0ca", null ],
     [ "EC_API_SLV_setErrorRegister", "group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga8039980745f2be5c542840917a74eebf.html#ga8039980745f2be5c542840917a74eebf", null ]
 ];

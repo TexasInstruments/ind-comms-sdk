@@ -31,7 +31,8 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
-      [ "Release Version 1.12.02", "releasenotes.html#version_release10c01", null ],
+      [ "Release Version 1.13.00", "releasenotes.html#version_release10d00", null ],
+      [ "Release Version 1.12.02", "releasenotes.html#version_release10c02", null ],
       [ "Release Version 1.12.01", "releasenotes.html#version_release10c01", null ],
       [ "Release Version 1.12.00", "releasenotes.html#version_release10c00", null ],
       [ "Release Version 1.11.00", "releasenotes.html#version_release10b00", null ],
@@ -68,15 +69,21 @@ var NAVTREE =
       [ "Abbreviations and Definitions", "abbreviations.html", null ]
     ] ],
     [ "Quickstart - EtherCAT Device", "page_quickstart.html", [
-      [ "Setup", "page_quickstart_installation.html", [
-        [ "Software Installation", "page_quickstart_installation.html#qs_installation_software", null ],
-        [ "Connect the Evaluation Board", "page_quickstart_installation.html#qs_installation_connect", null ],
-        [ "Steps to Run the Example", "page_quickstart_installation.html#qs_steps_to_run_example", null ]
+      [ "Setup", "@ref page_quickstart_installation", [
+        [ "Software Installation", "md_pages_2setup.html#qs_installation_software", null ],
+        [ "Connect the Evaluation Board", "md_pages_2setup.html#qs_installation_connect", null ],
+        [ "Steps to Run the Example", "md_pages_2setup.html#qs_steps_to_run_example", null ]
       ] ],
       [ "EtherCAT FAQ", "ethercat_faq.html", [
-        [ "Configuration of the Object Dictionary", "config_o_b_d.html", null ],
-        [ "Configuration of the Process Data Objects", "proc_data_config.html", null ],
-        [ "Process Data memory access optimization", "proc_data_mem_access.html", null ],
+        [ "Configuration of the Object Dictionary", "config_o_b_d.html", [
+          [ "Enumerations in Object Dictionary", "_enum_example.html", null ]
+        ] ],
+        [ "Configuration of the Process Data Objects", "proc_data_config.html", [
+          [ "SyncManager configuration", "_sync_man_config_page.html", null ],
+          [ "PDO configuration", "_pdo_config_page.html", null ],
+          [ "PDO reconfiguration", "_proc_data_reconfig_page.html", null ],
+          [ "Direct memory access", "proc_data_mem_access.html", null ]
+        ] ],
         [ "EEPROM Interface", "eep_config.html", null ],
         [ "PHY configuration", "phy_config.html", null ]
       ] ],
@@ -106,11 +113,12 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"abbreviations.html",
-"group___ci_a402_ga7fccd1348faf92b92daea4ff89269604.html#ga7fccd1348faf92b92daea4ff89269604",
-"group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga7299f9d4809e54c65005977014211c33.html#ga7299f9d4809e54c65005977014211c33",
-"group___e_c___a_p_i___s_l_v___t_y_p_e_s_gaaf1ccc9933b0e445cf60586e347c70c7.html#gaaf1ccc9933b0e445cf60586e347c70c7",
-"struct_e_c___a_p_i___s_l_v___e_e_p___s_cat___d_c_entry_aab4724858e28114993a7dceafe9f59dd.html#aab4724858e28114993a7dceafe9f59dd"
+"@ref page_quickstart_installation",
+"group___ci_a402_ga7ac919920aa47f8a384b01696cb86d99.html#ga7ac919920aa47f8a384b01696cb86d99",
+"group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga8039980745f2be5c542840917a74eebf.html#ga8039980745f2be5c542840917a74eebf",
+"group___e_c___a_p_i___s_l_v___t_y_p_e_s_gaa8ffd7f8f2cda5e3809ef15d5c576a29.html#ggaa8ffd7f8f2cda5e3809ef15d5c576a29a849fdb8ba1acbe23693448a99d3e1964",
+"struct_e_c___a_p_i___s_l_v___e_e_p___s_cat___f_m_m_u_aa4d0171f60b9668a6a02ef66245a33c0.html#aa4d0171f60b9668a6a02ef66245a33c0",
+"structkb_ec_cfg___s_pdo.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

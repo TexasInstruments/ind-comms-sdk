@@ -13,13 +13,14 @@ var group___e_c___a_p_i___s_l_v___c_f_g =
     [ "EC_API_SLV_setBootStrapMailbox", "group___e_c___a_p_i___s_l_v___c_f_g_ga7d8cbd476c3bbf6d1405d08cbb665e5a.html#ga7d8cbd476c3bbf6d1405d08cbb665e5a", null ],
     [ "EC_API_SLV_setStandardMailbox", "group___e_c___a_p_i___s_l_v___c_f_g_ga779070d2eabcf0193383d68674f0775a.html#ga779070d2eabcf0193383d68674f0775a", null ],
     [ "EC_API_SLV_setSyncManConfig", "group___e_c___a_p_i___s_l_v___c_f_g_ga855a2842d2b46a49a99b7dad03282ec3.html#ga855a2842d2b46a49a99b7dad03282ec3", null ],
+    [ "EC_API_SLV_setSyncManErrLimit", "group___e_c___a_p_i___s_l_v___c_f_g_ga9d3bc3cb666cf2e2b8234840e810dec7.html#ga9d3bc3cb666cf2e2b8234840e810dec7", null ],
     [ "EC_API_SLV_getVendorId", "group___e_c___a_p_i___s_l_v___c_f_g_gac7fc5778c6c641b5132c463e396ddbf1.html#gac7fc5778c6c641b5132c463e396ddbf1", null ],
     [ "EC_API_SLV_getProductCode", "group___e_c___a_p_i___s_l_v___c_f_g_ga0393e759a4dcf629ebd46bf8f3f3a98b.html#ga0393e759a4dcf629ebd46bf8f3f3a98b", null ],
     [ "EC_API_SLV_getRevisionNumber", "group___e_c___a_p_i___s_l_v___c_f_g_ga8c470faab362ed3fccb14715eca6ab66.html#ga8c470faab362ed3fccb14715eca6ab66", null ],
     [ "EC_API_SLV_getSerialNumber", "group___e_c___a_p_i___s_l_v___c_f_g_ga9db9e0f988042ae4f2120a2c8bdf6647.html#ga9db9e0f988042ae4f2120a2c8bdf6647", null ],
-    [ "EC_API_SLV_getProductName", "group___e_c___a_p_i___s_l_v___c_f_g_ga833976fd542e6e0daba4f542d90f040d.html#ga833976fd542e6e0daba4f542d90f040d", null ],
-    [ "EC_API_SLV_getGroupType", "group___e_c___a_p_i___s_l_v___c_f_g_ga235534f6de49c35cf45109363d841f40.html#ga235534f6de49c35cf45109363d841f40", null ],
-    [ "EC_API_SLV_getSwVersion", "group___e_c___a_p_i___s_l_v___c_f_g_gaaefb13d3bb15d84e0360e574b0a9863e.html#gaaefb13d3bb15d84e0360e574b0a9863e", null ],
-    [ "EC_API_SLV_getHwVersion", "group___e_c___a_p_i___s_l_v___c_f_g_ga2e602fc1d646ef6c41da9b3308c4d2c0.html#ga2e602fc1d646ef6c41da9b3308c4d2c0", null ],
+    [ "EC_API_SLV_getProductName", "group___e_c___a_p_i___s_l_v___c_f_g_ga7d01a86b47a909b6984199f24cba248b.html#ga7d01a86b47a909b6984199f24cba248b", null ],
+    [ "EC_API_SLV_getGroupType", "group___e_c___a_p_i___s_l_v___c_f_g_ga901f16c01c6d6596522be00c66e2fc77.html#ga901f16c01c6d6596522be00c66e2fc77", null ],
+    [ "EC_API_SLV_getSwVersion", "group___e_c___a_p_i___s_l_v___c_f_g_ga70c14aab22c5813d10e6fafe2124e262.html#ga70c14aab22c5813d10e6fafe2124e262", null ],
+    [ "EC_API_SLV_getHwVersion", "group___e_c___a_p_i___s_l_v___c_f_g_gaf0d20726f8f527da64b3e433e09ff68b.html#gaf0d20726f8f527da64b3e433e09ff68b", null ],
     [ "EC_API_SLV_setDeviceType", "group___e_c___a_p_i___s_l_v___c_f_g_gaf56b9dc76c67cacfc1a4d6f7e2af2a96.html#gaf56b9dc76c67cacfc1a4d6f7e2af2a96", null ]
 ];

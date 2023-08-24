@@ -17,5 +17,7 @@ var group___e_c___a_p_i___s_l_v___o_b_d =
     [ "EC_API_SLV_CoE_odAddArray", "group___e_c___a_p_i___s_l_v___o_b_d_ga4e2ad8d61fa107759c4991e3b282e653.html#ga4e2ad8d61fa107759c4991e3b282e653", null ],
     [ "EC_API_SLV_CoE_odAddRecord", "group___e_c___a_p_i___s_l_v___o_b_d_gaf7ec3f42b2830dd02f5863b60abbb9a3.html#gaf7ec3f42b2830dd02f5863b60abbb9a3", null ],
     [ "EC_API_SLV_CoE_configRecordSubIndex", "group___e_c___a_p_i___s_l_v___o_b_d_ga57b67e9013576a9952e8bc17c71997bc.html#ga57b67e9013576a9952e8bc17c71997bc", null ],
+    [ "EC_API_SLV_CoE_odAddEnum", "group___e_c___a_p_i___s_l_v___o_b_d_ga3854e5ff6f7250d3ef181fd0626f7e81.html#ga3854e5ff6f7250d3ef181fd0626f7e81", null ],
+    [ "EC_API_SLV_CoE_configEnum", "group___e_c___a_p_i___s_l_v___o_b_d_gae36c55299a7b1213d87ca08da3f725b1.html#gae36c55299a7b1213d87ca08da3f725b1", null ],
     [ "EC_API_SLV_CoE_subIdx0WrFlag", "group___e_c___a_p_i___s_l_v___o_b_d_ga16a0f3cc997cdbbb2dbecbf135d91323.html#ga16a0f3cc997cdbbb2dbecbf135d91323", null ]
 ];
