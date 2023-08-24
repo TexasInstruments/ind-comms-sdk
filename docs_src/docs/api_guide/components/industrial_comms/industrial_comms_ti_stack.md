@@ -22,13 +22,13 @@ certain features on Ethernet and enforces certain configurations to make it a ve
 
 \cond SOC_AM64X
 
-For information about supported features and key performance parameters, see \htmllink{../industrial_protocol_docs/am64x/ethercat_slave/ethercat_datasheet.html, EtherCAT SubDevice Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am64x/ethercat_slave/ethercat_datasheet.html, EtherCAT SubDevice Data Sheet}
 
 \endcond
 
 \cond SOC_AM243X
 
-For information about supported features and key performance parameters, see \htmllink{../industrial_protocol_docs/am243x/ethercat_slave/ethercat_datasheet.html, EtherCAT Slave Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am243x/ethercat_slave/ethercat_datasheet.html, EtherCAT Slave Data Sheet}
 
 \endcond
 
@@ -44,13 +44,13 @@ EtherNet/IP is a member of a family of network protocols that implements the Com
 
 \cond SOC_AM64X
 
-For information about supported features and key performance parameters, see \htmllink{../industrial_protocol_docs/am64x/ethernetip_adapter/ethernetip_datasheet.html, EtherNet/IP Adapter Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am64x/ethernetip_adapter/ethernetip_datasheet.html, EtherNet/IP Adapter Data Sheet}
 
 \endcond
 
 \cond SOC_AM243X
 
-For information about supported features and key performance parameters, see \htmllink{../industrial_protocol_docs/am243x/ethernetip_adapter/ethernetip_datasheet.html, EtherNet/IP Adapter Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am243x/ethernetip_adapter/ethernetip_datasheet.html, EtherNet/IP Adapter Data Sheet}
 
 \endcond
 
@@ -66,13 +66,13 @@ IO-Link (International Electrotechnical Commission [IEC] 61131-9) is an open sta
 
 \cond SOC_AM64X
 
-For information about supported features and key performance parameters, see \htmllink{../industrial_protocol_docs/am64x/iolink_master/datasheet.html, IO-Link Controller Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am64x/iolink_master/datasheet.html, IO-Link Controller Data Sheet}
 
 \endcond
 
 \cond SOC_AM243X
 
-For information about supported features and key performance parameters, see \htmllink{../industrial_protocol_docs/am243x/iolink_master/datasheet.html, IO-Link Controller Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am243x/iolink_master/datasheet.html, IO-Link Controller Data Sheet}
 
 \endcond
 
@@ -88,13 +88,13 @@ EtherCAT-IOLink gateway solution which combines EtherCAT industrial Ethernet fie
 
 \cond SOC_AM64X
 
-For information about supported features and key performance parameters, see \htmllink{../industrial_protocol_docs/am64x/ethercat_iolink_gateway/ethercat_datasheet.html, EtherCAT-IOLink Gateway Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am64x/ethercat_iolink_gateway/ethercat_datasheet.html, EtherCAT-IOLink Gateway Data Sheet}
 
 \endcond
 
 \cond SOC_AM243X
 
-For information about supported features and key performance parameters, see \htmllink{../industrial_protocol_docs/am243x/ethercat_iolink_gateway/ethercat_datasheet.html, EtherCAT-IOLink Gateway Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am243x/ethercat_iolink_gateway/ethercat_datasheet.html, EtherCAT-IOLink Gateway Data Sheet}
 
 \endcond
 

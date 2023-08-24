@@ -8,18 +8,18 @@ These examples are EtherCAT SubDevice applications based on evaluation stacks pr
 
 \cond SOC_AM64X
 
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_slave/example1.html, EtherCAT SubDevice Simple Demo}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_slave/example2.html, EtherCAT SubDevice CiA402 Demo}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_slave/index.html, EtherCAT SubDevice CTT Demo}
+- \htmllink{../am64x/ethercat_slave/example1.html, EtherCAT SubDevice Simple Demo}
+- \htmllink{../am64x/ethercat_slave/example2.html, EtherCAT SubDevice CiA402 Demo}
+- \htmllink{../am64x/ethercat_slave/index.html, EtherCAT SubDevice CTT Demo}
 
 
 \endcond
 
 \cond SOC_AM243X
 
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_slave/example1.html, EtherCAT SubDevice Simple Demo}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_slave/example2.html, EtherCAT SubDevice CiA402 Demo}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_slave/index.html, EtherCAT SubDevice CTT Demo}
+- \htmllink{../am243x/ethercat_slave/example1.html, EtherCAT SubDevice Simple Demo}
+- \htmllink{../am243x/ethercat_slave/example2.html, EtherCAT SubDevice CiA402 Demo}
+- \htmllink{../am243x/ethercat_slave/index.html, EtherCAT SubDevice CTT Demo}
 
 \endcond
 
@@ -29,21 +29,21 @@ Links to important sections in the detailed documentation are provided below:
 
 \cond SOC_AM64X
 
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_slave/index.html, Home Page}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_slave/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_slave/releasenotes.html, Release Notes}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_slave/page_quickstart.html, Example Quick Start}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_slave/modules.html, API Documentation}
+- \htmllink{../am64x/ethercat_slave/index.html, Home Page}
+- \htmllink{../am64x/ethercat_slave/ethercat_datasheet.html, Data Sheet}
+- \htmllink{../am64x/ethercat_slave/releasenotes.html, Release Notes}
+- \htmllink{../am64x/ethercat_slave/page_quickstart.html, Example Quick Start}
+- \htmllink{../am64x/ethercat_slave/modules.html, API Documentation}
 
 \endcond
 
 \cond SOC_AM243X
 
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_slave/index.html, Home Page}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_slave/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_slave/releasenotes.html, Release Notes}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_slave/page_quickstart.html, Example Quick Start}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_slave/modules.html, API Documentation}
+- \htmllink{../am243x/ethercat_slave/index.html, Home Page}
+- \htmllink{../am243x/ethercat_slave/ethercat_datasheet.html, Data Sheet}
+- \htmllink{../am243x/ethercat_slave/releasenotes.html, Release Notes}
+- \htmllink{../am243x/ethercat_slave/page_quickstart.html, Example Quick Start}
+- \htmllink{../am243x/ethercat_slave/modules.html, API Documentation}
 
 \endcond
 

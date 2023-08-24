@@ -8,21 +8,21 @@ This example is an EtherCAT-IOLink Gateway application based on evaluation stack
 
 \cond SOC_AM64X
 
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_iolink_gateway/index.html, Home Page}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_iolink_gateway/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_iolink_gateway/releasenotes.html, Release Notes}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_iolink_gateway/usergroup0.html, Example Quick Start}
-- \htmllink{../industrial_protocol_docs/am64x/ethercat_iolink_gateway/modules.html, API Documentation}
+- \htmllink{../am64x/ethercat_iolink_gateway/index.html, Home Page}
+- \htmllink{../am64x/ethercat_iolink_gateway/ethercat_datasheet.html, Data Sheet}
+- \htmllink{../am64x/ethercat_iolink_gateway/releasenotes.html, Release Notes}
+- \htmllink{../am64x/ethercat_iolink_gateway/usergroup0.html, Example Quick Start}
+- \htmllink{../am64x/ethercat_iolink_gateway/modules.html, API Documentation}
 
 \endcond
 
 \cond SOC_AM243X
 
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_iolink_gateway/index.html, Home Page}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_iolink_gateway/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_iolink_gateway/releasenotes.html, Release Notes}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_iolink_gateway/usergroup0.html, Example Quick Start}
-- \htmllink{../industrial_protocol_docs/am243x/ethercat_iolink_gateway/modules.html, API Documentation}
+- \htmllink{../am243x/ethercat_iolink_gateway/index.html, Home Page}
+- \htmllink{../am243x/ethercat_iolink_gateway/ethercat_datasheet.html, Data Sheet}
+- \htmllink{../am243x/ethercat_iolink_gateway/releasenotes.html, Release Notes}
+- \htmllink{../am243x/ethercat_iolink_gateway/usergroup0.html, Example Quick Start}
+- \htmllink{../am243x/ethercat_iolink_gateway/modules.html, API Documentation}
 
 \endcond
 

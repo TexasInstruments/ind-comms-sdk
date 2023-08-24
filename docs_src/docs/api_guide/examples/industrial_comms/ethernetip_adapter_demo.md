@@ -8,21 +8,21 @@ These examples are EtherNet/IP Adapter applications based on evaluation stacks p
 
 \cond SOC_AM64X
 
-- \htmllink{../industrial_protocol_docs/am64x/ethernetip_adapter/index.html, Home Page}
-- \htmllink{../industrial_protocol_docs/am64x/ethernetip_adapter/eip_datasheet.html, Data Sheet}
-- \htmllink{../industrial_protocol_docs/am64x/ethernetip_adapter/eip_releasenotes.html, Release Notes}
-- \htmllink{../industrial_protocol_docs/am64x/ethernetip_adapter/eip_quickstart.html, Example Quick Start}
-- \htmllink{../industrial_protocol_docs/am64x/ethernetip_adapter/modules.html, API Documentation}
+- \htmllink{../am64x/ethernetip_adapter/index.html, Home Page}
+- \htmllink{../am64x/ethernetip_adapter/eip_datasheet.html, Data Sheet}
+- \htmllink{../am64x/ethernetip_adapter/eip_releasenotes.html, Release Notes}
+- \htmllink{../am64x/ethernetip_adapter/eip_quickstart.html, Example Quick Start}
+- \htmllink{../am64x/ethernetip_adapter/modules.html, API Documentation}
 
 \endcond
 
 \cond SOC_AM243X
 
-- \htmllink{../industrial_protocol_docs/am243x/ethernetip_adapter/index.html, Home Page}
-- \htmllink{../industrial_protocol_docs/am243x/ethernetip_adapter/eip_datasheet.html, Data Sheet}
-- \htmllink{../industrial_protocol_docs/am243x/ethernetip_adapter/eip_releasenotes.html, Release Notes}
-- \htmllink{../industrial_protocol_docs/am243x/ethernetip_adapter/eip_quickstart.html, Example Quick Start}
-- \htmllink{../industrial_protocol_docs/am243x/ethernetip_adapter/modules.html, API Documentation}
+- \htmllink{../am243x/ethernetip_adapter/index.html, Home Page}
+- \htmllink{../am243x/ethernetip_adapter/eip_datasheet.html, Data Sheet}
+- \htmllink{../am243x/ethernetip_adapter/eip_releasenotes.html, Release Notes}
+- \htmllink{../am243x/ethernetip_adapter/eip_quickstart.html, Example Quick Start}
+- \htmllink{../am243x/ethernetip_adapter/modules.html, API Documentation}
 
 \endcond
 

@@ -8,21 +8,21 @@ This example is an IO-Link controller application based on evaluation stack prov
 
 \cond SOC_AM64X
 
-- \htmllink{../industrial_protocol_docs/am64x/iolink_master/index.html, Home Page}
-- \htmllink{../industrial_protocol_docs/am64x/iolink_master/iolink_datasheet.html, Data Sheet}
-- \htmllink{../industrial_protocol_docs/am64x/iolink_master/releasenotes.html, Release Notes}
-- \htmllink{../industrial_protocol_docs/am64x/iolink_master/usergroup0.html, Example Quick Start}
-- \htmllink{../industrial_protocol_docs/am64x/iolink_master/modules.html, API Documentation}
+- \htmllink{../am64x/iolink_master/index.html, Home Page}
+- \htmllink{../am64x/iolink_master/iolink_datasheet.html, Data Sheet}
+- \htmllink{../am64x/iolink_master/releasenotes.html, Release Notes}
+- \htmllink{../am64x/iolink_master/usergroup0.html, Example Quick Start}
+- \htmllink{../am64x/iolink_master/modules.html, API Documentation}
 
 \endcond
 
 \cond SOC_AM243X
 
-- \htmllink{../industrial_protocol_docs/am243x/iolink_master/index.html, Home Page}
-- \htmllink{../industrial_protocol_docs/am243x/iolink_master/iolink_datasheet.html, Data Sheet}
-- \htmllink{../industrial_protocol_docs/am243x/iolink_master/releasenotes.html, Release Notes}
-- \htmllink{../industrial_protocol_docs/am243x/iolink_master/usergroup0.html, Example Quick Start}
-- \htmllink{../industrial_protocol_docs/am243x/iolink_master/modules.html, API Documentation}
+- \htmllink{../am243x/iolink_master/index.html, Home Page}
+- \htmllink{../am243x/iolink_master/iolink_datasheet.html, Data Sheet}
+- \htmllink{../am243x/iolink_master/releasenotes.html, Release Notes}
+- \htmllink{../am243x/iolink_master/usergroup0.html, Example Quick Start}
+- \htmllink{../am243x/iolink_master/modules.html, API Documentation}
 
 \endcond
 

@@ -181,7 +181,7 @@ SysConfig can be used to configure things mentioned below:
 </tr>
 </table>
 
-For more details, please see the \htmllink{../industrial_protocol_docs/EtherCAT_Slave_Errata.pdf, EtherCAT SubDevice Errata} document.
+For more details, please see the \htmllink{../EtherCAT_Slave_Errata.pdf, EtherCAT SubDevice Errata} document.
 
 ## Important Files and Directory Structure
 
