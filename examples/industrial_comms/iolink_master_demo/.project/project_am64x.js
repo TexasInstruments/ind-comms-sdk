@@ -10,6 +10,7 @@ const files = {
         "IOLM_Port_spi.c",
         "IOLM_Port_smiExample.c",
         "IOLM_Port_Utils.c",
+        "nvram_driver.c",
         "main.c",
     ],
 };
@@ -20,8 +21,9 @@ const files = {
 const filedirs = {
     common: [
         "..",       /* core_os_combo base */
-        "../../..", /* Example base */
+        "../..", /* Example base */
         "../../IOLinkPort",
+        "../../KBDrv",
     ],
 };
 
@@ -42,6 +44,7 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/IOLinkPort",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/KBDrv",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI",
@@ -54,6 +57,7 @@ const libs_freertos_r5f = {
         "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "iolink.am64x.r5f.ti-arm-clang.release.lib",
+        "littlefs.am64x.r5f.ti-arm-clang.release.lib",
     ],
 };
 

@@ -117,11 +117,11 @@
         </file>
         <file path="../../IOLinkPort/IOLM_Port_spi.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../IOLM_Port_smiExample.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../IOLM_Port_smiExample.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../IOLM_Port_Utils.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../IOLM_Port_Utils.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="linker.cmd" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
