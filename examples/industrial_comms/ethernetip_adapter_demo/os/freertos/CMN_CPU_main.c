@@ -7,34 +7,36 @@
  *  \author
  *  KUNBUS GmbH
  *
- *  \date
- *  2022-06-08
- *
  *  \copyright
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  All rights reserved.<br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 None.
+ *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:<br />
+ *  modification, are permitted provided that the following conditions are met:
+ *
  *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.</li>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
  *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.</li>
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
  *  </ol>
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
  *
  */
 #include <stdint.h>
@@ -59,7 +61,7 @@
 
 #include <CMN_CPU_intern.h>
 
-#define CMN_CPU_ANALYZE_STACK_SIZE_BYTE     2048
+#define CMN_CPU_ANALYZE_STACK_SIZE_BYTE     3072
 #define CMN_CPU_ANALYZE_STACK_SIZE          (CMN_CPU_ANALYZE_STACK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
 
 static void*         cpuAnalyzeTaskHandle_s = NULL;
@@ -445,7 +447,7 @@ static void CMN_CPU_loadTask (void *pArg_p)
     CMN_CPU_API_SParams_t* pParams;
     TaskP_Object*          pTask;
     TaskP_Load             taskLoad;
-    TaskStatus_t*          pxStatusArray;
+    TaskStatus_t           uxStatusArray[CMN_CPU_API_MAX_TASKS_NUM];
     uint32_t               cpuLoad;
     uint32_t               statusArraySize;
     uint32_t               totalRuntime;
@@ -459,17 +461,7 @@ static void CMN_CPU_loadTask (void *pArg_p)
 
         OSAL_SCHED_sleep(1000);
 
-        statusArraySize = uxTaskGetNumberOfTasks();
-
-        pxStatusArray = OSAL_MEMORY_calloc(statusArraySize * sizeof(TaskStatus_t), 1);
-
-        if (pxStatusArray == NULL)
-        {
-            OSAL_printf("Func: %s, Line: %lu: Memory allocation of %lu bytes failed.\r\n", __func__, __LINE__, statusArraySize * sizeof(TaskStatus_t));
-            break;
-        }
-
-        uxTaskGetSystemState(pxStatusArray, statusArraySize, &totalRuntime);
+        statusArraySize = uxTaskGetSystemState(uxStatusArray, CMN_CPU_API_MAX_TASKS_NUM, &totalRuntime);
 
         cpuLoad = TaskP_loadGetTotalCpuLoad();
 
@@ -482,7 +474,7 @@ static void CMN_CPU_loadTask (void *pArg_p)
 
         for (i = 0; i < statusArraySize; i++)
         {
-            pTask = CMN_CPU_mcuFindTask(pxStatusArray[i].xHandle);
+            pTask = CMN_CPU_mcuFindTask(uxStatusArray[i].xHandle);
 
             if (pTask != NULL)
             {
@@ -530,8 +522,6 @@ static void CMN_CPU_loadTask (void *pArg_p)
                 data_s.tasks[i].cpuLoad = 0;
             }
         }
-
-        OSAL_MEMORY_free(pxStatusArray);
 
         CMN_CPU_API_generateReport(pParams->output);
     }
