@@ -39,7 +39,7 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-contrib
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am243x
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/stack/lwip/lwip-config/am243x
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include
             -mcpu=cortex-r5
@@ -63,10 +63,9 @@
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib
-            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking//icss_emac/lwipif/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib
-            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/stack/lwip/lib
             -i${CG_TOOL_ROOT}/lib
             -m=hsr_rgmii_demo.${ConfigName}.map
             --diag_suppress=10063
@@ -94,11 +93,11 @@
                 -ldrivers.am243x.r5f.ti-arm-clang.debug.lib
                 -lboard.am243x.r5f.ti-arm-clang.debug.lib
                 -licss_emac.am243x.r5f.ti-arm-clang.debug.lib
-                -licss_emac_lwip_if.am243x.r5f.ti-arm-clang.debug.lib
+                -lhsr_prp_icss_emac_lwip_if.am243x.r5f.ti-arm-clang.debug.lib
                 -licss_timesync.am243x.r5f.ti-arm-clang.debug.lib
                 -lhsr_rgmii_icss_fwhal.am243x.r5f.ti-arm-clang.debug.lib
-                -llwip-freertos.am243x.r5f.ti-arm-clang.debug.lib
-                -llwip-contrib-freertos.am243x.r5f.ti-arm-clang.debug.lib
+                -lhsr_prp_lwip_contrib.am243x.r5f.ti-arm-clang.debug.lib
+                -lhsr_prp_lwip_freertos.am243x.r5f.ti-arm-clang.debug.lib
                 -llibc.a
                 -llibsysbm.a
             "
@@ -112,11 +111,11 @@
                 -ldrivers.am243x.r5f.ti-arm-clang.release.lib
                 -lboard.am243x.r5f.ti-arm-clang.release.lib
                 -licss_emac.am243x.r5f.ti-arm-clang.release.lib
-                -licss_emac_lwip_if.am243x.r5f.ti-arm-clang.release.lib
+                -lhsr_prp_icss_emac_lwip_if.am243x.r5f.ti-arm-clang.release.lib
                 -licss_timesync.am243x.r5f.ti-arm-clang.release.lib
                 -lhsr_rgmii_icss_fwhal.am243x.r5f.ti-arm-clang.release.lib
-                -llwip-freertos.am243x.r5f.ti-arm-clang.release.lib
-                -llwip-contrib-freertos.am243x.r5f.ti-arm-clang.release.lib
+                -lhsr_prp_lwip_contrib.am243x.r5f.ti-arm-clang.release.lib
+                -lhsr_prp_lwip_freertos.am243x.r5f.ti-arm-clang.release.lib
                 -llibc.a
                 -llibsysbm.a
             "
