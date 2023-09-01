@@ -16,45 +16,12 @@ ConfigName:=$(PROFILE)
 LIBNAME:=doxy_samples.am263x.r5f.ti-arm-clang.$(PROFILE).lib
 
 FILES_common := \
-    AddrTranslateP_sample.c \
-    Bootloader_sample_v2.c \
-    CacheP_sample.c \
-    CpuIdP_sample.c \
-    ClockP_sample.c \
-    Cmpss_sample.c \
-    Dac_sample.c \
-    DebugP_sample.c \
-    Edma_sample.c \
-    Ethphy_sample.c \
-    EventP_sample.c \
-    HeapP_sample.c \
-    HwiP_sample.c \
-    Icss_emac_sample.c \
-    IpcNotify_sample.c \
-    IpcRPMessage_sample.c \
-    Mcspi_sample.c \
-    Mdio_sample.c \
-    MpuP_arm_v7_sample.c \
-    Pmu_sample.c \
-    Pruicss_sample_m_v0.c \
-    QueueP_sample.c \
-    Sdfm_sample.c \
-    SemaphoreP_sample.c \
-    TaskP_sample.c \
-    TimerP_sample.c \
-    Uart_sample.c \
-    Watchdog_sample.c \
 
 FILES_PATH_common = \
-    board \
-    drivers \
-    kernel/dpl \
-    networking \
-    pru_io \
-    security/crypto/sa2ul \
 
 INCLUDES_common := \
     -I${CG_TOOL_ROOT}/include/c \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source \
 
 DEFINES_common := \
