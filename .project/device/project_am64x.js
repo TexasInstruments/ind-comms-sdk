@@ -50,6 +50,7 @@ const example_file_list = [
     "examples/networking/enet_vlan_icssg/.project/project.js",
     "examples/networking/lwip/enet_icssg_tcpserver/.project/project.js",
     "examples/networking/lwip/enet_lwip_icssg/.project/project.js",
+    "source/industrial_comms/mdio_fw/.project/project.js",
 ];
 
 function getProjectSpecCpu(cpu) {
