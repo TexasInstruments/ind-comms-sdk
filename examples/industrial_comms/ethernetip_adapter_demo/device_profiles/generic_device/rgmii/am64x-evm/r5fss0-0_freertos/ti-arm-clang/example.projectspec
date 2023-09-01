@@ -10,8 +10,8 @@
     </applicability>
 
     <project
-        title="Ethernetip Adapter Generic Device Io Rgmii Demo"
-        name = "ethernetip_adapter_generic_device_io_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang"
+        title="Ethernetip Adapter Generic Device Rgmii Demo"
+        name = "ethernetip_adapter_generic_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang"
         products="sysconfig;com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX;"
         configurations="
                 Debug,
@@ -73,7 +73,7 @@
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lib
             -i${CG_TOOL_ROOT}/lib
-            -m=ethernetip_adapter_generic_device_io_rgmii_demo.${ConfigName}.map
+            -m=ethernetip_adapter_generic_device_rgmii_demo.${ConfigName}.map
             --diag_suppress=10063
             --ram_model
             --reread_libs
@@ -88,7 +88,7 @@
             --context r5fss0-0 --part Default --package ALV
         "
 
-        description="A Ethernetip Adapter Generic Device Io Rgmii Demo FREERTOS project">
+        description="A Ethernetip Adapter Generic Device Rgmii Demo FREERTOS project">
 
         <configuration name="Debug"
             compilerBuildOptions="

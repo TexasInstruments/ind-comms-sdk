@@ -11,8 +11,8 @@ BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethercat_iolink_gateway_demo_am64x-
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethercat_slave_cia402_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethercat_slave_ctt_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethercat_slave_simple_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
-BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_generic_device_io_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
-BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_generic_device_io_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_generic_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_generic_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_discrete_io_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += hsr_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build
@@ -48,10 +48,10 @@ all-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_PRIVATE_ALL)
  ethercat_slave_simple_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
 
- ethernetip_adapter_generic_device_io_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build:
+ ethernetip_adapter_generic_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
 
- ethernetip_adapter_generic_device_io_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build:
+ ethernetip_adapter_generic_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/rgmii/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
 
  ethernetip_adapter_discrete_io_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_build:
@@ -101,8 +101,8 @@ BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethercat_iolink_gateway_demo_am64x-
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethercat_slave_cia402_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethercat_slave_ctt_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethercat_slave_simple_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
-BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_generic_device_io_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
-BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_generic_device_io_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_generic_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_generic_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_discrete_io_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += hsr_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
@@ -138,10 +138,10 @@ clean-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_PRIVATE_ALL)
  ethercat_slave_simple_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
 
- ethernetip_adapter_generic_device_io_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
+ ethernetip_adapter_generic_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
 
- ethernetip_adapter_generic_device_io_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
+ ethernetip_adapter_generic_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/rgmii/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
 
  ethernetip_adapter_discrete_io_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
@@ -191,8 +191,8 @@ BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethercat_iolink_gateway_demo_am64x
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethercat_slave_cia402_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethercat_slave_ctt_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethercat_slave_simple_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
-BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_generic_device_io_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
-BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_generic_device_io_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_generic_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_generic_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_discrete_io_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += hsr_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export
@@ -228,10 +228,10 @@ export-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_PRIVATE_ALL)
  ethercat_slave_simple_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
 
- ethernetip_adapter_generic_device_io_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export:
+ ethernetip_adapter_generic_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
 
- ethernetip_adapter_generic_device_io_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export:
+ ethernetip_adapter_generic_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/rgmii/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
 
  ethernetip_adapter_discrete_io_device_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_export:

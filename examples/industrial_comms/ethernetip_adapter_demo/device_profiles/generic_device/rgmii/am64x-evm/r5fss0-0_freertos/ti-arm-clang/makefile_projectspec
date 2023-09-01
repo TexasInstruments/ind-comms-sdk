@@ -7,7 +7,7 @@ include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
 
 PROFILE?=Release
 
-PROJECT_NAME=ethernetip_adapter_generic_device_io_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang
+PROJECT_NAME=ethernetip_adapter_generic_device_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang
 
 all:
 	$(CCS_ECLIPSE) -noSplash -data $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/ccs_projects -application com.ti.ccstudio.apps.projectBuild -ccs.projects $(PROJECT_NAME) -ccs.configuration $(PROFILE)

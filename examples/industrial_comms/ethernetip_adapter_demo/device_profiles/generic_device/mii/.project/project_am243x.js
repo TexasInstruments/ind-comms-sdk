@@ -191,7 +191,7 @@ function getComponentProperty() {
 
     property.dirPath = path.resolve(__dirname, "..");
     property.type = "executable";
-    property.name = "ethernetip_adapter_generic_device_io_mii_demo";
+    property.name = "ethernetip_adapter_generic_device_mii_demo";
     property.isInternal = false;
     property.buildOptionCombos = buildOptionCombos;
 
