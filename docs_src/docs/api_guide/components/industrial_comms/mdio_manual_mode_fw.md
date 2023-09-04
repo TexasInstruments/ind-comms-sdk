@@ -92,7 +92,7 @@ SysConfig generates a macro: `MDIO_MANUAL_MODE_FW_CONFIG_VALUE` containing this 
 \note Each protocol will have different base register offset configured depending on the availability of free memory region. Emulated MDIO register space start address will be visible from the SysConfig interface as well. See below for more information.
 
 ### MDIO Emulated Register Space Base Addresses 
-Current emulated base addresses for MDIO emulated space:
+Current base addresses for MDIO emulated space:
 
 | Protocol   | Global Address | Global Address | Local Address |
 |------------|----------------|----------------|---------------|
@@ -103,7 +103,7 @@ Current emulated base addresses for MDIO emulated space:
 | EthernetIP | 0x3001FF00     | 0x3009FF00     |  0x0001FF00   |
 
 ### Example Usage {#INDUSTRIAL_COMMS_MDIO_MANUALMODE_FW_EXAMPLE_USAGE}
-Check the function `tiesc_mdioManualModeSetup()` in `tiescsoc.c` at location `${SDK_INSTALL_PATH}/examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am64x-evm/tiescsoc.c` as reference setup guide and for understanding how to load and run the PRU firmware.
+Check the function `tiesc_mdioManualModeSetup()` in `tiescsoc.c` at location `${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am64x-evm/tiescsoc.c` as reference setup guide and for understanding how to load and run the PRU firmware.
 
 <!-- ICSSG PRU cores usage image -->
 \imageStyle{Industrial_protocols_cores_usage.png,width:30%}
@@ -116,9 +116,9 @@ Differences and Usage Suggestions for Polling and MLINK modes:
 | -                                             |  MLINK Mode                                           |  Polling Mode                                        |
 |-----------------------------------------------|-------------------------------------------------------|------------------------------------------------------|
 | MDIO Base address register in EthPhy Handle   | Points to emulated MDIO register space base address   | Points to emulated MDIO register space base address  |
-| MDIO Base address register in PruIcssg Handle | Points to MDIO HW registers base address **          | Points to emulated MDIO register space base address  |
+| MDIO Base address register in PruIcssg Handle | Points to MDIO HW registers base address **           | Points to emulated MDIO register space base address  |
 | PHY register access (read/write) requests     | Use emulated MDIO register space                      | Use emulated MDIO register space                     |
-| Get Link Status and Link interrupt handling   | Directly Use MDIO HW registers ***                     | Use emulated MDIO registers                          |
+| Get Link Status and Link interrupt handling   | Directly Use MDIO HW registers ***                    | Use emulated MDIO registers                          |
 
 **  This register is unchanged as it is being used for link status/interrupt handling, and so requires to be pointing to MDIO HW address as explained in above point. Make sure this is not changed. <br>
 ***   This is required because link interrupt clearing and link status updates in emulated MDIO registers gets delayed and this can cause issues. 
@@ -134,13 +134,13 @@ Default Link detection configurations in SDK Examples are:
 
 ### Modifying PRU firmware
 
-The PRU firmware can be modified and built using the example present at `${SDK_INSTALL_PATH}/examples/pru_io/mdio_fw`. This will be helpful if you want to make some changes to the firmware for example operating the MCLK at different frequency. 
+The PRU firmware can be modified and built using the example present at `${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/mdio_fw`. This will be helpful if you want to make some changes to the firmware for example operating the MCLK at different frequency. 
     1. Import the example in CCS from the above specified location
-    2. Modify and Build it. After rebuilding the project, mdio_fw_bin.h file gets generated in Debug folder (in CCS). From this file you can copy contents of the generated firmware array to `<sdk_path>\source\industrial_comms\<project>\icss_fwhal\firmware\mdio_fw_bin.h` file.
+    2. Modify and Build it. After rebuilding the project, mdio_fw_bin.h file gets generated in Debug folder (in CCS). From this file you can copy contents of the generated firmware array to `<INDUSTRIAL_COMMUNICATIONS_SDK_PATH>/source/industrial_comms/<project>/icss_fwhal/firmware/mdio_fw_bin.h` file.
     3. Rebuild the application to use updated firmware.
 
     For changing MLCK frequency:
-    - You can find the assembly macros that are used for communication with the PHYs in `${SDK_INSTALL_PATH}/source/pru_io/firmware/common/mdio_macros.inc`, specifically: m_mdio_read, m_mdio_write macros
+    - You can find the assembly macros that are used for communication with the PHYs in `${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/mdio_fw/mdio_macros.inc`, specifically: `m_mdio_read`, `m_mdio_write` macros
     - In these read/write macros, m_mdio_toggle_bit_lh is used to drive MCLK pin and we wait inside this macro for low and high pulse widths of clock, which is decided by value of `MDIO_CLK_PERIOD_CONFIG_REG`
     - To change communication frequency (MCLK frequency), change the value of register `MDIO_CLK_PERIOD_CONFIG_REG` defined in example's `main.asm` file.
     - Other timing requirements are handled by how and when the MCLK and MDATA pins are driven by the firmware, which you can check in these macros.
@@ -200,14 +200,9 @@ Creating PHY access requests from the R5F core remains same as all the configura
     <th>Folder/Files
     <th>Description
 </tr>
-<tr><td colspan="2" bgcolor=#F0F0F0> ${SDK_INSTALL_PATH}/examples/pru_io/</td></tr>
+<tr><td colspan="2" bgcolor=#F0F0F0> `${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/` </td></tr>
 <tr>
-    <td>mdio_fw/
-    <td>Contains the project files needed for MDIO manual mode firmware </td>
-</tr>
-<tr><td colspan="2" bgcolor=#F0F0F0> ${SDK_INSTALL_PATH}/source/pru_io/</td></tr>
-<tr>
-    <td>firmware/common/mdio_macros.inc
-    <td>Contains the firmware sources needed for MDIO manual mode firmware </td>
+    <td> `mdio_fw/` 
+    <td> Contains the project files needed for MDIO manual mode firmware </td>
 </tr>
 </table>
