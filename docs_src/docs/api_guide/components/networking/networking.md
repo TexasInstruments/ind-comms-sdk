@@ -5,7 +5,7 @@
 \cond SOC_AM64X || SOC_AM243X || SOC_AM263X
 
 ## Overview
-Advances in automated factories and smart vehicles require advanced networking capabilities, real-time processing and more advanced motor-control topologies. TI Networking solution packaged with the SDK provide a rapidly growing need for Sitara MCU to out space traditional MCUs and deliver processor-like capabilities. Networking is a broad terms used to cover Ethernet (IEEE 802.3), EtherCAT Profinet and other ethernet-like communication protocols used in industrial, automotive and other general use cases.
+Advances in automated factories and smart vehicles require advanced networking capabilities, real-time processing and more advanced motor-control topologies. TI Networking solution packaged with the SDK provide a rapidly growing need for Sitara MCU to out space traditional MCUs and deliver processor-like capabilities. Networking is a broad terms used to cover Ethernet (IEEE 802.3), EtherCAT Profinet and other ethernet-like communication protocols used in industrial, automotive and other general use cases. However, this document refers only onIEEE 802.3 standard Ethernet gigabit speed packet communication.
 
   \imageStyle{networking_apps.png,width:50%}
   \image html networking_apps.png Figure: Industrial And Automotive Networking Applications
@@ -16,7 +16,7 @@ This document covers driver software architecture, Application Programming Inter
 - Common Port SWitch (**CPSW**) : CPSW subsystem provides IEEE 802.3 standard Ethernet gigabit speed packet communication for the device and can also be configured as an Ethernet switch. CPSW supports RGMII and RMII Interfaces.
 
 \cond SOC_AM64X || SOC_AM243X
-- Programmable Real-Time Unit and Industrial Communication Subsystem - Gigabit (**PRU-ICSSG**) : PRU-ICSSG is firmware programmable and can take on various personalities like Industrial Communication Protocol Switch (for protocols like EtherCAT, Profinet, EtherNet/IP), Ethernet Switch, Ethernet MAC, Industrial Drives, etc. PRU-ICSSG supports RGMII and MII modes.
+- Programmable Real-Time Unit and Industrial Communication Subsystem - Gigabit (**PRU-ICSSG**) : PRU-ICSSG (simply refered as ICSSG) is firmware programmable and can take on various personalities like Industrial Communication Protocol Switch (for protocols like EtherCAT, Profinet, EtherNet/IP), Ethernet Switch, Ethernet MAC, Industrial Drives, etc. PRU-ICSSG supports RGMII and MII modes. This document concentrates only on IEEE 802.3 standard Ethernet gigabit speed packet communication.
 \endcond
 
 \cond  SOC_AM263X
@@ -26,7 +26,6 @@ This document covers driver software architecture, Application Programming Inter
 To know more about the hardware peripherals, please refer to datasheet and Technical Reference Manual (TRM) on the product page:
 - [AM2431](https://www.ti.com/product/AM2431), [AM2432](https://www.ti.com/product/AM2432), [AM2434](https://www.ti.com/product/AM2434)
 - [AM2634](https://www.ti.com/product/AM2634), [AM2634-Q1](https://www.ti.com/product/AM2634-Q1)
-- [AM2732](https://www.ti.com/product/AM2732)
 - [AM6411](https://www.ti.com/product/AM6411), [AM6412](https://www.ti.com/product/AM6412), [AM6421](https://www.ti.com/product/AM6421), [AM6422](https://www.ti.com/product/AM6422), [AM6441](https://www.ti.com/product/AM6441), [AM6442](https://www.ti.com/product/AM6442)
 
 ### Salient Features
