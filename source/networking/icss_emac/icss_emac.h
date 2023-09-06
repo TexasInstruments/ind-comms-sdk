@@ -722,7 +722,7 @@ typedef struct ICSS_EMAC_Params_s
     PRUICSS_Handle                      pruicssHandle;
     /**< [MANDATORY] PRUICSS Handle for which the ICSS-EMAC driver will be based on */
     const PRUICSS_IntcInitData          *pruicssIntcInitData;
-    /**< [MANDATORY] PRUICSS INTC mapping structure pointer needed for \ref PRUICSS_intcInit call */
+    /**< [MANDATORY] PRUICSS INTC mapping structure pointer needed for PRUICSS_intcInit call */
     ICSS_EMAC_FwStaticMmap              *fwStaticMMap;
     /**< [MANDATORY] Static Firmware Memory Map offsets */
     ICSS_EMAC_FwDynamicMmap             *fwDynamicMMap;
@@ -913,7 +913,7 @@ void ICSS_EMAC_close(ICSS_EMAC_Handle icssEmacHandle);
  *
  *  \return         For "ioctlCommand = ICSS_EMAC_IOCTL_LEARNING_CTRL" and "ioctlParams.command = ICSS_EMAC_LEARN_CTRL_FIND_MAC",
  *                  return value of 0 means not found, 1 means Port 0, and 2 means Port 1 \n
- *                  For others, #SystemP_SUCCESS in case of success, #SystemP_FAILURE otherwise
+ *                  For others, SystemP_SUCCESS in case of success, SystemP_FAILURE otherwise
  */
 int32_t ICSS_EMAC_ioctl(ICSS_EMAC_Handle icssEmacHandle,
                         uint32_t         ioctlCommand,
@@ -930,7 +930,7 @@ int32_t ICSS_EMAC_ioctl(ICSS_EMAC_Handle icssEmacHandle,
  *                      when calling ICSS_EMAC_RxPktGet which is default Rx
  *                      Packet API
  *
- *  \return     Length of the frame received in number of bytes or #SystemP_FAILURE
+ *  \return     Length of the frame received in number of bytes or SystemP_FAILURE
  *              on failure
  */
 int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg);
@@ -945,7 +945,7 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg);
  *  \param[out] queueNumber     Return pointer of host queue where the received
  *                              frame is queued
  *
- *  \return     Length of packet or #SystemP_FAILURE if no packet found
+ *  \return     Length of packet or SystemP_FAILURE if no packet found
  */
 int32_t ICSS_EMAC_rxPktInfo(ICSS_EMAC_Handle icssEmacHandle,
                             int32_t          *portNumber,

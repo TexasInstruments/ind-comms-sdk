@@ -195,7 +195,7 @@ It can be tested as follows:
 
 ## Online Application Upgrade
 
-\note Application should be loaded with \ref EXAMPLES_DRIVERS_SBL_OSPI method to test this feature using following steps
+\note Application should be loaded with \htmllink{@VAR_MCU_SDK_DOCS_PATH/EXAMPLES_DRIVERS_SBL_OSPI.html, SBL OSPI} method to test this feature using following steps
 
 - Configure TwinCAT as mentioned in \ref ETHERCAT_SUBDEVICE_DEMO_TWINCAT_PROJECT_CREATION and \ref ETHERCAT_SUBDEVICE_DEMO_TWINCAT_SCANNING_SUBDEVICE.
 

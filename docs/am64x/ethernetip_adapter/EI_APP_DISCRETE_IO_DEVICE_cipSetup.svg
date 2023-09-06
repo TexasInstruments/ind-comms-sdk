@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="19.58cm" height="20.72cm" viewBox="0 0 740 783">
+<title></title>
+<desc>Created with Enterprise Architect (Build: 1627) 2</desc>
+
+<g style="stroke-width:2;stroke-linecap:square;stroke-linejoin:miter; fill:#000000;fill-opacity:0.00; stroke:#B4B4B4; stroke-opacity:1.00">
+  <path d="M 10 10 L 10 770 M 730 770 L 730 10 L 10 10 M 10 30 L 730 30" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 10 10 L 10 770 M 730 770 L 730 10 L 10 10 M 10 30 L 730 30" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="57.00" y="23.00" textLength="625" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 57.00 23.00)">EI_APP_DISCRETE_IO_DEVICE_cipSetup (examples/industrial_comms/ethernetip_adapter_demo/deviceProfiles/discreteIoDevice/app_discrete_io_device.c)</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+<ellipse cx="170.00" cy="60.00" rx="10.00" ry="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="201.00" y="64.00" textLength="52" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 201.00 64.00)">ActivityInitial</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="30" y="110" width="280" height="40" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="54.00" y="128.00" textLength="231" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 54.00 128.00)">EI_API_CIP_createAssembly(0xFE, EI_API_CIP_eAR_GET)</text>
+	<text x="54.00" y="141.00" textLength="231" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 54.00 141.00)">EI_API_CIP_createAssembly(0xFF, EI_API_CIP_eAR_GET)</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="30" y="180" width="280" height="80" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="113.00" y="205.00" textLength="114" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 113.00 205.00)">EI_API_CIP_createAssembly</text>
+	<text x="54.00" y="218.00" textLength="232" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 54.00 218.00)">(EI_APP_DISCRETE_IO_DEVICE_ASSEMBLY_PRODUCING)</text>
+	<text x="113.00" y="231.00" textLength="114" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 113.00 231.00)">EI_API_CIP_createAssembly</text>
+	<text x="52.00" y="244.00" textLength="236" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 52.00 244.00)">(EI_APP_DISCRETE_IO_DEVICE_ASSEMBLY_CONSUMING)</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="30" y="290" width="280" height="42" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="113.00" y="309.00" textLength="114" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 113.00 309.00)">EI_API_CIP_createAssembly</text>
+	<text x="43.00" y="322.00" textLength="253" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 43.00 322.00)">(EI_APP_DISCRETE_IO_DEVICE_ASSEMBLY_CONFIGURATION)</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+<ellipse cx="170.00" cy="740.00" rx="10.00" ry="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 163 747 L 177 734" shape-rendering="auto"/>
+  <path d="M 163 733 L 176 747" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="201.00" y="744.00" textLength="38" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 201.00 744.00)">FlowFinal</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 520 110 L 330 110" shape-rendering="auto"/>
+  <path d="M 330 110 L 330 150" shape-rendering="auto"/>
+  <path d="M 330 150 L 520 150" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="342.00" y="132.00" textLength="180" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 342.00 132.00)">Create Input-only and Listen-only assemblies.</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 520 180 L 330 180" shape-rendering="auto"/>
+  <path d="M 330 180 L 330 260" shape-rendering="auto"/>
+  <path d="M 330 260 L 520 260" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="342.00" y="202.00" textLength="363" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 342.00 202.00)">Create a producing assembly (Instance ID 0x64) that will transmit input data on the network,</text>
+	<text x="342.00" y="215.00" textLength="329" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 342.00 215.00)">and a consuming assembly (Instance ID 0x65) that will receive output data from the</text>
+	<text x="342.00" y="228.00" textLength="85" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 342.00 228.00)">EtherNet/IP network.</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 520 290 L 330 290" shape-rendering="auto"/>
+  <path d="M 330 290 L 330 330" shape-rendering="auto"/>
+  <path d="M 330 330 L 520 330" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="342.00" y="312.00" textLength="362" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 342.00 312.00)">Create an Assembly with Instance ID 0x66 that later will be used as Configuration Assembly.</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="30" y="360" width="280" height="60" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="93.00" y="382.00" textLength="154" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 93.00 382.00)">EI_API_CIP_createCfgAssemblySimple</text>
+	<text x="43.00" y="395.00" textLength="253" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 43.00 395.00)">(EI_APP_DISCRETE_IO_DEVICE_ASSEMBLY_CONFIGURATION,</text>
+	<text x="52.00" y="408.00" textLength="235" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 52.00 408.00)">EI_APP_DISCRETE_IO_DEVICE_configurationAssemblyCb);</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 520 360 L 330 360" shape-rendering="auto"/>
+  <path d="M 330 360 L 330 420" shape-rendering="auto"/>
+  <path d="M 330 420 L 520 420" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="342.00" y="382.00" textLength="359" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 342.00 382.00)">Register a callback function that is triggered upon receiving the corresponding Configuration</text>
+	<text x="342.00" y="395.00" textLength="68" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 342.00 395.00)">Assembly frame.</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="30" y="450" width="440" height="60" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="64.00" y="478.00" textLength="371" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 64.00 478.00)">EI_API_CIP_addAssemblyMember(EI_APP_DISCRETE_IO_DEVICE_ASSEMBLY_PRODUCING,</text>
+	<text x="43.00" y="491.00" textLength="414" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 43.00 491.00)">EI_APP_DISCRETE_IO_DEVICE_DIP_CLASS_ID, EI_APP_DISCRETE_IO_DEVICE_DIP_ATTRIBUTE_Value)</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="30" y="541" width="440" height="60" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="62.00" y="563.00" textLength="375" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 62.00 563.00)">EI_API_CIP_addAssemblyMember(EI_APP_DISCRETE_IO_DEVICE_ASSEMBLY_CONSUMING,</text>
+	<text x="153.00" y="576.00" textLength="193" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 153.00 576.00)">EI_APP_DISCRETE_IO_DEVICE_DOP_CLASS_ID,</text>
+	<text x="135.00" y="589.00" textLength="229" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 135.00 589.00)">EI_APP_DISCRETE_IO_DEVICE_DOP_ATTRIBUTE_Valuie)</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="30" y="630" width="440" height="60" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="54.00" y="652.00" textLength="392" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 54.00 652.00)">EI_API_CIP_addAssemblyMember(EI_APP_DISCRETE_IO_DEVICE_ASSEMBLY_CONFIGURATION,</text>
+	<text x="153.00" y="665.00" textLength="193" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 153.00 665.00)">EI_APP_DISCRETE_IO_DEVICE_DOP_CLASS_ID,</text>
+	<text x="135.00" y="678.00" textLength="229" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 135.00 678.00)">EI_APP_DISCRETE_IO_DEVICE_DOP_ATTRIBUTE_Valuie)</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 170 332 L 170 360" shape-rendering="auto"/>
+  <path d="M 165 346 L 170 360 L 175 346" shape-rendering="auto"/>
+  <path d="M 170 260 L 170 290" shape-rendering="auto"/>
+  <path d="M 165 276 L 170 290 L 175 276" shape-rendering="auto"/>
+  <path d="M 170 150 L 170 180" shape-rendering="auto"/>
+  <path d="M 165 166 L 170 180 L 175 166" shape-rendering="auto"/>
+  <path d="M 170 70 L 170 110" shape-rendering="auto"/>
+  <path d="M 165 96 L 170 110 L 175 96" shape-rendering="auto"/>
+  <path d="M 170 420 L 170 450" shape-rendering="auto"/>
+  <path d="M 165 436 L 170 450 L 175 436" shape-rendering="auto"/>
+  <path d="M 170 510 L 170 541" shape-rendering="auto"/>
+  <path d="M 165 527 L 170 541 L 175 527" shape-rendering="auto"/>
+  <path d="M 170 601 L 170 630" shape-rendering="auto"/>
+  <path d="M 165 616 L 170 630 L 175 616" shape-rendering="auto"/>
+  <path d="M 170 690 L 170 730" shape-rendering="auto"/>
+  <path d="M 165 716 L 170 730 L 175 716" shape-rendering="auto"/>
+</g>
+</svg>

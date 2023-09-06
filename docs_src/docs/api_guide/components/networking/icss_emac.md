@@ -124,13 +124,13 @@ Include the below file to access the APIs
 
 - PRUICSS handle needs to be initialized before \ref ICSS_EMAC_open and passed using \ref ICSS_EMAC_Params.
 
-- \ref PRUICSS_IntcInitData should be passed based on the firmware. See \ref PRUICSS_INTC page for more details.
+- PRUICSS_IntcInitData should be passed based on the firmware. See \htmllink{@VAR_MCU_SDK_DOCS_PATH/DRIVERS_PRUICSS_PAGE.html#PRUICSS_INTC, PRUICSS Interrupt Controller} page for more details.
 
 - ICSS-EMAC needs information about the memory map of firmware which will be used. User needs to provide the same information in the form of \ref ICSS_EMAC_FwStaticMmap and \ref ICSS_EMAC_FwDynamicMmap while filling the \ref ICSS_EMAC_Params structure. There are some other offsets related to VLAN filtering and multicast filtering, for which the structures \ref ICSS_EMAC_FwVlanFilterParams and \ref ICSS_EMAC_FwMulticastFilterParams should be passed if IOCTL for VLAN and multicast filtering are going to be called. For Profinet and EtherNet/IP firmware, these structures are defined in `${SDK_INSTALL_PATH}/source/industrial_comms/profinet_device/icss_fwhal/firmware/icss_emac_mmap.h` and `${SDK_INSTALL_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/firmware/icss_emac_mmap.h` respectively.
 
 - Various callback functions can be set using \ref ICSS_EMAC_CallBackObject structure.
 
-- Please see \ref ICSS_EMAC_Params for information on which members are mandatory. If mandatory options are not passed, \ref DebugP_assert will fail in \ref ICSS_EMAC_open.
+- Please see \ref ICSS_EMAC_Params for information on which members are mandatory. If mandatory options are not passed, DebugP_assert will fail in \ref ICSS_EMAC_open.
 
 \snippet Icss_emac_sample.c icss_emac_open
 

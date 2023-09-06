@@ -50,19 +50,14 @@ Below is the software components overview highlighting mainly the components use
 ### Examples and Demos
 You can find out-of-box examples and demos **[here](\ref EXAMPLES_NETWORKING)**.
 
-\cond SOC_AM263X || SOC_AM273X || SOC_AM243X
-### Performance
-You can find ethernet performance data **[here](\ref enetlld_performance)**.
-\endcond
-
 ### Driver
 
 There are separate drivers based on the use-case :
 
 ##### Enet LLD
 
-Ethernet Low-Level Driver (\ref ENET_LLD) is a driver that aims at providing an unified interface for standard Ethernet MAC and switch using CPSW and PRU-ICSSG Peripherals.
-- \subpage ENET_LLD
+<a href="@VAR_MCU_SDK_DOCS_PATH/enetlld_top.html" target="_blank">Ethernet Low-Level Driver</a> is a driver that aims at providing an unified interface for standard Ethernet MAC and switch using CPSW and PRU-ICSSG Peripherals.
+
 
 ##### ICSS-EMAC
 
@@ -115,14 +110,8 @@ Below is the software components overview highlighting mainly the components use
 ### Examples and Demos
 You can find out-of-box examples and demos **[here](\ref EXAMPLES_NETWORKING)**.
 
-\cond SOC_AM263X || SOC_AM273X || SOC_AM243X
-### Performance
-You can find ethernet performance data **[here](\ref enetlld_performance)**.
-\endcond
-
 ### Driver
 
-Ethernet Low-Level Driver (\ref ENET_LLD) is a driver that aims at providing an unified interface for the different Ethernet peripherals found in TI SoCs.
-- \subpage ENET_LLD
+<a href="@VAR_MCU_SDK_DOCS_PATH/enetlld_top.html" target="_blank">Ethernet Low-Level Driver</a> providing an unified interface for the different Ethernet peripherals found in TI SoCs.
 \endcond
 

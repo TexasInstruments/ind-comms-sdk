@@ -32,6 +32,20 @@ For information about supported features and key performance parameters, see \ht
 
 \endcond
 
+### Certificate
+
+\cond SOC_AM64X
+
+For information about the certificate, see \htmllink{../am64x/ethercat_slave/ethercat_certificate.pdf, EtherCAT Certificate}
+
+\endcond
+
+\cond SOC_AM243X
+
+For information about the certificate, see \htmllink{../am243x/ethercat_slave/ethercat_certificate.pdf, EtherCAT Certificate}
+
+\endcond
+
 ### Examples
 
 For more details regarding the pre-integrated stack and example applications, see \ref EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_DEMOS.
@@ -44,13 +58,27 @@ EtherNet/IP is a member of a family of network protocols that implements the Com
 
 \cond SOC_AM64X
 
-For information about supported features and key performance parameters, see \htmllink{../am64x/ethernetip_adapter/ethernetip_datasheet.html, EtherNet/IP Adapter Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am64x/ethernetip_adapter/eip_datasheet.html, EtherNet/IP Adapter Data Sheet}
 
 \endcond
 
 \cond SOC_AM243X
 
-For information about supported features and key performance parameters, see \htmllink{../am243x/ethernetip_adapter/ethernetip_datasheet.html, EtherNet/IP Adapter Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am243x/ethernetip_adapter/eip_datasheet.html, EtherNet/IP Adapter Data Sheet}
+
+\endcond
+
+### Certificate
+
+\cond SOC_AM64X
+
+For information about the certificate, see \htmllink{../am64x/ethernetip_adapter/ethernetip_certificate.pdf, EtherNet/IP Certificate}
+
+\endcond
+
+\cond SOC_AM243X
+
+For information about the certificate, see \htmllink{../am243x/ethernetip_adapter/ethernetip_certificate.pdf, EtherNet/IP Certificate}
 
 \endcond
 
@@ -66,13 +94,13 @@ IO-Link (International Electrotechnical Commission [IEC] 61131-9) is an open sta
 
 \cond SOC_AM64X
 
-For information about supported features and key performance parameters, see \htmllink{../am64x/iolink_master/datasheet.html, IO-Link Controller Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am64x/iolink_master/iolink_datasheet.html, IO-Link Controller Data Sheet}
 
 \endcond
 
 \cond SOC_AM243X
 
-For information about supported features and key performance parameters, see \htmllink{../am243x/iolink_master/datasheet.html, IO-Link Controller Data Sheet}
+For information about supported features and key performance parameters, see \htmllink{../am243x/iolink_master/iolink_datasheet.html, IO-Link Controller Data Sheet}
 
 \endcond
 
@@ -111,11 +139,7 @@ PROFINET is a real-time Ethernet standard for the high-speed, deterministic comm
 
 ### Profinet Stack Transition {#INDUSTRIAL_COMMS_TI_STACK_PROFINET_STACK_TRANSITION}
 
-TI is transitioning to a new Profinet stack. Profinet RT will be available by end of 2022. Profinet IRT will be available in Q2 of 2023.
-
-This does not impact EtherCAT, EtherNet/IP, or IO-Link stacks that are already certified and currently available in the SDK.
-
-Following are the stack features for the updated Profinet stack.
+TI has negotiated a temporary evaluation license agreement allowing customers access to the PROFINET stack who purchased the AM243x or AM64x "F" device. Under the temporary evaluation license, TI will provide access to the PROFINET stack via the <a href="https://www.ti.com/securesoftware/docs/autopagepreview.tsp?opnId=28579">MySecure</a> software download system. Details of the license agreement will be included in a MySecure click-wrap license agreement. During the evaluation period, TI will continue negotiations on a permanent agreement. Please contact your local sales representative or submit an E2E post to gain access to the PROFINET stack.
 
 #### Supported Functionality
 

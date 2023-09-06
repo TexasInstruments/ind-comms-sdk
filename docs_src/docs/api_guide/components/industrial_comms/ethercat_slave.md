@@ -320,7 +320,7 @@ It is recommended to use these FWHAL APIs in the stack adaptation files. For exa
 ## Interrupts
 EtherCAT SubDevice Controller firmware generates the following interrupts.
 
-8 Host Interrupts (Host Interrupts 2 through 9) are exported from the PRU_ICSSG internal INTC for signaling the device level interrupt controllers. PRU_EVTOUT0 to PRU_EVTOUT7 correspond to these eight interrupts in the following table. Please check \ref PRUICSS_INTC section for more details.
+8 Host Interrupts (Host Interrupts 2 through 9) are exported from the PRU_ICSSG internal INTC for signaling the device level interrupt controllers. PRU_EVTOUT0 to PRU_EVTOUT7 correspond to these eight interrupts in the following table. Please check \htmllink{@VAR_MCU_SDK_DOCS_PATH/DRIVERS_PRUICSS_PAGE.html#PRUICSS_INTC, PRUICSS Interrupt Controller} section for more details.
 
 <table>
 <tr>

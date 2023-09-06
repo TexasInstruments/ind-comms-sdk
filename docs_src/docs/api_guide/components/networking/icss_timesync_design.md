@@ -318,4 +318,4 @@ ICSS TimeSync driver uses a lot of events to process PTP frames. All events are 
 </tr>
 </table>
 
-\note All the interrupts, tasks and semaphores created in an application can be checked using the ROV. For more details, see \ref ROV_INTRO_PAGE.
+\note All the interrupts, tasks and semaphores created in an application can be checked using the ROV. For more details, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/ROV_INTRO_PAGE.html#PRUICSS_INTC, Using SDK with Real-time Object View (ROV)}.

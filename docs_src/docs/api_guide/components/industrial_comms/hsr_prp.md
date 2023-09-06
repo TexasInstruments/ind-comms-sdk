@@ -278,7 +278,7 @@ HSR/PRP FWHAL provides custom Rx and Tx functions to be used for HSR/PRP applica
 ## Interrupts
 HSR/PRP firmware generates the following interrupts.
 
-HSR/PRP implementation uses following interrupts mapped to Host Interrupt Controller. 8 Host Interrupts (Host Interrupts 2 through 9) are exported from the PRU_ICSSG internal INTC for signaling the device level interrupt controllers. PRU_EVTOUT0 to PRU_EVTOUT7 correspond to these eight interrupts in the following table. Please check \ref PRUICSS_INTC section for more details.
+HSR/PRP implementation uses following interrupts mapped to Host Interrupt Controller. 8 Host Interrupts (Host Interrupts 2 through 9) are exported from the PRU_ICSSG internal INTC for signaling the device level interrupt controllers. PRU_EVTOUT0 to PRU_EVTOUT7 correspond to these eight interrupts in the following table. Please check \htmllink{@VAR_MCU_SDK_DOCS_PATH/DRIVERS_PRUICSS_PAGE.html#PRUICSS_INTC, PRUICSS Interrupt Controller} section for more details.
 
 <table>
 <tr>

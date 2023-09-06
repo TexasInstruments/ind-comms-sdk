@@ -2,42 +2,25 @@
 
 [TOC]
 
-\cond SOC_AM64X
-\attention A53 NORTOS, A53 FREERTOS and A53 FREERTOS SMP support is a experimental feature, see \ref EXPERIMENTAL_FEATURES \n
-\endcond
+Welcome to **@VAR_SDK_NAME for @VAR_SOC_NAME**. This SDK contains examples, libraries and tools to develop **RTOS and no-RTOS** based Industrial Communincation, Fieldbus and networking applications on PRU-ICSS
 
-\if SOC_AM64X
-Welcome to **@VAR_SDK_NAME for @VAR_SOC_NAME**. This SDK contains examples, libraries and tools to develop **RTOS and no-RTOS** based applications for **ARM R5F, ARM M4F, ARM A53 (single core and SMP on both cores) CPUs** and related peripherals.
-\else
-Welcome to **@VAR_SDK_NAME for @VAR_SOC_NAME**. This SDK contains examples, libraries and tools to develop **RTOS and no-RTOS** based applications for **ARM R5F, ARM M4F CPUs** and related peripherals.
-\endif
+The Industrial Communications SDK enables real-time industrial communications for TI processors. Industrial communication is typically handled by the Programmable Real-Time Unit Industrial Communication Subsystem (PRU-ICSS). The PRU-ICSS is a co-processor subsystem containing Programmable Real-Time (PRU) cores and Ethernet media access controllers (EMACs), which implement the low level industrial Ethernet and fieldbus protocols through firmware. The upper layers of the protocols stacks are implemented in software running on Arm cores.
 
-\cond SOC_AM64X
-This SDK also contains examples to interface these ARM R5F, ARM M4F applications with **Processor SDK Linux** based Cortex-A applications.
-\endcond
+PRU cores are primarily used for industrial communication, and can also be used for other applications such as motor control and custom interfaces. The PRU-ICSS frees up the main Arm cores in the device for other functions, such as control and data processing.
+
+\attention This SDK also includes \htmllink{@VAR_MCU_SDK_DOCS_PATH/index.html, @VAR_SOC_NAME MCU+ SDK}.
 
 ## Getting Started
 
-To get started, see \ref GETTING_STARTED
-
-## Migration Information {#MIGRATION_INFORMATION}
-
-When migrating from Processor SDK RTOS, see \ref MIGRATION_GUIDES for more details.
+To get started, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/GETTING_STARTED.html, GETTING STARTED} page.
 
 ## Block Diagram
 
-Given below is a block diagram of the SW modules in this SDK,
+Given below is a block diagram of the SW modules in this SDK
 
-\if SOC_AM64X
-\imageStyle{am64x/block_diagram.png,width:70%}
-\image html am64x/block_diagram.png "Software Block Diagram"
-\else
-\imageStyle{block_diagram.png,width:70%}
 \image html block_diagram.png "Software Block Diagram"
-\endif
 
 The main software components in the block diagram are described below
-
 
 <table>
 <tr>
@@ -55,7 +38,7 @@ The main software components in the block diagram are described below
 <tr>
     <td>Industrial Protocol Stacks
     <td> \ref INDUSTRIAL_COMMS
-    <td>Industrial protocol stacks for protocols like EtherCAT, Profinet, EtherNet/IP
+    <td>Industrial protocol stacks for protocols like EtherCAT, Profinet, EtherNet/IP, IO-Link
 </tr>
 <tr><td colspan="3" bgcolor=#F0F0F0>**Examples and Demos**</td></tr>
 <tr>
@@ -64,6 +47,8 @@ The main software components in the block diagram are described below
     <td>Examples and demos showing usage of different SW libraries and APIs
 </tr>
 </table>
+
+For details on software components of MCU+ SDK, please refer to \htmllink{@VAR_MCU_SDK_DOCS_PATH/index.html, @VAR_SOC_NAME MCU+ SDK}.
 
 ## Directory Structure
 
@@ -85,7 +70,7 @@ Given below is a overview of the directory structure to help you navigate the SD
 </tr>
 <tr>
     <td>imports.mak
-    <td>Top level makefile to list paths to dependant tools</td>
+    <td>Top level makefile to list paths to dependent tools</td>
 </tr>
 <tr>
     <td>docs/
@@ -93,7 +78,7 @@ Given below is a overview of the directory structure to help you navigate the SD
 </tr>
 <tr>
     <td>examples/
-    <td>Example applications for @VAR_SOC_NAME, across multiple boards, CPUs, NO-RTOS, RTOS</td>
+    <td>Example applications for @VAR_SOC_NAME, across multiple boards </td>
 </tr>
 <tr>
     <td>mcu_plus_sdk/
@@ -115,7 +100,7 @@ In Linux, the tools are installed by default in ${HOME}/ti.
 </tr>
 <tr>
     <td>C:/ti/ccs@VAR_CCS_FOLDER_VERSION
-    <td>Code composer studio</td>
+    <td>Code Composer Studio</td>
 </tr>
 <tr>
     <td>C:/ti/sysconfig_@VAR_SYSCFG_VERSION

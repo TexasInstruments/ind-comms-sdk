@@ -9,5 +9,4 @@ This page lists all the examples and demos supported in this SDK.
 
 \cond SOC_AM263X
 -# \subpage EXAMPLES_INDUSTRIAL_COMMS
--# \subpage EXAMPLES_NETWORKING
 \endcond

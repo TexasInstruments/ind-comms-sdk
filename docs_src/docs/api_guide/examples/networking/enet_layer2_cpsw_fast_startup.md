@@ -113,16 +113,16 @@ This example does:
 ## Build the example
 
 - When using CCS projects to build, import the CCS project for the required combination
-  and build it using the CCS project menu (see \ref CCS_PROJECTS_PAGE).
+  and build it using the CCS project menu (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_PROJECTS_PAGE.html, Using SDK with CCS Projects}).
 - When using makefiles to build, note the required combination and build using
-  make command (see \ref MAKEFILE_BUILD_PAGE)
+  make command (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/MAKEFILE_BUILD_PAGE.html, Using SDK with Makefiles})
 
 
 ## Run the example
 
 \attention If you need to reload and run again, a CPU power-cycle is MUST
 
-- Launch a CCS debug session and run the example executable, see \ref CCS_LAUNCH_PAGE
+- Launch a CCS debug session and run the example executable, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_LAUNCH_PAGE.html, CCS Launch\, Load and Run}
 - You will see logs in the UART terminal as shown in the next section.
 
 

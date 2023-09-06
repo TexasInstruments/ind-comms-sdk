@@ -2,21 +2,22 @@
 
 [TOC]
 
-Welcome to **@VAR_SDK_NAME for @VAR_SOC_NAME**. This SDK contains examples, libraries and tools to develop **RTOS and no-RTOS** based applications for **ARM R5F CPU** and related peripherals.
+Welcome to **@VAR_SDK_NAME for @VAR_SOC_NAME**. This SDK contains examples, libraries and tools to develop **RTOS and no-RTOS** based Industrial Communincation applications on PRU-ICSS
+
+The Industrial Communications SDK enables real-time industrial communications for TI processors. Industrial communication is typically handled by the Programmable Real-Time Unit Industrial Communication Subsystem (PRU-ICSS). The PRU-ICSS is a co-processor subsystem containing Programmable Real-Time (PRU) cores and Ethernet media access controllers (EMACs), which implement the low level industrial Ethernet and fieldbus protocols through firmware. The upper layers of the protocols stacks are implemented in software running on Arm cores.
+
+PRU cores are primarily used for industrial communication, and can also be used for other applications such as motor control and custom interfaces. The PRU-ICSS frees up the main Arm cores in the device for other functions, such as control and data processing.
+
+\attention This SDK also includes \htmllink{@VAR_MCU_SDK_DOCS_PATH/index.html, @VAR_SOC_NAME MCU+ SDK}.
 
 ## Getting Started
 
-To get started, see \ref GETTING_STARTED
-
-## Migration Information {#MIGRATION_INFORMATION}
-
-Not Applicable
+To get started, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/GETTING_STARTED.html, GETTING STARTED} page.
 
 ## Block Diagram
 
-Given below is a block diagram of the SW modules in this SDK,
+Given below is a block diagram of the SW modules in this SDK
 
-\imageStyle{block_diagram_am263x.png,width:70%}
 \image html block_diagram_am263x.png "Software Block Diagram"
 
 The main software components in the block diagram are described below
@@ -48,6 +49,8 @@ The main software components in the block diagram are described below
 </tr>
 </table>
 
+For details on software components of MCU+ SDK, please refer to \htmllink{@VAR_MCU_SDK_DOCS_PATH/index.html, @VAR_SOC_NAME MCU+ SDK}.
+
 ## Directory Structure
 
 Given below is a overview of the directory structure to help you navigate the SDK and related tools.
@@ -68,7 +71,7 @@ Given below is a overview of the directory structure to help you navigate the SD
 </tr>
 <tr>
     <td>imports.mak
-    <td>Top level makefile to list paths to dependant tools</td>
+    <td>Top level makefile to list paths to dependent tools</td>
 </tr>
 <tr>
     <td>docs/
@@ -76,7 +79,7 @@ Given below is a overview of the directory structure to help you navigate the SD
 </tr>
 <tr>
     <td>examples/
-    <td>Example applications for @VAR_SOC_NAME, across multiple boards, CPUs, NO-RTOS, RTOS</td>
+    <td>Example applications for @VAR_SOC_NAME, across multiple boards </td>
 </tr>
 <tr>
     <td>mcu_plus_sdk/

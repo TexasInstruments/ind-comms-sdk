@@ -31,6 +31,7 @@ Links to important sections in the detailed documentation are provided below:
 
 - \htmllink{../am64x/ethercat_slave/index.html, Home Page}
 - \htmllink{../am64x/ethercat_slave/ethercat_datasheet.html, Data Sheet}
+- \htmllink{../am64x/ethercat_slave/ethercat_certificate.pdf, Certificate}
 - \htmllink{../am64x/ethercat_slave/releasenotes.html, Release Notes}
 - \htmllink{../am64x/ethercat_slave/page_quickstart.html, Example Quick Start}
 - \htmllink{../am64x/ethercat_slave/modules.html, API Documentation}
@@ -41,6 +42,7 @@ Links to important sections in the detailed documentation are provided below:
 
 - \htmllink{../am243x/ethercat_slave/index.html, Home Page}
 - \htmllink{../am243x/ethercat_slave/ethercat_datasheet.html, Data Sheet}
+- \htmllink{../am243x/ethercat_slave/ethercat_certificate.pdf, Certificate}
 - \htmllink{../am243x/ethercat_slave/releasenotes.html, Release Notes}
 - \htmllink{../am243x/ethercat_slave/page_quickstart.html, Example Quick Start}
 - \htmllink{../am243x/ethercat_slave/modules.html, API Documentation}

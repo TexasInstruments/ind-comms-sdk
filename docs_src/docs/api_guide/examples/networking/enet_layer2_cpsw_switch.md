@@ -100,13 +100,13 @@ This example do below:
 ## Build the example
 
 - When using CCS projects to build, import the CCS project for the required combination
-  and build it using the CCS project menu (see \ref CCS_PROJECTS_PAGE).
+  and build it using the CCS project menu (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_PROJECTS_PAGE.html, Using SDK with CCS Projects}).
 - When using makefiles to build, note the required combination and build using
-  make command (see \ref MAKEFILE_BUILD_PAGE)
+  make command (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/MAKEFILE_BUILD_PAGE.html, Using SDK with Makefiles})
 
 ## HW Setup
 
-\note Make sure you have setup the EVM with cable connections as shown here, \ref EVM_SETUP_PAGE.
+\note Make sure you have setup the EVM with cable connections as shown here, \htmllink{@VAR_MCU_SDK_DOCS_PATH/EVM_SETUP_PAGE.html, EVM Setup}.
       In addition do below steps.
 
 \cond SOC_AM64X
@@ -159,9 +159,9 @@ This example do below:
 
 \attention If you need to reload and run again, a CPU power-cycle is MUST
 
-- Launch a CCS debug session and run the example executable, see \ref CCS_LAUNCH_PAGE
+- Launch a CCS debug session and run the example executable, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_LAUNCH_PAGE.html, CCS Launch\, Load and Run}
 - You will see logs in the UART terminal as shown in the next section.
-- Launch a CCS debug session and run the example executable, see \ref CCS_LAUNCH_PAGE
+- Launch a CCS debug session and run the example executable, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_LAUNCH_PAGE.html, CCS Launch\, Load and Run}
 - You will see logs in the UART terminal as shown in the next section.
 - We can start sending multicast packets from Colasoft Pkt Builder or packETH tool.
   - In the Colasoft Pkt Builder, click on Add icon , select any layer2 Packet and click ok.

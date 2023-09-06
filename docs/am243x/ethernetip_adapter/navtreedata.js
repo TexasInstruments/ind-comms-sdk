@@ -1,24 +1,26 @@
 /*
-@licstart  The following is the entire license notice for the
-JavaScript code in this file.
+ @licstart  The following is the entire license notice for the JavaScript code in this file.
 
-Copyright (C) 1997-2019 by Dimitri van Heesch
+ The MIT License (MIT)
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of version 2 of the GNU General Public License as published by
-the Free Software Foundation
+ Copyright (C) 1997-2020 by Dimitri van Heesch
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ The above copyright notice and this permission notice shall be included in all copies or
+ substantial portions of the Software.
 
-@licend  The above is the entire license notice
-for the JavaScript code in this file
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ @licend  The above is the entire license notice for the JavaScript code in this file
 */
 var NAVTREE =
 [
@@ -37,6 +39,17 @@ var NAVTREE =
         [ "Public Licensed Packages", "eip_releasenotes.html#eip_releasenotes_opensource_license", null ]
       ] ],
       [ "Known Issues", "eip_releasenotes.html#eip_known_issues", null ],
+      [ "Release Version 3.04.02", "eip_releasenotes.html#eip_version_release30402", [
+        [ "New Features", "eip_releasenotes.html#eip_new_features_release30402", null ],
+        [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30402", null ]
+      ] ],
+      [ "Release Version 3.04.00", "eip_releasenotes.html#eip_version_release30400", [
+        [ "New Features", "eip_releasenotes.html#eip_new_features_release30400", null ],
+        [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30400", null ]
+      ] ],
+      [ "Release Version 3.02.02", "eip_releasenotes.html#eip_version_release30202", [
+        [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30202", null ]
+      ] ],
       [ "Release Version 3.02.00", "eip_releasenotes.html#eip_version_release30200", [
         [ "New Features", "eip_releasenotes.html#eip_new_features_release30200", null ],
         [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30200", null ]
@@ -147,8 +160,17 @@ var NAVTREE =
         [ "Software Installation", "eip_quickstart_installation.html#eip_software_installation", null ],
         [ "Connect the Evaluation Board", "eip_quickstart_installation.html#eip_connect_to_evm", null ]
       ] ],
-      [ "Running the EtherNet/IP Adapter Example", "eip_quickstart_example.html", null ],
-      [ "Description of the EtherNet/IP Adapter Example", "eip_quickstart_example_app.html", null ],
+      [ "Running the EtherNet/IP Adapter Example", "eip_quickstart_example_code.html", null ],
+      [ "EtherNet/IP Adapter Examples", "eip_quickstart_example.html", [
+        [ "Scope", "eip_quickstart_example.html#eip_quickstart_example_scope", null ],
+        [ "Common Files", "eip_quickstart_example.html#eip_quickstart_example_common_files", null ],
+        [ "Device Profile Example Implementations", "eip_quickstart_example.html#eip_quickstart_example_profiles", [
+          [ "Generic Device", "eip_example_generic_device.html", null ],
+          [ "General Purpose Discrete I/O Device", "eip_example_general_purpose_discrete_io_device.html", null ],
+          [ "Generic EtherNet/IP - IO-Link Gateway", "eip_example_generic_io_link_gateway.html", null ]
+        ] ],
+        [ "Web Server Task", "eip_quickstart_example.html#exampleWebServer", null ]
+      ] ],
       [ "PLC Projects for the EtherNet/IP Adapter Example", "eip_quickstart_example_plc.html", [
         [ "CODESYS Runtime on a Texas Instruments AM64x Sitara Processor", "eip_codesys_a_r_m64_example.html", null ],
         [ "CODESYS Runtime on a KUNBUS RevPI Controller", "eip_codesys_rev_pi_example.html", null ],
@@ -173,9 +195,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"group___e_i___a_p_i___a_d_p___t_i_m_e_s_y_n_c_ga4e466868d5ce096be24736eeb8b8f182.html#ga4e466868d5ce096be24736eeb8b8f182",
-"struct_c_u_s_t___d_r_i_v_e_r_s___s_perm_write_param_aebb70c2aab3407a9f05334c47131a43b.html#aebb70c2aab3407a9f05334c47131a43b",
-"struct_e_i_p___s_load_parameter_a9fce41de29330e387b096d1d74ebb627.html#a9fce41de29330e387b096d1d74ebb627"
+"group___e_i___a_p_i___a_d_p___t_c_p_gacfad46501a373047ef0cdfd3d6b9d008.html#gacfad46501a373047ef0cdfd3d6b9d008",
+"struct_c_u_s_t___d_r_i_v_e_r_s___s_flash_params_a2aad5673f59d7d063a79398cc3fc20fd.html#a2aad5673f59d7d063a79398cc3fc20fd",
+"usergroup0.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

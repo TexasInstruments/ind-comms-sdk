@@ -171,10 +171,10 @@ Following is the interrupt processing time for PDI and Sync ISRs with 50 us cycl
 
 - Change macro defintions in `{SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/stack_sources/ecat_def.h`, if required for your application. Please ensure that TIESC_HW is set to 1, and TIESC_APPLICATION is set to 1.
 - **When using CCS projects to build**, import the CCS project for the required combination
-  and build it using the CCS project menu (see \ref CCS_PROJECTS_PAGE).
+  and build it using the CCS project menu (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_PROJECTS_PAGE.html, Using SDK with CCS Projects}).
 - **When using makefiles to build**, note the required combination and build using
-  make command (see \ref MAKEFILE_BUILD_PAGE)
-- Launch a CCS debug session and run the executable, see \ref CCS_LAUNCH_PAGE
+  make command (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/MAKEFILE_BUILD_PAGE.html, Using SDK with Makefiles})
+- Launch a CCS debug session and run the executable, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_LAUNCH_PAGE.html, CCS Launch\, Load and Run}
 - To test the application, one can use TwinCAT or any other compatible EtherCAT MainDevice. The steps to test the SubDevice with TwinCAT are present in \subpage ETHERCAT_SUBDEVICE_DEMO_TWINCAT.
 
 \attention If you need to reload and run the example again, EVM power-cycle is MUST.

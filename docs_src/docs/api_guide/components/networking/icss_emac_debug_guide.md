@@ -24,7 +24,7 @@ This page is meant to help the developer in
 
 ### Loading and running on CCS
 
-See \ref CCS_LAUNCH_PAGE page for details on how to load and run binaries on EVM using CCS. Also, see \ref CCS_UART_TERMINAL section for information on how to open a UART terminal inside CCS.
+See \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_LAUNCH_PAGE.html, CCS Launch\, Load and Run} page for details on how to load and run binaries on EVM using CCS. Also, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/EVM_SETUP_PAGE.html#CCS_UART_TERMINAL, Setup UART Terminal} section for information on how to open a UART terminal inside CCS.
 
 ### Checking Link Status {#ICSS_EMAC_DEBUG_GUIDE_CHECKING_LINK_STATUS}
 
@@ -160,4 +160,4 @@ For example on AM64x, if `portMacAddr` location needs to be accessed for Port 0,
 
 ## Using ROV to Debug RTOS
 
-For more details, see \ref ROV_INTRO_PAGE.
+For more details, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/ROV_INTRO_PAGE.html#PRUICSS_INTC, Using SDK with Real-time Object View (ROV)}.

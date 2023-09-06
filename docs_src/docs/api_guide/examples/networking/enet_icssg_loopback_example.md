@@ -48,9 +48,9 @@ The examples do below
 ## Build the example
 
 - When using CCS projects to build, import the CCS project for the required combination
-  and build it using the CCS project menu (see \ref CCS_PROJECTS_PAGE).
+  and build it using the CCS project menu (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_PROJECTS_PAGE.html, Using SDK with CCS Projects}).
 - When using makefiles to build, note the required combination and build using
-  make command (see \ref MAKEFILE_BUILD_PAGE)
+  make command (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/MAKEFILE_BUILD_PAGE.html, Using SDK with Makefiles})
 
 ## Sample output for PHY Loopback
 

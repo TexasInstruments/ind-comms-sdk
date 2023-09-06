@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="19.58cm" height="11.46cm" viewBox="0 0 740 433">
+<title></title>
+<desc>Created with Enterprise Architect (Build: 1627) 2</desc>
+
+<g style="stroke-width:2;stroke-linecap:square;stroke-linejoin:miter; fill:#000000;fill-opacity:0.00; stroke:#B4B4B4; stroke-opacity:1.00">
+  <path d="M 10 10 L 10 410 M 730 410 L 730 10 L 10 10 M 10 30 L 730 30" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 10 10 L 10 410 M 730 410 L 730 10 L 10 10 M 10 30 L 730 30" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="68.00" y="23.00" textLength="603" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 68.00 23.00)">EI_APP_DISCRETE_IO_DEVICE_init (examples/industrial_comms/ethernetip_adapter_demo/deviceProfiles/discreteIoDevice/app_discrete_io_device.c)</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+<ellipse cx="170.00" cy="60.00" rx="10.00" ry="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="200.00" y="63.00" textLength="52" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 200.00 63.00)">ActivityInitial</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="50" y="110" width="240" height="60" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 279 150 L 279 165 M 283 165 L 283 157 L 275 157 L 275 165" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="87.00" y="126.00" textLength="166" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 87.00 126.00)">EI_APP_DISCRETE_IO_DEVICE_DOP_init:</text>
+	<text x="88.00" y="139.00" textLength="163" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 88.00 139.00)">EI_APP_DISCRETE_IO_DEVICE_DOP_init</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="50" y="200" width="240" height="60" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 279 240 L 279 255 M 283 255 L 283 247 L 275 247 L 275 255" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="89.00" y="216.00" textLength="162" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 89.00 216.00)">EI_APP_DISCRETE_IO_DEVICE_DIP_init:</text>
+	<text x="90.00" y="229.00" textLength="159" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 90.00 229.00)">EI_APP_DISCRETE_IO_DEVICE_DIP_init</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+ <rect x="50" y="290" width="240" height="44" rx="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 279 314 L 279 329 M 283 329 L 283 321 L 275 321 L 275 329" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="87.00" y="306.00" textLength="165" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 87.00 306.00)">EI_APP_DISCRETE_IO_DEVICE_cipSetup:</text>
+	<text x="89.00" y="319.00" textLength="162" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 89.00 319.00)">EI_APP_DISCRETE_IO_DEVICE_cipSetup</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#FFFFFF;fill-opacity:1.00; stroke:#000000; stroke-opacity:1.00">
+<ellipse cx="170.00" cy="390.00" rx="10.00" ry="10.00" shape-rendering="auto"  />
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 163 397 L 177 384" shape-rendering="auto"/>
+  <path d="M 163 383 L 176 397" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="200.00" y="394.00" textLength="38" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 200.00 394.00)">FlowFinal</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 510 100 L 310 100" shape-rendering="auto"/>
+  <path d="M 310 100 L 310 180" shape-rendering="auto"/>
+  <path d="M 310 180 L 510 180" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="322.00" y="122.00" textLength="362" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 122.00)">Create a Discrete Output Point Object with class instance and two instances for digital output</text>
+	<text x="322.00" y="135.00" textLength="27" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 135.00)">points.</text>
+	<text x="322.00" y="148.00" textLength="331" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 148.00)">The class instance contains attribute 1 for the revision (revision = 1) and supports the</text>
+	<text x="322.00" y="161.00" textLength="260" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 161.00)">Get_Attribute_Single service (EI_API_CIP_eSC_GETATTRSINGLE).</text>
+	<text x="322.00" y="174.00" textLength="284" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 174.00)">The output point instances support the required attribute 3 for the value.</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 510 190 L 310 190" shape-rendering="auto"/>
+  <path d="M 310 190 L 310 270" shape-rendering="auto"/>
+  <path d="M 310 270 L 510 270" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="322.00" y="212.00" textLength="378" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 212.00)">Create a Discrete Input Point Object with class instance and two instances for digital input points.</text>
+	<text x="322.00" y="225.00" textLength="331" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 225.00)">The class instance contains attribute 1 for the revision (revision = 2) and supports the</text>
+	<text x="322.00" y="238.00" textLength="260" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 238.00)">Get_Attribute_Single service (EI_API_CIP_eSC_GETATTRSINGLE).</text>
+	<text x="322.00" y="251.00" textLength="278" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 251.00)">The input point instances support the required attribute 3 for the value.</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 510 280 L 310 280" shape-rendering="auto"/>
+  <path d="M 310 280 L 310 340" shape-rendering="auto"/>
+  <path d="M 310 340 L 510 340" shape-rendering="auto"/>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00">
+	<text x="322.00" y="302.00" textLength="350" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 302.00)">Create producing and consuming assemblies and a configuration assembly. Note that the</text>
+	<text x="322.00" y="315.00" textLength="372" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 315.00)">assembly instance IDs currently are from the vendor-specific range and not the Instance IDs as</text>
+	<text x="322.00" y="328.00" textLength="285" style="font-family:Calibri; font-weight:0; font-style:normal; font-size:10px; fill:#000000;fill-opacity:1.00; stroke:#000000; stroke-opacity:0.00 stroke-width:0; white-space: pre;" xml:space="preserve" transform="rotate(-0.00 322.00 328.00)">described in Chapter 6-10.4 of Volume 1 of the CIP NETWORKS LIBRARY.</text>
+</g>
+<g style="stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel; fill:#000000;fill-opacity:0.00; stroke:#000000; stroke-opacity:1.00">
+  <path d="M 170 334 L 170 380" shape-rendering="auto"/>
+  <path d="M 165 366 L 170 380 L 175 366" shape-rendering="auto"/>
+  <path d="M 170 260 L 170 290" shape-rendering="auto"/>
+  <path d="M 165 276 L 170 290 L 175 276" shape-rendering="auto"/>
+  <path d="M 170 170 L 170 200" shape-rendering="auto"/>
+  <path d="M 165 186 L 170 200 L 175 186" shape-rendering="auto"/>
+  <path d="M 170 70 L 170 110" shape-rendering="auto"/>
+  <path d="M 165 96 L 170 110 L 175 96" shape-rendering="auto"/>
+</g>
+</svg>

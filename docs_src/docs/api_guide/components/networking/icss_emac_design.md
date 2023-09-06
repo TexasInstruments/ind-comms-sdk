@@ -223,7 +223,7 @@ Three interrupts are:
 
 3. Tx Completion Interrupt : This used by PRU to tell ARM about the completion of transmission of a packet. The user can choose to disable handling of this interrupt by keeping "TX Interrupt Enable" unchecked in the SysConfig for ICSS-EMAC.
 
-These interrupts are routed from the ICSS Interrupt controller to the Host. It consists of interrupts asserted by the PRU as well as interrupts asserted by the peripherals (MDIO, ECAP etc) attached to the ICSS Interrupt controller. The Host Interrupt controller has 8 usable interrupts mapped to the ICSS interrupt controller. This mapping is programmable using \ref PRUICSS_IntcInitData structure while passing \ref ICSS_EMAC_Params for opening the ICSS-EMAC handle and it varies from example to example. Please refer \ref PRUICSS_INTC page for more details.
+These interrupts are routed from the ICSS Interrupt controller to the Host. It consists of interrupts asserted by the PRU as well as interrupts asserted by the peripherals (MDIO, ECAP etc) attached to the ICSS Interrupt controller. The Host Interrupt controller has 8 usable interrupts mapped to the ICSS interrupt controller. This mapping is programmable using PRUICSS_IntcInitData structure while passing \ref ICSS_EMAC_Params for opening the ICSS-EMAC handle and it varies from example to example. Please refer \htmllink{@VAR_MCU_SDK_DOCS_PATH/DRIVERS_PRUICSS_PAGE.html#PRUICSS_INTC, PRUICSS Interrupt Controller} page for more details.
 
 ### Tasks
 
@@ -269,7 +269,7 @@ Priorities for these tasks can be selected using the SysConfig for ICSS-EMAC. Ta
 </tr>
 </table>
 
-\note All the interrupts, tasks and semaphores created in an application can be checked using the ROV. For more details, see \ref ROV_INTRO_PAGE.
+\note All the interrupts, tasks and semaphores created in an application can be checked using the ROV. For more details, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/ROV_INTRO_PAGE.html#PRUICSS_INTC, Using SDK with Real-time Object View (ROV)}.
 
 ## Interrupt Pacing {#ICSS_EMAC_DESIGN_INTERRUPT_PACING}
 

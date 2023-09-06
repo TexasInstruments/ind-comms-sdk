@@ -150,7 +150,7 @@ Creating PHY access requests from the R5F core remains same as all the configura
 
 ## Impact
 - One PRU is now reserved for emulating MDIO Manual Mode functionality.
-- For MDIO API Usage, the base address is now changed. \ref MDIO_initClock API call is not needed.
+- For MDIO API Usage, the base address is now changed. MDIO_initClock API call is not needed.
 - Following Registers are not available when using MDIO manual mode firmware (from the emulated register space):
     -   MDIO_VERSION_REG (MDIO Version Register)
     -   MDIO_CONTROL_REG (MDIO Control Register)

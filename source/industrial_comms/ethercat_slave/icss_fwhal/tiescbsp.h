@@ -626,7 +626,7 @@ void bsp_params_init(bsp_params *init_params);
 *
 *  \param init_params  Structure of type bsp_params
 *
-*  \retval  #SystemP_SUCCESS in case of success, #SystemP_FAILURE otherwise
+*  \retval  SystemP_SUCCESS in case of success, SystemP_FAILURE otherwise
 *
 */
 extern int32_t bsp_init(bsp_params *init_params);
@@ -1538,13 +1538,13 @@ extern void bsp_get_latch1_negedge_time(PRUICSS_Handle pruIcssHandle,
 
 /**
 *  \brief  Critical section enter API using semaphore/mutex/interrupt disable primitives from RTOS.
-*  Implemented using \ref HwiP_disableInt API.
+*  Implemented using HwiP_disableInt API.
 */
 extern void bsp_global_mutex_lock(void);
 
 /**
 *  \brief  Critical section leave API using semaphore/mutex/interrupt enable primitives from RTOS.
-*  Implemented using \ref HwiP_enableInt API.
+*  Implemented using HwiP_enableInt API.
 */
 extern void bsp_global_mutex_unlock(void);
 /**

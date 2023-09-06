@@ -380,13 +380,13 @@ are shown in the following sequence diagram:
 ## Build the example
 
 - When using CCS projects to build, import the CCS project for the required combination
-  and build it using the CCS project menu (see \ref CCS_PROJECTS_PAGE).
+  and build it using the CCS project menu (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_PROJECTS_PAGE.html, Using SDK with CCS Projects}).
 - When using makefiles to build, note the required combination and build using
-  make command (see \ref MAKEFILE_BUILD_PAGE)
+  make command (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/MAKEFILE_BUILD_PAGE.html, Using SDK with Makefiles})
 
 ## HW Setup
 
-Make sure you have setup the EVM with cable connections as shown in \ref EVM_SETUP_PAGE.
+Make sure you have setup the EVM with cable connections as shown in \htmllink{@VAR_MCU_SDK_DOCS_PATH/EVM_SETUP_PAGE.html, EVM Setup}.
 In addition, follow the steps in the next section.
 
 \note Ethernet cable must be connected and link must be up in order for the example
@@ -421,7 +421,7 @@ The steps to run this test are:
 - Optional: If using PC connected to the EVM port, open Wireshark in order to check
   the packets sent by the example application.  Note that the timestamps in Wireshark
   are not necessarily accurate (see [Wireshark documentation](https://www.wireshark.org/docs/wsug_html/#_accuracy)).
-- Launch a CCS debug session and run the example executable, see \ref CCS_LAUNCH_PAGE.
+- Launch a CCS debug session and run the example executable, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_LAUNCH_PAGE.html, CCS Launch\, Load and Run}.
 - Application logs such as cycle time, time intervals and gate masks will be printed
   in the serial console.  Sample logs are shown in the next section.
 - Enable EST timestamping by entering '`t`' on the serial console.

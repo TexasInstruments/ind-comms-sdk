@@ -161,13 +161,13 @@ Ncat is a general-purpose command-line tool for reading, writing, redirecting, a
 ## Build the example
 
 - When using CCS projects to build, import the CCS project for the required combination
-  and build it using the CCS project menu (see \ref CCS_PROJECTS_PAGE).
+  and build it using the CCS project menu (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_PROJECTS_PAGE.html, Using SDK with CCS Projects}).
 - When using makefiles to build, note the required combination and build using
-  make command (see \ref MAKEFILE_BUILD_PAGE)
+  make command (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/MAKEFILE_BUILD_PAGE.html, Using SDK with Makefiles})
 
 ## HW Setup
 
-\note Make sure you have setup the EVM with cable connections as shown here, \ref EVM_SETUP_PAGE.
+\note Make sure you have setup the EVM with cable connections as shown here, \htmllink{@VAR_MCU_SDK_DOCS_PATH/EVM_SETUP_PAGE.html, EVM Setup}.
       In addition do below steps.
 
 \cond SOC_AM64X
@@ -230,7 +230,7 @@ to a network which has a DHCP server running.
 
 \attention If you need to reload and run again, a CPU power-cycle is MUST
 
-- Launch a CCS debug session and run the example executable, see \ref CCS_LAUNCH_PAGE
+- Launch a CCS debug session and run the example executable, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_LAUNCH_PAGE.html, CCS Launch\, Load and Run}
 - You will see logs in the UART terminal as shown in the next section.
 - Note the IP address seen in the log, this is what we will use to communicate with the EVM.
 
@@ -323,7 +323,7 @@ accepted new connection 70128D20
         \code
         #define ENET_MAC_ADDR_HACK (TRUE)
         \endcode
-   - Rebuild the libraries and examples (\ref MAKEFILE_BUILD_PAGE)
+   - Rebuild the libraries and examples (\htmllink{@VAR_MCU_SDK_DOCS_PATH/MAKEFILE_BUILD_PAGE.html, Using SDK with Makefiles})
 \endcond
 
 - If you see a valid, non-zero MAC address and continuosly seieing "Waiting for network UP..." prints in UART terminal
