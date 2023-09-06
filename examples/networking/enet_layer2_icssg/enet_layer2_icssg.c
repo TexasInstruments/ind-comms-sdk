@@ -92,6 +92,9 @@
 
 /*Counting Semaphore count*/
 #define COUNTING_SEM_COUNT                       (10U)
+
+/*Maximum Tx channels allowed*/
+#define ENETMP_MAX_TX_CHANNEL_NUM                (8U)
 /* ========================================================================== */
 /*                         Structure Declarations                             */
 /* ========================================================================== */
@@ -1527,11 +1530,11 @@ static void EnetMp_rxTask(void *args)
 #if DEBUG
     uint32_t totalRxCnt = 0U;
 #endif
-    uint32_t flowIdx, prioMap[ENET_SYSCFG_RX_FLOWS_NUM];
+    uint32_t flowIdx, prioMap[ENETMP_MAX_TX_CHANNEL_NUM];
     int32_t status = ENET_SOK;
 
 
-    for(flowIdx = 0; flowIdx< 8; flowIdx++)
+    for(flowIdx = 0; flowIdx< ENETMP_MAX_TX_CHANNEL_NUM; flowIdx++)
     {
         prioMap[flowIdx] =  flowIdx;
     }
@@ -1705,7 +1708,7 @@ static void EnetMp_rxTask(void *args)
 #if ENET_SYSCFG_DUAL_MAC
                 const uint32_t txChIdx = flowIdx;
 #else
-                const uint32_t txChIdx = flowIdx / 2;
+                const uint32_t txChIdx = flowIdx % ENET_SYSCFG_TX_CHANNELS_NUM;
 #endif
                 status = EnetDma_submitTxPktQ(perCtxt->hTxCh[txChIdx], &txSubmitQ);
                 if (status != ENET_SOK)
