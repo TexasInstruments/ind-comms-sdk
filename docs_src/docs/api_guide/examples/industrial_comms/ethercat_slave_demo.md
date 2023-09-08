@@ -63,8 +63,6 @@ Links to important sections in the detailed documentation are provided below:
 
 \endcond
 
-\note The work-around for issue "i2329 - MDIO: MDIO interface corruption (CPSW and PRU-ICSS)" (described in <a href="https://www.ti.com/lit/er/sprz457e/sprz457e.pdf">AM64x/AM243x Processor Silicon Revision 1.0, 2.0 (Rev. E)</a>) is not available for this example in this release. It will be available in next release.
-
 \attention If you need to reload and run the example again, EVM power-cycle is MUST.
 
 # Supported Combinations {#EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_DEMOS_COMBOS}

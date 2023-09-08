@@ -102,14 +102,14 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
     <th> Applicable Releases
     <th> Workaround
 </tr>
-<tr>     
+<tr>
     <td> PINDSW-5781
     <td> MDIO Workaround - Polling mode does not work with EtherCAT
     <td> EtherCAT Device
     <td> 8.6.0
     <td> 
-</tr>    
-<tr>     
+</tr>
+<tr>
     <td> PINDSW-6587
     <td> EtherCAT syscfg -  Rx MLINK enable does not enables MLINK if it is disabled from application
     <td> EtherCAT Device
@@ -122,21 +122,21 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
     <td> EtherNet/IP Adapter
     <td> 8.4.0
     <td> Value of OFFSET_THRESHOLD_FOR_RESET is set to 10000 ns by default in SDK
-</tr>    
-<tr>     
+</tr>
+<tr>
     <td> PINDSW-5675
     <td> HSR/PRP - PTP Device is unable to keep offset under 1000 ns
     <td> HSR-PRP
     <td> 8.4.0
     <td> 
-</tr>    
-<tr>     
+</tr>
+<tr>
     <td> PINDSW-5668
     <td> HSR/PRP is not functional in rgmii mode
     <td> HSR-PRP
     <td> 8.4.0
     <td> 
-</tr>    
+</tr>
 <tr>
     <td> PINDSW-6624
     <td> AM243x: ENET: ICSSG TAS Example Failure

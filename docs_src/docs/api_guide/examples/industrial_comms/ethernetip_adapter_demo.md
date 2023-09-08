@@ -28,8 +28,6 @@ These examples are EtherNet/IP Adapter applications based on evaluation stacks p
 
 \attention If you need to reload and run the example again, EVM power-cycle is MUST.
 
-\note The work-around for issue "i2329 - MDIO: MDIO interface corruption (CPSW and PRU-ICSS)" (described in <a href="https://www.ti.com/lit/er/sprz457e/sprz457e.pdf">AM64x/AM243x Processor Silicon Revision 1.0, 2.0 (Rev. E)</a>) is not available for this example in this release. It will be available in next release.
-
 # Supported Combinations
 
 \cond SOC_AM64X

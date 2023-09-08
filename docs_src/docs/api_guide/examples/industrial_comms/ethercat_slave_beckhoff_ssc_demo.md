@@ -34,12 +34,6 @@ The example does the below
 
 \endcond
 
-\cond SOC_AM64X || SOC_AM243X
-
-\note The work-around for issue "i2329 - MDIO: MDIO interface corruption (CPSW and PRU-ICSS)" (described in <a href="https://www.ti.com/lit/er/sprz457e/sprz457e.pdf">AM64x/AM243x Processor Silicon Revision 1.0, 2.0 (Rev. E)</a>) is available in this release. Please see \ref INDUSTRIAL_COMMS_MDIO_MANUALMODE_FW_USAGE for more details.
-
-\endcond
-
 \cond SOC_AM263X
 
 \note
