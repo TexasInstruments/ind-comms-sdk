@@ -7,14 +7,14 @@
 \attention For release notes of MCU+ SDK, please refer to \htmllink{@VAR_MCU_SDK_DOCS_PATH/RELEASE_NOTES_09_00_00_PAGE.html, @VAR_SOC_NAME MCU+ SDK Release Notes 09.00.00}.
 
 \note The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
-      Unless noted otherwise, the SW modules would work in both FreeRTOS and NORTOS environment. \n
-      Unless noted otherwise, the SW modules would work on any of the R5F's present on the SOC. \n
       Unless noted otherwise, the SW modules would work on all supported EVMs \n
 
 ## New in this Release
 
-Feature                                                                                         | Module
-------------------------------------------------------------------------------------------------|-----------------------------------
+Feature                                                                                         
+------------------------------------------------------------------------------------------------
+IOLink v1.1.3 Support
+ICSSM Profinet FW supports four MAC address                                                                                  
 
 ## Device and Validation Information
 
@@ -24,32 +24,19 @@ AM64x  | R5F             | AM64x GP EVM (referred to as am64x-evm in code)      
 
 ## Tools, Compiler and Other Open Source SW Module Information
 
-Tools / SW module       | Supported CPUs | Version
-------------------------|----------------|-----------------------
-Code Composer Studio    | R5F, M4F, A53  | @VAR_CCS_VERSION
-SysConfig               | R5F, M4F, A53  | @VAR_SYSCFG_VERSION, build @VAR_SYSCFG_BUILD
-TI ARM CLANG            | R5F, M4F       | @VAR_TI_ARM_CLANG_VERSION
-FreeRTOS Kernel         | R5F, M4F, A53  | @VAR_FREERTOS_KERNEL_VERSION
-FreeRTOS SMP Kernel     | A53            | @VAR_FREERTOS_SMP_KERNEL_VERSION
+Tools / SW module       | Version
+------------------------|-----------------------
+Code Composer Studio    | @VAR_CCS_VERSION
+SysConfig               | @VAR_SYSCFG_VERSION, build @VAR_SYSCFG_BUILD
+TI ARM CLANG            | @VAR_TI_ARM_CLANG_VERSION
+MCU+ SDK                |  9.0.0
 
 \attention TI ARM CLANG @VAR_TI_ARM_CLANG_VERSION is not part of CCS by default, Follow steps at \htmllink{@VAR_MCU_SDK_DOCS_PATH/SDK_DOWNLOAD_PAGE.html#INSTALL_TIARMCLANG, TI CLANG Compiler Toolchain} to install the compiler.
 
 ## Key Features
 
-<!-- ### Experimental Features
-
-\attention Features listed below are early versions and should be considered as "experimental".
-\attention Users can evaluate the feature, however the feature is not fully tested at TI side.
-\attention TI would not support these feature on public e2e.
-\attention Experimental features will be enabled with limited examples and SW modules.
-
-
-Feature                                                             | Module
---------------------------------------------------------------------|--------------------------
-                                                                    |  -->
-
 <!-- ### Features not supported in release -->
-
+Profinet Device Stack and example. For more information, see Profinet Stack Transition
 
 ## Fixed Issues
 
@@ -62,11 +49,46 @@ Feature                                                             | Module
     <th> Resolution/Comments
 </tr>
 <tr>
-    <td> -
-    <td> -
-    <td> -
-    <td> -
-    <td> -
+    <td> PINDSW-5667
+    <td> EtherCAT Slave Demo doesn't work with AM243x Launch Pad
+    <td> EtherCAT Device
+    <td> 8.6.0
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-5663
+    <td> EtherCAT: General Stack Memory footprint data not updated in Documentation
+    <td> EtherCAT Device
+    <td> 8.6.0
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-6635
+    <td> EtherNet/IP: Conformance Test LLDP Management Object and LLDP data table
+    <td> EtherNet/IP Adapter
+    <td> 08.06.00
+    <td>
+</tr>
+<tr>
+    <td> PINDSW-5686
+    <td> EtherNet/IP: LLDP forwarding issue
+    <td> EtherNet/IP Adapter
+    <td> 08.04.00
+    <td>
+</tr>
+<tr>
+    <td> PINDSW-6494
+    <td> ENET: Performance Degrade Layer2 ICSSG Example
+    <td> ICSSG
+    <td> 08.05.00
+    <td>
+</tr>
+<tr>
+    <td> PINDSW-6493
+    <td> Add an option to change the PHY MDIO addresses in Sysconfig
+    <td> ICSSG
+    <td> 08.04.00
+    <td>
 </tr>
 </table>
 
@@ -80,12 +102,61 @@ Feature                                                             | Module
     <th> Applicable Releases
     <th> Workaround
 </tr>
+<tr>     
+    <td> PINDSW-5781
+    <td> MDIO Workaround - Polling mode does not work with EtherCAT
+    <td> EtherCAT Device
+    <td> 8.6.0
+    <td> 
+</tr>    
+<tr>     
+    <td> PINDSW-6587
+    <td> EtherCAT syscfg -  Rx MLINK enable does not enables MLINK if it is disabled from application
+    <td> EtherCAT Device
+    <td> 8.6.0
+    <td> 
+</tr>
 <tr>
-    <td> -
-    <td> -
-    <td> -
-    <td> -
-    <td> -
+    <td> PINDSW-5666
+    <td> EtherNet/IP : PTP Device is unable to keep offset under 1000 ns
+    <td> EtherNet/IP Adapter
+    <td> 8.4.0
+    <td> Value of OFFSET_THRESHOLD_FOR_RESET is set to 10000 ns by default in SDK
+</tr>    
+<tr>     
+    <td> PINDSW-5675
+    <td> HSR/PRP - PTP Device is unable to keep offset under 1000 ns
+    <td> HSR-PRP
+    <td> 8.4.0
+    <td> 
+</tr>    
+<tr>     
+    <td> PINDSW-5668
+    <td> HSR/PRP is not functional in rgmii mode
+    <td> HSR-PRP
+    <td> 8.4.0
+    <td> 
+</tr>    
+<tr>
+    <td> PINDSW-6624
+    <td> AM243x: ENET: ICSSG TAS Example Failure
+    <td> ICSSG
+    <td> 08.06.00 onwards
+    <td>
+</tr>
+<tr>
+    <td> PINDSW-6500
+    <td> DMA resource acquisition failure error occurs, when running the enet_icssg_tcpserver example on the R5FSS0_1 core
+    <td> ICSSG
+    <td> 08.06.00 onwards
+    <td>
+</tr>
+<tr>
+    <td> PINDSW-6498
+    <td> ICSSG0: could not send Ethernet packets out
+    <td> ICSSG
+    <td> 08.04.00 onwards
+    <td>
 </tr>
 </table>
 
@@ -105,25 +176,6 @@ Feature                                                             | Module
 </tr>
 </table> -->
 
-## Limitations
-<table>
-<tr>
-    <th> ID
-    <th> Head Line
-    <th> Module
-    <th> Reported in Release
-    <th> Applicable Devices
-    <th> Workaround
-</tr>
-<tr>
-    <td> MCUSDK-208
-    <td> gmake with -j can sometimes lock up Windows command prompt
-    <td> Build
-    <td> 7.3.0
-    <td> AM64x, AM243x
-    <td> Use bash for windows as part of git for windows or don't use -j option
-</tr>
-</table>
 
 ## Upgrade and Compatibility Information {#UPGRADE_AND_COMPATIBILITY_INFORMATION_9_0_0}
 
