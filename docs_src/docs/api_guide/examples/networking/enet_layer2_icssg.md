@@ -15,8 +15,6 @@ On @VAR_SOC_NAME, we can do ethernet based communication using ICSSG HW Mechanis
 
 \endcond
 
-\note ICSSG Switch mode is not functional in 8.6.0. Kindly follow and use 8.5.0 for switch functionality.
-
 This example do below:
 - Target-side application running on a Cortex R5F core.
 	- Application receives the packet, copies the payload into a new packet which is then sent back.

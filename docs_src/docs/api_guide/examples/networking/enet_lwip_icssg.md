@@ -25,7 +25,6 @@ The examples do below
 - Initializes the LwIP stack for TCP/UDP IP
 - Allows user to run and test basic networking features like DHCP, ping, iperf with TCP/UDP.
 
-\note ICSSG Switch mode is not functional in 8.6.0. Kindly follow and use 8.5.0 for switch functionality.
 # Supported Combinations
 
 \cond SOC_AM64X

@@ -4,9 +4,9 @@
 
 ## Introduction
 
-The Industrial Communications Toolkit enables real-time industrial communications for TI processors. Industrial communication is typically handled by the Programmable Real-Time Unit Industrial Communication Subsystem (PRU-ICSS). The PRU-ICSS is a co-processor subsystem containing Programmable Real-Time (PRU) cores and Ethernet media access controllers (EMACs), which implement the low level industrial Ethernet and fieldbus protocols through firmware. The upper layers of the protocols stacks are implemented in software running on Arm cores.
+The Industrial Communications Toolkit enables real-time industrial communications for TI processors. Industrial communication is typically handled by the Programmable Real-Time Unit Industrial Communication Subsystem (PRU-ICSS). The PRU-ICSS is a co-processor subsystem containing Programmable Real-Time (PRU) cores and Ethernet media access controllers (EMACs), which implement the low level industrial Ethernet and fieldbus protocols through firmware. The upper layers of the protocols stacks are implemented in software running on ARM cores.
 
-PRU cores are primarily used for industrial communication, and can also be used for other applications such as motor control and custom interfaces. The PRU-ICSS frees up the main Arm cores in the device for other functions, such as control and data processing.
+PRU cores are primarily used for industrial communication, and can also be used for other applications such as motor control and custom interfaces. The PRU-ICSS frees up the main ARM cores in the device for other functions, such as control and data processing.
 
 Three models for protocol software are supported. In the first model, full protocol stacks are provided by TI and already integrated and certified with PRU-ICSS firmware on TI hardware. For the other two models, TI provides PRU-ICSS firmware and documentation to allow customers to integrate their own stack or to engage with a third party for stack integration.
 
@@ -16,13 +16,6 @@ Three models for protocol software are supported. In the first model, full proto
 
 - \subpage INDUSTRIAL_COMMS_TI_STACK : Stack and PRU-ICSS firmware from TI
 - \subpage INDUSTRIAL_COMMS_3P_STACK : PRU-ICSS firmware and associated drivers from TI
-
-\cond SOC_AM64X || SOC_AM243X
-
-\note The work-around for issue "i2329 - MDIO: MDIO interface corruption (CPSW and PRU-ICSS)" (described in <a href="https://www.ti.com/lit/er/sprz457e/sprz457e.pdf">AM64x/AM243x Processor Silicon Revision 1.0, 2.0 (Rev. E)</a>) is available in this release. Please see \subpage INDUSTRIAL_COMMS_MDIO_MANUALMODE_FW_USAGE for more details.
-
-\endcond
-
 
 ## Additional References {#INDUSTRIAL_COMMS_ADDITIONAL_REFERENCES}
 

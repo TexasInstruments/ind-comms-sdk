@@ -11,10 +11,17 @@
 
 ## New in this Release
 
-Feature                                                                                         
-------------------------------------------------------------------------------------------------
-IOLink v1.1.3 Support
-ICSSM Profinet FW supports four MAC address                                                                                  
+<table>
+<tr>
+    <th> Feature
+</tr>
+<tr>
+    <td> IOLink v1.1.3 Support
+</tr>
+<tr>
+    <td> ICSSM Profinet FW supports four MAC address
+</tr>
+</table>
 
 ## Device and Validation Information
 
@@ -49,30 +56,30 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
     <th> Resolution/Comments
 </tr>
 <tr>
-    <td> PINDSW-5667
-    <td> EtherCAT Slave Demo doesn't work with AM243x Launch Pad
-    <td> EtherCAT Device
-    <td> 8.6.0
-    <td> 
-</tr>
-<tr>
     <td> PINDSW-5663
     <td> EtherCAT: General Stack Memory footprint data not updated in Documentation
     <td> EtherCAT Device
-    <td> 8.6.0
+    <td> 08.06.00
     <td> 
 </tr>
 <tr>
-    <td> PINDSW-6635
-    <td> EtherNet/IP: Conformance Test LLDP Management Object and LLDP data table
-    <td> EtherNet/IP Adapter
+    <td> PINDSW-5667
+    <td> EtherCAT Slave Demo doesn't work with AM243x Launch Pad
+    <td> EtherCAT Device
     <td> 08.06.00
-    <td>
+    <td> 
 </tr>
 <tr>
     <td> PINDSW-5686
     <td> EtherNet/IP: LLDP forwarding issue
     <td> EtherNet/IP Adapter
+    <td> 08.04.00
+    <td>
+</tr>
+<tr>
+    <td> PINDSW-6493
+    <td> Add an option to change the PHY MDIO addresses in Sysconfig
+    <td> ICSSG
     <td> 08.04.00
     <td>
 </tr>
@@ -84,10 +91,10 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
     <td>
 </tr>
 <tr>
-    <td> PINDSW-6493
-    <td> Add an option to change the PHY MDIO addresses in Sysconfig
-    <td> ICSSG
-    <td> 08.04.00
+    <td> PINDSW-6635
+    <td> EtherNet/IP: Conformance Test LLDP Management Object and LLDP data table
+    <td> EtherNet/IP Adapter
+    <td> 08.06.00
     <td>
 </tr>
 </table>
@@ -102,46 +109,39 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
     <th> Applicable Releases
     <th> Workaround
 </tr>
-<tr>     
-    <td> PINDSW-5781
-    <td> MDIO Workaround - Polling mode does not work with EtherCAT
-    <td> EtherCAT Device
-    <td> 8.6.0
-    <td> 
-</tr>    
-<tr>     
-    <td> PINDSW-6587
-    <td> EtherCAT syscfg -  Rx MLINK enable does not enables MLINK if it is disabled from application
-    <td> EtherCAT Device
-    <td> 8.6.0
-    <td> 
-</tr>
 <tr>
     <td> PINDSW-5666
     <td> EtherNet/IP : PTP Device is unable to keep offset under 1000 ns
     <td> EtherNet/IP Adapter
-    <td> 8.4.0
+    <td> 08.04.00
     <td> Value of OFFSET_THRESHOLD_FOR_RESET is set to 10000 ns by default in SDK
-</tr>    
-<tr>     
-    <td> PINDSW-5675
-    <td> HSR/PRP - PTP Device is unable to keep offset under 1000 ns
-    <td> HSR-PRP
-    <td> 8.4.0
-    <td> 
-</tr>    
-<tr>     
+</tr>
+<tr>
     <td> PINDSW-5668
     <td> HSR/PRP is not functional in rgmii mode
     <td> HSR-PRP
-    <td> 8.4.0
+    <td> 08.04.00
     <td> 
-</tr>    
+</tr>
 <tr>
-    <td> PINDSW-6624
-    <td> AM243x: ENET: ICSSG TAS Example Failure
+    <td> PINDSW-5675
+    <td> HSR/PRP - PTP Device is unable to keep offset under 1000 ns
+    <td> HSR-PRP
+    <td> 08.04.00
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-5781
+    <td> MDIO Workaround - Polling mode does not work with EtherCAT
+    <td> EtherCAT Device
+    <td> 08.06.00
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-6498
+    <td> ICSSG0: could not send Ethernet packets out
     <td> ICSSG
-    <td> 08.06.00 onwards
+    <td> 08.04.00 onwards
     <td>
 </tr>
 <tr>
@@ -152,10 +152,17 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
     <td>
 </tr>
 <tr>
-    <td> PINDSW-6498
-    <td> ICSSG0: could not send Ethernet packets out
+    <td> PINDSW-6587
+    <td> EtherCAT syscfg - Rx MLINK enable does not enables MLINK if it is disabled from application
+    <td> EtherCAT Device
+    <td> 08.06.00
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-6624
+    <td> AM243x: ENET: ICSSG TAS Example Failure
     <td> ICSSG
-    <td> 08.04.00 onwards
+    <td> 08.06.00 onwards
     <td>
 </tr>
 </table>
@@ -175,7 +182,6 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
     <td> -
 </tr>
 </table> -->
-
 
 ## Upgrade and Compatibility Information {#UPGRADE_AND_COMPATIBILITY_INFORMATION_9_0_0}
 
@@ -203,7 +209,7 @@ earlier SDKs.
 </tr>
 </table> -->
 
-### Examples
+<!-- ### Examples
 
 <table>
 <tr>
@@ -218,9 +224,9 @@ earlier SDKs.
     <td> 
     <td> 
 </tr>
-</table>
+</table> -->
 
-### Drivers
+<!-- ### Drivers
 
 <table>
 <tr>
@@ -235,5 +241,5 @@ earlier SDKs.
     <td> 
     <td> 
 </tr>
-</table>
+</table> -->
 
