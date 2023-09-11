@@ -19,7 +19,16 @@
     <td> IOLink v1.1.3 Support
 </tr>
 <tr>
+    <td> Ethernet/IP Discrete IO example added
+</tr>
+<tr>
     <td> ICSSM Profinet FW supports four MAC address
+</tr>
+<tr>
+    <td> ICSSG Layer 2 example (\ref EXAMPLES_ENET_LAYER2_ICSSG) is divided in to two new examples : ICSSG Layer 2 dual MAC and ICSSG Layer 2 Switch examples.
+</tr>
+<tr>
+    <td> Enet PHY loopback for ICSSG on NoRTOS (baremetal) is added
 </tr>
 </table>
 
@@ -209,7 +218,7 @@ earlier SDKs.
 </tr>
 </table> -->
 
-<!-- ### Examples
+### Examples
 
 <table>
 <tr>
@@ -224,9 +233,9 @@ earlier SDKs.
     <td> 
     <td> 
 </tr>
-</table> -->
+</table>
 
-<!-- ### Drivers
+### Drivers
 
 <table>
 <tr>
@@ -241,5 +250,4 @@ earlier SDKs.
     <td> 
     <td> 
 </tr>
-</table> -->
-
+</table>
