@@ -1,37 +1,36 @@
 # Migration Guide {#MIGRATION_GUIDES}
 
-Components under Motor Control SDK were available in MCU+ SDK 7.x and 8.x releases.
+Components under Industrial Communications SDK were available in MCU+ SDK 7.x and 8.x releases. The folder structure of components in Indsutrial Communications SDK is kept similar to MCU SDK folder strucutre to keep the backward compatibilty as much as possible
 
-If you are a user of MCU+ SDK, then items listed on this page that will assist you in migration to Motor Control SDK.
+If you are a user of MCU+ SDK, then items listed on this page that will assist you in migration to Industrial Communications SDK.
 
 \cond SOC_AM64X || SOC_AM243X
 
-- The examples, drivers and PRU-ICSS firmwares for position sense encoders and current sense %SDFM (using PRU-ICSS) are moved from MCU+ SDK to Motor Control SDK. Folder location changes are also shown below.
+- The examples, drivers and PRU-ICSS firmwares for Industrial Protocols and ICSSG Enet LLD are moved MCU+ SDK to Industrial Communications SDK. Folder location changes are also shown below.
 
-   Module                      | MCU+ SDK Folder Location                                                                       | Motor Control SDK Folder Location
+## Industrial Communication Protocols
+   Module                      | MCU+ SDK Folder Location                                                                       | Industrial Communications SDK Folder Location
    ----------------------------|------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------
-   Position Sense EnDat        | `examples/motor_control/endat_diagnostic`                                                      | `examples/position_sense/endat_diagnostic`
-   ^                           | `source/motor_control/position_sense/endat`                                                    | `source/position_sense/endat`
-   Position Sense HDSL         | `examples/motor_control/hdsl_diagnostic`\n `examples/motor_control/hdsl_diagnostic_with_traces`| `examples/position_sense/hdsl_diagnostic`\n `examples/position_sense/hdsl_diagnostic_with_traces`
-   ^                           | `source/motor_control/position_sense/hdsl`                                                     | `source/position_sense/hdsl`
-   Position Sense Tamagawa     | `examples/motor_control/tamagawa_diagnostic`                                                   | `examples/position_sense/tamagawa_diagnostic`
-   ^                           | `source/motor_control/position_sense/tamagawa`                                                 | `source/position_sense/tamagawa`
-   Current Sense %SDFM         | `examples/motor_control/icss_sdfm`                                                             | `examples/current_sense/icss_sdfm`
-   ^                           | `source/motor_control/current_sense/sdfm`                                                      | `source/current_sense/sdfm`
+   MDIO WA firmware sources    | `examples/pru_io/mdio_fw`                                                                      | `source/industrial_comms/mdio_fw` 
+   EtherCAT examples           | `examples/industrial_comms/ethercat_slave_demo`                                                | `examples/industrial_comms/ethercat_slave_demo/device_profiles`
+   Custome phy module          | `examples/industrial_comms/example_name/customPhy`                                             | `examples/industrial_comms/custom_phy`
+   IOLINK master demo sources  | `examples/industrial_comms/iolink_master_demo`                                                 | `examples/industrial_comms/iolink_master_demo/device`
+
+## Networking Component
+ICSSG based ethernet networking examples are considered in this category.
+- Examples are moved from MCU Plus SDK to Industrial Communications SDK.
+- Low level Drivers including Enet-LLD is reused from MCU Plus SDK.
+- Stacks and Middleware such as LwIP, MbedTLS and TSN stack is reused from MCU Plus SDK.
+- The application design is still maintained similar to CPSW base ethernet protocols.
+- No change to CPSW based ethernet networking; it is continued to be supported withing MCU Plus SDK.
+
+Module                                      | MCU+ SDK Folder Location                                                                           | Industrial Communications SDK Folder Location
+--------------------------------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------
+Ethernet Low Level Driver (Enet-LLD)        | `source/networking/enet/core`                                                                      | Reused from MCU Plus SDK
+LwIP, TSN, MbedTLS                          | `source/networking/lwip`\n `source/networking/mbedtls-library`\n `source/networking/tsn`           | Reused from MCU Plus SDK
+ICSSG Examples                              | `examples/networking/enet_icssg_tas` \n `examples/networking/enet_layer2_icssg` \n `examples/networking/enet_loopback/enet_icssg_loopback` \n `examples/networking/enet_vlan_icssg` \n `examples/networking/lwip/enet_icssg_tcpserver` \n `examples/networking/lwip/enet_lwip_icssg` |  `examples/networking/enet_icssg_tas` \n `examples/networking/enet_layer2_icssg` \n `examples/networking/enet_loopback/enet_icssg_loopback` \n `examples/networking/enet_vlan_icssg` \n `examples/networking/lwip/enet_icssg_tcpserver` \n `examples/networking/lwip/enet_lwip_icssg`| 
 
 \endcond
 
-\cond SOC_AM263X
 
-- The example and driver for position sense encoder is moved from MCU+ SDK to Motor Control SDK. Folder location changes are also shown below.
-
-   Module                      | MCU+ SDK Folder Location                                                                    | Motor Control SDK Folder Location
-   ----------------------------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------
-   Position Sense Tamagawa     | `examples/motor_control/tamagawa_diagnostic_over_soc_uart`                                  | `examples/position_sense/tamagawa_diagnostic_over_soc_uart`
-   ^                           | `source/motor_control/position_sense/tamagawa_over_soc_uart`                                | `source/position_sense/tamagawa_over_soc_uart`
-
-\endcond
-
-- Motor Control SDK also includes \htmllink{@VAR_IC_SDK_DOCS_PATH/index.html, @VAR_SOC_NAME Industrial Communications SDK} under `ind_comms_sdk` folder and \htmllink{@VAR_MCU_SDK_DOCS_PATH/index.html, @VAR_SOC_NAME MCU+ SDK} under `mcu_plus_sdk` folder. 
-
-- \ref UPGRADE_AND_COMPATIBILITY_INFORMATION_9_0_0 has details on changes which can affect migration of applications based on MCU+ SDK 08.06.00 to Motor Control SDK 09.00.00.
+- Industrial Communications SDK also includes \htmllink{@VAR_MCU_SDK_DOCS_PATH/index.html, @VAR_SOC_NAME MCU+ SDK} under `mcu_plus_sdk` folder. 
