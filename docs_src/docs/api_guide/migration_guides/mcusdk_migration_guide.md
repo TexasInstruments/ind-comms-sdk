@@ -39,3 +39,5 @@ ICSSG Examples                              | `examples/networking/enet_icssg_ta
 - Industrial Communications SDK also includes \htmllink{@VAR_MCU_SDK_DOCS_PATH/index.html, @VAR_SOC_NAME MCU+ SDK} under `mcu_plus_sdk` folder.
 
 - \ref UPGRADE_AND_COMPATIBILITY_INFORMATION_9_0_0 has details on changes which can affect migration of applications based on MCU+ SDK 08.06.00 to Industrial Communications SDK 09.00.00.
+
+\note To build MCU+ SDK examples/libraries using CCS projects, user has to add <b>${SDK_INSTALL_PATH}/mcu_plus_sdk</b> to "Product discovery path" in CCS.
