@@ -141,6 +141,8 @@ PROFINET is a real-time Ethernet standard for the high-speed, deterministic comm
 
 TI has negotiated a temporary evaluation license agreement allowing customers access to the PROFINET stack who purchased the AM243x or AM64x "F" device. Under the temporary evaluation license, TI will provide access to the PROFINET stack via the <a href="https://www.ti.com/securesoftware/docs/autopagepreview.tsp?opnId=28579">MySecure</a> software download system. Details of the license agreement will be included in a MySecure click-wrap license agreement. During the evaluation period, TI will continue negotiations on a permanent agreement. Please contact your local sales representative or submit an E2E post to gain access to the PROFINET stack.
 
+\note To get the required access to the MySecure link specified above, the user has to send an email to secsw-sitara-industrial-coms-approval@list.ti.com mailing list.
+
 #### Supported Functionality
 
 Supported Functionality grouped per Conformance Class, as per \htmllink{https://www.profibus.com/download/profinet-io-conformance-classes, PNIO-CCs_7042_V11_Mar11.pdf}
