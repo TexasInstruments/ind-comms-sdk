@@ -936,32 +936,10 @@ void EnetApp_initLinkArgs(Enet_Type enetType,
     if (boardPhyCfg != NULL)
     {
         EnetPhy_initCfg(phyCfg);
-        if ((ENET_ICSSG_DUALMAC == perCtxt->enetType) && (2U == perCtxt->instId))
-        {
-            phyCfg->phyAddr     = CONFIG_ENET_ICSS0_PHY1_ADDR;
-        }
-        else if ((ENET_ICSSG_DUALMAC == perCtxt->enetType) && (3U == perCtxt->instId))
-        {
-            phyCfg->phyAddr     = CONFIG_ENET_ICSS0_PHY2_ADDR;
-        }
-        else if ((ENET_ICSSG_SWITCH == perCtxt->enetType) && (1U == perCtxt->instId))
-        {
-            if (macPort == ENET_MAC_PORT_1)
-            {
-                phyCfg->phyAddr     = CONFIG_ENET_ICSS0_PHY1_ADDR;
-            }
-            else
-            {
-                phyCfg->phyAddr     = CONFIG_ENET_ICSS0_PHY2_ADDR;
-            }
-        }
-        else
-        {
-            EnetAppUtils_assert(false);
-        }
 
-        phyCfg->isStrapped  = boardPhyCfg->isStrapped;
-        phyCfg->loopbackEn  = false;
+        phyCfg->phyAddr         = boardPhyCfg->phyAddr;
+        phyCfg->isStrapped      = boardPhyCfg->isStrapped;
+        phyCfg->loopbackEn      = false;
         phyCfg->skipExtendedCfg = boardPhyCfg->skipExtendedCfg;
         phyCfg->extendedCfgSize = boardPhyCfg->extendedCfgSize;
         memcpy(phyCfg->extendedCfg, boardPhyCfg->extendedCfg, phyCfg->extendedCfgSize);

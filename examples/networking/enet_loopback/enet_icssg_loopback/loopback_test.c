@@ -623,27 +623,11 @@ void EnetApp_initLinkArgs(Enet_Type enetType, uint32_t instId,
 
                 EnetPhy_initCfg(phyCfg);
 
-                if ((ENET_ICSSG_DUALMAC == gEnetLpbk.enetType)
-                        && (2U == gEnetLpbk.instId))
-                {
-                    phyCfg->phyAddr = CONFIG_ENET_ICSS0_PHY1_ADDR;
-                }
-                else if ((ENET_ICSSG_DUALMAC == gEnetLpbk.enetType)
-                        && (3U == gEnetLpbk.instId))
-                {
-                    phyCfg->phyAddr = CONFIG_ENET_ICSS0_PHY2_ADDR;
-
-                }
-                else
-                {
-                    phyCfg->phyAddr = boardPhyCfg->phyAddr;
-                }
-                //phyCfg->phyAddr     = boardPhyCfg->phyAddr;
-                phyCfg->isStrapped = boardPhyCfg->isStrapped;
+                phyCfg->phyAddr         = boardPhyCfg->phyAddr;
+                phyCfg->isStrapped      = boardPhyCfg->isStrapped;
                 phyCfg->skipExtendedCfg = boardPhyCfg->skipExtendedCfg;
                 phyCfg->extendedCfgSize = boardPhyCfg->extendedCfgSize;
-                memcpy(phyCfg->extendedCfg, boardPhyCfg->extendedCfg,
-                       phyCfg->extendedCfgSize);
+                memcpy(phyCfg->extendedCfg, boardPhyCfg->extendedCfg, phyCfg->extendedCfgSize);
             }
             else
             {
