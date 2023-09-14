@@ -2,17 +2,23 @@
     productName = args.utils.getProductNameProjectSpec(args.device);
     isDevelopmentMode = args.common.isDevelopmentMode();
     deviceName = args.utils.getProjectSpecDevice(args.device);
+    if(args.device == "am64x")
+        deviceNameID = "AM64X"
+    if(args.device == "am243x")
+        deviceNameID = "AM243X"
     if(args.device == "am273x")
         deviceName = "AM273x"
     if(args.device == "am62x")
         deviceName = "AM62x"
+        deviceNameID = "AM62X"
     if(isDevelopmentMode)
         deviceName = "AMXXX";
+        deviceNameID = "AMXXX";
 %%}
 [
     {
         "metadataVersion": "3.01.00",
-        "id": "com.ti.`productName`",
+        "id": "INDUSTRIAL-COMMUNICATIONS-SDK-`deviceNameID`",
         "name": "INDUSTRIAL COMMUNICATIONS SDK for `deviceName`",
         "rootCategory": [ "INDUSTRIAL COMMUNICATIONS SDK", "INDUSTRIAL COMMUNICATIONS SDK for `deviceName`" ],
         "version": "09.00.00.01",

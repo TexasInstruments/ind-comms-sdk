@@ -1,7 +1,7 @@
 [
     {
         "metadataVersion": "3.01.00",
-        "id": "com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX",
+        "id": "INDUSTRIAL-COMMUNICATIONS-SDK-AMXXX",
         "name": "INDUSTRIAL COMMUNICATIONS SDK for AMXXX",
         "rootCategory": [ "INDUSTRIAL COMMUNICATIONS SDK", "INDUSTRIAL COMMUNICATIONS SDK for AMXXX" ],
         "version": "09.00.00.01",

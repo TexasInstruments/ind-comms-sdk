@@ -510,9 +510,9 @@
         "resourceSubClass": [
             "example.general"
         ],
-        "description": "A Enet Layer2 Icssg Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "enet_layer2_icssg",
-        "location": "../../examples/networking/enet_layer2_icssg/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "description": "A Icssg Layer2 Dualmac Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "icssg_layer2_dualmac",
+        "location": "../../examples/networking/enet_layer2_icssg/icssg_layer2_dualmac/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -525,6 +525,40 @@
         "subCategories": [
             "networking",
             "enet_layer2_icssg",
+            "icssg_layer2_dualmac",
+            "r5fss0-0_freertos"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "description": "A Enet Layer2 Icssg Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "enet_layer2_icssg",
+        "location": "../../examples/networking/enet_layer2_icssg/icssg_layer2_switch/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "devtools": [
+            "AM64x_GP_EVM"
+        ],
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "subCategories": [
+            "networking",
+            "enet_layer2_icssg",
+            "icssg_layer2_switch",
             "r5fss0-0_freertos"
         ],
         "mainCategories": [
