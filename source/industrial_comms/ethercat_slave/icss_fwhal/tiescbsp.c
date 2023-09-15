@@ -1336,6 +1336,7 @@ void bsp_params_init(bsp_params *init_params)
     init_params->sync1_isr = NULL;
     init_params->phy_rx_err_reg = 0;
     init_params->pruicssClkFreq = TIESC_PRUICSS_CLOCK_FREQUENCY_200_MHZ;
+    init_params->mdioManualMode = TIESC_MDIO_HW_MODE;
 }
 
 int32_t bsp_init(bsp_params *init_params)
