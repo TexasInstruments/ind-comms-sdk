@@ -31,13 +31,13 @@
  */
 
 /*!
- * \file  lwip2enet.h
+ * \file  lwip2icss_emac.h
  *
  * \brief Header file for the LwIP to Enet helper functions.
  */
 
-#ifndef LWIP2ENET_H_
-#define LWIP2ENET_H_
+#ifndef LWIP2ICSS_EMAC_H_
+#define LWIP2ICSS_EMAC_H_
 
 /* ========================================================================== */
 /*                             Include Files                                  */
@@ -146,7 +146,7 @@ extern void Lwip2Emac_close(Lwip2Emac_Handle hlwip2Emac);
 
 extern int32_t Lwip2Emac_serviceRx(void *icssEmacHandleVoidPtr, void *queueNum, void *userArg);
 
-extern int32_t Lwip2emac_sendTxPackets(Lwip2Emac_Handle hLwip2Emac, struct pbuf *p);
+extern int32_t Lwip2Emac_sendTxPackets(Lwip2Emac_Handle hLwip2Emac, struct pbuf *p);
 
 /*TODO: Check on poll function and IOCTL*/
 extern int32_t Lwip2Emac_ioctl(Lwip2Emac_Handle hlwip2Emac,
@@ -172,4 +172,4 @@ extern int32_t Lwip2Emac_getDriverLinkStatus(Lwip2Emac_Handle hLwip2Emac);
 }
 #endif
 
-#endif /* LWIP2ENET_H_ */
+#endif /* LWIP2ICSS_EMAC_H_ */
