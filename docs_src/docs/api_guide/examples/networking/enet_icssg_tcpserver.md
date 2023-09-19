@@ -335,4 +335,5 @@ accepted new connection 70128D20
 # See Also
 \cond SOC_AM64X || SOC_AM243X
 \ref NETWORKING
+\ref ICSSG0_USAGE_GUIDE
 \endcond
