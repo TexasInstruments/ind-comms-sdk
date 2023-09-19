@@ -18,9 +18,9 @@
 [
     {
         "metadataVersion": "3.01.00",
-        "id": "INDUSTRIAL-COMMUNICATIONS-SDK-`deviceNameID`",
-        "name": "INDUSTRIAL COMMUNICATIONS SDK for `deviceName`",
-        "rootCategory": [ "INDUSTRIAL COMMUNICATIONS SDK", "INDUSTRIAL COMMUNICATIONS SDK for `deviceName`" ],
+        "id": "com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_`deviceNameID`",
+        "name": "Industrial Communications SDK for `deviceName`",
+        "rootCategory": [ "INDUSTRIAL COMMUNICATIONS SDK", "Industrial Communications SDK for `deviceName`" ],
         "version": "09.00.00.01",
         "type": "software",
         "image": "./mcu_plus_sdk.png",
@@ -29,7 +29,7 @@
         % }
         "devices": ["`deviceName`"],
         "tags": ["SDK", "Baremetal", "FreeRTOS"],
-        "description": "Welcome to INDUSTRIAL COMMUNICATIONS SDK for `deviceName`. This SDK contains examples, libraries and tools to develop RTOS and no-RTOS based applications for ARM R5F, ARM M4F CPUs and related peripherals.",
+        "description": "Welcome to Industrial Communications SDK for `deviceName`. This SDK contains examples, libraries and tools to develop RTOS and no-RTOS based applications for ARM R5F, ARM M4F CPUs and related peripherals.",
         "dependencies": [
             { "packageId": "sysconfig", "version": "`args.utils.getSysCfgVersionProjectSpec()`", "require": "mandatory" },
             % if (args.device == "am64x" || (isDevelopmentMode)) {
