@@ -7,34 +7,36 @@
  *  \author
  *  KUNBUS GmbH
  *
- *  \date
- *  2022-10-17
- *
  *  \copyright
  *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  All rights reserved.<br />
+ *  SPDX-License-Identifier: BSD-3-Clause
+ *
+ *  Copyright (c) 2023 KUNBUS GmbH.
+ *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:<br />
+ *  modification, are permitted provided that the following conditions are met:
+ *
  *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice, this
- *     list of conditions and the following disclaimer.</li>
+ *  <li>Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer./<li>
  *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its
- *     contributors may be used to endorse or promote products derived from
- *     this software without specific prior written permission.</li>
+ *  this list of conditions and the following disclaimer in the documentation
+ *  and/or other materials provided with the distribution.</li>
+ *  <li>Neither the name of the copyright holder nor the names of its contributors
+ *  may be used to endorse or promote products derived from this software without
+ *  specific prior written permission.</li>
  *  </ol>
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ *  SUCH DAMAGE.
  *
  */
 
@@ -51,9 +53,9 @@
 #include "SMIdirect_UART.h"
 
 // mutex to safe receive processing work
-OSAL_SCHED_SMutexHandle_t* SMIdirect_UART_pMutexHandle_g;
+OSAL_SCHED_MutexHandle_t* SMIdirect_UART_pMutexHandle_g;
 // event to signal receive or transmit work
-OSAL_SCHED_SEventHandle_t* SMIdirect_UART_pEventHandle_g;
+OSAL_SCHED_EventHandle_t* SMIdirect_UART_pEventHandle_g;
 
 // clientId assigned by the gateway
 uint8_t  SMIdirect_UART_clientId_g = 0;
@@ -312,7 +314,7 @@ GW_API_EErrorcode_t SMIdirect_UART_start(void)
     SMIdirect_UART_sTransData_g.iolSerial.pu32Length       = SMIdirect_UART_sTransData_g.aSerialLengthTx;
     SMIdirect_UART_sTransData_g.iolSerial.pu8RxBuffer      = SMIdirect_UART_sTransData_g.aUartDataRx;
     SMIdirect_UART_sTransData_g.iolSerial.u32RxBufferLen   = sizeof(SMIdirect_UART_sTransData_g.aUartDataRx);
-    SMIdirect_UART_sTransData_g.iolSerial.cbRxCallback     = SMIdirect_UART_SendCB;
+    SMIdirect_UART_sTransData_g.iolSerial.cbRxGeneric     = SMIdirect_UART_SendCB;
     IOL_Serial_vInit(&SMIdirect_UART_sTransData_g.iolSerial);
 
     SMIdirect_UART_pMutexHandle_g  = OSAL_MTXCTRLBLK_alloc();
