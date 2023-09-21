@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <meta name="generator" content="Doxygen 1.9.1" />
-    <title>EtherCAT-IOLink Gateway: Start TwinCAT</title>
+    <title>EtherCAT-IOLink Gateway: Start TwinCAT - Basic Project</title>
     <link href="tabs.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="dynsections.js"></script>
@@ -104,66 +104,138 @@ $(document).ready(function(){initNavTree('twincat.html',''); initResizable(); })
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Start TwinCAT </div>  </div>
+<div class="title">Start TwinCAT - Basic Project </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_pages_TwinCAT"></a></p><ol type="1">
-<li>Start the TwinCAT "eXtended Automation Engineering XAE".</li>
-<li><p class="startli">Open the TwinCAT project select in menu "File-&gt;Project/Solution". Select project "source/industrial_comms/ethercat_iolink_gateway/twincat_projects/am64x/TwinCAT Gateway.sln"</p>
-<p class="startli"><img src="Gateway_Solution.PNG" alt="" class="inline" title="Opened Gateway solution"/></p>
-</li>
-<li><p class="startli">The PLC program can be found in the tree:</p>
-<p class="startli">"TwinCAT Gateway.PLC.GatewayPlc.GatewayPlc Project.POUs.MAIN (PRG)"</p>
-<p class="startli"><img src="Gateway_MAIN.PNG" alt="" class="inline" title="Main program"/></p>
-</li>
-<li><p class="startli">Build the project in menu select "Build-&gt;Build solution"</p>
-<p class="startli"><img src="Gateway_build_output.PNG" alt="" class="inline" title="Build output"/></p>
-</li>
-<li><p class="startli">Activate configuration in menu select "TwinCAT-&gt;Activate Configuration". Click "OK".</p>
-<p class="startli"><img src="Gateway_activate_configuration.PNG" alt="" class="inline" title="Gateway activate configuration"/></p>
-</li>
-<li><p class="startli">The dialog box is shown, asking to restart in run mode will show up. Click "OK".</p>
-<p class="startli"><img src="Gateway_restart_in_run_mode.PNG" alt="" class="inline" title="Dialog box - Restart in run mode"/></p>
-<p class="startli">The TwinCAT will detect the connected EtherCAT slave.</p>
-</li>
-<li>Select in menu "PLC-&gt;Login".</li>
-<li><p class="startli">The dialog box asking to create the Port_851 will show up. Click "Yes".</p>
-<p class="startli"><img src="Gateway_Port_851.PNG" alt="" class="inline" title="Dialog box - Create the Port 851"/></p>
-<p class="startli">Actual values will be shown in the MAIN program part. In this moment all shall be zeros.</p>
-<p class="startli"><img src="Gateway_PLC_loggedin.PNG" alt="" class="inline" title="Logged in PLC"/></p>
-</li>
-<li>Select in menu "PLC-&gt;Start" to start the PLC program. The program unpacks the measured distance from the sensor, calculates a related color and send it to the smart light:</li>
-</ol>
-<blockquote class="doxtable">
-<p>| Color | Meaning | | ---&mdash; | ----------------------------------&mdash; | | green | allowed zone (enough big distance) | | yellow | near the not allowed zone | | red | not allowed zone (too small distance) | </p>
-</blockquote>
+<div class="textblock"><p><a class="anchor" id="md_pages_TwinCATBasic"></a> This section describes how to establish a connection between TwinCAT software and the AM64x_EVM connected with general IO-Link devices.</p>
+<p>The first step is to copy the EtherCAT-IOLink Gateway ESI files to TwinCAT.</p>
+<p>The ESI file <em>TI AM64x.R5F IOLGW.xml</em> can be found in the location <em>examples\industrial_comms\ec_iol_gateway\esi</em> in gateway projcect. This file must be copied to TwinCAT at <em>C:\TwinCAT\3.1\Config\Io\EtherCAT</em> <br  />
+</p>
+<p>The following are the steps to create a new TwinCAT project and scan for the IO-Link slave devices connected to AM64x_EVM .</p>
 <ol type="1">
-<li><p class="startli">Try to move a metal object before the distance sensor, the light will change the colors in relation to the distance. Actual values will be shown together with the MAIN program.</p>
-<p class="startli"><img src="Gateway_PLC_runs.PNG" alt="" class="inline" title="Gateway PLC runs"/></p>
+<li><p class="startli">Launch the <em>TwinCAT XAE Shell</em>.</p><ul>
+<li>Right click on the TwinCAT Config Mode icon and select TwinCAT XAE (TcXaeShell)</li>
+</ul>
+<div class="image">
+<img src="Start_TwinCAT_XAE.png" alt="" width="20%" height="20%"/>
+<div class="caption">
+TwinCAT - Launch</div></div>
 </li>
+<li><p class="startli">Create a new project.</p><ul>
+<li>In the start page click on the <em>New TwinCAT Project...</em> or Goto <em>File</em> menu and select <em>New</em> and click on <em>Project...</em> <br  />
+</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Start_Page.PNG" alt="" width="60%" height="60%"/>
+<div class="caption">
+TwinCAT - Start Page</div></div>
+<ul>
+<li>In a <em>New Project</em> window, select <em>TwinCAT XAE Project (XML format)</em> . Give a suitable project name and the location. Click OK.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Create_Proj.PNG" alt="" width="60%" height="60%"/>
+<div class="caption">
+TwinCAT - Create Project</div></div>
+<ul>
+<li>A new TwinCAT project is created.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_NewProject.PNG" alt="" width="60%" height="60%"/>
+<div class="caption">
+TwinCAT - New Project</div></div>
+</li>
+<li><p class="startli">Setup Network Interface Controller (Required to do it only once)</p><ul>
+<li>Go to <em>TwinCAT</em> menu and click on <em>Show Realtime Ethernet Compatible Devices…</em> and install TwinCAT RT-Ethernet Adapter driver.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_ShowNIC.PNG" alt="" width="20%" height="20%"/>
+<div class="caption">
+TwinCAT - Menu</div></div>
+<p class="startli">After the installation the NIC should be listed inside the <em>Installed and ready to use devices</em> .</p>
+<div class="image">
+<img src="TwinCAT_NIC_Install.PNG" alt="" width="40%" height="40%"/>
+<div class="caption">
+TwinCAT - RT Ethernet Adapter Driver Installation</div></div>
+</li>
+<li><p class="startli">Scan for the devices</p><ul>
+<li>Right click on the <em>Devices</em> in the I/O under the TwinCAT project.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Device_Scan_Perform.PNG" alt="" width="30%" height="30%"/>
+<div class="caption">
+Start Scan</div></div>
+<ul>
+<li>A hint dialog box will appear. Click ok.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Hint_dialog.PNG" alt="" width="20%" height="20%"/>
+<div class="caption">
+Hint Dialog</div></div>
+<ul>
+<li>Once the EtherCAT compatible devices are detected then a dialog box containing new found devices will appear. Select the desired device and click OK.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Device_Found.PNG" alt="" width="40%" height="40%"/>
+<div class="caption">
+Found Devices</div></div>
+<ul>
+<li>A dialog will appear for to start scanning for boxes. Click Yes.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Scan_Device.PNG" alt="" width="20%" height="20%"/>
+<div class="caption">
+Scan For Boxes</div></div>
+<ul>
+<li>A dialog will appear to use the available device description. Click Yes.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Load_DevDescription.PNG" alt="" width="40%" height="40%"/>
+<div class="caption">
+Available Description</div></div>
+<ul>
+<li>A dialog will appear to activate the free run. Click Yes.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Activate_Free_Run.PNG" alt="" width="20%" height="20%"/>
+<div class="caption">
+Activate Free Run</div></div>
+<ul>
+<li>Now, all the devices found shall be listed under devices.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Scan.PNG" alt="" width="30%" height="30%"/>
+<div class="caption">
+Scan Results</div></div>
+<ul>
+<li>Double click on the <em>Box 1 (TI EC-IOL-Gateway for AM243XR5F)</em> and click on the <em>Online</em> tab. The current state shall be OP.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_Operating_Modes.PNG" alt="" width="80%" height="80%"/>
+<div class="caption">
+EtherCAT Operating Mode</div></div>
+<ul>
+<li>Click on the <em>CoE - Online</em> tab and wait for the object dictionary to load. The etherCAT device identity shall be visible through the objects with indexes 1000,1001,1008,1009,100A and 1018.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_EtherCAT_Device_Identity.PNG" alt="" width="40%" height="40%"/>
+<div class="caption">
+EtherCAT Device Identity</div></div>
+<ul>
+<li>In the example setup, the IO-Link smart light from BALLUFF is connected to the IO-Link channel 1 on the IO-Link breakout board. In the dictionary, the objects with index 90n0 , where n is the channel number ranging from 0 to 7, shall containg the details of the devices that are currently plugged in to the IO-Link ports. In this case, the details of the BALLUFF smart light shall appear in the object 9000.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_IOLink_Dev_Info.PNG" alt="" width="40%" height="40%"/>
+<div class="caption">
+IO-Link Device Description</div></div>
+<ul>
+<li>The IO-Link slave device status data can be found in object with index F100.</li>
+</ul>
+<div class="image">
+<img src="TwinCAT_IOLink_Dev_Status.PNG" alt="" width="40%" height="40%"/>
+<div class="caption">
+IO-Link Device Status Data</div></div>
+ </li>
 </ol>
-<p>Next will be shown where can be found the cyclic data of sued IO-Link devices and how to read the VendorID and DeviceID of connected IO-Link devices.</p>
-<ol type="1">
-<li>Click in the tree on the "Box1 (KUNBUS EtherCAT ...)".</li>
-<li><p class="startli">Click on the "Box 1-&gt;TxPDO Module 2-&gt;Tx PDO 001". You will see on the right side the measured distance value in raw format.</p>
-<p class="startli"><img src="Gateway_TxPDO_distance_value.PNG" alt="" class="inline" title="TxPDO from the distance sensor"/></p>
-</li>
-<li><p class="startli">Click on the "Box 1-&gt;RxPDO Module 1-&gt;Rx PDO 001". You will see on the right side the control bits for the smart light in the raw format.</p>
-<p class="startli"><img src="Gateway_RxPDO_light_control.PNG" alt="" class="inline" title="RxPDO to the smart light"/></p>
-</li>
-<li>Click on the tab CoE-Online. It takes a while to load the object dictionary from the EtherCAT slave.</li>
-<li><p class="startli">Click on the object index 0x9000 and 0x9100. It will read and show actual VendorID and DeviceID values of the connected devices.</p>
-<p class="startli"><img src="Gateway_0x9000_and_0x9100.PNG" alt="" class="inline" title="CoE online 0x9000 and 0x90100"/></p>
-<p class="startli">You can compare the values with the values in the table below.</p>
-</li>
-</ol>
-<blockquote class="doxtable">
-<p>| IO-Link Device | DeviceID | VendorID | | ------------&mdash; | --------&mdash;|--------&mdash; | | Balluff BNI007T | 0x00050A05 | 0x00000378 | | Autosen AI 402 | 0x00000061 | 0x00000345 | </p>
-</blockquote>
-<p>It was shown how to setup the hardware with two IO-Link devices. How to start the PLC program to control the distance and how to read which IO-Link devices are currently connected.</p>
-<h1>Store and Recall Parameters</h1>
-<p>Gateway parameters can be stored by writing a value of 0x65766173 into CoE object 0x2010</p>
-<p>Gateway parameters can be restored by writing a value of 0x64616F6C into CoE object 0x2011 </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
