@@ -7,14 +7,16 @@
 \attention For release notes of MCU+ SDK, please refer to \htmllink{@VAR_MCU_SDK_DOCS_PATH/RELEASE_NOTES_09_00_00_PAGE.html, @VAR_SOC_NAME MCU+ SDK Release Notes 09.00.00}.
 
 \note The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
-      Unless noted otherwise, the SW modules would work in both FreeRTOS environment. \n
-      Unless noted otherwise, the SW modules would work on any of the R5F's present on the SOC. \n
       Unless noted otherwise, the SW modules would work on all supported EVMs \n
 
 ## New in this Release
+
 <table>
 <tr>
-    <th> N/A
+    <th> Feature
+</tr>
+<tr>
+    <td> N/A
 </tr>
 </table>
 
@@ -22,7 +24,7 @@
 
 SOC    | Supported CPUs  | Boards                                                                                                      | Host PC
 -------|-----------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------
-AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code), \n AM263x LAUNCHPAD (referred to as am263x-lp in code)   | Windows 10 64b or Ubuntu 18.04 64b
+AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code), \n AM263x LAUNCHPAD (referred to as am263x-lp in code)  | Windows 10 64b or Ubuntu 18.04 64b
 
 ## Tools, Compiler and Other Open Source SW Module Information
 
@@ -37,12 +39,7 @@ MCU+ SDK                |  9.0.0
 
 ## Key Features
 
-Feature                                                             | Module
---------------------------------------------------------------------|--------------------------
-                                                                    |  -->
-
 <!-- ### Features not supported in release -->
-
 
 ## Fixed Issues
 
