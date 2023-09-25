@@ -7,14 +7,16 @@
 \attention For release notes of MCU+ SDK, please refer to \htmllink{@VAR_MCU_SDK_DOCS_PATH/RELEASE_NOTES_09_00_00_PAGE.html, @VAR_SOC_NAME MCU+ SDK Release Notes 09.00.00}.
 
 \note The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
-      Unless noted otherwise, the SW modules would work in both FreeRTOS and NORTOS environment. \n
+      Unless noted otherwise, the SW modules would work in both FreeRTOS environment. \n
       Unless noted otherwise, the SW modules would work on any of the R5F's present on the SOC. \n
       Unless noted otherwise, the SW modules would work on all supported EVMs \n
 
 ## New in this Release
-
-Feature                                                                                         | Module
-------------------------------------------------------------------------------------------------|-----------------------------------
+<table>
+<tr>
+    <th> N/A
+</tr>
+</table>
 
 ## Device and Validation Information
 
@@ -24,25 +26,16 @@ AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code), \n A
 
 ## Tools, Compiler and Other Open Source SW Module Information
 
-Tools / SW module       | Supported CPUs | Version
-------------------------|----------------|-----------------------
-Code Composer Studio    | R5F, M4F, A53  | @VAR_CCS_VERSION
-SysConfig               | R5F, M4F, A53  | @VAR_SYSCFG_VERSION, build @VAR_SYSCFG_BUILD
-TI ARM CLANG            | R5F, M4F       | @VAR_TI_ARM_CLANG_VERSION
-FreeRTOS Kernel         | R5F, M4F, A53  | @VAR_FREERTOS_KERNEL_VERSION
-FreeRTOS SMP Kernel     | A53            | @VAR_FREERTOS_SMP_KERNEL_VERSION
+Tools / SW module       | Version
+------------------------|-----------------------
+Code Composer Studio    | @VAR_CCS_VERSION
+SysConfig               | @VAR_SYSCFG_VERSION, build @VAR_SYSCFG_BUILD
+TI ARM CLANG            | @VAR_TI_ARM_CLANG_VERSION
+MCU+ SDK                |  9.0.0
 
 \attention TI ARM CLANG @VAR_TI_ARM_CLANG_VERSION is not part of CCS by default, Follow steps at \htmllink{@VAR_MCU_SDK_DOCS_PATH/SDK_DOWNLOAD_PAGE.html#INSTALL_TIARMCLANG, TI CLANG Compiler Toolchain} to install the compiler.
 
 ## Key Features
-
-<!-- ### Experimental Features
-
-\attention Features listed below are early versions and should be considered as "experimental".
-\attention Users can evaluate the feature, however the feature is not fully tested at TI side.
-\attention TI would not support these feature on public e2e.
-\attention Experimental features will be enabled with limited examples and SW modules.
-
 
 Feature                                                             | Module
 --------------------------------------------------------------------|--------------------------
@@ -105,25 +98,6 @@ Feature                                                             | Module
 </tr>
 </table> -->
 
-## Limitations
-<table>
-<tr>
-    <th> ID
-    <th> Head Line
-    <th> Module
-    <th> Reported in Release
-    <th> Applicable Devices
-    <th> Workaround
-</tr>
-<tr>
-    <td> 
-    <td> 
-    <td> 
-    <td> 
-    <td> 
-    <td> 
-</tr>
-</table>
 
 ## Upgrade and Compatibility Information {#UPGRADE_AND_COMPATIBILITY_INFORMATION_9_0_0}
 
