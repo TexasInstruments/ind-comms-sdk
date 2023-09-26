@@ -8,7 +8,7 @@ The ICSS-EMAC (Industrial Communications Subsystem Ethernet Media Access Control
 
 ICSS-EMAC runs on the host processor, provides a well defined set of APIs to configure the firmware, send packets to the firmware and receive packet from the firmware. Industrial Communication Protocol specific firmware (running on PRUICSS cores) implements a 2 port ethernet switch supporting 802.1d at 100 Mbps.
 
-\note ICSS-EMAC will be supported for use in Profinet Device, EtherNet/IP Adapter and PRP(Parallel Redundancy Protocol) examples only.
+\note ICSS-EMAC will be supported for use in Profinet Device, EtherNet/IP Adapter and PRP(Parallel Redundancy Protocol) examples only. \n ICSS firmware to support above protocols or EMAC (to add one or more Ethernet port) is not supported in this release.
 
 ## Features Supported
 
