@@ -53,6 +53,3 @@ These examples are EtherNet/IP Adapter applications based on evaluation stacks p
  Example folder | examples/industrial_comms/ethernetip_adapter_demo
 
 \endcond
-
-\note This example will not work on PG2.0 HS-FS devices.
-
