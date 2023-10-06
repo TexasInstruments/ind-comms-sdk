@@ -1,21 +1,25 @@
 /*
  * Copyright (c) 2020, Texas Instruments Incorporated
+ * Copyright (c) 2023, KUNBUS GmbH
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
  *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
  *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
+ * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
+ *
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ *
+ * Neither the name of Texas Instruments Incorporated nor the names of
+ * its contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,16 +34,16 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
---stack_size=0x00008000
---heap_size=0x00029000
+--stack_size=0x0A000
+--heap_size=0x50000
 
 -e_vectors
 
-__IRQ_STACK_SIZE = 0x2000;
+__IRQ_STACK_SIZE = 0x1000;
 __FIQ_STACK_SIZE = 0x1000;
 __SVC_STACK_SIZE = 0x1000;
-__ABORT_STACK_SIZE = 512;
-__UNDEFINED_STACK_SIZE = 0x1000;
+__ABORT_STACK_SIZE = 0x200;
+__UNDEFINED_STACK_SIZE = 0x200;
 
 SECTIONS
 {
@@ -62,21 +66,19 @@ SECTIONS
 
      GROUP {
         .data:   {} palign(8)
-    } > ECPHEAP
+    } > MSRAM
 
     GROUP {
         .bss:    {} palign(8) FILL(0x00000000)
         RUN_START(__BSS_START)
         RUN_END(__BSS_END)
-         /* main stack */
-        .stack:  {} palign(8) FILL(0x00000000)
-        /*stack for all OS threads */
         .threadstack:  {} palign(8) FILL(0x00000000)
+        .stack:  {} palign(8) FILL(0x00000000)
     } > MSRAM
 
     GROUP {
         .sysmem: {} palign(8)
-    } > ECPHEAP
+    } > EXTRAHEAP
 
     GROUP {
         .irqstack: {. = . + __IRQ_STACK_SIZE;} align(8)
@@ -94,16 +96,15 @@ SECTIONS
         .undefinedstack: {. = . + __UNDEFINED_STACK_SIZE;} align(8)
         RUN_START(__UNDEFINED_STACK_START)
         RUN_END(__UNDEFINED_STACK_END)
-    } > ECPHEAP
-    
-        /* General purpose user shared memory */
+    } > MSRAM
+
+    /* General purpose user shared memory */
     .bss.user_shared_mem (NOLOAD) : {} > USER_SHM_MEM
     /* this is used when Debug log's to shared memory are enabled, else this is not used */
     .bss.log_shared_mem  (NOLOAD) : {} > LOG_SHM_MEM
     /* this is used only when IPC RPMessage is enabled, else this is not used */
     .bss.ipc_vring_mem   (NOLOAD) : {} > RTOS_NORTOS_IPC_SHM_MEM
     //.bss.nocache (NOLOAD) : {} > NON_CACHE_MEM
-
 }
 
 /*
@@ -127,16 +128,13 @@ MEMORY
     R5F_TCMB0: ORIGIN = 0x41010000 , LENGTH = 0x00008000
 
     MSRAM    : ORIGIN = 0x70080000 , LENGTH = 0x00100000
-
-
-    ECPHEAP     : ORIGIN = 0x70008000 , LENGTH = 0x00038000
+    EXTRAHEAP: ORIGIN = 0x70008000 , LENGTH = 0x00068000
 
     /* shared memories that are used by all cores */
     /* On R5F,
      * - make sure there is a MPU entry which maps below regions as non-cache
      */
-    USER_SHM_MEM             : ORIGIN = 0x701D0000, LENGTH = 0x00000180
-    LOG_SHM_MEM              : ORIGIN = 0x701D0180, LENGTH = 0x00004000-0x180
-    RTOS_NORTOS_IPC_SHM_MEM  : ORIGIN = 0x701D4000, LENGTH = 0x0000C000
-
+    USER_SHM_MEM             : ORIGIN = 0x701D0000, LENGTH = 0x00004000
+    LOG_SHM_MEM              : ORIGIN = 0x701D4000, LENGTH = 0x00004000
+    RTOS_NORTOS_IPC_SHM_MEM  : ORIGIN = 0x701D8000, LENGTH = 0x00008000
 }

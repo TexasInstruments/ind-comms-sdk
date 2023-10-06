@@ -1,8 +1,8 @@
 /*!
- *  \file nvram_driver.h
+ *  \file config.h
  *
  *  \brief
- *  Provide NVRAM hardware access functions to be called by littleFS
+ *  Configuration for the board AM243x LP
  *
  *  \author
  *  KUNBUS GmbH
@@ -39,25 +39,37 @@
  *  SUCH DAMAGE.
  *
  */
-#ifndef NVRAM_DRIVER_H_
-#define NVRAM_DRIVER_H_
 
-// low level functions from SDK
-#include <ti_board_open_close.h>
-// NVRAM module with LittleFS
-#include <nvram.h>
+#if !(defined PROTECT_CONFIG_H)
+#define PROTECT_CONFIG_H        1
 
-#ifdef __cplusplus
-extern "C"
-{
+// sample data for the optional API functions
+#define IOLM_VENDORID              0xABCDU
+#define IOLM_MASTERID              0x12345678
+#define IOLM_USEDPORTS             8U
+#if (defined FBTL_EC_SLV_SUPPORT)
+// 2 CPU
+#define IOLM_PRUINSTANCE           0
+#define ECAT_PRUINSTANCE           0xFFU
+#else
+// 1 CPU
+#define IOLM_PRUINSTANCE           0
+#define ECAT_PRUINSTANCE           1U
 #endif
+// \todo add constraint IOLM_PRUINSTANCE must be 0
 
-/********** Public Interface Function Declarations ************/
-extern struct lfs_config* NVR_DRV_init(const unsigned int instanceID, const unsigned int baseAdr);
-extern int NVR_DRV_fini(void);
+#define ECAT_REVISION              0x00010000
+#define ECAT_SERIALNR              0x76543210
+#define ECAT_HWVERSION             "101B.002"
+#define ECAT_SWVERSION             VERSION
+#if ((defined TI_EC_VENDOR) && (TI_EC_VENDOR==1))
+#define ECAT_VENDORID              0x0000059DU      // primary vendor id(TI), secondary vendor ID (1389 + 0xE0000000)
+#define ECAT_PNAME                 "TI EC-IOL-Gateway for AM243X.R5F"
+#define ECAT_PCODE                 0x54491001
+#else
+#define ECAT_VENDORID              0x00000569U      // primary vendor id(KB) (0x0569 == 1385), secondary vendor ID (1385 + 0xE0000000)
+#define ECAT_PNAME                 "KUNBUS EC-IOL-Gateway for AM243X.R5F"
+#define ECAT_PCODE                 0x00018801U
+#endif /*  (defined TI_EC_VENDOR) ... */
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif
-
-#endif /* NVRAM_DRIVER_H_ */
+#endif /* PROTECT_CONFIG_H */
