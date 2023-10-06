@@ -1444,14 +1444,14 @@ static void EnetTas_tasPacketTx(EnetTas_PerCtxt *perCtxt,
                                 uint8_t portNum,
                                 uint8_t txTc)
 {
-    EnetDma_PktQ txSubmitQ;
     EnetDma_Pkt *txPktInfo;
     EthVlanFrame *txFrame;
     int32_t status;
+    uint32_t txTsId;
 
     /* Retrieve TX packets from driver and recycle them */
     EnetTas_retrieveFreeTxPkts(perCtxt);
-    EnetQueue_initQ(&txSubmitQ);
+    txTsId = perCtxt->txTsSeqId;
 
     /* Dequeue one free TX Eth packet */
     txPktInfo = (EnetDma_Pkt *)EnetQueue_deq(&gEnetTas.txFreePktInfoQ);
@@ -1474,8 +1474,8 @@ static void EnetTas_tasPacketTx(EnetTas_PerCtxt *perCtxt,
         txPktInfo->sgList.numScatterSegments = 1;
         txPktInfo->chkSumInfo = 0U;
         txPktInfo->appPriv = &gEnetTas;
-        txPktInfo->tsInfo.txPktSeqId = perCtxt->txTsSeqId;
-        txPktInfo->txTsId = perCtxt->txTsSeqId++;
+        txPktInfo->tsInfo.txPktSeqId = txTsId;
+        txPktInfo->txTsId = txTsId;
         txPktInfo->txPktTc = txTc;
         txPktInfo->tsInfo.enableHostTxTs = true;
 
@@ -1488,16 +1488,14 @@ static void EnetTas_tasPacketTx(EnetTas_PerCtxt *perCtxt,
                                 ENET_PKTSTATE_MODULE_APP,
                                 ENET_PKTSTATE_APP_WITH_FREEQ,
                                 ENET_PKTSTATE_APP_WITH_DRIVER);
-
-        /* Enqueue the packet for later transmission */
-        EnetQueue_enq(&txSubmitQ, &txPktInfo->node);
     }
     else
     {
         EnetAppUtils_print("%s: Drop due to TX pkt not available\r\n", perCtxt->name);
     }
 
-    status = EnetDma_submitTxPktQ(perCtxt->hTxCh, &txSubmitQ);
+    perCtxt->txTsSeqId++;
+    status = EnetDma_submitTxPkt(perCtxt->hTxCh, txPktInfo);
     if (status != ENET_SOK)
     {
         EnetAppUtils_print("%s: Failed to submit TX pkt queue: %d\r\n", perCtxt->name, status);
