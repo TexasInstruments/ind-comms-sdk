@@ -346,7 +346,7 @@ int32_t EnetApp_driverOpen(Enet_Type enetType, uint32_t instId)
     EnetAppUtils_assert(NULL != gEnetAppSysCfgObj.hEnet[hEnetIndex]);
 
     EnetApp_enablePorts(gEnetAppSysCfgObj.hEnet[hEnetIndex], enetType, instId, selfCoreId, macPortList, numMacPorts);
-    EnetApp_ConfigureDscpMapping(enetType, instId);
+    //EnetApp_ConfigureDscpMapping(enetType, instId);  /* This disables the PCP mapping. Please enable with discretion */
 % if(instance.McmEnable == true){
     enetMcmCfg.enetType           = enetType;
     enetMcmCfg.instId             = instId;

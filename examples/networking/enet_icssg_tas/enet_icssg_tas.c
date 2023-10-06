@@ -1474,7 +1474,8 @@ static void EnetTas_tasPacketTx(EnetTas_PerCtxt *perCtxt,
         txPktInfo->sgList.numScatterSegments = 1;
         txPktInfo->chkSumInfo = 0U;
         txPktInfo->appPriv = &gEnetTas;
-        txPktInfo->tsInfo.txPktSeqId = perCtxt->txTsSeqId++;
+        txPktInfo->tsInfo.txPktSeqId = perCtxt->txTsSeqId;
+        txPktInfo->txTsId = perCtxt->txTsSeqId++;
         txPktInfo->txPktTc = txTc;
         txPktInfo->tsInfo.enableHostTxTs = true;
 
