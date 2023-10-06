@@ -18,11 +18,21 @@ This example is an EtherCAT-IOLink Gateway application based on evaluation stack
 
 \cond SOC_AM243X
 
-- \htmllink{../am243x/ethercat_iolink_gateway/index.html, Home Page}
-- \htmllink{../am243x/ethercat_iolink_gateway/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../am243x/ethercat_iolink_gateway/releasenotes.html, Release Notes}
-- \htmllink{../am243x/ethercat_iolink_gateway/usergroup0.html, Example Quick Start}
-- \htmllink{../am243x/ethercat_iolink_gateway/modules.html, API Documentation}
+## @VAR_BOARD_NAME
+
+- \htmllink{../am243x/ethercat_iolink_gateway/evm/index.html, Home Page}
+- \htmllink{../am243x/ethercat_iolink_gateway/evm/ethercat_datasheet.html, Data Sheet}
+- \htmllink{../am243x/ethercat_iolink_gateway/evm/releasenotes.html, Release Notes}
+- \htmllink{../am243x/ethercat_iolink_gateway/evm/usergroup0.html, Example Quick Start}
+- \htmllink{../am243x/ethercat_iolink_gateway/evm/modules.html, API Documentation}
+
+## @VAR_LP_BOARD_NAME
+
+- \htmllink{../am243x/ethercat_iolink_gateway/lp/index.html, Home Page}
+- \htmllink{../am243x/ethercat_iolink_gateway/lp/ethercat_datasheet.html, Data Sheet}
+- \htmllink{../am243x/ethercat_iolink_gateway/lp/releasenotes.html, Release Notes}
+- \htmllink{../am243x/ethercat_iolink_gateway/lp/usergroup0.html, Example Quick Start}
+- \htmllink{../am243x/ethercat_iolink_gateway/lp/modules.html, API Documentation}
 
 \endcond
 
