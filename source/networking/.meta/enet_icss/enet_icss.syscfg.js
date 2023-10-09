@@ -683,8 +683,22 @@ function validate(instance, report) {
 function moduleInstances(instance) {
 
     let Instances = new Array();
-    let maxCh     = 8;
+    let maxTxCh     = 8;
+    let maxRxCh     = 8;
+    let minRxChNum  = 1;
     let maxNetif  = 2;
+
+    if (inst.mode === 'SWITCH')
+    {
+        maxRxCh = 16;
+        minRxChNum = 2;
+    }
+    else
+    {
+        maxRxCh = 8;
+        minRxChNum = 1;
+    }
+
 
     Instances.push({
         name: "txDmaChannel",
@@ -692,9 +706,9 @@ function moduleInstances(instance) {
         moduleName: `/networking/enet_icss/enet_icssg_tx_channel`,
         useArray: true,
         minInstanceCount: 1,
-        maxInstanceCount: maxCh,
+        maxInstanceCount: maxTxCh,
         defaultInstanceCount: 1,
-        collapsed:false,
+        collapsed: false,
         group: "udmaChConfig",
     });
 
@@ -703,10 +717,10 @@ function moduleInstances(instance) {
         displayName: "ENET rx dma channel",
         moduleName: `/networking/enet_icss/enet_icssg_rx_channel`,
         useArray: true,
-        minInstanceCount: 1,
-        maxInstanceCount: maxCh,
-        defaultInstanceCount: 1,
-        collapsed:false,
+        minInstanceCount: minRxChNum,
+        maxInstanceCount: maxRxCh,
+        defaultInstanceCount: minRxChNum,
+        collapsed: false,
         group: "udmaChConfig",
     });
 
