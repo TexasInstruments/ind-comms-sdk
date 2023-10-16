@@ -21,9 +21,9 @@
         "id": "com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_`deviceNameID`",
         "name": "Industrial Communications SDK for `deviceName`",
         "rootCategory": [ "INDUSTRIAL COMMUNICATIONS SDK", "Industrial Communications SDK for `deviceName`" ],
-        "version": "09.00.00.01",
+        "version": "09.01.00.01",
         "type": "software",
-        "image": "./mcu_plus_sdk.png",
+        "image": "./ind_comms_sdk.png",
         % if ((args.device == "am64x") || (args.device == "am243x") || (isDevelopmentMode)) {
         "license": "../../license.txt",
         % }
