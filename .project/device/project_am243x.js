@@ -45,13 +45,6 @@ const example_file_list = [
     "examples/industrial_comms/hsr_prp_demo/prp_mii/.project/project.js",
     "examples/industrial_comms/hsr_prp_demo/prp_rgmii/.project/project.js",
     "examples/industrial_comms/iolink_master_demo/.project/project.js",
-    "examples/networking/enet_loopback/enet_icssg_loopback/.project/project.js",
-    "examples/networking/enet_icssg_tas/.project/project.js",
-    "examples/networking/enet_layer2_icssg/icssg_layer2_dualmac/.project/project.js",
-    "examples/networking/enet_layer2_icssg/icssg_layer2_switch/.project/project.js",
-    "examples/networking/enet_vlan_icssg/.project/project.js",
-    "examples/networking/lwip/enet_icssg_tcpserver/.project/project.js",
-    "examples/networking/lwip/enet_lwip_icssg/.project/project.js",
     "source/industrial_comms/mdio_fw/.project/project.js",
 ];
 
