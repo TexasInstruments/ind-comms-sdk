@@ -52,11 +52,11 @@ Enable the manual mode option from SysConfig from the protocol specific module. 
 
 ### Loading and Running PRU firmware
 
-For loading MDIO Manual MDIO firmware to PRU Core, please follow the following steps:
-- Make sure any MDIO access is made only after the firmware has been loaded and run.
-- Clear the register space which will be used by firmware for MDIO register space emulation.
-- Load the PRU firmware to the appropriate core (in SDK examples we load the code to TX_PRU0 cores).
-- Set the PRU R10 register for fw configuration as explained below. (default configuration will be MLINK Based link detection and MDIO Clk acc. to 200MHz PRU Clock):
+For loading MDIO Manual mode firmware to PRU Core, please follow the following steps:
+1. Make sure any MDIO access is made only after the firmware has been loaded and run.
+2. Clear the register space which will be used by firmware for MDIO register space emulation.
+3. Load the PRU firmware to the appropriate core (in SDK examples we load the code to TX_PRU0 cores).
+4. Set the PRU R10 register for fw configuration as explained below. (default configuration will be MLINK Based link detection and MDIO Clk acc. to 200MHz PRU Clock):
 SysConfig generates a macro: `MDIO_MANUAL_MODE_FW_CONFIG_VALUE` containing this configuration which can be directly used to write to R10 CPU register of PRU.
 
 \code
@@ -84,10 +84,10 @@ SysConfig generates a macro: `MDIO_MANUAL_MODE_FW_CONFIG_VALUE` containing this 
 
 \endcode
 
-- The emulated register space start address has to be passed to the firmware by setting the R12 CPU register to the desired location for emulating the MDIO register space. The start address should be an offset from start of that ICCSG instance memory space and located in SMEM.
+5. The emulated register space start address has to be passed to the firmware by setting the R12 CPU register to the desired location for emulating the MDIO register space. The start address should be an offset from start of that ICCSG instance memory space and located in SMEM.
     - For example, if we set R12 to 0x00010000 (ICSSG shared memory offset) for ICSSG1 instance, the MDIO registers will start from 0x30090000 and so the user access registers' offsets will be (0x30090000+0x80) for USER_ACCESS_0_REG and (0x30090000+0x88) for USER_ACCESS_1_REG.
     - The emulated registers offset remain same as MDIO HW MMRs, only the base address is changed to the above defined address. 
-- Enable/run the PRU core and then we can create PHY access requests using emulated MDIO User Access Register.
+6. Enable/run the PRU core and then we can create PHY access requests using emulated MDIO User Access Register.
 
 \note Each protocol will have different base register offset configured depending on the availability of free memory region. Emulated MDIO register space start address will be visible from the SysConfig interface as well. See below for more information.
 
@@ -132,7 +132,7 @@ Default Link detection configurations in SDK Examples are:
 | Profinet   | MLINK <br> Polling (default)     |
 | HSR-PRP    | MLINK <br> Polling (default)     |
 
-### Modifying PRU firmware
+### Modifying PRU firmware {#INDUSTRIAL_COMMS_MDIO_MANUALMODE_FW_USAGE_MODIFY_FW}
 
 The PRU firmware can be modified and built using the example present at `${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/mdio_fw`. This will be helpful if you want to make some changes to the firmware for example operating the MCLK at different frequency. 
     1. Import the example in CCS from the above specified location
@@ -192,6 +192,7 @@ Creating PHY access requests from the R5F core remains same as all the configura
 - In Link Polling mode - enabled through sysconfig, we do not require RX_LINK pins for link status update as firmware polls and updates the link status of specified PHYs.
 - Only Clause 22 frame format is supported. Clause 45 frame format is not supported.
 - MDIO state machine is disabled and hence MDIO LINK_INT and USER_INT interrupts are NOT available.
+- The MDIO Clock (MCLK) frequency is fixed to around 2.5MHz by default and does not support run-time configuration. The firmware can be modified and re-built to change MCLK frequency as described in \ref INDUSTRIAL_COMMS_MDIO_MANUALMODE_FW_USAGE_MODIFY_FW
 
 ## Important files and directory structure
 
