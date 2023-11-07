@@ -25,7 +25,7 @@
     <td> ICSSM Profinet FW supports four MAC address
 </tr>
 <tr>
-    <td> ICSSG Layer 2 example (\ref EXAMPLES_ENET_LAYER2_ICSSG) is divided in to two new examples : ICSSG Layer 2 dual MAC and ICSSG Layer 2 Switch examples.
+    <td> ICSSG Layer 2 example is divided in to two new examples : ICSSG Layer 2 dual MAC and ICSSG Layer 2 Switch examples.
 </tr>
 <tr>
     <td> Enet PHY loopback for ICSSG on NoRTOS (baremetal) is added
