@@ -268,14 +268,14 @@ void ESL_BOARD_OS_phyReset(void* pGpioHandle_p, uint32_t selectedPru_p, uint8_t 
  *  \ingroup ESL_OS
  *
  * */
-void ESL_BOARD_OS_registerPhys(uint32_t selectedPru_p)
+void ESL_BOARD_OS_registerPhys(EC_API_SLV_SHandle_t *pHandle, uint32_t selectedPru_p)
 {
 #if !(defined ECAT_PHYADDR_IN) && !(defined ECAT_PHYADDR_OUT)
 #error "EtherCAT without PHY is useless"
 #endif
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
-    EC_API_SLV_registerPhy(EC_API_SLV_ePHY_IN,  ECAT_PHYADDR_IN,  ECAT_PHYPOLINVERT_IN,  ECAT_PHYUSERXLINK_IN);
-    EC_API_SLV_registerPhy(EC_API_SLV_ePHY_OUT, ECAT_PHYADDR_OUT, ECAT_PHYPOLINVERT_OUT, ECAT_PHYUSERXLINK_OUT);
+    EC_API_SLV_registerPhy(pHandle, EC_API_SLV_ePHY_IN,  ECAT_PHYADDR_IN,  ECAT_PHYPOLINVERT_IN,  ECAT_PHYUSERXLINK_IN);
+    EC_API_SLV_registerPhy(pHandle, EC_API_SLV_ePHY_OUT, ECAT_PHYADDR_OUT, ECAT_PHYPOLINVERT_OUT, ECAT_PHYUSERXLINK_OUT);
 #endif
 }
 

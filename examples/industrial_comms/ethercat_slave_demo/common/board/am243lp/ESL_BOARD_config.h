@@ -45,6 +45,7 @@
 
 #include <ESL_OS_os.h>
 #include <ESL_BOARD_OS_config.h>
+#include <ecSlvApi.h>
 
 #define ECAT_PHYADDR_IN                     (3u)
 #define ECAT_PHYADDR_OUT                    (15u)
@@ -67,22 +68,22 @@
 extern "C" {
 #endif
 
-extern void ESL_BOARD_OS_initPruss      (uint32_t   pruSelect_p
-                                        ,int32_t*   pBaseIrqOffset_p);
-extern void ESL_BOARD_OS_initStatusLED  (void*      pGpioHandle_p
-                                        ,uint32_t   selectedPru_p);
-extern void ESL_BOARD_OS_statusLED      (void*      pGpioHandle_p
-                                        ,uint32_t   selectedPru_p
-                                        ,bool       runLed_p
-                                        ,bool       errLed_p);
-
-extern void ESL_BOARD_OS_configureResets(void*      pGpioHandle_p
-                                        ,uint32_t   selectedPru_p);
-extern void ESL_BOARD_OS_phyReset       (void*      pGpioHandle_p
-                                        ,uint32_t   selectedPru_p
-                                        ,uint8_t    phyIdx_p
-                                        ,bool       reset_p);
-extern void ESL_BOARD_OS_registerPhys   (uint32_t   selectedPru_p);
+extern void ESL_BOARD_OS_initPruss          (uint32_t pruSelect
+                                            ,int32_t *pBaseIrqOffset);
+extern void ESL_BOARD_OS_initStatusLED      (void *gpioHandle
+                                            ,uint32_t selectedPru);
+extern void ESL_BOARD_OS_statusLED          (void *gpioHandle
+                                            ,uint32_t selectedPru
+                                            ,bool runLed
+                                            ,bool errLed);
+extern void ESL_BOARD_OS_configureResets    (void *pGpioHandle
+                                            ,uint32_t selectedPru);
+extern void ESL_BOARD_OS_phyReset           (void *pGpioHandle
+                                            ,uint32_t selectedPru
+                                            ,uint8_t phyIdx
+                                            ,bool reset);
+extern void ESL_BOARD_OS_registerPhys       (EC_API_SLV_SHandle_t *pHandle
+                                            ,uint32_t selectedPru);
 
 #if (defined __cplusplus)
 }

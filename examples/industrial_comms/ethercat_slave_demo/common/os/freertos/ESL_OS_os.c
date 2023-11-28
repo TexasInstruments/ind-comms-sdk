@@ -45,7 +45,12 @@
 #include <stdio.h>
 #include <ti_dpl_config.h>
 
+#if !(defined FBTLTESTAPP) || !(1==FBTLTESTAPP)
 #include <ecSlvApi.h>
+#endif
+#if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
+#include <board/led.h>
+#endif
 
 typedef struct ESL_OS_I2C_SHandle
 {
@@ -205,11 +210,13 @@ void ESL_OS_boardDeinit(void)
  * */
 void ESL_OS_manualMdioConfig(void *pEcSlvApi)
 {
+#if !(defined FBTL_REMOTE) || !(1==FBTL_REMOTE)
 #if (defined MDIO_MANUAL_MODE_ENABLED)
     EC_API_SLV_enableMdioManualMode(
         pEcSlvApi,
         MDIO_MANUAL_MODE_BASE_ADDRESS,
         MDIO_MANUAL_MODE_FW_CONFIG_VALUE);
+#endif
 #endif
 }
 
@@ -319,7 +326,7 @@ clock_t  ESL_OS_clockDiff(clock_t reference_p, clock_t *pNow_p)
 
 static uint32_t Board_getnumLedPerGroup(void)
 {
-    uint32_t            ledCount;
+    uint32_t            ledCount = 0;
 #if !(defined EC_IOL_GATEWAY) && (!(defined FBTLPROVIDER) || (FBTLPROVIDER==0))
 #if (defined CONFIG_LED0)
     const LED_Attrs    *attrs;
@@ -328,7 +335,10 @@ static uint32_t Board_getnumLedPerGroup(void)
     DebugP_assert(NULL != attrs);
     /* For AM64x-EVM, AM243x-EVM and AM243x-LP all LEDs are connected, so return
      * the driver attributes value of 8 */
-    ledCount = attrs->numLedPerGroup;
+    if(attrs != NULL)
+    {
+        ledCount = attrs->numLedPerGroup;
+    }
 #else
     ledCount = 0;
 #endif
@@ -436,7 +446,7 @@ Exit:
 void ESL_OS_ioexp_leds_write(void *pI2cHandle_p, uint8_t ledValue_p)
 {
     ESL_OS_I2C_SHandle_t *pHandle         = (ESL_OS_I2C_SHandle_t*)pI2cHandle_p;
-    
+
     if (!pHandle)
     {
         /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */

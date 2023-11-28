@@ -82,7 +82,7 @@
 /* @cppcheck_justify{misra-c2012-20.7} brackets around type result in compile error */
 /* cppcheck-suppress misra-c2012-20.7 */
 #define EC_SLV_APP_CIA_GETAXISVALUE(gav_type, gav_target, gav_axisDesc) \
-    { if (gotOffsets && (NULL != (gav_axisDesc).pdoObject)) { \
+    { if (gotInOffset && (NULL != (gav_axisDesc).pdoObject)) { \
     (gav_target) = ((gav_type*)&(pApplication_p->pdRxBuffer[(gav_axisDesc).pdoOffset]))[0]; } else { \
     (void)EC_SLV_APP_getCiA402ObjectValue(pApplication_p, (gav_axisDesc).pSdo, sizeof(gav_type), (uint16_t*)&(gav_target)); } }
 
@@ -110,7 +110,7 @@
 /* @cppcheck_justify{misra-c2012-20.7} brackets around type result in compile error */
 /* cppcheck-suppress misra-c2012-20.7 */
 #define EC_SLV_APP_CIA_SETAXISVALUE(sav_type, sav_axisDesc, sav_value) \
-    { if (gotOffsets && (NULL != (sav_axisDesc).pdoObject)) { \
+    { if (gotOutOffset && (NULL != (sav_axisDesc).pdoObject)) { \
     ((sav_type*)&(pApplication_p->pdTxBuffer[(sav_axisDesc).pdoOffset]))[0] = (sav_value); } else { \
     (void)EC_SLV_APP_setCiA402ObjectValue(pApplication_p, &(sav_axisDesc), sizeof(sav_type), (uint16_t*)&(sav_value)); } }
 
@@ -538,7 +538,7 @@ uint16_t EC_SLV_APP_CIA_startInputHandler(void* ctxt, uint16_t* intMask)
 
     pEcApiSlv = pApplicationInstance->ptEcSlvApi;
 
-    sync0CycleTime= EC_API_SLV_readDoubleWordEscRegister(pEcApiSlv, ESC_DC_SYNC0_CYCLETIME_REG);
+    EC_API_SLV_readDoubleWordEscRegister(pEcApiSlv, ESC_DC_SYNC0_CYCLETIME_REG, &sync0CycleTime);
 
     sync0CycleTime = sync0CycleTime / NSEC_TO_USEC; //get cycle time in us
 
@@ -627,7 +627,8 @@ static bool EC_SLV_APP_transitionAction(int16_t characteristic_p)
  *
  *  \param[in]  pApplication_p  Application instance.
  *  \param[in]  pCiA402Axis_p   Servo Axis description structure.
- *  \param[in]  gotOffsets      got offsets
+ *  \param[in]  gotInOffset     got input offsets
+ *  \param[in]  gotOutOffset    got output offsets
  *
  *  <!-- Example: -->
  *
@@ -648,7 +649,11 @@ static bool EC_SLV_APP_transitionAction(int16_t characteristic_p)
  *  \ingroup CiA402
  *
  * */
-static void EC_SLV_APP_CST(EC_SLV_APP_CIA_Application_t* pApplication_p, EC_SLV_APP_CiA402_SAxis_t* pCiA402Axis_p, bool gotOffsets)
+static void EC_SLV_APP_CST(
+    EC_SLV_APP_CIA_Application_t *pApplication_p,
+    EC_SLV_APP_CiA402_SAxis_t *pCiA402Axis_p,
+    bool gotInOffset,
+    bool gotOutOffset)
 {
     int16_t targetTorque;
 
@@ -673,7 +678,8 @@ static void EC_SLV_APP_CST(EC_SLV_APP_CIA_Application_t* pApplication_p, EC_SLV_
  *
  *  \param[in]  pApplication_p  Application instance.
  *  \param[in]  pCiA402Axis		Servo Axis description structure.
- *  \param[in]  gotOffsets      got PDO offsets
+ *  \param[in]  gotInOffset     got PDO in offset
+ *  \param[in]  gotOutOffset    got PDO out offset
  *
  *  <!-- Example: -->
  *
@@ -694,7 +700,11 @@ static void EC_SLV_APP_CST(EC_SLV_APP_CIA_Application_t* pApplication_p, EC_SLV_
  *  \ingroup CiA402
  *
  * */
-static void EC_SLV_APP_CSV(EC_SLV_APP_CIA_Application_t* pApplication_p, EC_SLV_APP_CiA402_SAxis_t* pCiA402Axis_p, bool gotOffsets)
+static void EC_SLV_APP_CSV(
+    EC_SLV_APP_CIA_Application_t *pApplication_p,
+    EC_SLV_APP_CiA402_SAxis_t *pCiA402Axis_p,
+    bool gotInOffset,
+    bool gotOutOffset)
 {
     int32_t targetVelocity;
 
@@ -740,14 +750,18 @@ static void EC_SLV_APP_CSV(EC_SLV_APP_CIA_Application_t* pApplication_p, EC_SLV_
  *  \ingroup CiA402
  *
  * */
-static void EC_SLV_APP_CSP(EC_SLV_APP_CIA_Application_t* pApplication_p, EC_SLV_APP_CiA402_SAxis_t* pCiA402Axis_p, bool gotOffsets)
+static void EC_SLV_APP_CSP(
+    EC_SLV_APP_CIA_Application_t *pApplication_p,
+    EC_SLV_APP_CiA402_SAxis_t *pCiA402Axis_p,
+    bool gotInOffset,
+    bool gotOutOffset)
 {
-    uint32_t targetPosition;
-    uint32_t actualPosition;
-    int32_t targetVelocity;
-    int32_t actualVelocity;
-    int16_t targetTorque;
-    int16_t actualTorque;
+    uint32_t targetPosition = 0;
+    uint32_t actualPosition = 0;
+    int32_t targetVelocity = 0;
+    int32_t actualVelocity = 0;
+    int16_t targetTorque = 0;
+    int16_t actualTorque = 0;
 
     float incFactor = (float) (DRIVE_GEAR_RELATION * pCiA402Axis_p->cycleTime);
 
@@ -806,7 +820,8 @@ static void EC_SLV_APP_CSP(EC_SLV_APP_CIA_Application_t* pApplication_p, EC_SLV_
  *
  *  \param[in]  pApplication_p	application instance.
  *  \param[in]  pCiA402Axis		Servo Axis description structure.
- *  \param[in]  gotOffsets      got PDO offsets
+ *  \param[in]  gotInOffset     got PDO in offsets
+ *  \param[in]  gotOutOffset    got PDO out offsets
  *
  *  <!-- Example: -->
  *
@@ -827,14 +842,18 @@ static void EC_SLV_APP_CSP(EC_SLV_APP_CIA_Application_t* pApplication_p, EC_SLV_
  *  \ingroup CiA402
  *
  * */
-static void EC_SLV_APP_motionControl(EC_SLV_APP_CIA_Application_t*  pApplication_p, EC_SLV_APP_CiA402_SAxis_t* pCiA402Axis_p, bool gotOffsets)
+static void EC_SLV_APP_motionControl(
+    EC_SLV_APP_CIA_Application_t *pApplication_p,
+    EC_SLV_APP_CiA402_SAxis_t *pCiA402Axis_p,
+    bool gotInOffset,
+    bool gotOutOffset)
 {
-    uint16_t statusWord;
-    uint16_t controlWord;
-    uint32_t targetPosition;
-    uint32_t posMaxLimit;
-    uint32_t posMinLimit;
-    uint8_t operationModeDisplay;
+    uint16_t statusWord = 0;
+    uint16_t controlWord = 0;
+    uint32_t targetPosition = 0;
+    uint32_t posMaxLimit = 0;
+    uint32_t posMinLimit = 0;
+    uint8_t operationModeDisplay = 0;
 
     if (!pApplication_p)
     {
@@ -876,23 +895,23 @@ static void EC_SLV_APP_motionControl(EC_SLV_APP_CIA_Application_t*  pApplication
     //Calculate new targets for CSP, CSV or CST modes
     if(controlWord == CONTROLWORD_COMMAND_ENABLEOPERATION)
     {
-        if(((posMaxLimit > pCiA402Axis_p->positionActualValue) || (pCiA402Axis_p->positionActualValue > targetPosition))
-         &&((posMinLimit < pCiA402Axis_p->positionActualValue) || (pCiA402Axis_p->positionActualValue < targetPosition)))
+        if(((posMaxLimit >= pCiA402Axis_p->positionActualValue) || (pCiA402Axis_p->positionActualValue >= targetPosition))
+         &&((posMinLimit <= pCiA402Axis_p->positionActualValue) || (pCiA402Axis_p->positionActualValue <= targetPosition)))
         {
             statusWord &= ~STATUSWORD_INTERNAL_LIMIT;
 
             switch(operationModeDisplay)
             {
             case CYCLIC_SYNC_POSITION_MODE:
-                EC_SLV_APP_CSP(pApplication_p, pCiA402Axis_p, gotOffsets);
+                EC_SLV_APP_CSP(pApplication_p, pCiA402Axis_p, gotInOffset, gotOutOffset);
                 break;
             case CYCLIC_SYNC_VELOCITY_MODE:
                 //nothing
-                EC_SLV_APP_CSV(pApplication_p, pCiA402Axis_p, gotOffsets);
+                EC_SLV_APP_CSV(pApplication_p, pCiA402Axis_p, gotInOffset, gotOutOffset);
                 break;
             case CYCLIC_SYNC_TORQUE_MODE:
                 //nothing
-                EC_SLV_APP_CST(pApplication_p, pCiA402Axis_p, gotOffsets);
+                EC_SLV_APP_CST(pApplication_p, pCiA402Axis_p, gotInOffset, gotOutOffset);
                 break;
             default:
                 break;
@@ -969,21 +988,26 @@ void EC_SLV_APP_cia402Application(void* ctxt)
     EC_API_SLV_SHandle_t*       pEcApiSlv               = NULL;
     /* @cppcheck_justify{threadsafety-threadsafety} not called re-entrant */
     /* cppcheck-suppress threadsafety-threadsafety */
-    static bool gotOffsets = false;
+    static bool gotInOffset = false;
+    static bool gotOutOffset = false;
+    bool gotOffsets = false;
     uint8_t                     axisNo;
 
-    uint16_t controlWord;
-    uint16_t statusWord;
-    uint16_t errorCode;
-    int16_t quickStopOptionCode;
-    int16_t shutdownOptionCode;
-    int16_t disableOperationCode;
-    int16_t faultReactionCode;
-    uint8_t operationDisplayCode;
+    uint16_t controlWord = 0;
+    uint16_t statusWord = 0;
+    uint16_t errorCode = 0;
+    int16_t quickStopOptionCode = 0;
+    int16_t shutdownOptionCode = 0;
+    int16_t disableOperationCode = 0;
+    int16_t faultReactionCode = 0;
+    uint8_t operationDisplayCode = 0;
 
     uint16_t driveRamp = DISABLE_DRIVE;
 
-    EC_API_SLV_EEsmState_t  curState;
+    EC_API_SLV_EEsmState_t  curState = EC_API_SLV_eESM_uninit;
+    uint16_t                alErrorCode = ALSTATUSCODE_NOERROR;
+
+    uint32_t    apiError;
 
     if (!pApplication_p)
     {
@@ -1000,27 +1024,51 @@ void EC_SLV_APP_cia402Application(void* ctxt)
 #endif
 #endif
 
-    curState = EC_API_SLV_getState();
+    EC_API_SLV_getState(pEcApiSlv, &curState, &alErrorCode);
+
+    //OSAL_printf("0x%02x|0x%04x\r\n", curState, alErrorCode);
 
     curState &= ~EC_API_SLV_eESM_errState;
 
-    if ((EC_API_SLV_eESM_op != curState) && (EC_API_SLV_eESM_safeop != curState) && gotOffsets)
+    if ((EC_API_SLV_eESM_op != curState) && (EC_API_SLV_eESM_safeop != curState) && (gotInOffset || gotOutOffset))
     {
         (void)EC_SLV_APP_CiA_dropPDOffsets(pApplication_p);
         pApplication_p->pdoOutLen = ~0;
         pApplication_p->pdoInLen  = ~0;
-        gotOffsets = false;
+        gotInOffset = gotOutOffset = false;
     }
 
-    if (((EC_API_SLV_eESM_op == curState) || (EC_API_SLV_eESM_safeop == curState)) && !gotOffsets)
+    if (((EC_API_SLV_eESM_op == curState) || (EC_API_SLV_eESM_safeop == curState)) && !gotInOffset)
     {
         (void)EC_SLV_APP_CiA_fetchPDOffsets(pApplication_p);
 
-        pApplication_p->pdoOutLen = BIT2BYTE(EC_API_SLV_getOutputProcDataLength(pApplication_p->ptEcSlvApi));
-        pApplication_p->pdoInLen  = BIT2BYTE(EC_API_SLV_getInputProcDataLength(pApplication_p->ptEcSlvApi));
+        EC_API_SLV_getInputProcDataLength(pApplication_p->ptEcSlvApi, &pApplication_p->pdoInLen);
+        pApplication_p->pdoInLen = BIT2BYTE(pApplication_p->pdoInLen);
 
-        OSAL_printf("PDO size Out:0x%x/0x%x, In:0x%x/0x%x\r\n", pApplication_p->pdoOutLen, pApplication_p->realPdoOutLen, pApplication_p->pdoInLen, pApplication_p->realPdoInLen);
-        gotOffsets = true;
+        OSAL_printf(
+            "PDO size In:0x%x/0x%x\r\n",
+            pApplication_p->pdoInLen,
+            pApplication_p->realPdoInLen
+            );
+        gotInOffset = true;
+    }
+
+    if ((EC_API_SLV_eESM_op == curState) && !gotOutOffset)
+    {
+        gotOffsets = (gotInOffset && gotOutOffset);
+        (void)EC_SLV_APP_CiA_fetchPDOffsets(pApplication_p);
+
+        EC_API_SLV_getOutputProcDataLength(pApplication_p->ptEcSlvApi, &pApplication_p->pdoOutLen);
+        pApplication_p->pdoOutLen = BIT2BYTE(pApplication_p->pdoOutLen);
+
+        OSAL_printf(
+            "PDO size Out:0x%x/0x%x, In:0x%x/0x%x\r\n",
+            pApplication_p->pdoOutLen,
+            pApplication_p->realPdoOutLen,
+            pApplication_p->pdoInLen,
+            pApplication_p->realPdoInLen
+            );
+        gotOutOffset = true;
     }
 
 #if (defined GPIO_TEST_PINS) && (1==GPIO_TEST_PINS)
@@ -1035,13 +1083,32 @@ void EC_SLV_APP_cia402Application(void* ctxt)
 #endif
 #endif
 
-    if(((EC_API_SLV_eESM_op == curState) || (EC_API_SLV_eESM_safeop == curState)) && gotOffsets)
+    if(((EC_API_SLV_eESM_op == curState) || (EC_API_SLV_eESM_safeop == curState)) && gotInOffset)
     {
-        EC_API_SLV_preSeqInputPDBuffer(pApplication_p->ptEcSlvApi, pApplication_p->realPdoInLen, (void**)&(pApplication_p->pdTxBuffer));
+        apiError = EC_API_SLV_preSeqInputPDBuffer(
+            pApplication_p->ptEcSlvApi,
+            pApplication_p->realPdoInLen,
+            (void**)&(pApplication_p->pdTxBuffer)
+        );
+
+        if(EC_API_eERR_BUSY == apiError)
+        {
+            goto Exit;
+        }
     }
-    if((EC_API_SLV_eESM_op == curState) && gotOffsets)
+
+    if((EC_API_SLV_eESM_op == curState) && gotOutOffset)
     {
-        EC_API_SLV_preSeqOutputPDBuffer(pApplication_p->ptEcSlvApi, pApplication_p->realPdoOutLen, (void**)&(pApplication_p->pdRxBuffer));
+        apiError = EC_API_SLV_preSeqOutputPDBuffer(
+            pApplication_p->ptEcSlvApi,
+            pApplication_p->realPdoOutLen,
+            (void**)&(pApplication_p->pdRxBuffer)
+        );
+
+        if(EC_API_eERR_BUSY == apiError)
+        {
+            goto Exit;
+        }
     }
 
     for(axisNo = 0; axisNo < AXES_NUMBER; axisNo++)
@@ -1067,7 +1134,7 @@ void EC_SLV_APP_cia402Application(void* ctxt)
         EC_SLV_APP_CIA_GETAXISVALUE(uint8_t, operationDisplayCode, pApplication_p->CiA402_axisData[axisNo].modesOfOperationDisplayIndex);
 
         //Read supported error option codes (ETG6010 Chapter 4).
-        errorCode = EC_API_SLV_CiA402_SM_getErrorCode(pEcApiSlv, axisNo);
+        EC_API_SLV_CiA402_SM_getErrorCode(pEcApiSlv, axisNo, &errorCode);
 
         if(errorCode &&
             ((operationDisplayCode == CYCLIC_SYNC_POSITION_MODE) ||
@@ -1182,7 +1249,7 @@ void EC_SLV_APP_cia402Application(void* ctxt)
 #endif
 #endif
 
-        EC_SLV_APP_motionControl(pApplication_p, &localAxes_s[axisNo], gotOffsets);
+        EC_SLV_APP_motionControl(pApplication_p, &localAxes_s[axisNo], gotInOffset, gotOutOffset);
 
 #if (defined GPIO_TEST_PINS) && (1==GPIO_TEST_PINS)
 #if (defined GPIO_TEST_PROFILE_SEL) && (defined GPIO_TEST_PROFILE_1) && (GPIO_TEST_PROFILE_1 == GPIO_TEST_PROFILE_SEL)
@@ -1191,13 +1258,22 @@ void EC_SLV_APP_cia402Application(void* ctxt)
 #endif
     }
 
-    if(((EC_API_SLV_eESM_op == curState) || (EC_API_SLV_eESM_safeop == curState)) && gotOffsets)
+Exit:
+    if((EC_API_SLV_eESM_op == curState) && gotOutOffset)
     {
-        EC_API_SLV_postSeqInputPDBuffer(pApplication_p->ptEcSlvApi, pApplication_p->realPdoInLen, pApplication_p->pdTxBuffer);
+        EC_API_SLV_postSeqOutputPDBuffer(
+            pApplication_p->ptEcSlvApi,
+            pApplication_p->realPdoOutLen,
+            pApplication_p->pdRxBuffer
+        );
     }
-    if((EC_API_SLV_eESM_op == curState) && gotOffsets)
+    if(((EC_API_SLV_eESM_op == curState) || (EC_API_SLV_eESM_safeop == curState)) && gotInOffset)
     {
-        EC_API_SLV_postSeqOutputPDBuffer(pApplication_p->ptEcSlvApi, pApplication_p->realPdoOutLen, pApplication_p->pdRxBuffer);
+        EC_API_SLV_postSeqInputPDBuffer(
+            pApplication_p->ptEcSlvApi,
+            pApplication_p->realPdoInLen,
+            pApplication_p->pdTxBuffer
+        );
     }
 
 #if (defined GPIO_TEST_PINS) && (1==GPIO_TEST_PINS)
@@ -1205,7 +1281,6 @@ void EC_SLV_APP_cia402Application(void* ctxt)
         ESL_GPIO_testPins_clear(ESL_TESTPIN_STATE_REG_BANK, ESL_TESTPIN_2_MASK);
 #endif
 #endif
-Exit:
     return;
 }
 

@@ -47,7 +47,7 @@
 #include "project.h"
 
 #include "ESL_fileHandling.h"
-#include <ecSlvApi_Error.h>
+#include <defines/ecSlvApiDef_error.h>
 #include <stdio.h>
 #include <stdbool.h>
 

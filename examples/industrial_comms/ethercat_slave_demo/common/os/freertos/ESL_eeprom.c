@@ -42,7 +42,7 @@
 
 #define EEPROM_FILEPATH "eeprom.bin"
 
-#include <ecSlvApiDef.h>
+#include <defines/ecSlvApiDef.h>
 #include <ecSlvApi.h>
 #include <ESL_eeprom.h>
 #include <osal.h>

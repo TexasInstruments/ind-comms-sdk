@@ -135,13 +135,15 @@ void EC_SLV_APP_SoE_recv(uint16_t soEService_p, uint16_t soEFlags_p, void* pData
  *  \ingroup SLVAPI
  *
  * */
-uint8_t EC_SLV_APP_SoE_nofReq(void)
+uint8_t EC_SLV_APP_SoE_nofReq(EC_API_SLV_SHandle_t* pHandle)
 {
     uint16_t    idn         = 0;
     uint16_t    channel     = 0;
     uint16_t    dataState   = 0xFFFF;
+    uint8_t     response    = 0;
 
-    return EC_API_SLV_notificationResponse(idn, channel, dataState);
+    EC_API_SLV_SoE_notificationResponse(pHandle, idn, channel, dataState, &response);
+    return response;
 }
 
 //*************************************************************************************************

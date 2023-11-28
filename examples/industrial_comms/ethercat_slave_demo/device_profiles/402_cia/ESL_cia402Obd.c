@@ -45,8 +45,8 @@
 #include "ecSlvCiA402.h"
 
 #include <ecSlvApi.h>
-#include <ecSlvApi_Error.h>
-#include <ecSlvApiDef.h>
+#include <defines/ecSlvApiDef_error.h>
+#include <defines/ecSlvApiDef.h>
 
 
 /*!
@@ -1152,8 +1152,11 @@ Exit:
     return err;
 }
 
-#define EC_SLV_APP_CoE_GETPDOOFFSETS(axisObjectEntry) \
-        if(NULL != (axisObjectEntry).pdoObject) { (axisObjectEntry).pdoOffset = EC_API_SLV_PDO_getOffset((axisObjectEntry).pdoObject) + (axisObjectEntry).pdoObjectOffset; }
+#define EC_SLV_APP_CoE_GETPDOOFFSETS(handle, axisObjectEntry) \
+        if(NULL != (axisObjectEntry).pdoObject) {     \
+        uint16_t offset = 0; \
+        EC_API_SLV_PDO_getOffset(handle, (axisObjectEntry).pdoObject, &offset); \
+        (axisObjectEntry).pdoOffset = offset + (axisObjectEntry).pdoObjectOffset; }
 
 uint32_t EC_SLV_APP_CiA_fetchPDOffsets(void* pContext_p)
 {
@@ -1172,22 +1175,22 @@ uint32_t EC_SLV_APP_CiA_fetchPDOffsets(void* pContext_p)
 
     for ( axisIter = 0; axisIter < AXES_NUMBER; ++axisIter)
     {
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].controlWordIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].statusWordIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].quickStopIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].shutdownIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].disableOperationIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].faultReactionIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].modesOfOperationIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].modesOfOperationDisplayIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].positionActualValueIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].velocityActualValueIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].targetTorqueIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].torqueActualValueIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].targetPositionIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].swPositionLimitIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].targetVelocityIndex);
-        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->CiA402_axisData[axisIter].supportedDriveModesIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].controlWordIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].statusWordIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].quickStopIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].shutdownIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].disableOperationIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].faultReactionIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].modesOfOperationIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].modesOfOperationDisplayIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].positionActualValueIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].velocityActualValueIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].targetTorqueIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].torqueActualValueIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].targetPositionIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].swPositionLimitIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].targetVelocityIndex);
+        EC_SLV_APP_CoE_GETPDOOFFSETS(pApp_p->ptEcSlvApi, pApp_p->CiA402_axisData[axisIter].supportedDriveModesIndex);
     }
 
     err = EC_API_SLV_eERR_NO_ERROR;

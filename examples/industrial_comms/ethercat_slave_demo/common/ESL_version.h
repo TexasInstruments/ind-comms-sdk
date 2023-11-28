@@ -52,8 +52,8 @@
 extern "C" {
 #endif
 
-extern void             ESL_dumpVersions    (void);
-extern EC_API_EError_t  ESL_setSWVersion    (EC_API_SLV_SHandle_t*  pEcSlave_p);
+extern void             ESL_dumpVersions    (EC_API_SLV_SHandle_t*  pEcSlave);
+extern EC_API_EError_t  ESL_setSWVersion    (EC_API_SLV_SHandle_t*  pEcSlave);
 
 #if (defined __cplusplus)
 }

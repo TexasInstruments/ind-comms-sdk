@@ -2,12 +2,12 @@ include ./makefile.*.r5f.ti-arm-clang
 
 ifeq ($(OS),Windows_NT)
 	FIXCR=.\unix2dos
-	PATCH=powershell -command start-process -wait .\patch -ArgumentList \'-p1 --ignore-whitespace --input bkhfSsc_kunbus_ssc.patch\'
+	PATCH=powershell -command start-process -wait .\patch -ArgumentList \'-p1 --ignore-whitespace --input bkhf_ssc_kunbus_ssc.patch\'
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		export FIXCR=dos2unix
-		export PATCH=patch -p1 --ignore-whitespace --input bkhfSsc_kunbus_ssc.patch
+		export PATCH=patch -p1 --ignore-whitespace --input bkhf_ssc_kunbus_ssc.patch
 	endif
 endif
 
@@ -23,7 +23,7 @@ ssc: clean cleanssc patchssc $(LIBDIR)/$(LIBNAME) copyssc
 patchssc:
 	@echo  .
 	$(FIXCR) SlaveFiles/src/*
-	$(FIXCR) bkhfSsc_kunbus_ssc.patch
+	$(FIXCR) bkhf_ssc_kunbus_ssc.patch
 	$(PATCH)
 	echo patched original SSC sources
 	@echo  .
@@ -31,9 +31,9 @@ patchssc:
 copyssc:
 	@echo  .
 ifneq (,$(findstring am243x,$(LIBNAME)))
-	$(COPY) $(LIBDIR)/$(LIBNAME) ../$(subst am243x,am243x_alx,$(LIBNAME))
-	$(COPY) $(LIBDIR)/$(LIBNAME) ../$(subst am243x,am243x_alv,$(LIBNAME))
-	@echo copied custom SSC libraries to ../$(subst am243x,am243x_alx,$(LIBNAME)) and ../$(subst am243x,am243x_alv,$(LIBNAME))
+	$(COPY) $(LIBDIR)/$(LIBNAME) ../$(subst am243x,am243x_lp,$(LIBNAME))
+	$(COPY) $(LIBDIR)/$(LIBNAME) ../$(subst am243x,am243x_evm,$(LIBNAME))
+	@echo copied custom SSC libraries to ../$(subst am243x,am243x_lp,$(LIBNAME)) and ../$(subst am243x,am243x_evm,$(LIBNAME))
 else
 	$(COPY) $(LIBDIR)/$(LIBNAME) ../$(LIBNAME)
 	@echo copied custom SSC library to ../$(LIBNAME)

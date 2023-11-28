@@ -127,7 +127,7 @@ MEMORY
     R5F_TCMA : ORIGIN = 0x00000040 , LENGTH = 0x00007FC0
     R5F_TCMB0: ORIGIN = 0x41010000 , LENGTH = 0x00008000
 
-    MSRAM    : ORIGIN = 0x70100000 , LENGTH = 0x000A8000
+    MSRAM    : ORIGIN = 0x70080000 , LENGTH = 0x00128000
 
     /* shared memories that are used by all cores */
     /* On R5F,

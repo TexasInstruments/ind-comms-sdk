@@ -47,14 +47,7 @@
 #include "project.h"
 #include "ecSlvSimple.h"
 
-#if (defined DPRAM_REMOTE) && (DPRAM_REMOTE==1)
- #include <DPR_Api.h>
- /* DPR implementation */
- #if (defined DPRIMPL_SHAREDRAM) && (DPRIMPL_SHAREDRAM==1)
-  /* Shared RAM not TriPort */
-  #include <dprLib_sharedMemory.h>
- #endif
-#elif (defined FBTL_REMOTE) && (FBTL_REMOTE==1)
+#if (defined FBTL_REMOTE) && (FBTL_REMOTE==1)
 #if (defined FBTLIMPL_LINEUART) && (1==FBTLIMPL_LINEUART)
  #include "sysLib_lineUart.h"
 #else
@@ -112,6 +105,11 @@ static void EC_SLV_APP_CTT_loopTask(void* pArg_p)
     /* cppcheck-suppress misra-c2012-11.5 */
     EC_SLV_APP_CTT_Application_t*   pApplicationInstance    = (EC_SLV_APP_CTT_Application_t*)pArg_p;
     uint32_t                        error                   = EC_API_eERR_NONE;
+    char *pProductName = NULL;
+    uint32_t vendorId = 0;
+    uint32_t productCode = 0;
+    EC_API_SLV_EEsmState_t          state                   = EC_API_SLV_eESM_uninit;
+    uint16_t                        alErrorCode             = 0;
 
     if (!pApplicationInstance)
     {
@@ -132,17 +130,19 @@ static void EC_SLV_APP_CTT_loopTask(void* pArg_p)
 
     EC_SLV_APP_CTT_applicationInit(pApplicationInstance);
 
-    const uint32_t vendorId = EC_API_SLV_getVendorId(pApplicationInstance->ptEcSlvApi);
-    char * const pProductName = EC_API_SLV_getProductName(pApplicationInstance->ptEcSlvApi);
-    OSAL_printf("%s - %xh\r\n", pProductName, vendorId);
+    EC_API_SLV_getVendorId(pApplicationInstance->ptEcSlvApi, &vendorId);
+    EC_API_SLV_getProductCode(pApplicationInstance->ptEcSlvApi, &productCode);
+    error = EC_API_SLV_getProductName(pApplicationInstance->ptEcSlvApi, &pProductName);
+    OSAL_printf("%s - %xh / %xh\r\n", pProductName, vendorId, productCode);
 
     /* spit out versions */
-    ESL_dumpVersions();
+    ESL_dumpVersions(pApplicationInstance->ptEcSlvApi);
 
     for(;;)
     {
         EC_API_SLV_mainLoopCyclic();
-        if (EC_API_SLV_eESM_init < EC_API_SLV_getState())
+        EC_API_SLV_getState(pApplicationInstance->ptEcSlvApi, &state, &alErrorCode);
+        if (EC_API_SLV_eESM_init < state)
         {
             OSAL_SCHED_yield();
         }
@@ -176,6 +176,7 @@ static void EC_SLV_APP_CTT_mainTask(void* pArg_p)
             true,
             1,
             "Application instance missing!!!\r\n");
+            goto Exit;
     }
 
     retVal = ESL_OS_boardInit(applicationInstance->selectedPruInstance);
@@ -333,9 +334,7 @@ static uint32_t EC_SLV_APP_CTT_remoteInit(EC_SLV_APP_CTT_Application_t *applicat
         goto Exit;
     }
 
-#if (defined DPRAM_REMOTE) && (DPRAM_REMOTE==1)
-    retVal = DPRLIB_init(applicationInstance->gpioHandle, false);
-#elif (defined FBTL_REMOTE) && (FBTL_REMOTE==1)
+#if (defined FBTL_REMOTE) && (FBTL_REMOTE==1)
 #if (defined FBTLIMPL_LINEUART) && (FBTLIMPL_LINEUART==1)
     retVal = SYSLIB_createLibInstanceLine(  FBTL_LINE_UART_NAME,
                                             FBTL_MAX_ASYNC_LEN, FBTL_MAX_ASYNC_LEN,
@@ -367,22 +366,7 @@ static uint32_t EC_SLV_APP_CTT_remoteInit(EC_SLV_APP_CTT_Application_t *applicat
     {
         OSAL_printf("\r\nLocal Implementation\r\n");
     }
-#if (defined DPRAM_REMOTE) && (DPRAM_REMOTE==1)
-        else if(EC_API_eERR_NONE == retVal)
-    {
-        OSAL_printf("\r\nDPRAM usage\r\n");
-
-        retVal = EC_API_SLV_DPR_configuration(dprRamBase(), dprRamSize());
-        if(EC_API_eERR_NONE != retVal)
-        {
-            OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, retVal);
-            OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-            /* cppcheck-suppress misra-c2012-15.1 */
-            goto Exit;
-        }
-    }
-#elif (defined FBTL_REMOTE) && (FBTL_REMOTE==1)
+#if (defined FBTL_REMOTE) && (FBTL_REMOTE==1)
     else if(EC_API_eERR_NONE == retVal)
     {
         retVal = EC_API_SLV_FBTL_configuration(applicationInstance->remoteHandle);

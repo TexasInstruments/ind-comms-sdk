@@ -21,12 +21,13 @@
 
 #include "ssc_backend.h"
 #include <pru_syncManager.h>
-#include <ecSlvApi_Eeprom.h>
+
 #if EXPLICITWARN
 #warning this object dictionary here has to be filled with life by API !!!!!
 #endif
 #if !KUNBUS_SSC_EVAL
     #define KUNBUS_SSC_LICENSE "VALIDETGMEMBER"
+    extern uint32_t EC_SLV_INT_SSC_setLicense(char* pLicense, uint8_t length);
 #endif
 
 /* Beckhoff variable from SSC 5.12 */
@@ -149,7 +150,7 @@ uint16_t APPL_GenerateMapping(uint16_t *pi16uInputSize, uint16_t *pi16OutputSize
 uint16_t APPL_StartMailboxHandler(void)
 {
 #if !KUNBUS_SSC_EVAL
-    EC_API_SLV_SSC_setLicense(KUNBUS_SSC_LICENSE, strlen(KUNBUS_SSC_LICENSE));
+    EC_SLV_INT_SSC_setLicense(KUNBUS_SSC_LICENSE, strlen(KUNBUS_SSC_LICENSE));
 #endif
     return SSC_startMailboxHandler();
 }

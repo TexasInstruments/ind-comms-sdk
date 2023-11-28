@@ -45,8 +45,8 @@
 
 
 #include <ecSlvApi.h>
-#include <ecSlvApi_Error.h>
-#include <ecSlvApiDef.h>
+#include <defines/ecSlvApiDef_error.h>
+#include <defines/ecSlvApiDef.h>
 #include <stdint.h>
 
 #if (defined __cplusplus)

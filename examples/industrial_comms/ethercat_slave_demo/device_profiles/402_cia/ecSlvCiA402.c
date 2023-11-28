@@ -46,7 +46,7 @@
  ------
  -----------------------------------------------------------------------------------------*/
 #include <ecSlvApi.h>
-#include <ecSlvApiDef.h>
+#include <defines/ecSlvApiDef.h>
 #include "ecSlvCiA402.h"
 #include "ESL_cia402Obd.h"
 #include "ESL_cia402Demo.h"
@@ -352,10 +352,10 @@ static EC_API_EError_t EC_SLV_APP_populateCiA402Functions(EC_SLV_APP_CIA_Applica
     ptSlave = pApplicationInstance_p->ptEcSlvApi;
 
     EC_API_SLV_CiA402_setAxisNumber         (ptSlave, AXES_NUMBER);
-    EC_API_SLV_CiA402_registerSetDictValues (ptSlave, pApplicationInstance_p, EC_SLV_APP_setObdValues);
-    EC_API_SLV_CiA402_registerApplication   (ptSlave, pApplicationInstance_p, EC_SLV_APP_cia402Application);
-    EC_API_SLV_CiA402_registerLocalError    (ptSlave, pApplicationInstance_p, EC_SLV_APP_cia402LocalError);
-    EC_API_SLV_cbRegisterStartInputHandler  (ptSlave, pApplicationInstance_p, EC_SLV_APP_CIA_startInputHandler);
+    EC_API_SLV_CiA402_registerSetDictValues (ptSlave, EC_SLV_APP_setObdValues, pApplicationInstance_p);
+    EC_API_SLV_CiA402_registerApplication   (ptSlave, EC_SLV_APP_cia402Application, pApplicationInstance_p);
+    EC_API_SLV_CiA402_registerLocalError    (ptSlave, EC_SLV_APP_cia402LocalError, pApplicationInstance_p);
+    EC_API_SLV_cbRegisterStartInputHandler  (ptSlave, EC_SLV_APP_CIA_startInputHandler, pApplicationInstance_p);
 
     error = (EC_API_EError_t)EC_SLV_APP_cia402ObjectDictionary(pApplicationInstance_p);
     if (error != EC_API_eERR_NONE)
@@ -399,7 +399,8 @@ static EC_API_EError_t EC_SLV_APP_populateRxPDO(EC_SLV_APP_CIA_Application_t* pA
     EC_API_SLV_SHandle_t*       ptSlave     = NULL;
     uint16_t                    rxIndex     = RXPDOMAP_INDEX + axis_p;
     EC_API_SLV_SCoE_ObjEntry_t* pObjEntry   = NULL;
-    uint16_t                    curOffset   = 0;
+    uint32_t                    curOffset   = 0;
+    uint32_t                    offset      = 0;
     uint8_t                     subIndex    = 0;
 
     if (!pApplicationInstance_p)
@@ -440,8 +441,8 @@ static EC_API_EError_t EC_SLV_APP_populateRxPDO(EC_SLV_APP_CIA_Application_t* pA
         /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
     }
-
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
     subIndex++;
 
     error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, pApplicationInstance_p->CiA402_axisData[axis_p].modesOfOperationIndex.objectIndex, 0, &pObjEntry);
@@ -465,7 +466,8 @@ static EC_API_EError_t EC_SLV_APP_populateRxPDO(EC_SLV_APP_CIA_Application_t* pA
         goto Exit;
     }
 
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
     subIndex++;
 
     error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, pApplicationInstance_p->CiA402_axisData[axis_p].targetPositionIndex.objectIndex, 0, &pObjEntry);
@@ -489,7 +491,8 @@ static EC_API_EError_t EC_SLV_APP_populateRxPDO(EC_SLV_APP_CIA_Application_t* pA
         goto Exit;
     }
 
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
     subIndex++;
 
     error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, pApplicationInstance_p->CiA402_axisData[axis_p].targetVelocityIndex.objectIndex, 0, &pObjEntry);
@@ -513,7 +516,8 @@ static EC_API_EError_t EC_SLV_APP_populateRxPDO(EC_SLV_APP_CIA_Application_t* pA
         goto Exit;
     }
 
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
     subIndex++;
 
     error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, pApplicationInstance_p->CiA402_axisData[axis_p].targetTorqueIndex.objectIndex, 0, &pObjEntry);
@@ -537,8 +541,8 @@ static EC_API_EError_t EC_SLV_APP_populateRxPDO(EC_SLV_APP_CIA_Application_t* pA
         goto Exit;
     }
 
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
-    subIndex++;
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
 
     pApplicationInstance_p->realPdoInLen = curOffset;
 
@@ -575,7 +579,8 @@ static EC_API_EError_t EC_SLV_APP_populateTxPDO(EC_SLV_APP_CIA_Application_t* pA
     EC_API_SLV_SHandle_t*       ptSlave     = NULL;
     uint16_t                    txIndex     = TXPDOMAP_INDEX + axis_p;
     EC_API_SLV_SCoE_ObjEntry_t* pObjEntry   = NULL;
-    uint16_t                    curOffset   = 0;
+    uint32_t                    curOffset   = 0;
+    uint32_t                    offset      = 0;
     uint8_t                     subIndex    = 0;
 
     if (!pApplicationInstance_p)
@@ -617,7 +622,8 @@ static EC_API_EError_t EC_SLV_APP_populateTxPDO(EC_SLV_APP_CIA_Application_t* pA
         goto Exit;
     }
 
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
     subIndex++;
 
     error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, pApplicationInstance_p->CiA402_axisData[axis_p].modesOfOperationDisplayIndex.objectIndex, 0, &pObjEntry);
@@ -641,7 +647,8 @@ static EC_API_EError_t EC_SLV_APP_populateTxPDO(EC_SLV_APP_CIA_Application_t* pA
         goto Exit;
     }
 
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
     subIndex++;
 
     error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, pApplicationInstance_p->CiA402_axisData[axis_p].positionActualValueIndex.objectIndex, 0, &pObjEntry);
@@ -665,7 +672,8 @@ static EC_API_EError_t EC_SLV_APP_populateTxPDO(EC_SLV_APP_CIA_Application_t* pA
         goto Exit;
     }
 
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
     subIndex++;
 
     error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, pApplicationInstance_p->CiA402_axisData[axis_p].velocityActualValueIndex.objectIndex, 0, &pObjEntry);
@@ -689,7 +697,8 @@ static EC_API_EError_t EC_SLV_APP_populateTxPDO(EC_SLV_APP_CIA_Application_t* pA
         goto Exit;
     }
 
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
     subIndex++;
 
     error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, pApplicationInstance_p->CiA402_axisData[axis_p].torqueActualValueIndex.objectIndex, 0, &pObjEntry);
@@ -713,8 +722,8 @@ static EC_API_EError_t EC_SLV_APP_populateTxPDO(EC_SLV_APP_CIA_Application_t* pA
         goto Exit;
     }
 
-    curOffset += BIT2BYTE(EC_API_SLV_PDO_getEntryDataLength(pPdo_p, subIndex));
-    subIndex++;
+    EC_API_SLV_PDO_getEntryDataLength(ptSlave, pPdo_p, subIndex, &offset);
+    curOffset += BIT2BYTE(offset);
 
     pApplicationInstance_p->realPdoOutLen = curOffset;
 
@@ -789,18 +798,15 @@ static OSAL_FUNC_UNUSED void EC_SLV_APP_CIA_boardPhyReset(void* pCtxt_p, uint8_t
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]  pCallContext_p Board phy context.
- *  \param[in]  pLedContext_p  Led context.
  *  \param[in]  phyIdx_p  phy id.
  *  \param[in]  bReset_p  reset value.
  *
  */
-static void EC_SLV_APP_CIA_appBoardStatusLed(void* pCallContext_p, void* pLedContext_p, bool runLed_p, bool errLed_p)
+static void EC_SLV_APP_CIA_appBoardStatusLed(void* pCallContext_p, bool runLed_p, bool errLed_p)
 {
     /* @cppcheck_justify{misra-c2012-11.5} generic API requires cast */
     /* cppcheck-suppress misra-c2012-11.5 */
     EC_SLV_APP_CIA_Application_t*  pApplicationInstance    = (EC_SLV_APP_CIA_Application_t*)pCallContext_p;
-
-    OSALUNREF_PARM(pLedContext_p);
 
     if (NULL == pApplicationInstance)
     {
@@ -839,9 +845,9 @@ static EC_API_EError_t EC_SLV_APP_CIA_populateBoardFunctions(EC_SLV_APP_CIA_Appl
         goto Exit;
     }
 
-    EC_API_SLV_cbRegisterBoardStatusLed(pApplicationInstance->ptEcSlvApi, pApplicationInstance
+    EC_API_SLV_cbRegisterBoardStatusLed(pApplicationInstance->ptEcSlvApi
                                         ,EC_SLV_APP_CIA_appBoardStatusLed
-                                       ,&pApplicationInstance->selectedPruInstance);
+                                        ,pApplicationInstance);
 
     error = EC_API_eERR_NONE;
 Exit:
@@ -920,9 +926,9 @@ void EC_SLV_APP_CIA_registerStacklessBoardFunctions(EC_SLV_APP_CIA_Application_t
     }
 
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
-    ESL_BOARD_OS_registerPhys(pAppInstance_p->selectedPruInstance);
+    ESL_BOARD_OS_registerPhys(pAppInstance_p->ptEcSlvApi, pAppInstance_p->selectedPruInstance);
 
-    EC_API_SLV_cbRegisterPhyReset(EC_SLV_APP_CIA_boardPhyReset, pAppInstance_p);
+    EC_API_SLV_cbRegisterPhyReset(pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CIA_boardPhyReset, pAppInstance_p);
 #endif
 
 Exit:
@@ -1054,20 +1060,20 @@ void EC_SLV_APP_CIA_applicationInit(EC_SLV_APP_CIA_Application_t* pAppInstance_p
     }
 
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
-    EC_API_SLV_cbRegisterFlashInit              (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_initFlash);
+    EC_API_SLV_cbRegisterFlashInit              (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_initFlash, pAppInstance_p->ptEcSlvApi);
     /* @cppcheck_justify{misra-c2012-11.6} generic API requires cast */
     /* cppcheck-suppress misra-c2012-11.6 */
-    EC_API_SLV_EEPROM_cbRegisterWrite           (pAppInstance_p->ptEcSlvApi, OSPIFLASH_APP_STARTMAGIC,   EC_SLV_APP_EEP_writeEeprom);
+    EC_API_SLV_EEPROM_cbRegisterWrite           (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_writeEeprom, OSPIFLASH_APP_STARTMAGIC);
     /* @cppcheck_justify{misra-c2012-11.6} generic API requires cast */
     /* cppcheck-suppress misra-c2012-11.6 */
-    EC_API_SLV_EEPROM_cbRegisterLoad            (pAppInstance_p->ptEcSlvApi, OSPIFLASH_APP_STARTMAGIC,   EC_SLV_APP_EEP_loadEeprom);
+    EC_API_SLV_EEPROM_cbRegisterLoad            (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_loadEeprom, OSPIFLASH_APP_STARTMAGIC);
 
-    EC_API_SLV_cbRegisterUserApplicationRun     (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CIA_applicationRun, pAppInstance_p);
+    EC_API_SLV_cbRegisterUserApplicationRun     (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CIA_applicationRun, pAppInstance_p);
 #endif
 
 #if (defined GPIO_TEST_PINS) && (1==GPIO_TEST_PINS)
 #if (defined GPIO_TEST_PROFILE_SEL) && (defined GPIO_TEST_PROFILE_2) && (GPIO_TEST_PROFILE_2 == GPIO_TEST_PROFILE_SEL)
-    EC_API_SLV_cbRegisterMeasurement(pAppInstance_p->ptEcSlvApi, pAppInstance_p, EC_SLV_APP_measurement);
+    EC_API_SLV_cbRegisterMeasurement(pAppInstance_p->ptEcSlvApi, EC_SLV_APP_measurement, pAppInstance_p);
 #endif
 #endif
 

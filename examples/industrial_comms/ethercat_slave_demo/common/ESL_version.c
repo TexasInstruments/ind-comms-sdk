@@ -70,7 +70,7 @@
  *  \ingroup EC_SLV_APP
  *
  * */
-void ESL_dumpVersions(void)
+void ESL_dumpVersions(EC_API_SLV_SHandle_t*  pEcSlave)
 {
     uint32_t dwVersion = 0;
     uint32_t dwStrVersRd = 0;
@@ -79,13 +79,13 @@ void ESL_dumpVersions(void)
 
     OSAL_printf("\r\n"
                 "****EC Slave*********************************************************\r\n");
-    dwVersion = EC_API_SLV_getVersion();
+    EC_API_SLV_getVersion(pEcSlave, &dwVersion);
     OSAL_printf("Numeric Version: 0x%08X\r\n", dwVersion);
-    if (0 == EC_API_SLV_getVersionStr(sizeof(strVersion), strVersion, &dwStrVersRd))
+    if (0 == EC_API_SLV_getVersionStr(pEcSlave, sizeof(strVersion), strVersion, &dwStrVersRd))
     {
         OSAL_printf("Friendly Version: <%s>\r\n", strVersion);
     }
-    if (0 == EC_API_SLV_getVersionId(sizeof(strGit), strGit, &dwStrVersRd))
+    if (0 == EC_API_SLV_getVersionId(pEcSlave, sizeof(strGit), strGit, &dwStrVersRd))
     {
         OSAL_printf("Source Id: <%s>\r\n", strGit);
     }
@@ -116,13 +116,13 @@ void ESL_dumpVersions(void)
     OSAL_printf("*********************************************************************\r\n");
 }
 
-EC_API_EError_t ESL_setSWVersion(EC_API_SLV_SHandle_t* pEcSlave_p)
+EC_API_EError_t ESL_setSWVersion(EC_API_SLV_SHandle_t* pEcSlave)
 {
     EC_API_EError_t retVal      = EC_API_eERR_INVALID;
     char            aszVersion[sizeof("x.xx.xx")]   = {0};
     uint32_t        version;
 
-    if (!pEcSlave_p)
+    if (!pEcSlave)
     {
         /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
         /* cppcheck-suppress misra-c2012-15.1 */
@@ -132,7 +132,7 @@ EC_API_EError_t ESL_setSWVersion(EC_API_SLV_SHandle_t* pEcSlave_p)
 #if (defined KUNBUS_EC_STACK_REVISION)
     version = KUNBUS_EC_STACK_REVISION;
 #else
-    version = EC_API_SLV_getVersion();
+    EC_API_SLV_getVersion(pEcSlave, &version);
 #endif
 
     snprintf(aszVersion, sizeof(aszVersion), "%01u.%02u.%02u",
@@ -141,7 +141,7 @@ EC_API_EError_t ESL_setSWVersion(EC_API_SLV_SHandle_t* pEcSlave_p)
              ((uint8_t)((version >>  0) & 0xff))
              );
 
-    retVal = (EC_API_EError_t)EC_API_SLV_setSwVersion(pEcSlave_p, aszVersion);
+    retVal = (EC_API_EError_t)EC_API_SLV_setSwVersion(pEcSlave, aszVersion);
     if (retVal != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, retVal);

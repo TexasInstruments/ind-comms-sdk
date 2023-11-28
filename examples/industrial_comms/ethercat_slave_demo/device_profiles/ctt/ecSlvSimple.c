@@ -54,7 +54,7 @@
 -----------------------------------------------------------------------------------------*/
 
 #include <ecSlvSimple.h>
-#include <ecSlvApiDef.h>
+#include <defines/ecSlvApiDef.h>
 #include "project.h"
 #include "ecSlvSimple.h"
 
@@ -875,6 +875,8 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
     EC_API_SLV_SCoE_ObjEntry_t*     ptObjEntry;
     EC_API_SLV_SCoE_Object_t*       ptCoEObj;
     uint32_t                        value;
+    uint16_t                        offset;
+    uint16_t                        length;
 
     if (!pApplicationInstance_p)
     {
@@ -895,7 +897,11 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_getInputProcDataLength(ptSlave);
+    error = EC_API_SLV_getInputProcDataLength(ptSlave, &value);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
     error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
@@ -917,7 +923,12 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_getOutputProcDataLength(ptSlave);
+    error = EC_API_SLV_getOutputProcDataLength(ptSlave, &value);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     OSAL_printf("%s:%d PDO Out Len: 0x%lx\r\n", __func__, __LINE__, value);
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
@@ -940,10 +951,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptTxPdo1A00);
+    error = EC_API_SLV_PDO_getOffset(ptSlave, pApplicationInstance_p->ptTxPdo1A00, &offset);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, &offset);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -953,7 +969,7 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
     }
 
     /* TxPDO Length */
-    error =  (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2006, 2, &ptObjEntry);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2006, 2, &ptObjEntry);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -962,54 +978,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptTxPdo1A00);
+    error = EC_API_SLV_PDO_getLength(ptSlave, pApplicationInstance_p->ptTxPdo1A00, &length);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* TxPDO2 Offset */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2006, 3, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptTxPdo1A01);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* TxPDO2 Length */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2006, 4, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptTxPdo1A01);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, &length);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1028,10 +1005,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptRxPdo1600);
+    error = EC_API_SLV_PDO_getOffset(ptSlave, pApplicationInstance_p->ptRxPdo1600, &offset);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, &offset);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1050,54 +1032,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptRxPdo1600);
+    error = EC_API_SLV_PDO_getLength(ptSlave, pApplicationInstance_p->ptRxPdo1600, &length);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* RxPDO2 Offset */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2006, 7, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptRxPdo1601);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* RxPDO2 Length */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2006, 8, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptRxPdo1601);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, &length);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1116,7 +1059,12 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_getInputProcDataLength(ptSlave);
+    error = EC_API_SLV_getInputProcDataLength(ptSlave, &value);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
     error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
@@ -1138,7 +1086,12 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_getOutputProcDataLength(ptSlave);
+    error = EC_API_SLV_getOutputProcDataLength(ptSlave, &value);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
     error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
@@ -1160,10 +1113,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptTxPdo1A00);
+    error = EC_API_SLV_PDO_getOffset(ptSlave, pApplicationInstance_p->ptTxPdo1A00, &offset);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, &offset);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1182,142 +1140,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptTxPdo1A00);
+    error = EC_API_SLV_PDO_getLength(ptSlave, pApplicationInstance_p->ptTxPdo1A00, &length);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* TxPDO2 Offset */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2007, 5, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptTxPdo1A01);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* TxPDO2 Length */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2007, 6, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptTxPdo1A01);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* RxPDO Offset */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2007, 7, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptRxPdo1601);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* RxPDO Length */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2007, 8, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptRxPdo1601);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* RxPDO2 Offset */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2007, 9, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptRxPdo1601);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* RxPDO2 Length */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObjectEntry(ptSlave, 0x2007, 10, &ptObjEntry);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptRxPdo1601);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectEntryData(ptSlave, ptObjEntry, 2, &length);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1336,7 +1167,12 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_getInputProcDataLength(ptSlave);
+    error = EC_API_SLV_getInputProcDataLength(ptSlave, &value);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
     error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
@@ -1358,7 +1194,12 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_getOutputProcDataLength(ptSlave);
+    error = EC_API_SLV_getOutputProcDataLength(ptSlave, &value);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
     error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
@@ -1380,10 +1221,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptTxPdo1A00);
+    error = EC_API_SLV_PDO_getOffset(ptSlave, pApplicationInstance_p->ptTxPdo1A00, &offset);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, &offset);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1402,54 +1248,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptTxPdo1A00);
+    error = EC_API_SLV_PDO_getLength(ptSlave, pApplicationInstance_p->ptTxPdo1A00, &length);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* TxPDO Offset 2*/
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObject(ptSlave, 0x200D, &ptCoEObj);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptTxPdo1A01);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* TxPDO Len 2 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObject(ptSlave, 0x2010, &ptCoEObj);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptTxPdo1A01);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&length);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1468,10 +1275,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptRxPdo1600);
+    error = EC_API_SLV_PDO_getOffset(ptSlave, pApplicationInstance_p->ptRxPdo1600, &offset);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, &offset);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1490,54 +1302,15 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
         goto Exit;
     }
 
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptRxPdo1600);
+    error = EC_API_SLV_PDO_getLength(ptSlave, pApplicationInstance_p->ptRxPdo1600, &length);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* RxPDO Offset 2*/
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObject(ptSlave, 0x2013, &ptCoEObj);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getOffset(pApplicationInstance_p->ptRxPdo1601);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    /* RxPDO Len 2 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_getObject(ptSlave, 0x2014, &ptCoEObj);
-    if (error != EC_API_eERR_NONE)
-    {
-        OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
-    value = EC_API_SLV_PDO_getLength(pApplicationInstance_p->ptRxPdo1601);
-    /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
-    /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, &length);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1627,7 +1400,12 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateTxPDO(EC_SLV_APP_CTT_Application_t
 
     ptSlave = pApplicationInstannce_p->ptEcSlvApi;
 
-    error = (EC_API_EError_t)EC_API_SLV_PDO_create(ptSlave, "TxPDO", 0x1A00, &pApplicationInstannce_p->ptTxPdo1A00);
+    error = (EC_API_EError_t)EC_API_SLV_PDO_create(
+        ptSlave,
+        "TxPDO",
+        0x1A00,
+        &pApplicationInstannce_p->ptTxPdo1A00
+    );
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("Create PDO 0x1A00 Error code: 0x%08x\r\n", error);
@@ -1647,7 +1425,12 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateTxPDO(EC_SLV_APP_CTT_Application_t
         if(EC_API_eERR_NONE == error)
         {
             (void)sprintf(aPdoEntryName, "SubIndex %d", subIdx);
-            error = (EC_API_EError_t)EC_API_SLV_PDO_createEntry(ptSlave, pApplicationInstannce_p->ptTxPdo1A00, aPdoEntryName, ptObjEntry);
+            error = (EC_API_EError_t)EC_API_SLV_PDO_createEntry(
+                ptSlave,
+                pApplicationInstannce_p->ptTxPdo1A00,
+                aPdoEntryName,
+                ptObjEntry
+            );
             if (error != EC_API_eERR_NONE)
             {
                 OSAL_printf("%s:%d Variable Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1678,13 +1461,11 @@ static OSAL_FUNC_UNUSED void EC_SLV_APP_CTT_boardPhyReset(void* pCtxt_p, uint8_t
 }
 #endif
 
-static void EC_SLV_APP_CTT_appBoardStatusLed(void* pCallContext_p, void* pLedContext_p, bool runLed_p, bool errLed_p)
+static void EC_SLV_APP_CTT_appBoardStatusLed(void* pCallContext_p, bool runLed_p, bool errLed_p)
 {
     /* @cppcheck_justify{misra-c2012-11.5} generic API requires cast */
     /* cppcheck-suppress misra-c2012-11.5 */
     EC_SLV_APP_CTT_Application_t*  pApplicationInstance    = (EC_SLV_APP_CTT_Application_t*)pCallContext_p;
-
-    OSALUNREF_PARM(pLedContext_p);
 
     if (NULL == pApplicationInstance)
     {
@@ -1709,9 +1490,10 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateBoardFunctions(EC_SLV_APP_CTT_Appl
         goto Exit;
     }
 
-    EC_API_SLV_cbRegisterBoardStatusLed(pApplicationInstance->ptEcSlvApi, pApplicationInstance
-                                        ,EC_SLV_APP_CTT_appBoardStatusLed
-                                       ,&pApplicationInstance->selectedPruInstance);
+    EC_API_SLV_cbRegisterBoardStatusLed(
+        pApplicationInstance->ptEcSlvApi,
+        EC_SLV_APP_CTT_appBoardStatusLed,
+        pApplicationInstance);
 
     error = EC_API_eERR_NONE;
 Exit:
@@ -1767,11 +1549,11 @@ void EC_SLV_APP_CTT_registerStacklessBoardFunctions(const EC_SLV_APP_CTT_Applica
     }
 
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
-    ESL_BOARD_OS_registerPhys(pAppInstance_p->selectedPruInstance);
+    ESL_BOARD_OS_registerPhys(pAppInstance_p->ptEcSlvApi, pAppInstance_p->selectedPruInstance);
 
     /* @cppcheck_justify{misra-c2012-11.8} cast here or get const error on parm */
     /* cppcheck-suppress misra-c2012-11.8 */
-    EC_API_SLV_cbRegisterPhyReset(EC_SLV_APP_CTT_boardPhyReset, (void*)pAppInstance_p);
+    EC_API_SLV_cbRegisterPhyReset(pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CTT_boardPhyReset, (void*)pAppInstance_p);
 #endif
 
 Exit:
@@ -1920,25 +1702,25 @@ void EC_SLV_APP_CTT_applicationInit(EC_SLV_APP_CTT_Application_t* pAppInstance_p
     }
 
     /*EoE*/
-    EC_API_SLV_EoE_cbRegisterReceiveHandler     (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EoE_CTT_receiveHandler);
-    EC_API_SLV_EoE_cbRegisterSettingIndHandler  (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EoE_settingIndHandler);
+    EC_API_SLV_EoE_cbRegisterReceiveHandler     (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EoE_CTT_receiveHandler, pAppInstance_p);
+    EC_API_SLV_EoE_cbRegisterSettingIndHandler  (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EoE_settingIndHandler, pAppInstance_p);
 
     /*FoE*/
-    EC_API_SLV_FoE_cbRegisterOpenFileHandler    (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileOpen);
-    EC_API_SLV_FoE_cbRegisterReadFileHandler    (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileRead);
-    EC_API_SLV_FoE_cbRegisterWriteFileHandler   (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileWrite);
-    EC_API_SLV_FoE_cbRegisterCloseFileHandler   (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileClose);
+    EC_API_SLV_FoE_cbRegisterOpenFileHandler    (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileOpen, pAppInstance_p->ptEcSlvApi);
+    EC_API_SLV_FoE_cbRegisterReadFileHandler    (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileRead, pAppInstance_p->ptEcSlvApi);
+    EC_API_SLV_FoE_cbRegisterWriteFileHandler   (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileWrite, pAppInstance_p->ptEcSlvApi);
+    EC_API_SLV_FoE_cbRegisterCloseFileHandler   (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileClose, pAppInstance_p->ptEcSlvApi);
 
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
-    EC_API_SLV_cbRegisterFlashInit              (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_initFlash);
+    EC_API_SLV_cbRegisterFlashInit              (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_initFlash, pAppInstance_p);
     /* @cppcheck_justify{misra-c2012-11.6} void cast required for signature */
     /* cppcheck-suppress misra-c2012-11.6 */
-    EC_API_SLV_EEPROM_cbRegisterWrite           (pAppInstance_p->ptEcSlvApi, OSPIFLASH_APP_STARTMAGIC,   EC_SLV_APP_EEP_writeEeprom);
+    EC_API_SLV_EEPROM_cbRegisterWrite           (pAppInstance_p->ptEcSlvApi,   EC_SLV_APP_EEP_writeEeprom, OSPIFLASH_APP_STARTMAGIC);
     /* @cppcheck_justify{misra-c2012-11.6} void cast required for signature */
     /* cppcheck-suppress misra-c2012-11.6 */
-    EC_API_SLV_EEPROM_cbRegisterLoad            (pAppInstance_p->ptEcSlvApi, OSPIFLASH_APP_STARTMAGIC,   EC_SLV_APP_EEP_loadEeprom);
+    EC_API_SLV_EEPROM_cbRegisterLoad            (pAppInstance_p->ptEcSlvApi,   EC_SLV_APP_EEP_loadEeprom, OSPIFLASH_APP_STARTMAGIC);
 #endif
-    EC_API_SLV_cbRegisterUserApplicationRun     (pAppInstance_p->ptEcSlvApi, pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CTT_applicationRun, pAppInstance_p);
+    EC_API_SLV_cbRegisterUserApplicationRun     (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CTT_applicationRun, pAppInstance_p);
 
     error = (EC_API_EError_t)EC_API_SLV_init(pAppInstance_p->ptEcSlvApi);
     if (error != EC_API_eERR_NONE)
@@ -1969,14 +1751,18 @@ void EC_SLV_APP_CTT_applicationInit(EC_SLV_APP_CTT_Application_t* pAppInstance_p
 
     pAppInstance_p->prev        = ESL_OS_clockGet();
 
-    EC_API_SLV_run(pAppInstance_p->ptEcSlvApi);
+    error = EC_API_SLV_run(pAppInstance_p->ptEcSlvApi);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
 
 Exit:
     return;
 }
 
 #if (defined SHOW_ESCSTATUS) && (SHOW_ESCSTATUS==1)
-static void EC_SLV_APP_escStatusAnalysis(EC_SLV_APP_Application_t* pAppInstance_p)
+static void EC_SLV_APP_escStatusAnalysis(EC_SLV_APP_CTT_Application_t* pAppInstance_p)
 {
     static
     uint16_t lastPortState      = 0;
@@ -1986,8 +1772,14 @@ static void EC_SLV_APP_escStatusAnalysis(EC_SLV_APP_Application_t* pAppInstance_
     uint16_t lastCounters[8]    = {0};
     uint16_t counters[8]        = {0};
     uint8_t  cntIdx             = 0;
+    uint32_t error;
 
-    portState = EC_API_SLV_readWordEscRegister(pAppInstance_p->ptEcSlvApi, 0x110);
+    error = EC_API_SLV_readWordEscRegister(pAppInstance_p->ptEcSlvApi, 0x110, &portState);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
+
     if (lastPortState != portState)
     {
         OSAL_printf("PortState 0x%04x->0x%04x\r\n", lastPortState, portState);
@@ -1996,7 +1788,11 @@ static void EC_SLV_APP_escStatusAnalysis(EC_SLV_APP_Application_t* pAppInstance_
 
     for (cntIdx = 0; cntIdx < 0x0e; cntIdx += 2)
     {
-        counters[cntIdx>>1] = EC_API_SLV_readWordEscRegister(pAppInstance_p->ptEcSlvApi, (0x300|cntIdx));
+        error = EC_API_SLV_readWordEscRegister(pAppInstance_p->ptEcSlvApi, (0x300|cntIdx), &counters[cntIdx>>1]);
+        if(EC_API_eERR_NONE != error)
+        {
+            OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+        }
     }
 
     if (0 != OSAL_MEMORY_memcmp(counters, lastCounters, sizeof(counters)))
@@ -2030,29 +1826,63 @@ static void EC_SLV_APP_CTT_applicationRun(void* appCtxt)
     static uint32_t pdInLen = ~0;
     uint8_t* pdRxBuffer = NULL;
     uint8_t* pdTxBuffer = NULL;
+    EC_API_SLV_EEsmState_t state = EC_API_SLV_eESM_uninit;
+    uint16_t alErrorCode = 0;
+    uint32_t error;
 
-    if((EC_API_SLV_eESM_op != EC_API_SLV_getState()) && gotPDInfo)
+    error = EC_API_SLV_getState(applicationInstace->ptEcSlvApi, &state, &alErrorCode);
+    if(EC_API_eERR_NONE != error)
+    {
+        OSAL_printf("%s:%d:E=0x%x\r\n", __func__, __LINE__, error);
+    }
+    if((EC_API_SLV_eESM_op != state) && gotPDInfo)
     {
         pdOutLen  = ~0;
         pdInLen   = ~0;
         gotPDInfo = false;
     }
-    if(EC_API_SLV_eESM_op == EC_API_SLV_getState())
+    if(EC_API_SLV_eESM_op == state)
     {
         if(!gotPDInfo)
         {
-            pdOutLen  = BIT2BYTE(EC_API_SLV_getOutputProcDataLength(applicationInstace->ptEcSlvApi));
-            pdInLen   = BIT2BYTE(EC_API_SLV_getInputProcDataLength(applicationInstace->ptEcSlvApi));
+            error = EC_API_SLV_getOutputProcDataLength(applicationInstace->ptEcSlvApi, &pdOutLen);
+            if(EC_API_eERR_NONE != error)
+            {
+                OSAL_printf("%s:%d:E=0x%x\r\n", __func__, __LINE__, error);
+            }
+            error = EC_API_SLV_getInputProcDataLength(applicationInstace->ptEcSlvApi, &pdInLen);
+            if(EC_API_eERR_NONE != error)
+            {
+                OSAL_printf("%s:%d:E=0x%x\r\n", __func__, __LINE__, error);
+            }
+            pdOutLen = BIT2BYTE(pdOutLen);
+            pdInLen = BIT2BYTE(pdInLen);
             gotPDInfo = true;
         }
 
-        EC_API_SLV_preSeqOutputPDBuffer(applicationInstace->ptEcSlvApi, pdOutLen, (void**)&pdRxBuffer);
-        EC_API_SLV_preSeqInputPDBuffer(applicationInstace->ptEcSlvApi, pdInLen, (void**)&pdTxBuffer);
+        error = EC_API_SLV_preSeqOutputPDBuffer(applicationInstace->ptEcSlvApi, pdOutLen, (void**)&pdRxBuffer);
+        if(EC_API_eERR_NONE != error)
+        {
+            OSAL_printf("%s:%d:E=0x%x\r\n", __func__, __LINE__, error);
+        }
+        error = EC_API_SLV_preSeqInputPDBuffer(applicationInstace->ptEcSlvApi, pdInLen, (void**)&pdTxBuffer);
+        if(EC_API_eERR_NONE != error)
+        {
+            OSAL_printf("%s:%d:E=0x%x\r\n", __func__, __LINE__, error);
+        }
 
         //Mirror output data into input data
         OSAL_MEMORY_memcpy(pdTxBuffer, pdRxBuffer, (pdOutLen>pdInLen)?pdInLen:pdOutLen);
 
-        EC_API_SLV_postSeqOutputPDBuffer(applicationInstace->ptEcSlvApi, pdOutLen, pdRxBuffer);
-        EC_API_SLV_postSeqInputPDBuffer(applicationInstace->ptEcSlvApi, pdInLen, pdTxBuffer);
+        error = EC_API_SLV_postSeqOutputPDBuffer(applicationInstace->ptEcSlvApi, pdOutLen, pdRxBuffer);
+        if(EC_API_eERR_NONE != error)
+        {
+            OSAL_printf("%s:%d:E=0x%x\r\n", __func__, __LINE__, error);
+        }
+        error = EC_API_SLV_postSeqInputPDBuffer(applicationInstace->ptEcSlvApi, pdInLen, pdTxBuffer);
+        if(EC_API_eERR_NONE != error)
+        {
+            OSAL_printf("%s:%d:E=0x%x\r\n", __func__, __LINE__, error);
+        }
     }
 }

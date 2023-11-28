@@ -61,9 +61,9 @@ typedef struct EC_SLV_APP_sCIA_object
     uint16_t                        objectIndex;
     EC_API_SLV_SCoE_Object_t*       pSdo;
 
-    EC_API_SLV_Pdo_t*              pdoObject;
-    uint16_t                        pdoObjectOffset;
-    uint16_t                        pdoOffset;
+    EC_API_SLV_Pdo_t*               pdoObject;
+    uint32_t                        pdoObjectOffset;
+    uint32_t                        pdoOffset;
 } EC_SLV_APP_sCIA_object_t;
 
 typedef struct EC_SLV_APP_sCIA_objectEntry
@@ -188,8 +188,8 @@ typedef struct EC_SLV_APP_CIA_application
     EC_API_SLV_Pdo_t*               ptTxPdo1A01;
     EC_API_SLV_Pdo_t*               ptTxPdo1A02;
 
-    uint16_t                        pdoOutLen;
-    uint16_t                        pdoInLen;
+    uint32_t                        pdoOutLen;
+    uint32_t                        pdoInLen;
     uint8_t*                        pdRxBuffer;
     uint8_t*                        pdTxBuffer;
 

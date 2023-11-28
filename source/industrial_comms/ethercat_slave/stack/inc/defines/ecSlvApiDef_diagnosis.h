@@ -8,7 +8,7 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: LicenseRef-Kunbus
  *
  *  Copyright (c) 2023 KUNBUS GmbH
@@ -33,24 +33,9 @@ extern "C" {
 -----------------------------------------------------------------------------------------*/
 
 /**
-* \addtogroup DIAG types and flags
+* \addtogroup DIAG flags
 * @{
 */
-
-/*---------------------------------------------
--    DIAG types
------------------------------------------------*/
-/**
-* \brief This structure handles parameter information
-*/
-typedef struct EC_API_SLV_SDIAG_parameter
-{
-    uint16_t    defType;    /**< \brief paramter type (DEFTYPE_UNSIGNED8, DEFTYPE_UNSIGNED16...) */
-    uint8_t     msgType;    /**< \brief message type (DIAG_MSG_PARAM_TYPE_DATA, DIAG_MSG_PARAM_TYPE_B_ARRY...) */
-    uint32_t    length;     /**< \brief param length */
-    uint8_t*    pParam;     /**< \brief pointer to the corresponding parameter memory*/
-} EC_API_SLV_SDIAG_parameter_t;
-
 
 /*---------------------------------------------
 -    DIAG flags

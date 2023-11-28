@@ -44,8 +44,8 @@
 #define __ESL_SOEDEMO_H__		1
 
 #include <ecSlvApi.h>
-#include <ecSlvApi_Error.h>
-#include <ecSlvApiDef.h>
+#include <defines/ecSlvApiDef_error.h>
+#include <defines/ecSlvApiDef.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -57,7 +57,7 @@ extern void     EC_SLV_APP_SoE_recv         (uint16_t   soEService_p
                                             ,uint16_t   soEFlags_p
                                             ,void*      pData_p
                                             ,uint16_t*  pLen_p);
-extern uint8_t  EC_SLV_APP_SoE_nofReq       (void);
+extern uint8_t  EC_SLV_APP_SoE_nofReq       (EC_API_SLV_SHandle_t* pHandle);
 
 #if (defined __cplusplus)
 }

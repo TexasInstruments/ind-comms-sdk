@@ -307,7 +307,8 @@ Exit:
 bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO_EPin_t pinId_p, ESL_GPIO_EPinState_t pinState_p )
 {
     bool                        state       = false;
-    uint32_t                    baseAddr;
+    uint32_t                    baseAddr    = 0;
+    ESL_GPIO_EPin_t             pinId       = pinId_p;
 
     OSALUNREF_PARM(pGpioHandle_p);
 
@@ -329,21 +330,22 @@ bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO
         switch (pinId_p)
         {
 #if (defined CONFIG_PHY0_RESET)
-        case ESL_GPIO_enPIN_03: pinId_p = CONFIG_PHY0_RESET; break;
+        case ESL_GPIO_enPIN_03: pinId = CONFIG_PHY0_RESET; break;
 #endif
 #if (defined CONFIG_PHY1_RESET)
-        case ESL_GPIO_enPIN_04: pinId_p = CONFIG_PHY1_RESET; break;
+        case ESL_GPIO_enPIN_04: pinId = CONFIG_PHY1_RESET; break;
 #endif
-        default: break;
+        default:
+            break;
         }
 
         if (pinState_p==ESL_GPIO_enPINSTATE_HIGH)
         {
-            LED_on(gLedHandle[pinId_p], 0);
+            LED_on(gLedHandle[pinId], 0);
         }
         else if (pinState_p==ESL_GPIO_enPINSTATE_LOW)
         {
-            LED_off(gLedHandle[pinId_p], 0);
+            LED_off(gLedHandle[pinId], 0);
         }
         else
         {
@@ -361,11 +363,11 @@ bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO
     {
         if (pinState_p==ESL_GPIO_enPINSTATE_HIGH)
         {
-            GPIO_pinWriteHigh(baseAddr, pinId_p);
+            GPIO_pinWriteHigh(baseAddr, pinId);
         }
         else if (pinState_p==ESL_GPIO_enPINSTATE_LOW)
         {
-            GPIO_pinWriteLow(baseAddr, pinId_p);
+            GPIO_pinWriteLow(baseAddr, pinId);
         }
         else
         {

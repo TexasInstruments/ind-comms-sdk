@@ -43,7 +43,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-#if (defined BKHFSSC_SO) && (BKHFSSC_SO==1) // defined if bkhfSsc is compiled as a DLL
+#if (defined BKHFSSC_SO) && (BKHFSSC_SO==1) // defined if bkhf_ssc is compiled as a DLL
 #ifdef BKHFSSC_EXPORTS // defined if we are building the BKHFSSC DLL (instead of using it)
 #define BKHFSSC_API OSAL_DLL_EXPORT
 #else
@@ -56,9 +56,9 @@ extern "C" {
 #endif // BKHFSSC_SO
 
 typedef void        (*cbMainLoop_t)             (void*      pCtxt_p);
-typedef void        (*cbInputMapping_t)         (void*      pCtxt_p
+typedef uint32_t    (*cbInputMapping_t)         (void*      pCtxt_p
                                                 ,uint16_t*  pData_p);
-typedef void        (*cbOutputMapping_t)        (void*      pCtxt_p
+typedef uint32_t    (*cbOutputMapping_t)        (void*      pCtxt_p
                                                 ,uint16_t*  pData_p);
 typedef void        (*cbApplication_t)          (void*      pCtxt_p);
 typedef uint16_t    (*cbGenerateMapping_t)      (void*      pCtxt_p

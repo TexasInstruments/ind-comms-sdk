@@ -43,7 +43,7 @@
 #if !(defined __ESL_FILEHANDLING_H__)
 #define __ESL_FILEHANDLING_H__		1
 
-#include <ecSlvApi_Error.h>
+#include <defines/ecSlvApiDef_error.h>
 #include <stdint.h>
 
 #if (defined __cplusplus)

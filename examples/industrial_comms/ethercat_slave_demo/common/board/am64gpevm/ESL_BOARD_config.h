@@ -40,12 +40,12 @@
  *
  */
 
-#include <stdbool.h>
 #if !(defined __ESL_BOARD_CONFIG_H__)
 #define __ESL_BOARD_CONFIG_H__		1
 
 #include <ESL_OS_os.h>
 #include <ESL_BOARD_OS_config.h>
+#include <ecSlvApi.h>
 
 #define ECAT_PHYADDR_IN                     (15u)
 #define ECAT_PHYADDR_OUT                    (3u)
@@ -68,21 +68,26 @@
 extern "C" {
 #endif
 
-extern void ESL_BOARD_OS_initPruss(uint32_t pruSelect_p, int32_t *pBaseIrqOffset_p);
-extern void ESL_BOARD_OS_initStatusLED(void *gpioHandle, uint32_t selectedPru);
-extern void ESL_BOARD_OS_statusLED(
-    void *gpioHandle,
-    uint32_t selectedPru,
-    bool runLed,
-    bool errLed);
-
-extern void ESL_BOARD_OS_configureResets(void *pGpioHandle_p, uint32_t selectedPru_p);
-extern void ESL_BOARD_OS_phyReset(
-    void *pGpioHandle_p,
-    uint32_t selectedPru_p,
-    uint8_t phyIdx_p,
-    bool reset_p);
-extern void ESL_BOARD_OS_registerPhys(uint32_t selectedPru_p);
+extern void ESL_BOARD_OS_initPruss          (uint32_t pruSelect
+                                            ,int32_t *pBaseIrqOffset);
+extern void ESL_BOARD_OS_initStatusLED      (void *gpioHandle
+                                            ,uint32_t selectedPru);
+extern void ESL_BOARD_OS_statusLED          (void *gpioHandle
+                                            ,uint32_t selectedPru
+                                            ,bool runLed
+                                            ,bool errLed);
+extern void ESL_BOARD_OS_configureResets    (void *pGpioHandle
+                                            ,uint32_t selectedPru);
+extern void ESL_BOARD_OS_phyReset           (void *pGpioHandle
+                                            ,uint32_t selectedPru
+                                            ,uint8_t phyIdx
+                                            ,bool reset);
+extern void ESL_BOARD_OS_registerPhys       (EC_API_SLV_SHandle_t *pHandle
+                                            ,uint32_t selectedPru);
+#if !(defined FBTLTESTAPP) || (0==FBTLTESTAPP)
+extern void ESL_BOARD_OS_registerPhys       (EC_API_SLV_SHandle_t *pHandle
+                                            ,uint32_t selectedPru);
+#endif
 
 #if (defined __cplusplus)
 }

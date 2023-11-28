@@ -18,7 +18,6 @@
  */
 
 #include <ssc.h>
-
 #include "ssc_backend.h"
 
 /* Beckhoff */
@@ -27,7 +26,7 @@
 #include <aoeappl.h>
 
 #if !KUNBUS_SSC_EVAL
-extern void EC_API_SLV_SSC_setLicense(char* pLicense_p, uint8_t length_p);
+extern uint32_t EC_SLV_INT_SSC_setLicense(char* pLicense, uint8_t length);
 #endif
 
 /* Beckhoff SSC variable names */
@@ -1223,7 +1222,7 @@ bool SSC_ecatApplRunning(void)
 void SSC_ecatApplSetRunning(bool run_p)
 {
 #if !(defined KUNBUS_SSC_EVAL) || (0==KUNBUS_SSC_EVAL)
-    EC_API_SLV_SSC_setLicense(KUNBUS_SSC_LICENSE, strlen(KUNBUS_SSC_LICENSE));
+    (void)EC_SLV_INT_SSC_setLicense(KUNBUS_SSC_LICENSE, strlen(KUNBUS_SSC_LICENSE));
 #endif
 
     bRunApplication = run_p;

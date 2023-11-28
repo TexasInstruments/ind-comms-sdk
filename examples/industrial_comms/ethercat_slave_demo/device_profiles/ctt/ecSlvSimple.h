@@ -82,9 +82,7 @@ typedef struct EC_SLV_APP_CTT_Application
     EC_API_SLV_SCoE_Object_t *pt200FRecObj;
 
     EC_API_SLV_Pdo_t *ptRxPdo1600;
-    EC_API_SLV_Pdo_t *ptRxPdo1601;
     EC_API_SLV_Pdo_t *ptTxPdo1A00;
-    EC_API_SLV_Pdo_t *ptTxPdo1A01;
 
     EC_API_SLV_SHandle_t *ptEcSlvApi;
 } EC_SLV_APP_CTT_Application_t;
