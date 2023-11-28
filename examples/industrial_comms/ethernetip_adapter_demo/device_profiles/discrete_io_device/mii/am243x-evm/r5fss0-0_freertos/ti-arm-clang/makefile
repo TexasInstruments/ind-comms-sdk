@@ -123,6 +123,7 @@ CFLAGS_common := \
 	-Wno-gnu-variable-sized-type-not-at-end \
 	-Wno-unused-function \
 	-mllvm -align-all-functions=2 \
+	-Wno-unused-but-set-variable \
 
 CFLAGS_cpp_common := \
 	-Wno-c99-designator \

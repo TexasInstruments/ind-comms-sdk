@@ -58,6 +58,7 @@
             -Wno-gnu-variable-sized-type-not-at-end
             -Wno-unused-function
             -mllvm -align-all-functions=2
+            -Wno-unused-but-set-variable
             -DSOC_AM243X
             -DOSAL_FREERTOS=1
             -DTIME_SYNC
