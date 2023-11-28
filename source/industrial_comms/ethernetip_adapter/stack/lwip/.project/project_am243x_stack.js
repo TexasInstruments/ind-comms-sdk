@@ -27,6 +27,7 @@ const files = {
         "udp.c"            ,
 
         /* lwipcore4_SRCS */
+        "acd.c"            ,
         "autoip.c"         ,
         "dhcp.c"           ,
         "etharp.c"         ,
@@ -150,7 +151,7 @@ const files = {
         "netbiosns.c"                ,
 
         /* lwiptftp_SRCS */
-        "tftp_server.c"              ,
+        "tftp.c"              ,
 
         /* lwipmqtt_SRCS */
         "mqtt.c"                     ,

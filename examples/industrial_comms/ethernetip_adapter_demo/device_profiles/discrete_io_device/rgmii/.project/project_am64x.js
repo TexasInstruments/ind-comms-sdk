@@ -109,6 +109,7 @@ const defines_r5f = {
 const cflags_r5f = {
     common: [
         "-mllvm -align-all-functions=2",
+        "-Wno-unused-but-set-variable",
     ],
 };
 
