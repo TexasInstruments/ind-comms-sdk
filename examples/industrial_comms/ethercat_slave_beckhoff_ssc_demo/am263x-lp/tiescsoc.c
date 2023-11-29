@@ -170,7 +170,7 @@ void tiesc_socParamsInit(bsp_params *bspInitParams)
     bspInitParams->eeprom_write = tiesc_eepromWrite;
     bspInitParams->spinlock_base_address = CSL_SPINLOCK0_BASE;
     bspInitParams->ethphy_init = tiesc_ethphyInit;
-    bspInitParams->enhancedlink_enable = TIESC_MDIO_RX_LINK_DISABLE;
+    bspInitParams->enhancedlink_enable = TIESC_MDIO_RX_LINK_ENABLE;
     bspInitParams->link0_polarity = TIESC_LINK0_POL;
     bspInitParams->link1_polarity = TIESC_LINK1_POL;
     bspInitParams->phy0_address = ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY0))->phyAddress;
