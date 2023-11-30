@@ -31,6 +31,7 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 1.99.00", "releasenotes.html#version_release16300", null ],
       [ "Release Version 1.13.00", "releasenotes.html#version_release10d00", null ],
       [ "Release Version 1.12.02", "releasenotes.html#version_release10c02", null ],
       [ "Release Version 1.12.01", "releasenotes.html#version_release10c01", null ],
@@ -69,10 +70,10 @@ var NAVTREE =
       [ "Abbreviations and Definitions", "abbreviations.html", null ]
     ] ],
     [ "Quickstart - EtherCAT Device", "page_quickstart.html", [
-      [ "Setup", "@ref page_quickstart_installation", [
-        [ "Software Installation", "md_pages_2setup.html#qs_installation_software", null ],
-        [ "Connect the Evaluation Board", "md_pages_2setup.html#qs_installation_connect", null ],
-        [ "Steps to Run the Example", "md_pages_2setup.html#qs_steps_to_run_example", null ]
+      [ "Setup", "page_quickstart_installation.html", [
+        [ "Software Installation", "page_quickstart_installation.html#qs_installation_software", null ],
+        [ "Connect the Evaluation Board", "page_quickstart_installation.html#qs_installation_connect", null ],
+        [ "Steps to Run the Example", "page_quickstart_installation.html#qs_steps_to_run_example", null ]
       ] ],
       [ "EtherCAT FAQ", "ethercat_faq.html", [
         [ "Configuration of the Object Dictionary", "config_o_b_d.html", [
@@ -96,7 +97,7 @@ var NAVTREE =
     ] ],
     [ "Connect to PLC - TwinCAT3", "simple_demo_in_twincat3.html", null ],
     [ "Beckhoff SSC", "beckhoff__s_c_c.html", null ],
-    [ "API Reference", "modules.html", "modules" ],
+    [ "API Changes", "_a_p_i_changes.html", null ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -113,12 +114,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"@ref page_quickstart_installation",
-"group___ci_a402_ga7ac919920aa47f8a384b01696cb86d99.html#ga7ac919920aa47f8a384b01696cb86d99",
-"group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga8039980745f2be5c542840917a74eebf.html#ga8039980745f2be5c542840917a74eebf",
-"group___e_c___a_p_i___s_l_v___t_y_p_e_s_gaa8ffd7f8f2cda5e3809ef15d5c576a29.html#ggaa8ffd7f8f2cda5e3809ef15d5c576a29a849fdb8ba1acbe23693448a99d3e1964",
-"struct_e_c___a_p_i___s_l_v___e_e_p___s_cat___f_m_m_u_aa4d0171f60b9668a6a02ef66245a33c0.html#aa4d0171f60b9668a6a02ef66245a33c0",
-"structkb_ec_cfg___s_pdo.html"
+"_a_p_i_changes.html",
+"struct_e_c___a_p_i___s_l_v___s_eeprom_ab0ac4b459990f5d32689d3d42c68575d.html#ab0ac4b459990f5d32689d3d42c68575d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
