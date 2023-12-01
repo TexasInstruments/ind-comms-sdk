@@ -853,6 +853,7 @@ void bsp_esc_reg_perm_init(PRUICSS_Handle pruIcssHandle)
         TIESC_PERM_READ_ONLY; //Pulse length of Sync Signals
     pRegPerm->reg_properties[0x983] =
         TIESC_PERM_READ_ONLY; //Pulse length of Sync Signals
+    pRegPerm->reg_properties[0x984] = TIESC_PERM_READ_ONLY; //SYNC0,SYNC1 Activation State
     pRegPerm->reg_properties[0x98E] = TIESC_PERM_READ_ONLY; //SYNC0 status
     pRegPerm->reg_properties[0x98F] = TIESC_PERM_READ_ONLY; //SYNC1 status
 
