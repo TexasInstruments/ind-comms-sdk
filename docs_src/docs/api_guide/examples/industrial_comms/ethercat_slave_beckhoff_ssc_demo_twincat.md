@@ -157,7 +157,7 @@ It can be tested as follows:
 
 \note For this feature to work, `enhancedlink_enable` of \ref bsp_params should be set to \ref TIESC_MDIO_RX_LINK_ENABLE while initializing the EtherCAT SubDevice FWHAL. This configuration is done in `tiesc_socParamsInit()` in tiescsoc.c file.
 
-## Generating ESI Header file From ESI XML file
+## Generating ESI Header file From ESI XML file {#GENERATING_ESI_HEADER_FILE_FROM_ESI_XML_FILE}
 
 [EtherCAT SubDevice Beckhoff SSC Example](\ref EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_BECKHOFF_SSC_DEMO) is expected to be used with `${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/esi/TI_ESC.xml` file. If the application is modified to work with a different ESI XML file, user will need to update the corresponding ESI header file (tiesc_eeprom.h) and rebuild the application project.
 
@@ -193,7 +193,7 @@ It can be tested as follows:
 
 \cond SOC_AM64X || SOC_AM243X
 
-## Online Application Upgrade
+## Online Application Upgrade {#ONLINE_APPLICATION_UPGRADE}
 
 \note Application should be loaded with \htmllink{@VAR_MCU_SDK_DOCS_PATH/EXAMPLES_DRIVERS_SBL_OSPI.html, SBL OSPI} method to test this feature using following steps
 

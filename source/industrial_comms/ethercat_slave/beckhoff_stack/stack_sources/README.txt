@@ -1,7 +1,7 @@
 Steps to generate patched Slave Stack Code
 -------------------------------------------
 
-(1) To build the "{SDK_INSTALL_PATH}/examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo" example, it is necessary to get the EtherCAT Slave Stack Code (SSC). Download EtherCAT stack version 5.12 from ETG website(http://www.ethercat.org/) and extract it to a local folder.
+(1) To build the "{SDK_INSTALL_PATH}/examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo" example, it is necessary to get the EtherCAT Slave Stack Code (SSC). Download EtherCAT stack version 5.13 from ETG website(http://www.ethercat.org/) and extract it to a local folder.
 
 (2) Generate the patched EtherCAT Slave stack code source files using any one of the below mentioned methods:
 
