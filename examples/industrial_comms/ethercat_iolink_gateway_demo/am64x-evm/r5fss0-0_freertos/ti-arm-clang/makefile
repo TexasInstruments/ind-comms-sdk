@@ -158,7 +158,7 @@ LIBS_common = \
 	-lfreertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-ldrivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lboard.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lethercat_slave_bkhfSsc.am64x.r5f.ti-arm-clang.release.lib \
+	-lethercat_slave_bkhf_ssc.am64x.r5f.ti-arm-clang.release.lib \
 	-lethercat_iolink_gateway.am64x.r5f.ti-arm-clang.release.lib \
 	-lethercat_slave.am64x.r5f.ti-arm-clang.release.lib \
 	-liolink_master.am64x.r5f.ti-arm-clang.release.lib \
@@ -178,7 +178,7 @@ LIBS_NAME = \
 	freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	board.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	ethercat_slave_bkhfSsc.am64x.r5f.ti-arm-clang.release.lib \
+	ethercat_slave_bkhf_ssc.am64x.r5f.ti-arm-clang.release.lib \
 	ethercat_iolink_gateway.am64x.r5f.ti-arm-clang.release.lib \
 	ethercat_slave.am64x.r5f.ti-arm-clang.release.lib \
 	iolink_master.am64x.r5f.ti-arm-clang.release.lib \

@@ -78,8 +78,8 @@ const libs_freertos_r5f = {
         "freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "ethercat_slave.am64x_evm.r5f.ti-arm-clang.release.lib",
-        "ethercat_slave_bkhf_ssc.am64x_evm.r5f.ti-arm-clang.release.lib",
+        "ethercat_slave.am64x.r5f.ti-arm-clang.release.lib",
+        "ethercat_slave_bkhf_ssc.am64x.r5f.ti-arm-clang.release.lib",
     
     ],
 };

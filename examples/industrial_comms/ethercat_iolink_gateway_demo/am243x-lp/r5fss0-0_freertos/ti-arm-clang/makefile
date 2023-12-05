@@ -158,7 +158,7 @@ LIBS_common = \
 	-lfreertos.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-ldrivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lboard.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lethercat_slave_bkhfSsc.am243x_lp.r5f.ti-arm-clang.release.lib \
+	-lethercat_slave_bkhf_ssc.am243x_lp.r5f.ti-arm-clang.release.lib \
 	-lethercat_iolink_gateway.am243x_lp.r5f.ti-arm-clang.release.lib \
 	-lethercat_slave.am243x_lp.r5f.ti-arm-clang.release.lib \
 	-liolink_master.am243x_lp.r5f.ti-arm-clang.release.lib \
@@ -178,7 +178,7 @@ LIBS_NAME = \
 	freertos.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	drivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	board.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
-	ethercat_slave_bkhfSsc.am243x_lp.r5f.ti-arm-clang.release.lib \
+	ethercat_slave_bkhf_ssc.am243x_lp.r5f.ti-arm-clang.release.lib \
 	ethercat_iolink_gateway.am243x_lp.r5f.ti-arm-clang.release.lib \
 	ethercat_slave.am243x_lp.r5f.ti-arm-clang.release.lib \
 	iolink_master.am243x_lp.r5f.ti-arm-clang.release.lib \
