@@ -14,8 +14,8 @@
         name = "mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt"
         products="com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX;"
         configurations="
-                Debug,
                 Release,
+                Debug,
         "
         connection="TIXDS110_Connection.xml"
         toolChain="TI"
@@ -56,16 +56,16 @@
 
         description="A Mdio FW project">
 
-        <configuration name="Debug"
+        <configuration name="Release"
             compilerBuildOptions="
-                -D_DEBUG_=1
+                -O3
             "
             linkerBuildOptions="
             "
         ></configuration>
-        <configuration name="Release"
+        <configuration name="Debug"
             compilerBuildOptions="
-                -O3
+                -D_DEBUG_=1
             "
             linkerBuildOptions="
             "
