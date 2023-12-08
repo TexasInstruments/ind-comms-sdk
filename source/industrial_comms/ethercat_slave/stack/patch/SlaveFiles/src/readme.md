@@ -29,5 +29,4 @@ Linux
 
 (4) Build the example with custom SSC
 
-    - copy the SSC lib for your board into your project
     - rebuild

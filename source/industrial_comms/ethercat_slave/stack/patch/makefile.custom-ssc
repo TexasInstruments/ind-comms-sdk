@@ -31,22 +31,22 @@ patchssc:
 copyssc:
 	@echo  .
 ifneq (,$(findstring am243x,$(LIBNAME)))
-	$(COPY) $(LIBDIR)/$(LIBNAME) ../$(subst am243x,am243x_lp,$(LIBNAME))
-	$(COPY) $(LIBDIR)/$(LIBNAME) ../$(subst am243x,am243x_evm,$(LIBNAME))
-	@echo copied custom SSC libraries to ../$(subst am243x,am243x_lp,$(LIBNAME)) and ../$(subst am243x,am243x_evm,$(LIBNAME))
+	$(COPY) $(LIBDIR)/$(LIBNAME) ../lib/$(subst am243x,am243x_lp,$(LIBNAME))
+	$(COPY) $(LIBDIR)/$(LIBNAME) ../lib/$(subst am243x,am243x_evm,$(LIBNAME))
+	@echo copied custom SSC libraries to ../lib/$(subst am243x,am243x_lp,$(LIBNAME)) and ../lib/$(subst am243x,am243x_evm,$(LIBNAME))
 else
-	$(COPY) $(LIBDIR)/$(LIBNAME) ../$(LIBNAME)
-	@echo copied custom SSC library to ../$(LIBNAME)
+	$(COPY) $(LIBDIR)/$(LIBNAME) ../lib/$(LIBNAME)
+	@echo copied custom SSC library to ../lib/$(LIBNAME)
 endif
 	@echo  .
 
 cleanssc:
 	$(RM) $(LIBDIR)/$(LIBNAME)
 ifneq (,$(findstring am243x,$(LIBNAME)))
-	$(RM) ../$(subst am243x,am243x_lp,$(LIBNAME))
-	$(RM)  ../$(subst am243x,am243x_evm,$(LIBNAME))
+	$(RM) ../lib/$(subst am243x,am243x_lp,$(LIBNAME))
+	$(RM)  ../lib/$(subst am243x,am243x_evm,$(LIBNAME))
 else
-	$(RM)  ../$(LIBNAME)
+	$(RM)  ../lib/$(LIBNAME)
 endif
 
 
