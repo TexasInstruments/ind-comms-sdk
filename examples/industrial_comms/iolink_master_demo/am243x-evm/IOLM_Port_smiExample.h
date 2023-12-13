@@ -70,6 +70,9 @@
 #define IOLM_EXMPL_DELAY_IN_MILISEC             (1000U)
 /* Placeholder for data storage port number in file system usage*/
 #define IOLM_EXMPL_DATA_STORAGE_PORT            (2U)
+#define IOLM_EXMPL_DELAY_IN_MILISEC             (1000U)
+/* Desired maximal port usage */
+#define IOLM_EXMPL_MAX_PORTS                    (8U)
 /* Check if printf should be enabled */
 #if (defined IOLM_EXMPL_ENABLE_PRINTF) && (IOLM_EXMPL_ENABLE_PRINTF == 1)
 #define IOLM_EXMPL_printf           OSAL_printf
@@ -82,6 +85,9 @@
 #endif
 #if (IOLM_EXMPL_PORTS_USED_IN_STATE_MACHINE > IOLM_PORT_COUNT)
 #error IOLM_EXMPL_PORTS_USED_IN_STATE_MACHINE can not be bigger than IOLM_PORT_COUNT
+#endif
+#if (IOLM_EXMPL_MAX_PORTS > IOLM_PORT_COUNT)
+#error IOLM_EXMPL_MAX_PORTS can not be bigger than IOLM_PORT_COUNT
 #endif
 
 typedef enum IOLM_EXMPL_EExampleState
@@ -127,6 +133,8 @@ void IOLM_EXMPL_setPortToPortMode(uint8_t portNumber_p, IOLM_SMI_EPortMode targe
 void IOLM_EXMPL_cbChipInfo(INT8U u8Instance_p, INT8U *pu8Data_p, INT16U u16Length_p);
 /* Master Identification */
 void IOLM_EXMPL_cbMasterIdentificationCnf(uint8_t clientID_p, uint16_t error_p, uint16_t argBlockLength_p, uint8_t* pArgBlock_p);
+void IOLM_EXMPL_vLoadMasterIdentification(uint16_t *u16ArgBlockLength_p, uint8_t *pu8ArgBlock_p);
+
 /* Event handling(acyclic) */
 void IOLM_EXMPL_PortEventInd(uint8_t port_p, uint16_t argBlockLength_p, uint8_t* pArgBlock_p);
 void IOLM_EXMPL_DeviceEventInd(uint8_t port_p, uint16_t argBlockLength_p, uint8_t* pArgBlock_p);

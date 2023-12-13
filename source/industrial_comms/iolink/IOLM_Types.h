@@ -98,14 +98,6 @@ extern "C" {
 #define IOLM_MIN_TIMER_INTERVAL_US     10
 
 /** Ready pulse time expectations. */
-/** Lower limit of ready pulse length in us. */
-#define IOLM_PORT_READY_PULSE_MIN_DURATION_US   400U
-/** Upper limit of ready pulse length in us. */
-#define IOLM_PORT_READY_PULSE_MAX_DURATION_US   1100U 
-/** Minimum time for ready pulse occurence in ms. */
-#define IOLM_PORT_MIN_TIME_TO_READY_PULSE_MS    5000U 
-/** Additional time to wait for ready pulse occurence in ms. */
-#define IOLM_PORT_READY_PULSE_WAIT_TIME_EXPANSION_MS 1000U
 /** Minimum wait time between power off and power on in ms. */
 #define IOLM_PORT_MIN_READY_PULSE_POWER_OFF_ON_GAP_MS    1000U 
 /** Maximum wait time between power off and power on in ms. */

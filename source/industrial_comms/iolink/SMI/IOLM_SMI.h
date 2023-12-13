@@ -1801,6 +1801,23 @@ void IOLM_SMI_vExtensionService(INT8U u8Instance_p, INT8U *pu8Data_p, INT16U u16
 void IOLM_SMI_vExtRsp(IOL_EErrorType eError_p, INT8U *pu8Data_p, INT16U u16Length_p);
 
 /**
+\brief Report port event.
+
+This function can be used to report an application or profile specific port event.
+
+\param[in] u8Port_p         Port ID.
+\param[in] eEType_p         Event type.
+\param[in] eEMode_p         Event mode.
+\param[in] u16ECode_p       EventCode.
+
+\return Error
+
+\ingroup grp_smi_event
+
+*/
+IOL_FUNC_DECL IOL_EErrorType IOLM_SMI_eReportPortEvent(INT8U u8Port_p, IOL_EEType eEType_p, IOL_EEMode eEMode_p, INT16U u16ECode_p);
+
+/**
 \brief SMI Callbacks. Must be initialized via #IOLM_SMI_vInit.
 
 Callbacks from the SMI API to the user application. Must be initialized via

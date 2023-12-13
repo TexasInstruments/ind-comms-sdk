@@ -269,9 +269,7 @@ typedef IOL_ENUM_DECL IOL_ETargetMode
     /** \brief Port in digital input mode at C/Q and I/Q. */
     IOL_eTargetMode_OSSDE,
     /** \brief Device communicating safety Process Data. */
-    IOL_eTargetMode_SAFETYCOM,
-    /** \brief Device communicating mixed safety and non safety Process Data. */
-    IOL_eTargetMode_MIXEDSAFETYCOM
+    IOL_eTargetMode_SAFETYCOM
 } IOL_ETargetMode;
 
 /**
@@ -920,6 +918,14 @@ typedef IOL_ENUM_DECL IOL_ESystemCommand
     IOL_eSystemCommand_Break,
     /* 7 to 63 reserved */
     /* 64 to 127 reserved for profiles */
+    // system commands for Firmware update
+    IOL_eSystemCommand_BM_UNLOCK_S = 80,
+    IOL_eSystemCommand_BM_UNLOCK_F = 81,
+    IOL_eSystemCommand_BM_UNLOCK_T = 82, 
+    IOL_eSystemCommand_BM_ACTIVATE = 83,
+
+    IOL_eSystemCommand_LocatorStart = 126,
+    IOL_eSystemCommand_LocatorStop = 127,
     IOL_eSystemCommand_DeviceReset = 128,
     IOL_eSystemCommand_ApplicationReset = 129,
     IOL_eSystemCommand_RestoreFactorySettings = 130,
@@ -973,6 +979,15 @@ typedef IOL_ENUM_DECL IOL_ESlotType
     IOL_eSlotType_SSLOT = 0,
     IOL_eSlotType_DSLOT = 1,
 }IOL_ESlotType;
+
+/**
+\brief Physical layer slot length.
+*/
+typedef IOL_ENUM_DECL IOL_ESlotLenType
+{
+    IOL_eSlotLength_SSLOT = 1,
+    IOL_eSlotLength_DSLOT = 14,
+}IOL_ESlotLenType;
 
 
 /** \} */

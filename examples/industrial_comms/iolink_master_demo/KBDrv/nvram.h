@@ -28,8 +28,13 @@ extern "C"
 {
 #endif
 
+#define NVR_LOGLEVEL_NONE  0
+#define NVR_LOGLEVEL_ERROR 1
+#define NVR_LOGLEVEL_INFO  2
+#define NVR_LOGLEVEL_DEBUG 3
+
 // set logging level
-#define NVR_LOGLEVEL 1
+#define NVR_LOGLEVEL NVR_LOGLEVEL_ERROR
 
 #if NVR_LOGLEVEL > 2
 #define NVR_LOG_DEBUG(fmt, ...) OSAL_printf("%s: " fmt "\r\n", __func__, ##__VA_ARGS__)
@@ -51,9 +56,6 @@ extern "C"
 
 // driver finish function type
 typedef int32_t (*NVR_drvFini_t)(void);
-
-// write-callback function type
-typedef void(*NVR_writeCallback_t)(int32_t status, char* msg);
 
 typedef enum NVR_err {
     NVR_ERR_OK = 0,
@@ -79,12 +81,10 @@ enum {
 
 extern NVR_err_t NVR_init(struct lfs_config *plfscfg);
 extern NVR_err_t NVR_fini(int32_t (*drv_fini)(void));
-extern NVR_err_t NVR_registerCallback(NVR_writeCallback_t cb);
 extern NVR_err_t NVR_read(const char * const name, uint32_t * const pLen, const int32_t offset, void * const pData);
 extern NVR_err_t NVR_write(const char * const name, const int32_t mode, const uint32_t len, const void * const pData);
 extern NVR_err_t NVR_delete(const char * const name);
 extern NVR_err_t NVR_erase(void);
-extern NVR_err_t NVR_bootcount(const char * const name, uint32_t * const pCount);
 extern NVR_err_t NVR_list(const char * const path);
 
 #ifdef __cplusplus

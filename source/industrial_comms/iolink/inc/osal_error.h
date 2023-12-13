@@ -18,7 +18,9 @@
 
 #include "osal.h"
 
-#define OSAL_NO_ERROR (0x00000000u)                         //!< Default Value
+#define OSAL_NO_ERROR (0x00000000u)                         //!< Positive default Value
+#define OSAL_GENERAL_ERROR (0x80000000u)                    //!< Negative default value
+
 #define OSAL_CAN_NO_MSG (0x00000001u)                       //!< no message available
 #define OSAL_CAN_TX_FULL (0x00000002u)                      //!< TX queue is full, try later
 #define OSAL_CAN_E (0x00000003u)                            //!< now everything is a error
@@ -79,6 +81,16 @@
 #define OSAL_EE_FORMAT_FACTORY_RESET (0x0002001eu)          //!< Format of EEPROM failed in BSP_EEPROM_factoryReset ()
 #define OSAL_EE_WRITE_READY_TIME_OUT (0x0002001fu)          //!< Ready signal after a write does not appear
 #define OSAL_EE_ERASE_ALL_READY_TIME_OUT (0x00020020u)      //!< Ready signal after an erase all does not appear
+#define OSAL_EE_DRV_HANDLE_INVALID (0x00020021u)            //!< EEPROM handle set to NULL
+#define OSAL_EE_DRV_PARAMS_INVALID (0x00020022u)            //!< EEPROM parameters set to NULL
+#define OSAL_EE_DRV_DATA_INVALID (0x00020023u)              //!< EEPROM read/write buffer set to NULL
+#define OSAL_EE_DRV_LENGTH_INVALID (0x00020024u)            //!< EEPROM data have 0 length
+#define OSAL_EE_DRV_GETATTR (0x00020025u)                   //!< EEPROM_getAttrs call returns NULL
+#define OSAL_EE_DRV_OPEN (0x00020026u)                      //!< EEPROM_open call failed
+#define OSAL_EE_DRV_CLOSE (0x00020027u)                     //!< EEPROM_close call failed
+#define OSAL_EE_DRV_READ (0x00020028u)                      //!< EEPROM_read call failed
+#define OSAL_EE_DRV_WRITE (0x00020029u)                     //!< EEPROM_write call failed
+
 
 #define OSAL_FLASH_LOCK_ERR (0x00030000u)                   //!< Unlock of Flash Erase Controller failed
 #define OSAL_FLASH_ERASE_ERR (0x00030001u)                  //!< Flash Erase Error
@@ -86,6 +98,23 @@
 #define OSAL_FLASH_PROG_ERR (0x00030003u)                   //!< data program error
 #define OSAL_FLASH_ERASE_ADDR_ERR (0x00030004u)             //!< Flash Erase Address Error
 #define OSAL_FLASH_ERASE_ADDR_ERR_2 (0x00030005u)           //!< Flash Erase Address Error
+#define OSAL_FLASH_DRV_HANDLE_INVALID (0x00030006u)         //!< Flash handle set to NULL
+#define OSAL_FLASH_DRV_PARAMS_INVALID (0x00030007u)         //!< Flash parameters set to NULL
+#define OSAL_FLASH_DRV_DATA_INVALID (0x00030008u)           //!< Flash read/write buffer set to NULL
+#define OSAL_FLASH_DRV_LENGTH_INVALID (0x00030009u)         //!< Flash data have 0 length
+#define OSAL_FLASH_DRV_GETATTR (0x0003000Au)                //!< Flash_getAttrs call returns NULL
+#define OSAL_FLASH_DRV_OPEN (0x0003000Bu)                   //!< Flash_open call failed
+#define OSAL_FLASH_DRV_CLOSE (0x0003000Cu)                  //!< Flash_close call failed
+#define OSAL_FLASH_DRV_READ (0x0003000Du)                   //!< Flash_read call failed
+#define OSAL_FLASH_DRV_WRITE (0x0003000Eu)                  //!< Flash_write call failed
+#define OSAL_FLASH_DRV_ERASEBLK (0x0003000Fu)               //!< Flash_eraseBlk call failed
+#define OSAL_FLASH_DRV_ERASESECTOR (0x00030010u)            //!< Flash_eraseSector call failed
+#define OSAL_FLASH_DRV_RESET (0x00030011u)                  //!< Flash_reset call failed
+#define OSAL_FLASH_DRV_BLKPAGETOOFFSET (0x00030012u)        //!< Flash_blkPageToOffset call failed
+#define OSAL_FLASH_DRV_OFFSETTOBLKPAGE (0x00030013u)        //!< Flash_offsetToBlkPage call failed
+#define OSAL_FLASH_DRV_SECTORPAGETOOFFSET (0x00030014u)     //!< Flash_SectorPageToOffset call failed
+#define OSAL_FLASH_DRV_OFFSETTOSECTORPAGE (0x00030015u)     //!< Flash_offsetToSectorPage call failed
+
 
 #define OSAL_UART_PORT_ERR (0x00040000u)                    //!< Port Number is not supported
 #define OSAL_UART_BAUD_RATE (0x00040001u)                   //!< Baud Rate is not supported
@@ -112,6 +141,13 @@
 #define OSAL_LED_INVALID_STATE (0x00060000u)                //!< Set Led is called with an invalid state parameter
 #define OSAL_LED_SET_OUT_OF_RANGE (0x00060001u)             //!< Index of Set LED is out of Range
 #define OSAL_LED_GET_OUT_OF_RANGE (0x00060002u)             //!< Index of Get LED is out of Range
+#define OSAL_LED_DRV_HANDLE_INVALID (0x00060003u)           //!< LED handle set to NULL
+#define OSAL_LED_DRV_GETATTR (0x00060004u)                  //!< LED_getAttrs call returns NULL
+#define OSAL_LED_DRV_OPEN (0x00060005u)                     //!< LED_open call failed
+#define OSAL_LED_DRV_CLOSE (0x00060006u)                    //!< LED_close call failed
+#define OSAL_LED_DRV_ON (0x00060007u)                       //!< LED_on call failed
+#define OSAL_LED_DRV_OFF (0x00060008u)                      //!< LED_off call failed
+#define OSAL_LED_DRV_SETMASK (0x00060009u)                  //!< LED_setMask call failed
 
 #define OSAL_SPI_PORT_ERR (0x00070000u)                     //!< Port Number is not supported
 #define OSAL_SPI_BUS_JOB_PENDING (0x00070001u)              //!< Send Buffer: There is actually a job pending

@@ -419,8 +419,7 @@ typedef IOL_ENUM_DECL IOLM_SMI_EPortMode
     IOLM_SMI_ePortMode_DO_CQ =                          4,
     
     IOLM_SMI_ePortMode_SAFETYCOM =                      49,
-    IOLM_SMI_ePortMode_MIXEDSAFETYCOM =                 50,
-    IOLM_SMI_ePortMode_OSSDE =                          51,
+    IOLM_SMI_ePortMode_OSSDE =                          50,
 
     IOLM_SMI_ePortMode_CYCLIC_AUTO =                    52,
     IOLM_SMI_ePortMode_CYCLIC =                         53,
@@ -977,9 +976,9 @@ typedef struct IOLM_SMI_SFSPDInOut
     INT16U u16ArgBlockID; /**< \brief Big endian. */
     INT8U u8PQI; /**< \brief Process Data qualifier. */
     INT8U u8OE; /**< \brief Output enable. */
-    INT8U au8Data[2 * (32 + 1)]; /**< \brief input len + data + output len + data */
+    INT8U au8Data[2 * (32 + 2)]; /**< \brief SPDUin len + nsr pd input len + data + SPDUout len + nsr PD output len + data */
 }IOLM_SMI_SFSPDInOut;
-#define IOLM_SMI_ARGBLOCK_FSPDINOUT_LEN(InputLen, OutputLen) (4 + 2 + InputLen + OutputLen)
+#define IOLM_SMI_ARGBLOCK_FSPDINOUT_LEN(InputLen, OutputLen) (4 + 4 + (InputLen) + (OutputLen))
 
 /**
 \brief This generic structure is used for events.

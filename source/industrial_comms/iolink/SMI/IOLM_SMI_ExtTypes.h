@@ -159,7 +159,7 @@ typedef struct IOLM_SMI_SSettings
     {
         INT8U u8SettingsId;
         IOLM_Settings_RF suSettingsRf;
-        INT8U au8Payload[32]; // this array is variable and defined during runtime
+        INT8U au8Payload[256]; // this array is variable and defined during runtime
     }uService;
 }IOLM_SMI_SSettings;
 

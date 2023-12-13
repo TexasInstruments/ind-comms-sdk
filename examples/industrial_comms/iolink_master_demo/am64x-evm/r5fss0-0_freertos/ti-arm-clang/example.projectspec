@@ -38,7 +38,7 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/IOLinkPort
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/KBDrv
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI
@@ -123,9 +123,11 @@
         </file>
         <file path="../../IOLM_Port_Utils.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../KBDrv/nvram_driver.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../KBDrv/nvram_driver.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../IOLM_workTask.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="linker.cmd" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

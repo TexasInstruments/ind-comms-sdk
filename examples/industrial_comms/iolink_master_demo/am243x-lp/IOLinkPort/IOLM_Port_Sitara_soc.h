@@ -54,6 +54,7 @@
 #include <drivers/pinmux.h>
 #include "pru_IOLink.h"
 #include "IOLM_Port_spi.h"
+#include "IOLM_Port_smiExample.h"
 
 /** \brief register address offset between GPIO_SET_DATA01 and GPIO_SET_DATA23 */
 #define SOC_GPIO_REG_BANK_OFFSET            (0x28)
@@ -118,7 +119,7 @@ typedef enum IOLM_SOC_EPowerState
     IOLM_SOC_ePowerState_FORCE32BIT = 0xffffffff
 } IOLM_SOC_EPowerState_t;
 
-extern const IOLM_SPhyGeneric IOLM_SOC_phyPortCfgPru_g[IOLM_PORT_COUNT];
+extern const IOLM_SPhyGeneric IOLM_SOC_phyPortCfgPru_g[IOLM_EXMPL_MAX_PORTS];
 
 void IOLM_SOC_init();
 void IOLM_SOC_setMode(uint8_t instance_p, uint8_t portNum_p, IOLM_PL_ePortMode_t mode_p);

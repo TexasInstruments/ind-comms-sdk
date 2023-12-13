@@ -133,7 +133,7 @@ function getComponentProperty() {
     property.isInternal = false;
     property.buildOptionCombos = buildOptionCombos;
     property.isSkipTopLevelBuild = true;
-    property.skipProjectSpec = false;
+    property.skipProjectSpec = true;
 
     return property;
 }

@@ -42,6 +42,7 @@
 
 
 #include "IOLM_Port_Sitara_soc.h"
+#include "IOLM_Port_smiExample.h"
 
 
 #define IOLM_SOC_PRU_COUNT (sizeof(iolPruSetup_g)/sizeof(iolPruSetup_g[0]))
@@ -65,7 +66,7 @@ const IOLM_PL_sPruIccsCfg_t iolPruSetup_g[] =
 
 #define IOLM_SOC_PORT_COUNT (uint8_t)(sizeof(iolPinSetup_g)/sizeof(iolPinSetup_g[0]))
 
-IOLM_SOC_ECqMode_t iolEqMode_g[IOLM_PORT_COUNT];
+IOLM_SOC_ECqMode_t iolEqMode_g[IOLM_EXMPL_MAX_PORTS];
 
 const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
 {
@@ -271,7 +272,7 @@ const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
  }
 };
 
-const IOLM_SPhyGeneric IOLM_SOC_phyPortCfgPru_g[IOLM_PORT_COUNT] =
+const IOLM_SPhyGeneric IOLM_SOC_phyPortCfgPru_g[IOLM_EXMPL_MAX_PORTS] =
 {
     {
         .u8Port = 0,

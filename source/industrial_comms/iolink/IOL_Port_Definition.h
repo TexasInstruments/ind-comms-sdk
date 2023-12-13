@@ -78,7 +78,7 @@ the release compilation.
 Assertions can be used during development. If the software is
 tested, they can be disabled to save code memory.
 */
-#define IOL_ENABLE_ASSERTIONS           0
+#define IOL_ENABLE_ASSERTIONS           1
 
 /** \brief Is true if the log function (#IOL_Port_vLog()) is needed,
 otherwise false. */

@@ -109,6 +109,8 @@ See table 40  of \ref section_iol_spec_1_1 */
 /** \brief Enable the Data Storage mechanism */
 #define IOLM_DS_ENABLE              1
 
+#define IOLM_PHY_FRAMEHANDLER   1
+
 /** \brief Increase the MSeq timeout by n microseconds
 
  This is an additional time between the the receive of the last byte in a frame and start of the

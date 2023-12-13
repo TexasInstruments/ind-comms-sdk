@@ -77,6 +77,10 @@
 
 #include "KBDrv/nvram_driver.h"
 #include "nvram.h"
+#include "TinyQueue.h"
+#include "IOLM_workTask.h"
+// leave lower 4 MB flash for boot loader and app immage
+// put file system above
 #define NVRAM_BASE_ADR 0x400000
 
 #define IOLM_MAIN_PRU_INSTANCE              (0)
@@ -89,6 +93,7 @@
 #define IOLM_MAIN_LOOP_TASK_SIZE            (0x2000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
 #define IOLM_MAIN_LED_TASK_SIZE             (0x2000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
 #define IOLM_EXAMPLE_TASK_SIZE              (0x2000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
+#define IOLM_MAIN_WORK_TASK_SIZE            (0x2000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
 
 static IOLM_MAIN_TASK_STACK_TYPE    IOLM_startupTaskStack_s[IOLM_MAIN_STARTUP_TASK_SIZE] \
                                         __attribute__((aligned(32), section(".threadstack"))) = {0};
@@ -99,9 +104,14 @@ static IOLM_MAIN_TASK_STACK_TYPE    IOLM_ledTaskStack_s[IOLM_MAIN_LED_TASK_SIZE]
 static IOLM_MAIN_TASK_STACK_TYPE    IOLM_exampleTaskStack_s[IOLM_EXAMPLE_TASK_SIZE] \
                                         __attribute__((aligned(32), section(".threadstack"))) = {0};
 
+static IOLM_MAIN_TASK_STACK_TYPE    IOLM_workTaskStack_s[IOLM_MAIN_WORK_TASK_SIZE] \
+                                        __attribute__((aligned(32), section(".threadstack"))) = {0};
+
 static void* IOLM_pMainTaskHandle_s;
 static void* PRU_IOL_pLedTaskHandle_s;
 static void* IOLM_pExampleTaskHandle_s;
+void* IOLM_pWorkTaskHandle_s;
+extern TQUEUE_ringBuffer_t sIOLM_AsyncWorkQueue_g;
 
 OSAL_SCHED_SignalHandle_t* pMainLoopRequested_g = NULL;
 
@@ -115,14 +125,6 @@ static void IOLM_MAIN_sysInit()
     Board_init();
 }
 
-void IOLM_MAIN_writeCallback(int32_t status, char* msg)
-{
-    NVR_LOG_INFO("%i: %s", status, msg);
-    if(status == 0) {
-        IOLM_SMI_vSaveNvFinished();
-    }
-}
-
 /*!
  *  \brief
  *  Initialization of board specific hardware.
@@ -134,7 +136,7 @@ void IOLM_MAIN_writeCallback(int32_t status, char* msg)
  */
 uint32_t IOLM_MAIN_boardInit()
 {
-    static const IOLM_SPhyGeneric*          pPhyStackCallbacks[IOLM_PORT_COUNT];
+    static const IOLM_SPhyGeneric*          pPhyStackCallbacks[IOLM_EXMPL_MAX_PORTS];
     uint8_t     port;
     uint32_t    error = OSAL_eERR_NOERROR;
 
@@ -150,7 +152,7 @@ uint32_t IOLM_MAIN_boardInit()
 
     /* Init lower levels */
 
-    for (port = 0; port < IOLM_PORT_COUNT; port++)
+    for (port = 0; port < IOLM_EXMPL_MAX_PORTS; port++)
     {
         pPhyStackCallbacks[port]     = (IOLM_SPhyGeneric *) &IOLM_SOC_phyPortCfgPru_g[port];
     }
@@ -161,8 +163,18 @@ uint32_t IOLM_MAIN_boardInit()
 
     IOLM_Phy_Init(pPhyStackCallbacks);
 
-
-
+    // initialize async work queue, use to run things outside calling task
+    error = TQUEUE_init(&sIOLM_AsyncWorkQueue_g);
+    if(TQ_ERRCODE_OK != error)
+    {
+        NVR_LOG_ERROR("IOLM_AsyncWork TQUEUE_init FAILED");
+        // @cppcheck_justify{misra-c2012-15.1} use goto Exit for single point of return
+        //cppcheck-suppress misra-c2012-15.1
+        goto laExit;
+    } else
+    {
+        NVR_LOG_INFO("IOLM_AsyncWork TQUEUE_init OK");
+    }
     // init NVRAM driver
     // NVRAM_BASE_ADR is the lower flash memory address for the file system
     // NVR_DRV_init returns the read/write callback functions into plfscfg
@@ -170,16 +182,11 @@ uint32_t IOLM_MAIN_boardInit()
     // init NVRAM with LittleFS
     if(NVR_ERR_OK != NVR_init(plfscfg))
     {
-        NVR_LOG_INFO("NVRAM init FAIL\r\n");
+        NVR_LOG_ERROR("NVRAM init FAILED");
     } else
     {
-        NVR_LOG_INFO("NVRAM initialized\r\n");
+        NVR_LOG_INFO("NVRAM init OK");
     }
-    // keep boot count as simple test of NVRAM function
-    NVR_registerCallback(IOLM_MAIN_writeCallback);
-
-    unsigned int bootcount = 0;
-    NVR_bootcount("bcount", &bootcount);
 
 laExit:
     return error;
@@ -195,7 +202,7 @@ void IOLM_MAIN_exampleStart()
 {
     IOLM_pExampleTaskHandle_s = OSAL_SCHED_startTask((OSAL_SCHED_CBTask_t)IOLM_EXMPL_mainLoop
                                                      ,NULL
-                                                     ,OSAL_TASK_ePRIO_19
+                                                     ,OSAL_TASK_Prio_IOL_Example_Main
                                                      ,(uint8_t*)IOLM_exampleTaskStack_s
                                                      ,sizeof(IOLM_exampleTaskStack_s)
                                                      ,OSAL_OS_START_TASK_FLG_NONE
@@ -239,7 +246,6 @@ void OSAL_FUNC_NORETURN IOLM_MAIN_loop()
 void IOLM_MAIN_init()
 {
     uint8_t portNumber;
-
     pMainLoopRequested_g = OSAL_createSignal("IOLM_mainLoopRequest");
 
     /* IO Link Master stack and example init */
@@ -272,7 +278,7 @@ void IOLM_MAIN_startupTask()
         /* Create a task for the IO-Link status LED management */
         PRU_IOL_pLedTaskHandle_s = OSAL_SCHED_startTask((OSAL_SCHED_CBTask_t)IOLM_LED_switchingTask
                                                         ,NULL
-                                                        ,OSAL_TASK_ePRIO_IOL_LED
+                                                        ,OSAL_TASK_Prio_IOL_LED
                                                         ,(uint8_t*)IOLM_ledTaskStack_s
                                                         ,sizeof(IOLM_ledTaskStack_s)
                                                         ,OSAL_OS_START_TASK_FLG_NONE
@@ -284,10 +290,24 @@ void IOLM_MAIN_startupTask()
         }
         IOLM_MAIN_init();
 
+        /* Create a work task for e.g. NVRAM write */
+        IOLM_pWorkTaskHandle_s = OSAL_SCHED_startTask((OSAL_SCHED_CBTask_t)IOLM_workTask
+                                                        ,NULL
+                                                        , OSAL_TASK_Prio_IOL_NVRAM
+                                                        ,(uint8_t*)IOLM_workTaskStack_s
+                                                        ,sizeof(IOLM_workTaskStack_s)
+                                                        ,OSAL_OS_START_TASK_FLG_NONE
+                                                        ,"Work Task");
+        if (NULL == IOLM_pWorkTaskHandle_s)
+        {
+            OSAL_error(__FILE__, __LINE__, OSAL_eERR_INVALIDSTATE, true, 1,
+                       "Creating Work Task failed.\r\n");
+        }
+
         /* Create a task for the IO-Link main execution */
         IOLM_pMainTaskHandle_s = OSAL_SCHED_startTask((OSAL_SCHED_CBTask_t)IOLM_MAIN_loop
                                                      ,NULL
-                                                     ,OSAL_TASK_ePRIO_IOL_Main
+                                                     ,OSAL_TASK_Prio_IOL_Main
                                                      ,(uint8_t*)IOLM_mainTaskStack_s
                                                      ,sizeof(IOLM_mainTaskStack_s)
                                                      ,OSAL_OS_START_TASK_FLG_NONE

@@ -1,16 +1,14 @@
-/*  Automatically generated do not modify */
 /*!
- *  \example IOLM_Port_version.h
+ *  \file 
  *
  *  \brief
- *  Configuration file for the IOL8M-Sitara-Example-Project to be filled automatically by cmake.
- *  Get the information from Git to the IOL8M-Sitara-Example-Project.
+ *  IO-Link Master Example Working Task for asynchroneous jobs
  *
  *  \author
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 KUNBUS GmbH.
@@ -39,26 +37,46 @@
  *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  *  SUCH DAMAGE.
+ * 
  *
  */
 
-#ifndef _IOL8M_SITARA_VERSION_INFO_H_
-#define _IOL8M_SITARA_VERSION_INFO_H_
+#if !(defined PROTECT_IOLMWORKTASK_H)
+#define PROTECT_IOLMWORKTASK_H      1
 
-#ifdef __cplusplus
+#include <stdint.h>
+#include <osal.h>
+
+// function type for the async work queue
+typedef uint32_t (*asyncWorkFunc_t)(void * const);
+
+// element type for the async work queue
+typedef struct {
+    asyncWorkFunc_t func;   // worker function to be called
+    asyncWorkFunc_t cbDone; // callback function called after the worker is done
+    void *pLoad;            // data for func and/or cbDone
+} asyncWorkMsg_t;
+
+typedef enum IOLM_worktask_err_t {
+    IOLM_WT_ERRCODE_OK = 0,
+    IOLM_WT_ERRCODE_ERROR
+} IOLM_worktask_err_t;
+
+#if (defined __cplusplus)
 extern "C" {
 #endif
 
-#define IOL8M_SITARA_VERSION_TAG "v2.00.00"
+// functions for message queue handled in worktask
+extern uint32_t IOLM_doWriteNvram(void * const pLoad);
+extern uint32_t IOLM_queueWriteNvram(const char * const name, const int32_t mode, const uint32_t len, const void * const pData, asyncWorkFunc_t cbDone);
+extern uint32_t IOLM_doClearNvram(void * const unused);
+extern uint32_t IOLM_queueClearNvram(void);
+extern uint32_t IOLM_pushWorkMsg(asyncWorkFunc_t const func, asyncWorkFunc_t const cbDone, void * const pLoad);
 
-#define IOL8M_SITARA_VERSION_VERSION_MAJOR 2
-#define IOL8M_SITARA_VERSION_VERSION_MINOR 0
-#define IOL8M_SITARA_VERSION_VERSION_PATCH 0
+extern void OSAL_FUNC_NORETURN IOLM_workTask(void *pArg_p);
 
-#define IOL8M_SITARA_VERSION_COMMIT_U16 0xd384
-
-#ifdef __cplusplus
+#if (defined __cplusplus)
 }
 #endif
 
-#endif  // _IOL8M_SITARA_VERSION_INFO_H_
+#endif /* PROTECT_IOLMWORKTASK_H */

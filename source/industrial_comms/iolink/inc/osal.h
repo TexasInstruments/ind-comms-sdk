@@ -224,11 +224,12 @@ typedef enum OSAL_TASK_Priority
 #define OSAL_TASK_Prio_DPRTX (OSAL_TASK_Prio_27)
 
 /* IOL */
-#define OSAL_TASK_Prio_IOL_LED (OSAL_TASK_Prio_20)
-#define OSAL_TASK_Prio_IOL_Power (OSAL_TASK_Prio_13)
-#define OSAL_TASK_Prio_IOL_SMI (OSAL_TASK_Prio_22)
-#define OSAL_TASK_Prio_IOL_Main (OSAL_TASK_Prio_16)
-#define OSAL_TASK_Prio_IOL_Port (OSAL_TASK_Prio_29)
+#define OSAL_TASK_Prio_IOL_LED (OSAL_TASK_Prio_Idle)
+#define OSAL_TASK_Prio_IOL_SMI (OSAL_TASK_Prio_9)
+#define OSAL_TASK_Prio_IOL_Example_Main (OSAL_TASK_Prio_Normal)
+#define OSAL_TASK_Prio_IOL_Main (OSAL_TASK_Prio_25)
+#define OSAL_TASK_Prio_IOL_NVRAM (OSAL_TASK_Prio_Normal)
+#define OSAL_TASK_Prio_IOL_Port (OSAL_TASK_Prio_20)
 
 /* EtherNet/IP */
 #define OSAL_TASK_Prio_EIP_MAIN (OSAL_TASK_Prio_8)

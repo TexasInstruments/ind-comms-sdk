@@ -44,15 +44,31 @@
 #include "IOLM_Port_version.h"
 #include "IOLM_Port_smiExample.h"
 #include "IOLinkPort/IOLM_Port_SMI.h"
+#include "nvram.h"
+#include "TinyQueue.h"
+#include "IOLM_workTask.h"
+#define IOLM_NVRAM_FILENAME "iolm_000"
+#define IOLM_NVRAM_FILENAME_LEN 8
+#define IOLM_NVRAM_FILENAME_POS 7
 
 /*** private function declarations ***/
+static inline char IOLM_EXMPL_digitToCharacter(const uint8_t instance);
+static void IOLM_EXMPL_mkCfgFileName(uint8_t instance, char filename[], uint8_t pos);
+static void IOLM_EXMPL_cbLoadNvCfg(uint8_t instance, uint8_t *pData, uint32_t *pLength);
+static void IOLM_EXMPL_cbSaveNvCfg(uint8_t instance, uint8_t *pData, uint32_t length);
+static void IOLM_EXMPL_cbResetNvCfg(uint8_t instance, uint8_t* pData, uint16_t len);
 
 IOLM_SMI_SCallbacks IOLM_EXMPL_SSmiCallbacks_g =
 {
     /* Generic channel for SMI over UART */
+    .cbLoadMasterIdentification =       IOLM_EXMPL_vLoadMasterIdentification,
     .cbChipInfo                 =       IOLM_EXMPL_cbChipInfo,
     .cbGenericCnf               =       IOLM_SMI_cbGenericCnf,
     .cbStdInd                   =       IOLM_SMI_cbStdInd,
+    /* non-volatile data storage */
+    .cbLoadNvCfg                =       IOLM_EXMPL_cbLoadNvCfg,
+    .cbSaveNvCfg                =       IOLM_EXMPL_cbSaveNvCfg,
+    .cbResetDefaults            =       IOLM_EXMPL_cbResetNvCfg,
     /* Confirmation for port status request */
     .cbPortStatusCnf            =       IOLM_EXMPL_cbPortStatusCnf,
     /* Event handling(acyclic) */
@@ -74,7 +90,7 @@ IOLM_SMI_SCallbacks IOLM_EXMPL_SSmiCallbacks_g =
     .cbMainLoopRequest          =       IOLM_MAIN_cbMainLoopRequest,
 };
 
-IOLM_EXMPL_SPortDataValues_t port[IOLM_PORT_COUNT + 1];
+IOLM_EXMPL_SPortDataValues_t port[IOLM_EXMPL_MAX_PORTS + 1];
 
 /*** private function definitions ***/
 
@@ -86,6 +102,14 @@ IOLM_EXMPL_SPortDataValues_t port[IOLM_PORT_COUNT + 1];
  * \return character
  *
  */
+static inline char IOLM_EXMPL_digitToCharacter(const uint8_t digit)
+{
+    if(digit < 10)
+    {
+        return ('0' + digit);
+    }
+    return '?';
+}
 /*!
  * \brief Overwrite the given string from pos to pos-2 with
  *        a three digit decimal, e.g. iolm_xxx -> iolm_001.
@@ -97,6 +121,18 @@ IOLM_EXMPL_SPortDataValues_t port[IOLM_PORT_COUNT + 1];
  * \return void
  *
  */
+static void IOLM_EXMPL_mkCfgFileName(uint8_t instance, char filename[], uint8_t pos)
+{
+    // start last character position
+    unsigned int first = 0;
+    if(pos >= 2u) {
+        first = pos - 2u;
+    }
+    while(pos >= first) {
+        filename[pos--] = IOLM_EXMPL_digitToCharacter(instance % 10);
+        instance /= 10;
+    }
+}
 /*!
  * \brief Load non-volatile data storage
  *
@@ -107,7 +143,28 @@ IOLM_EXMPL_SPortDataValues_t port[IOLM_PORT_COUNT + 1];
  * \return void
  *
  */
-
+static void IOLM_EXMPL_cbLoadNvCfg(uint8_t instance, uint8_t *pData, uint32_t *pLength)
+{
+    char filename[] = IOLM_NVRAM_FILENAME;
+    IOLM_EXMPL_mkCfgFileName(instance, filename, IOLM_NVRAM_FILENAME_POS);
+    NVR_read(filename, pLength, 0, pData);
+}
+/*!
+ * \brief This must be called to confirm to the stack a successful write to NVRAM.
+ *
+ * \param[in] pStatus Cast to uint32 as status (0 = OK, ...)
+ * \return status
+ *
+ */
+uint32_t IOLM_EXMPL_writeCallback(void* const pStatus)
+{
+    uint32_t status = *((uint32_t*)pStatus);
+    NVR_LOG_DEBUG("status: %i", status);
+    if(status == 0) {
+        IOLM_SMI_vSaveNvFinished();
+    }
+    return status;
+}
 /*!
  * \brief Save non-volatile data storage
  *
@@ -118,6 +175,27 @@ IOLM_EXMPL_SPortDataValues_t port[IOLM_PORT_COUNT + 1];
  * \return void
  *
  */
+static void IOLM_EXMPL_cbSaveNvCfg(uint8_t instance, uint8_t *pData, uint32_t length)
+{
+    char filename[] = IOLM_NVRAM_FILENAME;
+    IOLM_EXMPL_mkCfgFileName(instance, filename, IOLM_NVRAM_FILENAME_POS);
+    // Put the write request into the work task queue and fire the callback after it was executed
+    IOLM_queueWriteNvram(filename, NVR_MODE_OVERWRITE, length, pData, IOLM_EXMPL_writeCallback);
+}
+/*!
+ * \brief Reset non-volatile data storage
+ *
+ * \param[in] instance Instance (e.g. port) number
+ * \param[in] pData    Not used
+ * \param[in] len      Not used
+ *
+ * \return void
+ */
+static void IOLM_EXMPL_cbResetNvCfg(uint8_t instance, uint8_t* pData, uint16_t len)
+{
+    static const uint32_t u32CrcEmpty = 0xFFFFFFFF;
+    IOLM_EXMPL_cbSaveNvCfg(instance, (uint8_t*)&u32CrcEmpty, sizeof(u32CrcEmpty));
+}
 
 /*** public function definitions ***/
 
@@ -138,7 +216,7 @@ IOLM_EXMPL_SPortDataValues_t port[IOLM_PORT_COUNT + 1];
  */
 void IOLM_EXMPL_updateLEDs(uint8_t portNumber_p)
 {
-    static IOLM_SMI_EPortStatus previousPortStatus_s[IOLM_PORT_COUNT + 1] =
+    static IOLM_SMI_EPortStatus previousPortStatus_s[IOLM_EXMPL_MAX_PORTS + 1] =
         { IOLM_SMI_ePortStatus_NOT_AVAILABLE, };
 
     IOLM_SMI_EPortStatus portStatus = port[portNumber_p].currentStackPortStatus;
@@ -199,13 +277,13 @@ void IOLM_EXMPL_init(void)
     port[0].exampleState = IOLM_eExampleState_NotUsed;
     
     /* Set all active ports to init state */
-    for (portNumber = IOLM_EXMPL_SMI_PORTS_NUMBER_START; portNumber <= IOLM_PORT_COUNT; portNumber++)
+    for (portNumber = IOLM_EXMPL_SMI_PORTS_NUMBER_START; portNumber <= IOLM_EXMPL_MAX_PORTS; portNumber++)
     {
         port[portNumber].exampleState = IOLM_eExampleState_Init;
     }
 
     /* Set all active ports to init port */
-    for (portNumber = IOLM_EXMPL_SMI_PORTS_NUMBER_START; portNumber <= IOLM_PORT_COUNT; portNumber++)
+    for (portNumber = IOLM_EXMPL_SMI_PORTS_NUMBER_START; portNumber <= IOLM_EXMPL_MAX_PORTS; portNumber++)
      {
         port[portNumber].currentStackPortStatus = IOLM_SMI_ePortStatus_NO_DEVICE;
         for (dataValueCounter = 0; dataValueCounter < PD_INPUT_LENGTH; dataValueCounter++)
@@ -237,7 +315,7 @@ void OSAL_FUNC_NORETURN IOLM_EXMPL_mainLoop(void)
     while (1)
     {
         /* get port status periodically for setting the LEDs */
-        for (portNumber = IOLM_EXMPL_SMI_PORTS_NUMBER_START; portNumber <= IOLM_PORT_COUNT; portNumber++)
+        for (portNumber = IOLM_EXMPL_SMI_PORTS_NUMBER_START; portNumber <= IOLM_EXMPL_MAX_PORTS; portNumber++)
         {
             IOLM_SMI_vPortStatusReq(IOLM_SMI_CLIENT_APP, portNumber);
         }
@@ -781,6 +859,50 @@ void IOLM_EXMPL_cbPDInCnf(uint8_t clientID_p, uint8_t port_p, uint16_t error_p, 
         }
         port[port_p].exampleState = IOLM_eExampleState_PortStatusRequestPD;
     }
+}
+
+/**
+\fn IOLM_EXMPL_CBLoadMasterIdentification
+\brief Load Master configuration callback
+
+This callback service is called by the stack and requests the Master configuration from the application.
+Since this is hardware specific, it has to be implemented in the application code.
+
+\param[in]  u16ArgBlockLength_p     Length of the ArgBlock.
+\param[in]  pu8ArgBlock_p           Data pointer which points to the Master identification (#IOLM_SMI_SMasterident).
+
+\par Example
+\code{.c}
+void IOLM_SMI_vLoadMasterIdentification(INT16U *u16ArgBlockLength_p, INT8U *pu8ArgBlock_p)
+{
+    IOLM_SMI_SMasterident *psuMasterIdent = (IOLM_SMI_SMasterident *)pu8ArgBlock_p;
+
+    psuMasterIdent->u16ArgBlockID = IOLM_SMI_ENDIAN_16(IOLM_SMI_eArgBlockID_MasterIdent);
+    ...
+
+    // ToDo: Set up psuMasterIdent parameters
+}
+\endcode
+
+\see IOLM_SMI_SCallbacks, IOLM_SMI_vInit, IOLM_SMI_EArgBlockID
+
+\ingroup grp_smi_general
+
+*/
+void IOLM_EXMPL_vLoadMasterIdentification(uint16_t *u16ArgBlockLength_p, uint8_t *pu8ArgBlock_p)
+{
+    IOLM_SMI_SMasterident *psuMasterIdent = (IOLM_SMI_SMasterident *)pu8ArgBlock_p;
+    psuMasterIdent->u16ArgBlockID = IOLM_SMI_ENDIAN_16(IOLM_SMI_eArgBlockID_MasterIdent);
+    psuMasterIdent->u8MaxNumberOfPorts = IOLM_EXMPL_MAX_PORTS;
+
+    //set portType for all ports
+    for(INT8U i = 0; i < IOLM_EXMPL_MAX_PORTS; i++)
+    {
+        pu8ArgBlock_p[sizeof(IOLM_SMI_SMasterident) + i] = IOLM_SMI_ePortTypes_ClassAWithPowerOffOn;
+    }
+
+    //write new ArgBlockLength
+    *u16ArgBlockLength_p = (sizeof(IOLM_SMI_SMasterident) + IOLM_EXMPL_MAX_PORTS);
 }
 
 /*!

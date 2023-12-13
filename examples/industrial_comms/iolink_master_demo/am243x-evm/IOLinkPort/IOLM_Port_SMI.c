@@ -235,7 +235,7 @@ void IOLM_SMI_portInit(void)
     u32ReceivedBytes_g = 0;
     IOLM_pSmiTaskHandle_s = OSAL_SCHED_startTask((OSAL_SCHED_CBTask_t)vUARTrun,
                                                  NULL,
-                                                 OSAL_TASK_ePRIO_IOL_SMI,
+                                                 OSAL_TASK_Prio_IOL_SMI,
                                                  (uint8_t*)IOLM_pSmiTaskStack_s,
                                                  sizeof(IOLM_pSmiTaskStack_s),
                                                  OSAL_OS_START_TASK_FLG_NONE,

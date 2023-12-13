@@ -46,6 +46,7 @@ FILES_common := \
 	IOLM_Port_Utils.c \
 	nvram_driver.c \
 	main.c \
+	IOLM_workTask.c \
 	ti_drivers_config.c \
 	ti_drivers_open_close.c \
 	ti_board_config.c \
@@ -58,7 +59,7 @@ FILES_PATH_common = \
 	.. \
 	../.. \
 	../../IOLinkPort \
-	../../KBDrv \
+	../../../KBDrv \
 	generated \
 
 INCLUDES_common := \
@@ -71,7 +72,7 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/IOLinkPort \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/KBDrv \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI \

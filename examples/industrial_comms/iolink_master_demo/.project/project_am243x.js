@@ -10,7 +10,9 @@ const files_evm = {
         "IOLM_Port_spi.c",
         "IOLM_Port_smiExample.c",
         "IOLM_Port_Utils.c",
+        "nvram_driver.c",
         "main.c",
+        "IOLM_workTask.c",
     ],
 };
 
@@ -23,7 +25,9 @@ const files_lp = {
         "IOLM_Port_spi.c",
         "IOLM_Port_smiExample.c",
         "IOLM_Port_Utils.c",
+        "nvram_driver.c",
         "main.c",
+        "IOLM_workTask.c",
     ],
 };
 
@@ -35,6 +39,7 @@ const filedirs = {
         "..",       /* core_os_combo base */
         "../..", /* Example base */
         "../../IOLinkPort",
+        "../../../KBDrv",
     ],
 };
 
@@ -55,6 +60,7 @@ const includes_freertos_r5f_evm = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-evm",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-evm/IOLinkPort",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI",
@@ -69,6 +75,7 @@ const includes_freertos_r5f_lp = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-lp",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-lp/IOLinkPort",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI",
@@ -81,6 +88,7 @@ const libs_freertos_r5f_evm = {
         "drivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "iolink.am243x_evm.r5f.ti-arm-clang.release.lib",
+        "littlefs.am243x_evm.r5f.ti-arm-clang.release.lib",
     ],
 };
 
@@ -90,6 +98,7 @@ const libs_freertos_r5f_lp = {
         "drivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "iolink.am243x_lp.r5f.ti-arm-clang.release.lib",
+        "littlefs.am243x_lp.r5f.ti-arm-clang.release.lib",
     ],
 };
 

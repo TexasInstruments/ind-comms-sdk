@@ -45,7 +45,9 @@ FILES_common := \
 	IOLM_Port_spi.c \
 	IOLM_Port_smiExample.c \
 	IOLM_Port_Utils.c \
+	nvram_driver.c \
 	main.c \
+	IOLM_workTask.c \
 	ti_drivers_config.c \
 	ti_drivers_open_close.c \
 	ti_board_config.c \
@@ -58,6 +60,7 @@ FILES_PATH_common = \
 	.. \
 	../.. \
 	../../IOLinkPort \
+	../../../KBDrv \
 	generated \
 
 INCLUDES_common := \
@@ -70,6 +73,7 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-lp \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-lp/IOLinkPort \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI \
@@ -127,6 +131,7 @@ LIBS_common = \
 	-ldrivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lboard.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-liolink.am243x_lp.r5f.ti-arm-clang.release.lib \
+	-llittlefs.am243x_lp.r5f.ti-arm-clang.release.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -143,6 +148,7 @@ LIBS_NAME = \
 	drivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	board.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	iolink.am243x_lp.r5f.ti-arm-clang.release.lib \
+	littlefs.am243x_lp.r5f.ti-arm-clang.release.lib \
 	libc.a \
 	libsysbm.a \
 

@@ -12,6 +12,7 @@ const files = {
         "IOLM_Port_Utils.c",
         "nvram_driver.c",
         "main.c",
+        "IOLM_workTask.c",
     ],
 };
 
@@ -23,7 +24,7 @@ const filedirs = {
         "..",       /* core_os_combo base */
         "../..", /* Example base */
         "../../IOLinkPort",
-        "../../KBDrv",
+        "../../../KBDrv",
     ],
 };
 
@@ -44,7 +45,7 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/IOLinkPort",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/KBDrv",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI",
