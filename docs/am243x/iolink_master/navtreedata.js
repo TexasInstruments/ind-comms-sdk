@@ -31,6 +31,9 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 2.00.00", "releasenotes.html#version_release20000", null ],
+      [ "Release Version 1.09.08", "releasenotes.html#version_release10908", null ],
+      [ "Release Version 1.09.07", "releasenotes.html#version_release10907", null ],
       [ "Release Version 1.09.06", "releasenotes.html#version_release10906", null ],
       [ "Release Version 1.09.05", "releasenotes.html#version_release10905", null ],
       [ "Release Version 1.09.04", "releasenotes.html#version_release10904", null ],
@@ -71,8 +74,9 @@ var NAVTREE =
     ] ],
     [ "Quickstart - IO-Link Master", "page_quickstart.html", [
       [ "Software Installation", "page_quickstart.html#qs_installation_software", null ],
-      [ "Example", "page_quickstart.html#page_example", null ],
-      [ "Connect the Evaluation Board", "@ref qs_installation_connect", null ],
+      [ "Example", "page_quickstart.html#page_example", [
+        [ "Non-volatile Storage Driver", "page_nvram.html", null ]
+      ] ],
       [ "SMI - Graphical User Interface", "page_quickstart.html#page_gui", null ]
     ] ],
     [ "SMI", "page_smi.html", [
@@ -83,19 +87,7 @@ var NAVTREE =
       [ "ArgBlocks", "page_smi.html#sect_smi_argblock", null ],
       [ "Direct Services", "page_smi.html#sect_smi_directservice", null ]
     ] ],
-    [ "API without SMI", "page_api.html", [
-      [ "General API", "page_api.html#section_api_general", null ],
-      [ "Timing API", "page_api.html#section_api_Timing", null ],
-      [ "Physical Layer API", "page_api.html#section_pl_api_functions", [
-        [ "Port Configuration", "page_api.html#section_api_configuration", null ]
-      ] ],
-      [ "Process Data API", "page_api.html#section_pd_api_functions", null ],
-      [ "ISDU/Parameter API", "page_api.html#section_isdu_api_functions", null ],
-      [ "Event API", "page_api.html#section_evt_api_functions", null ],
-      [ "Data Storage API", "page_api.html#section_ds_api_functions", null ]
-    ] ],
     [ "Implementation", "_implementation.html", [
-      [ "Hardware Port", "page_hwport.html", null ],
       [ "Device Communication", "page_startcom.html", null ],
       [ "Data Storage", "page_datastorage.html", null ]
     ] ],
@@ -116,11 +108,11 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"@ref qs_installation_connect",
-"group__group__iol__types.html#ggab840d2419d921adc28bb477237ad1704ab0f46a8a78f8d31d6b4ab63738bf0e53",
-"page_smi.html",
-"struct_i_o_l_m___s_m_i___s_generic_event.html",
-"struct_i_o_l_m___s_m_i___s_w_single_scan_status_list.html#a76d840e63188eafc1ebbc1ae62e5992a"
+"_implementation.html",
+"group__group__iol__types.html#ggad0ca49c3bb7c13c80fd6a22eea40bccfa21737088b071d7c393731d280260a98a",
+"references.html",
+"struct_i_o_l_m___s_m_i___s_header.html#a3485c9aa50c9a8c4282f2726c00d41f6",
+"struct_i_o_l_m___s_m_i___s_w_track_status_list.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

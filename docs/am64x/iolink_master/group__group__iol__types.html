@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">2.00.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -300,7 +300,6 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="group__group__iol__types.html#gga6e71b7775c2052aa5178dd6200b469c2af8e2525a25d83f156b1faaf155fa05d3">IOL_eTargetMode_OSSDE</a>
 , <a class="el" href="group__group__iol__types.html#gga6e71b7775c2052aa5178dd6200b469c2ae76e7fd1df7d81b220b6bd0885b00af9">IOL_eTargetMode_SAFETYCOM</a>
-, <a class="el" href="group__group__iol__types.html#gga6e71b7775c2052aa5178dd6200b469c2a20c04a0de52034714ff49664776cd5e6">IOL_eTargetMode_MIXEDSAFETYCOM</a>
 <br />
  }</td></tr>
 <tr class="memdesc:ga6e71b7775c2052aa5178dd6200b469c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This enumeration indicates the requested operational mode of the port.  <a href="group__group__iol__types.html#ga6e71b7775c2052aa5178dd6200b469c2">More...</a><br /></td></tr>
@@ -713,11 +712,19 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>IOL_eSystemCommand_DownloadEnd</b>
 , <b>IOL_eSystemCommand_DownloadEndStore</b>
 , <b>IOL_eSystemCommand_Break</b>
-, <b>IOL_eSystemCommand_DeviceReset</b> = 128
+, <b>IOL_eSystemCommand_BM_UNLOCK_S</b> = 80
 , <br />
-&#160;&#160;<b>IOL_eSystemCommand_ApplicationReset</b> = 129
+&#160;&#160;<b>IOL_eSystemCommand_BM_UNLOCK_F</b> = 81
+, <b>IOL_eSystemCommand_BM_UNLOCK_T</b> = 82
+, <b>IOL_eSystemCommand_BM_ACTIVATE</b> = 83
+, <b>IOL_eSystemCommand_LocatorStart</b> = 126
+, <br />
+&#160;&#160;<b>IOL_eSystemCommand_LocatorStop</b> = 127
+, <b>IOL_eSystemCommand_DeviceReset</b> = 128
+, <b>IOL_eSystemCommand_ApplicationReset</b> = 129
 , <b>IOL_eSystemCommand_RestoreFactorySettings</b> = 130
-, <b>IOL_eSystemCommand_BackToBox</b> = 131
+, <br />
+&#160;&#160;<b>IOL_eSystemCommand_BackToBox</b> = 131
 <br />
  }</td></tr>
 <tr class="memdesc:ga4eac250e5bf3cfc42a37c2c10ffa27cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This enumeration indicates the predefined system commands. <br /></td></tr>
@@ -727,6 +734,11 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ga96ade9f6377931c44b2672e8361ad0af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Physical layer slot types. <br /></td></tr>
 <tr class="separator:ga96ade9f6377931c44b2672e8361ad0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0e844badfe8413b12fe2ba0d0d8e5f6b"><td class="memItemLeft" align="right" valign="top"><a id="ga0e844badfe8413b12fe2ba0d0d8e5f6b"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iol__types.html#ga0e844badfe8413b12fe2ba0d0d8e5f6b">IOL_ESlotLenType</a> { <b>IOL_eSlotLength_SSLOT</b> = 1
+, <b>IOL_eSlotLength_DSLOT</b> = 14
+ }</td></tr>
+<tr class="memdesc:ga0e844badfe8413b12fe2ba0d0d8e5f6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Physical layer slot length. <br /></td></tr>
+<tr class="separator:ga0e844badfe8413b12fe2ba0d0d8e5f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ga72e1c09692cb66447663127e8b16020c"></a>
@@ -1441,8 +1453,6 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="gga6e71b7775c2052aa5178dd6200b469c2af8e2525a25d83f156b1faaf155fa05d3"></a>IOL_eTargetMode_OSSDE&#160;</td><td class="fielddoc"><p>Port in digital input mode at C/Q and I/Q. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga6e71b7775c2052aa5178dd6200b469c2ae76e7fd1df7d81b220b6bd0885b00af9"></a>IOL_eTargetMode_SAFETYCOM&#160;</td><td class="fielddoc"><p>Device communicating safety Process Data. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga6e71b7775c2052aa5178dd6200b469c2a20c04a0de52034714ff49664776cd5e6"></a>IOL_eTargetMode_MIXEDSAFETYCOM&#160;</td><td class="fielddoc"><p>Device communicating mixed safety and non safety Process Data. </p>
 </td></tr>
 </table>
 

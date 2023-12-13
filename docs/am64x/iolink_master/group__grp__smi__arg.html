@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">2.00.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -286,7 +286,7 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>IOLM_SMI_ARGBLOCK_PDINOUT_LEN</b>(InputLen,  OutputLen)&#160;&#160;&#160;(4 + 2 + InputLen + OutputLen)</td></tr>
 <tr class="separator:ga09beb25dbddcfcd50d40631f57f80f6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga362487bc716d0227f0cdab092a05a716"><td class="memItemLeft" align="right" valign="top"><a id="ga362487bc716d0227f0cdab092a05a716"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>IOLM_SMI_ARGBLOCK_FSPDINOUT_LEN</b>(InputLen,  OutputLen)&#160;&#160;&#160;(4 + 2 + InputLen + OutputLen)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>IOLM_SMI_ARGBLOCK_FSPDINOUT_LEN</b>(InputLen,  OutputLen)&#160;&#160;&#160;(4 + 4 + (InputLen) + (OutputLen))</td></tr>
 <tr class="separator:ga362487bc716d0227f0cdab092a05a716"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa6ed08210c367cab9d964c2f7591ccfc"><td class="memItemLeft" align="right" valign="top"><a id="gaa6ed08210c367cab9d964c2f7591ccfc"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>IOLM_SMI_ARGBLOCK_ONREQ_LEN</b>(Datalen)&#160;&#160;&#160;(sizeof(<a class="el" href="struct_i_o_l_m___s_m_i___s_on_request_data.html">IOLM_SMI_SOnRequestData</a>) - <a class="el" href="group__group__iolm__types.html#ga6e172689b7aa13880657eb180c7d8cf9">IOLM_MAX_ISDU_LENGTH</a> + Datalen)</td></tr>
@@ -556,11 +556,10 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<b>IOLM_SMI_ePortMode_DO_CQ</b> = 4
 , <b>IOLM_SMI_ePortMode_SAFETYCOM</b> = 49
-, <b>IOLM_SMI_ePortMode_MIXEDSAFETYCOM</b> = 50
-, <b>IOLM_SMI_ePortMode_OSSDE</b> = 51
+, <b>IOLM_SMI_ePortMode_OSSDE</b> = 50
+, <b>IOLM_SMI_ePortMode_CYCLIC_AUTO</b> = 52
 , <br />
-&#160;&#160;<b>IOLM_SMI_ePortMode_CYCLIC_AUTO</b> = 52
-, <b>IOLM_SMI_ePortMode_CYCLIC</b> = 53
+&#160;&#160;<b>IOLM_SMI_ePortMode_CYCLIC</b> = 53
 , <b>IOLM_SMI_ePortMode_ROAMING_AUTO</b> = 54
 , <b>IOLM_SMI_ePortMode_ROAMING</b> = 55
 <br />

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['target_20audience_1298',['Target Audience',['../targetaudience.html',1,'generalinformation']]]
+  ['smi_1299',['SMI',['../page_smi.html',1,'']]]
 ];

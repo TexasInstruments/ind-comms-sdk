@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['references_1295',['References',['../references.html',1,'generalinformation']]],
-  ['release_20notes_1296',['Release Notes',['../releasenotes.html',1,'']]]
+  ['quickstart_20_2d_20io_2dlink_20master_1296',['Quickstart - IO-Link Master',['../page_quickstart.html',1,'']]]
 ];
