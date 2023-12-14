@@ -111,13 +111,13 @@ Software Installation</h1>
 <tr>
 <th>Software Package </th><th>Version  </th></tr>
 <tr>
-<td>Code Composer Studio&trade;(CCS) </td><td>12.4.0  </td></tr>
+<td>Code Composer Studio&trade;(CCS) </td><td>12.5.0  </td></tr>
 <tr>
-<td>MCU+ SDK </td><td>09.00.00.03  </td></tr>
+<td>INDUSTRIAL COMMUNICATIONS SDK </td><td>09.01.00  </td></tr>
 <tr>
-<td>TI ARM clang </td><td>2.1.3.LTS  </td></tr>
+<td>TI ARM clang </td><td>3.2.0.LTS  </td></tr>
 <tr>
-<td>SysConfig Tool </td><td>1.17.0  </td></tr>
+<td>SysConfig Tool </td><td>1.18.0  </td></tr>
 </table>
 <h1><a class="anchor" id="page_example"></a>
 CCS Example Project</h1>
@@ -176,13 +176,9 @@ Make sure the IO-Link Master <b>USB JTAG is connected</b> to the PC and the <b>M
 <li>
 Since we are running the application on the R5F, one needs to <b>initialize the whole board through the DMSC M3.</b><br  />
  The MCU+ SDK includes a launch script which does all the initalization steps.<br  />
- It is located in the MCU+ SDK folder at <b>mcu_plus_sdk_am64x_09_00_00_03 /tools/ccs_load/am64x_am243x/</b>. </li>
+ It is located in the MCU+ SDK folder at <b>mcu_plus_sdk/tools/ccs_load/am64x/</b>. </li>
 <li>
-Depending on the local CCS setup, one needs to <b>edit the paths</b> to fit the local installation <b>in theload_dmsc.js</b> file,<br  />
- which can be seen in the screenshot below. The version number needs to be changed to the installed MCU+ SDK version if it is not automatically detected or already the correct version.<br  />
- <img src="CCS_Example_launch01_64x.PNG" alt="" width="600px" height="auto" class="inline"/>  </li>
-<li>
-After that, one needs to check your Debug Configuration in <b>Run &rarr; Debug Configurations</b>.<br  />
+One needs to check your Debug Configuration in <b>Run &rarr; Debug Configurations</b>.<br  />
  See if the configured launch file location fits to your setup environment.<br  />
  Otherwise one also needs to edit this line.<br  />
  <img src="CCS_Example_launch00_64x.PNG" alt="" width="600px" height="auto" class="inline"/>  </li>
