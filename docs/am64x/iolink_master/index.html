@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">2.00.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -105,11 +105,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>This is the integration manual of the IO-Link<sup><small>&reg;</small></sup> Master stack including an example application.</p>
-<p>There are two different APIs to communicate with the IO-Link stack library:</p><ul>
-<li><a class="el" href="page_smi.html">SMI</a> - The Standardized Master Interface (SMI) is a generic interface, which is set on top of the stack's regular API. It matches the interface with other IO-Link standards and acts as a connecting interface for multiple clients. It also includes the configuration management and event dispatching.</li>
-<li><a class="el" href="page_api.html">API without SMI</a> - Use this API if you want to directly access the lower level System Management and Application Layer services.</li>
-</ul>
-<p><b>Only one of these interfaces can be used.</b> </p>
+<p>To communicate with the IO-Link stack library use <a class="el" href="page_smi.html">SMI</a> - The Standardized Master Interface (SMI). It is a generic interface, which is set on top of the stack's regular API. It matches the interface with other IO-Link standards and acts as a connecting interface for multiple clients. It also includes the configuration management and event dispatching. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">2.00.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -104,7 +104,105 @@ $(document).ready(function(){initNavTree('page_smi.html',''); initResizable(); }
 <div class="title">SMI </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The Standardized Master Interface (SMI) is a generic interface which is set on top of the regular API of the stack. It matches the interface with other IO-Link standards and acts as a connecting interface for multiple clients. It also includes the configuration management and event dispatching.</p>
+<div class="textblock"><p>This section provides an overview of all interface functions that can be used with the SMI disabled. The great advantage of SMI is that most of the API functionality is handled by the SMI and doesn't have to be set manually. To deactivate the SMI, the <a class="el" href="group__group__iolm__port__definition.html#ga198c31c91fca3f459ed4071d8584bd9c" title="Enable SMI.">IOLM_SMI_ENABLED</a> definition must be set to 0. For more details, see the corresponding function descriptions and the following sections.</p>
+<h1><a class="anchor" id="section_api_general"></a>
+General API</h1>
+<p>The stack needs to be initialized once during startup with the following function:</p>
+<ul>
+<li><a class="el" href="group__grp__api__general.html#ga85f1d5d20881067c622648e260e6f531" title="Initialize stack.">IOLM_API_eInit()</a></li>
+</ul>
+<p>To proceed the internal state machines and send notifications to the application layer, the main run function must be called periodically. This must be done at least once during an IO-Link cycle.</p>
+<ul>
+<li><a class="el" href="group__grp__api__general.html#ga2f75f69ef005ee175e28142175c94157" title="Mainloop run.">IOLM_API_vRun()</a></li>
+</ul>
+<h1><a class="anchor" id="section_api_Timing"></a>
+Timing API</h1>
+<p>The following functions are used for timing:</p>
+<ul>
+<li><a class="el" href="group__grp__api__port.html#ga1602161a944a9a7f5b380466011c063b" title="Port timer expired.">IOLM_API_vTimerExpired()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga5048c43ab45f1f2bcf4571605f41f24b" title="Start port hardware timer.">IOLM_Port_vStartTimer()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga65eb361bc638770d50681bd9977cfedc" title="Get SysTick value.">IOLM_Port_s32SysTickVal()</a></li>
+</ul>
+<p>For details see <a class="el" href="page_hwport.html#sect_hwport_timer">Timer System</a>.</p>
+<h1><a class="anchor" id="section_pl_api_functions"></a>
+Physical Layer API</h1>
+<p>The following functions are used to access the physical layer:</p>
+<ul>
+<li><a class="el" href="group__grp__api__port.html#ga672eff8888c365335698c7f57d1c5f8e" title="Data receive processing finished.">IOLM_API_PL_vTransferInd()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga99b0043dd21e95f9e7e6b3c319f1b5d7" title="Set physical layer mode.">IOLM_Port_PL_vSetMode()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga865affd649eb1c84815ab7637370e162" title="Send wake-up pulse.">IOLM_Port_PL_eWakeUp()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga9afd4162850ee3fbf6b0e4febcdfb13a" title="Acknowledge wake-up.">IOLM_API_PL_u8WakeAck()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga583483ea6397e01bf9a0502d05524d4b" title="Prepare data exchange.">IOLM_Port_PL_vTransferPrepare()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga3c426594ce09a3fc95e3bbeab3b5dec2" title="Start frame transmission.">IOLM_Port_PL_vTransferTrig()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga5e6b41e27f9b16554a7cd23fa2eb1581" title="Get input pin value.">IOLM_Port_PL_boGetDI()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga7642bf9f1e7e996fb4c1a08dabd921a3" title="Set output pin value.">IOLM_Port_PL_vSetDO()</a></li>
+</ul>
+<p>For details see <a class="el" href="page_hwport.html#sect_hwport_pl">Physical Layer</a>.</p>
+<h2><a class="anchor" id="section_api_configuration"></a>
+Port Configuration</h2>
+<p>The configuration of device specific stack values (like <a class="el" href="group__group__iolm__port__definition.html#gab2bf19bb72577e08170754784cbf341c" title="Number of ports, which are operated by the IO-Link Master.">IOLM_PORT_COUNT</a> for the number of available ports on the Master, IOLM_SMI_ENABLED, etc.) needs to be set in <a class="el" href="group__group__iol__port__definition.html">IO-Link Port Definitions</a> and in <a class="el" href="group__group__iolm__port__definition.html">IO-Link Master Port Definitions</a>.</p>
+<h1><a class="anchor" id="section_sm_api_functions"></a>
+System Management API</h1>
+<p>The System Management is used to configure the port modes and indicate their current state.</p>
+<ul>
+<li><a class="el" href="group__grp__api__sm.html#ga3956dec36e2e87b07ae588625c89e6d5" title="Port setup.">IOLM_API_SM_eSetPortConfig()</a></li>
+<li><a class="el" href="group__grp__api__sm.html#gae832a259c36c33f9d61e1203dd0d8896" title="Get actual port configuration.">IOLM_API_SM_eGetPortConfig()</a></li>
+<li><a class="el" href="group__grp__api__sm.html#ga5a0b40ff1998ac9191aac9820f7e45d6" title="Set all ready ports into OPERATE mode.">IOLM_API_SM_eOperate()</a></li>
+<li><a class="el" href="group__grp__api__sm.html#ga34b722eb79ce8825f6fb11cdc6c06301" title="Port mode indication.">IOLM_Port_SM_vPortMode()</a></li>
+</ul>
+<h1><a class="anchor" id="section_pd_api_functions"></a>
+Process Data API</h1>
+<p>The following functions are used to access the process image:</p>
+<ul>
+<li><a class="el" href="group__grp__api__pd.html#ga546074f90075f69bbf5df8b0ab232e8b" title="Read input data.">IOLM_API_AL_eGetInput()</a></li>
+<li><a class="el" href="group__grp__api__pd.html#ga7414d0672ca786301c24060cd66a7771" title="Write output data.">IOLM_API_AL_eSetOutput()</a></li>
+</ul>
+<p>If the Port is in a SIO Mode, the process image length is 1 byte and used as boolean for the state of the pin.</p>
+<p>The following function indicates that there is new input process image available:</p>
+<ul>
+<li><a class="el" href="group__grp__api__pd.html#ga8d5143f08e3503fca1d5ec8a0d9f4b14" title="New input indication.">IOLM_Port_AL_vNewInput()</a></li>
+</ul>
+<p>The following function indicate the end of a Process Data cycle:</p>
+<ul>
+<li><a class="el" href="group__grp__api__pd.html#gaf9be96ef02ec99b72d29aba9c00d7297" title="Process Data cycle.">IOLM_Port_AL_vPDCycle()</a></li>
+</ul>
+<p>The following functions are used to set/indicate the status of the Process Data:</p>
+<ul>
+<li><a class="el" href="group__grp__api__pd.html#gaa3ae6301dafcbe014660f817d97eca94" title="Send control code for PDOutStatus indication.">IOLM_API_AL_eControlReq()</a></li>
+<li><a class="el" href="group__grp__api__pd.html#gaa624cd89163ec0d3df4228e82c9d1a6f" title="Control indication.">IOLM_Port_AL_vControlInd()</a></li>
+</ul>
+<h1><a class="anchor" id="section_isdu_api_functions"></a>
+ISDU/Parameter API</h1>
+<p>The ISDU/Parameter API is used to access parameters of a device. Requests are sent with the Req functions. If the request is finished (which takes multiple IO-Link cycles), the corresponding Cnf function is called with the result. If a device needs too much time to respond, the request can be aborted. There is also a auto timeout of IOL_ISDU_TIMEOUT_MS milliseconds.</p>
+<ul>
+<li><a class="el" href="group__grp__api__isdu.html#ga5cd1e237d30eec6b6a062baa23e24d3f" title="Send ISDU read request.">IOLM_API_AL_eReadReq()</a></li>
+<li><a class="el" href="group__grp__api__isdu.html#ga7f46e638ea6459280f328bdec8891cb8" title="Send ISDU write request.">IOLM_API_AL_eWriteReq()</a></li>
+<li><a class="el" href="group__grp__api__isdu.html#ga1d58b8973311032c04f0f98916341ea0" title="Abort a pending ISDU request.">IOLM_API_AL_vAbort()</a></li>
+<li><a class="el" href="group__grp__api__isdu.html#gaa3e4f3e411fb1fc7ff5db2f9fda179b9" title="Read confirmation.">IOLM_Port_AL_vReadCnf()</a></li>
+<li><a class="el" href="group__grp__api__isdu.html#ga96bb4f0226bc429a6ae022838a45accf" title="Write confirmation.">IOLM_Port_AL_vWriteCnf()</a></li>
+</ul>
+<h1><a class="anchor" id="section_evt_api_functions"></a>
+Event API</h1>
+<p>Events are indicated by the following function:</p>
+<ul>
+<li><a class="el" href="group__grp__api__evt.html#ga16de8a1e22142a205651011dfc6dc93c" title="Event indication.">IOLM_Port_AL_vEventInd()</a></li>
+</ul>
+<p>Events must always be acknowledged. The application will receive no further device Event until the last one is acknowledged by the following function.</p>
+<ul>
+<li><a class="el" href="group__grp__api__evt.html#ga32c751319969c793018239e1f2d9c7f5" title="Acknowledge Device Events.">IOLM_API_AL_vEventRsp()</a></li>
+</ul>
+<h1><a class="anchor" id="section_ds_api_functions"></a>
+Data Storage API</h1>
+<p>The following functions are used to access the Data Storage:</p>
+<ul>
+<li><a class="el" href="group__grp__api__ds.html#gaece6ed5b097886adfb31e94abc629473" title="Setup Data Storage mode.">IOLM_API_DS_eSet()</a></li>
+<li><a class="el" href="group__grp__api__ds.html#ga807393ea6c9454a71fffab21de20c78c" title="Delete Data Storage content.">IOLM_API_DS_eDelete()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga91522102260c71e91f91fa95e002bcd2" title="Store DS content.">IOLM_Port_DS_vStoreData()</a></li>
+<li><a class="el" href="group__grp__api__port.html#ga9bcf960a4f98e3cf6177f9667db6a8f1" title="None volatile store completed.">IOLM_API_DS_vStoreComplete()</a></li>
+<li><a class="el" href="group__grp__api__port.html#gac94e30c44d5d0caf171ac3868cd9425b" title="Load DS content.">IOLM_Port_DS_u16LoadData()</a></li>
+</ul>
+<p>For a detailed description see <a class="el" href="page_datastorage.html">Data Storage</a>.</p>
+<p>The Standardized Master Interface (SMI) is a generic interface which is set on top of the regular API of the stack. It matches the interface with other IO-Link standards and acts as a connecting interface for multiple clients. It also includes the configuration management and event dispatching.</p>
 <h1><a class="anchor" id="sect_smi_arch"></a>
 Architecture</h1>
 <p>Most services have ArgBlocks as their parameters. These ArgBlocks are made up of an identifier and contain with different content, depending on its type. The supported ArgBlocks are listed in a following chapter (see <a class="el" href="group__grp__smi__arg.html#ga397dc25ca3a0ea33e10451a24b98b0fa">IOLM_SMI_EArgBlockID</a>). If no ArgBlock is used "NULL" is passed instead of the ArgBlock parameter, e.g. for a request. Most SMI services are acknowledged by a separate confirmation. They are executed in the Mainloop. Some simple services are also available with direct confirmation. The normal API should not be used if the SMI is enabled.</p>
@@ -134,10 +232,10 @@ Initialization and Run</h1>
 <div class="line">    <a class="code" href="group__grp__smi__general.html#ga47992e75303cccf9216ca6f86d038360">IOLM_SMI_vRun</a>();    <span class="comment">// SMI Mainloop (at least once per ms)</span></div>
 <div class="line">    User_Application(); <span class="comment">// ToDo: Insert application specific code here</span></div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__grp__smi__general_html_ga47992e75303cccf9216ca6f86d038360"><div class="ttname"><a href="group__grp__smi__general.html#ga47992e75303cccf9216ca6f86d038360">IOLM_SMI_vRun</a></div><div class="ttdeci">void IOLM_SMI_vRun(void)</div><div class="ttdoc">SMI Mainloop.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI.c:4461</div></div>
-<div class="ttc" id="agroup__grp__smi__general_html_gacdc879b1b293d2964eddfa009a7d48bb"><div class="ttname"><a href="group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb">IOLM_SMI_vInit</a></div><div class="ttdeci">void IOLM_SMI_vInit(IOLM_SMI_SCallbacks *psuCallbacks_p)</div><div class="ttdoc">Initialize SMI interface.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI.c:369</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html">IOLM_SMI_SCallbacks</a></div><div class="ttdoc">SMI Callbacks. Must be initialized via IOLM_SMI_vInit.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI.h:2916</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html_a10e26b753342a25acaf6f1ac496605c8"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html#a10e26b753342a25acaf6f1ac496605c8">IOLM_SMI_SCallbacks::cbGenericCnf</a></div><div class="ttdeci">IOLM_SMI_CBGenericCnf cbGenericCnf</div><div class="ttdoc">Callback for IOLM_SMI_vGenericReq.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI.h:2920</div></div>
+<div class="ttc" id="agroup__grp__smi__general_html_ga47992e75303cccf9216ca6f86d038360"><div class="ttname"><a href="group__grp__smi__general.html#ga47992e75303cccf9216ca6f86d038360">IOLM_SMI_vRun</a></div><div class="ttdeci">void IOLM_SMI_vRun(void)</div><div class="ttdoc">SMI Mainloop.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI.c:4970</div></div>
+<div class="ttc" id="agroup__grp__smi__general_html_gacdc879b1b293d2964eddfa009a7d48bb"><div class="ttname"><a href="group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb">IOLM_SMI_vInit</a></div><div class="ttdeci">void IOLM_SMI_vInit(IOLM_SMI_SCallbacks *psuCallbacks_p)</div><div class="ttdoc">Initialize SMI interface.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI.c:405</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html">IOLM_SMI_SCallbacks</a></div><div class="ttdoc">SMI Callbacks. Must be initialized via IOLM_SMI_vInit.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI.h:2933</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html_a10e26b753342a25acaf6f1ac496605c8"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html#a10e26b753342a25acaf6f1ac496605c8">IOLM_SMI_SCallbacks::cbGenericCnf</a></div><div class="ttdeci">IOLM_SMI_CBGenericCnf cbGenericCnf</div><div class="ttdoc">Callback for IOLM_SMI_vGenericReq.</div><div class="ttdef"><b>Definition:</b> IOLM_SMI.h:2937</div></div>
 </div><!-- fragment --><p>It is only required to provide the desired callbacks. There is a generic API for all services, or an API for each single service.</p>
 <h1><a class="anchor" id="sect_smi_services"></a>
 Services</h1>

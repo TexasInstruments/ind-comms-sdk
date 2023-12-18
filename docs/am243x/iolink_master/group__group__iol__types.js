@@ -234,6 +234,7 @@ var group__group__iol__types =
       [ "IOL_ePortMode_CYCTIME_FAULT", "group__group__iol__types.html#ggaa4f7bf2dfc17869a483b37fd96905ac1aa620400c50f340ef8a68391577807bbb", null ],
       [ "IOL_ePortMode_PORTPOWEROFF", "group__group__iol__types.html#ggaa4f7bf2dfc17869a483b37fd96905ac1aeaf085288efe19b39cfdacddce0decb4", null ]
     ] ],
+    [ "IOL_ESlotLenType", "group__group__iol__types.html#ga0e844badfe8413b12fe2ba0d0d8e5f6b", null ],
     [ "IOL_ESlotType", "group__group__iol__types.html#ga96ade9f6377931c44b2672e8361ad0af", null ],
     [ "IOL_ESystemCommand", "group__group__iol__types.html#ga4eac250e5bf3cfc42a37c2c10ffa27cf", null ],
     [ "IOL_ETargetMode", "group__group__iol__types.html#ga6e71b7775c2052aa5178dd6200b469c2", [
@@ -246,8 +247,7 @@ var group__group__iol__types =
       [ "IOL_eTargetMode_COM2", "group__group__iol__types.html#gga6e71b7775c2052aa5178dd6200b469c2a85682c237f6dd9522bdf2bb3a312bd43", null ],
       [ "IOL_eTargetMode_COM3", "group__group__iol__types.html#gga6e71b7775c2052aa5178dd6200b469c2ae8e4d9536fc3eaf6b4d0505a09cfb445", null ],
       [ "IOL_eTargetMode_OSSDE", "group__group__iol__types.html#gga6e71b7775c2052aa5178dd6200b469c2af8e2525a25d83f156b1faaf155fa05d3", null ],
-      [ "IOL_eTargetMode_SAFETYCOM", "group__group__iol__types.html#gga6e71b7775c2052aa5178dd6200b469c2ae76e7fd1df7d81b220b6bd0885b00af9", null ],
-      [ "IOL_eTargetMode_MIXEDSAFETYCOM", "group__group__iol__types.html#gga6e71b7775c2052aa5178dd6200b469c2a20c04a0de52034714ff49664776cd5e6", null ]
+      [ "IOL_eTargetMode_SAFETYCOM", "group__group__iol__types.html#gga6e71b7775c2052aa5178dd6200b469c2ae76e7fd1df7d81b220b6bd0885b00af9", null ]
     ] ],
     [ "IOL_ETransferMode", "group__group__iol__types.html#ga2bbfb331382aa39514cd9e71279af778", [
       [ "IOL_eTransferMode_INACTIVE", "group__group__iol__types.html#gga2bbfb331382aa39514cd9e71279af778afa8a8aee225142c106fd795573fe1fef", null ],

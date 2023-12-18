@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">2.00.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -182,6 +182,18 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__port__definition.html#gaf89dfc414397ee97c5f3f5fbab548eca">IOL_SERIAL_DISABLE_CLIENT_FILTER</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:gaf89dfc414397ee97c5f3f5fbab548eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">the define can be used to disable the client filter on std filter. This is required if there are multiple endpoints behind the IOL_Serial Std interface. It prevents the floating with not requested packages on the interface <br /></td></tr>
 <tr class="separator:gaf89dfc414397ee97c5f3f5fbab548eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga75afb1d5462983993a0fbc20429c4182"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__port__definition.html#ga75afb1d5462983993a0fbc20429c4182">IOLM_PORT_READY_PULSE_MIN_DURATION_US</a>&#160;&#160;&#160;400U</td></tr>
+<tr class="memdesc:ga75afb1d5462983993a0fbc20429c4182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lower limit of IO-Link Safety ready pulse length in us.  <a href="group__group__iolm__port__definition.html#ga75afb1d5462983993a0fbc20429c4182">More...</a><br /></td></tr>
+<tr class="separator:ga75afb1d5462983993a0fbc20429c4182"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga08ec8a418dd225233ef97d73b799c662"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__port__definition.html#ga08ec8a418dd225233ef97d73b799c662">IOLM_PORT_READY_PULSE_MAX_DURATION_US</a>&#160;&#160;&#160;1100U</td></tr>
+<tr class="memdesc:ga08ec8a418dd225233ef97d73b799c662"><td class="mdescLeft">&#160;</td><td class="mdescRight">Upper limit of IO-Link Safety ready pulse length in us.  <a href="group__group__iolm__port__definition.html#ga08ec8a418dd225233ef97d73b799c662">More...</a><br /></td></tr>
+<tr class="separator:ga08ec8a418dd225233ef97d73b799c662"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf6be3ea1a46c78243773c7f330909b1a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__port__definition.html#gaf6be3ea1a46c78243773c7f330909b1a">IOLM_PORT_MIN_TIME_TO_READY_PULSE_MS</a>&#160;&#160;&#160;10U</td></tr>
+<tr class="memdesc:gaf6be3ea1a46c78243773c7f330909b1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum time for IO-Link Safety ready pulse occurence in ms.  <a href="group__group__iolm__port__definition.html#gaf6be3ea1a46c78243773c7f330909b1a">More...</a><br /></td></tr>
+<tr class="separator:gaf6be3ea1a46c78243773c7f330909b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf04e5b1411a2a76fa49fd02b4b69ea87"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__port__definition.html#gaf04e5b1411a2a76fa49fd02b4b69ea87">IOLM_PORT_READY_PULSE_WAIT_TIME_EXPANSION_MS</a>&#160;&#160;&#160;10U</td></tr>
+<tr class="memdesc:gaf04e5b1411a2a76fa49fd02b4b69ea87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Additional time to wait for ready pulse occurence in ms.  <a href="group__group__iolm__port__definition.html#gaf04e5b1411a2a76fa49fd02b4b69ea87">More...</a><br /></td></tr>
+<tr class="separator:gaf04e5b1411a2a76fa49fd02b4b69ea87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6a169132efc7c7b6c555bc00ff4b0150"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__iolm__port__definition.html#ga6a169132efc7c7b6c555bc00ff4b0150">IOLM_PORT_POWER_OFF_ON_CORRECTION_VALUE_MS</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:ga6a169132efc7c7b6c555bc00ff4b0150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjustment value in ms for PowerOffTime of PowerPowerOffOn service.  <a href="group__group__iolm__port__definition.html#ga6a169132efc7c7b6c555bc00ff4b0150">More...</a><br /></td></tr>
 <tr class="separator:ga6a169132efc7c7b6c555bc00ff4b0150"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -443,6 +455,23 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a id="gaf6be3ea1a46c78243773c7f330909b1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf6be3ea1a46c78243773c7f330909b1a">&#9670;&nbsp;</a></span>IOLM_PORT_MIN_TIME_TO_READY_PULSE_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IOLM_PORT_MIN_TIME_TO_READY_PULSE_MS&#160;&#160;&#160;10U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Minimum time for IO-Link Safety ready pulse occurence in ms. </p>
+<p>This value is used to adjust the timing for the individual master device implementation. </p>
+
+</div>
+</div>
 <a id="ga6a169132efc7c7b6c555bc00ff4b0150"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga6a169132efc7c7b6c555bc00ff4b0150">&#9670;&nbsp;</a></span>IOLM_PORT_POWER_OFF_ON_CORRECTION_VALUE_MS</h2>
 
@@ -457,6 +486,57 @@ Macros</h2></td></tr>
 
 <p>Adjustment value in ms for PowerOffTime of PowerPowerOffOn service. </p>
 <p>This value is used to fine adjust the timing for the individual master device implementation. </p>
+
+</div>
+</div>
+<a id="ga08ec8a418dd225233ef97d73b799c662"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga08ec8a418dd225233ef97d73b799c662">&#9670;&nbsp;</a></span>IOLM_PORT_READY_PULSE_MAX_DURATION_US</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IOLM_PORT_READY_PULSE_MAX_DURATION_US&#160;&#160;&#160;1100U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Upper limit of IO-Link Safety ready pulse length in us. </p>
+<p>This value is used to adjust the timing for the individual master device implementation. </p>
+
+</div>
+</div>
+<a id="ga75afb1d5462983993a0fbc20429c4182"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga75afb1d5462983993a0fbc20429c4182">&#9670;&nbsp;</a></span>IOLM_PORT_READY_PULSE_MIN_DURATION_US</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IOLM_PORT_READY_PULSE_MIN_DURATION_US&#160;&#160;&#160;400U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Lower limit of IO-Link Safety ready pulse length in us. </p>
+<p>This value is used to adjust the timing for the individual master device implementation. </p>
+
+</div>
+</div>
+<a id="gaf04e5b1411a2a76fa49fd02b4b69ea87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf04e5b1411a2a76fa49fd02b4b69ea87">&#9670;&nbsp;</a></span>IOLM_PORT_READY_PULSE_WAIT_TIME_EXPANSION_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IOLM_PORT_READY_PULSE_WAIT_TIME_EXPANSION_MS&#160;&#160;&#160;10U</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Additional time to wait for ready pulse occurence in ms. </p>
+<p>This value is used to adjust the timing for the individual master device implementation. </p>
 
 </div>
 </div>

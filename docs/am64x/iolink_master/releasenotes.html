@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">1.09.06</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">2.00.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -108,7 +108,6 @@ $(document).ready(function(){initNavTree('releasenotes.html',''); initResizable(
 Overview</h1>
 <p>The Sitara IO-Link master stack can be quickly integrated into supported devices<br  />
  and helps to create IO-Link master applications on TI Sitara Embedded Processors with PRU-ICSS.<br  />
- The PRU-ICSS code is part of this toolkit and is delivered by TI company.<br  />
 </p>
 <h1><a class="anchor" id="releasenoteslicensing"></a>
 Licensing</h1>
@@ -125,6 +124,50 @@ Redistributions in binary form must reproduce the above copyright notice, this l
 Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
 </ol>
 <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h1><a class="anchor" id="version_release20000"></a>
+Release Version 2.00.00</h1>
+<p><b>New Features:</b> </p><ul>
+<li>
+[OSS1-712] IO-Link specification 1.1.3 Compliance for all boards. <br  />
+  </li>
+<li>
+[OSS1-2057] Added NVRAM support for AM243 LP and EVM in example app. <br  />
+  </li>
+<li>
+[OSS1-1726] Support for flexible Maximum number of Ports. <br  />
+  </li>
+</ul>
+<p><b>Fixed Issues:</b> </p><ul>
+<li>
+[OSS1-2509] Correction of Port-Status value when no device is connected. <br  />
+  </li>
+<li>
+[OSS1-1684] Optimize FreeRTOS task priorities. <br  />
+  </li>
+<li>
+[OSS1-2034] Fix in the PRU to support TIOL112 Transceiver. <br  />
+  </li>
+<li>
+[OSS1-1885] Fixes to doxygen: disable dark mode. <br  />
+  </li>
+</ul>
+<h1><a class="anchor" id="version_release10908"></a>
+Release Version 1.09.08</h1>
+<p><b>Fixed Issues:</b> </p><ul>
+<li>
+[OSS1-924] IO-Link specification 1.1.3 conformance test case SDCI_TC_0158 TCM_PHYL_TIME_TDMT fix. <br  />
+  </li>
+<li>
+[OSS1-1761] IO-Link specification 1.1.3 conformance test case SDCI_TC_0354 TCM_ALIC_STOR_DELETEDSAFTERRECONF fix. <br  />
+  </li>
+</ul>
+<h1><a class="anchor" id="version_release10907"></a>
+Release Version 1.09.07</h1>
+<p><b>Fixed Issues:</b> </p><ul>
+<li>
+[OSS1-1363] Bugfix asynchronous NV-RAM write in IO-Link Sitara <br  />
+  </li>
+</ul>
 <h1><a class="anchor" id="version_release10906"></a>
 Release Version 1.09.06</h1>
 <p><b>Fixed Issues:</b> </p><ul>
@@ -148,65 +191,59 @@ Release Version 1.09.05</h1>
 <li>
 [OSS1-869] Partial Conformity with IO-Link 1.13, ref. Known Issues for failing tests. <br  />
   </li>
-</ul>
-<h1><a class="anchor" id="version_release10905SNAPSHOT"></a>
-Release Version 1.09.05-SNAPSHOT</h1>
-<p><b>New Features:</b> </p><ul>
 <li>
-Enable IOLM_PD_CYCLE_IRQ. <br  />
+[OSS1-1202] Enable IOLM_PD_CYCLE_IRQ. <br  />
   </li>
 <li>
-Implement roll-back if data storage upload failed. <br  />
+[OSS1-827] Implement roll-back if data storage upload failed. <br  />
   </li>
 <li>
-IO-Link Master Release v1.08.00. <br  />
+[IOL8M-1293] IO-Link Master Release v1.08.00. <br  />
   </li>
 <li>
-Implement non-volatile data storage in example application. <br  />
+[OSS1-974] Implement non-volatile data storage in example application. <br  />
   </li>
 <li>
-Upgrade to OSAL v1.1 <br  />
+[OSS1-621] Upgrade to OSAL v1.1 <br  />
   </li>
 <li>
-Remove not needed event handling from the example. <br  />
+[OSS1-888] Remove not needed event handling from the example. <br  />
   </li>
 <li>
-Master start-up with overwrite of the RID (incompatible). <br  />
+[OSS1-730] Master start-up with overwrite of the RID (incompatible). <br  />
   </li>
 <li>
-Master start-up with overwrite of the RID (compatible). <br  />
+[OSS1-735] Master start-up with overwrite of the RID (compatible). <br  />
+ and Master start-up with incorrect DID (V1.0). <br  />
   </li>
 <li>
-Master start-up with incorrect DID (V1.0). <br  />
+[OSS1-722] Feature/OSS1-722 implement corrigendum. <br  />
   </li>
 <li>
-Feature/OSS1-722 implement corrigendum. <br  />
+[OSS1-394] SMI header conversion. <br  />
   </li>
 <li>
-SMI header conversion. <br  />
-  </li>
-<li>
-Remove "nested interrupts" workaround. <br  />
+[OSS1-535] Remove "nested interrupts" workaround. <br  />
   </li>
 </ul>
 <p><b>Fixed Issues:</b> </p><ul>
 <li>
-Port deactivated after power cycle. <br  />
+[IOL8M-1499] Port deactivated after power cycle. <br  />
   </li>
 <li>
-Fix delay time of master messages. <br  />
+[OSS1-925] Fix delay time of master messages. <br  />
   </li>
 <li>
-Fix ISDU write response with illegal service code. <br  />
+[OSS1-745] Fix ISDU write response with illegal service code. <br  />
   </li>
 <li>
-Fix multiple data storage issues. <br  />
+[OSS1-674] Fix multiple data storage issues. <br  />
   </li>
 <li>
-Fix port event failures. <br  />
+[OSS1-678] Fix port event failures. <br  />
   </li>
 <li>
-Fix memory footprint in documentation. <br  />
+[OSS1-603] Fix memory footprint in documentation. <br  />
   </li>
 </ul>
 <h1><a class="anchor" id="version_release10904"></a>
