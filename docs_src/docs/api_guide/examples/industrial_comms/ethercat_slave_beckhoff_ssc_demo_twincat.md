@@ -228,3 +228,31 @@ It can be tested as follows:
     \image html EtherCAT_SubDevice_FOE_5.PNG
 
 \endcond
+
+## Load ESI file to EEPROM {#ETHERCAT_SUBDEVICE_DEMO_TWINCAT_REPROGRAM_EEPROM}
+
+The "EtherCAT Slave Information" is stored in the ESI EEPROM. The ESI EEPROM is located in the EtherCAT Slave Controller (ESC). It is a non-volatile memory used to store the ESC configuration and the device description. Reprogramming EEPROM is necessary to update the device details.
+
+It can be reprogrammed as follows:
+
+- Copy the ESI file to `{TWINCAT_INSTALL_DIR}\TwinCAT\3.1\Config\Io\EtherCAT` folder.
+
+- Launch TwinCAT XAE Shell application and discover all the SubDevices in SubDevice chain and Activate Free Run. 
+
+- Double click on the device(Box). Go to EtherCAT -> Advanced Settings. 
+
+    \image html EtherCAT_SubDevice_Reprogram_EEPROM_1.png
+
+- Navigate to ESC Access -> EEPROM -> Hex Editor.
+
+    \image html EtherCAT_SubDevice_Reprogram_EEPROM_2.png
+
+- Choose the corresponding ESI to be loaded into the EEPROM and the press "OK".
+
+- Once above process is complete, come back to slave detail page and select the "Online" tab which has the "State Machine" options displayed.
+
+    \image html EtherCAT_SubDevice_Reprogram_EEPROM_3.png
+
+- Toggle the state from OP -> INIT -> PREOP -> SAFEOP -> OP.
+
+- Now the required ESI file is loaded to the EEPROM.
