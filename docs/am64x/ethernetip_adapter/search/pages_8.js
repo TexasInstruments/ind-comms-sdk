@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['setup_0',['Setup',['../eip_quickstart_installation.html',1,'eip_quickstart']]],
-  ['studio_205000_20logix_20designer_20with_20allen_2dbradley_20compactlogix_20controller_1',['Studio 5000 Logix Designer with Allen-Bradley CompactLogix Controller',['../eip_studio5000_example.html',1,'']]]
+  ['general_20information_0',['General Information',['../eip_generalinformation.html',1,'']]],
+  ['general_20purpose_20discrete_20i_20o_20device_20device_20type_3a_200x07_1',['General Purpose Discrete I/O Device (Device Type: 0x07)',['../eip_example_general_purpose_discrete_io_device.html',1,'']]],
+  ['generic_20device_20device_20type_3a_200x2b_2',['Generic Device (Device Type: 0x2B)',['../eip_example_generic_device.html',1,'']]]
 ];
