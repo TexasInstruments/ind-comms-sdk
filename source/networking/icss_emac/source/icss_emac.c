@@ -2429,18 +2429,18 @@ static inline int32_t ICSS_EMAC_handleSpecialUnicastMACAddress(ICSS_EMAC_Handle 
 
     if(!enableFeature)
     {
-        //Special Unicast MAC Address feature is disabled
+        /* Special Unicast MAC Address feature is disabled */
         *(specialUnicastMACAddressFeatureEnablePtr) = 0;
-        //Clear the MAC special unicast MAC address
+        /* Clear the MAC special unicast MAC address */
         uint8_t dummyMACAddr[6] = {0};
         memcpy((void *)specialUnicastMACAddressPtr, dummyMACAddr, sizeof(dummyMACAddr));
         retVal = SystemP_SUCCESS;
     }
     else
     {
-        //Special Unicast MAC Address feature is enabled
+        /* Special Unicast MAC Address feature is enabled */
         *(specialUnicastMACAddressFeatureEnablePtr) = 1;
-        //Write back the special unicast MAC Address
+        /* Write back the special unicast MAC Address */
         memcpy((void *)specialUnicastMACAddressPtr, macAddress, 6);
         retVal = SystemP_SUCCESS;
 
