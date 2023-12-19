@@ -14,8 +14,6 @@ const flash       = scripting.addModule("/board/flash/flash", {}, false);
 const flash1      = flash.addInstance();
 const led         = scripting.addModule("/board/led/led", {}, false);
 const led1        = led.addInstance();
-const gpio        = scripting.addModule("/drivers/gpio/gpio", {}, false);
-const gpio1       = gpio.addInstance();
 const i2c         = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1        = i2c.addInstance();
 const i2c2        = i2c.addInstance();
@@ -47,10 +45,6 @@ flash1.peripheralDriver.OSPI.$assign = "OSPI0";
 led1.$name = "CONFIG_LED0";
 led1.name  = "TPIC2810";
 
-gpio1.$name                = "CONFIG_GPIO0";
-gpio1.GPIO.$assign         = "GPIO0";
-gpio1.GPIO.gpioPin.$assign = "ball.V21";
-
 i2c1.$name               = "CONFIG_I2C0";
 eeprom1.peripheralDriver = i2c1;
 i2c1.I2C.$assign         = "I2C0";
@@ -67,23 +61,20 @@ uart1.$name                   = "CONFIG_UART1";
 uart1.MCU_UART.$assign        = "MCU_USART0";
 
 ethernetip1.$name                         = "CONFIG_ETHERNETIP0";
-ethernetip1.mdioManualModeLinkPolling     = "MLINK";
 ethernetip1.icss_emac[0].$name            = "CONFIG_ICSS_EMAC0";
 ethernetip1.icss_emac[0].learningEnable   = true;
 ethernetip1.icss_emac[0].linkTaskPriority = 24;
 ethernetip1.icss_emac[0].rxTaskPriority   = 20;
 ethernetip1.icss_emac[0].txTaskPriority   = 20;
 ethernetip1.ethphy1[0].$name              = "CONFIG_ETHPHY0";
-ethernetip1.ethphy1[0].mdioPort           = scripting.forceWrite(15);
 ethernetip1.ethphy1[0].name               = "CUSTOM";
 ethernetip1.ethphy1[0].customDeviceName   = "DP83869_0";
 ethernetip1.ethphy2[0].$name              = "CONFIG_ETHPHY1";
 ethernetip1.ethphy2[0].name               = "CUSTOM";
 ethernetip1.ethphy2[0].customDeviceName   = "DP83869_1";
 
-ethernetip1.icss                         = pruicss1;
-pruicss1.$name                           = "CONFIG_PRU_ICSS1";
-pruicss1.AdditionalICSSSettings[0].$name = "CONFIG_PRU_ICSS_IO0";
+ethernetip1.icss = pruicss1;
+pruicss1.$name   = "CONFIG_PRU_ICSS1";
 
 debug_log.enableUartLog        = true;
 debug_log.uartLog.$name        = "CONFIG_UART_CONSOLE";
@@ -174,7 +165,5 @@ ethernetip1.PRU_ICSSG1_MII_G_RT.MII_MR0_CLK.$suggestSolution = "ball.AA7";
 ethernetip1.PRU_ICSSG1_MII_G_RT.MII_MR1_CLK.$suggestSolution = "ball.U11";
 ethernetip1.PRU_ICSSG1_MII_G_RT.MII_MT0_CLK.$suggestSolution = "ball.V9";
 ethernetip1.PRU_ICSSG1_MII_G_RT.MII_MT1_CLK.$suggestSolution = "ball.Y10";
-ethernetip1.PRU_ICSSG1_MII_G_RT.MII0_RXLINK.$suggestSolution = "ball.W13";
-ethernetip1.PRU_ICSSG1_MII_G_RT.MII1_RXLINK.$suggestSolution = "ball.U12";
 debug_log.uartLog.UART.RXD.$suggestSolution                  = "ball.D15";
 debug_log.uartLog.UART.TXD.$suggestSolution                  = "ball.C16";

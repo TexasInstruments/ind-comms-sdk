@@ -75,8 +75,14 @@ extern ETHIP_API uint32_t EI_API_ADP_setProductName(T* pAdp_p, const char *pProd
 // functions for standard CIP object 0x06 Connection Manager
 extern ETHIP_API uint32_t EI_API_ADP_setCmgrCb(EI_API_ADP_CBCmgr fuCallback_p);
 
+// functions for Connection Object Time Out Event
+extern ETHIP_API uint32_t EI_API_ADP_setCobjTimeOutCb(EI_API_ADP_CBCobjTimeOut fuCallback_p);
+
 // functions for standard CIP object 0xF6 Ethernet Link
+extern ETHIP_API uint32_t EI_API_ADP_getPortState(T* pAdp_p, EI_API_ADP_EPortNo_t portNo_p, EI_API_ADP_SPortState_t *portState_p);
 extern ETHIP_API uint32_t EI_API_ADP_getMacAddr(T* pAdp_p, EI_API_ADP_SParam_t* pMacAddr_p);
+extern ETHIP_API uint32_t EI_API_ADP_getIntfConfig(T* pAdp_p, uint8_t intfId_p, EI_API_ADP_UIntfConf_t* pIntfConf_p);
+extern ETHIP_API uint32_t EI_API_ADP_setIntfConfig(T* adp, uint8_t intfId, EI_API_ADP_UIntfConf_t intfConfig);
 
 // functions for standard CIP object 0xF5 TCP/IP
 extern ETHIP_API uint32_t EI_API_ADP_setIpConfig(T* pAdp_p,    EIP_SConfigurationControl_t configurationControl_p,
@@ -115,9 +121,6 @@ extern ETHIP_API uint32_t EI_API_ADP_getDHCP(T* pAdp_p, bool* pDhcpEnabled_p);
 
 extern ETHIP_API uint32_t EI_API_ADP_getACD(T* pAdp_p, bool* pAcdEnabled_p);
 extern ETHIP_API uint32_t EI_API_ADP_setACD(T* pAdp_p, bool enable_p);
-
-extern ETHIP_API uint32_t EI_API_ADP_getIntfConfig(T* pAdp_p, uint8_t intfId_p, EI_API_ADP_UIntfConf_t* pIntfConf_p);
-extern ETHIP_API uint32_t EI_API_ADP_setIntfConfig(T* adp, uint8_t intfId, EI_API_ADP_UIntfConf_t intfConfig);
 
 extern ETHIP_API uint32_t EI_API_ADP_setQuickConnectSupported(T* pAdp_p);
 extern ETHIP_API uint32_t EI_API_ADP_getQuickConnectEnabled(T* pAdp_p, bool* pQuickConnectEnabled_p);

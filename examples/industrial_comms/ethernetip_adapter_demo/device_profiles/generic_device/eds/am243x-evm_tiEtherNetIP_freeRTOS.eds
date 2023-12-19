@@ -4,9 +4,9 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         DescText = "EtherNet/IP(tm) Adapter am243x-evm freeRTOS";
         CreateDate = 08-19-2021;
         CreateTime = 17:51:41;
-        ModDate = 14-07-2023;
-        ModTime = 16:30:00;
-        Revision = 3.4;
+        ModDate = 10-27-2023;
+        ModTime = 09:00:00;
+        Revision = 3.6;
         HomeURL = "www.ti.com";
 
 
@@ -15,10 +15,10 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         VendName = "Texas Instruments";
         ProdType = 43;
         ProdTypeStr = "Generic Device";
-        ProdCode = 9217;
+        ProdCode = 24301;
         MajRev = 3;
-        MinRev = 4;
-        ProdName = "EtherNet/IP(tm) ADPT am243x-evm";
+        MinRev = 6;
+        ProdName = "TMDS243EVM Generic Device";
         Catalog = "CatNo9217";
         Icon = "ti.ico";
         IconContents =

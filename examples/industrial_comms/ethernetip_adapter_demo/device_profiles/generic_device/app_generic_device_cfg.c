@@ -8,7 +8,7 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -44,7 +44,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "inc/EI_API.h"
+#include "EI_API.h"
 
 #include "drivers/CUST_drivers.h"
 
@@ -54,6 +54,7 @@
 
 #include "device_profiles/generic_device/app_generic_device.h"
 #include "device_profiles/generic_device/app_generic_device_cfg.h"
+
 
 // Declaration of static local functions
 static uint32_t EI_APP_GENERIC_DEVICE_CFG_applyIdentity (EI_API_ADP_T *pAdapter);
@@ -137,6 +138,8 @@ bool EI_APP_GENERIC_DEVICE_CFG_init (EI_API_ADP_T *pAdapter)
     OSAL_MEMORY_memcpy(&EI_APP_GENERIC_DEVICE_CFG_factoryResetData.profile,
                        &EI_APP_GENERIC_DEVICE_CFG_profileFactoryResetData,
                        sizeof(EI_APP_GENERIC_DEVICE_CFG_ProfileData_t));
+
+    EI_API_ADP_setCmgrCb(EI_APP_GENERIC_DEVICE_cmgrCb);
 
     ret = true;
 
@@ -641,11 +644,11 @@ static uint32_t EI_APP_GENERIC_DEVICE_CFG_applyIdentity (EI_API_ADP_T *pAdapter)
 {
     uint32_t errCode = EI_API_ADP_eERR_GENERAL;
 
-    const char productName[] = PRODUCT_NAME_OF_CONFIGURATION;
+    const char productName[] = EI_APP_GENERIC_DEVICE_PRODUCT_NAME;
 
     uint16_t vendorId     = EI_APP_GENERIC_DEVICE_VENDOR_ID;
     uint16_t deviceType   = EI_APP_GENERIC_DEVICE_DEVICE_TYPE;
-    uint16_t productCode  = PRODUCT_CODE_OF_CONFIGURATION;
+    uint16_t productCode  = EI_APP_GENERIC_DEVICE_PRODUCT_CODE;
     uint32_t serialNumber = EI_APP_GENERIC_DEVICE_SERIAL_NUMBER;
 
     EI_API_ADP_SRevision_t revision;

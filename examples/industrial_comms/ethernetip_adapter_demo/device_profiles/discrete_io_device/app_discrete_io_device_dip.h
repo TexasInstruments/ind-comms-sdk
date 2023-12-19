@@ -1,8 +1,8 @@
 /*!
- *  \file app_generic_device.h
+ *  \file app_discrete_io_device_dip.h
  *
  *  \brief
- *  Generic device profile declarations.
+ *  Necessary declarations of Discrete Input Point (DIP) Object.
  *
  *  \author
  *  KUNBUS GmbH
@@ -40,17 +40,25 @@
  *
  */
 
-#ifndef APP_GENERIC_DEVICE_H
-#define APP_GENERIC_DEVICE_H
+#ifndef APP_DISCRETE_IO_DEVICE_DIP_H
+#define APP_DISCRETE_IO_DEVICE_DIP_H
+
+/**
+ * @brief
+ * A structure to hold Discrete Input Point's (DIP)
+ * class data.
+ */
+typedef struct EI_APP_DIP_ClassData
+{
+    uint16_t revision;
+}EI_APP_DIP_ClassData_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-EI_API_ADP_SEipStatus_t EI_APP_GENERIC_DEVICE_cmgrCb(uint32_t serviceCode, EI_API_ADP_UCmgrInfo_u cmgrInfo);
-
 #ifdef  __cplusplus
 }
 #endif
 
-#endif // APP_GENERIC_DEVICE_H
+#endif // APP_DISCRETE_IO_DEVICE_DIP_H

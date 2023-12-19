@@ -8,7 +8,7 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -44,7 +44,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "inc/EI_API.h"
+#include "EI_API.h"
 
 #include "drivers/CUST_drivers.h"
 
@@ -56,15 +56,15 @@
 #include "device_profiles/discrete_io_device/app_discrete_io_device_cfg.h"
 
 // Declaration of static local functions
-static uint32_t EI_APP_DISCRETE_IO_DEVICE_CFG_applyIdentity (EI_API_ADP_T *pAdapter);
-static uint32_t EI_APP_DISCRETE_IO_DEVICE_CFG_applyTimeSync (EI_API_ADP_T *pAdapter);
+static uint32_t EI_APP_DIO_DEVICE_CFG_applyIdentity (EI_API_ADP_T *pAdapter);
+static uint32_t EI_APP_DIO_DEVICE_CFG_applyTimeSync (EI_API_ADP_T *pAdapter);
 
 // Definition of static local variables
 static EI_API_ADP_T                         *pAdapter_s = NULL;
-static EI_APP_DISCRETE_IO_DEVICE_CFG_Data_t  EI_APP_DISCRETE_IO_DEVICE_CFG_runtimeData;
-static EI_APP_DISCRETE_IO_DEVICE_CFG_Data_t  EI_APP_DISCRETE_IO_DEVICE_CFG_factoryResetData;
+static EI_APP_DIO_DEVICE_CFG_Data_t  EI_APP_DIO_DEVICE_CFG_runtimeData;
+static EI_APP_DIO_DEVICE_CFG_Data_t  EI_APP_DIO_DEVICE_CFG_factoryResetData;
 
-const EI_APP_DISCRETE_IO_DEVICE_CFG_ProfileData_t EI_APP_DISCRETE_IO_DEVICE_CFG_profileFactoryResetData =
+const EI_APP_DIO_DEVICE_CFG_ProfileData_t EI_APP_DIO_DEVICE_CFG_profileFactoryResetData =
 {
     // Initialization of factory default data related to device profile of discrete IO device
 };
@@ -99,7 +99,7 @@ const EI_APP_DISCRETE_IO_DEVICE_CFG_ProfileData_t EI_APP_DISCRETE_IO_DEVICE_CFG_
  *
  *     ...
  *
- *     pIntf->cfg.init = EI_APP_DISCRETE_IO_DEVICE_CFG_init;
+ *     pIntf->cfg.init = EI_APP_DIO_DEVICE_CFG_init;
 
  *     ...
  *
@@ -112,10 +112,10 @@ const EI_APP_DISCRETE_IO_DEVICE_CFG_ProfileData_t EI_APP_DISCRETE_IO_DEVICE_CFG_
  *
  * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_init
  *
- * \ingroup EI_APP_DISCRETE_IO_PROFILE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-bool EI_APP_DISCRETE_IO_DEVICE_CFG_init (EI_API_ADP_T *pAdapter)
+bool EI_APP_DIO_DEVICE_CFG_init (EI_API_ADP_T *pAdapter)
 {
     bool ret = false;
 
@@ -126,17 +126,20 @@ bool EI_APP_DISCRETE_IO_DEVICE_CFG_init (EI_API_ADP_T *pAdapter)
 
     pAdapter_s = pAdapter;
 
-    EI_APP_DISCRETE_IO_DEVICE_CFG_factoryResetData.header.magicNumber = EI_APP_DISCRETE_IO_DEVICE_CFG_HEADER_MAGICNUMBER;
-    EI_APP_DISCRETE_IO_DEVICE_CFG_factoryResetData.header.version     = EI_APP_DISCRETE_IO_DEVICE_CFG_HEADER_VERSION;
-    EI_APP_DISCRETE_IO_DEVICE_CFG_factoryResetData.header.checksum    = 0;
+    EI_APP_DIO_DEVICE_CFG_factoryResetData.header.magicNumber = EI_APP_DIO_DEVICE_CFG_HEADER_MAGICNUMBER;
+    EI_APP_DIO_DEVICE_CFG_factoryResetData.header.version     = EI_APP_DIO_DEVICE_CFG_HEADER_VERSION;
+    EI_APP_DIO_DEVICE_CFG_factoryResetData.header.checksum    = 0;
 
-    OSAL_MEMORY_memcpy(&EI_APP_DISCRETE_IO_DEVICE_CFG_factoryResetData.adapter,
+    OSAL_MEMORY_memcpy(&EI_APP_DIO_DEVICE_CFG_factoryResetData.adapter,
                        &EI_APP_RST_adapterFactoryDefaultValues,
                        sizeof(EI_APP_CFG_AdapterData_t));
 
-    OSAL_MEMORY_memcpy(&EI_APP_DISCRETE_IO_DEVICE_CFG_factoryResetData.profile,
-                       &EI_APP_DISCRETE_IO_DEVICE_CFG_profileFactoryResetData,
-                       sizeof(EI_APP_DISCRETE_IO_DEVICE_CFG_ProfileData_t));
+    OSAL_MEMORY_memcpy(&EI_APP_DIO_DEVICE_CFG_factoryResetData.profile,
+                       &EI_APP_DIO_DEVICE_CFG_profileFactoryResetData,
+                       sizeof(EI_APP_DIO_DEVICE_CFG_ProfileData_t));
+
+    EI_API_ADP_setCmgrCb(EI_APP_DIO_DEVICE_cmgrCb);
+    EI_API_ADP_setCobjTimeOutCb(EI_APP_DIO_DEVICE_cobjTimeOutCb);
 
     ret = true;
 
@@ -174,7 +177,7 @@ laError:
  *
  *     ...
  *
- *     pIntf->cfg.apply = EI_APP_DISCRETE_IO_DEVICE_CFG_apply;
+ *     pIntf->cfg.apply = EI_APP_DIO_DEVICE_CFG_apply;
  *
  *     ...
  *
@@ -185,12 +188,12 @@ laError:
  * }
  * \endcode
  *
- * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_apply EI_APP_DISCRETE_IO_DEVICE_CFG_applyIdentity EI_APP_DISCRETE_IO_DEVICE_CFG_applyTimeSync
+ * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_apply EI_APP_DIO_DEVICE_CFG_applyIdentity EI_APP_DIO_DEVICE_CFG_applyTimeSync
  *
- * \ingroup EI_APP_DISCRETE_IO_PROFILE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-void EI_APP_DISCRETE_IO_DEVICE_CFG_apply (EI_API_ADP_T *pAdapter)
+void EI_APP_DIO_DEVICE_CFG_apply (EI_API_ADP_T *pAdapter)
 {
     uint32_t errCode = EI_API_ADP_eERR_GENERAL;
 
@@ -199,14 +202,14 @@ void EI_APP_DISCRETE_IO_DEVICE_CFG_apply (EI_API_ADP_T *pAdapter)
         goto laError;
     }
 
-    errCode = EI_APP_DISCRETE_IO_DEVICE_CFG_applyIdentity(pAdapter);
+    errCode = EI_APP_DIO_DEVICE_CFG_applyIdentity(pAdapter);
 
     if (EI_API_ADP_eERR_OK != errCode)
     {
         goto laError;
     }
 
-    errCode = EI_APP_DISCRETE_IO_DEVICE_CFG_applyTimeSync(pAdapter);
+    errCode = EI_APP_DIO_DEVICE_CFG_applyTimeSync(pAdapter);
 
 laError:
     if (EI_API_ADP_eERR_OK != errCode)
@@ -257,7 +260,7 @@ laError:
  *
  *     ...
  *
- *     pIntf->cfg.callback = EI_APP_DISCRETE_IO_DEVICE_CFG_callback;
+ *     pIntf->cfg.callback = EI_APP_DIO_DEVICE_CFG_callback;
  *
  *     ...
  *
@@ -270,10 +273,10 @@ laError:
  *
  * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_callback
  *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-bool EI_APP_DISCRETE_IO_DEVICE_CFG_callback ( EI_API_CIP_NODE_T *pCipNode,
+bool EI_APP_DIO_DEVICE_CFG_callback ( EI_API_CIP_NODE_T *pCipNode,
                                               uint16_t           classId,
                                               uint16_t           instanceId,
                                               uint16_t           attrId,
@@ -307,7 +310,7 @@ bool EI_APP_DISCRETE_IO_DEVICE_CFG_callback ( EI_API_CIP_NODE_T *pCipNode,
  *
  *     ...
  *
- *     pIntf->cfg.setDeafaultWithoutComm = EI_APP_DISCRETE_IO_DEVICE_CFG_setDefaultWithoutComm;
+ *     pIntf->cfg.setDeafaultWithoutComm = EI_APP_DIO_DEVICE_CFG_setDefaultWithoutComm;
  *
  *     ...
  *
@@ -320,14 +323,14 @@ bool EI_APP_DISCRETE_IO_DEVICE_CFG_callback ( EI_API_CIP_NODE_T *pCipNode,
  *
  * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_setDefaultWithoutComm
  *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-void EI_APP_DISCRETE_IO_DEVICE_CFG_setDefaultWithoutComm (void)
+void EI_APP_DIO_DEVICE_CFG_setDefaultWithoutComm (void)
 {
-    OSAL_MEMORY_memcpy(&EI_APP_DISCRETE_IO_DEVICE_CFG_runtimeData.profile,
-                       &EI_APP_DISCRETE_IO_DEVICE_CFG_factoryResetData.profile,
-                       sizeof(EI_APP_DISCRETE_IO_DEVICE_CFG_ProfileData_t));
+    OSAL_MEMORY_memcpy(&EI_APP_DIO_DEVICE_CFG_runtimeData.profile,
+                       &EI_APP_DIO_DEVICE_CFG_factoryResetData.profile,
+                       sizeof(EI_APP_DIO_DEVICE_CFG_ProfileData_t));
 }
 
 /*!
@@ -354,7 +357,7 @@ void EI_APP_DISCRETE_IO_DEVICE_CFG_setDefaultWithoutComm (void)
  *
  *     ...
  *
- *     pIntf->cfg.setHeader = EI_APP_DISCRETE_IO_DEVICE_CFG_setHeader;
+ *     pIntf->cfg.setHeader = EI_APP_DIO_DEVICE_CFG_setHeader;
  *
  *     ...
  *
@@ -367,18 +370,18 @@ void EI_APP_DISCRETE_IO_DEVICE_CFG_setDefaultWithoutComm (void)
  *
  * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_setHeader
  *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-void EI_APP_DISCRETE_IO_DEVICE_CFG_setHeader (EI_APP_CFG_Header_t *pHeader)
+void EI_APP_DIO_DEVICE_CFG_setHeader (EI_APP_CFG_Header_t *pHeader)
 {
     if (NULL == pHeader)
     {
         goto laError;
     }
 
-    pHeader->magicNumber = EI_APP_DISCRETE_IO_DEVICE_CFG_HEADER_MAGICNUMBER;
-    pHeader->version     = EI_APP_DISCRETE_IO_DEVICE_CFG_HEADER_VERSION;
+    pHeader->magicNumber = EI_APP_DIO_DEVICE_CFG_HEADER_MAGICNUMBER;
+    pHeader->version     = EI_APP_DIO_DEVICE_CFG_HEADER_VERSION;
     pHeader->checksum    = 0;  // calculate proper checksum
 
 laError:
@@ -416,7 +419,7 @@ laError:
  *
  *     ...
  *
- *     pIntf->cfg.isValid = EI_APP_DISCRETE_IO_DEVICE_CFG_isValid;
+ *     pIntf->cfg.isValid = EI_APP_DIO_DEVICE_CFG_isValid;
  *
  *     ...
  *
@@ -429,18 +432,18 @@ laError:
  *
  * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_isValid
  *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-bool EI_APP_DISCRETE_IO_DEVICE_CFG_isValid (void)
+bool EI_APP_DIO_DEVICE_CFG_isValid (void)
 {
     bool ret = false;
 
     uint32_t checkSum = 0;  // calculate proper checksum
 
-    if ( (EI_APP_DISCRETE_IO_DEVICE_CFG_runtimeData.header.magicNumber == EI_APP_DISCRETE_IO_DEVICE_CFG_HEADER_MAGICNUMBER)  &&
-         (EI_APP_DISCRETE_IO_DEVICE_CFG_runtimeData.header.version     == EI_APP_DISCRETE_IO_DEVICE_CFG_HEADER_VERSION)      &&
-         (EI_APP_DISCRETE_IO_DEVICE_CFG_runtimeData.header.checksum    == checkSum)
+    if ( (EI_APP_DIO_DEVICE_CFG_runtimeData.header.magicNumber == EI_APP_DIO_DEVICE_CFG_HEADER_MAGICNUMBER)  &&
+         (EI_APP_DIO_DEVICE_CFG_runtimeData.header.version    == EI_APP_DIO_DEVICE_CFG_HEADER_VERSION)      &&
+         (EI_APP_DIO_DEVICE_CFG_runtimeData.header.checksum    == checkSum)
        )
     {
         ret = true;
@@ -475,7 +478,7 @@ bool EI_APP_DISCRETE_IO_DEVICE_CFG_isValid (void)
  *
  *     ...
  *
- *     pIntf->cfg.getRuntimeData = EI_APP_DISCRETE_IO_DEVICE_CFG_getRuntimeData;
+ *     pIntf->cfg.getRuntimeData = EI_APP_DIO_DEVICE_CFG_getRuntimeData;
  *
  *     ...
  *
@@ -488,12 +491,12 @@ bool EI_APP_DISCRETE_IO_DEVICE_CFG_isValid (void)
  *
  * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_getRuntimeData
  *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-void* EI_APP_DISCRETE_IO_DEVICE_CFG_getRuntimeData (void)
+void* EI_APP_DIO_DEVICE_CFG_getRuntimeData (void)
 {
-    return (void*) &EI_APP_DISCRETE_IO_DEVICE_CFG_runtimeData;
+    return (void*) &EI_APP_DIO_DEVICE_CFG_runtimeData;
 }
 
 /*!
@@ -522,7 +525,7 @@ void* EI_APP_DISCRETE_IO_DEVICE_CFG_getRuntimeData (void)
  *
  *     ...
  *
- *     pIntf->cfg.getFactoryResetData = EI_APP_DISCRETE_IO_DEVICE_CFG_getFactoryResetData;
+ *     pIntf->cfg.getFactoryResetData = EI_APP_DIO_DEVICE_CFG_getFactoryResetData;
  *
  *     ...
  *
@@ -535,12 +538,12 @@ void* EI_APP_DISCRETE_IO_DEVICE_CFG_getRuntimeData (void)
  *
  * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_getFactoryResetData
  *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-void* EI_APP_DISCRETE_IO_DEVICE_CFG_getFactoryResetData (void)
+void* EI_APP_DIO_DEVICE_CFG_getFactoryResetData (void)
 {
-    return (void*) &EI_APP_DISCRETE_IO_DEVICE_CFG_factoryResetData;
+    return (void*) &EI_APP_DIO_DEVICE_CFG_factoryResetData;
 }
 
 /*!
@@ -573,7 +576,7 @@ void* EI_APP_DISCRETE_IO_DEVICE_CFG_getFactoryResetData (void)
  *
  *     ...
  *
- *     pIntf->cfg.getLength = EI_APP_DISCRETE_IO_DEVICE_CFG_getLength;
+ *     pIntf->cfg.getLength = EI_APP_DIO_DEVICE_CFG_getLength;
  *
  *     ...
  *
@@ -586,12 +589,12 @@ void* EI_APP_DISCRETE_IO_DEVICE_CFG_getFactoryResetData (void)
  *
  * \see EI_APP_DEVICE_PROFILE_register EI_APP_DEVICE_PROFILE_CFG_getFactoryResetData
  *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-uint32_t EI_APP_DISCRETE_IO_DEVICE_CFG_getLength (void)
+uint32_t EI_APP_DIO_DEVICE_CFG_getLength (void)
 {
-    return sizeof(EI_APP_DISCRETE_IO_DEVICE_CFG_Data_t);
+    return sizeof(EI_APP_DIO_DEVICE_CFG_Data_t);
 }
 
 // ***************** Local function definition area ***************************** //
@@ -601,7 +604,7 @@ uint32_t EI_APP_DISCRETE_IO_DEVICE_CFG_getLength (void)
  * Applies the identity object attributes on the stack.
  *
  * \details
- * Called by #EI_APP_DISCRETE_IO_DEVICE_CFG_apply interface function.
+ * Called by #EI_APP_DIO_DEVICE_CFG_apply interface function.
  *
  * \param[in]     pAdapter Pointer to adapter object.
  *
@@ -609,7 +612,7 @@ uint32_t EI_APP_DISCRETE_IO_DEVICE_CFG_getLength (void)
  * \code{.c}
  * #include "device_profiles/discrete_io_device/app_discrete_io_device_cfg.h"
  *
- * void EI_APP_DISCRETE_IO_DEVICE_CFG_apply (EI_API_ADP_T *pAdapter)
+ * void EI_APP_DIO_DEVICE_CFG_apply (EI_API_ADP_T *pAdapter)
  * {
  *     uint32_t errCode = EI_API_ADP_eERR_GENERAL;
  *
@@ -618,7 +621,7 @@ uint32_t EI_APP_DISCRETE_IO_DEVICE_CFG_getLength (void)
  *         goto laError;
  *     }
  *
- *     errCode = EI_APP_DISCRETE_IO_DEVICE_CFG_applyIdentity(pAdapter);
+ *     errCode = EI_APP_DIO_DEVICE_CFG_applyIdentity(pAdapter);
  *
  *     ...
  *
@@ -632,26 +635,26 @@ uint32_t EI_APP_DISCRETE_IO_DEVICE_CFG_getLength (void)
  * }
  * \endcode
  *
- * \see EI_APP_DISCRETE_IO_DEVICE_CFG_apply
+ * \see EI_APP_DIO_DEVICE_CFG_apply
  *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-static uint32_t EI_APP_DISCRETE_IO_DEVICE_CFG_applyIdentity (EI_API_ADP_T *pAdapter)
+static uint32_t EI_APP_DIO_DEVICE_CFG_applyIdentity (EI_API_ADP_T *pAdapter)
 {
     uint32_t errCode = EI_API_ADP_eERR_GENERAL;
 
-    const char productName[] = PRODUCT_NAME_OF_CONFIGURATION;
+    const char productName[] = EI_APP_DIO_DEVICE_PRODUCT_NAME;
 
-    uint16_t vendorId     = EI_APP_DISCRETE_IO_DEVICE_VENDOR_ID;
-    uint16_t deviceType   = EI_APP_DISCRETE_IO_DEVICE_DEVICE_TYPE;
-    uint16_t productCode  = PRODUCT_CODE_OF_CONFIGURATION;
-    uint32_t serialNumber = EI_APP_DISCRETE_IO_DEVICE_SERIAL_NUMBER;
+    uint16_t vendorId     = EI_APP_DIO_DEVICE_VENDOR_ID;
+    uint16_t deviceType   = EI_APP_DIO_DEVICE_DEVICE_TYPE;
+    uint16_t productCode  = EI_APP_DIO_DEVICE_PRODUCT_CODE;
+    uint32_t serialNumber = EI_APP_DIO_DEVICE_SERIAL_NUMBER;
 
     EI_API_ADP_SRevision_t revision;
 
-    revision.major = EI_APP_DISCRETE_IO_DEVICE_REVISION_MAJOR;
-    revision.minor = EI_APP_DISCRETE_IO_DEVICE_REVISION_MINOR;
+    revision.major = EI_APP_DIO_DEVICE_REVISION_MAJOR;
+    revision.minor = EI_APP_DIO_DEVICE_REVISION_MINOR;
 
     errCode = EI_API_ADP_setVendorId(pAdapter, vendorId);
 
@@ -700,7 +703,7 @@ laError:
  * Applies the Time Sync object attributes on the stack.
  *
  * \details
- * Called by #EI_APP_DISCRETE_IO_DEVICE_CFG_applyTimeSync interface function.
+ * Called by #EI_APP_DIO_DEVICE_CFG_applyTimeSync interface function.
  *
  * \param[in]     pAdapter Pointer to adapter object.
  *
@@ -708,7 +711,7 @@ laError:
  * \code{.c}
  * #include "device_profiles/discrete_io_device/app_discrete_io_device_cfg.h"
  *
- * void EI_APP_DISCRETE_IO_DEVICE_CFG_apply (EI_API_ADP_T *pAdapter)
+ * void EI_APP_DIO_DEVICE_CFG_apply (EI_API_ADP_T *pAdapter)
  * {
  *     uint32_t errCode = EI_API_ADP_eERR_GENERAL;
  *
@@ -719,7 +722,7 @@ laError:
  *
  *     ...
  *
- *     errCode = EI_APP_DISCRETE_IO_DEVICE_CFG_applyTimeSync(pAdapter);
+ *     errCode = EI_APP_DIO_DEVICE_CFG_applyTimeSync(pAdapter);
  *
  * laError:
  *     if (EI_API_ADP_eERR_OK != errCode)
@@ -731,12 +734,12 @@ laError:
  * }
  * \endcode
  *
- * \see EI_APP_DISCRETE_IO_DEVICE_CFG_apply
+ * \see EI_APP_DIO_DEVICE_CFG_apply
  *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_CFG
+ * \ingroup EI_APP_DIO_DEVICE_CFG
  *
  */
-static uint32_t EI_APP_DISCRETE_IO_DEVICE_CFG_applyTimeSync (EI_API_ADP_T *pAdapter)
+static uint32_t EI_APP_DIO_DEVICE_CFG_applyTimeSync (EI_API_ADP_T *pAdapter)
 {
     uint32_t errCode = EI_API_ADP_eERR_GENERAL;
 

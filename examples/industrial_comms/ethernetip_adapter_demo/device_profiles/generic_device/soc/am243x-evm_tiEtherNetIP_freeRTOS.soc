@@ -16,9 +16,9 @@
     "NetType": "ENet"
   },
   "DUTInfo": {
-    "productName": "EtherNet/IP(tm) ADPT am243x-evm",
-    "productRev": "3.4",
-    "productCode": 9217,
+    "productName": "TMDS243EVM Generic Device",
+    "productRev": "3.6",
+    "productCode": 24301,
     "devProfile": {
       "ProductType": 43,
       "Profile": "Generic Device (keyable)"
@@ -643,14 +643,14 @@
               "IsImplemented": true,
               "IsSet": false,
               "RelationType": "IS",
-              "RelationStr": "9217"
+              "RelationStr": "24301"
             },
             {
               "Id": 4,
               "IsImplemented": true,
               "IsSet": false,
               "RelationType": "IS",
-              "RelationStr": "3.4"
+              "RelationStr": "3.6"
             },
             {
               "Id": 5,
@@ -671,7 +671,7 @@
               "IsImplemented": true,
               "IsSet": false,
               "RelationType": "IS",
-              "RelationStr": "EtherNet/IP(tm) ADPT am243x-evm"
+              "RelationStr": "TMDS243EVM Generic Device"
             },
             {
               "Id": 8,
@@ -1851,14 +1851,14 @@
         },
         {
           "Id": 2,
-          "IsImplemented": false,
+          "IsImplemented": true,
           "IsSet": false,
           "RelationType": "DEFLT",
           "RelationStr": ""
         },
         {
           "Id": 3,
-          "IsImplemented": false,
+          "IsImplemented": true,
           "IsSet": false,
           "RelationType": "DEFLT",
           "RelationStr": ""
@@ -3612,7 +3612,7 @@
           "Services": [
             {
               "Id": 1,
-              "IsImplemented": false,
+              "IsImplemented": true,
               "Parameters": ""
             },
             {

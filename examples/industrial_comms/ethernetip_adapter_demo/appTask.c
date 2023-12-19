@@ -8,7 +8,7 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2021, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -40,6 +40,7 @@
  *
  */
 
+#if (!(defined FBTLPROVIDER) || (0 == FBTLPROVIDER)) && (!(defined FBTL_REMOTE) || (0 == FBTL_REMOTE))
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -47,8 +48,8 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include <inc/EI_API.h>
-#include <inc/EI_API_def.h>
+#include "EI_API.h"
+#include "EI_API_def.h"
 
 #include "appNV.h"
 
@@ -71,15 +72,18 @@
 #include "appTask.h"
 #include "appCfg.h"
 #include "appRst.h"
-#include "device_profiles/app_device_profile.h"
+#include <device_profiles/app_device_profile.h>
 
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
+#if defined(SOC_AM64X) || defined(SOC_AM243X)
 extern PRUICSS_Handle prusshandle;
+#else
+Board_IDInfo boardInfo;
+#endif
 
 // Static variables and pointers used in this example.
-static uint16_t aExtendedStatus[255] = {0};
 
 static EI_API_ADP_T*           adapter_s  = NULL;
 static EI_API_CIP_NODE_T*      cipNode_s  = NULL;
@@ -91,7 +95,6 @@ static void                    EI_APP_TASK_adpInit             (EI_API_ADP_T    
 static void                    EI_APP_TASK_run                 (EI_API_CIP_NODE_T *pCipNode);
 static uint8_t*                EI_APP_TASK_getMacAddr          (void);
 
-static EI_API_ADP_SEipStatus_t EI_APP_TASK_cmgrCb              (uint32_t serviceCode, EI_API_ADP_UCmgrInfo_u cmgrInfo);
 static void                    EI_APP_TASK_stackErrorHandlerCb (uint32_t errorCode,   uint8_t fatal, uint8_t numOfPara, va_list argPtr);
 static bool                    EI_APP_TASK_cipCreateCallback   (EI_API_CIP_NODE_T *pCipNode);
 
@@ -172,61 +175,59 @@ static void EI_APP_TASK_adpInit(EI_API_ADP_T* pAdapter)
  */
 static bool EI_APP_TASK_cipCreateCallback(EI_API_CIP_NODE_T* cipNode)
 {
-    uint8_t errorCnt = 0;   // Variable to check sum up return errors.
+    bool    res = false;
 
     // Your callback function which stores your data when triggered.
     EI_API_CIP_CBService ptr_my_config_cb = EI_APP_CFG_callback;
 
     // Register callbacks for Set_Attribute_Single service.
     EI_API_CIP_SService_t srvc = { EI_API_CIP_eSC_SETATTRSINGLE, 0, NULL, ptr_my_config_cb };
-    EI_API_CIP_setInstanceServiceFunc(cipNode, 0x00F5, 0x0001, &srvc);
-    EI_API_CIP_setInstanceServiceFunc(cipNode, 0x00F6, 0x0001, &srvc);
-    EI_API_CIP_setInstanceServiceFunc(cipNode, 0x00F6, 0x0002, &srvc);
-    EI_API_CIP_setInstanceServiceFunc(cipNode, 0x0043, 0x0001, &srvc);
-    EI_API_CIP_setInstanceServiceFunc(cipNode, 0x0048, 0x0001, &srvc);
-    EI_API_CIP_setInstanceServiceFunc(cipNode, 0x0109, 0x0001, &srvc);
+
+    if (EI_API_CIP_eERR_OK != EI_API_CIP_setInstanceServiceFunc(cipNode, 0x00F5, 0x0001, &srvc))
+    {
+        goto laError;
+    }
+
+    if (EI_API_CIP_eERR_OK != EI_API_CIP_setInstanceServiceFunc(cipNode, 0x00F6, 0x0001, &srvc))
+    {
+        goto laError;
+    }
+
+    if (EI_API_CIP_eERR_OK != EI_API_CIP_setInstanceServiceFunc(cipNode, 0x00F6, 0x0002, &srvc))
+    {
+        goto laError;
+    }
+
+    if (EI_API_CIP_eERR_OK != EI_API_CIP_setInstanceServiceFunc(cipNode, 0x0043, 0x0001, &srvc))
+    {
+        goto laError;
+    }
+
+    if (EI_API_CIP_eERR_OK != EI_API_CIP_setInstanceServiceFunc(cipNode, 0x0048, 0x0001, &srvc))
+    {
+        goto laError;
+    }
+
+    if (EI_API_CIP_eERR_OK != EI_API_CIP_setInstanceServiceFunc(cipNode, 0x0109, 0x0001, &srvc))
+    {
+        goto laError;
+    }
 
     // Add callback for Reset service of class ID 0x01.
     EI_API_CIP_SService_t srvcReset = { EI_API_CIP_eSC_RESET, 0, NULL, EI_APP_RST_service };
-    if (EI_API_CIP_setInstanceServiceFunc(cipNode, 0x01, 0x01, &srvcReset) != EI_API_CIP_eERR_OK) errorCnt++;
 
-    return true;
-}
-
-/*!
- *  <!-- Description: -->
- *
- *  \brief
- *  Callback function for ForwardOpen, LargeForwardOpen and ForwardClose.
- *
- *  \details
- *  Callback function which is called when a request for the services
- *  ForwardOpen, LargeForwardOpen and ForwardClose was received.
- *
- */
-static EI_API_ADP_SEipStatus_t EI_APP_TASK_cmgrCb(uint32_t serviceCode, EI_API_ADP_UCmgrInfo_u cmgrInfo)
-{
-    EI_API_ADP_SEipStatus_t ret_val= {.gen_status=0,
-                                      .extended_status_size=0,
-                                      .extended_status_arr=aExtendedStatus};
-
-    switch(serviceCode)
+    if (EI_API_CIP_eERR_OK != EI_API_CIP_setInstanceServiceFunc(cipNode, 0x01, 0x01, &srvcReset))
     {
-    case 0x54:
-        // OSAL_printf("Forward open Connection Serial Number: 0x%04x\r\n", cmgrInfo.forwardOpenInfo.conSerialNum);
-        break;
-    case 0x5b:
-        // OSAL_printf("Large forward open Connection Serial Number: 0x%04x\r\n", cmgrInfo.forwardOpenInfo.conSerialNum);
-        break;
-    case 0x4e:
-        // OSAL_printf("Forward close Connection Serial Number: 0x%04x\r\n", cmgrInfo.forwardCloseInfo.conSerialNum);
-        break;
-    default:
-        OSAL_printf("unknown service code %x\r\n", serviceCode);
+        goto laError;
     }
 
-    return ret_val;
+    res = true;
+
+laError:
+
+    return res;
 }
+
 
 /*!
  *  <!-- Description: -->
@@ -235,11 +236,11 @@ static EI_API_ADP_SEipStatus_t EI_APP_TASK_cmgrCb(uint32_t serviceCode, EI_API_A
  *  Basic initialization function.
  *
  *  \details
- *  Creates a new EtherNet/IP&trade; Adapter.<br />
- *  Initializes data structures from non-volatile storage.<br />
- *  Registers stack error handler.<br />
- *  Initializes the Adapter.<br />
- *  Create a CIP&trade; node.<br />
+ *  Creates a new EtherNet/IP&trade; Adapter.<br>
+ *  Initializes data structures from non-volatile storage.<br>
+ *  Registers stack error handler.<br>
+ *  Initializes the Adapter.<br>
+ *  Create a CIP&trade; node.<br>
  *
  */
 static bool EI_APP_TASK_init(APP_SParams_t* param)
@@ -255,7 +256,7 @@ static bool EI_APP_TASK_init(APP_SParams_t* param)
 
     EI_APP_CFG_init(adapter_s);
 
-#if defined(TIME_SYNC)
+#if defined(EIP_TIME_SYNC) && (EIP_TIME_SYNC == 1)
     EI_API_ADP_setTimeSyncSupported(adapter_s);
 #endif
 
@@ -273,7 +274,7 @@ static bool EI_APP_TASK_init(APP_SParams_t* param)
     // Initialize data for the adapter.
     EI_APP_TASK_adpInit(adapter_s);
 
-#if defined(QUICK_CONNECT)
+#if defined(EIP_QUICK_CONNECT) && (EIP_QUICK_CONNECT == 1)
     // Enable QuickConnect
     EI_API_ADP_setQuickConnectSupported(adapter_s);
 #endif
@@ -285,9 +286,6 @@ static bool EI_APP_TASK_init(APP_SParams_t* param)
 
     // Create callbacks for changed values.
     EI_APP_TASK_cipCreateCallback(cipNode_s);
-
-    // Create callback for ForwardOpen, LargeForwardOpen and ForwardClose.
-    EI_API_ADP_setCmgrCb(EI_APP_TASK_cmgrCb);
 
     // Create vendor specific classes.
     EI_APP_DEVICE_PROFILE_TASK_init(adapter_s, cipNode_s);
@@ -416,8 +414,6 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
 laError:
     OSAL_printf("resetting device\n");
-
-    OSAL_IRQ_disableGlobalIrq();
 
     EI_APP_TASK_cleanup(adapter_s, cipNode_s);
 
@@ -580,3 +576,4 @@ static uint8_t* EI_APP_TASK_getMacAddr (void)
 #endif
 }
 
+#endif  // (!(defined FBTLPROVIDER) || (0 == FBTLPROVIDER)) && (!(defined FBTL_REMOTE) || (0 == FBTL_REMOTE))

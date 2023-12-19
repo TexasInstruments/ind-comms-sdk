@@ -21,12 +21,12 @@
 #ifndef EI_API_CIP_H_INC
 #define EI_API_CIP_H_INC
 
-#include <inc/EI_API_def.h>
+#include "EI_API_def.h"
 
 #include <stdint.h>
 #include <stdbool.h>
 
-#include <inc/EI_API_CIP_define.h>
+#include "EI_API_CIP_define.h"
 
 /// @cond INTERNAL
 #define T EI_API_CIP_NODE_T

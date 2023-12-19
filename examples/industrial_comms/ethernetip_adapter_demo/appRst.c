@@ -8,7 +8,7 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -43,8 +43,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "inc/EI_API.h"
-#include "inc/EI_API_def.h"
+#include "EI_API.h"
+#include "EI_API_def.h"
 
 #include "drivers/CUST_drivers.h"
 
@@ -53,7 +53,8 @@
 #include "appCfg.h"
 #include "appRst.h"
 
-#include <device_profiles/app_device_profile.h>
+#include "device_profiles/app_device_profile.h"
+
 
 const EI_APP_CFG_AdapterData_t  EI_APP_RST_adapterFactoryDefaultValues =
 {
@@ -89,7 +90,7 @@ const EI_APP_CFG_AdapterData_t  EI_APP_RST_adapterFactoryDefaultValues =
         .encapInactTimeout = 120,
         .mcastConfig.allocControl = 0,
 
-#if defined(TIME_SYNC)
+#if defined(EIP_TIME_SYNC) && (EIP_TIME_SYNC == 1)
         .ptpEnable                  = 1,
         .portEnable                 = 1,
         .portLogAnnounceInterval    = 1,
@@ -105,7 +106,7 @@ const EI_APP_CFG_AdapterData_t  EI_APP_RST_adapterFactoryDefaultValues =
         .aUserDescription           = {"Kunbus;EthernetIP Adapter;"},
 #endif
 
-#if defined(QUICK_CONNECT)
+#if defined(EIP_QUICK_CONNECT) && (EIP_QUICK_CONNECT == 1)
         .quickConnectEnabled       = true,
 #else
         .quickConnectEnabled       = false,

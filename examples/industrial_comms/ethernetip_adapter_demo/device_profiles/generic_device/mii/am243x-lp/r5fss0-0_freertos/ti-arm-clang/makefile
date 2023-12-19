@@ -108,6 +108,7 @@ INCLUDES_common := \
 
 DEFINES_common := \
 	-DSOC_AM243X \
+	-DSOC_AM243X=1 \
 	-DOSAL_FREERTOS=1 \
 	-DTIME_SYNC \
 	-DCPU_LOAD_MONITOR=0 \
@@ -122,8 +123,13 @@ CFLAGS_common := \
 	-g \
 	-Wno-gnu-variable-sized-type-not-at-end \
 	-Wno-unused-function \
-	-mllvm -align-all-functions=2 \
 	-Wno-unused-but-set-variable \
+	-mllvm \
+	-align-all-functions=2 \
+
+CFLAGS_debug := \
+	-D_DEBUG_=1 \
+	-Og \
 
 CFLAGS_cpp_common := \
 	-Wno-c99-designator \
@@ -136,9 +142,6 @@ CFLAGS_cpp_common := \
 	-Wno-reserved-user-defined-literal \
 	-Wno-unused-const-variable \
 	-x c++ \
-
-CFLAGS_debug := \
-	-D_DEBUG_=1 \
 
 CFLAGS_release := \
 	-Os \

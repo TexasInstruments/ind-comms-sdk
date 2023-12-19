@@ -8,7 +8,7 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2021, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -46,8 +46,8 @@
 #include <FreeRTOSConfig.h>
 #include <ti_board_open_close.h>
 
-#include "inc/EI_API.h"
-#include "inc/EI_API_def.h"
+#include "EI_API.h"
+#include "EI_API_def.h"
 #include "drivers/CUST_drivers.h"
 
 #include "appCipCodes.h"

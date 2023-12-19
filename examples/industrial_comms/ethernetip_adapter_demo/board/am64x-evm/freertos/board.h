@@ -47,9 +47,9 @@
 extern "C" {
 #endif
 
-// attributes dependent on configuration/board
-#define PRODUCT_CODE_OF_CONFIGURATION   0x6401
-#define PRODUCT_NAME_OF_CONFIGURATION   "EtherNet/IP(tm) ADPT am64x-evm"
+#define BOARD_TYPE_TMDS64EVM  1
+
+// TimeSync configuration
 #define TIMESYNC_PRODUCT_DESCRIPTION_OF_CONFIGURATION   "Kunbus Ethernet/IP CIP Sync;buf_serial_number;";
 
 /*
@@ -74,8 +74,10 @@ extern "C" {
 #define CONFIG_INSTANCE_INVALID         ~0
 
 // Memory type for permanent data
+#if !(defined FBTLPROVIDER)
 #define PERMANENT_TYPE_FLASH  (0u)
 #define PERMANENT_TYPE_EEPROM (1u)
+#endif /* FBTLPROVIDER */
 
 #if (PERMANENT_TYPE_FLASH)
     #define PERMANENT_DATA_MEMORY_TYPE      CUST_DRIVERS_PRM_eTYPE_FLASH
@@ -91,11 +93,19 @@ extern "C" {
     #define PERMANENT_DATA_MEMORY_OFFSET    (0x0u)
 #endif
 
+#if !(defined FBTLPROVIDER)
 #define INDUSTRIAL_LEDS_INSTANCE        CONFIG_LED0
+#endif /* FBTLPROVIDER */
 
+#if (defined FBTL_REMOTE) && (FBTL_REMOTE == 1)
+#define PRU_ICSS_BLOCK_INSTANCE         CONFIG_INSTANCE_INVALID
+#define PRU_ICSS_ETHPHY_0_INSTANCE      CONFIG_INSTANCE_INVALID
+#define PRU_ICSS_ETHPHY_1_INSTANCE      CONFIG_INSTANCE_INVALID
+#else
 #define PRU_ICSS_BLOCK_INSTANCE         CONFIG_PRU_ICSS1
 #define PRU_ICSS_ETHPHY_0_INSTANCE      CONFIG_ETHPHY0
 #define PRU_ICSS_ETHPHY_1_INSTANCE      CONFIG_ETHPHY1
+#endif /* FBTL_REMOTE */
 
 #define PRINTF_CALLBACK_FUNCTION        CUST_DRIVERS_UART_printf
 #define PRINTF_UART_CALLBACK_INSTANCE   CONFIG_UART_CONSOLE

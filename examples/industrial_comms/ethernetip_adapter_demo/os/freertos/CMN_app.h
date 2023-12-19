@@ -53,6 +53,51 @@
 #define CMN_APP_MAIN_STACK_SIZE_IN_BYTES    APP_MAIN_STACK_SIZE_IN_BYTES
 #define CMN_APP_MAIN_STACK_SIZE             (CMN_APP_MAIN_STACK_SIZE_IN_BYTES/sizeof(configSTACK_DEPTH_TYPE))
 
+#if ((defined FBTLPROVIDER) && (1==FBTLPROVIDER)) || ((defined FBTL_REMOTE) && (1==FBTL_REMOTE))
+#define FBTLCYCLIC_TASK_SIZE_BYTE       FBTL_GENERAL_STACK_SIZE_BYTE
+#define FBTLSENDACYC_TASK_SIZE_BYTE     FBTL_GENERAL_STACK_SIZE_BYTE
+#define FBTLACYCIST_TASK_SIZE_BYTE      FBTL_GENERAL_STACK_SIZE_BYTE
+#define FBTLSYNCEXEC_TASK_SIZE_BYTE     FBTL_GENERAL_STACK_SIZE_BYTE
+#define FBTLRECEIVER_TASK_SIZE_BYTE     FBTL_GENERAL_STACK_SIZE_BYTE
+#define FBTLSERVICE_TASK_SIZE_BYTE      FBTL_GENERAL_STACK_SIZE_BYTE
+#define FBTLSLOWSERVICE_TASK_SIZE_BYTE  FBTL_GENERAL_STACK_SIZE_BYTE
+#endif
+
+#if (defined FBTL_REMOTE) && (1==FBTL_REMOTE)
+#define FBTLSYNCIST_TASK_SIZE_BYTE      FBTL_GENERAL_STACK_SIZE_BYTE
+#define FBTLLEDIST_TASK_SIZE_BYTE       FBTL_GENERAL_STACK_SIZE_BYTE
+#endif
+
+#if ((defined FBTLPROVIDER) && (1==FBTLPROVIDER)) || ((defined FBTL_REMOTE) && (1==FBTL_REMOTE))
+#define FBTLCYCLIC_TASK_SIZE            (FBTLCYCLIC_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+#define FBTLSENDACYC_TASK_SIZE          (FBTLSENDACYC_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+#define FBTLACYCIST_TASK_SIZE           (FBTLACYCIST_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+#define FBTLSYNCEXEC_TASK_SIZE          (FBTLSYNCEXEC_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+#define FBTLRECEIVER_TASK_SIZE          (FBTLRECEIVER_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+#define FBTLSERVICE_TASK_SIZE           (FBTLSERVICE_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+#define FBTLSLOWSERVICE_TASK_SIZE       (FBTLSLOWSERVICE_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+#endif
+
+#if (defined FBTL_REMOTE) && (1==FBTL_REMOTE)
+#define FBTLSYNCIST_TASK_SIZE           (FBTLSYNCIST_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+#define FBTLLEDIST_TASK_SIZE            (FBTLLEDIST_TASK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+#endif
+
+#if ((defined FBTLPROVIDER) && (1==FBTLPROVIDER)) || ((defined FBTL_REMOTE) && (1==FBTL_REMOTE))
+extern StackType_t SYSLIB_fbtlCyclicTaskStack_g[];
+extern StackType_t SYSLIB_fbtlSendAcycTaskStack_g[];
+extern StackType_t SYSLIB_fbtlAcycISTTaskStack_g[];
+extern StackType_t SYSLIB_fbtlSyncExecTaskStack_g[];
+extern StackType_t SYSLIB_fbtlReceiverTaskStack_g[];
+extern StackType_t SYSLIB_fbtlServiceTaskStack_g[];
+extern StackType_t SYSLIB_fbtlSlowServiceTaskStack_g[];
+#endif
+
+#if (defined FBTL_REMOTE) && (1==FBTL_REMOTE)
+extern StackType_t SYSLIB_fbtlSyncIstTaskStack_g[];
+extern StackType_t SYSLIB_fbtlLedIstTaskStack_g[];
+#endif
+
 typedef void (*CMN_APP_CBTask_t)(void* pArg_p);
 
 #if (defined __cplusplus)

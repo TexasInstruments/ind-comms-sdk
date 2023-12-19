@@ -8,7 +8,7 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2021, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -47,8 +47,8 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include <inc/EI_API.h>
-#include <inc/EI_API_def.h>
+#include "EI_API.h"
+#include "EI_API_def.h"
 
 #include <osal.h>
 #include <osal_error.h>
@@ -75,7 +75,7 @@
  *  Main entry point.
  *
  *  \details
- *  Main entry point.<br />
+ *  Main entry point.<br>
  *  Initializes the general operating system abstraction layer,
  *  starts the EtherNet/IP&trade; main application task, and starts the
  *  operating system abstraction layer.
@@ -143,7 +143,7 @@ int main(
 
     OSAL_registerErrorHandler (EI_APP_TASK_osErrorHandlerCb);
 
-#if defined(QUICK_CONNECT)
+#if defined(EIP_QUICK_CONNECT) && (EIP_QUICK_CONNECT == 1)
     OSAL_printfSuppress(true);
 #endif
 

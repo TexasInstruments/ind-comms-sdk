@@ -80,6 +80,7 @@ extern uint32_t       CUST_ETHPHY_deInit                        (void);
 extern ETHPHY_Handle  CUST_ETHPHY_getHandle                     (uint32_t instance);
 extern ETHPHY_Config* CUST_ETHPHY_getConfig                     (uint32_t instance);
 extern bool           CUST_ETHPHY_MDIOMANUALMODE_isEnabled      (void);
+extern bool           CUST_ETHPHY_MDIOMANUALMODE_isMlinkBased   (void);
 extern uint32_t       CUST_ETHPHY_MDIOMANUALMODE_getBaseAddress (void);
 
 #if (defined __cplusplus)

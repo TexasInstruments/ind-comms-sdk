@@ -21,7 +21,7 @@
 #ifndef EI_API_H_INC
 #define EI_API_H_INC
 
-#include "inc/EI_API_ADP.h"
-#include "inc/EI_API_CIP.h"
+#include "EI_API_ADP.h"
+#include "EI_API_CIP.h"
 
 #endif // EI_API_H_INC

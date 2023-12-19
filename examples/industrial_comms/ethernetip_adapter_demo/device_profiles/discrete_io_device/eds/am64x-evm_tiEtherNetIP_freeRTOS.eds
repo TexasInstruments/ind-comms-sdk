@@ -4,9 +4,9 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         DescText = "EtherNet/IP(tm) Adapter am64x-evm freeRTOS";
         CreateDate = 11-21-2019;
         CreateTime = 08:00:00;
-        ModDate = 14-07-2023;
-        ModTime = 16:30:00;
-        Revision = 3.4;
+        ModDate = 10-27-2023;
+        ModTime = 09:00:00;
+        Revision = 3.6;
         HomeURL = "www.ti.com";
 
 
@@ -15,10 +15,10 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         VendName = "Texas Instruments";
         ProdType = 7;
         ProdTypeStr = "General Purpose Discrete IO Device";
-        ProdCode = 25601;
+        ProdCode = 06402;
         MajRev = 3;
-        MinRev = 4;
-        ProdName = "EtherNet/IP(tm) ADPT am64x-evm";
+        MinRev = 6;
+        ProdName = "TMDS64EVM Discrete I/O Device";
         Catalog = "CatNo25601";
         Icon = "ti.ico";
         IconContents =
@@ -53,8 +53,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ first field shall equal 0
                 ,,                      $ path size,path
                 0x0000,                 $ descriptor
-                0xC7,                   $ data type
-                2,                      $ data size in bytes
+                0xC6,                   $ data type
+                1,                      $ data size in bytes
                 "Output1",              $ name
                 "",                     $ units
                 "Output Byte 1",        $ help string
@@ -66,8 +66,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC7,                   $ Data Type
-                2,                      $ Data Size in bytes
+                0xC6,                   $ Data Type
+                1,                      $ Data Size in bytes
                 "Output2",              $ name
                 "",                     $ units
                 "Output Byte 2",        $ help string
@@ -79,8 +79,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC7,                   $ Data Type
-                2,                      $ Data Size in bytes
+                0xC6,                   $ Data Type
+                1,                      $ Data Size in bytes
                 "Output3",              $ name
                 "",                     $ units
                 "Output Byte 3",        $ help string
@@ -92,8 +92,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC7,                   $ Data Type
-                2,                      $ Data Size in bytes
+                0xC6,                   $ Data Type
+                1,                      $ Data Size in bytes
                 "Output4",              $ name
                 "",                     $ units
                 "Output Byte 4",        $ help string
@@ -105,8 +105,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC7,                   $ Data Type
-                2,                      $ Data Size in bytes
+                0xC6,                   $ Data Type
+                1,                      $ Data Size in bytes
                 "Output5",              $ name
                 "",                     $ units
                 "Output Byte 5",        $ help string
@@ -127,9 +127,6 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 ,,,,                    $ mult, div, base, offset scaling
                 ,,,,                    $ mult, div, base, offset links
                 ;                       $ decimal places
-		Enum6 =
-                0,"DISABLED",
-                1,"ENABLED";
         Param7 =
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
@@ -142,10 +139,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 ,,0,                    $ min, max, default data values
                 ,,,,                    $ mult, div, base, offset scaling
                 ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-		Enum7 =
-                0,"DISABLED",
-                1,"ENABLED";				
+                ;                       $ decimal places				
         Param8 =
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
@@ -163,34 +157,40 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
+                0xC1,                   $ Data Type
                 1,                      $ Data Size in bytes
-                "Output9",              $ name
+                "FaultMode",            $ name
                 "",                     $ units
                 "Parameter 9",          $ help string
-                ,,0,                    $ min, max, default data values
+                0,1,0,                  $ min, max, default data values
                 ,,,,                    $ mult, div, base, offset scaling
                 ,,,,                    $ mult, div, base, offset links
                 ;                       $ decimal places
+		Enum1 =
+                0,"Use Fault Value",
+                1,"Hold Last State";
         Param10 =
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
+                0xC1,                   $ Data Type
                 1,                      $ Data Size in bytes
-                "Output10",             $ name
+                "IdleMode",             $ name
                 "",                     $ units
                 "Parameter 10",         $ help string
-                ,,0,                    $ min, max, default data values
+                0,1,0,                  $ min, max, default data values
                 ,,,,                    $ mult, div, base, offset scaling
                 ,,,,                    $ mult, div, base, offset links
                 ;                       $ decimal places
+		Enum2 =
+                0,"Use Idle Value",
+                1,"Hold Last State";
         Param11 =
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC7,                   $ Data Type
-                2,                      $ Data Size in bytes
+                0xC6,                   $ Data Type
+                1,                      $ Data Size in bytes
                 "Input1",               $ name
                 "",                     $ units
                 "Input Byte 1",         $ help string
@@ -202,8 +202,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC7,                   $ Data Type
-                2,                      $ Data Size in bytes
+                0xC6,                   $ Data Type
+                1,                      $ Data Size in bytes
                 "Input2",               $ name
                 "",                     $ units
                 "Input Byte 2",         $ help string
@@ -215,8 +215,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC7,                   $ Data Type
-                2,                      $ Data Size in bytes
+                0xC6,                   $ Data Type
+                1,                      $ Data Size in bytes
                 "Input3",               $ name
                 "",                     $ units
                 "Input Byte 3",         $ help string
@@ -228,8 +228,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC7,                   $ Data Type
-                2,                      $ Data Size in bytes
+                0xC6,                   $ Data Type
+                1,                      $ Data Size in bytes
                 "Input4",               $ name
                 "",                     $ units
                 "Input Byte 4",         $ help string
@@ -241,8 +241,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC7,                   $ Data Type
-                2,                      $ Data Size in bytes
+                0xC6,                   $ Data Type
+                1,                      $ Data Size in bytes
                 "Input5",               $ name
                 "",                     $ units
                 "Input Byte 5",         $ help string
@@ -344,8 +344,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 2,
                 0x0001,
                 ,,
-                8,Param6,
-                8,Param7;
+                8,Param9,
+                8,Param10;
 
 
 [Connection Manager]
@@ -381,7 +381,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 2,Assem3,               $ config part 2 (module configuration)
                 "Exclusive Owner",      $ connection name
                 "",                     $ Help string
-                "20 04 24 66 2C 65 2C 64";    $ exclusive owner path
+                "20 04 24 28 2C 65 2C 64";    $ exclusive owner path
 
         Connection2 =
                 0x02010002,             $ trigger & transport
@@ -413,7 +413,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 2,Assem3,               $ config part 2 (module configuration)
                 "Input Only",           $ connection name
                 "",                     $ Help string
-                "20 04 24 66 2C FE 2C 64";    $ input only path
+                "20 04 24 28 2C FE 2C 64";    $ input only path
 
         Connection3 =
                 0x01010002,             $ trigger & transport
@@ -445,7 +445,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 2,Assem3,               $ config part 2 (module configuration)
                 "Listen Only",          $ connection name
                 "",                     $ Help string
-                "20 04 24 66 2C FF 2C 64";    $ listen only path
+                "20 04 24 28 2C FF 2C 64";    $ listen only path
 
 [Capacity]
         MaxCIPConnections = 12;

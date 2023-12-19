@@ -64,7 +64,12 @@
     #include <industrial_comms/ethernetip_adapter/icss_fwhal/firmware/mdio_fw_bin.h>
 #endif
 
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
 extern PRUICSS_Config gPruIcssConfig[];
+#else
+int32_t        gPruIcssConfigNum = 0;
+PRUICSS_Config gPruIcssConfig[0];
+#endif
 
 static CUST_PRUICSS_ConfigParams_t CUST_PRUICSS_pConfigParams_s = {0};
 
@@ -129,7 +134,9 @@ CUST_PRUICSS_ConfigParams_t* CUST_PRUICSS_getCfgParams (void)
 {
     CUST_PRUICSS_ConfigParams_t* pPruIcssCfgParams = NULL;
 
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
     pPruIcssCfgParams = &CUST_PRUICSS_pConfigParams_s;
+#endif
 
     return pPruIcssCfgParams;
 }
@@ -146,7 +153,9 @@ PRUICSS_Config* CUST_PRUICSS_getConfig (uint32_t sysConfigId)
 {
     PRUICSS_Config* pPruIcssCfg = NULL;
 
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
     pPruIcssCfg = &gPruIcssConfig[sysConfigId];
+#endif
 
     return pPruIcssCfg;
 }
