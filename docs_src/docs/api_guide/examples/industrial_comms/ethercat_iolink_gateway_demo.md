@@ -36,6 +36,9 @@ This example is an EtherCAT-IOLink Gateway application based on evaluation stack
 
 \endcond
 
+\note
+Fast link detection using RX_LINK pins (MLINK mode) is required to support complete EtherCAT functionality, and certain conformance tests will fail if fast link detection is not used. Link Polling is not suggested, use it only for debugging if required. 
+
 \attention If you need to reload and run the example again, EVM power-cycle is MUST.
 
 # Supported Combinations

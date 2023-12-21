@@ -49,6 +49,9 @@ Links to important sections in the detailed documentation are provided below:
 
 \endcond
 
+\note
+Fast link detection using RX_LINK pins (MLINK mode) is required to support complete EtherCAT functionality, and certain conformance tests will fail if fast link detection is not used. Link Polling is not suggested, use it only for debugging if required. 
+
 \cond SOC_AM243X
 
 \note

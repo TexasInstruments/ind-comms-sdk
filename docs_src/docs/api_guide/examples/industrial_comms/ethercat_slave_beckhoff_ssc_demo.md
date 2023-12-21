@@ -164,6 +164,10 @@ Following is the interrupt processing time for PDI and Sync ISRs with 50 us cycl
         - If you want to modify the object dictionary, you can update the "${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/patch/am64x_am243x_am263x/tiescappl.xlsx" file and then the SSC tool will generate the application code accordingly.
 
 - Change macro defintions in `{SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/stack_sources/ecat_def.h`, if required for your application. Please ensure that TIESC_HW is set to 1, and TIESC_APPLICATION is set to 1.
+
+\note
+Fast link detection using RX_LINK pins (MLINK mode) is required to support complete EtherCAT functionality, and certain conformance tests will fail if fast link detection is not used. Link Polling is not suggested, use it only for debugging if required. 
+
 - **When using CCS projects to build**, import the CCS project for the required combination
   and build it using the CCS project menu (see \htmllink{@VAR_MCU_SDK_DOCS_PATH/CCS_PROJECTS_PAGE.html, Using SDK with CCS Projects}).
 - **When using makefiles to build**, note the required combination and build using
