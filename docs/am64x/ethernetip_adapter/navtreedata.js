@@ -39,6 +39,10 @@ var NAVTREE =
         [ "Public Licensed Packages", "eip_releasenotes.html#eip_releasenotes_opensource_license", null ]
       ] ],
       [ "Known Issues", "eip_releasenotes.html#eip_known_issues", null ],
+      [ "Release Version 3.06.02", "eip_releasenotes.html#eip_version_release30602", [
+        [ "New Features", "eip_releasenotes.html#eip_new_features_release30602", null ],
+        [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30602", null ]
+      ] ],
       [ "Release Version 3.04.02", "eip_releasenotes.html#eip_version_release30402", [
         [ "New Features", "eip_releasenotes.html#eip_new_features_release30402", null ],
         [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30402", null ]
@@ -164,11 +168,7 @@ var NAVTREE =
       [ "EtherNet/IP Adapter Examples", "eip_quickstart_example.html", [
         [ "Scope", "eip_quickstart_example.html#eip_quickstart_example_scope", null ],
         [ "Common Files", "eip_quickstart_example.html#eip_quickstart_example_common_files", null ],
-        [ "Device Profile Example Implementations", "eip_quickstart_example.html#eip_quickstart_example_profiles", [
-          [ "Generic Device", "eip_example_generic_device.html", null ],
-          [ "General Purpose Discrete I/O Device", "eip_example_general_purpose_discrete_io_device.html", null ],
-          [ "Generic EtherNet/IP - IO-Link Gateway", "eip_example_generic_io_link_gateway.html", null ]
-        ] ],
+        [ "Device Profile Example Implementations", "eip_quickstart_example.html#eip_quickstart_example_profiles", null ],
         [ "Web Server Task", "eip_quickstart_example.html#exampleWebServer", null ]
       ] ],
       [ "PLC Projects for the EtherNet/IP Adapter Example", "eip_quickstart_example_plc.html", [
@@ -177,7 +177,6 @@ var NAVTREE =
         [ "Allen-Bradley CompactLogix Controller", "eip_studio5000_example.html", null ]
       ] ]
     ] ],
-    [ "API Reference", "modules.html", "modules" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -195,9 +194,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"group___e_i___a_p_i___a_d_p___t_c_p_gacfad46501a373047ef0cdfd3d6b9d008.html#gacfad46501a373047ef0cdfd3d6b9d008",
-"struct_c_u_s_t___d_r_i_v_e_r_s___s_flash_params_a2aad5673f59d7d063a79398cc3fc20fd.html#a2aad5673f59d7d063a79398cc3fc20fd",
-"usergroup0.html"
+"struct_c_u_s_t___f_l_a_s_h___d_e_v___s_def_is25wx256__t_a8ed21fe22c8a3bab7292566b5363feed.html#a8ed21fe22c8a3bab7292566b5363feed",
+"struct_task_p___struct__.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
