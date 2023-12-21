@@ -57,9 +57,11 @@
             -g
             -Wno-gnu-variable-sized-type-not-at-end
             -Wno-unused-function
-            -mllvm -align-all-functions=2
             -Wno-unused-but-set-variable
+            -mllvm
+            -align-all-functions=2
             -DSOC_AM243X
+            -DSOC_AM243X=1
             -DOSAL_FREERTOS=1
             -DTIME_SYNC
             -DCPU_LOAD_MONITOR=0
@@ -112,6 +114,7 @@
         <configuration name="Debug"
             compilerBuildOptions="
                 -D_DEBUG_=1
+                -Og
             "
             linkerBuildOptions="
                 -lfreertos.am243x.r5f.ti-arm-clang.debug.lib

@@ -203,6 +203,40 @@ typedef union EI_API_ADP_UIntfConf
     EI_API_ADP_SIntfConfBits_t  bit;                /*!< Access bit directly. */
 } EI_API_ADP_UIntfConf_t;
 
+typedef enum EI_API_ADP_EPortNo
+{
+    EI_API_ADP_ePort1,
+    EI_API_ADP_ePort2,
+} EI_API_ADP_EPortNo_t;
+
+typedef enum EI_API_ADP_EPortLink
+{
+    EI_API_ADP_eLinkDown,
+    EI_API_ADP_eLinkUp,
+} EI_API_ADP_EPortLink_t;
+
+typedef enum EI_API_ADP_EPortSpeed
+{
+    EI_API_ADP_ePortSpeed_Invalid,
+    EI_API_ADP_ePortSpeed_10Mb,
+    EI_API_ADP_ePortSpeed_100Mb,
+    EI_API_ADP_ePortSpeed_1Gb,
+} EI_API_ADP_EPortSpeed_t;
+
+typedef enum EI_API_ADP_EPortDuplex
+{
+    EI_API_ADP_ePortDuplex_Invalid,
+    EI_API_ADP_ePortDuplex_Half,
+    EI_API_ADP_ePortDuplex_Full,
+} EI_API_ADP_EPortDuplex_t;
+
+typedef struct EI_API_ADP_SPortState
+{
+    EI_API_ADP_EPortLink_t   link;
+    EI_API_ADP_EPortSpeed_t  speed;
+    EI_API_ADP_EPortDuplex_t duplex;
+} EI_API_ADP_SPortState_t;
+
 /*!
  *  \brief General QoS attribute parameter collection
  */
@@ -369,6 +403,13 @@ typedef void(*EI_API_ADP_CBStackError)(uint32_t errorCode_p, uint8_t fatal_p, ui
  *  \ingroup EI_API_CIP_CALLBACK
  */
 typedef EI_API_ADP_SEipStatus_t(*EI_API_ADP_CBCmgr)(uint32_t serviceCode_p, EI_API_ADP_UCmgrInfo_u CmgrInfo);
+/*!
+ *  \brief Function prototype for CIP COBJ callback functions.
+ *  \ingroup EI_API_CIP_CALLBACK
+ */
+typedef EI_API_ADP_SEipStatus_t(*EI_API_ADP_CBCobjTimeOut)(uint8_t *producedConnectionPath_p, uint16_t producedConnectionPathLen_p,
+                                                              uint8_t *consumedConnectionPath_p, uint16_t consumedConnectionPathLen_p);
+
 #undef T
 
 #ifdef  __cplusplus 

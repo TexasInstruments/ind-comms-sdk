@@ -8,7 +8,7 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -43,8 +43,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "inc/EI_API.h"
-#include "inc/EI_API_def.h"
+#include "EI_API.h"
+#include "EI_API_def.h"
 
 #include "drivers/CUST_drivers.h"
 
@@ -52,7 +52,8 @@
 #include "appNV.h"
 #include "appCfg.h"
 
-#include <device_profiles/app_device_profile.h>
+#include "device_profiles/app_device_profile.h"
+
 
 static bool EI_APP_CFG_getTcpip   (EI_API_ADP_T *pAdapter, uint16_t instanceId, uint16_t attrId, EI_API_CIP_ESc_t serviceCode, int16_t serviceFlag);
 static bool EI_APP_CFG_getTsync   (EI_API_ADP_T *pAdapter, uint16_t instanceId, uint16_t attrId, EI_API_CIP_ESc_t serviceCode, int16_t serviceFlag);
@@ -69,6 +70,46 @@ static uint32_t EI_APP_CFG_setLldpMng (EI_API_ADP_T *pAdapter, EI_APP_CFG_Data_t
 static EI_API_ADP_T                *EI_APP_CFG_pAdapter_s      = NULL;
 static bool                         EI_APP_CFG_isChanged_s     = false;
 
+/*!
+ * \brief
+ * Short description. Remove all tags that are not needed.
+ *
+ * \details
+ * Detailed description.
+ *
+ * \remarks
+ * Some remarks
+ *
+ * \pre
+ * description of the precondition
+ *
+ * \post
+ * description of the postcondition
+ *
+ * \warning
+ * Some warning
+ *
+ * \param[in]     node                         A node.
+ * \param[inout]  data                         A given non formatted data and returned formatted data.
+ * \param[out]    pRet                         Pointer to a return value.
+ *
+ * \return        #NAMESPACE_Error_t as uint32_t.
+ * \retval        #NAMESPACE_ERR_OK            Success.
+ * \retval        #NAMESPACE_ERR_FAIL          Something went wrong.
+ *
+ * \par Example
+ * \code{.c}
+ * #include <api/NAMESPACE.h>
+ *
+ * Short code example demonstrating the call sequence
+ *
+ * \endcode
+ *
+ * \see ReferenceA  ReferenceB
+ *
+ * \ingroup MyGroup
+ *
+ */
 bool EI_APP_CFG_init (EI_API_ADP_T *pAdapter)
 {
     bool ret = false;
@@ -145,7 +186,7 @@ void EI_APP_CFG_setDefaultWithoutComm (void)
 
     OSAL_MEMORY_memcpy(&pRuntimeData->adapter.lldpParameter, &pResetData->adapter.lldpParameter, sizeof(pResetData->adapter.lldpParameter));
 
-#if defined(QUICK_CONNECT)
+#if defined(EIP_QUICK_CONNECT) && (EIP_QUICK_CONNECT == 1)
     pRuntimeData->adapter.quickConnectEnabled = pResetData->adapter.quickConnectEnabled;
 #endif
 
@@ -198,7 +239,7 @@ uint32_t EI_APP_CFG_apply(EI_API_ADP_T *pAdapter)
         goto laError;
     }
 
-#if defined(QUICK_CONNECT)
+#if defined(EIP_QUICK_CONNECT) && (EIP_QUICK_CONNECT == 1)
     // Enable QuickConnect
     EI_API_ADP_setQuickConnectEnabled(pAdapter, pRuntimeData->adapter.quickConnectEnabled);
 #endif
@@ -430,7 +471,7 @@ static bool EI_APP_CFG_getTcpip (EI_API_ADP_T      *pAdapter,
             }
             break;
         }
-#if defined(QUICK_CONNECT)
+#if defined(EIP_QUICK_CONNECT) && (EIP_QUICK_CONNECT == 1)
         case EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_12:
         {
             bool quickConnectEnabled;

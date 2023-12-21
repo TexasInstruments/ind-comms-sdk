@@ -57,10 +57,13 @@
             -g
             -Wno-gnu-variable-sized-type-not-at-end
             -Wno-unused-function
-            -mllvm -align-all-functions=2
             -Wno-unused-but-set-variable
+            -mllvm
+            -align-all-functions=2
             -DSOC_AM64X
             -DOSAL_FREERTOS=1
+            -DSOC_AM64X
+            -DSOC_AM64X=1
             -DTIME_SYNC
             -DCPU_LOAD_MONITOR=0
         "
@@ -112,6 +115,7 @@
         <configuration name="Debug"
             compilerBuildOptions="
                 -D_DEBUG_=1
+                -Og
             "
             linkerBuildOptions="
                 -lfreertos.am64x.r5f.ti-arm-clang.debug.lib
@@ -173,6 +177,14 @@
         <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device_cfg.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device_dip.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device_dog.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device_dop.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device_sm.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="linker.cmd" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

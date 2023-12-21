@@ -1,8 +1,8 @@
 /*!
- *  \file app_generic_device.h
+ *  \file app_discrete_io_device_dop.h
  *
  *  \brief
- *  Generic device profile declarations.
+ *  Necessary declarations of Discrete Output Point (DOP) Object.
  *
  *  \author
  *  KUNBUS GmbH
@@ -40,17 +40,45 @@
  *
  */
 
-#ifndef APP_GENERIC_DEVICE_H
-#define APP_GENERIC_DEVICE_H
+#ifndef APP_DISCRETE_IO_DEVICE_DOP_H
+#define APP_DISCRETE_IO_DEVICE_DOP_H
+
+#define EI_APP_DOP_LED_ON  0x01 /*!< LED ON Status for DIP & DOP Objects */
+#define EI_APP_DOP_LED_OFF 0x00 /*!< LED OFF Status for DIP & DOP Objects */
+
+/**
+ * @brief
+ * A structure to hold Discrete Output Point's (DOP)
+ * class data.
+ */
+typedef struct EI_APP_DOP_ClassData
+{
+    uint16_t revision;
+}EI_APP_DOP_ClassData_t;
+
+/**
+ * @brief
+ * EI_APP_DISCRETE_IO_DEVICE_DOP_SmStates_t enum is used for
+ * states of DOP state machine.
+ */
+typedef enum EI_APP_DOP_SmStates
+{
+    EI_APP_DOP_SM_NONEXISTENT = 0,
+    EI_APP_DOP_SM_AVAILABLE,
+    EI_APP_DOP_SM_IDLE,
+    EI_APP_DOP_SM_READY,
+    EI_APP_DOP_SM_RUN,
+    EI_APP_DOP_SM_RECOVERABLEFAULT,
+    EI_APP_DOP_SM_UNRECOVERABLEFAULT,
+    EI_APP_DOP_SM_MAX_STATES
+}EI_APP_DOP_SmStates_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-EI_API_ADP_SEipStatus_t EI_APP_GENERIC_DEVICE_cmgrCb(uint32_t serviceCode, EI_API_ADP_UCmgrInfo_u cmgrInfo);
-
 #ifdef  __cplusplus
 }
 #endif
 
-#endif // APP_GENERIC_DEVICE_H
+#endif // APP_DISCRETE_IO_DEVICE_DOP_H

@@ -61,6 +61,8 @@
             -Wno-unused-but-set-variable
             -DSOC_AM64X
             -DOSAL_FREERTOS=1
+            -DSOC_AM64X
+            -DSOC_AM64X=1
             -DTIME_SYNC
             -DCPU_LOAD_MONITOR=0
         "

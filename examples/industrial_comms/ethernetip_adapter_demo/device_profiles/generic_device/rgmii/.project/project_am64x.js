@@ -101,6 +101,8 @@ const libs_freertos_r5f = {
 const defines_r5f = {
     common: [
         "OSAL_FREERTOS=1",
+        "SOC_AM64X",
+        "SOC_AM64X=1",
         "TIME_SYNC",
         "CPU_LOAD_MONITOR=0"
     ],

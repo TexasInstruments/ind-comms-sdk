@@ -8,7 +8,7 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -43,29 +43,24 @@
 #ifndef APP_DISCRETE_IO_DEVICE_H
 #define APP_DISCRETE_IO_DEVICE_H
 
-/**
- * @brief
- * A structure to hold Discrete Output Point's (DOP)
- * class data.
- */
-typedef struct EI_APP_DISCRETE_IO_DEVICE_DOP_classData
+typedef enum EI_APP_DIO_DEVICE_ConnectionState
 {
-    uint16_t revision;
-}EI_APP_DISCRETE_IO_DEVICE_DOP_classData_t;
-
-/**
- * @brief
- * A structure to hold Discrete Input Point's (DIP)
- * class data.
- */
-typedef struct EI_APP_DISCRETE_IO_DEVICE_DIP_classData
-{
-    uint16_t revision;
-}EI_APP_DISCRETE_IO_DEVICE_DIP_classData_t;
+    EI_APP_DIO_DEVICE_ConnectionNotEstablished = 0,
+    EI_APP_DIO_DEVICE_ConnectionEstablished,
+    EI_APP_DIO_DEVICE_ConnectionClosed,
+    EI_APP_DIO_DEVICE_ConnectionTimeOut
+}EI_APP_DIO_DEVICE_ConnectionState_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+EI_API_ADP_SEipStatus_t EI_APP_DIO_DEVICE_cmgrCb(uint32_t serviceCode, EI_API_ADP_UCmgrInfo_u cmgrInfo);
+EI_API_ADP_SEipStatus_t EI_APP_DIO_DEVICE_cobjTimeOutCb(
+        uint8_t *producedConnectionPath,
+        uint16_t producedConnectionPathLen,
+        uint8_t *consumedConnectionPath,
+        uint16_t consumedConnectionPathLen);
 
 #ifdef  __cplusplus
 }

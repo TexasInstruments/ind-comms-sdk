@@ -49,6 +49,7 @@
 #include "drivers/CUST_drivers.h"
 #include "drivers/ethphy/CUST_ethPhy.h"
 
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
 #include "CUST_PHY_base.h"
 
 extern ETHPHY_Config  gEthPhyConfig[];
@@ -61,6 +62,7 @@ ETHPHY_Fxns gEthPhyFxns_DP83869_0 = { .openFxn    = NULL,
 ETHPHY_Fxns gEthPhyFxns_DP83869_1 = { .openFxn    = NULL,
                                       .closeFxn   = NULL,
                                       .commandFxn = NULL };
+#endif
 
 /*!
 *
@@ -81,6 +83,7 @@ uint32_t CUST_ETHPHY_init(CUST_ETHPHY_SParams_t* pParams)
     ETHPHY_Config*  pEthPhyCfg[CUST_ETHPHY_MAX_NUM] = {NULL};
     uint32_t        error                           = (uint32_t) CUST_ETHPHY_eERR_GENERALERROR;
 
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
     int32_t  status          = SystemP_FAILURE;
     uint32_t mdioBaseAddress = 0;
 
@@ -123,16 +126,19 @@ uint32_t CUST_ETHPHY_init(CUST_ETHPHY_SParams_t* pParams)
 
     if (true == CUST_ETHPHY_MDIOMANUALMODE_isEnabled())
     {
-        // Pinmux for the link interrupt pins, we will set it to MLINK later.
-        Pinmux_PerCfg_t tempPinMuxCfg[] = {
-            /* PR1_MII0_RXLINK -> PRG1_PRU0_GPO8 (W13) */
-            { PIN_PRG1_PRU0_GPO8, (PIN_MODE(1) | PIN_INPUT_ENABLE | PIN_PULL_DISABLE) },
-            /* PR1_MII1_RXLINK -> PRG1_PRU1_GPO8 (U12) */
-            { PIN_PRG1_PRU1_GPO8, (PIN_MODE(1) | PIN_INPUT_ENABLE | PIN_PULL_DISABLE) },
-            {PINMUX_END, PINMUX_END}
-        };
+        if (true == CUST_ETHPHY_MDIOMANUALMODE_isMlinkBased())
+        {
+            // Pinmux for the link interrupt pins, we will set it to MLINK later.
+            Pinmux_PerCfg_t tempPinMuxCfg[] = {
+                /* PR1_MII0_RXLINK -> PRG1_PRU0_GPO8 (W13) */
+                { PIN_PRG1_PRU0_GPO8, (PIN_MODE(1) | PIN_INPUT_ENABLE | PIN_PULL_DISABLE) },
+                /* PR1_MII1_RXLINK -> PRG1_PRU1_GPO8 (U12) */
+                { PIN_PRG1_PRU1_GPO8, (PIN_MODE(1) | PIN_INPUT_ENABLE | PIN_PULL_DISABLE) },
+                {PINMUX_END, PINMUX_END}
+            };
 
-        Pinmux_config(tempPinMuxCfg, PINMUX_DOMAIN_ID_MAIN);
+            Pinmux_config(tempPinMuxCfg, PINMUX_DOMAIN_ID_MAIN);
+        }
     }
     else
     {
@@ -147,6 +153,7 @@ uint32_t CUST_ETHPHY_init(CUST_ETHPHY_SParams_t* pParams)
     }
 
     CUST_PHY_CBregisterLibDetect(CUST_PHY_detect, NULL);
+#endif
 
     error = (uint32_t) CUST_ETHPHY_eERR_NOERROR;
 
@@ -184,10 +191,14 @@ ETHPHY_Config* CUST_ETHPHY_getConfig (uint32_t instance)
 {
     ETHPHY_Config* pEthPhyCfg = NULL;
 
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
     if (CONFIG_ETHPHY_NUM_INSTANCES > instance)
     {
         pEthPhyCfg = &gEthPhyConfig[instance];
     }
+#else
+    OSALUNREF_PARM(instance);
+#endif
 
     return pEthPhyCfg;
 }
@@ -206,10 +217,14 @@ ETHPHY_Handle CUST_ETHPHY_getHandle (uint32_t instance)
 {
     ETHPHY_Handle ethPhyHandle = NULL;
 
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
     if (CONFIG_ETHPHY_NUM_INSTANCES > instance)
     {
         ethPhyHandle = gEthPhyHandle[instance];
     }
+#else
+    OSALUNREF_PARM(instance);
+#endif
 
     return ethPhyHandle;
 }
@@ -233,6 +248,36 @@ bool CUST_ETHPHY_MDIOMANUALMODE_isEnabled (void)
 #endif
 
     return isEnabled;
+}
+
+/*!
+*
+* \brief
+* Provides information whether in MDIO Manual Mode Link Status Update
+* is set to MLINK based setting.
+*
+*  \return     MLINK based flag
+*
+*  \retval     true   MDIO Manual Mode Link Status Update is set to MLINK based.
+*  \retval     false  MDIO Manual Mode Link Status Update is not set to MLINK based.
+*/
+bool CUST_ETHPHY_MDIOMANUALMODE_isMlinkBased (void)
+{
+    bool     isMlinkBased = false;
+    uint32_t config       = 0;
+
+#if (defined MDIO_MANUAL_MODE_FW_CONFIG_VALUE)
+    config = MDIO_MANUAL_MODE_FW_CONFIG_VALUE;
+#endif
+
+#if (defined MDIO_MANUAL_MODE_LINK_POLLING_DISABLE)
+    if (MDIO_MANUAL_MODE_LINK_POLLING_DISABLE == (config & MDIO_MANUAL_MODE_LINK_POLLING_ENABLE))
+    {
+        isMlinkBased = true;
+    }
+#endif
+
+    return isMlinkBased;
 }
 
 /*!
