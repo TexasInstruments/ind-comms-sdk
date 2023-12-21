@@ -325,6 +325,7 @@ process path latency improvement can be achieved by disabling below define */
 
 #define TIESC_MDIO_CLKDIV   79 //For 2.5MHz MDIO clock: 200/(TIESC_MDIO_CLKDIV+1)
 
+/* For EtherCAT, Fast link detection using MLINK mode is required to support complete functionality */
 #define TIESC_MDIO_RX_LINK_DISABLE  0 //Slow MDIO state m/c based link detection
 #define TIESC_MDIO_RX_LINK_ENABLE   1 //Fast link detect using RXLINK forward from PHY to MDIO MLINK
 #define TIESC_LINK_POL_ACTIVE_LOW       1

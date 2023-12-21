@@ -166,6 +166,8 @@ void tiesc_socParamsInit(bsp_params *bspInitParams)
     bspInitParams->eeprom_write = tiesc_eepromWrite;
     bspInitParams->spinlock_base_address = CSL_SPINLOCK0_BASE;
     bspInitParams->ethphy_init = tiesc_ethphyInit;
+    /* For EtherCAT, Fast link detection using MLINK mode is required to support complete functionality */
+    /* Check example documentation for more details */
     bspInitParams->enhancedlink_enable = TIESC_MDIO_RX_LINK_ENABLE;
     bspInitParams->link0_polarity = TIESC_LINK0_POL;
     bspInitParams->link1_polarity = TIESC_LINK1_POL;

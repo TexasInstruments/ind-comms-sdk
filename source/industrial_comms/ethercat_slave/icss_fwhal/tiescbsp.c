@@ -1325,7 +1325,7 @@ void bsp_params_init(bsp_params *init_params)
     init_params->eeprom_write = NULL;
     init_params->spinlock_base_address = 0;
     init_params->ethphy_init = NULL;
-    init_params->enhancedlink_enable = TIESC_MDIO_RX_LINK_DISABLE;
+    init_params->enhancedlink_enable = TIESC_MDIO_RX_LINK_ENABLE;
     init_params->link0_polarity = TIESC_LINK_POL_ACTIVE_HIGH;
     init_params->link1_polarity = TIESC_LINK_POL_ACTIVE_HIGH;
     init_params->phy0_address = 0;

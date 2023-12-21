@@ -53,6 +53,7 @@ function getConfigurables()
         config.push({
             name: "mdioManualModeLinkPolling",
             displayName: "MDIO Manual Mode Link Status Update",
+            description: "For EtherCAT, Fast link detection using MLINK mode is required to support complete functionality",
             default: "MLINK",
             options: [
                 {
