@@ -182,6 +182,7 @@ int32_t PN_initDrv(PN_Handle pnHandle)
 
     /* remaining (internal) phase management code*/
     PN_setCompensationValue(pruicssHwAttrs, 75); /*  75ns default*/
+    PN_setFSODeviationComp(pruicssHwAttrs, fsoCompensation);
 
     /* init RTC driver*/
     if(PN_initRtcDrv(pnHandle) != 0)

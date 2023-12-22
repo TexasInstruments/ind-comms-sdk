@@ -161,6 +161,13 @@ extern "C"
  */
 #define FORWARDING                  2
 
+/**
+ * @internal
+ * @def fsoCompensation
+ *  150 ns compensation value to accomodate for Tx delays inside ICSS
+ */
+#define fsoCompensation 150
+
 #ifdef WATCHDOG_SUPPORT
 /**
  * \def watchDogExpireDuration

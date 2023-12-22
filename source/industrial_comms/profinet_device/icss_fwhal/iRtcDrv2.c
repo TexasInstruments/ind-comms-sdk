@@ -932,6 +932,11 @@ void PN_clearPruIRQ(PRUICSS_HwAttrs const *pruicssHwAttrs,
     HW_WR_REG32((pruicssHwAttrs->intcRegBase + CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0), 1 << irq_num);
 }
 
+void PN_setFSODeviationComp(PRUICSS_HwAttrs const *pruicssHwAttrs, uint16_t fso_comp_val) 
+{
+    HW_WR_REG32((pruicssHwAttrs->pru0DramBase + FSO_DEVIATION_COMP), fso_comp_val);
+}
+
 #ifdef IRT_LEGACY_STARTUP_SUPPORT
 void PN_registerSetState(PN_Handle pnHandle, pnLegCallBack_t callBack)
 {
