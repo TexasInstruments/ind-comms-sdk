@@ -678,6 +678,20 @@
 #define ETHARP_SUPPORT_VLAN             0
 #endif
 
+/**
+ * LWIP_VLAN_PCP==1: Enable outgoing VLAN taggning of frames on a per-PCB basis
+ * for QoS purposes. With this feature enabled, each PCB has a new variable:
+ * "netif_hints.tci" (Tag Control Identifier).
+ * The TCI contains three fields: VID, CFI and PCP.
+ * - VID is the VLAN ID, which should be set to zero.
+ * - The "CFI" bit is used to enable or disable VLAN tags for the PCB.
+ * - PCP (Priority Code Point) is a 3 bit field used for Ethernet level QoS.
+ * See pcb_tci_*() functions to get/set/clear this.
+ */
+#ifndef LWIP_VLAN_PCP
+#define LWIP_VLAN_PCP                   0
+#endif
+
 /** LWIP_ETHERNET==1: enable ethernet support even though ARP might be disabled
  */
 #if !defined LWIP_ETHERNET || defined __DOXYGEN__
@@ -962,6 +976,14 @@
 #if !defined LWIP_DHCP_MAX_DNS_SERVERS || defined __DOXYGEN__
 #define LWIP_DHCP_MAX_DNS_SERVERS       DNS_MAX_SERVERS
 #endif
+
+/** LWIP_DHCP_DISCOVER_ADD_HOSTNAME: Set to 1 to include hostname opt in discover packets.
+ * If the hostname is not set in the DISCOVER packet, then some servers might issue an OFFER with hostname
+ * configured and consequently reject the REQUEST with any other hostname.
+ */
+#if !defined LWIP_DHCP_DISCOVER_ADD_HOSTNAME || defined __DOXYGEN__
+#define LWIP_DHCP_DISCOVER_ADD_HOSTNAME 0
+#endif /* LWIP_DHCP_DISCOVER_ADD_HOSTNAME */
 /**
  * @}
  */
@@ -1006,6 +1028,31 @@
 #if !defined LWIP_DHCP_AUTOIP_COOP_TRIES || defined __DOXYGEN__
 #define LWIP_DHCP_AUTOIP_COOP_TRIES     9
 #endif
+/**
+ * @}
+ */
+
+/*
+   ------------------------------------
+   ----------- ACD options ------------
+   ------------------------------------
+*/
+/**
+ * @defgroup lwip_opts_acd ACD
+ * @ingroup lwip_opts_ipv4
+ * @{
+ */
+ /**
+  * LWIP_ACD==1: Enable ACD module. ACD module is needed when using AUTOIP.
+  */
+#if !defined LWIP_ACD || defined __DOXYGEN__
+#define LWIP_ACD                     (LWIP_AUTOIP || LWIP_DHCP_DOES_ACD_CHECK)
+#endif
+#if !LWIP_IPV4
+/* disable ACD when IPv4 is disabled */
+#undef LWIP_ACD
+#define LWIP_ACD                     0
+#endif /* !LWIP_IPV4 */
 /**
  * @}
  */
@@ -1306,6 +1353,15 @@
 #define TCP_CALCULATE_EFF_SEND_MSS      1
 #endif
 
+/**
+ * LWIP_TCP_RTO_TIME: Initial TCP retransmission timeout (ms).
+ * This defaults to 3 seconds as traditionally defined in the TCP protocol.
+ * For improving timely recovery on faster networks, this value could
+ * be lowered down to 1 second (RFC 6298)
+ */
+#if !defined LWIP_TCP_RTO_TIME || defined __DOXYGEN__
+#define LWIP_TCP_RTO_TIME               3000
+#endif
 
 /**
  * TCP_SND_BUF: TCP sender buffer space (bytes).
@@ -1525,11 +1581,11 @@
  * Ethernet.
  */
 #if !defined PBUF_LINK_HLEN || defined __DOXYGEN__
-#if defined LWIP_HOOK_VLAN_SET && !defined __DOXYGEN__
+#if (defined LWIP_HOOK_VLAN_SET || LWIP_VLAN_PCP) && !defined __DOXYGEN__
 #define PBUF_LINK_HLEN                  (18 + ETH_PAD_SIZE)
-#else /* LWIP_HOOK_VLAN_SET */
+#else /* LWIP_HOOK_VLAN_SET || LWIP_VLAN_PCP */
 #define PBUF_LINK_HLEN                  (14 + ETH_PAD_SIZE)
-#endif /* LWIP_HOOK_VLAN_SET */
+#endif /* LWIP_HOOK_VLAN_SET || LWIP_VLAN_PCP */
 #endif
 
 /**
@@ -1546,7 +1602,7 @@
  * TCP_MSS, IP header, and link header.
  */
 #if !defined PBUF_POOL_BUFSIZE || defined __DOXYGEN__
-#define PBUF_POOL_BUFSIZE               LWIP_MEM_ALIGN_SIZE(TCP_MSS+40+PBUF_LINK_ENCAPSULATION_HLEN+PBUF_LINK_HLEN)
+#define PBUF_POOL_BUFSIZE               LWIP_MEM_ALIGN_SIZE(TCP_MSS+PBUF_IP_HLEN+PBUF_TRANSPORT_HLEN+PBUF_LINK_ENCAPSULATION_HLEN+PBUF_LINK_HLEN)
 #endif
 
 /**
@@ -1555,6 +1611,14 @@
  */
 #if !defined LWIP_PBUF_REF_T || defined __DOXYGEN__
 #define LWIP_PBUF_REF_T                 u8_t
+#endif
+
+/**
+ * LWIP_PBUF_CUSTOM_DATA: Store private data on pbufs (e.g. timestamps)
+ * This extends struct pbuf so user can store custom data on every pbuf.
+ */
+#if !defined LWIP_PBUF_CUSTOM_DATA || defined __DOXYGEN__
+#define LWIP_PBUF_CUSTOM_DATA
 #endif
 /**
  * @}
@@ -1971,6 +2035,17 @@
  */
 #if !defined LWIP_SOCKET_OFFSET || defined __DOXYGEN__
 #define LWIP_SOCKET_OFFSET              0
+#endif
+
+/**
+ * LWIP_SOCKET_EXTERNAL_HEADERS==1: Use external headers instead of sockets.h
+ * and inet.h. In this case, user must provide its own headers by setting the
+ * values for LWIP_SOCKET_EXTERNAL_HEADER_SOCKETS_H and
+ * LWIP_SOCKET_EXTERNAL_HEADER_INET_H to appropriate include file names and the
+ * whole content of the default sockets.h and inet.h is skipped.
+ */
+#if !defined LWIP_SOCKET_EXTERNAL_HEADERS || defined __DOXYGEN__
+#define LWIP_SOCKET_EXTERNAL_HEADERS    0
 #endif
 
 /**
@@ -2447,7 +2522,7 @@
  * network startup.
  */
 #if !defined LWIP_IPV6_SEND_ROUTER_SOLICIT || defined __DOXYGEN__
-#define LWIP_IPV6_SEND_ROUTER_SOLICIT   1
+#define LWIP_IPV6_SEND_ROUTER_SOLICIT   LWIP_IPV6
 #endif
 
 /**
@@ -2492,10 +2567,12 @@
 
 /**
  * LWIP_ICMP6_DATASIZE: bytes from original packet to send back in
- * ICMPv6 error messages.
+ * ICMPv6 error messages (0 = default of IP6_MIN_MTU_LENGTH)
+ * ATTENTION: RFC4443 section 2.4 says IP6_MIN_MTU_LENGTH is a MUST,
+ * so override this only if you absolutely have to!
  */
 #if !defined LWIP_ICMP6_DATASIZE || defined __DOXYGEN__
-#define LWIP_ICMP6_DATASIZE             8
+#define LWIP_ICMP6_DATASIZE             0
 #endif
 
 /**
@@ -3467,6 +3544,13 @@
  */
 #if !defined AUTOIP_DEBUG || defined __DOXYGEN__
 #define AUTOIP_DEBUG                    LWIP_DBG_OFF
+#endif
+
+/**
+ * ACD_DEBUG: Enable debugging in acd.c.
+ */
+#if !defined ACD_DEBUG || defined __DOXYGEN__
+#define ACD_DEBUG                       LWIP_DBG_OFF
 #endif
 
 /**
