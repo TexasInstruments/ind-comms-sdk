@@ -510,6 +510,7 @@ extern "C"
 // FW extended PPM buffer model requires two blocks in different Data RAMs
 #define PPM_BUFFER_OFFSET0		0x0D00		// buffer block 0	Data RAM0
 #define PPM_BUFFER_OFFSET1		0x10			// buffer block 1	Data RAM1. Inital 16 bytes used for Firmware version
+#define FSO_DEVIATION_COMP      0x1FD0      // FSO deviation - overheads from phy, MII. This parameter is application configurable.
 
 // Following two buffers are used to store a RTC3 frame which has to be forwarded
 // PRU0

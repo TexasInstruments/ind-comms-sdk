@@ -606,6 +606,14 @@ int32_t PN_setBaseClock(PN_Handle pnHandle, uint16_t factor);
 /** @} */
 
 
+/**
+ * \brief Sets FSO deviation compensation value for propogation delays inside ICSS. 
+ * \param[in]   pruicssHwAttrs  PRUICSS HW Attributes for base addresses
+ * \param       fso_comp_val    FSO compensation value: Default value 150ns
+ */
+void PN_setFSODeviationComp(PRUICSS_HwAttrs const *pruicssHwAttrs, uint16_t fso_comp_val);
+
+
 #ifdef __cplusplus
 }
 #endif
