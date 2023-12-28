@@ -8,11 +8,11 @@ This example is an EtherCAT-IOLink Gateway application based on evaluation stack
 
 \cond SOC_AM64X
 
-- \htmllink{../am64x/ethercat_iolink_gateway/index.html, Home Page}
-- \htmllink{../am64x/ethercat_iolink_gateway/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../am64x/ethercat_iolink_gateway/releasenotes.html, Release Notes}
-- \htmllink{../am64x/ethercat_iolink_gateway/usergroup0.html, Example Quick Start}
-- \htmllink{../am64x/ethercat_iolink_gateway/modules.html, API Documentation}
+- <a href="../am64x/ethercat_iolink_gateway/index.html" target="_blank"> Home Page </a>
+- <a href="../am64x/ethercat_iolink_gateway/ethercat_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am64x/ethercat_iolink_gateway/releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am64x/ethercat_iolink_gateway/usergroup0.html" target="_blank"> Example Quick Start </a>
+- <a href="../am64x/ethercat_iolink_gateway/modules.html" target="_blank"> API Documentation </a>
 
 \endcond
 
@@ -20,19 +20,19 @@ This example is an EtherCAT-IOLink Gateway application based on evaluation stack
 
 ## @VAR_BOARD_NAME
 
-- \htmllink{../am243x/ethercat_iolink_gateway/evm/index.html, Home Page}
-- \htmllink{../am243x/ethercat_iolink_gateway/evm/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../am243x/ethercat_iolink_gateway/evm/releasenotes.html, Release Notes}
-- \htmllink{../am243x/ethercat_iolink_gateway/evm/usergroup0.html, Example Quick Start}
-- \htmllink{../am243x/ethercat_iolink_gateway/evm/modules.html, API Documentation}
+- <a href="../am243x/ethercat_iolink_gateway/evm/index.html" target="_blank"> Home Page </a>
+- <a href="../am243x/ethercat_iolink_gateway/evm/ethercat_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am243x/ethercat_iolink_gateway/evm/releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am243x/ethercat_iolink_gateway/evm/usergroup0.html" target="_blank"> Example Quick Start </a>
+- <a href="../am243x/ethercat_iolink_gateway/evm/modules.html" target="_blank"> API Documentation </a>
 
 ## @VAR_LP_BOARD_NAME
 
-- \htmllink{../am243x/ethercat_iolink_gateway/lp/index.html, Home Page}
-- \htmllink{../am243x/ethercat_iolink_gateway/lp/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../am243x/ethercat_iolink_gateway/lp/releasenotes.html, Release Notes}
-- \htmllink{../am243x/ethercat_iolink_gateway/lp/usergroup0.html, Example Quick Start}
-- \htmllink{../am243x/ethercat_iolink_gateway/lp/modules.html, API Documentation}
+- <a href="../am243x/ethercat_iolink_gateway/lp/index.html" target="_blank"> Home Page </a>
+- <a href="../am243x/ethercat_iolink_gateway/lp/ethercat_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am243x/ethercat_iolink_gateway/lp/releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am243x/ethercat_iolink_gateway/lp/usergroup0.html" target="_blank"> Example Quick Start </a>
+- <a href="../am243x/ethercat_iolink_gateway/lp/modules.html" target="_blank"> API Documentation </a>
 
 \endcond
 

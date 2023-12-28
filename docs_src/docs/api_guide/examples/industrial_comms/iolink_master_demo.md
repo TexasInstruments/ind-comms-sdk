@@ -8,21 +8,21 @@ This example is an IO-Link controller application based on evaluation stack prov
 
 \cond SOC_AM64X
 
-- \htmllink{../am64x/iolink_master/index.html, Home Page}
-- \htmllink{../am64x/iolink_master/iolink_datasheet.html, Data Sheet}
-- \htmllink{../am64x/iolink_master/releasenotes.html, Release Notes}
-- \htmllink{../am64x/iolink_master/usergroup0.html, Example Quick Start}
-- \htmllink{../am64x/iolink_master/modules.html, API Documentation}
+- <a href="../am64x/iolink_master/index.html" target="_blank"> Home Page </a>
+- <a href="../am64x/iolink_master/iolink_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am64x/iolink_master/releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am64x/iolink_master/usergroup0.html" target="_blank"> Example Quick Start </a>
+- <a href="../am64x/iolink_master/modules.html" target="_blank"> API Documentation </a>
 
 \endcond
 
 \cond SOC_AM243X
 
-- \htmllink{../am243x/iolink_master/index.html, Home Page}
-- \htmllink{../am243x/iolink_master/iolink_datasheet.html, Data Sheet}
-- \htmllink{../am243x/iolink_master/releasenotes.html, Release Notes}
-- \htmllink{../am243x/iolink_master/usergroup0.html, Example Quick Start}
-- \htmllink{../am243x/iolink_master/modules.html, API Documentation}
+- \htmllink{../am243x/iolink_master/index.html" target="_blank"> Home Page </a>
+- \htmllink{../am243x/iolink_master/iolink_datasheet.html" target="_blank"> Data Sheet </a>
+- \htmllink{../am243x/iolink_master/releasenotes.html" target="_blank"> Release Notes </a>
+- \htmllink{../am243x/iolink_master/usergroup0.html" target="_blank"> Example Quick Start </a>
+- \htmllink{../am243x/iolink_master/modules.html" target="_blank"> API Documentation </a>
 
 \endcond
 
