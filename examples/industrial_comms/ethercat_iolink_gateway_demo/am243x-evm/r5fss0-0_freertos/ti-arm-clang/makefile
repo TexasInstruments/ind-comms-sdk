@@ -55,6 +55,8 @@ FILES_PATH_common = \
 	.. \
 	../../.. \
 	../../../../../common \
+	../../../../../common/board/am243evm \
+	../../../../../common/board/am243evm/freertos \
 	../../../../ethercat_slave_demo/common/os \
 	../../../../ethercat_slave_demo/common/os/freertos \
 	generated \

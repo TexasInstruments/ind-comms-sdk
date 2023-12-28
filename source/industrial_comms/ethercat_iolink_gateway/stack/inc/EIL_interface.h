@@ -239,6 +239,9 @@ extern void EIL_informIOLDeviceEvent(
 extern uint32_t EIL_start(void);
 extern uint32_t EIL_stop(void);
 
+extern uint32_t EIL_load(
+    const uint32_t selectedPruInstance);
+
 #if (defined __cplusplus)
 }
 #endif

@@ -20,6 +20,8 @@ const filedirs_evm = {
         "..",         /* core_os_combo base */
         "../../..",   /* Example base */
         "../../../../../common",
+        "../../../../../common/board/am243evm",
+        "../../../../../common/board/am243evm/freertos",
         "../../../../ethercat_slave_demo/common/os",
         "../../../../ethercat_slave_demo/common/os/freertos",
     ],
@@ -29,6 +31,9 @@ const filedirs_lp = {
     common: [
         "..",         /* core_os_combo base */
         "../../..",   /* Example base */
+        "../../../../../common",
+        "../../../../../common/board/am243lp",
+        "../../../../../common/board/am243lp/freertos",
         "../../../../ethercat_slave_demo/common/os",
         "../../../../ethercat_slave_demo/common/os/freertos",
     ],
