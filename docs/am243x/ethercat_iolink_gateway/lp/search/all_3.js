@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['ec_2diol_2dgateway_20library_20api_7',['EC-IOL-Gateway Library API',['../group___g_a_t_e_w_a_y___a_p_i.html',1,'']]],
-  ['ethercat_2diolink_20gateway_20basic_20example_8',['EtherCAT-IOLink Gateway Basic Example',['../example.html',1,'']]],
-  ['ethercat_2diolink_20gateway_20extended_20example_9',['EtherCAT-IOLink Gateway Extended Example',['../example_extended.html',1,'']]]
+  ['3_2000_2001_0',['Release Version 3.00.01',['../releasenotes.html#version_release_030001',1,'']]],
+  ['3_2000_2002_1',['Release Version 3.00.02',['../releasenotes.html#version_release_030002',1,'']]],
+  ['3_2001_2000_20to_20be_20released_2',['Release Version 3.01.00 (to be released)',['../releasenotes.html#version_release_030100',1,'']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['validationtype_63',['validationType',['../struct_g_w___a_p_i___s_port_exp_config_a0c3e83ec0e94fa42349d4e32930567d3.html#a0c3e83ec0e94fa42349d4e32930567d3',1,'GW_API_SPortExpConfig']]],
-  ['vendorid_64',['vendorID',['../struct_g_w___a_p_i___s_port_exp_config_aec3a5fc10ade8c4edc19cee686db79f4.html#aec3a5fc10ade8c4edc19cee686db79f4',1,'GW_API_SPortExpConfig::vendorID()'],['../struct_g_w___a_p_i___s_port_status_a3a0696d71b7f7ae7954c5e18f7c27143.html#a3a0696d71b7f7ae7954c5e18f7c27143',1,'GW_API_SPortStatus::vendorID()']]]
+  ['mastercontrol_0',['masterControl',['../struct_g_w___a_p_i___s_port_exp_config_a1b42d4cf34b4055d21445708df22c853.html#a1b42d4cf34b4055d21445708df22c853',1,'GW_API_SPortExpConfig']]],
+  ['mastercycletime_1',['masterCycleTime',['../struct_g_w___a_p_i___s_port_status_a073966c45460b1b78a0a716aa8f0b862.html#a073966c45460b1b78a0a716aa8f0b862',1,'GW_API_SPortStatus']]],
+  ['mseqcapability_2',['mseqCapability',['../struct_g_w___a_p_i___s_port_status_aa55e1b11cf589f03acc12cf73a877a6f.html#aa55e1b11cf589f03acc12cf73a877a6f',1,'GW_API_SPortStatus']]]
 ];

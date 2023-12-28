@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['datasheet_3',['Datasheet',['../ethercat_datasheet.html',1,'(Global Namespace)'],['../ethercat_gw_design.html',1,'(Global Namespace)']]],
-  ['delivery_20content_4',['Delivery Content',['../deliverycontent.html',1,'']]],
-  ['deviceid_5',['deviceID',['../struct_g_w___a_p_i___s_port_exp_config_afb5f12e594a48db6787ba1756ebf5a90.html#afb5f12e594a48db6787ba1756ebf5a90',1,'GW_API_SPortExpConfig::deviceID()'],['../struct_g_w___a_p_i___s_port_status_afb5f12e594a48db6787ba1756ebf5a90.html#afb5f12e594a48db6787ba1756ebf5a90',1,'GW_API_SPortStatus::deviceID()']]],
-  ['disclaimer_6',['Disclaimer',['../disclaimer.html',1,'']]]
+  ['2_2000_2000_0',['Release Version 2.00.00',['../releasenotes.html#version_release_020000',1,'']]],
+  ['2_2001_2000_1',['Release Version 2.01.00',['../releasenotes.html#version_release_020100',1,'']]],
+  ['2_2001_2001_2',['Release Version 2.01.01',['../releasenotes.html#version_release_020101',1,'']]],
+  ['2_2002_2000_3',['Release Version 2.02.00',['../releasenotes.html#version_release_020200',1,'']]]
 ];

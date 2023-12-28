@@ -31,6 +31,7 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 3.01.00", "releasenotes.html#version_release_030100", null ],
       [ "Release Version 3.00.02", "releasenotes.html#version_release_030002", null ],
       [ "Release Version 3.00.01", "releasenotes.html#version_release_030001", null ],
       [ "Release Version 3.00.00", "@ref version_release_030000", null ],
@@ -63,7 +64,7 @@ var NAVTREE =
     ] ],
     [ "Connect to PLC - TwinCAT3 - Basic", "twincat.html", null ],
     [ "Connect to PLC - TwinCAT3 - Extended", "twincat_extended.html", null ],
-    [ "API Reference", "modules.html", "modules" ],
+    [ "Steps to Read/Write Data from/to an IO-Link Device using TwinCAT", "twincat_data_rw.html", null ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],

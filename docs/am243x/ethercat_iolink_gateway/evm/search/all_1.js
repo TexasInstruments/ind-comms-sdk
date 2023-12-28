@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['connectionquality_1',['connectionQuality',['../struct_g_w___a_p_i___s_port_status_ad1c909eb888e181cff8f5f0972c3a0ec.html#ad1c909eb888e181cff8f5f0972c3a0ec',1,'GW_API_SPortStatus']]],
-  ['customer_20service_2',['Customer Service',['../customerservice.html',1,'']]]
+  ['1_2000_2000_0',['Release Version 1.00.00',['../releasenotes.html#version_release_010000',1,'']]],
+  ['1_2000_2001_1',['Release Version 1.00.01',['../releasenotes.html#version_release_010001',1,'']]]
 ];
