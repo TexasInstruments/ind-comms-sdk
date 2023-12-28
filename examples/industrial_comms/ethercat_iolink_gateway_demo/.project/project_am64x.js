@@ -19,6 +19,9 @@ const filedirs = {
     common: [
         "..",         /* core_os_combo base */
         "../../..",   /* Example base */
+        "../../../../../common",
+        "../../../../../common/board/am64gpevm",
+        "../../../../../common/board/am64gpevm/freertos",
         "../../../../ethercat_slave_demo/common/os",
         "../../../../ethercat_slave_demo/common/os/freertos",
     ],
