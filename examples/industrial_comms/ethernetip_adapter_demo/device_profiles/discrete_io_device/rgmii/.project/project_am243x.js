@@ -158,7 +158,7 @@ const defines_r5f = {
     common: [
         "SOC_AM243X=1",
         "OSAL_FREERTOS=1",
-        "TIME_SYNC",
+        "EIP_TIME_SYNC=1",
         "CPU_LOAD_MONITOR=0"
     ],
 };
