@@ -103,7 +103,7 @@ const defines_r5f = {
         "OSAL_FREERTOS=1",
         "SOC_AM64X",
         "SOC_AM64X=1",
-        "TIME_SYNC",
+        "EIP_TIME_SYNC=1",
         "CPU_LOAD_MONITOR=0"
     ],
 };
