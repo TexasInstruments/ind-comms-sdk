@@ -1,0 +1,1 @@
+C:/ti/repos/ind_comms_sdk/docs_src/docs/api_guide/examples/industrial_comms/iolink_master_demo.md:19: warning: Conditional section with label 'SOC_AM243X' does not have a corresponding \endcond command within this file.

@@ -8,18 +8,17 @@ These examples are EtherCAT SubDevice applications based on evaluation stacks pr
 
 \cond SOC_AM64X
 
-- \htmllink{../am64x/ethercat_slave/example1.html, EtherCAT SubDevice Simple Demo}
-- \htmllink{../am64x/ethercat_slave/example2.html, EtherCAT SubDevice CiA402 Demo}
-- \htmllink{../am64x/ethercat_slave/index.html, EtherCAT SubDevice CTT Demo}
-
+- <a href="../am64x/ethercat_slave/example1.html" target="_blank"> EtherCAT SubDevice Simple Demo </a>
+- <a href="../am64x/ethercat_slave/example2.html" target="_blank"> EtherCAT SubDevice CiA402 Demo </a>
+- <a href="../am64x/ethercat_slave/index.html" target="_blank"> EtherCAT SubDevice CTT Demo </a>
 
 \endcond
 
 \cond SOC_AM243X
 
-- \htmllink{../am243x/ethercat_slave/example1.html, EtherCAT SubDevice Simple Demo}
-- \htmllink{../am243x/ethercat_slave/example2.html, EtherCAT SubDevice CiA402 Demo}
-- \htmllink{../am243x/ethercat_slave/index.html, EtherCAT SubDevice CTT Demo}
+- <a href="../am243x/ethercat_slave/example1.html" target="_blank"> EtherCAT SubDevice Simple Demo </a>
+- <a href="../am243x/ethercat_slave/example2.html" target="_blank"> EtherCAT SubDevice CiA402 Demo </a>
+- <a href="../am243x/ethercat_slave/index.html" target="_blank"> EtherCAT SubDevice CTT Demo </a>
 
 \endcond
 
@@ -29,23 +28,23 @@ Links to important sections in the detailed documentation are provided below:
 
 \cond SOC_AM64X
 
-- \htmllink{../am64x/ethercat_slave/index.html, Home Page}
-- \htmllink{../am64x/ethercat_slave/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../am64x/ethercat_slave/ethercat_certificate.pdf, Certificate}
-- \htmllink{../am64x/ethercat_slave/releasenotes.html, Release Notes}
-- \htmllink{../am64x/ethercat_slave/page_quickstart.html, Example Quick Start}
-- \htmllink{../am64x/ethercat_slave/modules.html, API Documentation}
+- <a href="../am64x/ethercat_slave/index.html" target="_blank"> Home Page </a>
+- <a href="../am64x/ethercat_slave/ethercat_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am64x/ethercat_slave/ethercat_certificate.pdf" target="_blank"> Certificate </a>
+- <a href="../am64x/ethercat_slave/releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am64x/ethercat_slave/page_quickstart.html" target="_blank"> Example Quick Start </a>
+- <a href="../am64x/ethercat_slave/modules.html" target="_blank"> API Documentation </a>
 
 \endcond
 
 \cond SOC_AM243X
 
-- \htmllink{../am243x/ethercat_slave/index.html, Home Page}
-- \htmllink{../am243x/ethercat_slave/ethercat_datasheet.html, Data Sheet}
-- \htmllink{../am243x/ethercat_slave/ethercat_certificate.pdf, Certificate}
-- \htmllink{../am243x/ethercat_slave/releasenotes.html, Release Notes}
-- \htmllink{../am243x/ethercat_slave/page_quickstart.html, Example Quick Start}
-- \htmllink{../am243x/ethercat_slave/modules.html, API Documentation}
+- <a href="../am243x/ethercat_slave/index.html" target="_blank"> Home Page}
+- <a href="../am243x/ethercat_slave/ethercat_datasheet.html" target="_blank"> Data Sheet}
+- <a href="../am243x/ethercat_slave/ethercat_certificate.pdf" target="_blank"> Certificate}
+- <a href="../am243x/ethercat_slave/releasenotes.html" target="_blank"> Release Notes}
+- <a href="../am243x/ethercat_slave/page_quickstart.html" target="_blank"> Example Quick Start}
+- <a href="../am243x/ethercat_slave/modules.html" target="_blank"> API Documentation}
 
 \endcond
 

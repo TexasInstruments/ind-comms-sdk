@@ -8,21 +8,21 @@ These examples are EtherNet/IP Adapter applications based on evaluation stacks p
 
 \cond SOC_AM64X
 
-- \htmllink{../am64x/ethernetip_adapter/index.html, Home Page}
-- \htmllink{../am64x/ethernetip_adapter/eip_datasheet.html, Data Sheet}
-- \htmllink{../am64x/ethernetip_adapter/eip_releasenotes.html, Release Notes}
-- \htmllink{../am64x/ethernetip_adapter/eip_quickstart.html, Example Quick Start}
-- \htmllink{../am64x/ethernetip_adapter/modules.html, API Documentation}
+- <a href="../am64x/ethernetip_adapter/index.html" target="_blank"> Home Page </a>
+- <a href="../am64x/ethernetip_adapter/eip_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am64x/ethernetip_adapter/eip_releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am64x/ethernetip_adapter/eip_quickstart.html" target="_blank"> Example Quick Start </a>
+- <a href="../am64x/ethernetip_adapter/modules.html" target="_blank"> API Documentation </a>
 
 \endcond
 
 \cond SOC_AM243X
 
-- \htmllink{../am243x/ethernetip_adapter/index.html, Home Page}
-- \htmllink{../am243x/ethernetip_adapter/eip_datasheet.html, Data Sheet}
-- \htmllink{../am243x/ethernetip_adapter/eip_releasenotes.html, Release Notes}
-- \htmllink{../am243x/ethernetip_adapter/eip_quickstart.html, Example Quick Start}
-- \htmllink{../am243x/ethernetip_adapter/modules.html, API Documentation}
+- <a href="../am243x/ethernetip_adapter/index.html" target="_blank"> Home Page </a>
+- <a href="../am243x/ethernetip_adapter/eip_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am243x/ethernetip_adapter/eip_releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am243x/ethernetip_adapter/eip_quickstart.html" target="_blank"> Example Quick Start </a>
+- <a href="../am243x/ethernetip_adapter/modules.html" target="_blank"> API Documentation </a>
 
 \endcond
 

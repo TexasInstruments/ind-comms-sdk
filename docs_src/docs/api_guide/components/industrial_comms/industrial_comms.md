@@ -16,6 +16,7 @@ Three models for protocol software are supported. In the first model, full proto
 
 - \subpage INDUSTRIAL_COMMS_TI_STACK : Stack and PRU-ICSS firmware from TI
 - \subpage INDUSTRIAL_COMMS_3P_STACK : PRU-ICSS firmware and associated drivers from TI
+- \subpage INDUSTRIAL_COMMS_MDIO_MANUALMODE_FW_USAGE : PRU-ICSS Firmware for MDIO Manual Mode
 
 ## Additional References {#INDUSTRIAL_COMMS_ADDITIONAL_REFERENCES}
 
