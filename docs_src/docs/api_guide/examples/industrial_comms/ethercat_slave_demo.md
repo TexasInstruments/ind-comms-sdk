@@ -39,12 +39,12 @@ Links to important sections in the detailed documentation are provided below:
 
 \cond SOC_AM243X
 
-- <a href="../am243x/ethercat_slave/index.html" target="_blank"> Home Page}
-- <a href="../am243x/ethercat_slave/ethercat_datasheet.html" target="_blank"> Data Sheet}
-- <a href="../am243x/ethercat_slave/ethercat_certificate.pdf" target="_blank"> Certificate}
-- <a href="../am243x/ethercat_slave/releasenotes.html" target="_blank"> Release Notes}
-- <a href="../am243x/ethercat_slave/page_quickstart.html" target="_blank"> Example Quick Start}
-- <a href="../am243x/ethercat_slave/modules.html" target="_blank"> API Documentation}
+- <a href="../am243x/ethercat_slave/index.html" target="_blank"> Home Page </a>
+- <a href="../am243x/ethercat_slave/ethercat_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am243x/ethercat_slave/ethercat_certificate.pdf" target="_blank"> Certificate </a>
+- <a href="../am243x/ethercat_slave/releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am243x/ethercat_slave/page_quickstart.html" target="_blank"> Example Quick Start </a>
+- <a href="../am243x/ethercat_slave/modules.html" target="_blank"> API Documentation </a>
 
 \endcond
 

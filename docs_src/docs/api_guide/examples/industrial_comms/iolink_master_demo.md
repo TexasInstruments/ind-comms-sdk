@@ -18,11 +18,11 @@ This example is an IO-Link controller application based on evaluation stack prov
 
 \cond SOC_AM243X
 
-- \htmllink{../am243x/iolink_master/index.html" target="_blank"> Home Page </a>
-- \htmllink{../am243x/iolink_master/iolink_datasheet.html" target="_blank"> Data Sheet </a>
-- \htmllink{../am243x/iolink_master/releasenotes.html" target="_blank"> Release Notes </a>
-- \htmllink{../am243x/iolink_master/usergroup0.html" target="_blank"> Example Quick Start </a>
-- \htmllink{../am243x/iolink_master/modules.html" target="_blank"> API Documentation </a>
+- <a href="../am243x/iolink_master/index.html" target="_blank"> Home Page </a>
+- <a href="../am243x/iolink_master/iolink_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am243x/iolink_master/releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am243x/iolink_master/usergroup0.html" target="_blank"> Example Quick Start </a>
+- <a href="../am243x/iolink_master/modules.html" target="_blank"> API Documentation </a>
 
 \endcond
 

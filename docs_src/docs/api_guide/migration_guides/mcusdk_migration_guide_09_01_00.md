@@ -30,6 +30,8 @@ ICSSG based ethernet networking examples are considered in this category.
 
 Module                                      | MCU+ SDK Folder Location                                                                           | Industrial Communications SDK Folder Location
 --------------------------------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------
+Ethernet Low Level Driver (Enet-LLD)        | `source/networking/enet/core`                                                                      | Reused from MCU+ SDK
+LwIP, TSN, MbedTLS                          | `source/networking/lwip`\n `source/networking/mbedtls-library`\n `source/networking/tsn`           | Reused from MCU+ SDK
 ICSSG Examples                              | `examples/networking/enet_icssg_tas` \n `examples/networking/enet_layer2_icssg` \n `examples/networking/enet_loopback/enet_icssg_loopback` \n `examples/networking/enet_vlan_icssg` \n `examples/networking/lwip/enet_icssg_tcpserver` \n `examples/networking/lwip/enet_lwip_icssg` |  `examples/networking/enet_icssg_tas` \n `examples/networking/enet_layer2_icssg` \n `examples/networking/enet_loopback/enet_icssg_loopback` \n `examples/networking/enet_vlan_icssg` \n `examples/networking/lwip/enet_icssg_tcpserver` \n `examples/networking/lwip/enet_lwip_icssg`| 
 
 \endcond
