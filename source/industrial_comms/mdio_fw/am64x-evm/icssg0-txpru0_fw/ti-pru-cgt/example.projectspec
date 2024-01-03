@@ -46,12 +46,9 @@
             -llibc.a
         "
 
-        enableHexTool="true"
-        hexBuildOptions="
-            --diag_wrap=off
-            --array
-            --array:name_prefix=PRUFirmware
-            -o=mdio_fw_bin.h
+        postBuildStep="
+            $(CG_TOOL_ROOT)/bin/hexpru.exe ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/mdio_fw/am64x-evm/icssg0-txpru0_fw/ti-pru-cgt/hexpru.cmd mdio_am64x-evm_icssg0-txpru0_fw_ti-pru-cgt.out;
+            ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/tools/bin2header/bin2header.exe mdio_am64x-evm_icssg0-txpru0_fw_ti-pru-cgt.b00 pru_load_bin.h PRUFirmware 4;
         "
 
         description="A Mdio FW project">

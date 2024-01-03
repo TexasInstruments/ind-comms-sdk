@@ -43,12 +43,6 @@ const buildOptionCombos = [
     { device: device, cpu: "icssg0-txpru0", cgt: "ti-pru-cgt", board: "am64x-evm", os: "fw"},
 ];
 
-const hexBuildOptions = [
-    "--diag_wrap=off",
-    "--array",
-    "--array:name_prefix=PRUFirmware",
-    "-o=mdio_fw_bin.h",
-];
 
 function getComponentProperty() {
     let property = {};
@@ -63,8 +57,7 @@ function getComponentProperty() {
     property.pru_linker_file = "linker";
     property.isSkipTopLevelBuild = true;
     property.skipUpdatingTirex = true;
-    property.enableHexTool = true;
-    property.hexBuildOptions = hexBuildOptions;
+    property.defaultPruPostBuildSteps = true;
 
     return property;
 }
