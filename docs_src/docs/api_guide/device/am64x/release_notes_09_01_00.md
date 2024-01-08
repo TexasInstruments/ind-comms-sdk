@@ -16,19 +16,7 @@
     <th> Feature
 </tr>
 <tr>
-    <td> IOLink v1.1.3 Support
-</tr>
-<tr>
-    <td> Ethernet/IP Discrete IO example added
-</tr>
-<tr>
-    <td> ICSSM Profinet FW supports four MAC address
-</tr>
-<tr>
-    <td> ICSSG Layer 2 example is divided in to two new examples : ICSSG Layer 2 dual MAC and ICSSG Layer 2 Switch examples.
-</tr>
-<tr>
-    <td> Enet PHY loopback for ICSSG on NoRTOS (baremetal) is added
+    <td> ICSSM Ethernet/IP FW supports additional MAC address for traffic routing
 </tr>
 </table>
 
