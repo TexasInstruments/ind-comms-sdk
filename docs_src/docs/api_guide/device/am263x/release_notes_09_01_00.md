@@ -4,7 +4,7 @@
 
 \attention Also refer to individual module pages for more details on each feature, unsupported features, important usage guidelines.
 
-\attention For release notes of MCU+ SDK, please refer to \htmllink{@VAR_MCU_SDK_DOCS_PATH/RELEASE_NOTES_09_00_00_PAGE.html, @VAR_SOC_NAME MCU+ SDK Release Notes 09.00.00}.
+\attention For release notes of MCU+ SDK, please refer to \htmllink{@VAR_MCU_SDK_DOCS_PATH/RELEASE_NOTES_09_01_00_PAGE.html, @VAR_SOC_NAME MCU+ SDK Release Notes 09.01.00}.
 
 \note The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
       Unless noted otherwise, the SW modules would work on all supported EVMs \n
@@ -16,7 +16,7 @@
     <th> Feature
 </tr>
 <tr>
-    <td> N/A
+    <td> Bug Fixes
 </tr>
 </table>
 
@@ -24,7 +24,7 @@
 
 SOC    | Supported CPUs  | Boards                                                                                                      | Host PC
 -------|-----------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------
-AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code), \n AM263x LAUNCHPAD (referred to as am263x-lp in code)  | Windows 10 64b or Ubuntu 18.04 64b
+AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code), \n AM263x LAUNCHPAD (referred to as am263x-lp in code)     | Windows 10 64b or Ubuntu 18.04 64b
 
 ## Tools, Compiler and Other Open Source SW Module Information
 
@@ -33,7 +33,7 @@ Tools / SW module       | Version
 Code Composer Studio    | @VAR_CCS_VERSION
 SysConfig               | @VAR_SYSCFG_VERSION, build @VAR_SYSCFG_BUILD
 TI ARM CLANG            | @VAR_TI_ARM_CLANG_VERSION
-MCU+ SDK                |  9.0.0
+MCU+ SDK                |  9.1.0
 
 \attention TI ARM CLANG @VAR_TI_ARM_CLANG_VERSION is not part of CCS by default, Follow steps at \htmllink{@VAR_MCU_SDK_DOCS_PATH/SDK_DOWNLOAD_PAGE.html#INSTALL_TIARMCLANG, TI CLANG Compiler Toolchain} to install the compiler.
 
@@ -52,10 +52,17 @@ MCU+ SDK                |  9.0.0
     <th> Resolution/Comments
 </tr>
 <tr>
+    <td> PINDSW-7084
+    <td> DP83826E PHY configuration mismatch for Odd Nibble Detection
+    <td> EtherCAT Device
+    <td> 09.00.00
     <td> -
-    <td> -
-    <td> -
-    <td> -
+</tr>
+<tr>
+    <td> PINDSW-7095
+    <td> Incorrect RAM size configuration for AM263x Devices
+    <td> EtherCAT Device
+    <td> 09.00.00
     <td> -
 </tr>
 </table>
@@ -86,12 +93,6 @@ MCU+ SDK                |  9.0.0
     <th> Head Line
     <th> Module
     <th> SDK Status
-</tr>
-<tr>
-    <td> -
-    <td> -
-    <td> -
-    <td> -
 </tr>
 </table> -->
 
