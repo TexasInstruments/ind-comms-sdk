@@ -26,11 +26,19 @@ function getInterfaceName(peripheralName)
 {
     if(peripheralName !== "")
     {
+<<<<<<< HEAD
         return `PRU-ICSS_${peripheralName}`;
     }
     else
     {
         return "PRU-ICSS";
+=======
+        return `PRU_ICSS_${peripheralName}`;
+    }
+    else
+    {
+        return "PRU_ICSS";
+>>>>>>> e7cccdd4 (am263px: EtherCAT: Add support in AM263Px-CC)
     }
 }
 
@@ -42,8 +50,11 @@ function getInterfacePinList(inst, peripheralName)
     if(peripheralName=="IEP")
     {
         pinList.push("PR0_IEP0_EDC_SYNC_OUT0");
+<<<<<<< HEAD
         pinList.push("PR0_IEP0_EDC_SYNC_OUT1");
         pinList.push("PR0_IEP0_EDIO_DATA_IN_OUT30");
+=======
+>>>>>>> e7cccdd4 (am263px: EtherCAT: Add support in AM263Px-CC)
         pinList.push("PR0_IEP0_EDIO_DATA_IN_OUT31");
     }
     else if(peripheralName=="MDIO")
@@ -124,15 +135,24 @@ function getPinmuxRequirements(inst) {
     let iep = getPeripheralRequirements(inst, "IEP");
     let mdio = getPeripheralRequirements(inst, "MDIO");
 
+<<<<<<< HEAD
     return [iep, icssm, mdio];
+=======
+    return [mdio, iep, icssm];
+>>>>>>> e7cccdd4 (am263px: EtherCAT: Add support in AM263Px-CC)
 
 }
 
 function getInterfaceNameList(inst) {
 
     return [
+<<<<<<< HEAD
         getInterfaceName("IEP"),
         getInterfaceName("MDIO"),
+=======
+        getInterfaceName("MDIO"),
+        getInterfaceName("IEP"),
+>>>>>>> e7cccdd4 (am263px: EtherCAT: Add support in AM263Px-CC)
         getInterfaceName(""),
     ];
 }
@@ -141,8 +161,13 @@ function getPeripheralPinNames(inst)
 {
     let pinList = [];
 
+<<<<<<< HEAD
     pinList = pinList.concat( getInterfacePinList(inst, "IEP"),
                     getInterfacePinList(inst, "MDIO"),
+=======
+    pinList = pinList.concat( getInterfacePinList(inst, "MDIO"),
+                    getInterfacePinList(inst, "IEP"),
+>>>>>>> e7cccdd4 (am263px: EtherCAT: Add support in AM263Px-CC)
                     getInterfacePinList(inst, ""),
     );
     return pinList;

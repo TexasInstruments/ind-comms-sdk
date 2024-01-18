@@ -71,4 +71,8 @@ void tiesc_mdioManualModeSetup();
 void tiesc_addOnBoardResetSequence();
 #endif
 
+#ifdef AM263PX_CC
+void tiesc_setIOExpMuxSelection(void *args);
+#endif
+
 #endif /* _TIESC_SOC_H_*/

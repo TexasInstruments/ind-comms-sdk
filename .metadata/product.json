@@ -27,6 +27,7 @@
         "AWR294X",
         "AM263x_beta",
         "AM263Px",
+<<<<<<< HEAD
         "AM62x",
     ],
     "contexts": {
@@ -143,6 +144,46 @@
             "name": "m4fss0-0",
             "targetdbId": "m4fss0-0"
         }],
+=======
+    ],
+    "contexts": {
+        "AM64x": [
+            "r5fss0-0",
+            "r5fss0-1",
+            "r5fss1-0",
+            "r5fss1-1",
+            "m4fss0-0",
+            "a53ss0-0",
+        ],
+        "AM243x_ALV_beta": [
+            "r5fss0-0",
+            "r5fss0-1",
+            "r5fss1-0",
+            "r5fss1-1",
+            "m4fss0-0",
+        ],
+        "AM243x_ALX_beta": [
+            "r5fss0-0",
+            "r5fss0-1",
+            "r5fss1-0",
+            "r5fss1-1",
+            "m4fss0-0",
+        ],
+        "AM263x_beta": [
+            "r5fss0-0",
+            "r5fss0-1",
+            "r5fss1-0",
+            "r5fss1-1",
+            "hsm0-0",
+        ],
+        "AM263Px": [
+            "r5fss0-0",
+            "r5fss0-1",
+            "r5fss1-0",
+            "r5fss1-1",
+            "hsm0-0",
+        ],
+>>>>>>> e7cccdd4 (am263px: EtherCAT: Add support in AM263Px-CC)
     },
     "pinmuxUIOptions": {
         "group": "merged",

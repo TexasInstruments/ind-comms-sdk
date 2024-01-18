@@ -66,6 +66,15 @@
         "/drivers/drivers",
         "/board/board",
 % }
+% if(args.device == "am263px") {
+        "/industrial_comms/industrial_comms",
+        "/kernel/dpl",
+        "/drivers/drivers",
+        "/board/board",
+        "/networking/networking",
+        "/security/security",
+        "/xbar/xbar",
+% }
     ],
     "devices": [
 % if((args.device == "am64x") || (isDevelopmentMode)) {
@@ -87,9 +96,12 @@
 % if((args.device == "am263px") || (isDevelopmentMode)) {
         "AM263Px",
 % }
+<<<<<<< HEAD
 % if((args.device == "am62x") || (isDevelopmentMode)) {
         "AM62x",
 % }
+=======
+>>>>>>> e7cccdd4 (am263px: EtherCAT: Add support in AM263Px-CC)
     ],
     "contexts": {
 % if((args.device == "am64x") || (isDevelopmentMode)) {
@@ -218,6 +230,15 @@
             "name": "m4fss0-0",
             "targetdbId": "m4fss0-0"
         }],
+% }
+% if((args.device == "am263px") || (isDevelopmentMode)) {
+        "AM263Px": [
+            "r5fss0-0",
+            "r5fss0-1",
+            "r5fss1-0",
+            "r5fss1-1",
+            "hsm0-0",
+        ],
 % }
     },
     "pinmuxUIOptions": {
