@@ -4,14 +4,23 @@ DEVICE_TYPE?=GP
 # Path to the signing tools, keys etc
 SIGNING_TOOL_PATH=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/signing
 
+# Path to the salt required for calculation of Derived key using manufacturers encryption key.
+KD_SALT=$(SIGNING_TOOL_PATH)/kd_salt.txt
+
 # Path to the keys
 ROM_DEGENERATE_KEY:=$(SIGNING_TOOL_PATH)/rom_degenerateKey.pem
 ifeq ($(DEVICE),am263x)
     CUST_MPK=$(SIGNING_TOOL_PATH)/mcu_custMpk.pem
+	CUST_MEK=$(SIGNING_TOOL_PATH)/mcu_custMek.key
 else ifeq ($(DEVICE),am273x)
     CUST_MPK=$(SIGNING_TOOL_PATH)/mcu_custMpk.pem
+	CUST_MEK=$(SIGNING_TOOL_PATH)/mcu_custMek.key
 else ifeq ($(DEVICE),awr294x)
     CUST_MPK=$(SIGNING_TOOL_PATH)/mcu_custMpk.pem
+	CUST_MEK=$(SIGNING_TOOL_PATH)/mcu_custMek.key
+else ifeq ($(DEVICE),am263px)
+    CUST_MPK=$(SIGNING_TOOL_PATH)/mcu_custMpk.pem
+	CUST_MEK=$(SIGNING_TOOL_PATH)/mcu_custMek.key
 else
     CUST_MPK=$(SIGNING_TOOL_PATH)/custMpk_am64x_am243x.pem
     CUST_MEK=$(SIGNING_TOOL_PATH)/custMek_am64x_am243x.txt

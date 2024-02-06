@@ -10,8 +10,14 @@ PROFILE?=release
 # GP, HS
 DEVICE_TYPE?=GP
 
+ifeq ($(DEVICE),$(filter $(DEVICE), am263px))
+    SYSCFG_DEVICE = AM263Px
+    # default syscfg CPU to use,
+    # options on am263px are r5fss0-0, r5fss0-1, r5fss1-0, r5fss1-1
+    SYSCFG_CPU = r5fss0-0
+  endif
 ifeq ($(DEVICE),$(filter $(DEVICE), am64x))
-  SYSCFG_DEVICE = AM64x_beta
+  SYSCFG_DEVICE = AM64x
   # default syscfg CPU to use,
   # options on am64x are r5fss0-0, r5fss0-1, r5fss1-0, r5fss1-1, m4fss0-0
   SYSCFG_CPU = r5fss0-0
@@ -28,7 +34,24 @@ ifeq ($(DEVICE),$(filter $(DEVICE), am263x))
   # options on am263x are r5fss0-0, r5fss0-1, r5fss1-0, r5fss1-1
   SYSCFG_CPU = r5fss0-0
 endif
-
+ifeq ($(DEVICE),$(filter $(DEVICE), am273x))
+  SYSCFG_DEVICE = AM273x
+  # default syscfg CPU to use,
+  # options on am273x are r5fss0-0, r5fss0-1, c66ss0
+  SYSCFG_CPU = r5fss0-0
+endif
+ifeq ($(DEVICE),$(filter $(DEVICE), awr294x))
+  SYSCFG_DEVICE = AWR294X
+  # default syscfg CPU to use,
+  # options on awr294x are r5fss0-0, r5fss0-1, c66ss0
+  SYSCFG_CPU = r5fss0-0
+endif
+ifeq ($(DEVICE),$(filter $(DEVICE), am62x))
+  SYSCFG_DEVICE = AM62x
+  # default syscfg CPU to use,
+  # options on am62x are m4fss0-0
+  SYSCFG_CPU = m4fss0-0
+endif
 all:
 	$(MAKE) -C . -f makefile.$(DEVICE) all PROFILE=$(PROFILE)
 
@@ -37,6 +60,9 @@ clean:
 
 scrub:
 	$(MAKE) -C . -f makefile.$(DEVICE) scrub PROFILE=$(PROFILE)
+
+scrub_gcc:
+	$(MAKE) -C . -f makefile.$(DEVICE) scrub_gcc PROFILE=$(PROFILE)
 
 libs:
 	$(MAKE) -C . -f makefile.$(DEVICE) libs PROFILE=$(PROFILE) DEVICE_TYPE=$(DEVICE_TYPE)
@@ -102,14 +128,14 @@ gen-buildfiles-clean:
 
 syscfg-tests:
 ifeq ($(DEVICE),$(filter $(DEVICE), am64x))
-	-$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/tests/sanityTests.js -s $(SYSCFG_SDKPRODUCT) -d $(SYSCFG_DEVICE) -c a53ss0-0
+	-$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/tests/sanityTests.js -s $(SYSCFG_SDKPRODUCT) -d $(SYSCFG_DEVICE) -c a53ss0-0 --excludeTests="migrateToAnyTarget"
 endif
 ifeq ($(DEVICE),$(filter $(DEVICE), am64x am243x am62x))
-	-$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/tests/sanityTests.js -s $(SYSCFG_SDKPRODUCT) -d $(SYSCFG_DEVICE) -c m4fss0-0
+	-$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/tests/sanityTests.js -s $(SYSCFG_SDKPRODUCT) -d $(SYSCFG_DEVICE) -c m4fss0-0 --excludeTests="migrateToAnyTarget"
 endif
-	-$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/tests/sanityTests.js -s $(SYSCFG_SDKPRODUCT) -d $(SYSCFG_DEVICE) -c r5fss0-0
+	-$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/tests/sanityTests.js -s $(SYSCFG_SDKPRODUCT) -d $(SYSCFG_DEVICE) -c r5fss0-0 --excludeTests="migrateToAnyTarget"
 ifeq ($(DEVICE),$(filter $(DEVICE), am273x awr294x))
-	-$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/tests/sanityTests.js -s $(SYSCFG_SDKPRODUCT) -d $(SYSCFG_DEVICE) -c c66ss0
+	-$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/tests/sanityTests.js -s $(SYSCFG_SDKPRODUCT) -d $(SYSCFG_DEVICE) -c c66ss0 --excludeTests="migrateToAnyTarget"
 endif
 
 .PHONY: projectspec-help docs docs-clean

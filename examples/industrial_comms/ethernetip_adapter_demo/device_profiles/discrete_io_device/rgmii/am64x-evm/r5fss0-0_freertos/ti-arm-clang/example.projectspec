@@ -186,8 +186,6 @@
         </file>
         <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device_sm.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="linker.cmd" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/docs/api_guide_am64x/EXAMPLES_INDUSTRIAL_COMMS_ETHERNETIP_ADAPTER_DEMOS.html"

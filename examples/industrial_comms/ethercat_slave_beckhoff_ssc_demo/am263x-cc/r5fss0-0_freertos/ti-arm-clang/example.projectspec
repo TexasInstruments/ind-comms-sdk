@@ -21,7 +21,7 @@
         toolChain="TICLANG"
         cgtVersion="3.2.0"
         device="Cortex R.AM263x"
-        deviceCore="MAIN_PULSAR_Cortex_R5_0_0"
+        deviceCore="Cortex_R5_0"
         ignoreDefaultDeviceSettings="true"
         ignoreDefaultCCSSettings="true"
         endianness="little"
@@ -140,8 +140,6 @@
         <file path="../../../tiescutils.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="linker.cmd" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

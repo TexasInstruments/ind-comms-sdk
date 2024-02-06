@@ -140,8 +140,6 @@
         </file>
         <file path="../../../EtherCAT_Slave_Simple.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="linker.cmd" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/docs/api_guide_am243x/EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_DEMOS.html"
