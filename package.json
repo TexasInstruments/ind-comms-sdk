@@ -12,13 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@bitbucket.itg.ti.com/processor-sdk-mcu/sandbox.git"
+    "url": "ssh://git@bitbucket.itg.ti.com/pindsw/ind_comms_sdk.git"
   },
   "author": "TI",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "loadsh": "^0.0.4",
     "lodash": "^4.17.21",
-    "yargs": "^16.2.0"
+    "yargs": "^16.0.3"
   }
 }

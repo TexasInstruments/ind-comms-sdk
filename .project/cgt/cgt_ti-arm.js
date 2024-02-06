@@ -7,8 +7,9 @@ const cgt = {
         common: [
             "$(CGT_TI_ARM_PATH)/include",
             ".",
-            "$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source"],
+            "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source",
             "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source",
+        ]
     },
     cflags: {
         common: [

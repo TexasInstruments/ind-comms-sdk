@@ -11,16 +11,15 @@ CG_TOOL_ROOT := $(CGT_TI_PRU_PATH)
 
 # Add inputs and outputs from these tool invocations to the build variables
 CMD_SRCS += \
-linker.cmd \
 
 ASM_SRCS += \
-main.asm
+	main.asm \
 
 OBJS += \
-main.obj
+	main.obj \
 
 ASM_DEPS += \
-main.d
+	main.d \
 
 OBJDIR := .
 
@@ -53,18 +52,18 @@ all: $(OBJS) $(CMD_SRCS)
 	@$(MAKE) --no-print-directory -Onone "mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt.out"
 
 # Each subdirectory must supply rules for building sources it contributes
-$(OBJDIR)/$(OBJS): $(ASM_SRCS) 
-	@echo 'Building file: "$<"'
+$(OBJDIR)/$(OBJS) %.obj: $(ASM_SRCS) 
+	@echo 'Building file: "$^"'
 	@echo 'Invoking: PRU Compiler'
-	"$(CGT_TI_PRU_PATH)/bin/clpru" -DICSSG0 -DTX_PRU0 -DSLICE0 -DPRU0 -DSLICE0 -v4 --define=SOC_AM243X --include_path="$(SYSCFG_DIR)" --include_path="${CG_TOOL_ROOT}/include" --include_path="${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source" --include_path="${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source"  --define=_DEBUG_=1 -g --diag_warning=225 --diag_wrap=off --display_error_number --endian=little --preproc_with_compile --preproc_dependency="$(basename $(<F)).d_raw" "$<"
-	@echo 'Finished building: "$<"'
+	"$(CGT_TI_PRU_PATH)/bin/clpru" -DICSSG0 -DTX_PRU0 -DSLICE0 -DPRU0 -DSLICE0 -v4 --define=SOC_AM243X --include_path="$(SYSCFG_DIR)" --include_path="${CG_TOOL_ROOT}/include" --include_path="${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source" --include_path="${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source"  --define=_DEBUG_=1 -g --diag_warning=225 --diag_wrap=off --display_error_number --endian=little --preproc_with_compile --preproc_dependency="$(basename $(<F)).d_raw" $^
+	@echo 'Finished building: "$^"'
 	@echo ' '
 
 # Tool invocations
 mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt.out: $(OBJS) $(CMD_SRCS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: PRU Linker'
-	"$(CGT_TI_PRU_PATH)/bin/clpru" -DICSSG0 -DTX_PRU0 -DSLICE0 -DPRU0 -DSLICE0 -v4 --define=SOC_AM243X  --define=_DEBUG_=1 -g --diag_warning=225 --diag_wrap=off --display_error_number --endian=little -z -m"mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt.map" --disable_auto_rts   --diag_wrap=off --display_error_number --warn_sections --xml_link_info="mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt_linkInfo.xml" --rom_model -o "mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt.out" $^
+	"$(CGT_TI_PRU_PATH)/bin/clpru" -DICSSG0 -DTX_PRU0 -DSLICE0 -DPRU0 -DSLICE0 -v4 --define=SOC_AM243X  --define=_DEBUG_=1 -g --diag_warning=225 --diag_wrap=off --display_error_number --endian=little -z -m"mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt.map" --disable_auto_rts   --diag_wrap=off --display_error_number --warn_sections --xml_link_info="mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt_linkInfo.xml" --disable_auto_rts  --rom_model -o "mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt.out" $^	
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -72,8 +71,8 @@ mdio_am243x-evm_icssg0-txpru0_fw_ti-pru-cgt.out: $(OBJS) $(CMD_SRCS)
 # To clean generated files
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj"
-	-$(RM) "main.d"
+	-$(RM) $(OBJS)
+	-$(RM) $(ASM_DEPS)
 	-@echo 'Finished clean'
 	-@echo ' '
 

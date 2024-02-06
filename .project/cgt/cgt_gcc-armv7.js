@@ -1,4 +1,3 @@
-
 const common = require(`../common.js`);
 
 const cgt_r5f = {
@@ -43,7 +42,9 @@ const cgt_common = {
             "-Wno-unused-function",
             "-Wno-enum-compare",
             "-Wno-uninitialized",
+            "-Wno-address-of-packed-member",
             "-Wno-int-to-pointer-cast",
+            "-Wno-stringop-truncation",
             "-fgnu89-inline",
             "-Wno-pointer-to-int-cast",
             "-Wno-unused-variable",
@@ -82,6 +83,7 @@ const cgt_common = {
     },
 };
 
+
 function getCgtOptions(cpu, device)
 {
     let cgtOptions = {};
@@ -90,6 +92,7 @@ function getCgtOptions(cpu, device)
     {
         cgtOptions = common.mergeCgtOptions(cgt_common, cgt_r5f);
     }
+
     return cgtOptions;
 }
 
