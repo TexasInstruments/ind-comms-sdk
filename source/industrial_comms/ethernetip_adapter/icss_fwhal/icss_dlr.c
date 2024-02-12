@@ -357,10 +357,10 @@ void EIP_DLR_port0ISR(uintptr_t arg)
         commonEvtsFlag &= ~(DLR_STOP_BOTH_TIMERS_MASK);
         /*write back the flag*/
         *(commonEvtsPtr) = commonEvtsFlag;
-        /*stop the timer on port1*/
+        /*stop the timer on port 0*/
         EIP_DLR_disable_WD_IEP(dlrHandle, PORT0_WATCH_DOG_ID);
 
-        /*stop the timer on port1*/
+        /*stop the timer on port 1*/
         EIP_DLR_disable_WD_IEP(dlrHandle, PORT1_WATCH_DOG_ID);
 
         /*clear the flags*/
@@ -381,7 +381,7 @@ void EIP_DLR_port0ISR(uintptr_t arg)
                                     DLR_PORT_EVENTS_OFFSET);
         otherPortFlag = *(otherPortPtr);
 
-        /*stop the timer on port1*/
+        /*stop the timer on port 1*/
         EIP_DLR_disable_WD_IEP(dlrHandle, PORT1_WATCH_DOG_ID);
 
         /*write back the flag*/
@@ -646,9 +646,9 @@ void EIP_DLR_port1ISR(uintptr_t arg)
         commonEvtsFlag &= ~(DLR_STOP_BOTH_TIMERS_MASK);
         /*write back the flag*/
         *(commonEvtsPtr) = commonEvtsFlag;
-        /*stop the timer on port1*/
+        /*stop the timer on port 0*/
         EIP_DLR_disable_WD_IEP(dlrHandle, PORT0_WATCH_DOG_ID);
-        /*stop the timer on port1*/
+        /*stop the timer on port 1*/
         EIP_DLR_disable_WD_IEP(dlrHandle, PORT1_WATCH_DOG_ID);
 
         otherPortFlag &= ~DLR_TIMER_RUNNING_MASK;
@@ -671,7 +671,7 @@ void EIP_DLR_port1ISR(uintptr_t arg)
                                     DLR_PORT_EVENTS_OFFSET);
         otherPortFlag = *(otherPortPtr);
 
-        /*stop the timer on port0*/
+        /*stop the timer on port 0*/
         EIP_DLR_disable_WD_IEP(dlrHandle, PORT0_WATCH_DOG_ID);
 
         /*write back the flag*/
@@ -2633,7 +2633,7 @@ void EIP_DLR_enable_WD_IEP(EIP_DLRHandle dlrHandle, uint8_t id)
     }
 
     EIP_DLR_setTimeout_WD_IEP(dlrHandle,
-                              dlrHandle->dlrObj->supConfig.beaconInterval / 10, id);
+                              dlrHandle->dlrObj->supConfig.beaconTimeout / 10, id);
     HW_WR_REG32(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_WD_CTRL_REG, enableFlag);
 }
 
