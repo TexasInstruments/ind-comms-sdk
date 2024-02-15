@@ -2,7 +2,6 @@
 let common = system.getScript("/common");
 
 const topModules = [
-    "/networking/enet_cpsw/enet_cpsw",
     "/networking/icss_emac/icss_emac",
 ];
 
