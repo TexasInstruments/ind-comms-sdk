@@ -95,6 +95,7 @@ help:
 	@echo  .
 	@echo  System Example build targets,
 	@echo  =============================
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_bridge/am64x-evm/system_ethernetip_adapter_bridge [all clean syscfg-gui syscfg]
 	@echo  .
 
 # Various Component Targets
@@ -397,6 +398,7 @@ BUILD_COMBO_EXAMPLE_ALL += prp_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang
 BUILD_COMBO_EXAMPLE_ALL += prp_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang
 BUILD_COMBO_EXAMPLE_ALL += iolink_master_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang
 # Various System Example Targets
+BUILD_COMBO_EXAMPLE_ALL += ethernetip_adapter_bridge_am64x-evm_system_ethernetip_adapter_bridge
 
 BUILD_COMBO_EXAMPLE_PRIVATE_ALL =
 # Various Private Example Targets
@@ -449,6 +451,9 @@ examples-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_ALL)
  iolink_master_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang:
 	$(MAKE) -C examples/industrial_comms/iolink_master_demo/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
+ ethernetip_adapter_bridge_am64x-evm_system_ethernetip_adapter_bridge:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_bridge/am64x-evm/system_ethernetip_adapter_bridge -f makefile all
+
 
 BUILD_COMBO_EXAMPLE_CLEAN_ALL =
 # Various Example Clean Targets
@@ -466,6 +471,7 @@ BUILD_COMBO_EXAMPLE_CLEAN_ALL += prp_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm
 BUILD_COMBO_EXAMPLE_CLEAN_ALL += prp_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_CLEAN_ALL += iolink_master_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean
 # Various System Example Clean Targets
+BUILD_COMBO_EXAMPLE_CLEAN_ALL += ethernetip_adapter_bridge_am64x-evm_system_ethernetip_adapter_bridge_clean
 
 BUILD_COMBO_EXAMPLE_PRIVATE_CLEAN_ALL =
 # Various Private Example Targets
@@ -518,6 +524,9 @@ examples-private-clean: $(BUILD_COMBO_EXAMPLE_PRIVATE_CLEAN_ALL)
  iolink_master_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/iolink_master_demo/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
+ ethernetip_adapter_bridge_am64x-evm_system_ethernetip_adapter_bridge_clean:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_bridge/am64x-evm/system_ethernetip_adapter_bridge -f makefile clean
+
 
 BUILD_COMBO_EXAMPLE_SCRUB_ALL =
 # Various Example Scrub Targets
@@ -535,6 +544,7 @@ BUILD_COMBO_EXAMPLE_SCRUB_ALL += prp_mii_demo_am64x-evm_r5fss0-0_freertos_ti-arm
 BUILD_COMBO_EXAMPLE_SCRUB_ALL += prp_rgmii_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_scrub
 BUILD_COMBO_EXAMPLE_SCRUB_ALL += iolink_master_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_scrub
 # Various System Example Scrub Targets
+BUILD_COMBO_EXAMPLE_SCRUB_ALL += ethernetip_adapter_bridge_am64x-evm_system_ethernetip_adapter_bridge_scrub
 
 BUILD_COMBO_EXAMPLE_PRIVATE_SCRUB_ALL =
 # Various Private Example Targets
@@ -586,6 +596,9 @@ examples-scrub-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_SCRUB_ALL)
 
  iolink_master_demo_am64x-evm_r5fss0-0_freertos_ti-arm-clang_scrub:
 	$(MAKE) -C examples/industrial_comms/iolink_master_demo/am64x-evm/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+
+ ethernetip_adapter_bridge_am64x-evm_system_ethernetip_adapter_bridge_scrub:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_bridge/am64x-evm/system_ethernetip_adapter_bridge -f makefile scrub
 
 
 .PHONY: all clean scrub help
