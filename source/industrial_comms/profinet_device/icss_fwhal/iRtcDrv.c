@@ -975,12 +975,18 @@ int32_t PN_readCpmDesc(PN_Handle pnHandle, t_cpmDesc *pDesc, uint8_t pos)
 int32_t PN_setBaseClock(PN_Handle pnHandle, uint16_t factor)
 {
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
-
+    uint32_t prevBaseClk; 
 
     if((factor > 128) || (factor < 8)
             || (factor & (factor - 1)))       /*Checks power of 2*/
     {
         return -1;
+    }
+
+    /* Check if previous clock is same as the current. Skip updating value in memory if clock values are same. */
+    prevBaseClk = HW_RD_REG32(pruicssHwAttrs->pru0DramBase + RTC_BASE_CLK_OFFSET);
+    if(prevBaseClk == RTC_3125_CLK_CONST * factor ) {
+        return 0;
     }
 
     HW_WR_REG32(pruicssHwAttrs->pru0DramBase + RTC_BASE_CLK_OFFSET, RTC_3125_CLK_CONST
