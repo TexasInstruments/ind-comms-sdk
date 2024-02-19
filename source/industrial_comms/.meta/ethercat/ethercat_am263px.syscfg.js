@@ -26,6 +26,7 @@ function getInterfaceName(peripheralName)
 {
     if(peripheralName !== "")
     {
+        console.log("peripheralName = " + peripheralName);
         return `PRU-ICSS_${peripheralName}`;
     }
     else
@@ -122,8 +123,9 @@ function getPinmuxRequirements(inst) {
 
     let icssm = getPeripheralRequirements(inst, "");
     let iep = getPeripheralRequirements(inst, "IEP");
+    let mdio = getPeripheralRequirements(inst, "MDIO");
 
-    return [iep, icssm];
+    return [iep, icssm, mdio];
 
 }
 
@@ -131,6 +133,7 @@ function getInterfaceNameList(inst) {
 
     return [
         getInterfaceName("IEP"),
+        getInterfaceName("MDIO"),
         getInterfaceName(""),
     ];
 }
@@ -140,6 +143,7 @@ function getPeripheralPinNames(inst)
     let pinList = [];
 
     pinList = pinList.concat( getInterfacePinList(inst, "IEP"),
+                    getInterfacePinList(inst, "MDIO"),
                     getInterfacePinList(inst, ""),
     );
     return pinList;
