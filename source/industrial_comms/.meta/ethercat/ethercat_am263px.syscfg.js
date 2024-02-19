@@ -26,7 +26,6 @@ function getInterfaceName(peripheralName)
 {
     if(peripheralName !== "")
     {
-        console.log("peripheralName = " + peripheralName);
         return `PRU-ICSS_${peripheralName}`;
     }
     else
