@@ -125,9 +125,6 @@ CFLAGS_debug := \
 CFLAGS_release := \
 	-Os \
 
-LNK_FILES_common = \
-	generated/linker.cmd \
-
 LIBS_PATH_common = \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib \

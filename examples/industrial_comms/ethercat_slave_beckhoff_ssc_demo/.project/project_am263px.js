@@ -90,27 +90,12 @@ const lflags_r5f = {
     ],
 };
 
-const lnkfiles = {
-    common: [
-        "linker.cmd",
-    ]
-};
-
 const syscfgfile = "../example.syscfg";
 
 const readmeDoxygenPageTag = "EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_BECKHOFF_SSC_DEMO";
 
 const templates_freertos_r5f =
 [
-    {
-        input: ".project/templates/am263px/common/linker_r5f.cmd.xdt",
-        output: "linker.cmd",
-        options: {
-            stackSize: "32768",
-            codeDataAddr: "70080000",
-            codeDataSize: "00080000",
-        },
-    },
     {
         input: ".project/templates/am263px/freertos/main_freertos.c.xdt",
         output: "../main.c",
@@ -144,7 +129,6 @@ function getComponentBuildProperty(buildOption) {
 
     build_property.files = files;
     build_property.filedirs = filedirs;
-    build_property.lnkfiles = lnkfiles;
     build_property.syscfgfile = syscfgfile;
     build_property.readmeDoxygenPageTag = readmeDoxygenPageTag;
     build_property.projecspecFileAction = "link";
