@@ -1125,7 +1125,7 @@ void EIP_DLR_beaconTimeoutISR_P1(uintptr_t arg)
         if(lastPortBcnRcvd == portNum)
         {
 #ifdef DLR_DEBUG
-            genSeqOfEvents(BEACON0_MISSED_FAULT);
+            genSeqOfEvents(BEACON1_MISSED_FAULT);
 #endif
             /*Stop neighbor checkout timers*/
             ClockP_stop(&(dlrHandle->dlrNeighborTimeoutClock[ICSS_EMAC_PORT_1 - 1]));
