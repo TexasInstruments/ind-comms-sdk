@@ -46,23 +46,23 @@
 #include "lwip/dhcp.h"
 #include "netif/bridgeif.h"
 
-#include <enet.h>
-#include <networking/enet/utils/include/enet_appmemutils_cfg.h>
-#include <networking/enet/utils/include/enet_apputils.h>
-#include <networking/enet/utils/include/enet_appmemutils.h>
-#include <networking/enet/utils/include/enet_appboardutils.h>
-#include <networking/enet/utils/include/enet_appsoc.h>
-#include <networking/enet/utils/include/enet_apprm.h>
-#include <networking/enet/core/lwipif/inc/pbufQ.h>
-#include <networking/enet/core/include/per/icssg.h>
+// #include <enet.h>
+// #include <networking/enet/utils/include/enet_appmemutils_cfg.h>
+// #include <networking/enet/utils/include/enet_apputils.h>
+// #include <networking/enet/utils/include/enet_appmemutils.h>
+// #include <networking/enet/utils/include/enet_appboardutils.h>
+// #include <networking/enet/utils/include/enet_appsoc.h>
+// #include <networking/enet/utils/include/enet_apprm.h>
+// #include <networking/enet/core/lwipif/inc/pbufQ.h>
+// #include <networking/enet/core/include/per/icssg.h>
 
 #include <lwipific/inc/lwip_ic.h>
 #include <lwipific/inc/lwip2lwipif_ic.h>
 
 #include <lwip2lwipif.h>
-#include <custom_pbuf.h>
-#include "ti_enet_config.h"
-#include "ti_enet_lwipif.h"
+// #include <custom_pbuf.h>
+// #include "ti_enet_config.h"
+// #include "ti_enet_lwipif.h"
 #include "enet_netific.h"
 
 /* ========================================================================== */
@@ -121,7 +121,7 @@ static void EthApp_netifStatusCb(struct netif *netif)
 
             /* Start Configuration server */
             status = EnetCfgServer_init(gEthAppObj.enetType, gEthAppObj.instId);
-            EnetAppUtils_assert(ENET_SOK == status);
+            DebugP_assert(ENET_SOK == status);
 
             /* Start the software-based interVLAN routing */
             EthSwInterVlan_setupRouting(gEthAppObj.enetType, ETH_SWINTERVLAN_TASK_PRI);

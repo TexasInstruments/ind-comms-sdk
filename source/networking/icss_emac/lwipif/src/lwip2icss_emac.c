@@ -145,7 +145,7 @@ static void Lwip2Emac_initConfig(Lwip2Emac_Handle hLwip2Emac)
     }
     else
     {
-        DebugP_log("[LWIPIF_LWIP]Link is down");
+        DebugP_log("[LWIPIF_LWIP]Link is down\r\n");
     }
 
      /* Init aleTicks */
@@ -305,7 +305,7 @@ int32_t Lwip2Emac_sendTxPackets(Lwip2Emac_Handle hLwip2Emac, struct pbuf *p)
 
 
 /*!
- *  @b Lwip2Enet_ioctl
+ *  @b Lwip2Emac_ioctl
  *  @n
  *  Low level driver Ioctl interface. This interface can be used for
  *  ALE configuration, control, statistics

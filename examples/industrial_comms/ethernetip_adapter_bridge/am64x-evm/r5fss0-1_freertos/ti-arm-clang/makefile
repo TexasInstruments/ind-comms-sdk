@@ -52,10 +52,6 @@ FILES_common := \
 	ti_dpl_config.c \
 	ti_pinmux_config.c \
 	ti_power_clock_config.c \
-	ti_enet_config.c \
-	ti_enet_open_close.c \
-	ti_enet_soc.c \
-	ti_enet_lwipif.c \
 
 FILES_PATH_common = \
 	.. \
@@ -72,31 +68,22 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am64x/r5f \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/utils \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/utils/include \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/utils/V3 \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/include \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/include/phy \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/include/core \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/soc/k3/am64x_am243x \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/hw_include \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/hw_include/mdio/V4 \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwipif/inc \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipif/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/contrib \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am64x \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_bridge/common \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/hsr_prp_demo \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipific/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_bridge/common \
 	-Igenerated \
 
 DEFINES_common := \
 	-DSOC_AM64X \
-	-DENET_ENABLE_PER_ICSSG=1 \
 
 CFLAGS_release := \
 	-Os \
@@ -138,6 +125,11 @@ LIBS_PATH_common = \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib \
 	-Wl,-i${CG_TOOL_ROOT}/lib \
 
@@ -145,11 +137,15 @@ LIBS_common = \
 	-lfreertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-ldrivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lboard.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lenet-icssg.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-llwipif-icssg-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-llwip-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-llwipif-ic-icssg-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-llwip-contrib-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-licss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-licss_emac_lwip_if.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-licss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-lprp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-lprofinet_device_rt_mrp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-lprofinet_device_irt_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -173,11 +169,15 @@ LIBS_NAME = \
 	freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	board.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	enet-icssg.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	lwipif-icssg-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	lwip-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	lwipif-ic-icssg-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	lwip-contrib-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	icss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	icss_emac_lwip_if.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	icss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	prp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	profinet_device_rt_mrp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	profinet_device_irt_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	libc.a \
 	libsysbm.a \
 
@@ -187,6 +187,11 @@ LIBS_PATH_NAME = \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib \
 	${CG_TOOL_ROOT}/lib \
 
@@ -232,10 +237,6 @@ SYSCFG_GEN_FILES+=generated/ti_dpl_config.c generated/ti_dpl_config.h
 SYSCFG_GEN_FILES+=generated/ti_pinmux_config.c generated/ti_power_clock_config.c
 SYSCFG_GEN_FILES+=generated/ti_board_config.c generated/ti_board_config.h
 SYSCFG_GEN_FILES+=generated/ti_board_open_close.c generated/ti_board_open_close.h
-SYSCFG_GEN_FILES+=generated/ti_enet_config.c generated/ti_enet_config.h
-SYSCFG_GEN_FILES+=generated/ti_enet_open_close.c generated/ti_enet_open_close.h
-SYSCFG_GEN_FILES+=generated/ti_enet_soc.c
-SYSCFG_GEN_FILES+=generated/ti_enet_lwipif.c generated/ti_enet_lwipif.h
 
 SYSTEM_FLAG ?= false
 

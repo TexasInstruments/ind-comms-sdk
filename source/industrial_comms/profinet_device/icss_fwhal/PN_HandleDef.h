@@ -43,7 +43,7 @@ extern "C"
 /*                             Include Files                                  */
 /* ========================================================================== */
 
-#include "pnDrvConfig.h"
+#include <industrial_comms/profinet_device/icss_fwhal/RT_MRP/pnDrvConfig.h>
 #include "iPtcpDrv.h"
 #include "iPtcpUtils.h"
 #include "iRtcDrv2.h"

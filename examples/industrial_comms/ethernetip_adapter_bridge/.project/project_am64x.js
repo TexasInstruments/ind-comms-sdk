@@ -8,11 +8,12 @@ const server_files = {
             "app_announce.c",
             "enet_netific.c",
             "app_netif.c",
-            "app_icssgconfighandler.c",
+            "emac_lwipif.c",
             "app_tcpserver.c",
             "app_main.c",
             "main.c",
             "enet_custom_board_config.c",
+            "hsr_prp_soc.c",
     ],
 };
 
@@ -36,6 +37,7 @@ const main_filedirs = {
         "..",       /* core_os_combo base */
         "../../../common", /* Example base */
         "../../../core_main", /* Example base */
+        "../../../common/am64evm"
     ],
 };
 
@@ -56,6 +58,11 @@ const libdirs_freertos = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal/lib",        
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib",
 
     ],
@@ -66,27 +73,19 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am64x/r5f",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/utils",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/utils/include",
-	    "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/utils/V3",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/include",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/include/phy",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/include/core",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/soc/k3/am64x_am243x",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/hw_include",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/hw_include/mdio/V4",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwipif/inc",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipif/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/contrib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am64x",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_bridge/common",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc",        
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/hsr_prp_demo",
 
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipific/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_bridge/common",
     ],
 };
 
@@ -95,11 +94,17 @@ const libs_freertos_r5f = {
         "freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "enet-icssg.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "lwipif-icssg-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "lwip-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "lwipif-ic-icssg-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "lwip-contrib-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+
+        // emac related includes
+        "icss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        "icss_emac_lwip_if.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        "icss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        "prp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        "profinet_device_rt_mrp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        "profinet_device_irt_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib"
     ],
 };
 
@@ -107,12 +112,6 @@ const linker_includePath_freertos = {
     common: [
         "${PROJECT_BUILD_DIR}/syscfg",
 
-    ],
-};
-
-const defines_r5f = {
-    common: [
-        "ENET_ENABLE_PER_ICSSG=1",
     ],
 };
 
@@ -248,7 +247,6 @@ function getComponentBuildProperty(buildOption) {
                 build_property.templates = templates_freertos_client;
                 build_property.filedirs = remote_filedirs;
             }
-            build_property.defines = defines_r5f;
             build_property.cflags = cflags_r5f;
             build_property.lflags = lflags_r5f;
             build_property.projectspecLnkPath = linker_includePath_freertos;

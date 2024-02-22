@@ -50,83 +50,6 @@ SECTIONS
         .text:abort: palign(8) /* this helps in loading symbols when using XIP mode */
     } > MSRAM
 
-    UNION:
-    {
-        .icssfw: palign(128)
-        .icss_mem: type = NOLOAD {
-#if (ENET_SYSCFG_ICSSG0_ENABLED == 1)
-    #if(ENET_SYSCFG_DUAL_MAC == 1)
-        #if(ENET_SYSCFG_DUALMAC_PORT1_ENABLED == 1)
-            *(*gEnetSoc_icssg0HostPoolMem_0)
-            *(*gEnetSoc_icssg0HostQueueMem_0)
-            *(*gEnetSoc_icssg0ScratchMem_0)
-            #if (ENET_SYSCFG_PREMPTION_ENABLE == 1)
-                *(*gEnetSoc_icssg0HostPreQueueMem_0)
-            #endif
-        #else
-            *(*gEnetSoc_icssg0HostPoolMem_1)
-            *(*gEnetSoc_icssg0HostQueueMem_1)
-            *(*gEnetSoc_icssg0ScratchMem_1)
-            #if (ENET_SYSCFG_PREMPTION_ENABLE == 1)
-                    *(*gEnetSoc_icssg0HostPreQueueMem_1)
-            #endif
-        #endif
-    #endif
-#endif
-#if (ENET_SYSCFG_ICSSG1_ENABLED == 1)
-    #if(ENET_SYSCFG_DUAL_MAC == 1)
-        #if(ENET_SYSCFG_DUALMAC_PORT1_ENABLED == 1)
-                *(*gEnetSoc_icssg1HostPoolMem_0)
-                *(*gEnetSoc_icssg1HostQueueMem_0)
-                *(*gEnetSoc_icssg1ScratchMem_0)
-            #if (ENET_SYSCFG_PREMPTION_ENABLE == 1)
-                *(*gEnetSoc_icssg1HostPreQueueMem_0)
-            #endif
-        #else
-                *(*gEnetSoc_icssg1HostPoolMem_1)
-                *(*gEnetSoc_icssg1HostQueueMem_1)
-                *(*gEnetSoc_icssg1ScratchMem_1)
-            #if (ENET_SYSCFG_PREMPTION_ENABLE == 1)
-                *(*gEnetSoc_icssg1HostPreQueueMem_1)
-            #endif
-        #endif
-    #endif
-#endif
-#if (ENET_SYSCFG_ICSSG0_ENABLED == 1)
-    #if(ENET_SYSCFG_DUAL_MAC == 0)
-        *(*gEnetSoc_icssg0PortPoolMem_0)
-        *(*gEnetSoc_icssg0PortPoolMem_1)
-        *(*gEnetSoc_icssg0HostPoolMem_0)
-        *(*gEnetSoc_icssg0HostPoolMem_1)
-        *(*gEnetSoc_icssg0HostQueueMem_0)
-        *(*gEnetSoc_icssg0HostQueueMem_1)
-        *(*gEnetSoc_icssg0ScratchMem_0)
-        *(*gEnetSoc_icssg0ScratchMem_1)
-        #if (ENET_SYSCFG_PREMPTION_ENABLE == 1)
-            *(*gEnetSoc_icssg0HostPreQueueMem_0)
-            *(*gEnetSoc_icssg0HostPreQueueMem_1)
-        #endif
-    #endif
-#endif
-#if (ENET_SYSCFG_ICSSG1_ENABLED == 1)
-    #if(ENET_SYSCFG_DUAL_MAC == 0)
-        *(*gEnetSoc_icssg1PortPoolMem_0)
-        *(*gEnetSoc_icssg1PortPoolMem_1)
-        *(*gEnetSoc_icssg1HostPoolMem_0)
-        *(*gEnetSoc_icssg1HostPoolMem_1)
-        *(*gEnetSoc_icssg1HostQueueMem_0)
-        *(*gEnetSoc_icssg1HostQueueMem_1)
-        *(*gEnetSoc_icssg1ScratchMem_0)
-        *(*gEnetSoc_icssg1ScratchMem_1)
-        #if (ENET_SYSCFG_PREMPTION_ENABLE == 1)
-            *(*gEnetSoc_icssg1HostPreQueueMem_0)
-            *(*gEnetSoc_icssg1HostPreQueueMem_1)
-        #endif
-    #endif
-#endif
-        }
-    } > MSRAM
-
     /* This is rest of code. This can be placed in DDR if DDR is available and needed */
     GROUP {
         .text:   {} palign(8)   /* This is where code resides */
@@ -144,13 +67,6 @@ SECTIONS
         .stack:  {} palign(8)   /* This is where the main() stack goes */
     } > DDR
 
-    .enet_dma_mem {
-        *(*ENET_DMA_DESC_MEMPOOL)
-        *(*ENET_DMA_RING_MEMPOOL)
-#if (ENET_SYSCFG_PKT_POOL_ENABLE == 1)
-        *(*ENET_DMA_PKT_MEMPOOL)
-#endif
-    } (NOLOAD) > MSRAM
     GROUP {
         .bss:    {} palign(8)   /* This is where uninitialized globals go */
         RUN_START(__BSS_START)

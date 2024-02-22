@@ -51,7 +51,7 @@
 #include <lwipific/inc/lwip2lwipif_ic.h>
 
 #include <lwip2lwipif.h>
-#include <custom_pbuf.h>
+//#include <custom_pbuf.h>
 #include "ti_enet_config.h"
 #include "ti_enet_lwipif.h"
 #include "enet_netific.h"

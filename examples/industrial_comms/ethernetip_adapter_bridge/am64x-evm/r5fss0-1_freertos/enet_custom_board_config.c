@@ -33,14 +33,14 @@
 
 
 #include <stdint.h>
-#include <enet.h>
+//#include <enet.h>
 #include <networking/enet/core/include/phy/enetphy.h>
 #include <networking/enet/core/include/phy/dp83867.h>
 #include <networking/enet/core/include/phy/dp83869.h>
 
-#include <networking/enet/utils/include/enet_apputils.h>
+//#include <networking/enet/utils/include/enet_apputils.h>
 #include <kernel/dpl/SystemP.h>
-#include <networking/enet/core/src/phy/enetphy_priv.h>
+//#include <networking/enet/core/src/phy/enetphy_priv.h>
 #include <board/eeprom.h>
 #include "ti_board_open_close.h"
 
@@ -382,10 +382,10 @@ void EnetBoard_getMacAddrList(uint8_t macAddr[][ENET_MAC_ADDR_LEN],
     uint8_t macAddrBuf[ENET_BOARD_NUM_MACADDR_MAX * ENET_MAC_ADDR_LEN];
     macAddrCnt = EnetUtils_min(ENET_BOARD_NUM_MACADDR_MAX, maxMacEntries);
 
-    EnetAppUtils_assert(pAvailMacEntries != NULL);
+    DebugP_assert(pAvailMacEntries != NULL);
 
     status = EEPROM_read(gEepromHandle[CONFIG_EEPROM0], I2C_EEPROM_MAC_DATA_OFFSET, macAddrBuf, (macAddrCnt * ENET_MAC_ADDR_LEN));
-    EnetAppUtils_assert(status == ENET_SOK);
+    DebugP_assert(status == ENET_SOK);
 
     /* Save only those required to meet the max number of MAC entries */
     /* TODO Read number of mac addresses from the board eeprom */
@@ -398,8 +398,8 @@ void EnetBoard_getMacAddrList(uint8_t macAddr[][ENET_MAC_ADDR_LEN],
 
     if (macAddrCnt == 0U)
     {
-        EnetAppUtils_print("EnetBoard_getMacAddrList Failed - IDK not present\n");
-        EnetAppUtils_assert(false);
+        DebugP_log("EnetBoard_getMacAddrList Failed - IDK not present\n");
+        DebugP_assert(false);
     }
 }
 

@@ -55,8 +55,6 @@
 #include "ti_board_config.h"
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
-#include "enet_netific.h"
-#include "app_announce.h"
 
 #include "enet_netific.h"
 #include "app_announce.h"
@@ -74,8 +72,8 @@ void appMain(void *args)
     DebugP_log("  ICSS LWIP TCP ECHO SERVER 0-1 \r\n");
     DebugP_log("=================================\r\n");
 
-    DebugP_log("Remote Core init");
-    ipc_rpmsg_echo_main(NULL);
+    DebugP_log("Remote Core init\r\n");
+   ipc_rpmsg_echo_main(NULL);
 
     EthApp_lwipMain(NULL, NULL);
     EthApp_waitForNetifUp();
@@ -90,7 +88,7 @@ void appMain(void *args)
 
 }
 
-uint32_t EnetSoc_getCoreId(void)
+uint32_t EnetSoc_getCoreIdOld(void) // FIX ME
 {
     uint32_t coreId = CSL_CORE_ID_R5FSS0_1;
 

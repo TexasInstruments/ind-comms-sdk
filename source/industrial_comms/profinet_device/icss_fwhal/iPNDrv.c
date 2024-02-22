@@ -73,14 +73,14 @@
 * @def PRU0_FIRMWARE_NAME
 *      name of the C struct in PRU header file. For PRU0
 */
-#define PRU0_FIRMWARE_NAME  PRU0_FIRMWARE
+#define PRU0_FIRMWARE_NAME  PRU0_FIRMWARE_PN
 
 /**
 * @internal
 * @def PRU1_FIRMWARE_NAME
 *      name of the C struct in PRU header file. For PRU1
 */
-#define PRU1_FIRMWARE_NAME  PRU1_FIRMWARE
+#define PRU1_FIRMWARE_NAME  PRU1_FIRMWARE_PN
 /**
 * @internal
 * @def FILTER_MAC_ID_TYPE1_OCTET0
@@ -250,22 +250,23 @@ int32_t PN_initDrv(PN_Handle pnHandle)
     PRUICSS_enableCore(pruHandle, ICSS_EMAC_PORT_1 - 1);
     PRUICSS_enableCore(pruHandle, ICSS_EMAC_PORT_2 - 1);
 
-    if(HW_RD_REG32(((PRUICSS_HwAttrs *)(pruHandle->hwAttrs))->baseAddr + PRUICSS_DATARAM(
-                 0)) != ICSS_FIRMWARE_RELEASE_1)     /*hard coded version number address!*/
-    {
-        DebugP_log("PRU firmware bad - aborting\n");
-        return ERR_FIRMWARE_VERSION_BAD;
-    }
+    //BALLUFF DEBUG - Remove the Hardcoded FW version number check
+    // if(HW_RD_REG32(((PRUICSS_HwAttrs *)(pruHandle->hwAttrs))->baseAddr + PRUICSS_DATARAM(
+    //              0)) != ICSS_FIRMWARE_RELEASE_1)     /*hard coded version number address!*/
+    // {
+    //     DebugP_log("PRU firmware bad - aborting\n");
+    //     return ERR_FIRMWARE_VERSION_BAD;
+    // }
 
-    else
-    {
-        if(HW_RD_REG32(((PRUICSS_HwAttrs *)(pruHandle->hwAttrs))->baseAddr + PRUICSS_DATARAM(
-                     0) + 4) != ICSS_FIRMWARE_RELEASE_2)
-        {
-            DebugP_log("PRU firmware bad - aborting\n");
-            return ERR_FIRMWARE_VERSION_BAD;
-        }
-    }
+    // else
+    // {
+    //     if(HW_RD_REG32(((PRUICSS_HwAttrs *)(pruHandle->hwAttrs))->baseAddr + PRUICSS_DATARAM(
+    //                  0) + 4) != ICSS_FIRMWARE_RELEASE_2)
+    //     {
+    //         DebugP_log("PRU firmware bad - aborting\n");
+    //         return ERR_FIRMWARE_VERSION_BAD;
+    //     }
+    // }
 
     /*By default MRP Ports are in FORWARDING Mode*/
     PN_MRP_setPortState(pruicssHwAttrs, ICSS_EMAC_PORT_1, FORWARDING);

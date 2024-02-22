@@ -365,7 +365,7 @@ void ipc_rpmsg_echo_main(void *args)
     DebugP_log("[IPC RPMSG ECHO] %s %s\r\n", __DATE__, __TIME__);
 
     DebugP_log("=============================================\r\n");
-    DebugP_log("          Announce and Hamdshake App         \r\n");
+    DebugP_log("          Announce and Handshake App         \r\n");
     DebugP_log("=============================================\r\n");
 
     /* This API MUST be called by applications when its ready to talk to Linux
