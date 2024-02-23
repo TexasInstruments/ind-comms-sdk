@@ -9,18 +9,18 @@
 
 ## Introduction
 
-The Industrial Communications SDK enables real-time industrial communications for TI processors. Industrial communication is typically handled by the Programmable Real-Time Unit Industrial Communication Subsystem (PRU-ICSS). The PRU-ICSS is a co-processor subsystem containing Programmable Real-Time (PRU) cores and Ethernet media access controllers (EMACs), which implement the low level industrial Ethernet and fieldbus protocols through firmware.
+Industrial Communications SDK enables real-time industrial communications Protocols (EtherCAT, EtherNet/IP, PROFINET, IO-Link etc.) on TI processors/MCUs. This has Programmable Real-Time Unit Industrial Communication Subsystem (PRU-ICSS) firmware emulating fieldbus ASIC functionality, drivers, communication stack libraries and stack application examples together with documentation.
 
 These devices currently include
 
 - [AM2431](https://www.ti.com/product/AM2431), [AM2432](https://www.ti.com/product/AM2432), [AM2434](https://www.ti.com/product/AM2434)
-- [AM2634](https://www.ti.com/product/AM2634), [AM2634-Q1](https://www.ti.com/product/AM2634-Q1)
-- [AM6411](https://www.ti.com/product/AM6411), [AM6412](https://www.ti.com/product/AM6412), [AM6421](https://www.ti.com/product/AM6421), [AM6422](https://www.ti.com/product/AM6422), [AM6441](https://www.ti.com/product/AM6441), [AM6442](https://www.ti.com/product/AM6442)
+- [AM2631](https://www.ti.com/product/AM2631), [AM2632](https://www.ti.com/product/AM2632), [AM2634](https://www.ti.com/product/AM2634)
+- [AM6421](https://www.ti.com/product/AM6421), [AM6422](https://www.ti.com/product/AM6422), [AM6441](https://www.ti.com/product/AM6441), [AM6442](https://www.ti.com/product/AM6442)
 
 ## Features
 
 - Out of Box peripheral and application Examples
-  - Application Level Examples: Motor Drives, Industrial Communications etc.
+  - Application Level Examples: Industrial Communications
 
 - Protocol stacks and middleware
   - Various Industrial Protocol Stacks
@@ -45,7 +45,7 @@ These devices currently include
 
 #### Repo Tool Setup
 
-Industrial Communications SDK has multiple components (in multiple repositories) and dependencies
+Industrial Communications SDK needs MCU+ SDK components (in multiple repositories) and dependencies
 (like compiler, CCS and other tools). We use repo tool from Google to manage these
 multiple repositories. Currently there is no support for native windows shells like
 CMD or Powershell. This will be added at a later point. Windows users can rely on
@@ -73,14 +73,23 @@ Make sure [python3 is installed](https://wiki.python.org/moin/BeginnersGuide/Dow
 
 #### Cloning The Repositories
 
-To clone the repositories using repo tool, do below in your workarea folder:
+To clone the repositories, do below in your workarea folder:
+
+1. Clone the Industrial Communications SDK repository
+
+```bash
+git clone https://github.com/TexasInstruments/ind-comms-sdk.git
+```
+
+2. Clone the MCU+ SDK component repositories using repo tool.
 
 Note that depending on the SoC you're working with, the components you clone might be
 slightly different. So please choose the manifest folder according to the SoC of your
-interest. For example, we are showing for am263x below.
+interest. For example, we are showing for am243x below.
 
 ```bash
-repo init -u https://github.com/TexasInstruments/industrial-comms-manifests.git -m am243x/dev.xml -b main
+cd ind-comms-sdk
+repo init -u https://github.com/TexasInstruments/mcupsdk-manifests.git -m am243x/dev.xml -b main
 ```
 
 Note that repo uses symbolic links. So if you're on Windows and do not have permissions
@@ -89,7 +98,8 @@ to create symbolic links, the above command might fail for you. So you can eithe
 worktree feature of repo. To do this, initialize the repo like so:
 
 ```bash
-repo init --worktree -u https://github.com/TexasInstruments/industrial-comms-manifests.git -m am243x/dev.xml -b main
+cd ind-comms-sdk
+repo init --worktree -u https://github.com/TexasInstruments/mcupsdk-manifests.git -m am243x/dev.xml -b main
 ```
 
 After the repo is initialized, do a
@@ -102,65 +112,27 @@ This should clone all the repositories required for Industrial Communications SD
 
 #### Downloading And Installing Dependencies
 
-Note that the dependencies are also soc specific, here we take an example of am263x.
-You can replace that with the SoC of your choice like the `repo init` step.
+**To download and install dependencies, follow the below steps**:
 
-**To download and install dependencies in linux, follow the below steps**:
+1. Download and install Code Composer Studio v12.6 from [here](https://www.ti.com/tool/download/CCSTUDIO "Code Composer Studio")
+   - Install at default folder
 
-Run the following from the same location where you have `industrial_comms` and `industrial_comms_setup`
-folders.
+2. Download and install SysConfig 1.19.0 from [here](https://www.ti.com/tool/download/SYSCONFIG "SYSCONFIG")
+   - Install at default folder
 
-```bash
-./industrial_comms_setup/am243x/download_components.sh
-```
-
-This will install all the required dependencies including Code Composer Studio (CCS).
-The script assumes that `industrial_comms` folder is in the same location from where
-you have invoked the script, and that dependencies are installed into `${HOME}/ti`
-location. If these defaults don't work for you, please pass these as arguments to
-the script like
-
-```bash
-./industrial_comms_setup/am243x/download_components.sh --install_dir=/path/to/tools
-
-OR
-
-./industrial_comms_setup/am243x/download_components.sh --industrial_comms_sdk_folder=/path/to/industrial_comms/folder
-```
-and so on. For a complete list of arguments you can pass to the script, please run
-
-```bash
-./industrial_comms_setup/am243x/download_components.sh -h
-```
-
-**In windows the dependencies has to be manually installed. Given below are the steps**:
-
-1. Download and install Code Composer Studio v12.1 from [here](https://www.ti.com/tool/download/CCSTUDIO "Code Composer Studio")
-   - Install at default folder, C:\ti
-
-2. Download and install SysConfig 1.14.0 from [here](https://www.ti.com/tool/download/SYSCONFIG/1.14.0.2667 "SYSCONFIG 1.14.0")
-   - Install at default folder, C:/ti
-
-3. Download and install GCC for Cortex A53 and ARM R5 from below link (only needed for AM64x developers)
-   - [GNU-A](https://developer.arm.com/-/media/Files/downloads/gnu-a/9.2-2019.12/binrel/gcc-arm-9.2-2019.12-mingw-w64-i686-aarch64-none-elf.tar.xz)
-   - [GNU-RM](https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2017q4/gcc-arm-none-eabi-7-2017-q4-major-win32.zip)
-   - Install at default folder, C:/ti
-
-4. Download and install Node.js v12.18.4 LTS
+3. Download and install Node.js v12.18.4 LTS
   - Go to the [NodeJS Website](https://nodejs.org/en/) and use the installer to
     download and install v12.18.4 of node. Install in the default directory.
-  - After successful installation, run an `npm ci` inside the `industrial_comms` folder like so:
+  - After successful installation, run an `npm ci` inside the `ind-comms-sdk` folder like so:
     ```bash
-    $ cd industrial_comms/
+    $ cd ind-comms-sdk
     $ npm ci
-    $ cd ../
     ```
     This should install the node packages required for the SDK.
 
-1. Download and install doxygen,
+4. Download and install doxygen,
    - Tested with 1.8.20
-     - Download the correct version of doxygen for windows from [here](https://www.doxygen.nl/download.html)
-     - Install and add the install path, typically, C:/Program Files/doxygen/bin to your windows PATH
+     - Download the correct version of doxygen from [here](https://www.doxygen.nl/download.html)
    - Test by doing below on the command prompt
      ```
      $ doxygen -v
@@ -231,7 +203,7 @@ repo start dev --all
 - Use `gmake` in windows, add path to gmake present in CCS at `C:\ti\ccsxxxx\ccs\utils\bin` to your windows PATH. We have
   used `make` in below instructions.
 - Unless mentioned otherwise, all below commands are invoked from root folder of the "industrial_comms"  repository.
-- Current supported device names are am64x, am243x, am263x, am273x and awr294x
+- Current supported device names are am64x, am243x, am263x, and awr263px
 - Pass one of these values to `"DEVICE="`
 - You can also build components (examples, tests or libraries) in `release` or `debug`
   profiles. To do this pass one of these values to `"PROFILE="`
@@ -241,29 +213,29 @@ repo start dev --all
 1. Run the following command to create makefiles, this step is optional since this is invoked as part of other steps as well,
 
    ```bash
-   make gen-buildfiles DEVICE=am263x
+   make gen-buildfiles DEVICE=am243x
    ```
 
 2. To see all granular build options, run
 
    ```bash
-   make -s help DEVICE=am263x
+   make -s help DEVICE=am243x
    ```
    This should show you commands to build specific libraries, examples or tests.
 
 3. Make sure to build the libraries before attempting to build an example. For example,
-   to build a Hello World example for AM263x, run the following:
+   to build a HSR example for AM243x, run the following:
    ```bash
-   make -s -j4 libs DEVICE=am263x PROFILE=debug
+   make -s -j4 libs DEVICE=am243x PROFILE=debug
    ```
    Once the library build is complete, to build the example run:
    ```bash
-   make -s -C examples/hello_world/am263x-cc/r5fss0-0_nortos/ti-arm-clang all PROFILE=debug
+   make -s -C examples/industrial_comms/hsr_prp_demo/hsr_mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang all PROFILE=debug
    ```
 
 4. Following are the commands to build **all libraries** and **all examples**. Valid PROFILE's are "release" or "debug"
 
    ```bash
-   make -s -j4 clean DEVICE=am263x PROFILE=debug
-   make -s -j4 all   DEVICE=am263x PROFILE=debug
+   make -s -j4 clean DEVICE=am243x PROFILE=debug
+   make -s -j4 all   DEVICE=am243x PROFILE=debug
    ```
