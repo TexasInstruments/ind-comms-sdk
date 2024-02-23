@@ -1,5 +1,3 @@
-#include "ti_enet_config.h"
-
 /* This is the stack that is used by code running within main()
  * In case of NORTOS,
  * - This means all the code outside of ISR uses this stack
@@ -92,6 +90,8 @@ SECTIONS
         RUN_END(__UNDEFINED_STACK_END)
     } > DDR
 
+    /* Packet buffer memory used by ICCS */
+    .bss.icss_emac_pktbuf_mem (NOLOAD): {} > ICSS_PKT_BUF_MEM
     /* General purpose user shared memory, used in some examples */
     .bss.user_shared_mem (NOLOAD) : {} > USER_SHM_MEM
     /* this is used when Debug log's to shared memory are enabled, else this is not used */
@@ -127,6 +127,9 @@ MEMORY
     R5F_VECS  : ORIGIN = 0x00000000 , LENGTH = 0x00000040
     R5F_TCMA  : ORIGIN = 0x00000040 , LENGTH = 0x00007FC0
     R5F_TCMB0 : ORIGIN = 0x41010000 , LENGTH = 0x00008000
+
+    /* shared memories that is used between ICCS and this core. MARK as non-cache or cache+sharable */
+    ICSS_PKT_BUF_MEM        : ORIGIN = 0x70000000, LENGTH = 0x00010000
 
     /* memory segment used to hold CPU specific non-cached data, MAKE to add a MPU entry to mark this as non-cached */
     NON_CACHE_MEM : ORIGIN = 0x70068000 , LENGTH = 0x8000

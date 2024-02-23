@@ -98,7 +98,6 @@ struct netif netif_bridge;
 static struct netif gEmacNetif;
 // static struct netif *g_pNetif[ENET_SYSCFG_NETIF_COUNT];
 
-
 static struct netif netif_ic[ETHAPP_NETIF_IC_MAX_IDX];
 
 /* Array to store coreId to lwip bridge portId map */
@@ -144,7 +143,8 @@ void EthApp_initNetif(void)
     /* Create ICSS EMAC ethernet interface */
     // EthApp_initEmacNetif(&ipaddr, &netmask, &gw);// - open_icss_netif() //FIX ME = add later
 
-    netif_add(&gEmacNetif, &ipaddr, &netmask, &gw, NULL, LWIPIF_LWIP_init, tcpip_input);
+    // netif_add(&gEmacNetif, &ipaddr, &netmask, &gw, NULL, LWIPIF_LWIP_init, tcpip_input);
+    netif_add(&gEmacNetif, NULL, NULL, NULL, NULL, LWIPIF_LWIP_init, tcpip_input);
 
     /* Create inter-core virtual ethernet interface: MCU2_0 <-> MCU2_1 */
     netif_add(&netif_ic[ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX], NULL, NULL, NULL,
@@ -173,9 +173,9 @@ void EthApp_initNetif(void)
     netif_set_default(&netif_bridge);
     dhcp_set_struct(&netif_bridge, &g_netifDhcp[0]);
 
-//    EthApp_setNetifCbs(gEmacNetif);
-    netif_set_status_callback(&gEmacNetif, hsrprp_LwipStatus_callback);
-    netif_set_link_callback(&gEmacNetif, hsrprp_LwipLink_callback);
+    EthApp_setNetifCbs(&gEmacNetif);
+    // netif_set_status_callback(&gEmacNetif, hsrprp_LwipStatus_callback);
+    // netif_set_link_callback(&gEmacNetif, hsrprp_LwipLink_callback);
     EthApp_setNetifCbs(netif_default);
 
     netif_set_up(&gEmacNetif);

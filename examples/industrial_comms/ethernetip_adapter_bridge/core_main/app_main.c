@@ -98,17 +98,51 @@
 /* ========================================================================== */
 /*                           Macros & Typedefs                                */
 /* ========================================================================== */
-
-//BALUFF - DEBUG
-//Function to get the MAC address
+// added from standaloen example -----------------
 #define PRU_PN_MAC_ADDR_LEN             6
-static uint8_t ai8uIntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
+static uint8_t IntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
+
+#define PN_RX_INT_OFFSET            (0)
+#define PN_PPM_INT_OFFSET           (1)
+#define PN_CPM_INT_OFFSET           (2)
+#define PN_DHT_INT_OFFSET           (3)
+#define PN_PTCP_INT_OFFSET          (4)
+#define PN_LINK_INT_OFFSET          (6)
+#define PN_ISOM_INT_OFFSET          (7)
+
+#define PRU_RX_INT_NUM        20
+#define PRU_LINK_INT_NUM      26
+#define TIEIP_MDIO_CLKDIV   79 //For 2.5MHz MDIO clock: 200/(TIESC_MDIO_CLKDIV+1)
+#define PRU_PN_PTCP_TASK_PRIO                       11
+#define PRU_PN_PTCP_SYNC_MONITOR_TASK_PRIO          11
+#define PRU_PN_LINK_TASK_PRIO                       12
+#define PRU_PN_RX_TASK_PRIO                         12
+
+#define PN_PTCP_TIMERID         0 // TimerP_ANY
+#define PN_PTCP_TIMER_FREQ      25000000
+
 /**Interface macid index*/
-#define INTERFACE_MAC_TEMP 0
+#define INTERFACE_MAC 0
 /**Port1 macid index*/
-#define PORT1_MAC_TEMP     1
+#define PORT1_MAC     1
 /**Port2 macid index*/
-#define PORT2_MAC_TEMP     2
+#define PORT2_MAC     2
+
+/* EEPROM data offset in I2C EEPROM Flash */
+#define I2C_EEPROM_DATA_OFFSET          (0x8000)
+#define I2C_EEPROM_MAC_DATA_OFFSET      (0x42)
+// ------------------------------------------------
+// Removed for standalone example debug
+// //BALUFF - DEBUG
+// //Function to get the MAC address
+// #define PRU_PN_MAC_ADDR_LEN             6
+// static uint8_t ai8uIntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
+// /**Interface macid index*/
+// #define INTERFACE_MAC_TEMP 0
+// /**Port1 macid index*/
+// #define PORT1_MAC_TEMP     1
+// /**Port2 macid index*/
+// #define PORT2_MAC_TEMP     2
 
 /* Max number of ports supported per context */ //- check
 #define ENETMP_PORT_MAX                          (ENET_SYSCFG_NUM_EXT_MAC_PORTS)
@@ -142,32 +176,6 @@ static uint8_t ai8uIntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
  * UDP Iperf.
  */
 #define UDP_IPERF_THREAD_PRIO  (14U)
-
-//NEW 
-static uint8_t IntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
-
-#define PN_RX_INT_OFFSET            (0)
-#define PN_PPM_INT_OFFSET           (1)
-#define PN_CPM_INT_OFFSET           (2)
-#define PN_DHT_INT_OFFSET           (3)
-#define PN_PTCP_INT_OFFSET          (4)
-#define PN_LINK_INT_OFFSET          (6)
-#define PN_ISOM_INT_OFFSET          (7)
-
-#define PRU_RX_INT_NUM        20
-#define PRU_LINK_INT_NUM      26
-#define TIEIP_MDIO_CLKDIV   79 //For 2.5MHz MDIO clock: 200/(TIESC_MDIO_CLKDIV+1)
-#define PRU_PN_PTCP_TASK_PRIO                       11
-#define PRU_PN_PTCP_SYNC_MONITOR_TASK_PRIO          11
-#define PRU_PN_LINK_TASK_PRIO                       12
-#define PRU_PN_RX_TASK_PRIO                         12
-
-#define PN_PTCP_TIMERID         0 // TimerP_ANY
-#define PN_PTCP_TIMER_FREQ      25000000
-
-/* EEPROM data offset in I2C EEPROM Flash */
-#define I2C_EEPROM_DATA_OFFSET          (0x8000)
-#define I2C_EEPROM_MAC_DATA_OFFSET      (0x42)
 
 /* ========================================================================== */
 /*                            Global Variables                                */
@@ -230,77 +238,44 @@ static void App_printCpuLoad();
 
 void PN_socinitIRTHandle (PN_Handle appPnHandle);
 
+void PN_initDefaultValues(PN_Handle appPnHandle, ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle);
+
+void PN_socgetMACAddress(uint8_t *lclMac);
+
 /* ========================================================================== */
 /*                          Function Definitions                              */
 /* ========================================================================== */
-// NEW - PRU_PN_socgetMACAddress
-void PRU_PN_socgetMACAddress (
-    uint8_t index,
-    uint8_t *lclMac)
+// REMOVED to use standalone example functions
 
-{
-    uint32_t  tmp;
+// void PRU_PN_socgetMACAddress (
+//     uint8_t index,
+//     uint8_t *lclMac)
 
-    tmp = (ai8uIntfMacAddress_s[3] << 16) | (ai8uIntfMacAddress_s[4] << 8) |  (ai8uIntfMacAddress_s[5] << 0);
+// {
+//     uint32_t  tmp;
 
-    switch(index)
-    {
-        case INTERFACE_MAC_TEMP:
-            break;
-        case PORT1_MAC_TEMP:
-            tmp += 1;
-            break;
-        case PORT2_MAC_TEMP:
-            tmp += 2;
-            break;
-        default:
-            break;
-    }
+//     tmp = (ai8uIntfMacAddress_s[3] << 16) | (ai8uIntfMacAddress_s[4] << 8) |  (ai8uIntfMacAddress_s[5] << 0);
 
-    memcpy (lclMac, ai8uIntfMacAddress_s, 3);
-    lclMac[3] = tmp >> 16;
-    lclMac[4] = tmp >> 8;
-    lclMac[5] = tmp >> 0;
+//     switch(index)
+//     {
+//         case INTERFACE_MAC_TEMP:
+//             break;
+//         case PORT1_MAC_TEMP:
+//             tmp += 1;
+//             break;
+//         case PORT2_MAC_TEMP:
+//             tmp += 2;
+//             break;
+//         default:
+//             break;
+//     }
 
-}
+//     memcpy (lclMac, ai8uIntfMacAddress_s, 3);
+//     lclMac[3] = tmp >> 16;
+//     lclMac[4] = tmp >> 8;
+//     lclMac[5] = tmp >> 0;
 
-void PN_getMACAddr(uint8_t index, uint8_t *lclMac)
-{
-    uint32_t *MAC_0_3 = NULL;
-    uint16_t *MAC_4_5 = NULL;
-    uint8_t i;
-   
-    /* Below code shall never be in production environment - to handle boards with uninitialized EEPROM MAC ID */
-    MAC_0_3 = (uint32_t *)(IntfMacAddress_s);
-    MAC_4_5 = (uint16_t *)(&IntfMacAddress_s[4]);
-
-    if((*MAC_0_3 == 0xFFFFFFFFU) && (*MAC_4_5 == 0xFFFFU))
-    {
-        DebugP_log("\r\n Warning : Board EEPROM is not initialized correctly with MAC address - please fix this ");
-        DebugP_log("\r\n Generating random MAC address for now \n");
-        *MAC_0_3 = rand();
-        *MAC_4_5 = rand() & 0xFFFF;
-        IntfMacAddress_s[0] &= 0xFE; /* Force unicast MAC address */
-    }
-    switch(index)
-    {
-        case INTERFACE_MAC:
-            break;
-        case PORT1_MAC:
-            IntfMacAddress_s[5] += 1;
-            break;
-        case PORT2_MAC:
-            IntfMacAddress_s[5] += 2;
-            break;
-        default:
-            break;
-    }
-
-    for(i=0;i<6;i++)
-    {
-        lclMac[i]=IntfMacAddress_s[i];
-    }
-}
+// }
 
 // void PN_initDefaultValues(PN_Handle appPnHandle,ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle)
 // {
@@ -321,55 +296,10 @@ void PN_getMACAddr(uint8_t index, uint8_t *lclMac)
 //     appPnHandle->getMACAddress = &PRU_PN_socgetMACAddress;
 // }
 
-void PN_initDefaultValues(PN_Handle appPnHandle,ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle)
-{
-    /* Assign EMAC and PRU handles */
-    appPnHandle->emacHandle = emachandle;
-    appPnHandle->pruicssHandle  = prusshandle;
-
-    appPnHandle->pLegPkt = NULL;
-
-    /*configure the pulse width for sync0: 5000+1 cycles i.e. 25us*/
-    appPnHandle->pnPtcpConfig.ptcpSync0PinPulseWidth = 5000;
-    /*program cmp1 reg with period, used for sync0 signal generation: 10 us*/
-    appPnHandle->pnPtcpConfig.ptcpSync0PinStart = 10000;
-    appPnHandle->pnPtcpConfig.ptcpSyncFilterfactor = 8;
-
-    appPnHandle->pnIsoMConfig.isoMIntCreateFlag = 0;
-    appPnHandle->pnIsoMConfig.isoMNumEvents = 0;
-    appPnHandle->pnIsoMConfig.isoMIntConfig.isrFnPtr = NULL;
-    appPnHandle->pnIsoMConfig.isoMIntConfig.args = NULL;
-
-
-    appPnHandle->initRtcDrvFlag = TRUE;
-    appPnHandle->initRtcMemFlag = 0;
-    appPnHandle->mrpState = MRPREADY;
-    appPnHandle->legState = NOINIT;
-    appPnHandle->pnPtcpConfig.cycleCtrInitPending = 0;
-    appPnHandle->pnPtcpConfig.calculatedCycleCtr = 0;
-    appPnHandle->pnPtcpConfig.masterChange = 0;
-    appPnHandle->pnPtcpConfig.phaseCtrChange = 0;
-    appPnHandle->pnPtcpConfig.maxSeqId = 0;
-    appPnHandle->pnPtcpConfig.minSeqId = 0;
-
-    appPnHandle->pnIntConfig.ppmIntConfig.isrFnPtr = &PN_ppmIsrHandler;
-    appPnHandle->pnIntConfig.ppmIntConfig.args = appPnHandle;
-    appPnHandle->pnIntConfig.cpmIntConfig.isrFnPtr = &PN_cpmIsrHandler;
-    appPnHandle->pnIntConfig.cpmIntConfig.args = appPnHandle;
-    appPnHandle->pnIntConfig.dhtIntConfig.isrFnPtr = &PN_dhtIsrHandler;
-    appPnHandle->pnIntConfig.dhtIntConfig.args = appPnHandle;
-#ifdef PTCP_SUPPORT
-    appPnHandle->pnIntConfig.ptcpIntConfig.isrFnPtr = &PN_PTCP_isrHandler;
-    appPnHandle->pnIntConfig.ptcpIntConfig.args = appPnHandle;
-#endif
-    appPnHandle->getMACAddress = &PN_getMACAddr;
-    PN_socinitIRTHandle(appPnHandle);
-}
-
 void appMain(void *args)
 {
-    uint32_t instId;
-    uint32_t                status = SystemP_FAILURE;
+//    uint32_t instId;
+//    uint32_t                status = SystemP_FAILURE;
     PRUICSS_IntcInitData    pruss_intc_initdata = PRUSS_INTC_INITDATA;
     ICSS_EMAC_Params        icssEmacParams;
 
@@ -409,45 +339,18 @@ void appMain(void *args)
     icssEmacParams.callBackObject.customRxCallBack.userArg = NULL;
 
     /*! Fetch the SoC provided MAC address and hand it to EMAC driver to allow this traffic to reach host */
-    hsrprp_socgetMACAddress(lclMac);
-    lclMac[0] = 0xF4;
-    lclMac[1] = 0x84;
-    lclMac[2] = 0x4C;
-    lclMac[3] = 0xF9;
-    lclMac[4] = 0x4D;
-    lclMac[5] = 0x29;
+    // hsrprp_socgetMACAddress(lclMac); //standalone example debug
+    PN_socgetMACAddress(lclMac);
     memcpy(&(icssEmacParams.macId[0]), &(lclMac[0]), 6);
-    memmove(icssEmacParams.macId, ai8uIntfMacAddress_s, PRU_PN_MAC_ADDR_LEN);
-
+    memmove (IntfMacAddress_s, icssEmacParams.macId, PRU_PN_MAC_ADDR_LEN);
     emachandle = ICSS_EMAC_open(CONFIG_ICSS_EMAC0, &icssEmacParams);
     DebugP_assert(emachandle != NULL);
 
     DebugP_log("Main Core init\r\n");
-   ipc_rpmsg_echo_main(NULL);
+    ipc_rpmsg_echo_main(NULL);
 
     /* Enable Promiscuous mode */
     //EnetMp_togglePromisc(gEnetAppParams[0].enetType, gEnetAppParams[0].instId);
-
-    // Icssg_MacAddr mac; //0xF4, 0x84, 0x4C, 0xF9, 0x4D, 0x29
-    // mac.macAddr[0] = 0xF4;
-    // mac.macAddr[1] = 0x84;
-    // mac.macAddr[2] = 0x4C;
-    // mac.macAddr[3] = 0xF9;
-    // mac.macAddr[4] = 0x4D;
-    // mac.macAddr[5] = 0x29;
-    // status = App_addMacFdbEntry(gEnetAppParams[0].enetType, gEnetAppParams[0].instId, mac);
-    // DebugP_assert(status == ENET_SOK);
-    // EnetAppUtils_print("Bridge mac added to FDB \r\n");
-
-    // mac.macAddr[0] = 00;
-    // mac.macAddr[1] = 01;
-    // mac.macAddr[2] = 02;
-    // mac.macAddr[3] = 04;
-    // mac.macAddr[4] = 05;
-    // mac.macAddr[5] = 06;
-    // status = App_addMacFdbEntry(gEnetAppParams[0].enetType, gEnetAppParams[0].instId, mac);
-    // DebugP_assert(status == ENET_SOK);
-    // EnetAppUtils_print("Remote mac added to FDB \r\n");
 
     EthApp_lwipMain(NULL, NULL); // - App_setupNetworkStack(): balluff
 
@@ -469,8 +372,6 @@ void appMain(void *args)
     {
         DebugP_log("\r\nProfinet Driver initialization unsuccessful!!\r\n");
     }
-    //E0-73-E7-C3-81-B9 - ICSS
-    //1C-64-B4-51-C7-58 - CPSW (Remote core)
 
     uint8_t specialMac [6] = {0x00, 0x01, 0x02, 0x04, 0x05, 0x06};
     ICSS_EMAC_IoctlCmd ioctlParamsPNTest;
@@ -497,8 +398,9 @@ void appMain(void *args)
 
     sys_lock_tcpip_core();
     lwiperf_example_init();
-    sys_thread_new("UDP Iperf", start_application, NULL, DEFAULT_THREAD_STACKSIZE,
-                               UDP_IPERF_THREAD_PRIO);
+    // UDP not supported, same as Balluff
+    // sys_thread_new("UDP Iperf", start_application, NULL, DEFAULT_THREAD_STACKSIZE,
+    //                            UDP_IPERF_THREAD_PRIO);
     sys_unlock_tcpip_core();
 
     while (1)
@@ -544,7 +446,45 @@ static void App_printCpuLoad()
     return;
 }
 
-// FIX ME - Check if dead code
+// FIX ME - Added from PN standalone example
+
+void PN_getMACAddr(uint8_t index, uint8_t *lclMac)
+{
+    uint32_t *MAC_0_3 = NULL;
+    uint16_t *MAC_4_5 = NULL;
+    uint8_t i;
+   
+    /* Below code shall never be in production environment - to handle boards with uninitialized EEPROM MAC ID */
+    MAC_0_3 = (uint32_t *)(IntfMacAddress_s);
+    MAC_4_5 = (uint16_t *)(&IntfMacAddress_s[4]);
+
+    if((*MAC_0_3 == 0xFFFFFFFFU) && (*MAC_4_5 == 0xFFFFU))
+    {
+        DebugP_log("\r\n Warning : Board EEPROM is not initialized correctly with MAC address - please fix this ");
+        DebugP_log("\r\n Generating random MAC address for now \n");
+        *MAC_0_3 = rand();
+        *MAC_4_5 = rand() & 0xFFFF;
+        IntfMacAddress_s[0] &= 0xFE; /* Force unicast MAC address */
+    }
+    switch(index)
+    {
+        case INTERFACE_MAC:
+            break;
+        case PORT1_MAC:
+            IntfMacAddress_s[5] += 1;
+            break;
+        case PORT2_MAC:
+            IntfMacAddress_s[5] += 2;
+            break;
+        default:
+            break;
+    }
+
+    for(i=0;i<6;i++)
+    {
+        lclMac[i]=IntfMacAddress_s[i];
+    }
+}
 
 void PN_socinitIRTHandle (PN_Handle appPnHandle)
 {
@@ -594,7 +534,58 @@ void PN_socinitIRTHandle (PN_Handle appPnHandle)
     }
 }
 
+void PN_initDefaultValues(PN_Handle appPnHandle,ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle)
+{
+    /* Assign EMAC and PRU handles */
+    appPnHandle->emacHandle = emachandle;
+    appPnHandle->pruicssHandle  = prusshandle;
+
+    appPnHandle->pLegPkt = NULL;
+
+    /*configure the pulse width for sync0: 5000+1 cycles i.e. 25us*/
+    appPnHandle->pnPtcpConfig.ptcpSync0PinPulseWidth = 5000;
+    /*program cmp1 reg with period, used for sync0 signal generation: 10 us*/
+    appPnHandle->pnPtcpConfig.ptcpSync0PinStart = 10000;
+    appPnHandle->pnPtcpConfig.ptcpSyncFilterfactor = 8;
+
+    appPnHandle->pnIsoMConfig.isoMIntCreateFlag = 0;
+    appPnHandle->pnIsoMConfig.isoMNumEvents = 0;
+    appPnHandle->pnIsoMConfig.isoMIntConfig.isrFnPtr = NULL;
+    appPnHandle->pnIsoMConfig.isoMIntConfig.args = NULL;
+
+
+    appPnHandle->initRtcDrvFlag = TRUE;
+    appPnHandle->initRtcMemFlag = 0;
+    appPnHandle->mrpState = MRPREADY;
+    appPnHandle->legState = NOINIT;
+    appPnHandle->pnPtcpConfig.cycleCtrInitPending = 0;
+    appPnHandle->pnPtcpConfig.calculatedCycleCtr = 0;
+    appPnHandle->pnPtcpConfig.masterChange = 0;
+    appPnHandle->pnPtcpConfig.phaseCtrChange = 0;
+    appPnHandle->pnPtcpConfig.maxSeqId = 0;
+    appPnHandle->pnPtcpConfig.minSeqId = 0;
+
+    appPnHandle->pnIntConfig.ppmIntConfig.isrFnPtr = &PN_ppmIsrHandler;
+    appPnHandle->pnIntConfig.ppmIntConfig.args = appPnHandle;
+    appPnHandle->pnIntConfig.cpmIntConfig.isrFnPtr = &PN_cpmIsrHandler;
+    appPnHandle->pnIntConfig.cpmIntConfig.args = appPnHandle;
+    appPnHandle->pnIntConfig.dhtIntConfig.isrFnPtr = &PN_dhtIsrHandler;
+    appPnHandle->pnIntConfig.dhtIntConfig.args = appPnHandle;
+#ifdef PTCP_SUPPORT
+    appPnHandle->pnIntConfig.ptcpIntConfig.isrFnPtr = &PN_PTCP_isrHandler;
+    appPnHandle->pnIntConfig.ptcpIntConfig.args = appPnHandle;
+#endif
+    appPnHandle->getMACAddress = &PN_getMACAddr;
+    PN_socinitIRTHandle(appPnHandle);
+}
+
 void PN_socgetMACAddress(uint8_t *lclMac)
 {
-    EEPROM_read(gEepromHandle[CONFIG_EEPROM0],  I2C_EEPROM_MAC_DATA_OFFSET, lclMac, 6U);
+    lclMac[0] = 0xF4;
+    lclMac[1] = 0x84;
+    lclMac[2] = 0x4C;
+    lclMac[3] = 0xF9;
+    lclMac[4] = 0x4D;
+    lclMac[5] = 0x29;
+    // EEPROM_read(gEepromHandle[CONFIG_EEPROM0],  I2C_EEPROM_MAC_DATA_OFFSET, lclMac, 6U);
 }
