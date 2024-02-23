@@ -2433,6 +2433,10 @@ void EIP_DLR_periodicProcessing(ClockP_Object *obj, void *userArg)
                            DLR_ACTIVE_SUP_MAC_0123);
     EIP_DLR_getMACId((uint8_t *)wordPtr, currSupMACAddress);
 
+    /* Clear the ISR count for beaconTimeoutISRs on both the Ports */
+    dlrHandle->ISRcountPort[ICSS_EMAC_PORT_1 - 1] = 0;
+    dlrHandle->ISRcountPort[ICSS_EMAC_PORT_2 - 1] = 0;
+    
     if(0 != memcmp(currSupMACAddress, actSupAddrPtr->supMACAddress, 6))
     {
         /* Workaround for the case where the SUP mac is not updated*/
