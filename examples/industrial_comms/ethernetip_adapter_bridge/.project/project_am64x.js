@@ -6,6 +6,7 @@ const server_files = {
     common: [
             "udp_iperf.c",
             "app_announce.c",
+            "ti_ic_open_close.c",
             "enet_netific.c",
             "app_netif.c",
             "emac_lwipif.c",
@@ -23,6 +24,7 @@ const client_files = {
             "udp_iperf.c",
             "app_netif.c",
             "app_announce.c",
+            "ti_ic_open_close.c",
             "app_main.c",
             "main.c",
             "enet_custom_board_config.c",
@@ -63,6 +65,7 @@ const libdirs_freertos = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal/lib",        
+        // "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib",    //EIP change 
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib",
 
     ],
@@ -78,6 +81,7 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/contrib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am64x",
+        // "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc",        
@@ -105,6 +109,7 @@ const libs_freertos_r5f = {
         "prp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "profinet_device_rt_mrp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "profinet_device_irt_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib"
+        // "ethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib"
     ],
 };
 
@@ -143,7 +148,7 @@ const loptflags_r5f = {
 
 const lnkfiles = {
     common: [
-        "../linker.cmd",
+        "linker.cmd",
     ]
 };
 

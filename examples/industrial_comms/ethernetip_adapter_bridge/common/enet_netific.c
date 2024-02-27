@@ -56,13 +56,10 @@
 // #include <networking/enet/core/lwipif/inc/pbufQ.h>
 // #include <networking/enet/core/include/per/icssg.h>
 
-#include <lwipific/inc/lwip_ic.h>
-#include <lwipific/inc/lwip2lwipif_ic.h>
+#include <lwip_ic.h>
+#include <lwip2lwipif_ic.h>
 
 #include <lwip2lwipif.h>
-// #include <custom_pbuf.h>
-// #include "ti_enet_config.h"
-// #include "ti_enet_lwipif.h"
 #include "enet_netific.h"
 
 /* ========================================================================== */

@@ -73,9 +73,10 @@ void appMain(void *args)
     DebugP_log("=================================\r\n");
 
     DebugP_log("Remote Core init\r\n");
-   ipc_rpmsg_echo_main(NULL);
+    ipc_rpmsg_echo_main(NULL);
 
     EthApp_lwipMain(NULL, NULL);
+//  ipc_sendTestPkts();
     EthApp_waitForNetifUp();
 
     EthApp_startNetifTask();
@@ -88,7 +89,7 @@ void appMain(void *args)
 
 }
 
-uint32_t EnetSoc_getCoreIdOld(void) // FIX ME
+uint32_t EnetSoc_getCoreId(void)
 {
     uint32_t coreId = CSL_CORE_ID_R5FSS0_1;
 

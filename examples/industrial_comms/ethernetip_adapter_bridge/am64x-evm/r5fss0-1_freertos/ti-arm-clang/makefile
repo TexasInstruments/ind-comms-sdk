@@ -42,6 +42,7 @@ FILES_common := \
 	udp_iperf.c \
 	app_netif.c \
 	app_announce.c \
+	ti_ic_open_close.c \
 	app_main.c \
 	main.c \
 	enet_custom_board_config.c \
@@ -117,7 +118,7 @@ CFLAGS_debug := \
 	-D_DEBUG_=1 \
 
 LNK_FILES_common = \
-	generated/../linker.cmd \
+	generated/linker.cmd \
 
 LIBS_PATH_common = \
 	-Wl,-igenerated \

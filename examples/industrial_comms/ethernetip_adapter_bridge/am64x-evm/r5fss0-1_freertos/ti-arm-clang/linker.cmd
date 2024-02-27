@@ -48,7 +48,7 @@ SECTIONS
         .text.mpu: palign(8)
         .text.boot: palign(8)
         .text:abort: palign(8) /* this helps in loading symbols when using XIP mode */
-    } > MSRAM
+    } > R5F_TCMA
 
     /* This is rest of code. This can be placed in DDR if DDR is available and needed */
     GROUP {
@@ -107,9 +107,9 @@ SECTIONS
     intercore_eth_desc_mem (NOLOAD) : {} palign(128) > ETHFW_SHR_MEM
     intercore_eth_data_mem (NOLOAD) : {} palign(128) > ETHFW_SHR_MEM
 
-    .bss:ENET_DMA_OBJ_MEM (NOLOAD) {} ALIGN (128) > MSRAM
-    .bss:ENET_DMA_PKT_INFO_MEMPOOL (NOLOAD) {} ALIGN (128) > MSRAM
-    .bss:ENET_ICSSG_OCMC_MEM (NOLOAD) {} ALIGN (128) > MSRAM
+    .bss:ENET_DMA_OBJ_MEM (NOLOAD) {} ALIGN (128) > DDR
+    .bss:ENET_DMA_PKT_INFO_MEMPOOL (NOLOAD) {} ALIGN (128) > DDR
+    .bss:ENET_ICSSG_OCMC_MEM (NOLOAD) {} ALIGN (128) > DDR
 }
 
 /*
@@ -149,16 +149,17 @@ MEMORY
     /* when using multi-core application's i.e more than one R5F/M4F active, make sure
      * this memory does not overlap with other R5F's
      */
-    DDR       : ORIGIN = 0x80000000 , LENGTH = 0xF0000
+    DDR       : ORIGIN = 0xA1101000 , LENGTH = 0x2FF000 
 
     /* shared memory segments */
     /* On R5F,
      * - make sure there is a MPU entry which maps below regions as non-cache
      */
 
-    USER_SHM_MEM            : ORIGIN = 0x701D0000, LENGTH = 0x80
-    LOG_SHM_MEM             : ORIGIN = 0x701D0000 + 0x80, LENGTH = 0x00004000 - 0x80
-    RTOS_NORTOS_IPC_SHM_MEM : ORIGIN = 0x701F0000 , LENGTH = 0x8000 
-    ETHFW_SHR_MEM           : ORIGIN = 0x82000000 , LENGTH = 0x1000000 
-
+    USER_SHM_MEM            : ORIGIN = 0xA5000000 , LENGTH = 0x80 
+    LOG_SHM_MEM             : ORIGIN = 0xA5000080 , LENGTH = 0x3F80 
+    RTOS_NORTOS_IPC_SHM_MEM : ORIGIN = 0xA5004000 , LENGTH = 0xC000 
+    ETHFW_SHR_MEM           : ORIGIN = 0xA6000000 , LENGTH = 0x1000000 
+    DDR_0                   : ORIGIN = 0xA1100000 , LENGTH = 0x1000 
+    LINUX_IPC_SHM_MEM       : ORIGIN = 0xA0000000 , LENGTH = 0x100000 
 }

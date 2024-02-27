@@ -40,6 +40,7 @@ TARGETS := $(BOOTIMAGE_NAME)
 FILES_common := \
 	udp_iperf.c \
 	app_announce.c \
+	ti_ic_open_close.c \
 	enet_netific.c \
 	app_netif.c \
 	emac_lwipif.c \
@@ -119,7 +120,7 @@ CFLAGS_debug := \
 	-D_DEBUG_=1 \
 
 LNK_FILES_common = \
-	generated/../linker.cmd \
+	generated/linker.cmd \
 
 LIBS_PATH_common = \
 	-Wl,-igenerated \

@@ -42,5 +42,4 @@ void hsrprp_LwipStatus_callback(struct netif *state_netif);
 void hsrprp_LwipLink_callback(struct netif *state_netif);
 
 void hsrprp_LwipTest_netif_init(void);
-void hsrprp_LwipTest_netif_addCb();//const ip4_addr_t *ipaddr, const ip4_addr_t *netmask, const ip4_addr_t *gw);
 struct netif* hsrprp_pass_netif();

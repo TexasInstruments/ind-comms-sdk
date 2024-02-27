@@ -142,13 +142,13 @@
         </file>
         <file path="../../../common/app_announce.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
+        <file path="../../../common/ti_ic_open_close.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
         <file path="../../../core_remote/app_main.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../enet_custom_board_config.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="linker.cmd" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

@@ -67,45 +67,6 @@ struct netif* hsrprp_pass_netif(void)
 //    sys_sem_free(&pInitSem);
 //}
 
-void hsrprp_LwipTest_netif_addCb(/*const ip4_addr_t *ipaddr, const ip4_addr_t *netmask, const ip4_addr_t *gw*/)
-{
-
-    // sys_lock_tcpip_core();
-//    /*Variables to store ipAddress, Netmask & Gateway*/
-//    ip4_addr_t ipaddr, netmask, gw;
-//    /*Initialise network parameters to zero*/
-//    ip4_addr_set_zero(&gw);
-//    ip4_addr_set_zero(&ipaddr);
-//    ip4_addr_set_zero(&netmask);
-
-//    DebugP_log("Starting lwIP, local interface IP is %s\r\n", ip4addr_ntoa(&ipaddr));
-
-//    netif_add(&gEmacNetif, &ipaddr, &netmask, &gw, NULL, LWIPIF_LWIP_init, tcpip_input);
-    //  netif_add(&gEmacNetif, ipaddr, netmask, gw, NULL, LWIPIF_LWIP_init, tcpip_input);
-      netif_add(&gEmacNetif, NULL, NULL, NULL, NULL, LWIPIF_LWIP_init, tcpip_input);
-
-     /*Inform application about netif status*/
-     netif_set_status_callback(&gEmacNetif, hsrprp_LwipStatus_callback);
-     /*Inform application about link status*/
-     netif_set_link_callback(&gEmacNetif, hsrprp_LwipLink_callback);
-     gEmacNetif.flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
-// #if USE_DHCP
-//     err_t err;
-//     autoip_set_struct(&gEmacNetif, &netif_autoip);
-//     dhcp_set_struct(&gEmacNetif, &netif_dhcp);
-// #endif
-// //     netif_set_up(&gEmacNetif);
-// #if USE_DHCP
-//     err = dhcp_start(&gEmacNetif);
-//     LWIP_ASSERT("dhcp_start failed", err == ERR_OK);
-// #elif USE_AUTOIP
-//     err = autoip_start(&gEmacNetif);
-//     LWIP_ASSERT("autoip_start failed", err == ERR_OK);
-// #endif
-
-    // sys_unlock_tcpip_core();
-}
-
 void hsrprp_LwipStatus_callback(struct netif *state_netif) // FIX ME - make static later
 {
     if (netif_is_up(state_netif))

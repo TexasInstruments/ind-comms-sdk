@@ -47,9 +47,8 @@
 #include "netif/bridgeif.h"
 #include <examples/lwiperf/lwiperf_example.h>
 
-#include <lwipific/inc/lwip_ic.h>
-#include <lwipific/inc/lwip2lwipif_ic.h>
-
+#include <lwip_ic.h>
+#include <lwip2lwipif_ic.h>
 #include <lwip2lwipif.h>
 //#include <custom_pbuf.h>
 #include "ti_enet_config.h"
@@ -57,6 +56,7 @@
 #include "enet_netific.h"
 #include "app_netif.h"
 #include "udp_iperf.h"
+#include "ti_ic_open_close.h"
 
 /* ========================================================================== */
 /*                           Macros & Typedefs                                */
@@ -107,6 +107,7 @@ static uint32_t netif_ic_state[IC_ETH_MAX_VIRTUAL_IF] =
 void EthApp_initNetif(void)
 {
     ip4_addr_t ipaddr, netmask, gw;
+    Ic_Object_Handle hIcObj;
     err_t err;
 
     ip4_addr_set_zero(&gw);
@@ -115,10 +116,16 @@ void EthApp_initNetif(void)
 
     DebugP_log("Starting lwIP, local interface IP is dhcp-enabled \r\n");
 
+    hIcObj = App_doIcOpen(IC_ETH_IF_MCU2_1_MCU2_0);
+    DebugP_assert(hIcObj != NULL);
+
     /* Create inter-core virtual ethernet interface: MCU2_0 <-> MCU2_1 */
     netif_add(&netif_ic[ETHAPP_NETIF_IC_MCU2_1_MCU2_0_IDX], NULL, NULL, NULL,
               (void*)&netif_ic_state[IC_ETH_IF_MCU2_1_MCU2_0],
               LWIPIF_LWIP_IC_init, tcpip_input);
+
+    err = LWIPIF_LWIP_IC_start(&netif_ic[ETHAPP_NETIF_IC_MCU2_1_MCU2_0_IDX], IC_ETH_IF_MCU2_1_MCU2_0, hIcObj);
+    DebugP_assert(err == ERR_OK);
 
     /* Set IC interface as the default */
     netif_set_default(&netif_ic[ETHAPP_NETIF_IC_MCU2_1_MCU2_0_IDX]);

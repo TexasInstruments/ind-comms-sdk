@@ -46,7 +46,7 @@ SECTIONS
         .text.mpu: palign(8)
         .text.boot: palign(8)
         .text:abort: palign(8) /* this helps in loading symbols when using XIP mode */
-    } > MSRAM
+    } > R5F_TCMA
 
     /* This is rest of code. This can be placed in DDR if DDR is available and needed */
     GROUP {
@@ -90,6 +90,11 @@ SECTIONS
         RUN_END(__UNDEFINED_STACK_END)
     } > DDR
 
+    GROUP  :   {
+    .resource_table : {
+    } palign(4096)
+    } > DDR_0  
+
     /* Packet buffer memory used by ICCS */
     .bss.icss_emac_pktbuf_mem (NOLOAD): {} > ICSS_PKT_BUF_MEM
     /* General purpose user shared memory, used in some examples */
@@ -98,8 +103,6 @@ SECTIONS
     .bss.log_shared_mem  (NOLOAD) : {} > LOG_SHM_MEM
     /* this is used only when IPC RPMessage is enabled, else this is not used */
     .bss.ipc_vring_mem   (NOLOAD) : {} > RTOS_NORTOS_IPC_SHM_MEM
-    /* General purpose non cacheable memory, used in some examples */
-    .bss.nocache (NOLOAD) : {} > NON_CACHE_MEM
     
     .bss:ddr_shared_mem     (NOLOAD) : {} > DDR
     
@@ -124,40 +127,19 @@ NOTE: Below memory is reserved for DMSC usage
 
 MEMORY
 {
-    R5F_VECS  : ORIGIN = 0x00000000 , LENGTH = 0x00000040
-    R5F_TCMA  : ORIGIN = 0x00000040 , LENGTH = 0x00007FC0
-    R5F_TCMB0 : ORIGIN = 0x41010000 , LENGTH = 0x00008000
-
     /* shared memories that is used between ICCS and this core. MARK as non-cache or cache+sharable */
     ICSS_PKT_BUF_MEM        : ORIGIN = 0x70000000, LENGTH = 0x00010000
 
-    /* memory segment used to hold CPU specific non-cached data, MAKE to add a MPU entry to mark this as non-cached */
-    NON_CACHE_MEM : ORIGIN = 0x70068000 , LENGTH = 0x8000
-
-    /* when using multi-core application's i.e more than one R5F/M4F active, make sure
-     * this memory does not overlap with other R5F's
-     */
-    MSRAM     : ORIGIN = 0x70080000 , LENGTH = 0x100000
-
-
-    /* This section can be used to put XIP section of the application in flash, make sure this does not overlap with
-     * other CPUs. Also make sure to add a MPU entry for this section and mark it as cached and code executable
-     */
-    FLASH     : ORIGIN = 0x60200000 , LENGTH = 0x100000
-
-    /* when using multi-core application's i.e more than one R5F/M4F active, make sure
-     * this memory does not overlap with other R5F's
-     */
-    DDR       : ORIGIN = 0x81000000 , LENGTH = 0x1F0000
-
-    /* shared memory segments */
-    /* On R5F,
-     * - make sure there is a MPU entry which maps below regions as non-cache
-     */
-
-    USER_SHM_MEM            : ORIGIN = 0x701D0000, LENGTH = 0x80
-    LOG_SHM_MEM             : ORIGIN = 0x701D0000 + 0x80, LENGTH = 0x00004000 - 0x80
-    RTOS_NORTOS_IPC_SHM_MEM : ORIGIN = 0x701F0000 , LENGTH = 0x8000 
-    ETHFW_SHR_MEM           : ORIGIN = 0x82000000 , LENGTH = 0x1000000 
-
+    R5F_VECS                : ORIGIN = 0x00000000 , LENGTH = 0x00000040
+    R5F_TCMA                : ORIGIN = 0x00000040 , LENGTH = 0x00007FC0
+    R5F_TCMB0               : ORIGIN = 0x41010000 , LENGTH = 0x00008000
+    MSRAM                   : ORIGIN = 0x70080000 , LENGTH = 0x00100000
+    FLASH                   : ORIGIN = 0x60200000 , LENGTH = 0x00100000
+    DDR_0                   : ORIGIN = 0xA0100000 , LENGTH = 0x00001000 
+    DDR                     : ORIGIN = 0xA0101000 , LENGTH = 0x002FF000
+    LINUX_IPC_SHM_MEM       : ORIGIN = 0xA0000000 , LENGTH = 0x00100000
+    USER_SHM_MEM            : ORIGIN = 0xA5000000 , LENGTH = 0x80 
+    LOG_SHM_MEM             : ORIGIN = 0xA5000080 , LENGTH = 0x00003F80 
+    RTOS_NORTOS_IPC_SHM_MEM : ORIGIN = 0xA5004000 , LENGTH = 0x0000C000 
+    ETHFW_SHR_MEM           : ORIGIN = 0xA0800000 , LENGTH = 0x00800000
 }

@@ -138,6 +138,8 @@
         </file>
         <file path="../../../common/app_announce.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
+        <file path="../../../common/ti_ic_open_close.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
         <file path="../../../common/enet_netific.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../core_main/app_netif.c" openOnCreation="false" excludeFromBuild="false" action="link">
@@ -153,8 +155,6 @@
         <file path="../enet_custom_board_config.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../common/am64evm/hsr_prp_soc.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="linker.cmd" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

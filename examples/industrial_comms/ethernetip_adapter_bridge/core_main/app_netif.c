@@ -47,15 +47,14 @@
 #include "netif/bridgeif.h"
 
 
-#include <lwipific/inc/lwip_ic.h>
-#include <lwipific/inc/lwip2lwipif_ic.h>
-
+#include <lwip_ic.h>
+#include <lwip2lwipif_ic.h>
 #include <lwip2lwipif.h>
-//#include <custom_pbuf.h>
+
 #include "enet_netific.h"
 #include "app_netif.h"
 #include "emac_lwipif.h"
-
+#include "ti_ic_open_close.h"
 /* ========================================================================== */
 /*                           Macros & Typedefs                                */
 /* ========================================================================== */
@@ -92,11 +91,9 @@
 /*                            Global Variables                                */
 /* ========================================================================== */
 
-
 struct netif netif_bridge;
 
 static struct netif gEmacNetif;
-// static struct netif *g_pNetif[ENET_SYSCFG_NETIF_COUNT];
 
 static struct netif netif_ic[ETHAPP_NETIF_IC_MAX_IDX];
 
@@ -119,12 +116,6 @@ static uint32_t netif_ic_state[IC_ETH_MAX_VIRTUAL_IF] =
 
 static void EthApp_initEmacNetif(const ip4_addr_t *ipaddr, const ip4_addr_t *netmask, const ip4_addr_t *gw);
 
-// static void App_asyncIoctlCb(Enet_Event evt,
-//                             uint32_t evtNum,
-//                             void *evtCbArgs,
-//                             void *arg1,
-//                             void *arg2);
-
 /* ========================================================================== */
 /*                          Function Definitions                              */
 /* ========================================================================== */
@@ -132,6 +123,7 @@ static void EthApp_initEmacNetif(const ip4_addr_t *ipaddr, const ip4_addr_t *net
 void EthApp_initNetif(void)
 {
     ip4_addr_t ipaddr, netmask, gw;
+    Ic_Object_Handle hIcObj;
     err_t err;
 
     ip4_addr_set_zero(&gw);
@@ -140,16 +132,19 @@ void EthApp_initNetif(void)
 
     DebugP_log("\r\nStarting lwIP, local interface IP is dhcp-enabled\n");
 
-    /* Create ICSS EMAC ethernet interface */
-    // EthApp_initEmacNetif(&ipaddr, &netmask, &gw);// - open_icss_netif() //FIX ME = add later
-
     // netif_add(&gEmacNetif, &ipaddr, &netmask, &gw, NULL, LWIPIF_LWIP_init, tcpip_input);
     netif_add(&gEmacNetif, NULL, NULL, NULL, NULL, LWIPIF_LWIP_init, tcpip_input);
+
+    hIcObj = App_doIcOpen(IC_ETH_IF_MCU2_0_MCU2_1);
+    DebugP_assert(hIcObj != NULL);
 
     /* Create inter-core virtual ethernet interface: MCU2_0 <-> MCU2_1 */
     netif_add(&netif_ic[ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX], NULL, NULL, NULL,
               (void*)&netif_ic_state[IC_ETH_IF_MCU2_0_MCU2_1],
               LWIPIF_LWIP_IC_init, tcpip_input);
+
+    err = LWIPIF_LWIP_IC_start(&netif_ic[ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX], IC_ETH_IF_MCU2_0_MCU2_1, hIcObj);
+    DebugP_assert(err == ERR_OK);
 
     gEmacNetif.flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
     netif_ic[ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX].flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
@@ -174,8 +169,6 @@ void EthApp_initNetif(void)
     dhcp_set_struct(&netif_bridge, &g_netifDhcp[0]);
 
     EthApp_setNetifCbs(&gEmacNetif);
-    // netif_set_status_callback(&gEmacNetif, hsrprp_LwipStatus_callback);
-    // netif_set_link_callback(&gEmacNetif, hsrprp_LwipLink_callback);
     EthApp_setNetifCbs(netif_default);
 
     netif_set_up(&gEmacNetif);
@@ -219,84 +212,6 @@ void App_waitForBridgeUp()
 // SICK debug - Check emac netif getting IP address
     // EthApp_waitForNetifUp(&gEmacNetif);
 }
-
-// static void EthApp_initEmacNetif(const ip4_addr_t *ipaddr, const ip4_addr_t *netmask, const ip4_addr_t *gw)
-// {
-//     hsrprp_LwipTest_netif_addCb(/*ipaddr, netmask, gw*/);
-//     gEmacNetif = hsrprp_pass_netif();
-// }
-
-// static void App_asyncIoctlCb(Enet_Event evt,
-//                             uint32_t evtNum,
-//                             void *evtCbArgs,
-//                             void *arg1,
-//                             void *arg2)
-// {
-//     SemaphoreP_Object *pAsyncSem = (SemaphoreP_Object *)evtCbArgs;
-//     SemaphoreP_post(pAsyncSem);
-// }
-
-// int32_t App_addMacFdbEntry(Enet_Type enetType, uint32_t instId, Icssg_MacAddr mac)
-// {
-//     Icssg_FdbEntry fdbEntry;
-//     Enet_IoctlPrms prms;
-//     int32_t status = ENET_SOK;
-//     SemaphoreP_Object asyncIoctlSemObj;
-//     EnetApp_HandleInfo handleInfo;
-
-//     EnetApp_acquireHandleInfo(enetType, instId, &handleInfo);
-
-//     EnetAppUtils_assert(handleInfo.hEnet->enetPer->enetType == ENET_ICSSG_SWITCH);
-//     EnetAppUtils_print("For ICSSG, EthType and VlanId are not used to match the packet only dest addr is used \r\n");
-
-//     status = SemaphoreP_constructBinary(&asyncIoctlSemObj, 0);
-//     DebugP_assert(SystemP_SUCCESS == status);
-
-//     Enet_registerEventCb(handleInfo.hEnet,
-//                         ENET_EVT_ASYNC_CMD_RESP,
-//                         0U,
-//                         App_asyncIoctlCb,
-//                         (void *)&asyncIoctlSemObj);
-
-//     memset(&fdbEntry, 0, sizeof(fdbEntry));
-//     fdbEntry.vlanId = ((int16_t)-1);
-//     memcpy(&fdbEntry.macAddr, mac.macAddr, 6U);
-
-//     fdbEntry.fdbEntry[0] = (uint8_t)((ICSSG_FDB_ENTRY_P0_MEMBERSHIP |
-//                                      ICSSG_FDB_ENTRY_VALID) & 0xFF);
-//     fdbEntry.fdbEntry[1] = (uint8_t)((ICSSG_FDB_ENTRY_P0_MEMBERSHIP |
-//                                      ICSSG_FDB_ENTRY_VALID) & 0xFF);
-//     ENET_IOCTL_SET_IN_ARGS(&prms, &fdbEntry);
-//     ENET_IOCTL(handleInfo.hEnet, CSL_CORE_ID_R5FSS0_0, ICSSG_FDB_IOCTL_ADD_ENTRY, &prms, status);
-//     if (status == ENET_SINPROGRESS)
-//     {
-//         /* Wait for asyc ioctl to complete */
-//         do
-//         {
-//             Enet_poll(handleInfo.hEnet, ENET_EVT_ASYNC_CMD_RESP, NULL, 0U);
-//             status = SemaphoreP_pend(&asyncIoctlSemObj, SystemP_WAIT_FOREVER);
-//             if (SystemP_SUCCESS == status)
-//             {
-//                 break;
-//             }
-//         } while (1);
-
-//         status = ENET_SOK;
-//     }
-//     else
-//     {
-//         EnetAppUtils_print("Failed to set the SPL mac entry: %d\n", status);
-//     }
-
-//     return status;
-// }
-
-// static void EthApp_initEnetNetif(LwipifEnetApp_Handle handle, uint32_t netifIdx, const ip4_addr_t *ipaddr, const ip4_addr_t *netmask, const ip4_addr_t *gw)
-// {
-//     LWIP_ASSERT("Invalid Netif Index", (netifIdx <= ENET_SYSCFG_NETIF_COUNT));
-//     g_pNetif[netifIdx] = LwipifEnetApp_netifOpen(hlwipIfApp, netifIdx, ipaddr, netmask, gw);
-//     LwipifEnetApp_startSchedule(hlwipIfApp, g_pNetif[netifIdx]);
-// }
 
 // void App_shutdownNetworkStack()
 // {

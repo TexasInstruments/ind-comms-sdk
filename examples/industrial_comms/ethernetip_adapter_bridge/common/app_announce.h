@@ -4,4 +4,8 @@
 
 void ipc_rpmsg_echo_main(void *args);
 
+void AppCtrl_createSendTask();
+
+void AppCtrl_createRecvTask();
+
 #endif
