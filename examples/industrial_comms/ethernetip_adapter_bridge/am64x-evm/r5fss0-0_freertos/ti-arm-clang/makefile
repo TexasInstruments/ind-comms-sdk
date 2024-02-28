@@ -76,7 +76,7 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/contrib \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am64x \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/hsr_prp_demo \
@@ -132,7 +132,7 @@ LIBS_PATH_common = \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib \
-	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib \
 	-Wl,-i${CG_TOOL_ROOT}/lib \
 
@@ -147,8 +147,7 @@ LIBS_common = \
 	-licss_emac_lwip_if.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-licss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lprp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lprofinet_device_rt_mrp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lprofinet_device_irt_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -179,8 +178,7 @@ LIBS_NAME = \
 	icss_emac_lwip_if.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	icss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	prp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	profinet_device_rt_mrp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	profinet_device_irt_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	ethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib \
 	libc.a \
 	libsysbm.a \
 
@@ -194,7 +192,7 @@ LIBS_PATH_NAME = \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib \
-	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib \
 	${CG_TOOL_ROOT}/lib \
 

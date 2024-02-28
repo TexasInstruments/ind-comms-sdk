@@ -65,7 +65,7 @@
 #include "hsr_prp_prvmib.h"
 #include "hsr_prp_lwipcfg.h"
 #include <networking/icss_emac/icss_emac.h>
-// #include <networking/icss_emac/source/icss_emac_local.h> //EIP chnage
+#include <networking/icss_emac/source/icss_emac_local.h> //EIP change
 #include <networking/icss_emac/lwipif/inc/lwip2icss_emac.h>
 #include <industrial_comms/hsr_prp/icss_fwhal/hsrPrp_firmwareOffsets.h>
 #include <industrial_comms/hsr_prp/icss_fwhal/hsrPrp_red_nodeTable.h>
@@ -89,28 +89,19 @@
 #include "udp_iperf.h"
 #include "app_control.h"
 
-
-// #include <industrial_comms/ethernetip_adapter/icss_fwhal/firmware/icss_emac_mmap.h> //EIP change
-// #include <industrial_comms/ethernetip_adapter/icss_fwhal/tiswitch_pruss_intc_mapping.h>  //EIP change
-// #include <industrial_comms/ethernetip_adapter/icss_fwhal/icss_eip_driver.h>  //EIP change
-
-#include <industrial_comms/profinet_device/icss_fwhal/firmware/icss_emac_mmap.h>
-#include <industrial_comms/profinet_device/icss_fwhal/tiswitch_pruss_intc_mapping.h>
-//PN_SPECIAL_UNICAST_TEST_INCLUDES
-#include <industrial_comms/profinet_device/icss_fwhal/iPNDrv.h>
-#include <industrial_comms/profinet_device/icss_fwhal/PN_HandleDef.h>
-#include <industrial_comms/profinet_device/icss_fwhal/PN_Handle.h>
-#include <industrial_comms/profinet_device/icss_fwhal/iPNLegacy.h>
+#include <industrial_comms/ethernetip_adapter/icss_fwhal/firmware/icss_emac_mmap.h> //EIP change
+#include <industrial_comms/ethernetip_adapter/icss_fwhal/tiswitch_pruss_intc_mapping.h>  //EIP change
+#include <industrial_comms/ethernetip_adapter/icss_fwhal/icss_eip_driver.h>  //EIP change
 
 /* ========================================================================== */
 /*                           Macros & Typedefs                                */
 /* ========================================================================== */
 /* Interrupt related defines EthernetIP */
-// #define EIP_PTP_INT_NUM                     (3)
-// #define EIP_DLR_P0_INT_OFFSET               (1)
-// #define EIP_DLR_P1_INT_OFFSET               (2)
-// #define EIP_BEACON_TIMEOUT_INT_OFFSET_P0    (4)
-// #define EIP_BEACON_TIMEOUT_INT_OFFSET_P1    (7)
+#define EIP_PTP_INT_NUM                     (3)
+#define EIP_DLR_P0_INT_OFFSET               (1)
+#define EIP_DLR_P1_INT_OFFSET               (2)
+#define EIP_BEACON_TIMEOUT_INT_OFFSET_P0    (4)
+#define EIP_BEACON_TIMEOUT_INT_OFFSET_P1    (7)
 
 #define PRU_PN_MAC_ADDR_LEN             6
 static uint8_t IntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
@@ -182,12 +173,9 @@ static uint8_t IntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
 /*                            Global Variables                                */
 /* ========================================================================== */
 
-//PROFINET_UNICAST_TEST PN_Handle
-PN_Handle appPnHandle;
-
-// EIP_Handle icssEipHandle; //EIP change
-// EIP_DLRHandle dlrHandle;  //EIP change
-// TimeSync_ParamsHandle_t timeSyncHandle;  //EIP change
+EIP_Handle icssEipHandle; //EIP change
+EIP_DLRHandle dlrHandle;  //EIP change
+TimeSync_ParamsHandle_t timeSyncHandle;  //EIP change
 
 /** \brief PRU-ICSS LLD handle */
 PRUICSS_Handle prusshandle;
@@ -205,12 +193,12 @@ uint8_t lclMac[6];
 /** Temporary placeholder to copy packets */
 uint8_t tempFrame[ICSS_EMAC_MAXMTU] __attribute__((aligned(32)));
 
-// /* EthernetIP related global variables */
-// static uint32_t rx_rt_errors_s  = 0; //EIP change
-// /**PTP MAC ID for comparison*/
-// uint8_t ptpMAC_EIP[6] = {0x1, 0x0, 0x5e, 0x0, 0x1, 0x81}; //EIP change
-// /**DLR MAC ID for comparison*/
-// uint8_t dlrMAC_EIP[6] = {0x1, 0x21, 0x6c, 0x0, 0x0, 0x2}; //EIP change
+/* EthernetIP related global variables */
+static uint32_t rx_rt_errors_s  = 0; //EIP change
+/**PTP MAC ID for comparison*/
+uint8_t ptpMAC_EIP[6] = {0x1, 0x0, 0x5e, 0x0, 0x1, 0x81}; //EIP change
+/**DLR MAC ID for comparison*/
+uint8_t dlrMAC_EIP[6] = {0x1, 0x21, 0x6c, 0x0, 0x0, 0x2}; //EIP change
 
 /**PTP MAC ID for comparison*/
 uint8_t timeSyncMAC[6] = {0x1, 0x1b, 0x19, 0x0, 0x0, 0x0};
@@ -238,9 +226,9 @@ static void EnetMp_remoteCoreTask(void *args);
 
 static void App_printCpuLoad();
 
-void PN_socinitIRTHandle (PN_Handle appPnHandle);
+// void PN_socinitIRTHandle (PN_Handle appPnHandle);
 
-void PN_initDefaultValues(PN_Handle appPnHandle, ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle);
+// void PN_initDefaultValues(PN_Handle appPnHandle, ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle);
 
 void PN_socgetMACAddress(uint8_t *lclMac);
 
@@ -255,281 +243,281 @@ int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr assignMac);
 //    EIP_DLR_addModuleIPAddress(icssEipHandle->dlrHandle, ipAddress);
 //    TimeSync_addIP(icssEipHandle->timeSyncHandle, ipAddress);
 // }
-//
-// /*Registering Port 1 Link break callback */
-// void EIP_DLR_TIMESYNC_port0ProcessLinkBrk(void *icssEmacVoidPtr, uint8_t linkStatus, void *eipHandleVoidPtr) //EIP change
-// {
-//     EIP_Handle eipHandle = (EIP_Handle)eipHandleVoidPtr;
-//     EIP_DLR_port0ProcessLinkBrk(linkStatus, (void *)(eipHandle->dlrHandle));
-//     TimeSync_Port1linkResetCallBack(linkStatus, (void *)(eipHandle->timeSyncHandle));
-// }
-//
-// /*Registering Port 2 Link break callback */
-// void EIP_DLR_TIMESYNC_port1ProcessLinkBrk(void *icssEmacVoidPtr, uint8_t linkStatus, void *eipHandleVoidPtr) //EIP change
-// {
-//     EIP_Handle eipHandle = (EIP_Handle)eipHandleVoidPtr;
-//     EIP_DLR_port1ProcessLinkBrk(linkStatus, (void *)(eipHandle->dlrHandle));
-//     TimeSync_Port2linkResetCallBack(linkStatus, (void *)(eipHandle->timeSyncHandle));
-// }
 
-// void EIP_configureInterrupts(EIP_DLRHandle dlrHandle, TimeSync_ParamsHandle_t timeSyncHandle) //EIP change
-// {
-//     PRUICSS_HwAttrs const *pruicssHwAttrs = PRUICSS_getAttrs(CONFIG_PRU_ICSS1);
-// 
-//     if(pruicssHwAttrs->instance == 0)
-//     {
-//         /*Configure Time Sync interrupts*/
-//         timeSyncHandle->timeSyncConfig.txIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_PTP_INT_NUM;
-// 
-//         /*Configure DLR*/
-//         dlrHandle->dlrObj->port0IntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_DLR_P0_INT_OFFSET;
-//         dlrHandle->dlrObj->port1IntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_DLR_P1_INT_OFFSET;
-//         dlrHandle->dlrObj->beaconTimeoutIntNum_P0 = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_BEACON_TIMEOUT_INT_OFFSET_P0;
-//         dlrHandle->dlrObj->beaconTimeoutIntNum_P1 = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_BEACON_TIMEOUT_INT_OFFSET_P1;
-//     }
-//     else
-//     {
-//         /*Configure Time Sync interrupts*/
-//         timeSyncHandle->timeSyncConfig.txIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_PTP_INT_NUM;
-// 
-//         /*Configure DLR*/
-//         dlrHandle->dlrObj->port0IntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_DLR_P0_INT_OFFSET;
-//         dlrHandle->dlrObj->port1IntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_DLR_P1_INT_OFFSET;
-//         dlrHandle->dlrObj->beaconTimeoutIntNum_P0 = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_BEACON_TIMEOUT_INT_OFFSET_P0;
-//         dlrHandle->dlrObj->beaconTimeoutIntNum_P1 = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_BEACON_TIMEOUT_INT_OFFSET_P1;
-//     }
-// }
+/*Registering Port 1 Link break callback */
+void EIP_DLR_TIMESYNC_port0ProcessLinkBrk(void *icssEmacVoidPtr, uint8_t linkStatus, void *eipHandleVoidPtr) //EIP change
+{
+    EIP_Handle eipHandle = (EIP_Handle)eipHandleVoidPtr;
+    EIP_DLR_port0ProcessLinkBrk(linkStatus, (void *)(eipHandle->dlrHandle));
+    TimeSync_Port1linkResetCallBack(linkStatus, (void *)(eipHandle->timeSyncHandle));
+}
 
-// void EIP_syncLossCallback() //EIP change
-// {
-//     /*This indicates a loss of time sync
-//       Call your function here which handles sync loss*/
-//
-//     return;
-// }
+/*Registering Port 2 Link break callback */
+void EIP_DLR_TIMESYNC_port1ProcessLinkBrk(void *icssEmacVoidPtr, uint8_t linkStatus, void *eipHandleVoidPtr) //EIP change
+{
+    EIP_Handle eipHandle = (EIP_Handle)eipHandleVoidPtr;
+    EIP_DLR_port1ProcessLinkBrk(linkStatus, (void *)(eipHandle->dlrHandle));
+    TimeSync_Port2linkResetCallBack(linkStatus, (void *)(eipHandle->timeSyncHandle));
+}
 
-// int8_t EIP_initICSSPtpHandle(TimeSync_ParamsHandle_t timeSyncHandle, ICSS_EMAC_Handle emachandle) //EIP change
-// {
-//     int8_t returnVal = SystemP_FAILURE;
-//     timeSyncHandle->emacHandle = emachandle;
-//
-//     /*Configure PTP. These variables must be configured before doing anything else*/
-//     timeSyncHandle->timeSyncConfig.config = BOTH;
-//     timeSyncHandle->timeSyncConfig.type = E2E;
-//     timeSyncHandle->timeSyncConfig.protocol = UDP_IPV4;
-//     timeSyncHandle->timeSyncConfig.tickPeriod = 500;
-//     timeSyncHandle->txprotocol = 0;
-//
-//     timeSyncHandle->timeSyncConfig.delayReqSendTaskPriority = 10;
-//     timeSyncHandle->timeSyncConfig.txTsTaskPriority = 10;
-//     timeSyncHandle->timeSyncConfig.nrtTaskPriority = 8;
-//     timeSyncHandle->timeSyncConfig.backgroundTaskPriority = 7;
-//
-//     timeSyncHandle->tsSyntInfo = (timeSync_SyntInfo_t *)malloc(sizeof(
-//                                      timeSync_SyntInfo_t));
-//
-//     if(timeSyncHandle->tsSyntInfo == NULL)
-//     {
-//         DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->tsSyntInfo");
-//     }
-//
-//     timeSyncHandle->tsNrrInfo[0] = (timeSync_NrrInfo_t *)malloc(sizeof(
-//                                        timeSync_NrrInfo_t));
-//
-//     if(timeSyncHandle->tsNrrInfo[0] == NULL)
-//     {
-//         DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->tsNrrInfo[0]");
-//     }
-//
-//     timeSyncHandle->tsNrrInfo[1] = (timeSync_NrrInfo_t *)malloc(sizeof(
-//                                        timeSync_NrrInfo_t));
-//
-//     if(timeSyncHandle->tsNrrInfo[1] == NULL)
-//     {
-//         DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->tsNrrInfo[1]");
-//     }
-//
-//     timeSyncHandle->syncParam[0] = (syncParam_t *)malloc(sizeof(syncParam_t));
-//
-//     if(timeSyncHandle->syncParam[0] == NULL)
-//     {
-//         DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->syncParam[0]");
-//     }
-//
-//     timeSyncHandle->syncParam[1] = (syncParam_t *)malloc(sizeof(syncParam_t));
-//
-//     if(timeSyncHandle->syncParam[1] == NULL)
-//     {
-//         DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->syncParam[1]");
-//     }
-//
-//     timeSyncHandle->tsRunTimeVar = (timeSync_RuntimeVar_t *)malloc(sizeof(
-//                                        timeSync_RuntimeVar_t));
-//
-//     if(timeSyncHandle->tsRunTimeVar == NULL)
-//     {
-//         DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->tsRunTimeVar");
-//     }
-//
-//     timeSyncHandle->delayParams = (delayReqRespParams_t *)malloc(sizeof(
-//                                       delayReqRespParams_t));
-//
-//     if(timeSyncHandle->delayParams == NULL)
-//     {
-//         DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->delayParams");
-//     }
-//
-//     timeSyncHandle->offsetAlgo  = (timeSync_Offset_Stable_Algo_t *)malloc(sizeof(
-//                                       timeSync_Offset_Stable_Algo_t));
-//
-//     if(timeSyncHandle->offsetAlgo == NULL)
-//     {
-//         DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->offsetAlgo");
-//     }
-//
-//     /*Allocate Rx and Tx packet buffers*/
-//     returnVal = TimeSync_alloc_PktBuffer(timeSyncHandle);
-//
-//     /*Set only if a custom Tx LLD API is used*/
-//     timeSyncHandle->timeSyncConfig.custom_tx_api = 0;
-//     /*Set to 1 if Rx timestamps are coming from shared RAM*/
-//     timeSyncHandle->timeSyncConfig.timestamp_from_shared_ram = 1;
-//
-//     /*If there is no forwarding between ports then set this*/
-//     timeSyncHandle->timeSyncConfig.emac_mode = 0;
-//     timeSyncHandle->timeSyncConfig.hsrEnabled = 0;
-//
-//     timeSyncHandle->rxTimestamp_gPTP = (timeStamp *)malloc(sizeof(timeStamp));
-//
-//     timeSyncHandle->timeSyncConfig.domainNumber[0] = 0;
-//
-//     timeSyncHandle->timeSyncConfig.logAnnounceRcptTimeoutInterval = DEFAULT_ANNOUNCE_TIMEOUT_LOG_INTERVAL;
-//     timeSyncHandle->timeSyncConfig.logAnnounceSendInterval = DEFAULT_ANNOUNCE_SEND_LOG_INTERVAL;
-//     timeSyncHandle->timeSyncConfig.logPDelReqPktInterval = DEFAULT_PDELAY_REQ_LOG_INTERVAL;
-//     timeSyncHandle->timeSyncConfig.logSyncInterval = DEFAULT_SYNC_SEND_LOG_INTERVAL;
-//
-//     /*No asymmetry*/
-//     timeSyncHandle->timeSyncConfig.asymmetryCorrection[0] = 0;
-//     timeSyncHandle->timeSyncConfig.asymmetryCorrection[1] = 0;
-//     timeSyncHandle->timeSyncConfig.pdelayBurstNumPkts = 3;      /*3 frames sent in a burst*/
-//     timeSyncHandle->timeSyncConfig.pdelayBurstInterval = 200;   /*gap between each frame is 100ms*/
-//     timeSyncHandle->timeSyncConfig.sync0_interval = 1000000;      /*1 milisec value*/
-//   
-//     /*Register callback*/
-//     timeSyncHandle->timeSyncConfig.timeSyncSyncLossCallBackfn = (TimeSync_SyncLossCallBack_t)EIP_syncLossCallback;
-//
-//     timeSyncHandle->timeSyncConfig.masterParams.priority1 = TIMESYNC_DEFAULT_PRIO_1;
-//     timeSyncHandle->timeSyncConfig.masterParams.priority2 = TIMESYNC_DEFAULT_PRIO_2;
-//     timeSyncHandle->timeSyncConfig.masterParams.clockAccuracy = TIMESYNC_DEFAULT_CLOCK_ACCURACY; /*greater than 10s */
-//     timeSyncHandle->timeSyncConfig.masterParams.clockClass = TIMESYNC_DEFAULT_CLOCK_CLASS;
-//     timeSyncHandle->timeSyncConfig.masterParams.clockVariance = TIMESYNC_DEFAULT_CLOCK_VARIANCE;
-//     timeSyncHandle->timeSyncConfig.masterParams.stepRemoved = TIMESYNC_DEFAULT_STEPS_REMOVED;
-//     timeSyncHandle->timeSyncConfig.masterParams.UTCOffset = TIMESYNC_UTC_OFFSET;
-//     timeSyncHandle->timeSyncConfig.masterParams.timeSource = TIMESYNC_DEFAULT_TIME_SOURCE; /*Internal oscillator*/
-//
-//     timeSyncHandle->timeSyncConfig.masterParams.ptp_flags[TS_PTP_TIMESCALE_INDEX] = 1;
-//     timeSyncHandle->timeSyncConfig.masterParams.ptp_flags[TS_PTP_TWO_STEP_INDEX] = 1;
-//
-//     timeSyncHandle->timeSyncConfig.rxPhyLatency = 220;
-//     timeSyncHandle->timeSyncConfig.txPhyLatency = 64;
-//
-//     returnVal = SystemP_SUCCESS;
-//     return returnVal;
-// }
+void EIP_configureInterrupts(EIP_DLRHandle dlrHandle, TimeSync_ParamsHandle_t timeSyncHandle) //EIP change
+{
+    PRUICSS_HwAttrs const *pruicssHwAttrs = PRUICSS_getAttrs(CONFIG_PRU_ICSS1);
 
-// void EIP_initICSSDlrHandle(EIP_DLRHandle dlrHandle, ICSS_EMAC_Handle emachandle) //EIP change
-// {
-//     dlrHandle->emacHandle = emachandle;
-//     dlrHandle->dlrObj = (dlrStruct *)malloc(sizeof(dlrStruct));
-//     dlrHandle->exclusionList = (exceptionList *)malloc(sizeof(exceptionList));
-// }
+    if(pruicssHwAttrs->instance == 0)
+    {
+        /*Configure Time Sync interrupts*/
+        timeSyncHandle->timeSyncConfig.txIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_PTP_INT_NUM;
 
-// int8_t EIP_initDefaultValues(EIP_Handle icssEipHandle,ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle) //EIP change
-// {
-//     int8_t status = SystemP_SUCCESS;
-//     /* Memory allocations */
-//     memset(icssEipHandle,0,sizeof(struct eip_Config_s));
-//     icssEipHandle->emacHandle = emachandle;
-//     icssEipHandle->pruicssHandle  = prusshandle;
-//     dlrHandle = (EIP_DLRHandle)malloc(sizeof(dlr_Config));
-//     timeSyncHandle = (TimeSync_ParamsHandle_t)malloc(sizeof(TimeSync_ParamsHandle));
-//     EIP_initICSSDlrHandle(dlrHandle, emachandle);
-//     status = EIP_initICSSPtpHandle(timeSyncHandle, emachandle);
-//     return status;
-// }
+        /*Configure DLR*/
+        dlrHandle->dlrObj->port0IntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_DLR_P0_INT_OFFSET;
+        dlrHandle->dlrObj->port1IntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_DLR_P1_INT_OFFSET;
+        dlrHandle->dlrObj->beaconTimeoutIntNum_P0 = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_BEACON_TIMEOUT_INT_OFFSET_P0;
+        dlrHandle->dlrObj->beaconTimeoutIntNum_P1 = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + EIP_BEACON_TIMEOUT_INT_OFFSET_P1;
+    }
+    else
+    {
+        /*Configure Time Sync interrupts*/
+        timeSyncHandle->timeSyncConfig.txIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_PTP_INT_NUM;
 
-// int8_t EIP_RtRxCallback (void *emacHandleVoidPtr, uint8_t portNumber, void * eipHandleVoidPtr) //EIP change
-// {
-//     uint32_t packetLen;
-//     int32_t  port;
-//     uint8_t* pPayload;
-//     int8_t   returnVal = SystemP_SUCCESS;
-//     int32_t  queue;
-//     int32_t  len;
-//     ICSS_EMAC_RxArgument rxArgs;
-//
-//     EIP_Handle            eipHandle = (EIP_Handle)eipHandleVoidPtr;
-//     ICSS_EMAC_Handle      emacHandle = (ICSS_EMAC_Handle)emacHandleVoidPtr;
-//     ICSS_EMAC_PortParams  rxPort   = ((ICSS_EMAC_Object*)(emacHandle->object))->switchPort[0];
-//     uint32_t              rxErrors = rxPort.queue[0].qStat.errCount +
-//                                      rxPort.queue[1].qStat.errCount +
-//                                      rxPort.queue[2].qStat.errCount;
-//     uint8_t               *dstMacId = eipHandle->tempFrame;
-//     packetLen = ICSS_EMAC_rxPktInfo (emacHandle, &port, &queue);
-//
-//     if (packetLen == SystemP_FAILURE)
-//     {
-//         returnVal = SystemP_FAILURE;
-//         return returnVal;
-//     }
-//
-//     if (rxErrors != rx_rt_errors_s)
-//     {
-//         rx_rt_errors_s = rxErrors;
-//
-//         DebugP_log("RX real-time queue errors: %d", rxErrors);
-//     }
-//
-//     switch (queue)
-//     {
-//         case ICSS_EMAC_QUEUE1:
-//         case ICSS_EMAC_QUEUE2:
-//         case ICSS_EMAC_QUEUE3:
-//         case ICSS_EMAC_QUEUE4:
-//         {
-//             rxArgs.icssEmacHandle = emacHandleVoidPtr;
-//             rxArgs.destAddress    = (uint32_t)(icssEipHandle->tempFrame);
-//             rxArgs.queueNumber    = queue;
-//             rxArgs.more           = 0;
-//             rxArgs.port           = 0;
-//
-//             len = ICSS_EMAC_rxPktGet (&rxArgs, NULL);
-//
-//             /*Compare Destination MAC ID and determine if this is a DLR packet*/
-//             if((memcmp((void *)dstMacId, (void *)dlrMAC_EIP, 6U) == 0))
-//             {
-//                 EIP_DLR_processDLRFrame(eipHandle->dlrHandle, eipHandle->tempFrame,
-//                                         rxArgs.port - 1, len);
-//             }
-//             /*Compare Destination MAC ID and determine if this is a PTP packet*/
-//             else if((memcmp((void *)dstMacId, (void *)ptpMAC_EIP, 6U) == 0) &&
-//                     (rxArgs.port >= ICSS_EMAC_PORT_1) &&
-//                     (rxArgs.port <= ICSS_EMAC_PORT_2))
-//             {
-//                 /*Link local field doesn't matter in case of EIP*/
-//                 TimeSync_processPTPFrame(eipHandle->timeSyncHandle,
-//                                         eipHandle->tempFrame, rxArgs.port, len, FALSE);
-//             }
-//
-//         }   break;
-//         default:
-//         {
-//             returnVal = SystemP_FAILURE;
-//         }   break;
-//     }
-//
-//     return returnVal;
-// }
+        /*Configure DLR*/
+        dlrHandle->dlrObj->port0IntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_DLR_P0_INT_OFFSET;
+        dlrHandle->dlrObj->port1IntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_DLR_P1_INT_OFFSET;
+        dlrHandle->dlrObj->beaconTimeoutIntNum_P0 = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_BEACON_TIMEOUT_INT_OFFSET_P0;
+        dlrHandle->dlrObj->beaconTimeoutIntNum_P1 = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + EIP_BEACON_TIMEOUT_INT_OFFSET_P1;
+    }
+}
+
+void EIP_syncLossCallback() //EIP change
+{
+    /*This indicates a loss of time sync
+      Call your function here which handles sync loss*/
+
+    return;
+}
+
+int8_t EIP_initICSSPtpHandle(TimeSync_ParamsHandle_t timeSyncHandle, ICSS_EMAC_Handle emachandle) //EIP change
+{
+    int8_t returnVal = SystemP_FAILURE;
+    timeSyncHandle->emacHandle = emachandle;
+
+    /*Configure PTP. These variables must be configured before doing anything else*/
+    timeSyncHandle->timeSyncConfig.config = BOTH;
+    timeSyncHandle->timeSyncConfig.type = E2E;
+    timeSyncHandle->timeSyncConfig.protocol = UDP_IPV4;
+    timeSyncHandle->timeSyncConfig.tickPeriod = 500;
+    timeSyncHandle->txprotocol = 0;
+
+    timeSyncHandle->timeSyncConfig.delayReqSendTaskPriority = 10;
+    timeSyncHandle->timeSyncConfig.txTsTaskPriority = 10;
+    timeSyncHandle->timeSyncConfig.nrtTaskPriority = 8;
+    timeSyncHandle->timeSyncConfig.backgroundTaskPriority = 7;
+
+    timeSyncHandle->tsSyntInfo = (timeSync_SyntInfo_t *)malloc(sizeof(
+                                     timeSync_SyntInfo_t));
+
+    if(timeSyncHandle->tsSyntInfo == NULL)
+    {
+        DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->tsSyntInfo");
+    }
+
+    timeSyncHandle->tsNrrInfo[0] = (timeSync_NrrInfo_t *)malloc(sizeof(
+                                       timeSync_NrrInfo_t));
+
+    if(timeSyncHandle->tsNrrInfo[0] == NULL)
+    {
+        DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->tsNrrInfo[0]");
+    }
+
+    timeSyncHandle->tsNrrInfo[1] = (timeSync_NrrInfo_t *)malloc(sizeof(
+                                       timeSync_NrrInfo_t));
+
+    if(timeSyncHandle->tsNrrInfo[1] == NULL)
+    {
+        DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->tsNrrInfo[1]");
+    }
+
+    timeSyncHandle->syncParam[0] = (syncParam_t *)malloc(sizeof(syncParam_t));
+
+    if(timeSyncHandle->syncParam[0] == NULL)
+    {
+        DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->syncParam[0]");
+    }
+
+    timeSyncHandle->syncParam[1] = (syncParam_t *)malloc(sizeof(syncParam_t));
+
+    if(timeSyncHandle->syncParam[1] == NULL)
+    {
+        DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->syncParam[1]");
+    }
+
+    timeSyncHandle->tsRunTimeVar = (timeSync_RuntimeVar_t *)malloc(sizeof(
+                                       timeSync_RuntimeVar_t));
+
+    if(timeSyncHandle->tsRunTimeVar == NULL)
+    {
+        DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->tsRunTimeVar");
+    }
+
+    timeSyncHandle->delayParams = (delayReqRespParams_t *)malloc(sizeof(
+                                      delayReqRespParams_t));
+
+    if(timeSyncHandle->delayParams == NULL)
+    {
+        DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->delayParams");
+    }
+
+    timeSyncHandle->offsetAlgo  = (timeSync_Offset_Stable_Algo_t *)malloc(sizeof(
+                                      timeSync_Offset_Stable_Algo_t));
+
+    if(timeSyncHandle->offsetAlgo == NULL)
+    {
+        DebugP_log("\n\rIssue in allocating memory for timeSyncHandle->offsetAlgo");
+    }
+
+    /*Allocate Rx and Tx packet buffers*/
+    returnVal = TimeSync_alloc_PktBuffer(timeSyncHandle);
+
+    /*Set only if a custom Tx LLD API is used*/
+    timeSyncHandle->timeSyncConfig.custom_tx_api = 0;
+    /*Set to 1 if Rx timestamps are coming from shared RAM*/
+    timeSyncHandle->timeSyncConfig.timestamp_from_shared_ram = 1;
+
+    /*If there is no forwarding between ports then set this*/
+    timeSyncHandle->timeSyncConfig.emac_mode = 0;
+    timeSyncHandle->timeSyncConfig.hsrEnabled = 0;
+
+    timeSyncHandle->rxTimestamp_gPTP = (timeStamp *)malloc(sizeof(timeStamp));
+
+    timeSyncHandle->timeSyncConfig.domainNumber[0] = 0;
+
+    timeSyncHandle->timeSyncConfig.logAnnounceRcptTimeoutInterval = DEFAULT_ANNOUNCE_TIMEOUT_LOG_INTERVAL;
+    timeSyncHandle->timeSyncConfig.logAnnounceSendInterval = DEFAULT_ANNOUNCE_SEND_LOG_INTERVAL;
+    timeSyncHandle->timeSyncConfig.logPDelReqPktInterval = DEFAULT_PDELAY_REQ_LOG_INTERVAL;
+    timeSyncHandle->timeSyncConfig.logSyncInterval = DEFAULT_SYNC_SEND_LOG_INTERVAL;
+
+    /*No asymmetry*/
+    timeSyncHandle->timeSyncConfig.asymmetryCorrection[0] = 0;
+    timeSyncHandle->timeSyncConfig.asymmetryCorrection[1] = 0;
+    timeSyncHandle->timeSyncConfig.pdelayBurstNumPkts = 3;      /*3 frames sent in a burst*/
+    timeSyncHandle->timeSyncConfig.pdelayBurstInterval = 200;   /*gap between each frame is 100ms*/
+    timeSyncHandle->timeSyncConfig.sync0_interval = 1000000;      /*1 milisec value*/
+  
+    /*Register callback*/
+    timeSyncHandle->timeSyncConfig.timeSyncSyncLossCallBackfn = (TimeSync_SyncLossCallBack_t)EIP_syncLossCallback;
+
+    timeSyncHandle->timeSyncConfig.masterParams.priority1 = TIMESYNC_DEFAULT_PRIO_1;
+    timeSyncHandle->timeSyncConfig.masterParams.priority2 = TIMESYNC_DEFAULT_PRIO_2;
+    timeSyncHandle->timeSyncConfig.masterParams.clockAccuracy = TIMESYNC_DEFAULT_CLOCK_ACCURACY; /*greater than 10s */
+    timeSyncHandle->timeSyncConfig.masterParams.clockClass = TIMESYNC_DEFAULT_CLOCK_CLASS;
+    timeSyncHandle->timeSyncConfig.masterParams.clockVariance = TIMESYNC_DEFAULT_CLOCK_VARIANCE;
+    timeSyncHandle->timeSyncConfig.masterParams.stepRemoved = TIMESYNC_DEFAULT_STEPS_REMOVED;
+    timeSyncHandle->timeSyncConfig.masterParams.UTCOffset = TIMESYNC_UTC_OFFSET;
+    timeSyncHandle->timeSyncConfig.masterParams.timeSource = TIMESYNC_DEFAULT_TIME_SOURCE; /*Internal oscillator*/
+
+    timeSyncHandle->timeSyncConfig.masterParams.ptp_flags[TS_PTP_TIMESCALE_INDEX] = 1;
+    timeSyncHandle->timeSyncConfig.masterParams.ptp_flags[TS_PTP_TWO_STEP_INDEX] = 1;
+
+    timeSyncHandle->timeSyncConfig.rxPhyLatency = 220;
+    timeSyncHandle->timeSyncConfig.txPhyLatency = 64;
+
+    returnVal = SystemP_SUCCESS;
+    return returnVal;
+}
+
+void EIP_initICSSDlrHandle(EIP_DLRHandle dlrHandle, ICSS_EMAC_Handle emachandle) //EIP change
+{
+    dlrHandle->emacHandle = emachandle;
+    dlrHandle->dlrObj = (dlrStruct *)malloc(sizeof(dlrStruct));
+    dlrHandle->exclusionList = (exceptionList *)malloc(sizeof(exceptionList));
+}
+
+int8_t EIP_initDefaultValues(EIP_Handle icssEipHandle,ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle) //EIP change
+{
+    int8_t status = SystemP_SUCCESS;
+    /* Memory allocations */
+    memset(icssEipHandle,0,sizeof(struct eip_Config_s));
+    icssEipHandle->emacHandle = emachandle;
+    icssEipHandle->pruicssHandle  = prusshandle;
+    dlrHandle = (EIP_DLRHandle)malloc(sizeof(dlr_Config));
+    timeSyncHandle = (TimeSync_ParamsHandle_t)malloc(sizeof(TimeSync_ParamsHandle));
+    EIP_initICSSDlrHandle(dlrHandle, emachandle);
+    status = EIP_initICSSPtpHandle(timeSyncHandle, emachandle);
+    return status;
+}
+
+int8_t EIP_RtRxCallback (void *emacHandleVoidPtr, uint8_t portNumber, void * eipHandleVoidPtr) //EIP change
+{
+    uint32_t packetLen;
+    int32_t  port;
+    uint8_t* pPayload;
+    int8_t   returnVal = SystemP_SUCCESS;
+    int32_t  queue;
+    int32_t  len;
+    ICSS_EMAC_RxArgument rxArgs;
+
+    EIP_Handle            eipHandle = (EIP_Handle)eipHandleVoidPtr;
+    ICSS_EMAC_Handle      emacHandle = (ICSS_EMAC_Handle)emacHandleVoidPtr;
+    ICSS_EMAC_PortParams  rxPort   = ((ICSS_EMAC_Object*)(emacHandle->object))->switchPort[0];
+    uint32_t              rxErrors = rxPort.queue[0].qStat.errCount +
+                                     rxPort.queue[1].qStat.errCount +
+                                     rxPort.queue[2].qStat.errCount;
+    uint8_t               *dstMacId = eipHandle->tempFrame;
+    packetLen = ICSS_EMAC_rxPktInfo (emacHandle, &port, &queue);
+
+    if (packetLen == SystemP_FAILURE)
+    {
+        returnVal = SystemP_FAILURE;
+        return returnVal;
+    }
+
+    if (rxErrors != rx_rt_errors_s)
+    {
+        rx_rt_errors_s = rxErrors;
+
+        DebugP_log("RX real-time queue errors: %d", rxErrors);
+    }
+
+    switch (queue)
+    {
+        case ICSS_EMAC_QUEUE1:
+        case ICSS_EMAC_QUEUE2:
+        case ICSS_EMAC_QUEUE3:
+        case ICSS_EMAC_QUEUE4:
+        {
+            rxArgs.icssEmacHandle = emacHandleVoidPtr;
+            rxArgs.destAddress    = (uint32_t)(icssEipHandle->tempFrame);
+            rxArgs.queueNumber    = queue;
+            rxArgs.more           = 0;
+            rxArgs.port           = 0;
+
+            len = ICSS_EMAC_rxPktGet (&rxArgs, NULL);
+
+            /*Compare Destination MAC ID and determine if this is a DLR packet*/
+            if((memcmp((void *)dstMacId, (void *)dlrMAC_EIP, 6U) == 0))
+            {
+                EIP_DLR_processDLRFrame(eipHandle->dlrHandle, eipHandle->tempFrame,
+                                        rxArgs.port - 1, len);
+            }
+            /*Compare Destination MAC ID and determine if this is a PTP packet*/
+            else if((memcmp((void *)dstMacId, (void *)ptpMAC_EIP, 6U) == 0) &&
+                    (rxArgs.port >= ICSS_EMAC_PORT_1) &&
+                    (rxArgs.port <= ICSS_EMAC_PORT_2))
+            {
+                /*Link local field doesn't matter in case of EIP*/
+                TimeSync_processPTPFrame(eipHandle->timeSyncHandle,
+                                        eipHandle->tempFrame, rxArgs.port, len, FALSE);
+            }
+
+        }   break;
+        default:
+        {
+            returnVal = SystemP_FAILURE;
+        }   break;
+    }
+
+    return returnVal;
+}
 
 uint32_t EnetSoc_getCoreId(void) // check if needed
 {
@@ -539,7 +527,6 @@ uint32_t EnetSoc_getCoreId(void) // check if needed
 
 void appMain(void *args)
 {
-    int32_t status = 1;
     PRUICSS_IntcInitData    pruss_intc_initdata = PRUSS_INTC_INITDATA;
     ICSS_EMAC_Params        icssEmacParams;
 
@@ -565,18 +552,14 @@ void appMain(void *args)
 
     ICSS_EMAC_Params_init(&icssEmacParams);
     icssEmacParams.pruicssIntcInitData = &pruss_intc_initdata;
-    icssEmacParams.fwStaticMMap = &(icss_emacFwStaticCfg[1]);
-    icssEmacParams.fwDynamicMMap = &icss_emacFwDynamicCfg;
-    // icssEmacParams.fwStaticMMap = &(icss_emacFwStaticCfgLocal[1]); //EIP change
-    // icssEmacParams.fwDynamicMMap = &icss_emacFwDynamicCfgLocal; //EIP change
+    icssEmacParams.fwStaticMMap = &(icss_emacFwStaticCfgLocal[1]); //EIP change
+    icssEmacParams.fwDynamicMMap = &icss_emacFwDynamicCfgLocal; //EIP change
     icssEmacParams.pruicssHandle = prusshandle;
     icssEmacParams.ethphyHandle[0] = gEthPhyHandle[CONFIG_ETHPHY0];
     icssEmacParams.ethphyHandle[1] = gEthPhyHandle[CONFIG_ETHPHY1];
     /*Packet processing callback*/
-    icssEmacParams.callBackObject.rxRTCallBack.callBack = (ICSS_EMAC_CallBack)Lwip2Emac_serviceRx;
-    icssEmacParams.callBackObject.rxRTCallBack.userArg = (void*)(Lwipif_handle);
-    // icssEmacParams.callBackObject.rxRTCallBack.callBack = NULL; //EIP change
-    // icssEmacParams.callBackObject.rxRTCallBack.userArg = NULL; //EIP change
+    icssEmacParams.callBackObject.rxRTCallBack.callBack = NULL; //EIP change
+    icssEmacParams.callBackObject.rxRTCallBack.userArg = NULL; //EIP change
     icssEmacParams.callBackObject.rxNRTCallBack.callBack = (ICSS_EMAC_CallBack)Lwip2Emac_serviceRx;
     icssEmacParams.callBackObject.rxNRTCallBack.userArg = (void*)(Lwipif_handle);
     icssEmacParams.callBackObject.customRxCallBack.callBack = NULL;
@@ -585,7 +568,7 @@ void appMain(void *args)
     /*! Fetch the SoC provided MAC address and hand it to EMAC driver to allow this traffic to reach host */
     PN_socgetMACAddress(lclMac);
     memcpy(&(icssEmacParams.macId[0]), &(lclMac[0]), 6);
-    memmove (IntfMacAddress_s, icssEmacParams.macId, PRU_PN_MAC_ADDR_LEN); //remove later - EIP change
+    // memmove (IntfMacAddress_s, icssEmacParams.macId, PRU_PN_MAC_ADDR_LEN); //remove later - EIP change
     emachandle = ICSS_EMAC_open(CONFIG_ICSS_EMAC0, &icssEmacParams);
     DebugP_assert(emachandle != NULL);
 
@@ -594,68 +577,50 @@ void appMain(void *args)
 
     EthApp_lwipMain(NULL, NULL); // - App_setupNetworkStack(): balluff
     AppCtrl_createRecvTask();
-// Added from Balluff - remove for EIP
-    appPnHandle = (PN_Handle)malloc(sizeof(PN_Config));
-    if(NULL == appPnHandle)
-    {
-        DebugP_log("Task Creation failed\r\n");
-    }
-    /* Assigning default values */
-    /* Assign emac Handle */
-    PN_initDefaultValues(appPnHandle,emachandle,prusshandle);
-    int32_t PN_drvStatus = PN_initDrv(appPnHandle);
-    if(PN_drvStatus == 0)
-    {
-        DebugP_log("\r\nProfinet Driver initialization successful!!\r\n");
-    }
-    else
-    {
-        DebugP_log("\r\nProfinet Driver initialization unsuccessful!!\r\n");
-    }
 
 // EIP change
-//     icssEipHandle = (EIP_Handle)malloc(sizeof(struct eip_Config_s));
-//     if(NULL == icssEipHandle)
-//     {
-//                 DebugP_log("Creation of EIP Handle failed\r\n");
-//     }
-//         /* Assigning default values */
-//     int8_t status = EIP_initDefaultValues(icssEipHandle, emachandle, prusshandle);
-//     DebugP_assert(status==SystemP_SUCCESS);
-//   /* Copy the MAC ID passed to ICSS-EMAC during ICSS-EMAC initialization*/
-//     memcpy(dlrHandle->macId, &(icssEmacParams.macId[0]), 6);
-//     memcpy(timeSyncHandle->macId, &(icssEmacParams.macId[0]), 6);
-//    
-//     /*Configure the DLR and PTP Interrupts */
-//     EIP_configureInterrupts(dlrHandle, timeSyncHandle);
-//     icssEipHandle->dlrHandle = dlrHandle;
-//     icssEipHandle->timeSyncHandle = timeSyncHandle;
-//
-//     /* Init EIP Driver */
-//     EIP_drvInit(icssEipHandle);
-//     EIP_drvStart(icssEipHandle);
-//     DebugP_log("Ethernet/IP Firmware Load Done\r\n");
-//
-//     /* Register Callback APIs for Link Break*/
-//     ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port0LinkCallBack).callBack = (ICSS_EMAC_CallBack)EIP_DLR_TIMESYNC_port0ProcessLinkBrk;
-//     ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port0LinkCallBack).userArg  = (void*)icssEipHandle;
-//     ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port1LinkCallBack).callBack = (ICSS_EMAC_CallBack)EIP_DLR_TIMESYNC_port1ProcessLinkBrk;
-//     ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port1LinkCallBack).userArg  = (void*)icssEipHandle;
-//
-//     if(((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port0LinkCallBack).callBack == NULL ||
-//         ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port1LinkCallBack).callBack == NULL)
-//     {
-//                 DebugP_log("Link Break Callback API registration failed\r\n");
-//     }
-//         else 
-//     {
-//         DebugP_log("Link Break Callback API register successful\r\n");
-//     }
-//
-//         ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).rxRTCallBack).callBack = (ICSS_EMAC_CallBack)EIP_RtRxCallback;
-//     ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).rxRTCallBack).userArg  = (void*)icssEipHandle;
+    icssEipHandle = (EIP_Handle)malloc(sizeof(struct eip_Config_s));
+    if(NULL == icssEipHandle)
+    {
+                DebugP_log("Creation of EIP Handle failed\r\n");
+    }
+        /* Assigning default values */
+    int8_t status = EIP_initDefaultValues(icssEipHandle, emachandle, prusshandle);
+    DebugP_assert(status==SystemP_SUCCESS);
+  /* Copy the MAC ID passed to ICSS-EMAC during ICSS-EMAC initialization*/
+    memcpy(dlrHandle->macId, &(icssEmacParams.macId[0]), 6);
+    memcpy(timeSyncHandle->macId, &(icssEmacParams.macId[0]), 6);
+   
+    /*Configure the DLR and PTP Interrupts */
+    EIP_configureInterrupts(dlrHandle, timeSyncHandle);
+    icssEipHandle->dlrHandle = dlrHandle;
+    icssEipHandle->timeSyncHandle = timeSyncHandle;
 
-    // // For R5 R5 test - enable
+    /* Init EIP Driver */
+    EIP_drvInit(icssEipHandle);
+    EIP_drvStart(icssEipHandle);
+    DebugP_log("Ethernet/IP Firmware Load Done\r\n");
+
+    /* Register Callback APIs for Link Break*/
+    ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port0LinkCallBack).callBack = (ICSS_EMAC_CallBack)EIP_DLR_TIMESYNC_port0ProcessLinkBrk;
+    ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port0LinkCallBack).userArg  = (void*)icssEipHandle;
+    ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port1LinkCallBack).callBack = (ICSS_EMAC_CallBack)EIP_DLR_TIMESYNC_port1ProcessLinkBrk;
+    ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port1LinkCallBack).userArg  = (void*)icssEipHandle;
+
+    if(((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port0LinkCallBack).callBack == NULL ||
+        ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).port1LinkCallBack).callBack == NULL)
+    {
+        DebugP_log("Link Break Callback API registration failed\r\n");
+    }
+    else 
+    {
+        DebugP_log("Link Break Callback API register successful\r\n");
+    }
+
+    ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).rxRTCallBack).callBack = (ICSS_EMAC_CallBack)EIP_RtRxCallback;
+    ((((ICSS_EMAC_Object *)emachandle->object)->callBackObject).rxRTCallBack).userArg  = (void*)icssEipHandle;
+
+    // For R5 R5 test - enable
     // uint8_t specialMac [6] = {0x00, 0x01, 0x02, 0x04, 0x05, 0x06};
     // ICSS_EMAC_IoctlCmd ioctlParamsPNTest;
     // ioctlParamsPNTest.ioctlVal = (void *)specialMac;
@@ -677,7 +642,7 @@ void appMain(void *args)
     DebugP_log("Network is UP ...\r\n");
 //    EIP_DLR_TIMESYNC_assignIP(); //Add later IMP - EIP CHange
     ClockP_sleep(2);
-    AppTcp_startServer(); // remove later - EIP change (TCP iperf not working)
+    // AppTcp_startServer(); // remove later - EIP change (TCP iperf not working)
 
     sys_lock_tcpip_core();
     lwiperf_example_init();
@@ -727,136 +692,6 @@ static void App_printCpuLoad()
     return;
 }
 
-void PN_getMACAddr(uint8_t index, uint8_t *lclMac)
-{
-    uint32_t *MAC_0_3 = NULL;
-    uint16_t *MAC_4_5 = NULL;
-    uint8_t i;
-   
-    /* Below code shall never be in production environment - to handle boards with uninitialized EEPROM MAC ID */
-    MAC_0_3 = (uint32_t *)(IntfMacAddress_s);
-    MAC_4_5 = (uint16_t *)(&IntfMacAddress_s[4]);
-
-    if((*MAC_0_3 == 0xFFFFFFFFU) && (*MAC_4_5 == 0xFFFFU))
-    {
-        DebugP_log("\r\n Warning : Board EEPROM is not initialized correctly with MAC address - please fix this ");
-        DebugP_log("\r\n Generating random MAC address for now \n");
-        *MAC_0_3 = rand();
-        *MAC_4_5 = rand() & 0xFFFF;
-        IntfMacAddress_s[0] &= 0xFE; /* Force unicast MAC address */
-    }
-    switch(index)
-    {
-        case INTERFACE_MAC:
-            break;
-        case PORT1_MAC:
-            IntfMacAddress_s[5] += 1;
-            break;
-        case PORT2_MAC:
-            IntfMacAddress_s[5] += 2;
-            break;
-        default:
-            break;
-    }
-
-    for(i=0;i<6;i++)
-    {
-        lclMac[i]=IntfMacAddress_s[i];
-    }
-}
-
-void PN_socinitIRTHandle (PN_Handle appPnHandle)
-{
-    PRUICSS_HwAttrs const *pruicssHwAttrs = PRUICSS_getAttrs(CONFIG_PRU_ICSS1);
-    appPnHandle->pnIntConfig.ppmIntConfig.pruIntNum = 21;
-    appPnHandle->pnIntConfig.ppmIntConfig.socEvId = 21;
-    appPnHandle->pnIntConfig.ppmIntConfig.intPrio = 11;
-    appPnHandle->pnIntConfig.cpmIntConfig.pruIntNum = 22;
-    appPnHandle->pnIntConfig.cpmIntConfig.socEvId = 22;
-    appPnHandle->pnIntConfig.cpmIntConfig.intPrio = 12;
-    appPnHandle->pnIntConfig.dhtIntConfig.pruIntNum = 23;
-    appPnHandle->pnIntConfig.dhtIntConfig.socEvId = 23;
-    appPnHandle->pnIntConfig.dhtIntConfig.intPrio = 10;
-
-#ifdef PTCP_SUPPORT
-    appPnHandle->pnIntConfig.ptcpIntConfig.pruIntNum = 24;
-    appPnHandle->pnIntConfig.ptcpIntConfig.socEvId = 24;
-    appPnHandle->pnIntConfig.ptcpIntConfig.intPrio = 13;
-    appPnHandle->pnPtcpConfig.ptcpEnableSlowCompensation = 1;
-    appPnHandle->pnPtcpConfig.ptcpTimer.ptcpTimerID = PN_PTCP_TIMERID;
-#endif
-
-    appPnHandle->pnIsoMConfig.isoMIntConfig.pruIntNum = 27;
-    appPnHandle->pnIsoMConfig.isoMIntConfig.socEvId = 27;
-    appPnHandle->pnIsoMConfig.isoMIntConfig.intPrio = 14;
-
-    if(pruicssHwAttrs->instance == 0)
-    {
-        /* Interrupt configuration */
-        appPnHandle->pnIntConfig.ppmIntConfig.coreIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + PN_PPM_INT_OFFSET;
-        appPnHandle->pnIntConfig.cpmIntConfig.coreIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + PN_CPM_INT_OFFSET;
-        appPnHandle->pnIntConfig.dhtIntConfig.coreIntNum =  CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + PN_DHT_INT_OFFSET;        
-#ifdef PTCP_SUPPORT
-        appPnHandle->pnIntConfig.ptcpIntConfig.coreIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + PN_PTCP_INT_OFFSET;
-#endif 
-        appPnHandle->pnIsoMConfig.isoMIntConfig.coreIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG0_PR1_HOST_INTR_PEND_0 + PN_ISOM_INT_OFFSET;
-    }
-    else
-    {
-        appPnHandle->pnIntConfig.ppmIntConfig.coreIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + PN_PPM_INT_OFFSET;
-        appPnHandle->pnIntConfig.cpmIntConfig.coreIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + PN_CPM_INT_OFFSET;
-        appPnHandle->pnIntConfig.dhtIntConfig.coreIntNum =  CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + PN_DHT_INT_OFFSET;
-#ifdef PTCP_SUPPORT
-        appPnHandle->pnIntConfig.ptcpIntConfig.coreIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + PN_PTCP_INT_OFFSET;
-#endif
-        appPnHandle->pnIsoMConfig.isoMIntConfig.coreIntNum = CSLR_R5FSS0_CORE0_INTR_PRU_ICSSG1_PR1_HOST_INTR_PEND_0 + PN_ISOM_INT_OFFSET;
-    }
-}
-
-void PN_initDefaultValues(PN_Handle appPnHandle,ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle)
-{
-    /* Assign EMAC and PRU handles */
-    appPnHandle->emacHandle = emachandle;
-    appPnHandle->pruicssHandle  = prusshandle;
-
-    appPnHandle->pLegPkt = NULL;
-
-    /*configure the pulse width for sync0: 5000+1 cycles i.e. 25us*/
-    appPnHandle->pnPtcpConfig.ptcpSync0PinPulseWidth = 5000;
-    /*program cmp1 reg with period, used for sync0 signal generation: 10 us*/
-    appPnHandle->pnPtcpConfig.ptcpSync0PinStart = 10000;
-    appPnHandle->pnPtcpConfig.ptcpSyncFilterfactor = 8;
-
-    appPnHandle->pnIsoMConfig.isoMIntCreateFlag = 0;
-    appPnHandle->pnIsoMConfig.isoMNumEvents = 0;
-    appPnHandle->pnIsoMConfig.isoMIntConfig.isrFnPtr = NULL;
-    appPnHandle->pnIsoMConfig.isoMIntConfig.args = NULL;
-
-
-    appPnHandle->initRtcDrvFlag = TRUE;
-    appPnHandle->initRtcMemFlag = 0;
-    appPnHandle->mrpState = MRPREADY;
-    appPnHandle->legState = NOINIT;
-    appPnHandle->pnPtcpConfig.cycleCtrInitPending = 0;
-    appPnHandle->pnPtcpConfig.calculatedCycleCtr = 0;
-    appPnHandle->pnPtcpConfig.masterChange = 0;
-    appPnHandle->pnPtcpConfig.phaseCtrChange = 0;
-    appPnHandle->pnPtcpConfig.maxSeqId = 0;
-    appPnHandle->pnPtcpConfig.minSeqId = 0;
-
-    appPnHandle->pnIntConfig.ppmIntConfig.isrFnPtr = &PN_ppmIsrHandler;
-    appPnHandle->pnIntConfig.ppmIntConfig.args = appPnHandle;
-    appPnHandle->pnIntConfig.cpmIntConfig.isrFnPtr = &PN_cpmIsrHandler;
-    appPnHandle->pnIntConfig.cpmIntConfig.args = appPnHandle;
-    appPnHandle->pnIntConfig.dhtIntConfig.isrFnPtr = &PN_dhtIsrHandler;
-    appPnHandle->pnIntConfig.dhtIntConfig.args = appPnHandle;
-#ifdef PTCP_SUPPORT
-    appPnHandle->pnIntConfig.ptcpIntConfig.isrFnPtr = &PN_PTCP_isrHandler;
-    appPnHandle->pnIntConfig.ptcpIntConfig.args = appPnHandle;
-#endif
-    appPnHandle->getMACAddress = &PN_getMACAddr;
-    PN_socinitIRTHandle(appPnHandle);
-}
 
 void PN_socgetMACAddress(uint8_t *lclMac)
 {

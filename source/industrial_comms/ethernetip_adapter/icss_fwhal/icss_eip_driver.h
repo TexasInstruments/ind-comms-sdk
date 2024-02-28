@@ -347,12 +347,12 @@ void EIP_drvStart(EIP_Handle icssEipHandle);
  *          This API will be registered as Real Tme Rx Call back. Incase of EIP, the driver
  *          receives DLR and PTP packets. This API receives the packet, checks the packet
  *          type and passes the packet to DLR driver or PTP driver
- *
+ *  \param  emacHandle   [in] ICSS EMAC Handle
  *  \param  queue_number [in] Queue where the packet is present
  *  \param  userArg      [in] userArgumment. EIP handle
  *
  */
-void EIP_processProtocolFrames(uint32_t *queue_number, void *userArg);
+void EIP_processProtocolFrames(void *emacHandle, uint32_t *queue_number, void *userArg);
 
 /**
  *  \brief  API to initialize the CIP Sync objects in the EIP handle

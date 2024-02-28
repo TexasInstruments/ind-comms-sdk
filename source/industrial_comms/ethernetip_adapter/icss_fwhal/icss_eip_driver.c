@@ -50,8 +50,8 @@
 #endif
 
 /** name of the C struct in PRU header file*/
-#define PRU0_FIRMWARE_NAME      PRU0_FIRMWARE
-#define PRU1_FIRMWARE_NAME      PRU1_FIRMWARE
+#define PRU0_FIRMWARE_NAME      PRU0_FIRMWARE_EIP
+#define PRU1_FIRMWARE_NAME      PRU1_FIRMWARE_EIP
 
 /**PTP MAC ID for comparison*/
 uint8_t ptpMAC[6] = {0x1, 0x0, 0x5e, 0x0, 0x1, 0x81};
@@ -203,7 +203,7 @@ void EIP_drvStop(EIP_Handle icssEipHandle)
  *
  */
 /*TODO: Review this function*/
-void EIP_processProtocolFrames(uint32_t *queue_number, void *userArg)
+void EIP_processProtocolFrames(void *emacHandle, uint32_t *queue_number, void *userArg)
 {
 
     int32_t retVal = 0;

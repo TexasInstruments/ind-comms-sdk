@@ -40,7 +40,7 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/contrib
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am64x
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/hsr_prp_demo
@@ -67,7 +67,7 @@
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib
-            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib
             -i${CG_TOOL_ROOT}/lib
             -i${PROJECT_BUILD_DIR}/syscfg
@@ -106,8 +106,7 @@
                 -licss_emac_lwip_if.am64x.r5f.ti-arm-clang.release.lib
                 -licss_timesync.am64x.r5f.ti-arm-clang.release.lib
                 -lprp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.release.lib
-                -lprofinet_device_rt_mrp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.release.lib
-                -lprofinet_device_irt_mii_icss_fwhal.am64x.r5f.ti-arm-clang.release.lib
+                -lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
                 -llibc.a
                 -llibsysbm.a
             "
@@ -127,8 +126,7 @@
                 -licss_emac_lwip_if.am64x.r5f.ti-arm-clang.debug.lib
                 -licss_timesync.am64x.r5f.ti-arm-clang.debug.lib
                 -lprp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
-                -lprofinet_device_rt_mrp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
-                -lprofinet_device_irt_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
+                -lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
                 -llibc.a
                 -llibsysbm.a
             "

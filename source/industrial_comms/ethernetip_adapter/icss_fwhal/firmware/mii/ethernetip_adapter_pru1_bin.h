@@ -54,7 +54,7 @@
  *
  */
 
-const unsigned int PRU1_FIRMWARE[]= {
+const unsigned int PRU1_FIRMWARE_EIP[]= {
 0x21000100,
 0x240000c0,
 0x24040580,
