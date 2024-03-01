@@ -123,6 +123,7 @@ mpu_armv79.allowExecute = false;
 default_linker1.$name = "memory_configurator_default_linker0";
 
 general1.$name        = "CONFIG_GENERAL0";
+general1.heap_size    = 131072;
 general1.linker.$name = "TIARMCLANG0";
 
 region1.$name                                = "MEMORY_REGION_CONFIGURATION0";

@@ -642,13 +642,13 @@ void appMain(void *args)
     DebugP_log("Network is UP ...\r\n");
 //    EIP_DLR_TIMESYNC_assignIP(); //Add later IMP - EIP CHange
     ClockP_sleep(2);
-    // AppTcp_startServer(); // remove later - EIP change (TCP iperf not working)
+    AppTcp_startServer(); // remove later - EIP change (TCP iperf not working)
 
     sys_lock_tcpip_core();
     lwiperf_example_init();
     // UDP not supported, same as Balluff
-    // sys_thread_new("UDP Iperf", start_application, NULL, DEFAULT_THREAD_STACKSIZE,
-    //                            UDP_IPERF_THREAD_PRIO);
+    sys_thread_new("UDP Iperf", start_application, NULL, DEFAULT_THREAD_STACKSIZE,
+                               UDP_IPERF_THREAD_PRIO);
     sys_unlock_tcpip_core();
 
     while (1)
@@ -672,7 +672,7 @@ static void App_printCpuLoad()
 {
     static uint32_t startTime_ms = 0;
     const  uint32_t currTime_ms  = ClockP_getTimeUsec()/1000;
-    const  uint32_t printInterval_ms = 5000;
+    const  uint32_t printInterval_ms = 10000;
 
     if (startTime_ms == 0)
     {
