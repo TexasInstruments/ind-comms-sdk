@@ -108,6 +108,10 @@ extern "C"
 #define PHY_LINK_STATUS_MASK                0x4
 #define PHY_LINK_STATUS_SHIFT               0x2
 
+/* LLDP forwarding enabled offset */
+/* 1 byte in order to check if LLDP forwarding to other port is enabeld or not */
+#define LLDP_FORWARDING_ENABLED_OFFSET      (0x2018U)
+
 typedef struct eip_Config_s *EIP_Handle;
 
 /**
@@ -365,6 +369,32 @@ void EIP_processProtocolFrames(uint32_t *queue_number, void *userArg);
  *
  */
 int8_t EIP_initializeCIPSync(EIP_Handle icssEipHandle);
+
+/**
+ *  \brief  API to configure the LLDP forwarding to the other port
+ *
+ *  \param  icssEipHandle [in] EIP handle
+ *  \param  enableFeature [in] Option to enable or disable the LLDP forwarding 
+ *                             1 - Feature is enabled
+ *                             0 - Feature is disabled
+ *
+ *  \retval  0  - On success
+ *           <0 - On failure
+ *
+ */
+int32_t EIP_configureLLDPForwarding(EIP_Handle icssEipHandle, uint8_t enableFeature);
+
+/**
+ *  \brief  API to configure the value stored at the required offset in ICSS SMEM
+ *
+ *  \param  pruBaseAddress [in] PRU Base Address
+ *  \param  val            [in] Value to program at the SMEM address
+ *
+ *  \retval  0  - On success
+ *           <0 - On failure
+ *
+ */
+int32_t EIP_configureLLDPFwdHelper(uint32_t pruBaseAddress, uint8_t val);
 
 /**
 @}

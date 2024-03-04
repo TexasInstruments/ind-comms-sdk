@@ -39,6 +39,7 @@
 #include "icss_eip_driver.h"
 #include "icss_eip_mcFltr.h"
 #include <drivers/pruicss.h>
+#include <drivers/hw_include/hw_types.h>
 #include <networking/icss_timesync/icss_timeSync_init.h>
 
 #if defined ETHERNETIP_RGMII_MODE
@@ -328,4 +329,51 @@ int8_t EIP_initializeCIPSync(EIP_Handle icssEipHandle)
 
     return retVal;
 
+}
+
+/**
+ *  \brief  API to configure the LLDP forwarding to the other port
+ *
+ *  \param  icssEipHandle [in] EIP handle
+ *  \param  enableFeature [in] Option to enable or disable the LLDP forwarding 
+ *                             1 - Feature is enabled
+ *                             0 - Feature is disabled
+ *
+ *  \retval  0  - On success
+ *           <0 - On failure
+ *
+ */
+int32_t EIP_configureLLDPForwarding(EIP_Handle icssEipHandle, uint8_t enableFeature)
+{
+    int32_t retVal  = SystemP_FAILURE;
+    uint32_t pruBaseAddress = 0U;
+    PRUICSS_Handle pruicssHandle = icssEipHandle->pruicssHandle;
+    PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pruicssHandle->hwAttrs);
+
+    pruBaseAddress = ((uint32_t)pruicssHwAttrs->baseAddr);
+
+    retVal = EIP_configureLLDPFwdHelper(pruBaseAddress, enableFeature);
+    
+    return retVal;
+}
+
+
+/**
+ *  \brief  API to configure the value stored at the required offset in ICSS SMEM
+ *
+ *  \param  pruBaseAddress [in] PRU Base Address
+ *  \param  val            [in] Value to program at the SMEM address
+ *
+ *  \retval  0  - On success
+ *           <0 - On failure
+ *
+ */
+int32_t EIP_configureLLDPFwdHelper(uint32_t pruBaseAddress, uint8_t val)
+{
+    int32_t retVal = SystemP_SUCCESS;
+    uint32_t sharedDramOffset = 0x010000U;
+
+    HW_WR_REG32(pruBaseAddress + sharedDramOffset + LLDP_FORWARDING_ENABLED_OFFSET, val);
+    
+    return retVal;
 }
