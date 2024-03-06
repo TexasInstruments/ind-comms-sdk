@@ -4,9 +4,9 @@
 
 # Introduction
 
-This example is an HSR/PRP (High Availability Seamless Redundanc/Parallel Redundancy Protocol) Dual Attached Node demo application using LwIP stack. Links to important sections in the detailed documentation are provided below:
+This example is a \subpage EXAMPLES_INDUSTRIAL_COMMS_HSR_PRP_DEMOS_HOME (High Availability Seamless Redundanc/Parallel Redundancy Protocol) Dual Attached Node demo application using LwIP stack. Links to important sections in the detailed documentation are provided below:
 
-\cond SOC_AM64X
+\cond SOC_AM64X || SOC_AM243X
 
 - <a href="EXAMPLES_INDUSTRIAL_COMMS_HSR_PRP_DEMOS_HOME.html#HSR_PRP_INTRODUCTION" target="_blank"> Home Page </a>
 - <a href="EXAMPLES_INDUSTRIAL_COMMS_HSR_PRP_DEMOS_HOME.html#HSR_PRP_EXAMPLE_QUICK_START" target="_blank"> Example Quick Start </a>

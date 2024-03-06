@@ -1,8 +1,8 @@
-# HSR_PRP Demo {#EXAMPLES_INDUSTRIAL_COMMS_HSR_PRP_DEMOS_HOME}
+# HSR/PRP {#EXAMPLES_INDUSTRIAL_COMMS_HSR_PRP_DEMOS_HOME}
 
 # Introduction {#HSR_PRP_INTRODUCTION}
 
-The example is an HSR/PRP (High Availability Seamless Redundanc/Parallel Redundancy Protocol) Dual Attached Node demo application using LwIP stack.HSR and PRP are actually two separate examples which are available in the same package. They use the same files and based on the defined MACRO the application is taken.
+The example is a HSR/PRP (High Availability Seamless Redundanc/Parallel Redundancy Protocol) Dual Attached Node demo application using LwIP stack.HSR and PRP are actually two separate examples which are available in the same package. They use the same files and based on the defined MACRO the application is taken.
 HSR and PRP are zero downtime industrial redundancy protocol that operate at Layer 2 and use commercial off-the-shelf Ethernet communication chips and physical media.HSR has a header attached to it that makes it incompatible with standard switches and routers but PRP can be supported using traditional switches, PRP has trailer attached to standard ethernet frames and can be supported using traditional switches. HSR and PRP is mainly used in the substation automation market and the target applications use IEC 61850 protocols. This application does not provide any IEC 61850 integrated examples but it’s easy to integrate one given the transparent nature of HSR/PRP implementation.
 - The implementation consists of
   - Firmware (provided as a binary)
