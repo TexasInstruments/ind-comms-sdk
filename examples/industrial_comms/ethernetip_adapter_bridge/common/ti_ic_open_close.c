@@ -78,27 +78,28 @@
 
 Ic_Object gIcObjPool[IC_ETH_MAX_VIRTUAL_IF];
 
+/*! Maximum Number of buffers per queue: 512 + padding space. Extending buffers need MPU memory alloc changes */
 const LwipIc_QueueTbl gLwipIcQueueTbl[SHDMEM_CIRCULAR_BUFFER_MAX_QUEUES]=
 {
     {
-        .pShdMemBuffStartAdd = (void *)0xA0800000U,
-        .elemCount = 64U,
-        .elemSize = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
+        .pShdMemBuffStartAdd  = (void *)0xA0400000U,
+        .elemCount            = 128U,
+        .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
-        .pShdMemBuffStartAdd = (void *)0xA0C00000U,
-        .elemCount = 64U,
-        .elemSize = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
+        .pShdMemBuffStartAdd  = (void *)0xA0500000U,
+        .elemCount            = 128U,
+        .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
-        .pShdMemBuffStartAdd = (void *)0xA0800000U, /*! Update this with proper value once finalized */
-        .elemCount = 2048U,
-        .elemSize = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
+        .pShdMemBuffStartAdd  = (void *)0xA0500000U, /*! Update this with proper value once finalized */
+        .elemCount            = 128U,
+        .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
-        .pShdMemBuffStartAdd = (void *)0xA0C00000U, /*! Update this with proper value once finalized */
-        .elemCount = 2048U,
-        .elemSize = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
+        .pShdMemBuffStartAdd  = (void *)0xA0600000U, /*! Update this with proper value once finalized */
+        .elemCount            = 128U,
+        .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
 }; 
 

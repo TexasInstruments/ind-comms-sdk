@@ -55,7 +55,8 @@ pruicss1.coreClk                         = 250000000;
 pruicss1.$name                           = "CONFIG_PRU_ICSS1";
 pruicss1.AdditionalICSSSettings[0].$name = "CONFIG_PRU_ICSS_IO0";
 
-uart1.$name = "CONFIG_UART0";
+uart1.$name        = "CONFIG_UART0";
+uart1.UART.$assign = "USART1";
 
 const uart_v0_template  = scripting.addModule("/drivers/uart/v0/uart_v0_template", {}, false);
 const uart_v0_template1 = uart_v0_template.addInstance({}, false);
@@ -98,10 +99,10 @@ mpu_armv77.allowExecute = false;
 mpu_armv77.baseAddr     = 0xA5000000;
 mpu_armv77.size         = 16;
 
-mpu_armv78.$name      = "CONFIG_MPU_REGION8";
+mpu_armv78.$name      = "CONFIG_MPU_REGION7";
 mpu_armv78.attributes = "NonCached";
-mpu_armv78.baseAddr   = 0xA0800000;
-mpu_armv78.size       = 23;
+mpu_armv78.baseAddr   = 0xA0400000;
+mpu_armv78.size       = 22;
 
 default_linker1.$name = "memory_configurator_default_linker0";
 
@@ -269,6 +270,5 @@ section12.output_section[0].alignment = 128;
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
-uart1.UART.$suggestSolution     = "USART0";
-uart1.UART.RXD.$suggestSolution = "UART0_RXD";
-uart1.UART.TXD.$suggestSolution = "UART0_TXD";
+uart1.UART.RXD.$suggestSolution = "UART1_RXD";
+uart1.UART.TXD.$suggestSolution = "UART1_TXD";

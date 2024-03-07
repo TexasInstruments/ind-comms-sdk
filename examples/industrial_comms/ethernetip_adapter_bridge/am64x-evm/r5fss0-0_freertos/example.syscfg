@@ -28,6 +28,8 @@ const mpu_armv76      = mpu_armv7.addInstance();
 const mpu_armv77      = mpu_armv7.addInstance();
 const mpu_armv78      = mpu_armv7.addInstance();
 const mpu_armv79      = mpu_armv7.addInstance();
+const mpu_armv710     = mpu_armv7.addInstance();
+const mpu_armv711     = mpu_armv7.addInstance();
 const default_linker  = scripting.addModule("/memory_configurator/default_linker", {}, false);
 const default_linker1 = default_linker.addInstance();
 const general         = scripting.addModule("/memory_configurator/general", {}, false);
@@ -109,16 +111,24 @@ mpu_armv77.allowExecute = false;
 mpu_armv77.baseAddr     = 0xA5000000;
 mpu_armv77.size         = 16;
 
-mpu_armv78.$name      = "CONFIG_MPU_REGION7";
-mpu_armv78.baseAddr   = 0xA0800000;
-mpu_armv78.size       = 23;
-mpu_armv78.attributes = "NonCached";
+mpu_armv78.$name        = "CONFIG_MPU_REGION7";
+mpu_armv78.baseAddr     = 0x70000000;
+mpu_armv78.size         = 16;
+mpu_armv78.allowExecute = false;
+mpu_armv78.attributes   = "Cached+Sharable";
 
-mpu_armv79.$name        = "CONFIG_MPU_REGION8";
-mpu_armv79.baseAddr     = 0x70000000;
-mpu_armv79.size         = 16;
-mpu_armv79.attributes   = "Cached+Sharable";
-mpu_armv79.allowExecute = false;
+mpu_armv79.$name    = "CONFIG_MPU_REGION8";
+mpu_armv79.baseAddr = 0xA0100000;
+mpu_armv79.size     = 20;
+
+mpu_armv710.$name    = "CONFIG_MPU_REGION9";
+mpu_armv710.baseAddr = 0xA0200000;
+mpu_armv710.size     = 21;
+
+mpu_armv711.$name      = "CONFIG_MPU_REGION10";
+mpu_armv711.baseAddr   = 0xA0400000;
+mpu_armv711.size       = 22;
+mpu_armv711.attributes = "Cached+Sharable";
 
 default_linker1.$name = "memory_configurator_default_linker0";
 
@@ -188,13 +198,13 @@ region1.memory_region[10].shared_cores       = ["a53ss0-0"];
 region1.memory_region[11].type               = "DDR_ALL";
 region1.memory_region[11].$name              = "ETHFW_SHM_MEM";
 region1.memory_region[11].auto               = false;
-region1.memory_region[11].manualStartAddress = 0xA0800000;
 region1.memory_region[11].isShared           = true;
 region1.memory_region[11].shared_cores       = ["a53ss0-0","a53ss0-1","r5fss0-1","r5fss1-0","r5fss1-1"];
-region1.memory_region[11].size               = 0x800000;
-region1.memory_region[12].$name              = "ICSS_PKT_BUF_MEM";
+region1.memory_region[11].manualStartAddress = 0xA0400000;
+region1.memory_region[11].size               = 0x100000;
 region1.memory_region[12].auto               = false;
 region1.memory_region[12].size               = 0x10000;
+region1.memory_region[12].$name              = "ICSS_PKT_BUF_MEM";
 
 section1.$name                        = "Vector Table";
 section1.load_memory                  = "R5F_VECS";
@@ -244,7 +254,7 @@ section5.output_section[2].$name                 = ".stack";
 section5.output_section[2].palignment            = true;
 
 section6.$name                                    = "Stack Segments";
-section6.load_memory                              = "DDR_1";
+section6.load_memory                              = "R5F_TCMA";
 section6.output_section.create(5);
 section6.output_section[0].$name                  = ".irqstack";
 section6.output_section[0].output_sections_start  = "__IRQ_STACK_START";
@@ -273,7 +283,7 @@ section6.output_section[4].input_section.create(1);
 section6.output_section[4].input_section[0].$name = ". = . + __UNDEFINED_STACK_SIZE;";
 
 section7.$name                        = "Initialization and Exception Handling";
-section7.load_memory                  = "DDR_1";
+section7.load_memory                  = "R5F_TCMA";
 section7.output_section.create(3);
 section7.output_section[0].$name      = ".ARM.exidx";
 section7.output_section[0].palignment = true;
@@ -320,20 +330,19 @@ section12.output_section.create(1);
 section12.output_section[0].$name     = "intercore_eth_desc_mem";
 section12.output_section[0].alignment = 128;
 
-section13.$name                       = "ICSSG FW";
-section13.type                        = "NOLOAD";
-section13.load_memory                 = "DDR_1";
+section13.$name                        = "ICSS EMAC packet buffer";
+section13.load_memory                  = "ICSS_PKT_BUF_MEM";
+section13.group                        = false;
+section13.type                         = "NOLOAD";
 section13.output_section.create(1);
-section13.output_section[0].$name     = ".icssfw";
-section13.output_section[0].alignment = 128;
+section13.output_section[0].$name      = ".bss.icss_emac_pktbuf_mem";
+section13.output_section[0].palignment = true;
 
-section14.$name                       = "ICSS EMAC packet buffer";
-section14.load_memory                 = "ICSS_PKT_BUF_MEM";
-section14.group                       = false;
-section14.type                        = "NOLOAD";
+section14.$name                        = "EIP thread stack";
+section14.load_memory                  = "R5F_TCMB0";
 section14.output_section.create(1);
-section14.output_section[0].$name     = ".bss.icss_emac_pktbuf_mem";
-section14.output_section[0].alignment = 0;
+section14.output_section[0].$name      = ".threadstack";
+section14.output_section[0].palignment = true;
 
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
