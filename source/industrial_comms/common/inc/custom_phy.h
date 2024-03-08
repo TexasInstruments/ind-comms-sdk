@@ -9,12 +9,8 @@
  *
  *  \copyright
  *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *  @KUNBUS_LICENSE@
  *
- *  Copyright (c) 2023 KUNBUS GmbH
- *  All rights reserved.
- *
- * 
  */
 
 #if !(defined PROTECT_CUST_PHY_H)
@@ -91,8 +87,6 @@ typedef struct CUST_PHY_SSpeedDuplexConfig
 /*! <!-- Description: -->
  *
  *  \brief Reset PHY
- *
- *  \details
  *
  *  <!-- Parameters and return values: -->
  *
@@ -596,7 +590,7 @@ typedef void (*CUST_PHY_getSpeedDuplex_t)
  *
  *  \param[in]  pAppContext_p       application context
  *  \param[in]  pStackContext_p     slave stack context
- *  \param[in]  params_p            parameters
+ *  \param[in]  pParam_p            parameters
   *
  *  <!-- Group: -->
  *
@@ -690,7 +684,6 @@ typedef struct CUST_PHY_SPhyDescriptor
  *
  *  \brief
  *  Phy Detection callback of external PhyLib
- *  \details
  *
  *  <!-- Parameters and return values: -->
  *
@@ -707,6 +700,15 @@ typedef struct CUST_PHY_SPhyDescriptor
 typedef int16_t (*CUST_PHY_CBextPhyLibDetect_t)     (void*                          pPhyLibCtxt_p
                                                     ,uint32_t                       phyId_p
                                                     ,CUST_PHY_SPhyDescriptor_t*     pPhyLibDesc_p);
+
+// forward declaration to prevent include <board/ethphy.h>
+typedef struct ETHPHY_Fxns_s ETHPHY_Fxns;
+
+#if (defined OSAL_FREERTOS)
+/*! TI Eth Phy handle which redirects Eth Phy requests to the custom_phy
+ * implementation. Is set to zero until this module is fully initialized */
+extern ETHPHY_Fxns gEthPhyFxns_CUST_PHY;
+#endif
 
 #if (defined __cplusplus)
 extern "C" {

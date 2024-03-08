@@ -100,6 +100,7 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc/ext \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include \
@@ -112,6 +113,7 @@ DEFINES_common := \
 	-DSOC_AM64X \
 	-DSOC_AM64X=1 \
 	-DEIP_TIME_SYNC=1 \
+	-DEIP_QUICK_CONNECT=0 \
 	-DCPU_LOAD_MONITOR=0 \
 
 CFLAGS_common := \
@@ -124,8 +126,13 @@ CFLAGS_common := \
 	-g \
 	-Wno-gnu-variable-sized-type-not-at-end \
 	-Wno-unused-function \
-	-mllvm -align-all-functions=2 \
 	-Wno-unused-but-set-variable \
+	-mllvm \
+	-align-all-functions=2 \
+
+CFLAGS_debug := \
+	-D_DEBUG_=1 \
+	-Og \
 
 CFLAGS_cpp_common := \
 	-Wno-c99-designator \
@@ -138,9 +145,6 @@ CFLAGS_cpp_common := \
 	-Wno-reserved-user-defined-literal \
 	-Wno-unused-const-variable \
 	-x c++ \
-
-CFLAGS_debug := \
-	-D_DEBUG_=1 \
 
 CFLAGS_release := \
 	-Os \

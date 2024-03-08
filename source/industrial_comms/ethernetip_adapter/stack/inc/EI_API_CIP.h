@@ -78,8 +78,9 @@ extern ETHIP_API uint32_t EI_API_CIP_addAssemblyMember (T *pCipNode_p, uint16_t 
 extern ETHIP_API uint32_t EI_API_CIP_getAssemblySize   (T *pCipNode_p, uint16_t assemblyInstanceId_p, uint16_t* pSize_p);
 extern ETHIP_API uint32_t EI_API_CIP_getAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pDestinationBuffer_p, uint16_t destinationBufferLength_p);
 extern ETHIP_API uint32_t EI_API_CIP_setAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pSourceBuffer_p, uint16_t sourceBufferLength_p);
+extern ETHIP_API uint32_t EI_API_CIP_setAssemblyAppType(T *pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_EAPP_TYPE_t appType_p);
 extern ETHIP_API uint32_t EI_API_CIP_createCfgAssembly (T* pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_CBCfgAssembly fuCfgAssemblyAccess_p);
-extern ETHIP_API uint32_t EI_API_CIP_createCfgAssemblySimple(T* pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_CBCfgAssemblySimple fuCfgAssemblyAccess_p);
+extern ETHIP_API uint32_t EI_API_CIP_setCfgAssemblyCb  (T* pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_CBCfgAssemblySimple fuCfgAssemblyAccess_p);
 
 extern ETHIP_API uint32_t EI_API_CIP_getRoutingAssemblySize   (T *pCipNode_p, uint16_t assemblyInstanceId_p, uint16_t* pSize_p, uint8_t linkAddr);
 extern ETHIP_API uint32_t EI_API_CIP_getRoutingAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pDestinationBuffer_p, uint16_t destinationBufferLength_p, uint8_t linkAddr);

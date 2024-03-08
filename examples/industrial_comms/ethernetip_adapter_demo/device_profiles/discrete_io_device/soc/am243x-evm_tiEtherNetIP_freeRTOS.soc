@@ -17,7 +17,7 @@
   },
   "DUTInfo": {
     "productName": "TMDS243EVM Discrete I/O Device",
-    "productRev": "3.6",
+    "productRev": "3.7",
     "productCode": 24302,
     "devProfile": {
       "ProductType": 7,
@@ -32,7 +32,7 @@
     "Rate10": true,
     "Rate100": true,
     "Rate1000": false,
-    "DuplexHalf": false,
+    "DuplexHalf": true,
     "DuplexFull": true,
     "RateSetSwitch": false,
     "RateSetSoftware": true,
@@ -126,7 +126,7 @@
         32,
         4,
         36,
-        40,
+        103,
         44,
         101,
         44,
@@ -195,7 +195,7 @@
         32,
         4,
         36,
-        40,
+        103,
         44,
         254,
         44,
@@ -264,7 +264,7 @@
         32,
         4,
         36,
-        40,
+        103,
         44,
         255,
         44,
@@ -651,7 +651,7 @@
               "IsImplemented": true,
               "IsSet": false,
               "RelationType": "IS",
-              "RelationStr": "3.6"
+              "RelationStr": "3.7"
             },
             {
               "Id": 5,
@@ -1486,9 +1486,9 @@
         {
           "Type": 2,
           "IDs": [
-            40
+            103
           ],
-          "IDString": "40",
+          "IDString": "103",
           "Attributes": [
             {
               "Id": 1,
@@ -1516,7 +1516,7 @@
               "IsImplemented": true,
               "IsSet": false,
               "RelationType": "IS",
-              "RelationStr": "1"
+              "RelationStr": "2"
             },
             {
               "Id": 5,
@@ -4556,7 +4556,7 @@
               "Id": 5,
               "IsImplemented": true,
               "IsSet": false,
-              "RelationType": "IS",
+              "RelationType": "DEFLT",
               "RelationStr": ""
             },
             {
@@ -5137,6 +5137,6 @@
     "LogText": true,
     "LogZero": true,
     "LogEncap": true,
-    "DisableSuppression": false
+    "DisableSuppression": true
   }
 }

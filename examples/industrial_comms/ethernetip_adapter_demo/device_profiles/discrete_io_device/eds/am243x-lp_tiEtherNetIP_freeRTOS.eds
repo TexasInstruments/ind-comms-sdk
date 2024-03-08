@@ -4,9 +4,9 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         DescText = "EtherNet/IP(tm) Adapter am243x-lp freeRTOS";
         CreateDate = 08-19-2021;
         CreateTime = 17:53:35;
-        ModDate = 10-27-2023;
-        ModTime = 09:00:00;
-        Revision = 3.6;
+        ModDate = 02-29-2024;
+        ModTime = 07:00:00;
+        Revision = 3.7;
         HomeURL = "www.ti.com";
 
 
@@ -17,7 +17,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         ProdTypeStr = "General Purpose Discrete IO Device";
         ProdCode = 24312;
         MajRev = 3;
-        MinRev = 6;
+        MinRev = 7;
         ProdName = "LP-AM243 Discrete I/O Device";
         Catalog = "CatNo9218";
         Icon = "ti.ico";
@@ -381,7 +381,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 2,Assem3,               $ config part 2 (module configuration)
                 "Exclusive Owner",      $ connection name
                 "",                     $ Help string
-                "20 04 24 28 2C 65 2C 64";    $ exclusive owner path
+                "20 04 24 67 2C 65 2C 64";    $ exclusive owner path
 
         Connection2 =
                 0x02010002,             $ trigger & transport
@@ -413,7 +413,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 2,Assem3,               $ config part 2 (module configuration)
                 "Input Only",           $ connection name
                 "",                     $ Help string
-                "20 04 24 28 2C FE 2C 64";    $ input only path
+                "20 04 24 67 2C FE 2C 64";    $ input only path
 
         Connection3 =
                 0x01010002,             $ trigger & transport
@@ -445,7 +445,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 2,Assem3,               $ config part 2 (module configuration)
                 "Listen Only",          $ connection name
                 "",                     $ Help string
-                "20 04 24 28 2C FF 2C 64";    $ listen only path
+                "20 04 24 67 2C FF 2C 64";    $ listen only path
 
 [Capacity]
         MaxCIPConnections = 12;

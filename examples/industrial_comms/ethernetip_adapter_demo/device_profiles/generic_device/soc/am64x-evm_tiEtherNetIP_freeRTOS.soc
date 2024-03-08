@@ -1,7 +1,7 @@
 {
-  "StcRevData": "1.28",
+  "StcRevData": "1.29",
   "CTRev": "",
-  "FileName": "am64x-evm_tiEtherNetIP_freeRTOS",
+  "FileName": "am64x-evm_r5f_freertos_generic_device",
   "StcDeviceName": "",
   "SupportListInterface": false,
   "devData": {
@@ -17,7 +17,7 @@
   },
   "DUTInfo": {
     "productName": "TMDS64EVM Generic Device",
-    "productRev": "3.6",
+    "productRev": "3.7",
     "productCode": 6401,
     "devProfile": {
       "ProductType": 43,
@@ -32,7 +32,7 @@
     "Rate10": true,
     "Rate100": true,
     "Rate1000": false,
-    "DuplexHalf": false,
+    "DuplexHalf": true,
     "DuplexFull": true,
     "RateSetSwitch": false,
     "RateSetSoftware": true,
@@ -650,7 +650,7 @@
               "IsImplemented": true,
               "IsSet": false,
               "RelationType": "IS",
-              "RelationStr": "3.6"
+              "RelationStr": "3.7"
             },
             {
               "Id": 5,
@@ -843,6 +843,13 @@
             },
             {
               "Id": 37,
+              "IsImplemented": false,
+              "IsSet": false,
+              "RelationType": "DEFLT",
+              "RelationStr": null
+            },
+            {
+              "Id": 38,
               "IsImplemented": false,
               "IsSet": false,
               "RelationType": "DEFLT",
@@ -3967,10 +3974,11 @@
     "originatorTargetConfigs": []
   },
   "TestInfo": {
+    "RunOverUDP": false,
     "LogHex": true,
     "LogText": true,
     "LogZero": true,
     "LogEncap": true,
-    "DisableSuppression": false
+    "DisableSuppression": true
   }
 }

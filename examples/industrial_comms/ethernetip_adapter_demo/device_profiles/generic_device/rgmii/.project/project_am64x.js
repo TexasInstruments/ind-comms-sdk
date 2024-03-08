@@ -77,6 +77,7 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc/ext",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include",
@@ -104,14 +105,19 @@ const defines_r5f = {
         "SOC_AM64X",
         "SOC_AM64X=1",
         "EIP_TIME_SYNC=1",
+        "EIP_QUICK_CONNECT=0",
         "CPU_LOAD_MONITOR=0"
     ],
 };
 
 const cflags_r5f = {
     common: [
-        "-mllvm -align-all-functions=2",
         "-Wno-unused-but-set-variable",
+        "-mllvm",
+        "-align-all-functions=2",
+    ],
+    debug: [
+        "-Og",
     ],
 };
 

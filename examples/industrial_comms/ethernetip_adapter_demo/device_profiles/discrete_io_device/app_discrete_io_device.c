@@ -40,8 +40,6 @@
  *
  */
 
-#if (!(defined FBTLPROVIDER) || (0 == FBTLPROVIDER)) && (!(defined FBTL_REMOTE) || (0 == FBTL_REMOTE))
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -81,11 +79,7 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
-#if defined(SOC_AM64X) || defined(SOC_AM243X)
 extern PRUICSS_Handle prusshandle;
-#else
-Board_IDInfo boardInfo;
-#endif
 
 // Static variables and pointers used in this example.
 //static void EI_APP_DISCRETE_IO_DEVICE_adpInit  (EI_API_ADP_T* pAdapter);
@@ -407,12 +401,15 @@ void EI_APP_DIO_DEVICE_run(EI_API_CIP_NODE_T* pCipNode)
  * // Create a CIP node
  * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
  *
- * // Create configuration assembly & use it with the callback
- * errCode = EI_API_CIP_createCfgAssemblySimple(pEI_API_CIP_NODE, 0x66, EI_APP_DOG_configurationAssemblyCb);
+ * // Create configuration assembly
+ * errCode = EI_API_CIP_createAssembly(pEI_API_CIP_NODE, 0x66, EI_API_CIP_eAR_GET_AND_SET);
+ *
+ * // Register configuration assembly callback
+ * errCode = EI_API_CIP_setCfgAssemblyCb(pEI_API_CIP_NODE, 0x66, EI_APP_DOG_configurationAssemblyCb);
  *
  * \endcode
  *
- * \see EI_API_CIP_createCfgAssemblySimple  EI_API_CIP_CB_ERR_CODE_t
+ * \see EI_API_CIP_createAssembly  EI_API_CIP_CB_ERR_CODE_t
  *
  * \ingroup EI_APP_DIO_DEVICE
  *
@@ -515,13 +512,13 @@ static bool EI_APP_DIO_DEVICE_cipSetup(EI_API_CIP_NODE_T* pCipNode)
     /* Create assembly instance & add its assembly members */
     errCode = EI_API_CIP_createAssembly(pCipNode, EI_APP_DIO_DEVICE_ASSEMBLY_PRODUCING, EI_API_CIP_eAR_GET_AND_SET);
     errCode = EI_API_CIP_createAssembly(pCipNode, EI_APP_DIO_DEVICE_ASSEMBLY_CONSUMING, EI_API_CIP_eAR_GET_AND_SET);
-    errCode = EI_API_CIP_createAssembly(pCipNode, EI_APP_DIO_DEVICE_ASSEMBLY_CONFIGURATION, EI_API_CIP_eAR_GET_AND_SET);
+    errCode = EI_API_CIP_createAssembly(pCipNode, EI_APP_DIO_DEVICE_ASSEMBLY_CONFIGURATION, EI_API_CIP_eAR_GET);
 
     /* Create configuration assembly */
-    errCode = EI_API_CIP_createCfgAssemblySimple(
-                                                pCipNode,
-                                                EI_APP_DIO_DEVICE_ASSEMBLY_CONFIGURATION,
-                                                EI_APP_DIO_DEVICE_configurationAssemblyCb);
+    errCode = EI_API_CIP_setCfgAssemblyCb(
+                                         pCipNode,
+                                         EI_APP_DIO_DEVICE_ASSEMBLY_CONFIGURATION,
+                                         EI_APP_DIO_DEVICE_configurationAssemblyCb);
 
     /* Add DIP intances to producing assembly */
     for(uint8_t instanceId = 1; instanceId <= EI_APP_DIO_DEVICE_DIP_NUM_OF_INST; instanceId++)
@@ -595,7 +592,5 @@ static bool EI_APP_DIO_DEVICE_cipSetup(EI_API_CIP_NODE_T* pCipNode)
 
     return true;
 }
-
-#endif  // (!(defined FBTLPROVIDER) || (0 == FBTLPROVIDER)) && (!(defined FBTL_REMOTE) || (0 == FBTL_REMOTE))
 
 //*************************************************************************************************

@@ -73,7 +73,8 @@ typedef enum EI_API_ADP_PRUICSS_MaxInstances_s
 extern "C" {
 #endif
 
-#define EI_API_CIP_OBD_MAX 256 // set not lower as 20 because init holds around 17 common objects
+#define EI_API_CIP_OBD_MAX                  256 // set not lower as 20 because init holds around 17 common objects
+#define EI_API_ADP_CMGR_CONNECTION_SIZE_MAX 510 // maximum size of connection size in bytes for ForwardOpen and ForwardClose
 
 /*!
  *  \brief Available module and network status LED states.
@@ -121,6 +122,17 @@ typedef enum EI_API_CIP_EAr
     EI_API_CIP_eAR_FORCE32BIT    = 0xffffffff        //!< Force enum to 32 bit
 /// @endcond
 } EI_API_CIP_EAr_t;
+
+/*!
+ *  \brief These are the available application types.
+ *  \ingroup EI_API_CIP_ENUMERATIONS
+ */
+typedef enum EI_API_CIP_EAPP_TYPE
+{
+    EI_API_CIP_eAPP_TYPE_EO  = 0x01, //!< Exclusive Owner
+    EI_API_CIP_eAPP_TYPE_IO  = 0x02, //!< Input Only
+    EI_API_CIP_eAPP_TYPE_LO  = 0x03, //!< Listen Only
+} EI_API_CIP_EAPP_TYPE_t;
 
 /*!
  *  \brief These are possible error code for callback functions.
@@ -295,32 +307,32 @@ typedef struct EI_API_ADP_SLldp_Parameter
  */
 typedef struct EI_API_ADP_SCmgrForwardOpenInfo
 {
-    uint8_t prioTimeTick;   // Priority/Time_tick (high-/low-nibble)
-    uint8_t timeOutTicks;   // Time-out ticks
-    uint32_t o2tNwConId;    // O->T Network Connection ID
-    uint32_t t2oNwConId;    // T->O Network Connection ID
-    uint16_t conSerialNum;  // Connection Serial Number
-    uint16_t orgVendorId;   // Originator Vendor ID
-    uint32_t orgSerialNum;  // Originator Serial Number
-    uint8_t timeOutMulti;   // Connection Timeout Multiplier
-    uint32_t o2tRPI;        // O->T RPI
-    uint32_t o2tConPara;    // O->T Network Connection Parameters
-    uint32_t t2oRPI;        // T->O RPI
-    uint32_t t2oConPara;    // T->O Network Connection Parameters
-    uint8_t typeTrigger;    // Transport Type/Trigger
-    uint8_t conPathSize;    // Connection Path Size
-    uint8_t conPath[80];    // Connection Path
+    uint8_t prioTimeTick;                                    // Priority/Time_tick (high-/low-nibble)
+    uint8_t timeOutTicks;                                    // Time-out ticks
+    uint32_t o2tNwConId;                                     // O->T Network Connection ID
+    uint32_t t2oNwConId;                                     // T->O Network Connection ID
+    uint16_t conSerialNum;                                   // Connection Serial Number
+    uint16_t orgVendorId;                                    // Originator Vendor ID
+    uint32_t orgSerialNum;                                   // Originator Serial Number
+    uint8_t timeOutMulti;                                    // Connection Timeout Multiplier
+    uint32_t o2tRPI;                                         // O->T RPI
+    uint32_t o2tConPara;                                     // O->T Network Connection Parameters
+    uint32_t t2oRPI;                                         // T->O RPI
+    uint32_t t2oConPara;                                     // T->O Network Connection Parameters
+    uint8_t typeTrigger;                                     // Transport Type/Trigger
+    uint8_t conPathSize;                                     // Connection Path Size
+    uint8_t conPath[EI_API_ADP_CMGR_CONNECTION_SIZE_MAX];    // Connection Path
 } EI_API_ADP_SCmgrForwardOpenInfo_t;
 
 typedef struct EI_API_ADP_SCmgrForwardCloseInfo
 {
-    uint8_t prioTimeTick;   // Priority/Time_tick (high-/low-nibble)
-    uint8_t timeOutTicks;   // Time-out ticks
-    uint16_t conSerialNum;  // Connection Serial Number
-    uint16_t orgVendorId;   // Originator Vendor ID
-    uint32_t orgSerialNum;  // Originator Serial Number
-    uint8_t conPathSize;    // Connection Path Size
-    uint8_t conPath[80];    // Connection Path
+    uint8_t prioTimeTick;                                    // Priority/Time_tick (high-/low-nibble)
+    uint8_t timeOutTicks;                                    // Time-out ticks
+    uint16_t conSerialNum;                                   // Connection Serial Number
+    uint16_t orgVendorId;                                    // Originator Vendor ID
+    uint32_t orgSerialNum;                                   // Originator Serial Number
+    uint8_t conPathSize;                                     // Connection Path Size
+    uint8_t conPath[EI_API_ADP_CMGR_CONNECTION_SIZE_MAX];    // Connection Path
 } EI_API_ADP_SCmgrForwardCloseInfo_t;
 
 

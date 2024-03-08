@@ -9,11 +9,7 @@
  *
  *  \copyright
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2023 KUNBUS GmbH
- *  All rights reserved.
- *
+ *  @KUNBUS_LICENSE@
  *
  */
 
@@ -34,6 +30,19 @@
 #endif // ECATSLAVE_SO
 
 /* PDK */
+#if (defined SOC_AM335x)
+#define  CONTROL_DEV_FEATURE 0x604
+#elif (defined SOC_AM437x)
+#define  CONTROL_DEV_FEATURE 0x604
+#elif (defined SOC_AM572x) || (defined SOC_AM574x)
+#elif (defined SOC_AM65XX) || (defined SOC_AM64X) || (defined SOC_AM243X)
+#if (defined OSAL_LINUX) || (defined OSAL_TIRTOS) || (defined OSAL_FREERTOS_JACINTO)
+#define CSL_ICSSM_INTC_SECR0            CSL_ICSSINTC_SECR0
+#define CSL_ICSSM_INTC_SECR1            CSL_ICSSINTC_SECR1
+#define CSL_ICSSM_INTC_HIDISR           CSL_ICSSINTC_HIDISR
+#define CSL_ICSSM_INTC_HIEISR           CSL_ICSSINTC_HIEISR
+#define CSL_ICSSM_INTC_REVID            CSL_ICSSINTC_REVID
+#elif (defined OSAL_FREERTOS)
 #define CSL_ICSSM_INTC_SECR0            CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0
 #define CSL_ICSSM_INTC_SECR1            CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG1
 #define CSL_ICSSM_INTC_HIDISR           CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_HINT_ENABLE_CLR_INDEX_REG
@@ -45,6 +54,12 @@
 #define CSL_ICSSIEP_DIGIO_EXP_REG       CSL_ICSS_G_PR1_IEP1_SLV_DIGIO_EXP_REG
 #define CSL_ICSSIEP_GLOBAL_CFG_REG      CSL_ICSS_G_PR1_IEP1_SLV_GLOBAL_CFG_REG
 #define CSL_ICSSIEP_GLOBAL_STATUS_REG   CSL_ICSS_G_PR1_IEP1_SLV_GLOBAL_STATUS_REG
+#else
+#error "Unknown OS"
+#endif
+#else
+// #error Select valid MCU     // If a Stack uses this API there should be no TI Specific files necessary
+#endif
 
 /* only defined in FreeRTOS */
 #if !(defined MDIO_LINKSEL_MDIO_MODE)
@@ -180,6 +195,24 @@ typedef struct  PRU_REG_SProperties
 
 typedef void    (*PRU_measurement_t)        (void* pContext_p, uint32_t measureChannel_p, bool channelOn_p);
 
+typedef struct PRU_SMdioFirmware
+{
+    bool                        mdioManualMode;         /* MDIO manual mode control flag */
+    uint32_t                    mdioBaseAddress;        /* MDIO manual mode base address */
+    uint32_t                   *pMdioFirmware;          /* Pointer to MDIO manual mode firmware */
+    uint32_t                    mdioFirmwareLength;     /* Size of MDIO manual mode firmware in bytes */
+    uint32_t                    mdioFirmwareConfig;     /* Configuration of MDIO manual mode firmware */
+} PRU_SMdioFirmware_t;
+
+typedef struct PRU_PruFirmware
+{
+    uint32_t *pFirmware;                                /* Pointer to PRU firmware binary */
+    uint32_t  frmLength;                                /* Size of to PRU firmware binary in bytes */
+} PRU_PruFirmware_t;
+
+typedef struct ETHPHY_Config_s ETHPHY_Config;
+typedef void*  ETHPHY_Handle;
+
 #if (defined __cplusplus)
 extern "C" {
 #endif
@@ -188,8 +221,7 @@ extern void         PRU_errWriteIncrement   (void);
 extern void         PRU_errReadIncrement    (void);
 
 extern void         PRU_prepare             (void);
-extern void         PRU_init                (uint32_t                   logicPruSelect_p
-                                            ,int32_t                    irqBaseOffset_p);
+extern void         PRU_init                (uint32_t                   logicPruSelect_p);
 extern uint32_t PRU_enableMdioManualMode(uint32_t manualMdioAddress, uint32_t firmwareConfig);
 extern void         PRU_FB_startPhy         (void);
 extern void         PRU_exit                (void);

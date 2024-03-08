@@ -100,6 +100,7 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc/ext \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include \
@@ -111,6 +112,7 @@ DEFINES_common := \
 	-DSOC_AM243X=1 \
 	-DOSAL_FREERTOS=1 \
 	-DEIP_TIME_SYNC=1 \
+	-DEIP_QUICK_CONNECT=0 \
 	-DCPU_LOAD_MONITOR=0 \
 
 CFLAGS_common := \

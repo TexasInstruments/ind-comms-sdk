@@ -98,6 +98,7 @@ const includes_freertos_r5f_evm = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc/ext",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include",
@@ -119,6 +120,7 @@ const includes_freertos_r5f_lp = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc/ext",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include",
@@ -154,7 +156,16 @@ const libs_freertos_r5f_lp = {
     ],
 };
 
-const defines_r5f = {
+const defines_r5f_evm = {
+    common: [
+        "SOC_AM243X=1",
+        "OSAL_FREERTOS=1",
+        "EIP_TIME_SYNC=1",
+        "CPU_LOAD_MONITOR=0"
+    ],
+};
+
+const defines_r5f_lp = {
     common: [
         "SOC_AM243X=1",
         "OSAL_FREERTOS=1",
@@ -221,21 +232,22 @@ function getComponentBuildProperty(buildOption) {
         if(buildOption.os.match(/freertos*/) )
         {
             build_property.libdirs = libdirs_freertos;
-            build_property.defines = defines_r5f;
             build_property.cflags = cflags_r5f;
             build_property.lflags = lflags_r5f;
 
             if(buildOption.board.match(/am243x-evm*/) )
             {
+                build_property.defines = defines_r5f_evm;
+                build_property.libs = libs_freertos_r5f_evm;
                 build_property.filedirs = filedirs_evm;
                 build_property.includes = includes_freertos_r5f_evm;
-                build_property.libs = libs_freertos_r5f_evm;
             }
             else if(buildOption.board.match(/am243x-lp*/) )
             {
+                build_property.defines = defines_r5f_lp;
+                build_property.libs = libs_freertos_r5f_lp;
                 build_property.filedirs = filedirs_lp;
                 build_property.includes = includes_freertos_r5f_lp;
-                build_property.libs = libs_freertos_r5f_lp;
             }
         }
     }

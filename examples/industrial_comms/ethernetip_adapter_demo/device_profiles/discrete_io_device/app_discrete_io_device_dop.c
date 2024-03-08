@@ -82,11 +82,7 @@
 
 #include <device_profiles/discrete_io_device/app_discrete_io_device_sm.h>
 
-#if defined(SOC_AM64X) || defined(SOC_AM243X)
 extern PRUICSS_Handle prusshandle;
-#else
-Board_IDInfo boardInfo;
-#endif
 
 void EI_APP_DOP_init (EI_API_CIP_NODE_T* pCipNode);
 void EI_APP_DOP_run  (EI_API_CIP_NODE_T* pCipNode);
