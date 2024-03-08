@@ -31,9 +31,10 @@
  */
 
 /*!
- * \file  enet_netific.c
+ * \file  netif_common.c
  *
- * \brief This file contains the implementation of the Enet Remote Connect example.
+ * \brief This file contains the implementation of the Common Netif handling
+ * \of Remote Connect example.
  */
 
 /* ========================================================================== */
@@ -46,21 +47,11 @@
 #include "lwip/dhcp.h"
 #include "netif/bridgeif.h"
 
-// #include <enet.h>
-// #include <networking/enet/utils/include/enet_appmemutils_cfg.h>
-// #include <networking/enet/utils/include/enet_apputils.h>
-// #include <networking/enet/utils/include/enet_appmemutils.h>
-// #include <networking/enet/utils/include/enet_appboardutils.h>
-// #include <networking/enet/utils/include/enet_appsoc.h>
-// #include <networking/enet/utils/include/enet_apprm.h>
-// #include <networking/enet/core/lwipif/inc/pbufQ.h>
-// #include <networking/enet/core/include/per/icssg.h>
-
 #include <lwip_ic.h>
 #include <lwip2lwipif_ic.h>
 
 #include <lwip2lwipif.h>
-#include "enet_netific.h"
+#include "netif_common.h"
 
 /* ========================================================================== */
 /*                           Macros & Typedefs                                */
@@ -70,10 +61,6 @@
 /*                            Global Variables                                */
 /* ========================================================================== */
 
-/* Handle to the Application interface for the LwIPIf Layer
- */
-//LwipifEnetApp_Handle hlwipIfApp = NULL;
-//struct netif netif_bridge;
 
 /* ========================================================================== */
 /*                          Function Declarations                             */
@@ -82,8 +69,8 @@
 static void EthApp_netifStatusCb(struct netif *netif);
 void EthApp_setNetifCbs(struct netif *netif);
 static void App_netifLinkChangeCb(struct netif *pNetif);
-
 static void EthApp_initLwip(void *arg);
+
 void EthApp_initNetif(void);
 
 /* ========================================================================== */
@@ -100,41 +87,11 @@ static void EthApp_netifStatusCb(struct netif *netif)
 
         DebugP_log("Added interface '%c%c%d', IP is %s \r\n",
                      netif->name[0], netif->name[1], netif->num, ip4addr_ntoa(ipAddr));
-
-        if (ipAddr->addr != 0)
-        {
-#if defined(ETHFW_BOOT_TIME_PROFILING)
-            /* Timestamp when EthFw got an IP */
-            EthApp_setBootTs(ETHFW_BOOT_PROFILING_TS_TCPIP);
-#endif
-
-#if defined(ETHFW_DEMO_SUPPORT)
-            int32_t status;
-            /* Assign functions that are to be called based on actions in GUI.
-             * These cannot be dynamically pushed to function pointer array, as the
-             * index is used in GUI as command */
-            EnetCfgServer_fxn_table[9] = &EthApp_startSwInterVlan;
-            EnetCfgServer_fxn_table[10] = &EthApp_startHwInterVlan;
-
-            /* Start Configuration server */
-            status = EnetCfgServer_init(gEthAppObj.enetType, gEthAppObj.instId);
-            DebugP_assert(ENET_SOK == status);
-
-            /* Start the software-based interVLAN routing */
-            EthSwInterVlan_setupRouting(gEthAppObj.enetType, ETH_SWINTERVLAN_TASK_PRI);
-#endif
-        }
     }
     else
     {
         DebugP_log("Removed interface '%c%c%d'\n", netif->name[0], netif->name[1], netif->num);
     }
-}
-
-void EthApp_setNetifCbs(struct netif *netif)
-{
-    netif_set_status_callback(netif, EthApp_netifStatusCb);
-    netif_set_link_callback(netif, App_netifLinkChangeCb);
 }
 
 static void App_netifLinkChangeCb(struct netif *pNetif)
@@ -148,6 +105,12 @@ static void App_netifLinkChangeCb(struct netif *pNetif)
         DebugP_log("[%d]Network Link DOWN Event\r\n", pNetif->num);
     }
     return;
+}
+
+void EthApp_setNetifCbs(struct netif *netif)
+{
+    netif_set_status_callback(netif, EthApp_netifStatusCb);
+    netif_set_link_callback(netif, App_netifLinkChangeCb);
 }
 
 int32_t App_isNetworkUp(struct netif* netif_)
@@ -172,10 +135,6 @@ void EthApp_lwipMain(void *a0,
      * calling update_adapter()! */
     sys_sem_wait(&initSem);
     sys_sem_free(&initSem);
-
-#if (LWIP_SOCKET || LWIP_NETCONN) && LWIP_NETCONN_SEM_PER_THREAD
-    netconn_thread_init();
-#endif
 }
 
 static void EthApp_initLwip(void *arg)
@@ -190,11 +149,6 @@ static void EthApp_initLwip(void *arg)
 
     /* init network interfaces */
     EthApp_initNetif();
-
-#if defined(ETHAPP_ENABLE_IPERF_SERVER)
-    /* Enable iperf */
-    lwiperf_example_init();
-#endif
 
     sys_sem_signal(initSem);
 }

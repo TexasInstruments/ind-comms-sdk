@@ -5,9 +5,9 @@ let device = "am64x";
 const server_files = {
     common: [
             "udp_iperf.c",
-            "app_announce.c",
+            "app_control.c",
             "ti_ic_open_close.c",
-            "enet_netific.c",
+            "netif_common.c",
             "app_netif.c",
             "emac_lwipif.c",
             "app_tcpserver.c",
@@ -20,10 +20,10 @@ const server_files = {
 
 const client_files = {
     common: [
-            "enet_netific.c",
+            "netif_common.c",
             "udp_iperf.c",
             "app_netif.c",
-            "app_announce.c",
+            "app_control.c",
             "ti_ic_open_close.c",
             "app_main.c",
             "main.c",
@@ -63,9 +63,8 @@ const libdirs_freertos = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib",
-        // "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal/lib",        
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib",    //EIP change 
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib",     
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib",
 
     ],
@@ -81,8 +80,7 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/contrib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am64x",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal",     //EIP change 
-        // "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/profinet_device/icss_fwhal",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc",        
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/hsr_prp_demo",
@@ -99,7 +97,7 @@ const libs_freertos_r5f = {
         "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "lwip-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "lwipif-ic-icssg-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        "lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "lwip-contrib-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
 
         // emac related includes
@@ -107,8 +105,6 @@ const libs_freertos_r5f = {
         "icss_emac_lwip_if.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "icss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "prp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        // "profinet_device_rt_mrp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        // "profinet_device_irt_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib"
         "ethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib"
     ],
 };

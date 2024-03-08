@@ -106,36 +106,33 @@ const LwipIc_QueueTbl gLwipIcQueueTbl[SHDMEM_CIRCULAR_BUFFER_MAX_QUEUES]=
 LwipIc_Params gLwipIcParams[IC_ETH_MAX_VIRTUAL_IF]=
 {
     {
-        .instId             = IC_ETH_IF_MCU2_0_MCU2_1,
+        .instId             = IC_ETH_IF_R5_0_0_R5_0_1,
         .ownerId            = IPC_MCU1_0,
-        .txQId              = ICQ_MCU2_0_TO_MCU2_1,
-        .rxQId              = ICQ_MCU2_1_TO_MCU2_0,
-        .bufPoolId          = BUFPOOL_MCU1_0_R5,
-        .reqEndPtId         = ICETH_IPC_ENDPT_MCU2_0_R5,
+        .txQId              = ICQ_R5_0_0_TO_R5_0_1,
+        .rxQId              = ICQ_R5_0_1_TO_R5_0_0,
+        .reqEndPtId         = ICETH_IPC_ENDPT_R5_0_0,
         .remoteCoreId       = IPC_MCU1_1,
         .endPtName          = "ENDPT_ICETH_MCU2_0_R5",
         .remoteEndPtName    = "ENDPT_ICETH_MCU2_1",
         .macAddr            = {0x00,0x01,0x02,0x03,0x04,0x05},
     },
     {
-        .instId             = IC_ETH_IF_MCU2_1_MCU2_0,
+        .instId             = IC_ETH_IF_R5_0_1_R5_0_0,
         .ownerId            = IPC_MCU1_0,
-        .txQId              = ICQ_MCU2_1_TO_MCU2_0,
-        .rxQId              = ICQ_MCU2_0_TO_MCU2_1,
-        .bufPoolId          = BUFPOOL_MCU1_0_R5,
-        .reqEndPtId         = ICETH_IPC_ENDPT_MCU2_1,
+        .txQId              = ICQ_R5_0_1_TO_R5_0_0,
+        .rxQId              = ICQ_R5_0_0_TO_R5_0_1,
+        .reqEndPtId         = ICETH_IPC_ENDPT_R5_0_1,
         .remoteCoreId       = IPC_MCU1_0,
         .endPtName          = "ENDPT_ICETH_MCU2_1",
         .remoteEndPtName    = "ENDPT_ICETH_MCU2_0_R5",
         .macAddr            = {0x00,0x01,0x02,0x04,0x05,0x06},
     },
     {
-        .instId             = IC_ETH_IF_MCU2_0_A72,
+        .instId             = IC_ETH_IF_R5_0_0_A53,
         .ownerId            = IPC_MCU1_0,
-        .txQId              = ICQ_MCU2_0_TO_A72,
-        .rxQId              = ICQ_A72_TO_MCU2_0,
-        .bufPoolId          = BUFPOOL_MCU2_0_A72,
-        .reqEndPtId         = ICETH_IPC_ENDPT_MCU2_0_A72,
+        .txQId              = ICQ_R5_0_0_TO_A53,
+        .rxQId              = ICQ_A53_TO_R5_0_0,
+        .reqEndPtId         = ICETH_IPC_ENDPT_R5_0_0_A53,
         .remoteCoreId       = IPC_MPU1_0,
         .endPtName          = "ENDPT_ICETH_MCU2_0_A72",
         .remoteEndPtName    = "ENDPT_ICETH_A72",
@@ -182,7 +179,7 @@ Ic_Object_Handle App_doIcOpen(uint32_t instId)
     hIcObj = App_acquireIcHandle(instId);
     LwipIc_assert(hIcObj != NULL);
 
-    hIcObj->selfCoreId = EnetSoc_getCoreId();
+    hIcObj->selfCoreId = App_getSelfCoreId();
 
     /* Only MCU1_0 and MCU1_1 supported for now */
     LwipIc_assert((hIcObj->selfCoreId == IPC_MCU1_0) ||

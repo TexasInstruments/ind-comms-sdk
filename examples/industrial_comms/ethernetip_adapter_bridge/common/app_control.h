@@ -61,10 +61,14 @@ enum icve_rpmsg_type
     /* Request types */
     ICVE_REQ_SHM_INFO = 0,
     ICVE_REQ_SET_MAC_ADDR,
+//    ICVE_REQ_ADD_MC_ADDR,
+//    ICVE_REQ_DEL_MC_ADDR,
 
     /* Response types */
     ICVE_RESP_SHM_INFO,
     ICVE_RESP_SET_MAC_ADDR,
+//    ICVE_RESP_ADD_MC_ADDR,
+//    ICVE_RESP_DEL_MC_ADDR,
 
     /* Notification types */
     ICVE_NOTIFY_PORT_UP,
@@ -152,6 +156,16 @@ typedef struct Icve_message_s
         Icve_notifyMsg notify_msg;
     };
 } Icve_message;
+
+/* ========================================================================== */
+/*                          Function Declarations                             */
+/* ========================================================================== */
+
+void AppCtrl_createSendTask();
+
+void AppCtrl_createRecvTask();
+
+void AppCtrl_sendAddMacAddrReq(Icve_macAddr args);
 
 /* ========================================================================== */
 /*                            Global Variables                                */

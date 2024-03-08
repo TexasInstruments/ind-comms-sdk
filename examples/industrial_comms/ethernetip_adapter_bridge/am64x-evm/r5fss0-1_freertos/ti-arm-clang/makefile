@@ -38,10 +38,10 @@ BOOTIMAGE_NAME_HS_FS:=ethernetip_adapter_bridge.$(PROFILE).appimage.hs_fs
 TARGETS := $(BOOTIMAGE_NAME)
 
 FILES_common := \
-	enet_netific.c \
+	netif_common.c \
 	udp_iperf.c \
 	app_netif.c \
-	app_announce.c \
+	app_control.c \
 	ti_ic_open_close.c \
 	app_main.c \
 	main.c \
@@ -139,7 +139,7 @@ LIBS_common = \
 	-ldrivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lboard.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-llwip-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-llwipif-ic-icssg-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-llwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-llwip-contrib-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-licss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-licss_emac_lwip_if.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
@@ -170,7 +170,7 @@ LIBS_NAME = \
 	drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	board.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	lwip-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	lwipif-ic-icssg-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	lwip-contrib-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	icss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	icss_emac_lwip_if.am64x.r5f.ti-arm-clang.${ConfigName}.lib \

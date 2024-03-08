@@ -50,10 +50,9 @@
 #include <lwip_ic.h>
 #include <lwip2lwipif_ic.h>
 #include <lwip2lwipif.h>
-//#include <custom_pbuf.h>
 #include "ti_enet_config.h"
 #include "ti_enet_lwipif.h"
-#include "enet_netific.h"
+#include "netif_common.h"
 #include "app_netif.h"
 #include "udp_iperf.h"
 #include "ti_ic_open_close.h"
@@ -61,12 +60,6 @@
 /* ========================================================================== */
 /*                           Macros & Typedefs                                */
 /* ========================================================================== */
-
-/* Inter-core netif IDs */
-#define ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX   (0U)
-#define ETHAPP_NETIF_IC_MCU2_1_MCU2_0_IDX   (1U)
-#define ETHAPP_NETIF_IC_MCU2_0_A72_IDX      (2U)
-#define ETHAPP_NETIF_IC_MAX_IDX             (3U)
 
 /* Max length of shared mcast address list */
 #define ETHAPP_MAX_SHARED_MCAST_ADDR        (8U)
@@ -88,16 +81,16 @@
 /*                            Global Variables                                */
 /* ========================================================================== */
 
-static struct netif netif_ic[ETHAPP_NETIF_IC_MAX_IDX];
+static struct netif netif_ic[IC_ETH_MAX_VIRTUAL_IF];
 
 /* dhcp struct for the ethernet netif */
-static struct dhcp g_netifDhcp[3];
+static struct dhcp g_netifDhcp[IC_ETH_MAX_VIRTUAL_IF];
 
 static uint32_t netif_ic_state[IC_ETH_MAX_VIRTUAL_IF] =
 {
-    IC_ETH_IF_MCU2_0_MCU2_1,
-    IC_ETH_IF_MCU2_1_MCU2_0,
-    IC_ETH_IF_MCU2_0_A72
+    IC_ETH_IF_R5_0_0_R5_0_1,
+    IC_ETH_IF_R5_0_1_R5_0_0,
+    IC_ETH_IF_R5_0_0_A53
 };
 
 /* ========================================================================== */
@@ -116,19 +109,19 @@ void EthApp_initNetif(void)
 
     DebugP_log("Starting lwIP, local interface IP is dhcp-enabled \r\n");
 
-    hIcObj = App_doIcOpen(IC_ETH_IF_MCU2_1_MCU2_0);
+    hIcObj = App_doIcOpen(IC_ETH_IF_R5_0_1_R5_0_0);
     DebugP_assert(hIcObj != NULL);
 
     /* Create inter-core virtual ethernet interface: MCU2_0 <-> MCU2_1 */
-    netif_add(&netif_ic[ETHAPP_NETIF_IC_MCU2_1_MCU2_0_IDX], NULL, NULL, NULL,
-              (void*)&netif_ic_state[IC_ETH_IF_MCU2_1_MCU2_0],
+    netif_add(&netif_ic[IC_ETH_IF_R5_0_1_R5_0_0], NULL, NULL, NULL,
+              (void*)&netif_ic_state[IC_ETH_IF_R5_0_1_R5_0_0],
               LWIPIF_LWIP_IC_init, tcpip_input);
 
-    err = LWIPIF_LWIP_IC_start(&netif_ic[ETHAPP_NETIF_IC_MCU2_1_MCU2_0_IDX], IC_ETH_IF_MCU2_1_MCU2_0, hIcObj);
+    err = LWIPIF_LWIP_IC_start(&netif_ic[IC_ETH_IF_R5_0_1_R5_0_0], IC_ETH_IF_R5_0_1_R5_0_0, hIcObj);
     DebugP_assert(err == ERR_OK);
 
     /* Set IC interface as the default */
-    netif_set_default(&netif_ic[ETHAPP_NETIF_IC_MCU2_1_MCU2_0_IDX]);
+    netif_set_default(&netif_ic[IC_ETH_IF_R5_0_1_R5_0_0]);
 
     netif_set_up(netif_default);
     EthApp_setNetifCbs(netif_default);

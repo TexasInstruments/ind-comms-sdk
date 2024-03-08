@@ -56,8 +56,8 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
-#include "enet_netific.h"
-#include "app_announce.h"
+#include "netif_common.h"
+#include "app_control.h"
 #include "app_netif.h"
 
 static void App_printCpuLoad();
@@ -72,11 +72,9 @@ void appMain(void *args)
     DebugP_log("  ICSS LWIP TCP ECHO SERVER 0-1 \r\n");
     DebugP_log("=================================\r\n");
 
-    DebugP_log("Remote Core init\r\n");
-    ipc_rpmsg_echo_main(NULL);
 
     EthApp_lwipMain(NULL, NULL);
-//  ipc_sendTestPkts();
+    AppCtrl_createSendTask();
     EthApp_waitForNetifUp();
 
     EthApp_startNetifTask();
@@ -89,7 +87,7 @@ void appMain(void *args)
 
 }
 
-uint32_t EnetSoc_getCoreId(void)
+uint32_t App_getSelfCoreId(void)
 {
     uint32_t coreId = CSL_CORE_ID_R5FSS0_1;
 

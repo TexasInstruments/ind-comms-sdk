@@ -51,7 +51,7 @@
 #include <lwip2lwipif_ic.h>
 #include <lwip2lwipif.h>
 
-#include "enet_netific.h"
+#include "netif_common.h"
 #include "app_netif.h"
 #include "emac_lwipif.h"
 #include "ti_ic_open_close.h"
@@ -71,11 +71,6 @@
 #define ETHAPP_BRIDGEIF_PORT2_ID        (2U)
 #define ETHAPP_BRIDGEIF_CPU_PORT_ID     BRIDGEIF_MAX_PORTS
 
-/* Inter-core netif IDs */
-#define ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX   (0U)
-#define ETHAPP_NETIF_IC_MCU2_1_MCU2_0_IDX   (1U)
-#define ETHAPP_NETIF_IC_MCU2_0_A72_IDX      (2U)
-#define ETHAPP_NETIF_IC_MAX_IDX             (3U)
 
 /* Max length of shared mcast address list */
 #define ETHAPP_MAX_SHARED_MCAST_ADDR        (8U)
@@ -95,26 +90,26 @@ struct netif netif_bridge;
 
 static struct netif gEmacNetif;
 
-static struct netif netif_ic[ETHAPP_NETIF_IC_MAX_IDX];
+static struct netif netif_ic[IC_ETH_MAX_VIRTUAL_IF];
 
 /* Array to store coreId to lwip bridge portId map */
 static uint8_t gEthApp_lwipBridgePortIdMap[IPC_MAX_PROCS];
 
 /* dhcp struct for the ethernet netif */
-static struct dhcp g_netifDhcp[3];
+static struct dhcp g_netifDhcp[IC_ETH_MAX_VIRTUAL_IF];
 
 static uint32_t netif_ic_state[IC_ETH_MAX_VIRTUAL_IF] =
 {
-    IC_ETH_IF_MCU2_0_MCU2_1,
-    IC_ETH_IF_MCU2_1_MCU2_0,
-    IC_ETH_IF_MCU2_0_A72
+    IC_ETH_IF_R5_0_0_R5_0_1,
+    IC_ETH_IF_R5_0_1_R5_0_0,
+    IC_ETH_IF_R5_0_0_A53
 };
 
 /* ========================================================================== */
 /*                          Function Declarations                             */
 /* ========================================================================== */
 
-static void EthApp_initEmacNetif(const ip4_addr_t *ipaddr, const ip4_addr_t *netmask, const ip4_addr_t *gw);
+static void EthApp_waitForNetifUp(struct netif *netif);
 
 /* ========================================================================== */
 /*                          Function Definitions                              */
@@ -135,19 +130,19 @@ void EthApp_initNetif(void)
     // netif_add(&gEmacNetif, &ipaddr, &netmask, &gw, NULL, LWIPIF_LWIP_init, tcpip_input);
     netif_add(&gEmacNetif, NULL, NULL, NULL, NULL, LWIPIF_LWIP_init, tcpip_input);
 
-    hIcObj = App_doIcOpen(IC_ETH_IF_MCU2_0_MCU2_1);
+    hIcObj = App_doIcOpen(IC_ETH_IF_R5_0_0_R5_0_1);
     DebugP_assert(hIcObj != NULL);
 
     /* Create inter-core virtual ethernet interface: MCU2_0 <-> MCU2_1 */
-    netif_add(&netif_ic[ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX], NULL, NULL, NULL,
-              (void*)&netif_ic_state[IC_ETH_IF_MCU2_0_MCU2_1],
+    netif_add(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], NULL, NULL, NULL,
+              (void*)&netif_ic_state[IC_ETH_IF_R5_0_0_R5_0_1],
               LWIPIF_LWIP_IC_init, tcpip_input);
 
-    err = LWIPIF_LWIP_IC_start(&netif_ic[ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX], IC_ETH_IF_MCU2_0_MCU2_1, hIcObj);
+    err = LWIPIF_LWIP_IC_start(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], IC_ETH_IF_R5_0_0_R5_0_1, hIcObj);
     DebugP_assert(err == ERR_OK);
 
     gEmacNetif.flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
-    netif_ic[ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX].flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
+    netif_ic[IC_ETH_IF_R5_0_0_R5_0_1].flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
 
     /* Initialize data for bridge as (no. of ports, no. of dynamic entries, no. of static entries, MAC address of the bridge) */
     bridgeif_initdata_t mybridge_initdata = BRIDGEIF_INITDATA1 (ETHAPP_LWIP_BRIDGE_MAX_PORTS,
@@ -159,10 +154,10 @@ void EthApp_initNetif(void)
 
     /* Add all netifs to the bridge and create coreId to bridge portId map */
     bridgeif_add_port(&netif_bridge, &gEmacNetif);
-    gEthApp_lwipBridgePortIdMap[IPC_MCU1_0] = ETHAPP_BRIDGEIF_CPU_PORT_ID;
+    gEthApp_lwipBridgePortIdMap[IPC_R5_0_0] = ETHAPP_BRIDGEIF_CPU_PORT_ID;
 
-    bridgeif_add_port(&netif_bridge, &netif_ic[ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX]);
-    gEthApp_lwipBridgePortIdMap[IPC_MCU1_1] = ETHAPP_BRIDGEIF_PORT1_ID;
+    bridgeif_add_port(&netif_bridge, &netif_ic[IC_ETH_IF_R5_0_0_R5_0_1]);
+    gEthApp_lwipBridgePortIdMap[IPC_R5_0_1] = ETHAPP_BRIDGEIF_PORT1_ID;
 
     /* Set bridge interface as the default */
     netif_set_default(&netif_bridge);
@@ -172,24 +167,12 @@ void EthApp_initNetif(void)
     EthApp_setNetifCbs(netif_default);
 
     netif_set_up(&gEmacNetif);
-    netif_set_up(&netif_ic[ETHAPP_NETIF_IC_MCU2_0_MCU2_1_IDX]);
+    netif_set_up(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1]);
     netif_set_up(&netif_bridge);
 
     sys_lock_tcpip_core();
     err = dhcp_start(&netif_bridge);
     sys_unlock_tcpip_core();
-
-
-// SICK debug - Check emac netif getting IP address
-    // netif_add(&gEmacNetif, &ipaddr, &netmask, &gw, NULL, LWIPIF_LWIP_init, tcpip_input);
-    // netif_set_default(&gEmacNetif);
-    // dhcp_set_struct(&gEmacNetif, &g_netifDhcp[0]);
-    // EthApp_setNetifCbs(netif_default);
-    // netif_set_up(&gEmacNetif);
-    // sys_lock_tcpip_core();
-    // err = dhcp_start(&gEmacNetif);
-    // sys_unlock_tcpip_core();
-
 
     if (err != ERR_OK)
     {
@@ -209,15 +192,5 @@ static void EthApp_waitForNetifUp(struct netif *netif)
 void App_waitForBridgeUp()
 {
     EthApp_waitForNetifUp(&netif_bridge);
-// SICK debug - Check emac netif getting IP address
-    // EthApp_waitForNetifUp(&gEmacNetif);
 }
 
-// void App_shutdownNetworkStack()
-// {
-//     for (uint32_t netifIdx = 0U; netifIdx < ENET_SYSCFG_NETIF_COUNT; netifIdx++)
-//     {
-//         LwipifEnetApp_netifClose(hlwipIfApp, NETIF_INST_ID0 + netifIdx);
-//     }
-//     return;
-// }

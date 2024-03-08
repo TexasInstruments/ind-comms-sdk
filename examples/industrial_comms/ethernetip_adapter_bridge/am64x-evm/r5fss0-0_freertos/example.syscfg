@@ -102,8 +102,8 @@ mpu_armv75.baseAddr = 0x80000000;
 mpu_armv76.$name        = "CONFIG_MPU_REGION5";
 mpu_armv76.baseAddr     = 0xA0000000;
 mpu_armv76.size         = 20;
-mpu_armv76.attributes   = "NonCached";
 mpu_armv76.allowExecute = false;
+mpu_armv76.attributes   = "NonCached";
 
 mpu_armv77.$name        = "CONFIG_MPU_REGION6";
 mpu_armv77.attributes   = "NonCached";
@@ -150,8 +150,8 @@ region1.memory_region[2].$name               = "R5F_TCMB0";
 region1.memory_region[2].size                = 0x8000;
 region1.memory_region[3].$name               = "MSRAM";
 region1.memory_region[3].auto                = false;
-region1.memory_region[3].manualStartAddress  = 0x70080000;
-region1.memory_region[3].size                = 0x40000;
+region1.memory_region[3].manualStartAddress  = 0x70010000;
+region1.memory_region[3].size                = 0x1B0000;
 region1.memory_region[4].type                = "FLASH";
 region1.memory_region[4].$name               = "FLASH";
 region1.memory_region[4].auto                = false;
@@ -228,7 +228,7 @@ section2.output_section[4].$name      = ".text:abort";
 section2.output_section[4].palignment = true;
 
 section3.$name                        = "Code and Read-Only Data";
-section3.load_memory                  = "DDR_1";
+section3.load_memory                  = "MSRAM";
 section3.output_section.create(2);
 section3.output_section[0].$name      = ".text";
 section3.output_section[0].palignment = true;
@@ -236,13 +236,13 @@ section3.output_section[1].$name      = ".rodata";
 section3.output_section[1].palignment = true;
 
 section4.$name                        = "Data Segment";
-section4.load_memory                  = "DDR_1";
+section4.load_memory                  = "MSRAM";
 section4.output_section.create(1);
 section4.output_section[0].$name      = ".data";
 section4.output_section[0].palignment = true;
 
 section5.$name                                   = "Memory Segments";
-section5.load_memory                             = "DDR_1";
+section5.load_memory                             = "MSRAM";
 section5.output_section.create(3);
 section5.output_section[0].$name                 = ".bss";
 section5.output_section[0].palignment            = true;

@@ -65,7 +65,7 @@
 #include "hsr_prp_prvmib.h"
 #include "hsr_prp_lwipcfg.h"
 #include <networking/icss_emac/icss_emac.h>
-#include <networking/icss_emac/source/icss_emac_local.h> //EIP change
+#include <networking/icss_emac/source/icss_emac_local.h> 
 #include <networking/icss_emac/lwipif/inc/lwip2icss_emac.h>
 #include <industrial_comms/hsr_prp/icss_fwhal/hsrPrp_firmwareOffsets.h>
 #include <industrial_comms/hsr_prp/icss_fwhal/hsrPrp_red_nodeTable.h>
@@ -83,15 +83,15 @@
 
 #include "app_tcpserver.h"
 #include "emac_lwipif.h"
-#include "enet_netific.h"
-#include "app_announce.h"
+#include "netif_common.h"
+#include "app_control.h"
 #include "app_netif.h"
 #include "udp_iperf.h"
-#include "app_control.h"
 
-#include <industrial_comms/ethernetip_adapter/icss_fwhal/firmware/icss_emac_mmap.h> //EIP change
-#include <industrial_comms/ethernetip_adapter/icss_fwhal/tiswitch_pruss_intc_mapping.h>  //EIP change
-#include <industrial_comms/ethernetip_adapter/icss_fwhal/icss_eip_driver.h>  //EIP change
+
+#include <industrial_comms/ethernetip_adapter/icss_fwhal/firmware/icss_emac_mmap.h>
+#include <industrial_comms/ethernetip_adapter/icss_fwhal/tiswitch_pruss_intc_mapping.h>
+#include <industrial_comms/ethernetip_adapter/icss_fwhal/icss_eip_driver.h>
 
 /* ========================================================================== */
 /*                           Macros & Typedefs                                */
@@ -102,9 +102,6 @@
 #define EIP_DLR_P1_INT_OFFSET               (2)
 #define EIP_BEACON_TIMEOUT_INT_OFFSET_P0    (4)
 #define EIP_BEACON_TIMEOUT_INT_OFFSET_P1    (7)
-
-#define PRU_PN_MAC_ADDR_LEN             6
-static uint8_t IntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
 
 #define PN_RX_INT_OFFSET            (0)
 #define PN_PPM_INT_OFFSET           (1)
@@ -136,33 +133,6 @@ static uint8_t IntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
 #define I2C_EEPROM_DATA_OFFSET          (0x8000)
 #define I2C_EEPROM_MAC_DATA_OFFSET      (0x42)
 
-/* Max number of ports supported per context */ 
-#define ENETMP_PORT_MAX                          (ENET_SYSCFG_NUM_EXT_MAC_PORTS)
-
-/* Max number of hardware RX channels. Note that this is different than Enet LLD's
- * RX channel concept which maps to UDMA hardware RX flows */
-#define ENETMP_HW_RXCH_MAX                       (2U)
-#define ENETMP_HW_RXFLOW_MAX                     (8U)
-
-/* Local flag to disable a peripheral from test list */
-#define ENETMP_DISABLED                          (0U)
-
-/* Max number of ports that can be tested with this app */
-#define ENETMP_ICSSG_INSTANCE_MAX                (2U)
-#define ENETMP_PER_MAX                           (ENETMP_ICSSG_INSTANCE_MAX)
-
-/* Task stack size */
-#define ENETMP_TASK_STACK_SZ                     (10U * 1024U)
-
-/* 100-ms periodic tick */
-#define ENETMP_PERIODIC_TICK_MS                  (100U)
-
-/*Counting Semaphore count*/
-#define COUNTING_SEM_COUNT                       (10U)
-
-/*Maximum Tx channels allowed*/
-#define ENETMP_MAX_TX_CHANNEL_NUM                (8U)
-
 /* UDP Iperf task should be highest priority task to ensure processed buffers
  * are freed without delay so that we get maximum throughput for
  * UDP Iperf.
@@ -173,9 +143,9 @@ static uint8_t IntfMacAddress_s[PRU_PN_MAC_ADDR_LEN];
 /*                            Global Variables                                */
 /* ========================================================================== */
 
-EIP_Handle icssEipHandle; //EIP change
-EIP_DLRHandle dlrHandle;  //EIP change
-TimeSync_ParamsHandle_t timeSyncHandle;  //EIP change
+EIP_Handle icssEipHandle;
+EIP_DLRHandle dlrHandle;
+TimeSync_ParamsHandle_t timeSyncHandle;
 
 /** \brief PRU-ICSS LLD handle */
 PRUICSS_Handle prusshandle;
@@ -194,25 +164,25 @@ uint8_t lclMac[6];
 uint8_t tempFrame[ICSS_EMAC_MAXMTU] __attribute__((aligned(32)));
 
 /* EthernetIP related global variables */
-static uint32_t rx_rt_errors_s  = 0; //EIP change
+static uint32_t rx_rt_errors_s  = 0; 
 /**PTP MAC ID for comparison*/
-uint8_t ptpMAC_EIP[6] = {0x1, 0x0, 0x5e, 0x0, 0x1, 0x81}; //EIP change
+uint8_t ptpMAC_EIP[6] = {0x1, 0x0, 0x5e, 0x0, 0x1, 0x81}; 
 /**DLR MAC ID for comparison*/
-uint8_t dlrMAC_EIP[6] = {0x1, 0x21, 0x6c, 0x0, 0x0, 0x2}; //EIP change
+uint8_t dlrMAC_EIP[6] = {0x1, 0x21, 0x6c, 0x0, 0x0, 0x2}; 
 
 /**PTP MAC ID for comparison*/
 uint8_t timeSyncMAC[6] = {0x1, 0x1b, 0x19, 0x0, 0x0, 0x0};
 uint8_t linkLocalMAC[6] = {0x1, 0x80, 0xc2, 0x0, 0x0, 0xE};
 
-int collision_pkt_dropped;
-int num_of_collision_occured;
-uint8_t hsr_prp_testPkt[HSR_PRP_TEST_FRAME_SIZE] = {
-    0x6a, 0x3e, 0x26, 0x7a, 0xb2, 0x7d,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x08,
-    0x00,0x45, 0x00, 0x00, 0x2E, 0x00,
-    0x00, 0x40, 0x00, 0x40, 0x00, 0x3A,
-    0xD1
-};
+// int collision_pkt_dropped;
+// int num_of_collision_occured;
+// uint8_t hsr_prp_testPkt[HSR_PRP_TEST_FRAME_SIZE] = {
+//     0x6a, 0x3e, 0x26, 0x7a, 0xb2, 0x7d,
+//     0x00, 0x00, 0x00, 0x00, 0x00, 0x08,
+//     0x00,0x45, 0x00, 0x00, 0x2E, 0x00,
+//     0x00, 0x40, 0x00, 0x40, 0x00, 0x3A,
+//     0xD1
+// };
 
 /* ========================================================================== */
 /*                          Function Declarations                             */
@@ -225,10 +195,6 @@ void appMain(void *args);
 static void EnetMp_remoteCoreTask(void *args);
 
 static void App_printCpuLoad();
-
-// void PN_socinitIRTHandle (PN_Handle appPnHandle);
-
-// void PN_initDefaultValues(PN_Handle appPnHandle, ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle);
 
 void PN_socgetMACAddress(uint8_t *lclMac);
 
@@ -245,7 +211,7 @@ int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr assignMac);
 // }
 
 /*Registering Port 1 Link break callback */
-void EIP_DLR_TIMESYNC_port0ProcessLinkBrk(void *icssEmacVoidPtr, uint8_t linkStatus, void *eipHandleVoidPtr) //EIP change
+void EIP_DLR_TIMESYNC_port0ProcessLinkBrk(void *icssEmacVoidPtr, uint8_t linkStatus, void *eipHandleVoidPtr) 
 {
     EIP_Handle eipHandle = (EIP_Handle)eipHandleVoidPtr;
     EIP_DLR_port0ProcessLinkBrk(linkStatus, (void *)(eipHandle->dlrHandle));
@@ -253,14 +219,14 @@ void EIP_DLR_TIMESYNC_port0ProcessLinkBrk(void *icssEmacVoidPtr, uint8_t linkSta
 }
 
 /*Registering Port 2 Link break callback */
-void EIP_DLR_TIMESYNC_port1ProcessLinkBrk(void *icssEmacVoidPtr, uint8_t linkStatus, void *eipHandleVoidPtr) //EIP change
+void EIP_DLR_TIMESYNC_port1ProcessLinkBrk(void *icssEmacVoidPtr, uint8_t linkStatus, void *eipHandleVoidPtr) 
 {
     EIP_Handle eipHandle = (EIP_Handle)eipHandleVoidPtr;
     EIP_DLR_port1ProcessLinkBrk(linkStatus, (void *)(eipHandle->dlrHandle));
     TimeSync_Port2linkResetCallBack(linkStatus, (void *)(eipHandle->timeSyncHandle));
 }
 
-void EIP_configureInterrupts(EIP_DLRHandle dlrHandle, TimeSync_ParamsHandle_t timeSyncHandle) //EIP change
+void EIP_configureInterrupts(EIP_DLRHandle dlrHandle, TimeSync_ParamsHandle_t timeSyncHandle) 
 {
     PRUICSS_HwAttrs const *pruicssHwAttrs = PRUICSS_getAttrs(CONFIG_PRU_ICSS1);
 
@@ -288,7 +254,7 @@ void EIP_configureInterrupts(EIP_DLRHandle dlrHandle, TimeSync_ParamsHandle_t ti
     }
 }
 
-void EIP_syncLossCallback() //EIP change
+void EIP_syncLossCallback() 
 {
     /*This indicates a loss of time sync
       Call your function here which handles sync loss*/
@@ -296,7 +262,7 @@ void EIP_syncLossCallback() //EIP change
     return;
 }
 
-int8_t EIP_initICSSPtpHandle(TimeSync_ParamsHandle_t timeSyncHandle, ICSS_EMAC_Handle emachandle) //EIP change
+int8_t EIP_initICSSPtpHandle(TimeSync_ParamsHandle_t timeSyncHandle, ICSS_EMAC_Handle emachandle) 
 {
     int8_t returnVal = SystemP_FAILURE;
     timeSyncHandle->emacHandle = emachandle;
@@ -425,14 +391,14 @@ int8_t EIP_initICSSPtpHandle(TimeSync_ParamsHandle_t timeSyncHandle, ICSS_EMAC_H
     return returnVal;
 }
 
-void EIP_initICSSDlrHandle(EIP_DLRHandle dlrHandle, ICSS_EMAC_Handle emachandle) //EIP change
+void EIP_initICSSDlrHandle(EIP_DLRHandle dlrHandle, ICSS_EMAC_Handle emachandle) 
 {
     dlrHandle->emacHandle = emachandle;
     dlrHandle->dlrObj = (dlrStruct *)malloc(sizeof(dlrStruct));
     dlrHandle->exclusionList = (exceptionList *)malloc(sizeof(exceptionList));
 }
 
-int8_t EIP_initDefaultValues(EIP_Handle icssEipHandle,ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle) //EIP change
+int8_t EIP_initDefaultValues(EIP_Handle icssEipHandle,ICSS_EMAC_Handle emachandle,PRUICSS_Handle prusshandle) 
 {
     int8_t status = SystemP_SUCCESS;
     /* Memory allocations */
@@ -446,7 +412,7 @@ int8_t EIP_initDefaultValues(EIP_Handle icssEipHandle,ICSS_EMAC_Handle emachandl
     return status;
 }
 
-int8_t EIP_RtRxCallback (void *emacHandleVoidPtr, uint8_t portNumber, void * eipHandleVoidPtr) //EIP change
+int8_t EIP_RtRxCallback (void *emacHandleVoidPtr, uint8_t portNumber, void * eipHandleVoidPtr) 
 {
     uint32_t packetLen;
     int32_t  port;
@@ -519,7 +485,7 @@ int8_t EIP_RtRxCallback (void *emacHandleVoidPtr, uint8_t portNumber, void * eip
     return returnVal;
 }
 
-uint32_t EnetSoc_getCoreId(void) // check if needed
+uint32_t EnetSoc_getCoreId(void)
 {
     uint32_t coreId = CSL_CORE_ID_R5FSS0_0;
     return coreId;
@@ -552,14 +518,14 @@ void appMain(void *args)
 
     ICSS_EMAC_Params_init(&icssEmacParams);
     icssEmacParams.pruicssIntcInitData = &pruss_intc_initdata;
-    icssEmacParams.fwStaticMMap = &(icss_emacFwStaticCfgLocal[1]); //EIP change
-    icssEmacParams.fwDynamicMMap = &icss_emacFwDynamicCfgLocal; //EIP change
+    icssEmacParams.fwStaticMMap = &(icss_emacFwStaticCfgLocal[1]); 
+    icssEmacParams.fwDynamicMMap = &icss_emacFwDynamicCfgLocal; 
     icssEmacParams.pruicssHandle = prusshandle;
     icssEmacParams.ethphyHandle[0] = gEthPhyHandle[CONFIG_ETHPHY0];
     icssEmacParams.ethphyHandle[1] = gEthPhyHandle[CONFIG_ETHPHY1];
     /*Packet processing callback*/
-    icssEmacParams.callBackObject.rxRTCallBack.callBack = NULL; //EIP change
-    icssEmacParams.callBackObject.rxRTCallBack.userArg = NULL; //EIP change
+    icssEmacParams.callBackObject.rxRTCallBack.callBack = NULL; 
+    icssEmacParams.callBackObject.rxRTCallBack.userArg = NULL; 
     icssEmacParams.callBackObject.rxNRTCallBack.callBack = (ICSS_EMAC_CallBack)Lwip2Emac_serviceRx;
     icssEmacParams.callBackObject.rxNRTCallBack.userArg = (void*)(Lwipif_handle);
     icssEmacParams.callBackObject.customRxCallBack.callBack = NULL;
@@ -568,26 +534,25 @@ void appMain(void *args)
     /*! Fetch the SoC provided MAC address and hand it to EMAC driver to allow this traffic to reach host */
     PN_socgetMACAddress(lclMac);
     memcpy(&(icssEmacParams.macId[0]), &(lclMac[0]), 6);
-    // memmove (IntfMacAddress_s, icssEmacParams.macId, PRU_PN_MAC_ADDR_LEN); //remove later - EIP change
     emachandle = ICSS_EMAC_open(CONFIG_ICSS_EMAC0, &icssEmacParams);
     DebugP_assert(emachandle != NULL);
 
     DebugP_log("Main Core init\r\n");
-    ipc_rpmsg_echo_main(NULL);
 
-    EthApp_lwipMain(NULL, NULL); // - App_setupNetworkStack(): balluff
+    /*! Initialize the IPC Task */
     AppCtrl_createRecvTask();
+    /*! Handle the IC up notify to bring IC-netif up */
+    EthApp_lwipMain(NULL, NULL);
 
-// EIP change
     icssEipHandle = (EIP_Handle)malloc(sizeof(struct eip_Config_s));
     if(NULL == icssEipHandle)
     {
-                DebugP_log("Creation of EIP Handle failed\r\n");
+        DebugP_log("Creation of EIP Handle failed\r\n");
     }
-        /* Assigning default values */
+    /* Assigning default values */
     int8_t status = EIP_initDefaultValues(icssEipHandle, emachandle, prusshandle);
     DebugP_assert(status==SystemP_SUCCESS);
-  /* Copy the MAC ID passed to ICSS-EMAC during ICSS-EMAC initialization*/
+    /* Copy the MAC ID passed to ICSS-EMAC during ICSS-EMAC initialization*/
     memcpy(dlrHandle->macId, &(icssEmacParams.macId[0]), 6);
     memcpy(timeSyncHandle->macId, &(icssEmacParams.macId[0]), 6);
    
@@ -642,11 +607,11 @@ void appMain(void *args)
     DebugP_log("Network is UP ...\r\n");
 //    EIP_DLR_TIMESYNC_assignIP(); //Add later IMP - EIP CHange
     ClockP_sleep(2);
-    AppTcp_startServer(); // remove later - EIP change (TCP iperf not working)
+    AppTcp_startServer(); 
 
     sys_lock_tcpip_core();
     lwiperf_example_init();
-    // UDP not supported, same as Balluff
+    // UDP TX not supported
     sys_thread_new("UDP Iperf", start_application, NULL, DEFAULT_THREAD_STACKSIZE,
                                UDP_IPERF_THREAD_PRIO);
     sys_unlock_tcpip_core();
@@ -656,23 +621,19 @@ void appMain(void *args)
         ClockP_usleep(1000);
         App_printCpuLoad();
     }
-
-    // App_shutdownNetworkStack();
 }
 
-static void EnetMp_remoteCoreTask(void *args)
+uint32_t App_getSelfCoreId()
 {
-    Drivers_open();
-    Board_driversOpen();
-    DebugP_log("Remote Core init");
-    ipc_rpmsg_echo_main(NULL);
+    uint32_t coreId = EnetSoc_getCoreId();
+    return coreId;
 }
 
 static void App_printCpuLoad()
 {
     static uint32_t startTime_ms = 0;
     const  uint32_t currTime_ms  = ClockP_getTimeUsec()/1000;
-    const  uint32_t printInterval_ms = 10000;
+    const  uint32_t printInterval_ms = 5000;
 
     if (startTime_ms == 0)
     {
@@ -723,7 +684,6 @@ int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr assignMac)
 
     if(status == ICVE_OK)
     {
-        // status = App_addMacFdbEntry(gEnetAppParams[0].enetType, gEnetAppParams[0].instId, mac);
         ICSS_EMAC_IoctlCmd ioctlParamsPNTest;
         ioctlParamsPNTest.ioctlVal = (void *)(assignMac.macAddr);
         ioctlParamsPNTest.command = ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_ENABLE_CMD;
