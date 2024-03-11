@@ -1,8 +1,8 @@
 /*
- * AM263x_PRU0.cmd
+ * AM263Px_PRU0.cmd
  *
  * Example Linker command file for linking programs built with the TI-PRU-CGT
- * on AM263x PRU0 cores
+ * on AM263Px PRU0 cores
  *
  */
 
