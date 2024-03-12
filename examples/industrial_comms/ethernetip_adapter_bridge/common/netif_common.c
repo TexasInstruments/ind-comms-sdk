@@ -67,11 +67,11 @@
 /* ========================================================================== */
 
 static void EthApp_netifStatusCb(struct netif *netif);
-void EthApp_setNetifCbs(struct netif *netif);
+
 static void App_netifLinkChangeCb(struct netif *pNetif);
 static void EthApp_initLwip(void *arg);
 
-void EthApp_initNetif(void);
+extern void EthApp_initNetif(void);
 
 /* ========================================================================== */
 /*                          Function Definitions                              */

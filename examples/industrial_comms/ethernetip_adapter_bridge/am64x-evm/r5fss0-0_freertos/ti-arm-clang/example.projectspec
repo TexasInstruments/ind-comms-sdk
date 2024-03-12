@@ -40,13 +40,12 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/contrib
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-config/am64x
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/hsr_prp_demo
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipific/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_bridge/common
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_bridge/common/am64evm
             -mcpu=cortex-r5
             -mfloat-abi=hard
             -mfpu=vfpv3-d16
@@ -63,12 +62,11 @@
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_timesync/lib
-            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/hsr_prp/icss_fwhal/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib
-            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib
             -i${CG_TOOL_ROOT}/lib
             -i${PROJECT_BUILD_DIR}/syscfg
             -m=ethernetip_adapter_bridge.${ConfigName}.map
@@ -105,7 +103,6 @@
                 -licss_emac.am64x.r5f.ti-arm-clang.release.lib
                 -licss_emac_lwip_if.am64x.r5f.ti-arm-clang.release.lib
                 -licss_timesync.am64x.r5f.ti-arm-clang.release.lib
-                -lprp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.release.lib
                 -lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
                 -llibc.a
                 -llibsysbm.a
@@ -125,7 +122,6 @@
                 -licss_emac.am64x.r5f.ti-arm-clang.debug.lib
                 -licss_emac_lwip_if.am64x.r5f.ti-arm-clang.debug.lib
                 -licss_timesync.am64x.r5f.ti-arm-clang.debug.lib
-                -lprp_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
                 -lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
                 -llibc.a
                 -llibsysbm.a
@@ -142,15 +138,11 @@
         </file>
         <file path="../../../core_main/app_netif.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../core_main/emac_lwipif.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
         <file path="../../../core_main/app_tcpserver.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../core_main/app_main.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="../enet_custom_board_config.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../common/am64evm/hsr_prp_soc.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

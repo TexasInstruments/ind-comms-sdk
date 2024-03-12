@@ -83,12 +83,14 @@ const LwipIc_QueueTbl gLwipIcQueueTbl[SHDMEM_CIRCULAR_BUFFER_MAX_QUEUES]=
 {
     {
         .pShdMemBuffStartAdd  = (void *)0xA0400000U,
-        .elemCount            = 128U,
+        .elemCount            = 128U,       
+        // .elemCount            = 64U, - flood ping fix, add later
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
         .pShdMemBuffStartAdd  = (void *)0xA0500000U,
-        .elemCount            = 128U,
+        .elemCount            = 128U,        
+        // .elemCount            = 64U, - flood ping fix, add later
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {

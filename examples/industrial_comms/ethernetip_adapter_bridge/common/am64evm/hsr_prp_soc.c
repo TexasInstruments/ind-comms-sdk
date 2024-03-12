@@ -117,11 +117,6 @@ void hsrprp_configureInterrupts(ICSS_EMAC_Handle emachandle)
 #endif
 }
 
-void hsrprp_socgetMACAddress(uint8_t *lclMac)
-{
-    EEPROM_read(gEepromHandle[CONFIG_EEPROM0],  I2C_EEPROM_MAC_DATA_OFFSET, lclMac, 6U);
-}
-
 void hsrprp_configure_rat()
 {
     uintptr_t icssgBaseAddr = (((PRUICSS_HwAttrs *)((prusshandle)->hwAttrs))->baseAddr);

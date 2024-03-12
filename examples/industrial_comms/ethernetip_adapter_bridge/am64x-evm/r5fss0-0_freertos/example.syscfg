@@ -228,7 +228,7 @@ section2.output_section[4].$name      = ".text:abort";
 section2.output_section[4].palignment = true;
 
 section3.$name                        = "Code and Read-Only Data";
-section3.load_memory                  = "MSRAM";
+section3.load_memory                  = "DDR_1";
 section3.output_section.create(2);
 section3.output_section[0].$name      = ".text";
 section3.output_section[0].palignment = true;
@@ -236,13 +236,13 @@ section3.output_section[1].$name      = ".rodata";
 section3.output_section[1].palignment = true;
 
 section4.$name                        = "Data Segment";
-section4.load_memory                  = "MSRAM";
+section4.load_memory                  = "DDR_1";
 section4.output_section.create(1);
 section4.output_section[0].$name      = ".data";
 section4.output_section[0].palignment = true;
 
 section5.$name                                   = "Memory Segments";
-section5.load_memory                             = "MSRAM";
+section5.load_memory                             = "DDR_1";
 section5.output_section.create(3);
 section5.output_section[0].$name                 = ".bss";
 section5.output_section[0].palignment            = true;

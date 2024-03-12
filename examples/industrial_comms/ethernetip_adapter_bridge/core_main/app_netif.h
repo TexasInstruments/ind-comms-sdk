@@ -10,3 +10,6 @@ void EthApp_initNetif(void);
 
 void App_waitForBridgeUp();
 
+int32_t AddNetif_addBridgeMcastEntry(Icss_MacAddr mac);
+
+int32_t AddNetif_delBridgeMcastEntry(Icss_MacAddr mac);

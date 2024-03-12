@@ -146,14 +146,6 @@ RPMessage_Object gIpcRecvMsgObject[IPC_RPMESSAGE_NUM_RECV_TASKS];
 uint8_t gIpcTaskStack[IPC_RPMESSAGE_NUM_RECV_TASKS][IPC_RPMESSAGE_TASK_STACK_SIZE] __attribute__((aligned(32)));
 TaskP_Object gIpcTask[IPC_RPMESSAGE_NUM_RECV_TASKS];
 
-/* non-Linux cores that exchange messages among each other */
-
-uint32_t gRemoteCoreId[] = {
-    CSL_CORE_ID_R5FSS0_0,
-    CSL_CORE_ID_R5FSS0_1,
-    CSL_CORE_ID_MAX /* this value indicates the end of the array */
-};
-
 volatile uint8_t gShutdown = 0u;
 volatile uint8_t gShutdownRemotecoreID = 0u;
 /* ========================================================================== */
@@ -174,11 +166,15 @@ static int32_t AppCtrl_handleResponse(Icve_respMsg respMsg, uint16_t remoteCoreI
 
 static int32_t AppCtrl_sendRespMsg(Icve_message* pMsg, uint16_t remoteCoreId, uint16_t remoteCoreEndPt);
 
-extern int32_t AppCtrl_addMacAddr2fbd(Icve_macAddr mac);
-
 static int32_t AppCtrl_respShrMemRegion(uint16_t remoteCoreId, uint16_t remoteCoreEndPt);
 
 extern uint32_t App_getSelfCoreId();
+
+extern int32_t AppCtrl_addMacAddr2fbd(Icve_macAddr mac);
+
+extern int32_t AppCtrl_addMcastAddr(Icve_macAddr mac);
+
+extern int32_t AppCtrl_delMcastAddr(Icve_macAddr mac);
 
 /* ========================================================================== */
 /*                          Function Definitions                              */
@@ -295,6 +291,7 @@ static void AppCtrl_handleControlMsg(void* pMsg, uint16_t remoteCoreId, uint16_t
 static int32_t AppCtrl_handleReq(Icve_reqMsg reqMsg, uint16_t remoteCoreId, uint16_t remoteCoreEndPt)
 {
     int32_t status = ICVE_OK;
+    Icve_message msg;
     switch(reqMsg.type)
     {
         case ICVE_REQ_SHM_INFO:
@@ -303,6 +300,29 @@ static int32_t AppCtrl_handleReq(Icve_reqMsg reqMsg, uint16_t remoteCoreId, uint
 
         case ICVE_REQ_SET_MAC_ADDR:
             status = AppCtrl_addMacAddr2fbd(reqMsg.mac_addr);
+            if(status == ICVE_OK)
+            {
+                msg.resp_msg.type = ICVE_RESP_SET_MAC_ADDR;
+                AppCtrl_sendRespMsg(&msg, remoteCoreId, remoteCoreEndPt);
+            }
+            break;
+        case ICVE_REQ_ADD_MC_ADDR:
+            status = AppCtrl_addMcastAddr(reqMsg.mac_addr);
+            if(status == ICVE_OK)
+            {
+                msg.resp_msg.type = ICVE_RESP_ADD_MC_ADDR;
+                AppCtrl_sendRespMsg(&msg, remoteCoreId, remoteCoreEndPt);
+            }
+            break;
+
+        case ICVE_REQ_DEL_MC_ADDR:
+            status = AppCtrl_delMcastAddr(reqMsg.mac_addr);
+
+            if(status == ICVE_OK)
+            {
+                msg.resp_msg.type = ICVE_RESP_DEL_MC_ADDR;
+                AppCtrl_sendRespMsg(&msg, remoteCoreId, remoteCoreEndPt);
+            }
             break;
         default:
             break;
@@ -388,10 +408,9 @@ void AppCtrl_createSendTask()
 /*! Test code. Not used in the example. Used for Debug purposes only */
 static void AppCtrl_sendTask(void* args)
 {
-    Icve_message msgBuf;
-
-    msgBuf.msg_hdr.msg_type = ICVE_REQUEST_MSG;
-    msgBuf.req_msg.type     = ICVE_REQ_SET_MAC_ADDR;
+    int32_t status, i;
+    char msgBuf[IPC_RPMESSAGE_MAX_MSG_SIZE];
+    uint16_t msgSize, remoteCoreId, remoteCoreEndPt;
 
     Icve_macAddr macAddr;
     macAddr.macAddr[0] = 0x00;
@@ -400,8 +419,72 @@ static void AppCtrl_sendTask(void* args)
     macAddr.macAddr[3] = 0x04;
     macAddr.macAddr[4] = 0x05;
     macAddr.macAddr[5] = 0x06;
-    AppCtrl_sendAddMacAddrReq((macAddr));
+    AppCtrl_sendAddMacAddrReq(macAddr, ICVE_REQ_SET_MAC_ADDR);
 
+    status = RPMessage_recv(&gIpcRecvMsgObject[1],
+                            msgBuf, &msgSize,
+                            &remoteCoreId, &remoteCoreEndPt,
+                            SystemP_WAIT_FOREVER);
+    if(status == SystemP_SUCCESS)
+    {
+        DebugP_log("Received Response Pkt\r\n");
+        DebugP_log("[IPC RPMSG ECHO] Remote Core ID    = %d \r\n", remoteCoreId);
+        DebugP_log("[IPC RPMSG ECHO] Remote Core EndPt = %d \r\n", remoteCoreEndPt);
+    }
+
+    Icve_macAddr multicastAddr;
+    multicastAddr.macAddr[0] = 0x01;
+    multicastAddr.macAddr[1] = 0x80;
+    multicastAddr.macAddr[2] = 0xC2;
+    multicastAddr.macAddr[3] = 0x00;
+    multicastAddr.macAddr[4] = 0x00;
+    multicastAddr.macAddr[5] = 0x0E;
+    for (i = 0; i<32; i++)
+    {
+        AppCtrl_sendAddMacAddrReq(multicastAddr, ICVE_REQ_ADD_MC_ADDR);
+
+        status = RPMessage_recv(&gIpcRecvMsgObject[1],
+                                msgBuf, &msgSize,
+                                &remoteCoreId, &remoteCoreEndPt,
+                                SystemP_WAIT_FOREVER);
+        if(status == SystemP_SUCCESS)
+        {
+            DebugP_log("Received Response Pkt\r\n");
+            DebugP_log("[IPC RPMSG ECHO] Remote Core ID    = %d \r\n", remoteCoreId);
+            DebugP_log("[IPC RPMSG ECHO] Remote Core EndPt = %d \r\n", remoteCoreEndPt);
+        }
+        multicastAddr.macAddr[4]++;
+    }
+    for (i = 0; i<32; i++)
+    {
+        AppCtrl_sendAddMacAddrReq(multicastAddr, ICVE_REQ_ADD_MC_ADDR);
+
+        status = RPMessage_recv(&gIpcRecvMsgObject[1],
+                                msgBuf, &msgSize,
+                                &remoteCoreId, &remoteCoreEndPt,
+                                SystemP_WAIT_FOREVER);
+        if(status == SystemP_SUCCESS)
+        {
+            DebugP_log("Received Response Pkt\r\n");
+            DebugP_log("[IPC RPMSG ECHO] Remote Core ID    = %d \r\n", remoteCoreId);
+            DebugP_log("[IPC RPMSG ECHO] Remote Core EndPt = %d \r\n", remoteCoreEndPt);
+        }
+        multicastAddr.macAddr[3]++;
+    }
+
+    ClockP_sleep(15);
+    //AppCtrl_sendAddMacAddrReq(multicastAddr, ICVE_REQ_DEL_MC_ADDR);
+
+    status = RPMessage_recv(&gIpcRecvMsgObject[1],
+                            msgBuf, &msgSize,
+                            &remoteCoreId, &remoteCoreEndPt,
+                            SystemP_WAIT_FOREVER);
+    if(status == SystemP_SUCCESS)
+    {
+        DebugP_log("Received Response Pkt\r\n");
+        DebugP_log("[IPC RPMSG ECHO] Remote Core ID    = %d \r\n", remoteCoreId);
+        DebugP_log("[IPC RPMSG ECHO] Remote Core EndPt = %d \r\n", remoteCoreEndPt);
+    }
     vTaskDelete(NULL);
 //    int32_t status;
 //    RPMessage_Object *pRpmsgObj = (RPMessage_Object *)args;
@@ -416,7 +499,7 @@ static void AppCtrl_sendTask(void* args)
 //    }
 }
 
-void AppCtrl_sendAddMacAddrReq(Icve_macAddr args)
+void AppCtrl_sendAddMacAddrReq(Icve_macAddr args, uint32_t type)
 {
     Icve_macAddr macAddr = args;
     int32_t status;
@@ -424,7 +507,7 @@ void AppCtrl_sendAddMacAddrReq(Icve_macAddr args)
 
     pMsg.msg_hdr.msg_type = ICVE_REQUEST_MSG;
     pMsg.msg_hdr.src_id   = App_getSelfCoreId();
-    pMsg.req_msg.type     = ICVE_REQ_SET_MAC_ADDR;
+    pMsg.req_msg.type     = type;
     pMsg.req_msg.mac_addr = macAddr;
 
     status = RPMessage_send(&pMsg, sizeof(Icve_message),
