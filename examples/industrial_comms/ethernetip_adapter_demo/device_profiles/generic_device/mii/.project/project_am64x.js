@@ -4,6 +4,7 @@ let device = "am64x";
 
 const files = {
     common: [
+        "udp_iperf.c",
         "app.c",
         "appCfg.c",
         "appNV.c",

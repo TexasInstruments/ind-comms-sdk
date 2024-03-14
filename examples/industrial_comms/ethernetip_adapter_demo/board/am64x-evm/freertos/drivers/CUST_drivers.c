@@ -132,11 +132,11 @@ uint32_t CUST_DRIVERS_init(CUST_DRIVERS_SInit_t* pParams_p)
         goto initErr;
     }
 
-    if (CUST_LED_eERR_NOERROR != CUST_LED_init())
-    {
-        error = (uint32_t) CUST_DRIVERS_eERR_LED;
-        goto initErr;
-    }
+    // if (CUST_LED_eERR_NOERROR != CUST_LED_init())
+    // {
+    //     error = (uint32_t) CUST_DRIVERS_eERR_LED;
+    //     goto initErr;
+    // }
 
     if (PERMANENT_DATA_MEMORY_TYPE == CUST_DRIVERS_PRM_eTYPE_FLASH)
     {
@@ -247,7 +247,7 @@ void CUST_DRIVERS_UART_printf(void* pContext_p, const char* __restrict pFormat_p
     transaction.count = strlen(aOutStream_s);
     transaction.buf = (void *)aOutStream_s;
     transaction.args = NULL;
-    transferOK = UART_write(gUartHandle[PRINTF_UART_CALLBACK_INSTANCE], &transaction);
+    // transferOK = UART_write(gUartHandle[PRINTF_UART_CALLBACK_INSTANCE], &transaction); - uart change
 
     (void)transferOK;
 }
@@ -719,46 +719,46 @@ laError:
 void CUST_DRIVERS_LED_setIndustrialLeds (uint32_t value_p)
 {
 #if !(defined FBTLPROVIDER)
-    static uint32_t ledValue_s = 0;
-
-    LED_Handle handle = NULL;
-    LED_Attrs* pAttrs = NULL;
-    int32_t    status;
-    int32_t    ledCnt;
-
-    handle = gLedHandle[INDUSTRIAL_LEDS_INSTANCE];
-
-    if (NULL == handle)
-    {
-        return;
-    }
-
-    pAttrs = (LED_Attrs*) LED_getAttrs(INDUSTRIAL_LEDS_INSTANCE);
-
-    if( ledValue_s == value_p)
-    {
-        return;
-    }
-
-    ledValue_s = value_p;
-
-    for(ledCnt = 0U; ledCnt < pAttrs->numLedPerGroup; ledCnt++)
-    {
-        if(value_p & 1)
-        {
-            status = LED_on(handle, ledCnt);
-        }
-        else
-        {
-            status = LED_off(handle, ledCnt);
-        }
-
-        if(SystemP_SUCCESS != status)
-        {
-            return;
-        }
-
-        value_p >>= 1;
-    }
+//    static uint32_t ledValue_s = 0;
+//
+//    LED_Handle handle = NULL;
+//    LED_Attrs* pAttrs = NULL;
+//    int32_t    status;
+//    int32_t    ledCnt;
+//
+//    handle = gLedHandle[INDUSTRIAL_LEDS_INSTANCE];
+//
+//    if (NULL == handle)
+//    {
+//        return;
+//    }
+//
+//    pAttrs = (LED_Attrs*) LED_getAttrs(INDUSTRIAL_LEDS_INSTANCE);
+//
+//    if( ledValue_s == value_p)
+//    {
+//        return;
+//    }
+//
+//    ledValue_s = value_p;
+//
+//    for(ledCnt = 0U; ledCnt < pAttrs->numLedPerGroup; ledCnt++)
+//    {
+//        if(value_p & 1)
+//        {
+//            status = LED_on(handle, ledCnt);
+//        }
+//        else
+//        {
+//            status = LED_off(handle, ledCnt);
+//        }
+//
+//        if(SystemP_SUCCESS != status)
+//        {
+//            return;
+//        }
+//
+//        value_p >>= 1;
+//    }
 #endif
 }

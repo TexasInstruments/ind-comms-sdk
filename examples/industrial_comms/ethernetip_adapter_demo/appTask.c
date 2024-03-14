@@ -77,6 +77,20 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
+#include "lwip/opt.h"
+#include "lwip/sys.h"
+#include "lwip/tcpip.h"
+#include "lwip/dhcp.h"
+#include <networking/lwip/lwip-contrib/examples/lwiperf/lwiperf_example.h>
+
+#include "udp_iperf.h"
+
+/* UDP Iperf task should be highest priority task to ensure processed buffers
+ * are freed without delay so that we get maximum throughput for
+ * UDP Iperf.
+ */
+#define UDP_IPERF_THREAD_PRIO  (14U)
+
 #if defined(SOC_AM64X) || defined(SOC_AM243X)
 extern PRUICSS_Handle prusshandle;
 #else
@@ -393,6 +407,12 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
     CMN_CPU_API_startMonitor(&pAppInstance->config.cpuLoad);
 #endif
+
+    sys_lock_tcpip_core();
+    lwiperf_example_init();
+    sys_thread_new("UDP Iperf", start_application, NULL, DEFAULT_THREAD_STACKSIZE,
+                               UDP_IPERF_THREAD_PRIO);
+    sys_unlock_tcpip_core();
 
     for (;;)
     {

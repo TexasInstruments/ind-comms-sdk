@@ -132,6 +132,8 @@
             "
         ></configuration>
         <pathVariable name="INDUSTRIAL_COMMUNICATIONS_SDK_PATH" path="${COM_TI_INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
+        <file path="../../../../../../udp_iperf.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
         <file path="../../../../../../app.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../appCfg.c" openOnCreation="false" excludeFromBuild="false" action="link">

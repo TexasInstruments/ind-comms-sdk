@@ -38,6 +38,7 @@ BOOTIMAGE_NAME_HS_FS:=ethernetip_adapter_generic_device_mii_demo.$(PROFILE).appi
 TARGETS := $(BOOTIMAGE_NAME)
 
 FILES_common := \
+	udp_iperf.c \
 	app.c \
 	appCfg.c \
 	appNV.c \

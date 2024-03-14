@@ -1,8 +1,8 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM64x" --package "ALV" --part "Default" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM64X@09.01.00"
- * @versions {"tool":"1.18.0+3266"}
+ * @cliArgs --device "AM64x" --package "ALV" --part "Default" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@09.01.00"
+ * @versions {"tool":"1.19.0+3426"}
  */
 
 /**
@@ -12,11 +12,9 @@ const eeprom          = scripting.addModule("/board/eeprom/eeprom", {}, false);
 const eeprom1         = eeprom.addInstance();
 const flash           = scripting.addModule("/board/flash/flash", {}, false);
 const flash1          = flash.addInstance();
-const led             = scripting.addModule("/board/led/led", {}, false);
-const led1            = led.addInstance();
 const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1            = i2c.addInstance();
-const i2c2            = i2c.addInstance();
+const ipc             = scripting.addModule("/drivers/ipc/ipc");
 const pruicss         = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
 const pruicss1        = pruicss.addInstance();
 const uart            = scripting.addModule("/drivers/uart/uart", {}, false);
@@ -30,6 +28,12 @@ const mpu_armv72      = mpu_armv7.addInstance();
 const mpu_armv73      = mpu_armv7.addInstance();
 const mpu_armv74      = mpu_armv7.addInstance();
 const mpu_armv75      = mpu_armv7.addInstance();
+const mpu_armv76      = mpu_armv7.addInstance();
+const mpu_armv77      = mpu_armv7.addInstance();
+const mpu_armv78      = mpu_armv7.addInstance();
+const mpu_armv79      = mpu_armv7.addInstance();
+const mpu_armv710     = mpu_armv7.addInstance();
+const mpu_armv711     = mpu_armv7.addInstance();
 const timer           = scripting.addModule("/kernel/dpl/timer", {}, false);
 const timer1          = timer.addInstance();
 const default_linker  = scripting.addModule("/memory_configurator/default_linker", {}, false);
@@ -52,6 +56,7 @@ const section10       = section.addInstance();
 const section11       = section.addInstance();
 const section12       = section.addInstance();
 const section13       = section.addInstance();
+const section14       = section.addInstance();
 
 /**
  * Write custom configuration values to the imported modules.
@@ -63,15 +68,15 @@ flash1.peripheralDriver.$name        = "CONFIG_OSPI0";
 flash1.peripheralDriver.phyEnable    = true;
 flash1.peripheralDriver.inputClkFreq = 166666666;
 
-led1.$name = "CONFIG_LED0";
-led1.name  = "TPIC2810";
-
 i2c1.$name               = "CONFIG_I2C0";
 eeprom1.peripheralDriver = i2c1;
 i2c1.I2C.$assign         = "I2C0";
 
-i2c2.$name            = "CONFIG_I2C1";
-led1.peripheralDriver = i2c2;
+ipc.r5fss0_1       = "NONE";
+ipc.r5fss1_0       = "NONE";
+ipc.r5fss1_1       = "NONE";
+ipc.m4fss0_0       = "NONE";
+ipc.enableLinuxIpc = true;
 
 uart1.useMcuDomainPeripherals = true;
 uart1.rxTrigLvl               = "1";
@@ -79,6 +84,11 @@ uart1.intrEnable              = "USER_INTR";
 uart1.hwFlowControlThr        = "1";
 uart1.$name                   = "CONFIG_UART1";
 uart1.MCU_UART.$assign        = "MCU_USART0";
+
+const uart_v0_template  = scripting.addModule("/drivers/uart/v0/uart_v0_template", {}, false);
+const uart_v0_template1 = uart_v0_template.addInstance({}, false);
+uart_v0_template1.$name = "drivers_uart_v0_uart_v0_template0";
+uart1.child             = uart_v0_template1;
 
 ethernetip1.$name                         = "CONFIG_ETHERNETIP0";
 ethernetip1.icss_emac[0].$name            = "CONFIG_ICSS_EMAC0";
@@ -96,16 +106,6 @@ ethernetip1.ethphy2[0].customDeviceName   = "DP83869_1";
 ethernetip1.icss                         = pruicss1;
 pruicss1.$name                           = "CONFIG_PRU_ICSS1";
 pruicss1.AdditionalICSSSettings[0].$name = "CONFIG_PRU_ICSS_IO0";
-
-debug_log.enableUartLog        = true;
-debug_log.uartLog.$name        = "CONFIG_UART_CONSOLE";
-debug_log.uartLog.UART.$assign = "USART0";
-
-const uart_v0_template  = scripting.addModule("/drivers/uart/v0/uart_v0_template", {}, false);
-const uart_v0_template1 = uart_v0_template.addInstance({}, false);
-uart_v0_template1.$name = "drivers_uart_v0_uart_v0_template0";
-uart1.child             = uart_v0_template1;
-debug_log.uartLog.child = uart_v0_template1;
 
 mpu_armv71.$name             = "CONFIG_MPU_REGION0";
 mpu_armv71.size              = 31;
@@ -132,6 +132,35 @@ mpu_armv75.baseAddr   = 0x70000000;
 mpu_armv75.attributes = "Cached+Sharable";
 mpu_armv75.size       = 16;
 
+mpu_armv76.$name    = "CONFIG_MPU_REGION5";
+mpu_armv76.baseAddr = 0x80000000;
+mpu_armv76.size     = 31;
+
+mpu_armv77.$name        = "CONFIG_MPU_REGION6";
+mpu_armv77.baseAddr     = 0xA0000000;
+mpu_armv77.size         = 20;
+mpu_armv77.attributes   = "NonCached";
+mpu_armv77.allowExecute = false;
+
+mpu_armv78.$name        = "CONFIG_MPU_REGION7";
+mpu_armv78.baseAddr     = 0xA5000000;
+mpu_armv78.size         = 16;
+mpu_armv78.attributes   = "NonCached";
+mpu_armv78.allowExecute = false;
+
+mpu_armv79.$name    = "CONFIG_MPU_REGION8";
+mpu_armv79.baseAddr = 0xA0100000;
+mpu_armv79.size     = 20;
+
+mpu_armv710.$name    = "CONFIG_MPU_REGION9";
+mpu_armv710.baseAddr = 0xA0200000;
+mpu_armv710.size     = 21;
+
+mpu_armv711.$name      = "CONFIG_MPU_REGION10";
+mpu_armv711.baseAddr   = 0xA0400000;
+mpu_armv711.size       = 22;
+mpu_armv711.attributes = "Cached+Sharable";
+
 timer1.$name         = "CONFIG_TIMER0";
 timer1.startTimer    = true;
 timer1.timerCallback = "OSAL_FREERTOS_callbackTimer";
@@ -144,46 +173,55 @@ general1.stack_size   = 1024;
 general1.heap_size    = 131072;
 general1.linker.$name = "TIARMCLANG0";
 
-region1.$name                               = "MEMORY_REGION_CONFIGURATION0";
-region1.memory_region.create(9);
-region1.memory_region[0].type               = "TCMA_R5F";
-region1.memory_region[0].$name              = "R5F_VECS";
-region1.memory_region[0].size               = 0x40;
-region1.memory_region[0].auto               = false;
-region1.memory_region[1].type               = "TCMA_R5F";
-region1.memory_region[1].$name              = "R5F_TCMA";
-region1.memory_region[1].size               = 0x7FC0;
-region1.memory_region[2].type               = "TCMB_R5F";
-region1.memory_region[2].$name              = "R5F_TCMB0";
-region1.memory_region[2].size               = 0x8000;
-region1.memory_region[3].$name              = "MSRAM";
-region1.memory_region[3].auto               = false;
-region1.memory_region[3].manualStartAddress = 0x70080000;
-region1.memory_region[3].size               = 0x150000;
-region1.memory_region[4].auto               = false;
-region1.memory_region[4].$name              = "ICSS_PKT_BUF_MEM";
-region1.memory_region[4].size               = 0x10000;
-region1.memory_region[5].$name              = "USER_SHM_MEM";
-region1.memory_region[5].auto               = false;
-region1.memory_region[5].manualStartAddress = 0x701D0000;
-region1.memory_region[5].isShared           = true;
-region1.memory_region[5].shared_cores       = ["a53ss0-0","a53ss0-1","m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
-region1.memory_region[5].size               = 0x4000;
-region1.memory_region[6].auto               = false;
-region1.memory_region[6].$name              = "LOG_SHM_MEM";
-region1.memory_region[6].isShared           = true;
-region1.memory_region[6].shared_cores       = ["a53ss0-0","a53ss0-1","m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
-region1.memory_region[6].size               = 0x4000;
-region1.memory_region[6].manualStartAddress = 0x701D4000;
-region1.memory_region[7].auto               = false;
-region1.memory_region[7].$name              = "RTOS_NORTOS_IPC_SHM_MEM";
-region1.memory_region[7].isShared           = true;
-region1.memory_region[7].shared_cores       = ["a53ss0-0","a53ss0-1","m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
-region1.memory_region[7].manualStartAddress = 0x701D8000;
-region1.memory_region[7].size               = 0x8000;
-region1.memory_region[8].type               = "DDR_ALL";
-region1.memory_region[8].$name              = "DDR0";
-region1.memory_region[8].size               = 0x80000000;
+region1.$name                                = "MEMORY_REGION_CONFIGURATION0";
+region1.memory_region.create(11);
+region1.memory_region[0].type                = "TCMA_R5F";
+region1.memory_region[0].$name               = "R5F_VECS";
+region1.memory_region[0].size                = 0x40;
+region1.memory_region[0].auto                = false;
+region1.memory_region[1].type                = "TCMA_R5F";
+region1.memory_region[1].$name               = "R5F_TCMA";
+region1.memory_region[1].size                = 0x7FC0;
+region1.memory_region[2].type                = "TCMB_R5F";
+region1.memory_region[2].$name               = "R5F_TCMB0";
+region1.memory_region[2].size                = 0x8000;
+region1.memory_region[3].$name               = "MSRAM";
+region1.memory_region[3].auto                = false;
+region1.memory_region[3].size                = 0x150000;
+region1.memory_region[3].manualStartAddress  = 0x70010000;
+region1.memory_region[4].auto                = false;
+region1.memory_region[4].$name               = "ICSS_PKT_BUF_MEM";
+region1.memory_region[4].size                = 0x10000;
+region1.memory_region[5].auto                = false;
+region1.memory_region[5].type                = "DDR_ALL";
+region1.memory_region[5].$name               = "USER_SHM_MEM";
+region1.memory_region[5].manualStartAddress  = 0xA5000000;
+region1.memory_region[5].size                = 0x80;
+region1.memory_region[6].auto                = false;
+region1.memory_region[6].type                = "DDR_ALL";
+region1.memory_region[6].$name               = "LOG_SHM_MEM";
+region1.memory_region[6].manualStartAddress  = 0xA5000080;
+region1.memory_region[6].size                = 0x3F80;
+region1.memory_region[7].auto                = false;
+region1.memory_region[7].type                = "DDR_ALL";
+region1.memory_region[7].$name               = "RTOS_NORTOS_IPC_SHM_MEM";
+region1.memory_region[7].manualStartAddress  = 0xA5004000;
+region1.memory_region[7].size                = 0xC000;
+region1.memory_region[8].type                = "DDR_ALL";
+region1.memory_region[8].$name               = "DDR_0";
+region1.memory_region[8].auto                = false;
+region1.memory_region[8].manualStartAddress  = 0xA0100000;
+region1.memory_region[8].size                = 0x1000;
+region1.memory_region[9].type                = "DDR_ALL";
+region1.memory_region[9].$name               = "DDR_1";
+region1.memory_region[9].auto                = false;
+region1.memory_region[9].manualStartAddress  = 0xA0101000;
+region1.memory_region[9].size                = 0x2FF000;
+region1.memory_region[10].type               = "DDR_ALL";
+region1.memory_region[10].$name              = "LINUX_IPC_SHM_MEM";
+region1.memory_region[10].auto               = false;
+region1.memory_region[10].manualStartAddress = 0xA0000000;
+region1.memory_region[10].size               = 0x100000;
 
 section1.$name                        = "Vector Table";
 section1.load_memory                  = "R5F_VECS";
@@ -325,6 +363,13 @@ section13.output_section.create(1);
 section13.output_section[0].$name      = ".bss.icss_emac_pktbuf_mem";
 section13.output_section[0].palignment = true;
 
+section14.$name                        = "Resource table";
+section14.load_memory                  = "DDR_0";
+section14.output_section.create(1);
+section14.output_section[0].$name      = ".resource_table";
+section14.output_section[0].palignment = true;
+section14.output_section[0].alignment  = 4096;
+
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
@@ -344,9 +389,6 @@ flash1.peripheralDriver.OSPI.D1.$suggestSolution             = "OSPI0_D1";
 flash1.peripheralDriver.OSPI.D0.$suggestSolution             = "OSPI0_D0";
 i2c1.I2C.SCL.$suggestSolution                                = "I2C0_SCL";
 i2c1.I2C.SDA.$suggestSolution                                = "I2C0_SDA";
-i2c2.I2C.$suggestSolution                                    = "I2C1";
-i2c2.I2C.SCL.$suggestSolution                                = "I2C1_SCL";
-i2c2.I2C.SDA.$suggestSolution                                = "I2C1_SDA";
 uart1.MCU_UART.RXD.$suggestSolution                          = "MCU_UART0_RXD";
 uart1.MCU_UART.TXD.$suggestSolution                          = "MCU_UART0_TXD";
 ethernetip1.PRU_ICSSG1_MDIO.$suggestSolution                 = "PRU_ICSSG1_MDIO0";
@@ -382,5 +424,3 @@ ethernetip1.PRU_ICSSG1_MII_G_RT.MII_MR0_CLK.$suggestSolution = "PRG1_PRU0_GPO6";
 ethernetip1.PRU_ICSSG1_MII_G_RT.MII_MR1_CLK.$suggestSolution = "PRG1_PRU1_GPO6";
 ethernetip1.PRU_ICSSG1_MII_G_RT.MII_MT0_CLK.$suggestSolution = "PRG1_PRU0_GPO16";
 ethernetip1.PRU_ICSSG1_MII_G_RT.MII_MT1_CLK.$suggestSolution = "PRG1_PRU1_GPO16";
-debug_log.uartLog.UART.RXD.$suggestSolution                  = "UART0_RXD";
-debug_log.uartLog.UART.TXD.$suggestSolution                  = "UART0_TXD";

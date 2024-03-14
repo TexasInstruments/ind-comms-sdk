@@ -69,55 +69,55 @@ uint32_t CUST_LED_init(void)
     uint32_t   result = (uint32_t) CUST_LED_eERR_NOERROR;
 
 #if !(defined FBTLPROVIDER)
-    LED_Handle handle = NULL;
-    LED_Attrs* pAttrs = NULL;
-    int32_t    status = SystemP_FAILURE;
-    int32_t    ledCnt = 0;
-
-    // Get LED handle from sys config
-    handle = gLedHandle[CONFIG_LED0];
-    if(NULL == handle)
-    {
-        OSAL_printf("No led handle available.\n");
-        result = (uint32_t) CUST_LED_eERR_HANDLE_INVALID;
-    }
-    else
-    {
-        pAttrs = (LED_Attrs*) LED_getAttrs(CONFIG_LED0);
-        if(NULL == pAttrs)
-        {
-            OSAL_printf("Can not get LED attributes.\n");
-            result = (uint32_t) CUST_LED_eERR_ATTRIBUTES_INVALID;
-        }
-        else
-        {
-            if(pAttrs->numLedPerGroup > 1U)
-            {
-                status = LED_setMask(handle, 0xFFU);
-                if(SystemP_SUCCESS != status)
-                {
-                    OSAL_printf("Can not set LED Mask.\n");
-                    result = (uint32_t) CUST_LED_eERR_SET_MASK;
-                }
-                else
-                {
-                    // Switch all LEDs off
-                    for(ledCnt = 0U; ledCnt < pAttrs->numLedPerGroup; ledCnt++)
-                    {
-                        status = LED_off(handle, ledCnt);
-
-                        if (SystemP_SUCCESS != status)
-                        {
-                            OSAL_printf("LED off failed.\n");
-                            result = (uint32_t) CUST_LED_eERR_OFF;
-
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    LED_Handle handle = NULL;
+//    LED_Attrs* pAttrs = NULL;
+//    int32_t    status = SystemP_FAILURE;
+//    int32_t    ledCnt = 0;
+//
+//    // Get LED handle from sys config
+//    handle = gLedHandle[CONFIG_LED0];
+//    if(NULL == handle)
+//    {
+//        OSAL_printf("No led handle available.\n");
+//        result = (uint32_t) CUST_LED_eERR_HANDLE_INVALID;
+//    }
+//    else
+//    {
+//        pAttrs = (LED_Attrs*) LED_getAttrs(CONFIG_LED0);
+//        if(NULL == pAttrs)
+//        {
+//            OSAL_printf("Can not get LED attributes.\n");
+//            result = (uint32_t) CUST_LED_eERR_ATTRIBUTES_INVALID;
+//        }
+//        else
+//        {
+//            if(pAttrs->numLedPerGroup > 1U)
+//            {
+//                status = LED_setMask(handle, 0xFFU);
+//                if(SystemP_SUCCESS != status)
+//                {
+//                    OSAL_printf("Can not set LED Mask.\n");
+//                    result = (uint32_t) CUST_LED_eERR_SET_MASK;
+//                }
+//                else
+//                {
+//                    // Switch all LEDs off
+//                    for(ledCnt = 0U; ledCnt < pAttrs->numLedPerGroup; ledCnt++)
+//                    {
+//                        status = LED_off(handle, ledCnt);
+//
+//                        if (SystemP_SUCCESS != status)
+//                        {
+//                            OSAL_printf("LED off failed.\n");
+//                            result = (uint32_t) CUST_LED_eERR_OFF;
+//
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 #endif
 
     return result;
@@ -141,24 +141,24 @@ uint32_t CUST_LED_deInit(void)
     uint32_t   result = (uint32_t) CUST_LED_eERR_NOERROR;
 
 #if !(defined FBTLPROVIDER)
-    int32_t    status = SystemP_FAILURE;
-    LED_Handle handle = NULL;
-
-    // Get LED handle from sys config
-    handle = gLedHandle[CONFIG_LED0];
-    if(NULL == handle)
-    {
-        OSAL_printf("No led handle available.\n");
-        result = (uint32_t) CUST_LED_eERR_HANDLE_INVALID;
-    }
-
-    status = LED_setMask(handle, 0x0U);
-
-    if (SystemP_FAILURE == status)
-    {
-        OSAL_printf("Can not set LED Mask.\n");
-        result = (uint32_t) CUST_LED_eERR_SET_MASK;
-    }
+//    int32_t    status = SystemP_FAILURE;
+//    LED_Handle handle = NULL;
+//
+//    // Get LED handle from sys config
+//    handle = gLedHandle[CONFIG_LED0];
+//    if(NULL == handle)
+//    {
+//        OSAL_printf("No led handle available.\n");
+//        result = (uint32_t) CUST_LED_eERR_HANDLE_INVALID;
+//    }
+//
+//    status = LED_setMask(handle, 0x0U);
+//
+//    if (SystemP_FAILURE == status)
+//    {
+//        OSAL_printf("Can not set LED Mask.\n");
+//        result = (uint32_t) CUST_LED_eERR_SET_MASK;
+//    }
 #endif
 
     return result;
