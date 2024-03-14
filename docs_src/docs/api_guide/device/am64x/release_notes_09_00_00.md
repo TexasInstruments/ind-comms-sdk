@@ -40,14 +40,18 @@ AM64x  | R5F             | AM64x GP EVM (referred to as am64x-evm in code)      
 
 ## Tools, Compiler and Other Open Source SW Module Information
 
-Tools / SW module       | Version
-------------------------|-----------------------
-Code Composer Studio    | @VAR_CCS_VERSION
-SysConfig               | @VAR_SYSCFG_VERSION, build @VAR_SYSCFG_BUILD
-TI ARM CLANG            | @VAR_TI_ARM_CLANG_VERSION
-MCU+ SDK                |  9.0.0
-
-\attention TI ARM CLANG @VAR_TI_ARM_CLANG_VERSION is not part of CCS by default, Follow steps at \htmllink{@VAR_MCU_SDK_DOCS_PATH/SDK_DOWNLOAD_PAGE.html#INSTALL_TIARMCLANG, TI CLANG Compiler Toolchain} to install the compiler.
+Tools / SW module       | Supported CPUs | Version
+------------------------|----------------|-----------------------
+Code Composer Studio    | R5F, M4F, A53  | 12.4.0
+SysConfig               | R5F, M4F, A53  | 1.17.0, build 3128
+TI ARM CLANG            | R5F, M4F       | 2.1.3.LTS
+GCC AARCH64             | A53            | 9.2-2019.12
+GCC ARM                 | R5F            | 7-2017-q4-major (AM64x only)
+FreeRTOS Kernel         | R5F, M4F, A53  | 10.4.3
+FreeRTOS SMP Kernel     | A53            | 202110.00-SMP
+Tiny USB                | R5F            | 0.14.0
+LwIP                    | R5F            | STABLE-2_2_0_RELEASE
+Mbed-TLS                | R5F            | mbedtls-2.13.1
 
 ## Key Features
 

@@ -28,14 +28,14 @@ AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code), \n A
 
 ## Tools, Compiler and Other Open Source SW Module Information
 
-Tools / SW module       | Version
-------------------------|-----------------------
-Code Composer Studio    | @VAR_CCS_VERSION
-SysConfig               | @VAR_SYSCFG_VERSION, build @VAR_SYSCFG_BUILD
-TI ARM CLANG            | @VAR_TI_ARM_CLANG_VERSION
-MCU+ SDK                |  9.1.0
-
-\attention TI ARM CLANG @VAR_TI_ARM_CLANG_VERSION is not part of CCS by default, Follow steps at \htmllink{@VAR_MCU_SDK_DOCS_PATH/SDK_DOWNLOAD_PAGE.html#INSTALL_TIARMCLANG, TI CLANG Compiler Toolchain} to install the compiler.
+Tools / SW module       | Supported CPUs | Version
+------------------------|----------------|-----------------------
+Code Composer Studio    | R5F            | 12.5.0
+SysConfig               | R5F            | 1.18.0, build 3266
+TI ARM CLANG            | R5F            | 3.2.0.LTS
+FreeRTOS Kernel         | R5F            | 10.4.3
+LwIP                    | R5F            | STABLE-2_2_0_RELEASE
+Mbed-TLS                | R5F            | mbedtls-2.13.1
 
 ## Key Features
 
