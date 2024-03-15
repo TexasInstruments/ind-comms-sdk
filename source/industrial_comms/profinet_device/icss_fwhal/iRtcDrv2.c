@@ -546,6 +546,9 @@ int32_t PN_insCpmList(PN_Handle pnHandle, t_rtcPacket *cpmPkt)
         pList->redFID = cpmPkt->frameId;        /* store the red packet FID*/
     }
 
+    /* Clear the Cycle Counter Initialization flag. For any new AR established, sync with the master and align the phase and cycle counter values*/ 
+    (pnHandle->pnPtcpConfig).initPmCycleCtrDone = 0;
+
     for(i = 0; i < (pnHandle->currPN).cfgAR; i++)
     {
         int res = PN_readCpmDesc(pnHandle, tmpDesc, i);     /* read from active list*/
