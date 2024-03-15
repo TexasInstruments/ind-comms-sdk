@@ -237,8 +237,9 @@ void CUST_DRIVERS_UART_printf(void* pContext_p, const char* __restrict pFormat_p
     int32_t transferOK;
     /* @cppcheck_justify{unusedVariable} false-positive: variable is used */
     //cppcheck-suppress unusedVariable
-    UART_Transaction transaction;
+    static UART_Transaction transaction;
 
+    UART_flushTxFifo(gUartHandle[PRINTF_UART_CALLBACK_INSTANCE]);
     UART_Transaction_init(&transaction);
 
     OSAL_MEMORY_memset(aOutStream_s, 0, sizeof(aOutStream_s));
@@ -296,7 +297,6 @@ void* CUST_DRIVERS_PRM_getHandle (uint32_t type_p, uint32_t instance_p)
 {
     void*   pHandle = NULL;
 
-#if !(defined FBTLPROVIDER)
     switch(type_p)
     {
         case CUST_DRIVERS_PRM_eTYPE_FLASH:
@@ -309,9 +309,6 @@ void* CUST_DRIVERS_PRM_getHandle (uint32_t type_p, uint32_t instance_p)
             pHandle = NULL;
             break;
     }
-#else
-    OSALUNREF_PARM(instance_p);
-#endif
 
     return pHandle;
 }
@@ -718,7 +715,6 @@ laError:
  */
 void CUST_DRIVERS_LED_setIndustrialLeds (uint32_t value_p)
 {
-#if !(defined FBTLPROVIDER)
     static uint32_t ledValue_s = 0;
 
     LED_Handle handle = NULL;
@@ -760,5 +756,4 @@ void CUST_DRIVERS_LED_setIndustrialLeds (uint32_t value_p)
 
         value_p >>= 1;
     }
-#endif
 }

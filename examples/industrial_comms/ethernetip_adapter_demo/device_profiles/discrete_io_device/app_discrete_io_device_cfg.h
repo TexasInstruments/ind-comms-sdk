@@ -69,11 +69,11 @@
 #define EI_APP_DIO_DEVICE_DEVICE_TYPE      0x0007
 #define EI_APP_DIO_DEVICE_SERIAL_NUMBER    0x00000065
 #define EI_APP_DIO_DEVICE_REVISION_MAJOR   0x03
-#define EI_APP_DIO_DEVICE_REVISION_MINOR   0x06
+#define EI_APP_DIO_DEVICE_REVISION_MINOR   0x07
 
 #define EI_APP_DIO_DEVICE_ASSEMBLY_PRODUCING     0x64 /*!< Producing Assembly Instance */
 #define EI_APP_DIO_DEVICE_ASSEMBLY_CONSUMING     0x65 /*!< Consuming Assembly Instance */
-#define EI_APP_DIO_DEVICE_ASSEMBLY_CONFIGURATION 0x28 /*!< Configuration Assembly Instance */
+#define EI_APP_DIO_DEVICE_ASSEMBLY_CONFIGURATION 0x67 /*!< Configuration Assembly Instance */
 
 #define EI_APP_DIO_DEVICE_DOP_NUM_OF_INST        2 /*!< Number of instances of Discrete Output Point Object */
 #define EI_APP_DIO_DEVICE_DIP_NUM_OF_INST        2 /*!< Number of instances of Discrete Input Point Object */

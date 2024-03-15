@@ -40,7 +40,6 @@
  *
  */
 
-#if (!(defined FBTLPROVIDER) || (0 == FBTLPROVIDER)) && (!(defined FBTL_REMOTE) || (0 == FBTL_REMOTE))
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -77,11 +76,7 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
-#if defined(SOC_AM64X) || defined(SOC_AM243X)
 extern PRUICSS_Handle prusshandle;
-#else
-Board_IDInfo boardInfo;
-#endif
 
 // Static variables and pointers used in this example.
 
@@ -576,4 +571,3 @@ static uint8_t* EI_APP_TASK_getMacAddr (void)
 #endif
 }
 
-#endif  // (!(defined FBTLPROVIDER) || (0 == FBTLPROVIDER)) && (!(defined FBTL_REMOTE) || (0 == FBTL_REMOTE))

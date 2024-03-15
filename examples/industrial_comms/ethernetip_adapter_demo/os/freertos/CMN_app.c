@@ -48,21 +48,6 @@ static TaskP_Params CMN_APP_mainParam_s;
 
 static StackType_t CMN_APP_aMainStack_s[CMN_APP_MAIN_STACK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
 
-#if ((defined FBTLPROVIDER) && (1==FBTLPROVIDER)) || ((defined FBTL_REMOTE) && (1==FBTL_REMOTE))
-StackType_t SYSLIB_fbtlCyclicTaskStack_g[FBTLCYCLIC_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
-StackType_t SYSLIB_fbtlSendAcycTaskStack_g[FBTLSENDACYC_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
-StackType_t SYSLIB_fbtlAcycISTTaskStack_g[FBTLACYCIST_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
-StackType_t SYSLIB_fbtlSyncExecTaskStack_g[FBTLSYNCEXEC_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
-StackType_t SYSLIB_fbtlReceiverTaskStack_g[FBTLRECEIVER_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
-StackType_t SYSLIB_fbtlServiceTaskStack_g[FBTLSERVICE_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
-StackType_t SYSLIB_fbtlSlowServiceTaskStack_g[FBTLSLOWSERVICE_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
-#endif
-
-#if (defined FBTL_REMOTE) && (1==FBTL_REMOTE)
-StackType_t SYSLIB_fbtlSyncIstTaskStack_g[FBTLSYNCIST_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
-StackType_t SYSLIB_fbtlLedIstTaskStack_g[FBTLLEDIST_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
-#endif
-
 /*!
  *  <!-- Description: -->
  *

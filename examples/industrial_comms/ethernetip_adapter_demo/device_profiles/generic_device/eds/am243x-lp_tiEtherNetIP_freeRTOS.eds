@@ -4,9 +4,9 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         DescText = "EtherNet/IP(tm) Adapter am243x-lp freeRTOS";
         CreateDate = 08-19-2021;
         CreateTime = 17:53:35;
-        ModDate = 10-27-2023;
-        ModTime = 09:00:00;
-        Revision = 3.6;
+        ModDate = 02-29-2024;
+        ModTime = 07:00:00;
+        Revision = 3.7;
         HomeURL = "www.ti.com";
 
 
@@ -17,7 +17,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         ProdTypeStr = "Generic Device";
         ProdCode = 24311;
         MajRev = 3;
-        MinRev = 6;
+        MinRev = 7;
         ProdName = "LP-AM243 Generic Device";
         Catalog = "CatNo9218";
         Icon = "ti.ico";

@@ -68,7 +68,6 @@ uint32_t CUST_LED_init(void)
 {
     uint32_t   result = (uint32_t) CUST_LED_eERR_NOERROR;
 
-#if !(defined FBTLPROVIDER)
     LED_Handle handle = NULL;
     LED_Attrs* pAttrs = NULL;
     int32_t    status = SystemP_FAILURE;
@@ -118,7 +117,6 @@ uint32_t CUST_LED_init(void)
             }
         }
     }
-#endif
 
     return result;
 }
@@ -140,7 +138,6 @@ uint32_t CUST_LED_deInit(void)
 {
     uint32_t   result = (uint32_t) CUST_LED_eERR_NOERROR;
 
-#if !(defined FBTLPROVIDER)
     int32_t    status = SystemP_FAILURE;
     LED_Handle handle = NULL;
 
@@ -159,7 +156,6 @@ uint32_t CUST_LED_deInit(void)
         OSAL_printf("Can not set LED Mask.\n");
         result = (uint32_t) CUST_LED_eERR_SET_MASK;
     }
-#endif
 
     return result;
 }

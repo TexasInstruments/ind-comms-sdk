@@ -44,6 +44,7 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc/ext
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include
@@ -57,13 +58,15 @@
             -g
             -Wno-gnu-variable-sized-type-not-at-end
             -Wno-unused-function
-            -mllvm -align-all-functions=2
             -Wno-unused-but-set-variable
+            -mllvm
+            -align-all-functions=2
             -DSOC_AM64X
             -DOSAL_FREERTOS=1
             -DSOC_AM64X
             -DSOC_AM64X=1
             -DEIP_TIME_SYNC=1
+            -DEIP_QUICK_CONNECT=0
             -DCPU_LOAD_MONITOR=0
         "
         linkerBuildOptions="
@@ -114,6 +117,7 @@
         <configuration name="Debug"
             compilerBuildOptions="
                 -D_DEBUG_=1
+                -Og
             "
             linkerBuildOptions="
                 -lfreertos.am64x.r5f.ti-arm-clang.debug.lib
