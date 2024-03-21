@@ -28,6 +28,11 @@ const files = {
         "app_device_profile.c",
         "app_generic_device.c",
         "app_generic_device_cfg.c",
+        "app_control.c",
+        "ti_ic_open_close.c",
+        "netif_common.c",
+        "app_netif.c",
+        "app_tcpserver.c",
     ],
 };
 
@@ -37,6 +42,7 @@ const files = {
 const filedirs = {
     common: [
         "../../../../../..", /* Example base */
+        "../../../../../../common", /* Example base */
         "../../../../../../board/am64x-evm/freertos/drivers",
         "../../../../../../board/am64x-evm/freertos/drivers/eeprom",
         "../../../../../../board/am64x-evm/freertos/drivers/ethphy",
@@ -61,6 +67,10 @@ const libdirs_freertos = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lib",
+
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/lib", //lwip_ic - mcusdk dependant
+        // "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lib",
+        // "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/lib", //lwipif - mcusdk dependant
     ],
 };
 
@@ -82,6 +92,11 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include",
+
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipific/inc",
+        // "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwipif/inc", 
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/common",
     ],
 };
 
@@ -95,7 +110,11 @@ const libs_freertos_r5f = {
         "ethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "ethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "ethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "ethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib",
+        // "ethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib",// - using debug kunbus stack lib
+
+        "ethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib",
+        "lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        // "icss_emac_lwip_if.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
     ],
 };
 

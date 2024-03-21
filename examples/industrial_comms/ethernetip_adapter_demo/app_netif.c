@@ -48,7 +48,7 @@
 
 #include <lwip_ic.h>
 #include <lwip2lwipif_ic.h>
-#include <lwip2lwipif.h>
+//#include <lwip2lwipif.h>
 
 #include "netif_common.h"
 #include "app_netif.h"
@@ -86,7 +86,8 @@
 
 struct netif netif_bridge;
 
-static struct netif gEmacNetif;
+// static struct netif gEmacNetif;
+static struct netif *gEmacNetif;
 
 static struct netif netif_ic[IC_ETH_MAX_VIRTUAL_IF];
 
@@ -95,6 +96,12 @@ static uint8_t gEthApp_lwipBridgePortIdMap[IPC_MAX_PROCS];
 
 /* dhcp struct for the ethernet netif */
 static struct dhcp g_netifDhcp[IC_ETH_MAX_VIRTUAL_IF];
+// debug - static IP
+#define IP_ADDR_POOL_COUNT  (3U)
+
+const ip_addr_t gStaticIP[IP_ADDR_POOL_COUNT]   =  { IPADDR4_INIT_BYTES(192, 168, 1, 11),  IPADDR4_INIT_BYTES(192, 168, 1, 12), IPADDR4_INIT_BYTES(192, 168, 1, 13)};
+const ip_addr_t gStaticIPGateway = IPADDR4_INIT_BYTES(192, 168, 1, 0);
+const ip_addr_t gStaticIPNetmask = IPADDR4_INIT_BYTES(255,255,255,0);
 
 /* ========================================================================== */
 /*                          Function Declarations                             */
@@ -118,8 +125,19 @@ void EthApp_initNetif(void)
 
     DebugP_log("\r\nStarting lwIP, local interface IP is dhcp-enabled\n");
 
-    netif_add(&gEmacNetif, &ipaddr, &netmask, &gw, NULL, LWIPIF_LWIP_init, tcpip_input);
+    // netif_add(&gEmacNetif, &ipaddr, &netmask, &gw, NULL, LWIPIF_LWIP_init, tcpip_input);
     // netif_add(&gEmacNetif, NULL, NULL, NULL, NULL, LWIPIF_LWIP_init, tcpip_input);
+	// down
+    gEmacNetif = netif_default;
+    gEmacNetif->flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
+    netif_clear_flags(gEmacNetif, NETIF_FLAG_BROADCAST);
+    netif_set_addr(gEmacNetif, &gStaticIP[0],
+                   &gStaticIPNetmask, &gStaticIPGateway);
+
+//    sys_lock_tcpip_core();
+    netif_set_down(gEmacNetif);
+//    sys_unlock_tcpip_core();
+//    netif_set_addr(gEmacNetif, NULL, NULL, NULL); // debug - static IP
 
     /* Create and initialise Intercore shared memory driver */
     hIcObj = App_doIcOpen(IC_ETH_IF_R5_0_0_R5_0_1);
@@ -129,26 +147,34 @@ void EthApp_initNetif(void)
     netif_add(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], &ipaddr, &netmask, &gw,
               NULL, LWIPIF_LWIP_IC_init, tcpip_input);
 
+    netif_set_addr(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], &gStaticIP[1],
+                   &gStaticIPNetmask, &gStaticIPGateway);
+
     err = LWIPIF_LWIP_IC_start(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], IC_ETH_IF_R5_0_0_R5_0_1, hIcObj);
     DebugP_assert(err == ERR_OK);
 
-    gEmacNetif.flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
+    // gEmacNetif.flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
     netif_ic[IC_ETH_IF_R5_0_0_R5_0_1].flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
 
     /* Initialize data for bridge as (no. of ports, no. of dynamic entries, no. of static entries, MAC address of the bridge) */
     bridgeif_initdata_t mybridge_initdata = BRIDGEIF_INITDATA1 (ETHAPP_LWIP_BRIDGE_MAX_PORTS,
                                                                 ETHAPP_LWIP_BRIDGE_MAX_DYNAMIC_ENTRIES,
                                                                 ETHAPP_LWIP_BRIDGE_MAX_STATIC_ENTRIES,
-                                                                ETH_ADDR(0xF4, 0x84, 0x4C, 0xF9, 0x4D, 0x29));
+                                                /*------------- VERY IMPORTANT----------------*/
+                                                                /*Change mac addr to match the SOC mac of your board*/
+                                                                ETH_ADDR(0x34, 0x08, 0xe1, 0x80, 0xAA, 0xCB));  //  34:08:e1:80:aa:cb
 
     /* Netif state of the bridge netif is filled with the bridge handle,
      * which is used to operate on bridge settings from the application.
-     * Don't pass any arguement to be set as netif state
+     * Don't pass any argument to be set as netif state
      */
     netif_add(&netif_bridge, &ipaddr, &netmask, &gw, &mybridge_initdata, bridgeif_init, netif_input);
 
+    netif_set_addr(&netif_bridge, &gStaticIP[2],
+                   &gStaticIPNetmask, &gStaticIPGateway);
+
     /* Add all netifs to the bridge and create coreId to bridge portId map */
-    bridgeif_add_port(&netif_bridge, &gEmacNetif);
+    bridgeif_add_port(&netif_bridge, gEmacNetif);
     gEthApp_lwipBridgePortIdMap[IPC_R5_0_0] = ETHAPP_BRIDGEIF_PORT1_ID;
 
     bridgeif_add_port(&netif_bridge, &netif_ic[IC_ETH_IF_R5_0_0_R5_0_1]);
@@ -156,23 +182,21 @@ void EthApp_initNetif(void)
 
     /* Set bridge interface as the default */
     netif_set_default(&netif_bridge);
-    dhcp_set_struct(&netif_bridge, &g_netifDhcp[0]);
+//    dhcp_set_struct(&netif_bridge, &g_netifDhcp[0]); // debug - static IP
 
-    EthApp_setNetifCbs(&gEmacNetif);
-    EthApp_setNetifCbs(netif_default);
+    EthApp_setNetifCbs(gEmacNetif);
+    EthApp_setNetifCbs(&netif_bridge);
 
-    netif_set_up(&gEmacNetif);
+    netif_set_up(gEmacNetif);
     netif_set_up(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1]);
-    netif_set_up(netif_default);
-
-    sys_lock_tcpip_core();
-    err = dhcp_start(netif_default);
-    sys_unlock_tcpip_core();
-
-    if (err != ERR_OK)
-    {
-        DebugP_log("Failed to start DHCP: %d\n", err);
-    }
+    netif_set_up(&netif_bridge);
+    // debug - static IP
+//    err = dhcp_start(&netif_bridge);
+//
+//    if (err != ERR_OK)
+//    {
+//        DebugP_log("Failed to start DHCP: %d\n", err);
+//    }
 }
 
 static void EthApp_waitForNetifUp(struct netif *netif)
@@ -198,7 +222,7 @@ int32_t AddNetif_addBridgeMcastEntry(Icss_MacAddr mac)
         ethAddr.addr[i] = mac.macAddr[i];
     }
 
-    status= bridgeif_fdb_add(netif_default, &ethAddr,
+    status= bridgeif_fdb_add(&netif_bridge, &ethAddr,
                              (gEthApp_lwipBridgePortIdMap[IPC_R5_0_1] |
                               gEthApp_lwipBridgePortIdMap[IPC_R5_0_1]));
     return status;
@@ -213,6 +237,6 @@ int32_t AddNetif_delBridgeMcastEntry(Icss_MacAddr mac)
         ethAddr.addr[i] = mac.macAddr[i];
     }
 
-    status= bridgeif_fdb_remove(netif_default, &ethAddr);
+    status= bridgeif_fdb_remove(&netif_bridge, &ethAddr);
     return status;
 }

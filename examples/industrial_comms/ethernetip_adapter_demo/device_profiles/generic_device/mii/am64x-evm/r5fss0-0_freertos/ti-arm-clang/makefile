@@ -62,6 +62,11 @@ FILES_common := \
 	app_device_profile.c \
 	app_generic_device.c \
 	app_generic_device_cfg.c \
+	app_control.c \
+	ti_ic_open_close.c \
+	netif_common.c \
+	app_netif.c \
+	app_tcpserver.c \
 	ti_drivers_config.c \
 	ti_drivers_open_close.c \
 	ti_board_config.c \
@@ -72,6 +77,7 @@ FILES_common := \
 
 FILES_PATH_common = \
 	../../../../../.. \
+	../../../../../../common \
 	../../../../../../board/am64x-evm/freertos/drivers \
 	../../../../../../board/am64x-evm/freertos/drivers/eeprom \
 	../../../../../../board/am64x-evm/freertos/drivers/ethphy \
@@ -105,6 +111,9 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipific/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/common \
 	-Igenerated \
 
 DEFINES_common := \
@@ -160,6 +169,7 @@ LIBS_PATH_common = \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/lib \
 	-Wl,-i${CG_TOOL_ROOT}/lib \
 
 LIBS_common = \
@@ -171,7 +181,8 @@ LIBS_common = \
 	-lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib \
+	-lethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib \
+	-llwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -192,7 +203,8 @@ LIBS_NAME = \
 	ethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	ethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib \
+	ethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib \
+	lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	libc.a \
 	libsysbm.a \
 
@@ -205,6 +217,7 @@ LIBS_PATH_NAME = \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/lib \
 	${CG_TOOL_ROOT}/lib \
 
 FILES := $(FILES_common) $(FILES_$(PROFILE))

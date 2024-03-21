@@ -48,6 +48,9 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipific/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/common
             -mcpu=cortex-r5
             -mfloat-abi=hard
             -mfpu=vfpv3-d16
@@ -76,6 +79,7 @@
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/lib
             -i${CG_TOOL_ROOT}/lib
             -m=ethernetip_adapter_generic_device_mii_demo.${ConfigName}.map
             --diag_suppress=10063
@@ -107,7 +111,8 @@
                 -lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.release.lib
                 -lethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.release.lib
                 -lethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.release.lib
-                -lethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib
+                -lethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib
+                -llwipif-ic-freertos.am64x.r5f.ti-arm-clang.release.lib
                 -llibc.a
                 -llibsysbm.a
             "
@@ -126,7 +131,8 @@
                 -lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
                 -lethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.debug.lib
                 -lethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.debug.lib
-                -lethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib
+                -lethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib
+                -llwipif-ic-freertos.am64x.r5f.ti-arm-clang.debug.lib
                 -llibc.a
                 -llibsysbm.a
             "
@@ -179,6 +185,16 @@
         <file path="../../../../../../device_profiles/generic_device/app_generic_device.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../device_profiles/generic_device/app_generic_device_cfg.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../common/app_control.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../common/ti_ic_open_close.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../common/netif_common.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../app_netif.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../app_tcpserver.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

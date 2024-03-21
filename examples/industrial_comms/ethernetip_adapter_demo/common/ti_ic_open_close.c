@@ -50,7 +50,7 @@
 #include "lwip/sys.h"
 #include "lwip/tcpip.h"
 #include "lwip/dhcp.h"
-#include <examples/lwiperf/lwiperf_example.h>
+#include <networking/lwip/lwip-contrib/examples/lwiperf/lwiperf_example.h>
 
 #include <kernel/dpl/TaskP.h>
 #include <kernel/dpl/ClockP.h>
@@ -83,24 +83,24 @@ const LwipIc_QueueTbl gLwipIcQueueTbl[SHDMEM_CIRCULAR_BUFFER_MAX_QUEUES]=
 {
     {
         .pShdMemBuffStartAdd  = (void *)0xA0400000U,
-        .elemCount            = 128U,       
+        .elemCount            = 64U,        
         // .elemCount            = 64U, - flood ping fix, add later
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
         .pShdMemBuffStartAdd  = (void *)0xA0500000U,
-        .elemCount            = 128U,        
+        .elemCount            = 64U,         
         // .elemCount            = 64U, - flood ping fix, add later
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
         .pShdMemBuffStartAdd  = (void *)0xA0500000U, /*! Update this with proper value once finalized */
-        .elemCount            = 128U,
+        .elemCount            = 64U, 
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
         .pShdMemBuffStartAdd  = (void *)0xA0600000U, /*! Update this with proper value once finalized */
-        .elemCount            = 128U,
+        .elemCount            = 64U, 
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
 }; 

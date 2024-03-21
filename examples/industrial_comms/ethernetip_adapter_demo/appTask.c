@@ -84,6 +84,10 @@
 #include <networking/lwip/lwip-contrib/examples/lwiperf/lwiperf_example.h>
 
 #include "udp_iperf.h"
+#include "app_tcpserver.h"
+#include "netif_common.h"
+#include "app_control.h"
+#include "app_netif.h"
 
 /* UDP Iperf task should be highest priority task to ensure processed buffers
  * are freed without delay so that we get maximum throughput for
@@ -353,6 +357,109 @@ static void EI_APP_TASK_run(EI_API_CIP_NODE_T* cipNode)
     EI_APP_DEVICE_PROFILE_TASK_run(cipNode);
 }
 
+uint32_t EnetSoc_getCoreId(void)
+{
+    uint32_t coreId = CSL_CORE_ID_R5FSS0_0;
+    return coreId;
+}
+
+uint32_t App_getSelfCoreId()
+{
+    uint32_t coreId = EnetSoc_getCoreId();
+    return coreId;
+}
+
+void assignMacAddr(ICSS_EMAC_Handle emachandle)
+{
+    int32_t status = ICVE_OK;
+
+    Icss_MacAddr assignMac;
+    assignMac.macAddr[0] = 0x00;
+    assignMac.macAddr[1] = 0x01;
+    assignMac.macAddr[2] = 0x02;
+    assignMac.macAddr[3] = 0x04;
+    assignMac.macAddr[4] = 0x05;
+    assignMac.macAddr[5] = 0x06;
+
+    ICSS_EMAC_IoctlCmd ioctlParamsPNTest;
+    ioctlParamsPNTest.ioctlVal = (void *)(assignMac.macAddr);
+    ioctlParamsPNTest.command = ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_ENABLE_CMD;
+    int32_t ICSS_EMAC_ioctl_status = ICSS_EMAC_ioctl(emachandle,ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL, (uint32_t)NULL, (void *)&ioctlParamsPNTest);
+    if(ICSS_EMAC_ioctl_status == 0)
+    {
+        status = ICVE_OK;
+    }
+    else
+    {
+        status = ICVE_FAIL;
+    }
+    DebugP_log("Adding new to FDB  \r\n");
+}
+//int32_t app_getEmacHandle(Lwip2Emac_Handle hLwip2Emac)
+//{
+//    int32_t ret_val = SystemP_FAILURE;
+//    if(hLwip2Emac != NULL)
+//    {
+//        hLwip2Emac->emacHandle = emachandle;
+//        ret_val = SystemP_SUCCESS;
+//    }
+//
+//    return (ret_val);
+//}
+
+int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr assignMac2)
+{
+    int32_t status = ICVE_OK;
+
+    if(status == ICVE_OK)
+    {
+//        assignMacAddr(emachandle);
+    }
+
+    if(status == ICVE_OK)
+    {
+        DebugP_log("Remote mac added to FDB \r\n");
+    }
+
+    return status;
+}
+
+int32_t AppCtrl_addMcastAddr(Icss_MacAddr mac)
+{
+    int32_t status = ICVE_OK;
+
+    if(status == ICVE_OK)
+    {
+        status = AddNetif_addBridgeMcastEntry(mac);
+        DebugP_log("Adding new MCast entry to LwIP Bridge \r\n");
+    }
+
+    if(status == ICVE_OK)
+    {
+        DebugP_log("MC addr added Successfully \r\n");
+    }
+
+    return status;
+}
+
+int32_t AppCtrl_delMcastAddr(Icss_MacAddr mac)
+{
+    int32_t status = ICVE_OK;
+
+    if(status == ICVE_OK)
+    {
+        status = AddNetif_delBridgeMcastEntry(mac);
+        DebugP_log("Deleting new MCast entry from LwIP Bridge \r\n");
+    }
+
+    if(status == ICVE_OK)
+    {
+        DebugP_log("MCast address deleted from FDB \r\n");
+    }
+
+    return status;
+}
+
 /*!
  *  <!-- Description: -->
  *
@@ -366,6 +473,7 @@ static void EI_APP_TASK_run(EI_API_CIP_NODE_T* cipNode)
  *
  *
  */
+//int16_t loopXYZ = 1;
 void EI_APP_TASK_main(void* pvTaskArg_p)
 {
     uint32_t err = OSAL_NO_ERROR;
@@ -382,6 +490,11 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
     {
         goto laError;
     }
+//Uncomment to debug 
+//     while(loopXYZ == 1)
+//     {
+//         DebugP_log("%d", loopXYZ);
+//     }
 
     err = EI_APP_DEVICE_PROFILE_init();
 
@@ -408,11 +521,26 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
     CMN_CPU_API_startMonitor(&pAppInstance->config.cpuLoad);
 #endif
 
+    DebugP_log("Main Core init\r\n");
+    /*! Initialize the IPC Task */
+    AppCtrl_createRecvTask();
+
     sys_lock_tcpip_core();
+
+    EthApp_initNetif();
+
     lwiperf_example_init();
     sys_thread_new("UDP Iperf", start_application, NULL, DEFAULT_THREAD_STACKSIZE,
                                UDP_IPERF_THREAD_PRIO);
     sys_unlock_tcpip_core();
+
+    if (netif_is_up(netif_default))
+    {
+        const ip4_addr_t *ipAddr = netif_ip4_addr(netif_default);
+
+        DebugP_log("Interface '%c%c%d', IP is %s \r\n",
+                     netif_default->name[0], netif_default->name[1], netif_default->num, ip4addr_ntoa(ipAddr));
+    }
 
     for (;;)
     {

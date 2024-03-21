@@ -50,7 +50,7 @@
 #include <lwip_ic.h>
 #include <lwip2lwipif_ic.h>
 
-#include <lwip2lwipif.h>
+//#include <lwip2lwipif.h>
 #include "netif_common.h"
 
 /* ========================================================================== */
