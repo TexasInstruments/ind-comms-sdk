@@ -100,26 +100,6 @@ const syscfgfile = "../example.syscfg";
 
 const readmeDoxygenPageTag = "EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_BECKHOFF_SSC_DEMO";
 
-const templates_freertos_r5f =
-[
-    {
-        input: ".project/templates/am64x/common/linker_r5f.cmd.xdt",
-        output: "linker.cmd",
-        options: {
-            stackSize: "32768",
-            codeDataAddr: "70080000",
-            codeDataSize: "00080000",
-        },
-    },
-    {
-        input: ".project/templates/am64x/freertos/main_freertos.c.xdt",
-        output: "../main.c",
-        options: {
-            entryFunction: "ethercat_slave_beckhoff_ssc_demo_main",
-        },
-    }
-];
-
 const buildOptionCombos = [
     { device: device, cpu: "r5fss0-0", cgt: "ti-arm-clang", board: "am64x-evm", os: "freertos"},
 ];
@@ -154,7 +134,6 @@ function getComponentBuildProperty(buildOption) {
             build_property.includes = includes_freertos_r5f;
             build_property.libdirs = libdirs_freertos;
             build_property.libs = libs_freertos_r5f;
-            build_property.templates = templates_freertos_r5f;
             build_property.defines = defines_r5f;
             build_property.cflags = cflags_r5f;
             build_property.lflags = lflags_r5f;
