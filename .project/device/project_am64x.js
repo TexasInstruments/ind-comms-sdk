@@ -7,6 +7,7 @@ const component_file_list = [
     "source/industrial_comms/ethernetip_adapter/icss_fwhal/.project/project_rgmii.js",
     "source/industrial_comms/ethernetip_adapter/stack/lwip/.project/project_contrib.js",
     "source/industrial_comms/ethernetip_adapter/stack/lwip/.project/project_stack.js",
+    "source/industrial_comms/ethernetip_adapter/stack/lwip/.project/project_lwip_ic.js",    
     "source/industrial_comms/hsr_prp/icss_fwhal/.project/project_hsr_mii.js",
     "source/industrial_comms/hsr_prp/icss_fwhal/.project/project_hsr_rgmii.js",
     "source/industrial_comms/hsr_prp/icss_fwhal/.project/project_prp_mii.js",
@@ -22,8 +23,6 @@ const component_file_list = [
     "source/networking/icss_emac/lwipif/.project/project.js",
     "source/networking/icss_timesync/.project/project.js",
     "docs_src/docs/api_guide/doxy_samples/.project/project.js",
-
-    "source/networking/icss_emac/lwip_ic/.project/project.js",
 ];
 
 const device_defines = {

@@ -79,7 +79,6 @@
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lib
-            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/lib
             -i${CG_TOOL_ROOT}/lib
             -m=ethernetip_adapter_generic_device_mii_demo.${ConfigName}.map
             --diag_suppress=10063
@@ -111,8 +110,8 @@
                 -lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.release.lib
                 -lethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.release.lib
                 -lethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.release.lib
-                -lethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib
-                -llwipif-ic-freertos.am64x.r5f.ti-arm-clang.release.lib
+                -lethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.release.lib
+                -lethernetipadapter.mii.am64x.r5f.ti-arm-clang.release.lib
                 -llibc.a
                 -llibsysbm.a
             "
@@ -131,8 +130,8 @@
                 -lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.debug.lib
                 -lethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.debug.lib
                 -lethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.debug.lib
+                -lethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.debug.lib
                 -lethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib
-                -llwipif-ic-freertos.am64x.r5f.ti-arm-clang.debug.lib
                 -llibc.a
                 -llibsysbm.a
             "

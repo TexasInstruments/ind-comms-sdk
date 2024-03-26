@@ -2,7 +2,7 @@
 # Auto generated makefile
 #
 
-export INDUSTRIAL_COMMUNICATIONS_SDK_PATH?=$(abspath ../../../..)
+export INDUSTRIAL_COMMUNICATIONS_SDK_PATH?=$(abspath ../../../../..)
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
 
 CG_TOOL_ROOT=$(CGT_TI_ARM_CLANG_PATH)
@@ -13,7 +13,7 @@ AR=$(CGT_TI_ARM_CLANG_PATH)/bin/tiarmar
 PROFILE?=release
 ConfigName:=$(PROFILE)
 
-LIBNAME:=lwipif-ic-freertos.am64x.r5f.ti-arm-clang.$(PROFILE).lib
+LIBNAME:=ethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.$(PROFILE).lib
 
 FILES_common := \
     lwip_ic.c \
@@ -21,18 +21,19 @@ FILES_common := \
     ShdMemCircularBufferP_nortos.c \
 
 FILES_PATH_common = \
-    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/lwipific/src \
-    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/intercore/src \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipific/src \
+    ${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/intercore/src \
 
 INCLUDES_common := \
     -I${CG_TOOL_ROOT}/include/c \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source \
-    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/lwipific/inc \
-    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/intercore/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/lwipific/inc \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/core/lwip_ic/intercore/include \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/freertos/include \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include \
+    -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/enet/soc/k3/am64x_am243x \
     -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config \
 
 DEFINES_common := \
@@ -99,7 +100,7 @@ INCLUDES := $(INCLUDES_common) $(INCLUDE_$(PROFILE))
 ARFLAGS := $(ARFLAGS_common) $(ARFLAGS_$(PROFILE))
 
 LIBDIR := lib
-OBJDIR := obj/am64x/ti-arm-clang/$(PROFILE)/r5f/lwipif-ic-freertos/
+OBJDIR := obj/am64x/ti-arm-clang/$(PROFILE)/r5f/ethernetip_adapter_lwipif-ic-freertos/
 OBJS := $(FILES:%.c=%.obj)
 OBJS += $(ASMFILES:%.S=%.obj)
 DEPS := $(FILES:%.c=%.d)

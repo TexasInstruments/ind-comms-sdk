@@ -38,6 +38,7 @@ help:
 	@echo  $(MAKE) -s -f makefile.am64x ethernetip_adapter_rgmii_icss_fwhal_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am64x ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am64x ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang
+	@echo  $(MAKE) -s -f makefile.am64x ethernetip_adapter_lwipif-ic-freertos_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am64x hsr_mii_icss_fwhal_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am64x hsr_rgmii_icss_fwhal_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am64x prp_mii_icss_fwhal_r5f.ti-arm-clang
@@ -52,7 +53,6 @@ help:
 	@echo  $(MAKE) -s -f makefile.am64x icss_emac_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am64x icss_emac_lwip_if_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am64x icss_timesync_r5f.ti-arm-clang
-	@echo  $(MAKE) -s -f makefile.am64x lwipif-ic-freertos_r5f.ti-arm-clang
 	@echo  .
 	@echo  Library clean targets,
 	@echo  ======================
@@ -62,6 +62,7 @@ help:
 	@echo  $(MAKE) -s -f makefile.am64x ethernetip_adapter_rgmii_icss_fwhal_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am64x ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am64x ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang_clean
+	@echo  $(MAKE) -s -f makefile.am64x ethernetip_adapter_lwipif-ic-freertos_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am64x hsr_mii_icss_fwhal_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am64x hsr_rgmii_icss_fwhal_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am64x prp_mii_icss_fwhal_r5f.ti-arm-clang_clean
@@ -76,7 +77,6 @@ help:
 	@echo  $(MAKE) -s -f makefile.am64x icss_emac_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am64x icss_emac_lwip_if_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am64x icss_timesync_r5f.ti-arm-clang_clean
-	@echo  $(MAKE) -s -f makefile.am64x lwipif-ic-freertos_r5f.ti-arm-clang_clean
 	@echo  .
 	@echo  Example build targets,
 	@echo  ======================
@@ -107,6 +107,7 @@ BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal = ethernetip_adapter_mii_icss_fwha
 BUILD_COMBO_ethernetip_adapter_rgmii_icss_fwhal = ethernetip_adapter_rgmii_icss_fwhal_r5f.ti-arm-clang
 BUILD_COMBO_ethernetip_adapter_lwip_contrib = ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang
 BUILD_COMBO_ethernetip_adapter_lwip_freertos = ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang
+BUILD_COMBO_ethernetip_adapter_lwipif-ic-freertos = ethernetip_adapter_lwipif-ic-freertos_r5f.ti-arm-clang
 BUILD_COMBO_hsr_mii_icss_fwhal = hsr_mii_icss_fwhal_r5f.ti-arm-clang
 BUILD_COMBO_hsr_rgmii_icss_fwhal = hsr_rgmii_icss_fwhal_r5f.ti-arm-clang
 BUILD_COMBO_prp_mii_icss_fwhal = prp_mii_icss_fwhal_r5f.ti-arm-clang
@@ -121,10 +122,9 @@ BUILD_COMBO_profinet_device_rt_mrp_rgmii_icss_fwhal = profinet_device_rt_mrp_rgm
 BUILD_COMBO_icss_emac = icss_emac_r5f.ti-arm-clang
 BUILD_COMBO_icss_emac_lwip_if = icss_emac_lwip_if_r5f.ti-arm-clang
 BUILD_COMBO_icss_timesync = icss_timesync_r5f.ti-arm-clang
-BUILD_COMBO_lwipif-ic-freertos = lwipif-ic-freertos_r5f.ti-arm-clang
 
 # Combine all Components
-BUILD_COMBO_ALL = $(BUILD_COMBO_ethercat_slave_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_rgmii_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_lwip_contrib) $(BUILD_COMBO_ethernetip_adapter_lwip_freertos) $(BUILD_COMBO_hsr_mii_icss_fwhal) $(BUILD_COMBO_hsr_rgmii_icss_fwhal) $(BUILD_COMBO_prp_mii_icss_fwhal) $(BUILD_COMBO_prp_rgmii_icss_fwhal) $(BUILD_COMBO_hsr_prp_lwip_contrib) $(BUILD_COMBO_hsr_prp_lwip_freertos) $(BUILD_COMBO_hsr_prp_icss_emac_lwip_if) $(BUILD_COMBO_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_profinet_device_irt_rgmii_icss_fwhal) $(BUILD_COMBO_profinet_device_rt_mrp_mii_icss_fwhal) $(BUILD_COMBO_profinet_device_rt_mrp_rgmii_icss_fwhal) $(BUILD_COMBO_icss_emac) $(BUILD_COMBO_icss_emac_lwip_if) $(BUILD_COMBO_icss_timesync) $(BUILD_COMBO_lwipif-ic-freertos)
+BUILD_COMBO_ALL = $(BUILD_COMBO_ethercat_slave_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_rgmii_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_lwip_contrib) $(BUILD_COMBO_ethernetip_adapter_lwip_freertos) $(BUILD_COMBO_ethernetip_adapter_lwipif-ic-freertos) $(BUILD_COMBO_hsr_mii_icss_fwhal) $(BUILD_COMBO_hsr_rgmii_icss_fwhal) $(BUILD_COMBO_prp_mii_icss_fwhal) $(BUILD_COMBO_prp_rgmii_icss_fwhal) $(BUILD_COMBO_hsr_prp_lwip_contrib) $(BUILD_COMBO_hsr_prp_lwip_freertos) $(BUILD_COMBO_hsr_prp_icss_emac_lwip_if) $(BUILD_COMBO_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_profinet_device_irt_rgmii_icss_fwhal) $(BUILD_COMBO_profinet_device_rt_mrp_mii_icss_fwhal) $(BUILD_COMBO_profinet_device_rt_mrp_rgmii_icss_fwhal) $(BUILD_COMBO_icss_emac) $(BUILD_COMBO_icss_emac_lwip_if) $(BUILD_COMBO_icss_timesync)
 
 # Combine all Pre-built Components
 BUILD_COMBO_PREBUILT_ALL =
@@ -155,6 +155,9 @@ $(BUILD_COMBO_ethernetip_adapter_lwip_contrib):
 
 $(BUILD_COMBO_ethernetip_adapter_lwip_freertos):
 	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.stack.am64x.$(subst ethernetip_adapter_lwip_freertos_,,$@) all
+
+$(BUILD_COMBO_ethernetip_adapter_lwipif-ic-freertos):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.lwipif-ic-freertos.am64x.$(subst ethernetip_adapter_lwipif-ic-freertos_,,$@) all
 
 $(BUILD_COMBO_hsr_mii_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/hsr_prp/icss_fwhal -f makefile.hsr_mii.am64x.$(subst hsr_mii_icss_fwhal_,,$@) all
@@ -198,9 +201,6 @@ $(BUILD_COMBO_icss_emac_lwip_if):
 $(BUILD_COMBO_icss_timesync):
 	$(MAKE) -C source/networking/icss_timesync -f makefile.am64x.$(subst icss_timesync_,,$@) all
 
-$(BUILD_COMBO_lwipif-ic-freertos):
-	$(MAKE) -C source/networking/icss_emac/lwip_ic -f makefile.lwipif-ic-freertos.am64x.$(subst lwipif-ic-freertos_,,$@) all
-
 
 # Various Component Clean Targets
 BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal = ethercat_slave_icss_fwhal_r5f.ti-arm-clang_clean
@@ -209,6 +209,7 @@ BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal = ethernetip_adapter_mii_ics
 BUILD_COMBO_CLEAN_ethernetip_adapter_rgmii_icss_fwhal = ethernetip_adapter_rgmii_icss_fwhal_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_contrib = ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_freertos = ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang_clean
+BUILD_COMBO_CLEAN_ethernetip_adapter_lwipif-ic-freertos = ethernetip_adapter_lwipif-ic-freertos_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_hsr_mii_icss_fwhal = hsr_mii_icss_fwhal_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_hsr_rgmii_icss_fwhal = hsr_rgmii_icss_fwhal_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_prp_mii_icss_fwhal = prp_mii_icss_fwhal_r5f.ti-arm-clang_clean
@@ -223,10 +224,9 @@ BUILD_COMBO_CLEAN_profinet_device_rt_mrp_rgmii_icss_fwhal = profinet_device_rt_m
 BUILD_COMBO_CLEAN_icss_emac = icss_emac_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_icss_emac_lwip_if = icss_emac_lwip_if_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_icss_timesync = icss_timesync_r5f.ti-arm-clang_clean
-BUILD_COMBO_CLEAN_lwipif-ic-freertos = lwipif-ic-freertos_r5f.ti-arm-clang_clean
 
 # Combine all Components Clean
-BUILD_COMBO_CLEAN_ALL = $(BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal) $(BUILD_COMBO_CLEAN_ethercat_slave_bkhf_ssc) $(BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_ethernetip_adapter_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_contrib) $(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_freertos) $(BUILD_COMBO_CLEAN_hsr_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_hsr_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_prp_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_prp_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_hsr_prp_lwip_contrib) $(BUILD_COMBO_CLEAN_hsr_prp_lwip_freertos) $(BUILD_COMBO_CLEAN_hsr_prp_icss_emac_lwip_if) $(BUILD_COMBO_CLEAN_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_irt_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_rt_mrp_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_rt_mrp_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_icss_emac) $(BUILD_COMBO_CLEAN_icss_emac_lwip_if) $(BUILD_COMBO_CLEAN_icss_timesync) $(BUILD_COMBO_CLEAN_lwipif-ic-freertos)
+BUILD_COMBO_CLEAN_ALL = $(BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal) $(BUILD_COMBO_CLEAN_ethercat_slave_bkhf_ssc) $(BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_ethernetip_adapter_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_contrib) $(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_freertos) $(BUILD_COMBO_CLEAN_ethernetip_adapter_lwipif-ic-freertos) $(BUILD_COMBO_CLEAN_hsr_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_hsr_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_prp_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_prp_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_hsr_prp_lwip_contrib) $(BUILD_COMBO_CLEAN_hsr_prp_lwip_freertos) $(BUILD_COMBO_CLEAN_hsr_prp_icss_emac_lwip_if) $(BUILD_COMBO_CLEAN_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_irt_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_rt_mrp_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_rt_mrp_rgmii_icss_fwhal) $(BUILD_COMBO_CLEAN_icss_emac) $(BUILD_COMBO_CLEAN_icss_emac_lwip_if) $(BUILD_COMBO_CLEAN_icss_timesync)
 
 # Combine all Pre-built Components Clean
 BUILD_COMBO_PREBUILT_CLEAN_ALL =
@@ -252,6 +252,9 @@ $(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_contrib):
 
 $(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_freertos):
 	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.stack.am64x.$(subst ethernetip_adapter_lwip_freertos_,,$(subst _clean,,$@)) clean
+
+$(BUILD_COMBO_CLEAN_ethernetip_adapter_lwipif-ic-freertos):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.lwipif-ic-freertos.am64x.$(subst ethernetip_adapter_lwipif-ic-freertos_,,$(subst _clean,,$@)) clean
 
 $(BUILD_COMBO_CLEAN_hsr_mii_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/hsr_prp/icss_fwhal -f makefile.hsr_mii.am64x.$(subst hsr_mii_icss_fwhal_,,$(subst _clean,,$@)) clean
@@ -295,9 +298,6 @@ $(BUILD_COMBO_CLEAN_icss_emac_lwip_if):
 $(BUILD_COMBO_CLEAN_icss_timesync):
 	$(MAKE) -C source/networking/icss_timesync -f makefile.am64x.$(subst icss_timesync_,,$(subst _clean,,$@)) clean
 
-$(BUILD_COMBO_CLEAN_lwipif-ic-freertos):
-	$(MAKE) -C source/networking/icss_emac/lwip_ic -f makefile.lwipif-ic-freertos.am64x.$(subst lwipif-ic-freertos_,,$(subst _clean,,$@)) clean
-
 
 # Various Component Scrub Targets
 BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal = ethercat_slave_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
@@ -306,6 +306,7 @@ BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal = ethernetip_adapter_mii_ics
 BUILD_COMBO_SCRUB_ethernetip_adapter_rgmii_icss_fwhal = ethernetip_adapter_rgmii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_contrib = ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_freertos = ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang_scrub_scrub
+BUILD_COMBO_SCRUB_ethernetip_adapter_lwipif-ic-freertos = ethernetip_adapter_lwipif-ic-freertos_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_hsr_mii_icss_fwhal = hsr_mii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_hsr_rgmii_icss_fwhal = hsr_rgmii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_prp_mii_icss_fwhal = prp_mii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
@@ -320,10 +321,9 @@ BUILD_COMBO_SCRUB_profinet_device_rt_mrp_rgmii_icss_fwhal = profinet_device_rt_m
 BUILD_COMBO_SCRUB_icss_emac = icss_emac_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_icss_emac_lwip_if = icss_emac_lwip_if_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_icss_timesync = icss_timesync_r5f.ti-arm-clang_scrub_scrub
-BUILD_COMBO_SCRUB_lwipif-ic-freertos = lwipif-ic-freertos_r5f.ti-arm-clang_scrub_scrub
 
 # Combine all Components Scrub Targets
-BUILD_COMBO_SCRUB_ALL = $(BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal) $(BUILD_COMBO_SCRUB_ethercat_slave_bkhf_ssc) $(BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_ethernetip_adapter_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_contrib) $(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_freertos) $(BUILD_COMBO_SCRUB_hsr_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_hsr_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_prp_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_prp_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_hsr_prp_lwip_contrib) $(BUILD_COMBO_SCRUB_hsr_prp_lwip_freertos) $(BUILD_COMBO_SCRUB_hsr_prp_icss_emac_lwip_if) $(BUILD_COMBO_SCRUB_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_irt_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_icss_emac) $(BUILD_COMBO_SCRUB_icss_emac_lwip_if) $(BUILD_COMBO_SCRUB_icss_timesync) $(BUILD_COMBO_SCRUB_lwipif-ic-freertos)
+BUILD_COMBO_SCRUB_ALL = $(BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal) $(BUILD_COMBO_SCRUB_ethercat_slave_bkhf_ssc) $(BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_ethernetip_adapter_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_contrib) $(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_freertos) $(BUILD_COMBO_SCRUB_ethernetip_adapter_lwipif-ic-freertos) $(BUILD_COMBO_SCRUB_hsr_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_hsr_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_prp_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_prp_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_hsr_prp_lwip_contrib) $(BUILD_COMBO_SCRUB_hsr_prp_lwip_freertos) $(BUILD_COMBO_SCRUB_hsr_prp_icss_emac_lwip_if) $(BUILD_COMBO_SCRUB_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_irt_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_rgmii_icss_fwhal) $(BUILD_COMBO_SCRUB_icss_emac) $(BUILD_COMBO_SCRUB_icss_emac_lwip_if) $(BUILD_COMBO_SCRUB_icss_timesync)
 
 # Combine all Pre-built Components Scrub Targets
 BUILD_COMBO_PREBUILT_SCRUB_ALL =
@@ -349,6 +349,9 @@ $(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_contrib):
 
 $(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_freertos):
 	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.stack.am64x.$(subst ethernetip_adapter_lwip_freertos_,,$(subst _scrub,,$@)) scrub
+
+$(BUILD_COMBO_SCRUB_ethernetip_adapter_lwipif-ic-freertos):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.lwipif-ic-freertos.am64x.$(subst ethernetip_adapter_lwipif-ic-freertos_,,$(subst _scrub,,$@)) scrub
 
 $(BUILD_COMBO_SCRUB_hsr_mii_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/hsr_prp/icss_fwhal -f makefile.hsr_mii.am64x.$(subst hsr_mii_icss_fwhal_,,$(subst _scrub,,$@)) scrub
@@ -391,9 +394,6 @@ $(BUILD_COMBO_SCRUB_icss_emac_lwip_if):
 
 $(BUILD_COMBO_SCRUB_icss_timesync):
 	$(MAKE) -C source/networking/icss_timesync -f makefile.am64x.$(subst icss_timesync_,,$(subst _scrub,,$@)) scrub
-
-$(BUILD_COMBO_SCRUB_lwipif-ic-freertos):
-	$(MAKE) -C source/networking/icss_emac/lwip_ic -f makefile.lwipif-ic-freertos.am64x.$(subst lwipif-ic-freertos_,,$(subst _scrub,,$@)) scrub
 
 
 BUILD_COMBO_EXAMPLE_ALL =

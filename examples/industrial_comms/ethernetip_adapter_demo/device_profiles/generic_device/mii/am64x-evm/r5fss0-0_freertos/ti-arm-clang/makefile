@@ -169,7 +169,6 @@ LIBS_PATH_common = \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lib \
-	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/lib \
 	-Wl,-i${CG_TOOL_ROOT}/lib \
 
 LIBS_common = \
@@ -181,8 +180,8 @@ LIBS_common = \
 	-lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib \
-	-llwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-lethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-lethernetipadapter.mii.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -203,8 +202,8 @@ LIBS_NAME = \
 	ethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	ethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib \
-	lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	ethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	ethernetipadapter.mii.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	libc.a \
 	libsysbm.a \
 
@@ -217,7 +216,6 @@ LIBS_PATH_NAME = \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/icss_fwhal/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lib \
-	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lwip_ic/lib \
 	${CG_TOOL_ROOT}/lib \
 
 FILES := $(FILES_common) $(FILES_$(PROFILE))
