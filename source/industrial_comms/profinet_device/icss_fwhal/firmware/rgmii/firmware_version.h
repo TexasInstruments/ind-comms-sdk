@@ -67,7 +67,7 @@ extern "C"
 // bit30..24	major version number
 #define		FIRMWARE_VERSION_MAJOR		0x00
 // bit23..16		minor version number
-#define		FIRMWARE_VERSION_MINOR			0x10
+#define		FIRMWARE_VERSION_MINOR			0x11
 // bit15..0		build number
 #define		FIRMWARE_VERSION_BUILD			0x01
 
