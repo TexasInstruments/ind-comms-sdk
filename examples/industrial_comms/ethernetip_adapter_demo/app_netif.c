@@ -48,7 +48,6 @@
 
 #include <lwip_ic.h>
 #include <lwip2lwipif_ic.h>
-//#include <lwip2lwipif.h>
 
 #include "netif_common.h"
 #include "app_netif.h"
@@ -71,14 +70,17 @@
 
 
 /* Max length of shared mcast address list */
-#define ETHAPP_MAX_SHARED_MCAST_ADDR        (8U)
+#define ETHAPP_MAX_SHARED_MCAST_ADDR    (8U)
 
 /* Required size of the MAC address pool (specific to the TI EVM configuration):
  *  1 x MAC address for Ethernet Firmware
  *  2 x MAC address for mpu1_0 virtual switch and MAC-only ports (Linux, 1 for QNX)
  *  2 x MAC address for mcu2_1 virtual switch and MAC-only ports (RTOS)
  *  1 x MAC address for mcu2_1 virtual switch port (AUTOSAR) */
-#define ETHAPP_MAC_ADDR_POOL_SIZE               (6U)
+#define ETHAPP_MAC_ADDR_POOL_SIZE       (6U)
+
+/* Number of static IP addresses defined for different netifs*/
+#define IP_ADDR_POOL_COUNT              (3U)
 
 /* ========================================================================== */
 /*                            Global Variables                                */
@@ -86,7 +88,6 @@
 
 struct netif netif_bridge;
 
-// static struct netif gEmacNetif;
 static struct netif *gEmacNetif;
 
 static struct netif netif_ic[IC_ETH_MAX_VIRTUAL_IF];
@@ -94,14 +95,15 @@ static struct netif netif_ic[IC_ETH_MAX_VIRTUAL_IF];
 /* Array to store coreId to lwip bridge portId map */
 static uint8_t gEthApp_lwipBridgePortIdMap[IPC_MAX_PROCS];
 
+#if(USE_DHCP)
 /* dhcp struct for the ethernet netif */
 static struct dhcp g_netifDhcp[IC_ETH_MAX_VIRTUAL_IF];
-// debug - static IP
-#define IP_ADDR_POOL_COUNT  (3U)
-
-const ip_addr_t gStaticIP[IP_ADDR_POOL_COUNT]   =  { IPADDR4_INIT_BYTES(192, 168, 1, 11),  IPADDR4_INIT_BYTES(192, 168, 1, 12), IPADDR4_INIT_BYTES(192, 168, 1, 13)};
-const ip_addr_t gStaticIPGateway = IPADDR4_INIT_BYTES(192, 168, 1, 0);
-const ip_addr_t gStaticIPNetmask = IPADDR4_INIT_BYTES(255,255,255,0);
+#else
+/* Addresses used in static IP mode */
+const ip_addr_t gStaticIP[IP_ADDR_POOL_COUNT] = { IPADDR4_INIT_BYTES(192, 168, 1, 10), IPADDR4_INIT_BYTES(192, 168, 1, 11),  IPADDR4_INIT_BYTES(192, 168, 1, 12)};
+const ip_addr_t gStaticIPGateway = IPADDR4_INIT_BYTES(192, 168, 1, 1);
+const ip_addr_t gStaticIPNetmask = IPADDR4_INIT_BYTES(255, 255, 255, 0);
+#endif 
 
 /* ========================================================================== */
 /*                          Function Declarations                             */
@@ -125,19 +127,14 @@ void EthApp_initNetif(void)
 
     DebugP_log("\r\nStarting lwIP, local interface IP is dhcp-enabled\n");
 
-    // netif_add(&gEmacNetif, &ipaddr, &netmask, &gw, NULL, LWIPIF_LWIP_init, tcpip_input);
-    // netif_add(&gEmacNetif, NULL, NULL, NULL, NULL, LWIPIF_LWIP_init, tcpip_input);
-	// down
+    /* Store the ICSS EMAC netif defined as netif_default in the stack 
+     *  before bridge netif is set as the default netif 
+     */
     gEmacNetif = netif_default;
     gEmacNetif->flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
     netif_clear_flags(gEmacNetif, NETIF_FLAG_BROADCAST);
-    netif_set_addr(gEmacNetif, &gStaticIP[0],
-                   &gStaticIPNetmask, &gStaticIPGateway);
 
-//    sys_lock_tcpip_core();
     netif_set_down(gEmacNetif);
-//    sys_unlock_tcpip_core();
-//    netif_set_addr(gEmacNetif, NULL, NULL, NULL); // debug - static IP
 
     /* Create and initialise Intercore shared memory driver */
     hIcObj = App_doIcOpen(IC_ETH_IF_R5_0_0_R5_0_1);
@@ -146,22 +143,22 @@ void EthApp_initNetif(void)
     /* Create inter-core virtual ethernet interface: MCU2_0 <-> MCU2_1 */
     netif_add(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], &ipaddr, &netmask, &gw,
               NULL, LWIPIF_LWIP_IC_init, tcpip_input);
-
+#if(!USE_DHCP)
     netif_set_addr(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], &gStaticIP[1],
                    &gStaticIPNetmask, &gStaticIPGateway);
+#endif
 
     err = LWIPIF_LWIP_IC_start(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], IC_ETH_IF_R5_0_0_R5_0_1, hIcObj);
     DebugP_assert(err == ERR_OK);
 
-    // gEmacNetif.flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
     netif_ic[IC_ETH_IF_R5_0_0_R5_0_1].flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
 
     /* Initialize data for bridge as (no. of ports, no. of dynamic entries, no. of static entries, MAC address of the bridge) */
     bridgeif_initdata_t mybridge_initdata = BRIDGEIF_INITDATA1 (ETHAPP_LWIP_BRIDGE_MAX_PORTS,
                                                                 ETHAPP_LWIP_BRIDGE_MAX_DYNAMIC_ENTRIES,
                                                                 ETHAPP_LWIP_BRIDGE_MAX_STATIC_ENTRIES,
-                                                /*------------- VERY IMPORTANT----------------*/
-                                                                /*Change mac addr to match the SOC mac of your board*/
+                                                                /*------------------------ VERY IMPORTANT--------------------------*/
+                                                                /* Change mac addr to match the SOC mac of your board*/
                                                                 ETH_ADDR(0x34, 0x08, 0xe1, 0x80, 0xAA, 0xCB));  //  34:08:e1:80:aa:cb
 
     /* Netif state of the bridge netif is filled with the bridge handle,
@@ -170,8 +167,10 @@ void EthApp_initNetif(void)
      */
     netif_add(&netif_bridge, &ipaddr, &netmask, &gw, &mybridge_initdata, bridgeif_init, netif_input);
 
-    netif_set_addr(&netif_bridge, &gStaticIP[2],
+#if(!USE_DHCP)
+    netif_set_addr(&netif_bridge, &gStaticIP[0],
                    &gStaticIPNetmask, &gStaticIPGateway);
+#endif
 
     /* Add all netifs to the bridge and create coreId to bridge portId map */
     bridgeif_add_port(&netif_bridge, gEmacNetif);
@@ -182,7 +181,10 @@ void EthApp_initNetif(void)
 
     /* Set bridge interface as the default */
     netif_set_default(&netif_bridge);
-//    dhcp_set_struct(&netif_bridge, &g_netifDhcp[0]); // debug - static IP
+    
+#if(USE_DHCP)
+    dhcp_set_struct(&netif_bridge, &g_netifDhcp[0]); 
+#endif
 
     EthApp_setNetifCbs(gEmacNetif);
     EthApp_setNetifCbs(&netif_bridge);
@@ -190,13 +192,16 @@ void EthApp_initNetif(void)
     netif_set_up(gEmacNetif);
     netif_set_up(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1]);
     netif_set_up(&netif_bridge);
-    // debug - static IP
-//    err = dhcp_start(&netif_bridge);
-//
-//    if (err != ERR_OK)
-//    {
-//        DebugP_log("Failed to start DHCP: %d\n", err);
-//    }
+
+#if(USE_DHCP)
+    err = dhcp_start(&netif_bridge);
+
+    if (err != ERR_OK)
+    {
+        DebugP_log("Failed to start DHCP: %d\n", err);
+    }
+#endif
+
 }
 
 static void EthApp_waitForNetifUp(struct netif *netif)

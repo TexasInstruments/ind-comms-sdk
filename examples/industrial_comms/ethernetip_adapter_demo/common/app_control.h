@@ -169,15 +169,6 @@ void AppCtrl_createRecvTask();
 
 void AppCtrl_sendAddMacAddrReq(Icve_macAddr args, uint32_t type);
 
-/* ========================================================================== */
-/*                            Global Variables                                */
-/* ========================================================================== */
-
-
-/* ========================================================================== */
-/*                          Function Declarations                             */
-/* ========================================================================== */
-
 void App_handleControlMsg(void* msgBuf);
 
 #endif /* _APP_CONTROL_H_ */

@@ -291,7 +291,7 @@ char snd_buf_array[UDP_TX_NUM_BUFS][UTILS_ALIGN(UDP_RECV_BUFSIZE,UDP_IPERF_R5F_C
 __attribute__ ((aligned(UDP_IPERF_R5F_CACHE_LINE_SIZE),
                 section(".bss:UDP_IPERF_SND_BUF")));
 
-/** Receive data on a udp session */
+/** Send data on a udp session */
 static void udp_send_perf_traffic(int sock, u64_t test_duration_ms, char *snd_buf, u32_t snd_size, const struct sockaddr_in *from)
 {
 	s32_t snd_id;

@@ -188,7 +188,7 @@ region1.memory_region[2].size                = 0x8000;
 region1.memory_region[3].$name               = "MSRAM";
 region1.memory_region[3].auto                = false;
 region1.memory_region[3].manualStartAddress  = 0x70010000;
-region1.memory_region[3].size                = 0x1A0000;
+region1.memory_region[3].size                = 0x180000;
 region1.memory_region[4].auto                = false;
 region1.memory_region[4].$name               = "ICSS_PKT_BUF_MEM";
 region1.memory_region[4].size                = 0x10000;
@@ -244,14 +244,14 @@ section2.output_section[3].palignment = true;
 section2.output_section[4].$name      = ".text:abort";
 section2.output_section[4].palignment = true;
 
-section3.load_memory                  = "MSRAM";
 section3.$name                        = "Code";
+section3.load_memory                  = "DDR_1";
 section3.output_section.create(1);
 section3.output_section[0].$name      = ".text";
 section3.output_section[0].palignment = true;
 
-section4.load_memory                  = "MSRAM";
 section4.$name                        = "Read-Only Data and Data Segment";
+section4.load_memory                  = "DDR_1";
 section4.output_section.create(2);
 section4.output_section[0].palignment = true;
 section4.output_section[0].$name      = ".rodata";
@@ -259,7 +259,7 @@ section4.output_section[1].$name      = ".data";
 section4.output_section[1].palignment = true;
 
 section5.$name                                   = "Memory Segments";
-section5.load_memory                             = "MSRAM";
+section5.load_memory                             = "DDR_1";
 section5.output_section.create(3);
 section5.output_section[0].$name                 = ".bss";
 section5.output_section[0].palignment            = true;

@@ -77,17 +77,12 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
-#include "lwip/opt.h"
-#include "lwip/sys.h"
-#include "lwip/tcpip.h"
-#include "lwip/dhcp.h"
-#include <networking/lwip/lwip-contrib/examples/lwiperf/lwiperf_example.h>
-
 #include "udp_iperf.h"
 #include "app_tcpserver.h"
 #include "netif_common.h"
 #include "app_control.h"
 #include "app_netif.h"
+#include <networking/lwip/lwip-contrib/examples/lwiperf/lwiperf_example.h>
 
 /* UDP Iperf task should be highest priority task to ensure processed buffers
  * are freed without delay so that we get maximum throughput for
@@ -246,7 +241,6 @@ laError:
     return res;
 }
 
-
 /*!
  *  <!-- Description: -->
  *
@@ -393,35 +387,31 @@ void assignMacAddr(ICSS_EMAC_Handle emachandle)
     {
         status = ICVE_FAIL;
     }
-    DebugP_log("Adding new to FDB  \r\n");
+    DebugP_log("Adding new MAC to FDB  \r\n");
 }
-//int32_t app_getEmacHandle(Lwip2Emac_Handle hLwip2Emac)
-//{
-//    int32_t ret_val = SystemP_FAILURE;
-//    if(hLwip2Emac != NULL)
-//    {
-//        hLwip2Emac->emacHandle = emachandle;
-//        ret_val = SystemP_SUCCESS;
-//    }
-//
-//    return (ret_val);
-//}
 
-int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr assignMac2)
+static void App_printCpuLoad()
 {
-    int32_t status = ICVE_OK;
+    static uint32_t startTime_ms = 0;
+    const  uint32_t currTime_ms  = ClockP_getTimeUsec()/1000;
+    const  uint32_t printInterval_ms = 5000;
 
-    if(status == ICVE_OK)
+    if (startTime_ms == 0)
     {
-//        assignMacAddr(emachandle);
+        startTime_ms = currTime_ms;
     }
-
-    if(status == ICVE_OK)
+    else if ( (currTime_ms - startTime_ms) > printInterval_ms )
     {
-        DebugP_log("Remote mac added to FDB \r\n");
-    }
+        const uint32_t cpuLoad = TaskP_loadGetTotalCpuLoad();
 
-    return status;
+        DebugP_log(" %6d.%3ds : CPU load = %3d.%02d %%\r\n",
+                    currTime_ms/1000, currTime_ms%1000,
+                    cpuLoad/100, cpuLoad%100 );
+
+        startTime_ms = currTime_ms;
+        TaskP_loadResetAll();
+    }
+    return;
 }
 
 int32_t AppCtrl_addMcastAddr(Icss_MacAddr mac)
@@ -473,7 +463,6 @@ int32_t AppCtrl_delMcastAddr(Icss_MacAddr mac)
  *
  *
  */
-//int16_t loopXYZ = 1;
 void EI_APP_TASK_main(void* pvTaskArg_p)
 {
     uint32_t err = OSAL_NO_ERROR;
@@ -490,7 +479,7 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
     {
         goto laError;
     }
-//Uncomment to debug 
+// Uncomment to debug 
 //     while(loopXYZ == 1)
 //     {
 //         DebugP_log("%d", loopXYZ);
@@ -534,14 +523,6 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
                                UDP_IPERF_THREAD_PRIO);
     sys_unlock_tcpip_core();
 
-    if (netif_is_up(netif_default))
-    {
-        const ip4_addr_t *ipAddr = netif_ip4_addr(netif_default);
-
-        DebugP_log("Interface '%c%c%d', IP is %s \r\n",
-                     netif_default->name[0], netif_default->name[1], netif_default->num, ip4addr_ntoa(ipAddr));
-    }
-
     for (;;)
     {
         EI_APP_TASK_run(cipNode_s);
@@ -556,6 +537,8 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
         {
             EI_APP_NV_write(false);
         }
+        
+        App_printCpuLoad();
 
         OSAL_SCHED_yield();
     }
@@ -577,7 +560,6 @@ laError:
 
     CMN_APP_mainExit();
 }
-
 
 /*!
  *  <!-- Description: -->
@@ -722,6 +704,38 @@ static uint8_t* EI_APP_TASK_getMacAddr (void)
 #else
     return EI_APP_TASK_macAddress;
 #endif
+}
+
+/* Remote MAC update via RPMSG is not supported
+*  Hard code the remote MAC in the function - assignMacAddr
+*/ 
+int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr assignMac) 
+{
+    int32_t status = ICVE_OK;
+
+//     if(status == ICVE_OK)
+//     {
+//         ICSS_EMAC_IoctlCmd ioctlParamsPNTest;
+//         ioctlParamsPNTest.ioctlVal = (void *)(assignMac.macAddr);
+//         ioctlParamsPNTest.command = ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_ENABLE_CMD;
+//         int32_t ICSS_EMAC_ioctl_status = ICSS_EMAC_ioctl(emachandle,ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL, (uint32_t)NULL, (void *)&ioctlParamsPNTest);
+//         if(ICSS_EMAC_ioctl_status == 0)
+//         {
+//             status = ICVE_OK;
+//         }
+//         else
+//         {
+//             status = ICVE_FAIL;
+//         }
+//         DebugP_log("Adding new to FDB  \r\n");
+//     }
+
+//     if(status == ICVE_OK)
+//     {
+//         DebugP_log("Remote mac added to FDB \r\n");
+//     }
+
+    return status;
 }
 
 #endif  // (!(defined FBTLPROVIDER) || (0 == FBTLPROVIDER)) && (!(defined FBTL_REMOTE) || (0 == FBTL_REMOTE))

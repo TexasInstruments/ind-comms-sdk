@@ -39,18 +39,12 @@
 #include "lwip/opt.h"
 #include "lwip/sys.h"
 #include "lwip/api.h"
-// #include <networking/enet/utils/include/enet_apputils.h>
-// #include <networking/enet/utils/include/enet_board.h>
-// #include <enet.h>
 #include <kernel/dpl/TaskP.h>
 #include <kernel/dpl/ClockP.h>
 #include <kernel/dpl/QueueP.h>
-// #include <include/per/icssg.h>
 #include "ti_board_config.h"
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
-// #include "ti_enet_config.h"
-// #include "ti_enet_open_close.h"
 #include "ti_drivers_config.h"
 
 /* ========================================================================== */

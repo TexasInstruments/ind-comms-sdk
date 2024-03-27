@@ -13,10 +13,14 @@ extern "C" {
 #include <intercore/include/ShdMemCircularBufferP_nortos.h>
 #include "app_control.h"
 
-Ic_Object_Handle App_doIcOpen(uint32_t instId);
+/* ========================================================================== */
+/*                          API/Public Function Declarations                  */
+/* ========================================================================== */
 
+Ic_Object_Handle App_doIcOpen(uint32_t instId);
 int32_t App_getSharedMemInfo(Icve_respMsg *respMsg, uint32_t remoteCoreId);
 extern uint32_t App_getSelfCoreId();
+
 #ifdef __cplusplus
 }
 #endif
