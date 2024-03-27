@@ -479,11 +479,6 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
     {
         goto laError;
     }
-// Uncomment to debug 
-//     while(loopXYZ == 1)
-//     {
-//         DebugP_log("%d", loopXYZ);
-//     }
 
     err = EI_APP_DEVICE_PROFILE_init();
 
