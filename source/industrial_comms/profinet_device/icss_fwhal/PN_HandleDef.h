@@ -114,6 +114,8 @@ typedef struct PN_PtcpConfig_s
 {
     /*! PTCP Cycle period                 */
     uint32_t pnCyclePeriod;
+    /*! Previous PTCP Cycle Period        */
+    uint32_t prevPnCyclePeriod;
     /*! Mandatory counter adjustment for inter delay request gap        */
     uint32_t mandCtrAdj;
     /*! T2 previous                       */

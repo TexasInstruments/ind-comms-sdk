@@ -103,6 +103,7 @@ uint32_t syncmissCounter = 0;
 
 #define TLV_DELAY 0x060c
 
+#define DELAY_CALC_ADJ 0xFF
 /* ========================================================================== */
 /*                             Static variables                               */
 /* ========================================================================== */
@@ -162,7 +163,8 @@ void PN_PTCP_ClockChange(PN_Handle pnHandle, uint32_t cycleTime)
     {
         return;
     }
-
+    /* Log previous clock value to handle T1 and T4 timestamp taken in different cycles when clock change occurs */
+    (pnHandle->pnPtcpConfig).prevPnCyclePeriod = (pnHandle->pnPtcpConfig).pnCyclePeriod;
     (pnHandle->pnPtcpConfig).pnCyclePeriod = cycleTime;
     (pnHandle->pnPtcpConfig).clkChangeNotifyDelay = 1;
 
@@ -887,6 +889,7 @@ void PN_PTCP_portDelaySmaCalc(PN_Handle pnHandle, uint8_t portNum)
 int32_t PN_PTCP_lineDelayCalc(PN_Handle pnHandle,
                               ptcp_iDelayResp_struct_t *ptcp_port_desc)
 {
+    PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)((pnHandle->pruicssHandle)->hwAttrs);
     int32_t ctr_diff;
     ctr_diff = (ptcp_port_desc->T4_cycle_ctr) - (ptcp_port_desc->T1_cycle_ctr);
 
@@ -895,7 +898,14 @@ int32_t PN_PTCP_lineDelayCalc(PN_Handle pnHandle,
         ctr_diff = ctr_diff + 512;
     }
 
-    ptcp_port_desc->reqDelay = ctr_diff * (pnHandle->pnPtcpConfig).pnCyclePeriod;
+    /* Check to ensure T1 and T4 timestamp are taken */
+    if(HW_RD_REG16(pruicssHwAttrs->pru0DramBase + DELAY_ADJ_CALC_OFFSET) == DELAY_CALC_ADJ) {
+        ptcp_port_desc->reqDelay = ctr_diff * (pnHandle->pnPtcpConfig).prevPnCyclePeriod;
+        HW_WR_REG32((pruicssHwAttrs->pru0DramBase + CLOCK_CHANGE_OFFSET), 0);
+    }
+    else {
+        ptcp_port_desc->reqDelay = ctr_diff * (pnHandle->pnPtcpConfig).pnCyclePeriod;
+    }
     ptcp_port_desc->reqDelay = (int32_t)(ptcp_port_desc->reqDelay) + (int32_t)(
                                    ptcp_port_desc->T4TimeStamp - ptcp_port_desc->T1TimeStamp);
 
@@ -1386,9 +1396,10 @@ void PN_PTCP_isrHandler(void* arg)
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
 
     PN_IntAttrs *ptcpIntConfig = &((pnHandle->pnIntConfig).ptcpIntConfig);
-
-    PN_PTCP_syncHandling(pnHandle);
-
+    /* Avoid processing the sync packet if clock change has not occurred. */
+    if(HW_RD_REG8(pruicssHwAttrs->pru0DramBase + RTC_BASE_CLK_CHANGED_OFFSET) == 0) {
+        PN_PTCP_syncHandling(pnHandle);
+    }
     if((pnHandle->pnPtcpConfig).cycleCtrInitPending == 0)      /*clear only if cycle initialization is done*/
     {
         PN_clearPruIRQ(pruicssHwAttrs, ptcpIntConfig->pruIntNum);

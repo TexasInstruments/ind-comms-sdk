@@ -511,7 +511,8 @@ extern "C"
 #define PPM_BUFFER_OFFSET0		0x0D00		// buffer block 0	Data RAM0
 #define PPM_BUFFER_OFFSET1		0x10			// buffer block 1	Data RAM1. Inital 16 bytes used for Firmware version
 #define FSO_DEVIATION_COMP      0x1FD0      // FSO deviation - overheads from phy, MII. This parameter is application configurable.
-
+#define CLOCK_CHANGE_OFFSET		0x1FD4		// Flag for clock change. To check whether T1 and T4 TS taken in different cycle with different clock period
+#define DELAY_ADJ_CALC_OFFSET	0x1FD6		// State change if T4 TS taken in the cycle when clock change occurred. 
 // Following two buffers are used to store a RTC3 frame which has to be forwarded
 // PRU0
 #define	RTC3_SF_FSO_PRU0_OFFSET		0xBC00
