@@ -12,8 +12,8 @@
         "tags": ["SDK", "Baremetal", "FreeRTOS"],
         "description": "Industrial Communications SDK enables real-time industrial communications Protocols (EtherCAT, EtherNet/IP, PROFINET, IO-Link etc.) on TI processors/MCUs. This has Programmable Real-Time Unit Industrial Communication Subsystem (PRU-ICSS) firmware emulating fieldbus ASIC functionality, drivers, communication stack libraries and stack application examples together with documentation.",
         "dependencies": [
-            { "packageId": "sysconfig", "version": "1.19.0", "require": "mandatory" },
-            { "packageId": "ti_cgt_tiarmclang", "version": "3.2.1", "require": "mandatory" },
+            { "packageId": "sysconfig", "version": "1.20.0", "require": "mandatory" },
+            { "packageId": "ti_cgt_tiarmclang", "version": "3.2.2", "require": "mandatory" },
             { "packageId": "arm.gnu.aarch64-none", "version": "9.2.1", "require": "mandatory" }
         ]
     }
