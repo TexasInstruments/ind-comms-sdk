@@ -14,6 +14,9 @@ const flash           = scripting.addModule("/board/flash/flash", {}, false);
 const flash1          = flash.addInstance();
 const led             = scripting.addModule("/board/led/led", {}, false);
 const led1            = led.addInstance();
+const gpio            = scripting.addModule("/drivers/gpio/gpio", {}, false);
+const gpio1           = gpio.addInstance();
+const gpio2           = gpio.addInstance();
 const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1            = i2c.addInstance();
 const pruicss         = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
@@ -67,6 +70,14 @@ flash1.peripheralDriver.OSPI.$assign = "OSPI0";
 led1.$name = "CONFIG_LED0";
 led1.name  = "TPIC2810";
 
+gpio1.$name                = "CONFIG_GPIO0";
+gpio1.GPIO.$assign         = "GPIO0";
+gpio1.GPIO.gpioPin.$assign = "GPMC0_AD7";
+
+gpio2.$name                = "DIP_BTN_GPIO1";
+gpio2.GPIO.gpioPin.pu_pd   = "pd";
+gpio2.GPIO.gpioPin.$assign = "UART0_CTSn";
+
 i2c1.$name               = "CONFIG_I2C0";
 led1.peripheralDriver    = i2c1;
 eeprom1.peripheralDriver = i2c1;
@@ -79,8 +90,8 @@ uart1.useMcuDomainPeripherals = true;
 uart1.MCU_UART.$assign        = "MCU_USART0";
 
 ethernetip1.$name                                = "CONFIG_ETHERNETIP0";
-ethernetip1.phyAddr0                             = 3;
 ethernetip1.phyAddr1                             = 15;
+ethernetip1.phyAddr0                             = 3;
 ethernetip1.icss_emac[0].$name                   = "CONFIG_ICSS_EMAC0";
 ethernetip1.icss_emac[0].mode                    = scripting.forceWrite("SWITCH");
 ethernetip1.icss_emac[0].phyToMacInterfaceMode   = scripting.forceWrite("MII");
@@ -88,6 +99,7 @@ ethernetip1.icss_emac[0].learningEnable          = true;
 ethernetip1.icss_emac[0].linkTaskPriority        = 24;
 ethernetip1.icss_emac[0].rxTaskPriority          = 20;
 ethernetip1.icss_emac[0].txTaskPriority          = 20;
+ethernetip1.icss_emac[0].halfDuplexEnable        = true;
 ethernetip1.ethphy1[0].$name                     = "CONFIG_ETHPHY0";
 ethernetip1.ethphy1[0].mdioManualModeLinkPolling = scripting.forceWrite("Polling");
 ethernetip1.ethphy1[0].name                      = "CUSTOM";
@@ -143,8 +155,8 @@ timer1.TIMER.$assign = "DMTIMER4";
 default_linker1.$name = "memory_configurator_default_linker0";
 
 general1.$name        = "CONFIG_GENERAL0";
-general1.stack_size   = 1024;
 general1.heap_size    = 131072;
+general1.stack_size   = 1024;
 general1.linker.$name = "TIARMCLANG0";
 
 region1.$name                               = "MEMORY_REGION_CONFIGURATION0";
@@ -186,13 +198,15 @@ region1.memory_region[7].size               = 0x4000;
 region1.memory_region[7].manualStartAddress = 0x701D4000;
 region1.memory_region[8].auto               = false;
 region1.memory_region[8].$name              = "RTOS_NORTOS_IPC_SHM_MEM";
-region1.memory_region[8].isShared           = true;
-region1.memory_region[8].shared_cores       = ["m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
 region1.memory_region[8].manualStartAddress = 0x701D8000;
 region1.memory_region[8].size               = 0x8000;
+region1.memory_region[8].isShared           = true;
+region1.memory_region[8].shared_cores       = ["m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
 region1.memory_region[9].$name              = "ICSS_PKT_BUF_MEM";
 region1.memory_region[9].auto               = false;
 region1.memory_region[9].size               = 0x10000;
+region1.memory_region[9].isShared           = true;
+region1.memory_region[9].shared_cores       = ["dmsc0-0","icss_g0_pru0","icss_g0_pru1","icss_g0_rtu_pru0","icss_g0_rtu_pru1","icss_g0_tx_pru0","icss_g0_tx_pru1","icss_g1_pru0","icss_g1_pru1","icss_g1_rtu_pru0","icss_g1_rtu_pru1","icss_g1_tx_pru0","icss_g1_tx_pru1","m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
 
 section1.$name                        = "Vector Table";
 section1.load_memory                  = "R5F_VECS";
@@ -220,7 +234,7 @@ section3.$name                         = "Code";
 section3.select_multiple_regions       = true;
 section3.output_section.create(1);
 section3.output_section[0].$name       = ".text";
-section3.output_section[0].palignment  = true;
+section3.output_section[0].alignment   = 0;
 section3.split_priority.create(3);
 section3.split_priority[0].$name       = "Memory Region0";
 section3.split_priority[0].load_memory = "R5F_TCMA";
@@ -252,7 +266,7 @@ section5.output_section[2].palignment            = true;
 section5.output_section[2].$name                 = ".fbtlthreadstack";
 
 section6.$name                                    = "Stack Segments";
-section6.load_memory                              = "MSRAM";
+section6.load_memory                              = "R5F_TCMA";
 section6.output_section.create(5);
 section6.output_section[0].$name                  = ".irqstack";
 section6.output_section[0].output_sections_start  = "__IRQ_STACK_START";
@@ -314,33 +328,33 @@ section10.output_section.create(1);
 section10.output_section[0].$name     = ".bss.ipc_vring_mem";
 section10.output_section[0].alignment = 0;
 
-section11.$name                       = "Non Cacheable Memory";
-section11.load_memory                 = "NON_CACHE_MEM";
-section11.group                       = false;
-section11.type                        = "NOLOAD";
+section11.$name                        = "TCMA Stack Segments";
+section11.load_memory                  = "R5F_TCMA";
 section11.output_section.create(1);
-section11.output_section[0].$name     = ".bss.nocache";
-section11.output_section[0].alignment = 0;
+section11.output_section[0].$name      = ".stack";
+section11.output_section[0].palignment = true;
 
-section12.$name                        = "TCMA Stack Segments";
-section12.load_memory                  = "R5F_TCMA";
+section12.$name                        = "TCMB Stack Segments";
+section12.load_memory                  = "R5F_TCMB0";
 section12.output_section.create(1);
-section12.output_section[0].$name      = ".stack";
 section12.output_section[0].palignment = true;
+section12.output_section[0].$name      = ".threadstack";
 
-section13.$name                        = "TCMB Stack Segments";
-section13.load_memory                  = "R5F_TCMB0";
+section13.$name                        = "Packet Buffer Memory";
+section13.type                         = "NOLOAD";
+section13.group                        = false;
+section13.load_memory                  = "ICSS_PKT_BUF_MEM";
 section13.output_section.create(1);
+section13.output_section[0].$name      = ".bss.icss_emac_pktbuf_mem";
 section13.output_section[0].palignment = true;
-section13.output_section[0].$name      = ".threadstack";
 
-section14.$name                        = "Packet Buffer Memory";
-section14.type                         = "NOLOAD";
-section14.group                        = false;
-section14.load_memory                  = "ICSS_PKT_BUF_MEM";
+section14.type                        = "NOLOAD";
+section14.group                       = false;
+section14.$name                       = "Non Cacheable Memory";
+section14.load_memory                 = "NON_CACHE_MEM";
 section14.output_section.create(1);
-section14.output_section[0].$name      = ".bss.icss_emac_pktbuf_mem";
-section14.output_section[0].palignment = true;
+section14.output_section[0].$name     = ".bss.nocache";
+section14.output_section[0].alignment = 0;
 
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
@@ -353,6 +367,7 @@ flash1.peripheralDriver.OSPI.D3.$suggestSolution             = "OSPI0_D3";
 flash1.peripheralDriver.OSPI.D2.$suggestSolution             = "OSPI0_D2";
 flash1.peripheralDriver.OSPI.D1.$suggestSolution             = "OSPI0_D1";
 flash1.peripheralDriver.OSPI.D0.$suggestSolution             = "OSPI0_D0";
+gpio2.GPIO.$suggestSolution                                  = "GPIO1";
 i2c1.I2C.SCL.$suggestSolution                                = "I2C0_SCL";
 i2c1.I2C.SDA.$suggestSolution                                = "I2C0_SDA";
 uart1.MCU_UART.RXD.$suggestSolution                          = "MCU_UART0_RXD";
