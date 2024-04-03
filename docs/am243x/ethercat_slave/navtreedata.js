@@ -28,9 +28,10 @@ var NAVTREE =
     [ "Introduction", "index.html", null ],
     [ "Datasheet", "ethercat_datasheet.html", null ],
     [ "Release Notes", "releasenotes.html", [
-      [ "Known Issues", "known_issues.html", null ],
+      [ "Known Issues", "@ref known_issues", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 2.00.00", "releasenotes.html#version_release20000", null ],
       [ "Release Version 1.99.00", "releasenotes.html#version_release16300", null ],
       [ "Release Version 1.13.00", "releasenotes.html#version_release10d00", null ],
       [ "Release Version 1.12.02", "releasenotes.html#version_release10c02", null ],
@@ -70,10 +71,10 @@ var NAVTREE =
       [ "Abbreviations and Definitions", "abbreviations.html", null ]
     ] ],
     [ "Quickstart - EtherCAT Device", "page_quickstart.html", [
-      [ "Setup", "page_quickstart_installation.html", [
-        [ "Software Installation", "page_quickstart_installation.html#qs_installation_software", null ],
-        [ "Connect the Evaluation Board", "page_quickstart_installation.html#qs_installation_connect", null ],
-        [ "Steps to Run the Example", "page_quickstart_installation.html#qs_steps_to_run_example", null ]
+      [ "Setup", "@ref page_quickstart_installation", [
+        [ "Software Installation", "md_kb__stack_2doxygen_2docsrc_2ethercat_2pages_2setup.html#qs_installation_software", null ],
+        [ "Connect the Evaluation Board", "md_kb__stack_2doxygen_2docsrc_2ethercat_2pages_2setup.html#qs_installation_connect", null ],
+        [ "Steps to Run the Example", "md_kb__stack_2doxygen_2docsrc_2ethercat_2pages_2setup.html#qs_steps_to_run_example", null ]
       ] ],
       [ "EtherCAT FAQ", "ethercat_faq.html", [
         [ "Configuration of the Object Dictionary", "config_o_b_d.html", [
@@ -83,13 +84,18 @@ var NAVTREE =
           [ "SyncManager configuration", "_sync_man_config_page.html", null ],
           [ "PDO configuration", "_pdo_config_page.html", null ],
           [ "PDO reconfiguration", "_proc_data_reconfig_page.html", null ],
+          [ "Larger object padding", "_large_obj_config_page.html", null ],
+          [ "FSoE object mapping", "_f_so_e_object_split.html", null ],
           [ "Direct memory access", "proc_data_mem_access.html", null ]
         ] ],
         [ "EEPROM Interface", "eep_config.html", null ],
-        [ "PHY configuration", "phy_config.html", null ]
+        [ "PHY configuration", "phy_config.html", null ],
+        [ "Ethernet over EtherCAT", "_eo_e_page.html", null ],
+        [ "File access over EtherCAT", "_fo_e_page.html", null ]
       ] ],
       [ "Simple EtherCAT Example", "example1.html", null ],
-      [ "CiA402 EtherCAT Example", "example2.html", null ]
+      [ "CiA402 EtherCAT Example", "example2.html", null ],
+      [ "Non Volatile Memory", "persistentstorage.html", null ]
     ] ],
     [ "Connect to PLC - CODESYS", "plc_codesys.html", [
       [ "KUNBUS Revolution Pi", "plc_codesys_revpi.html", null ],
@@ -98,6 +104,7 @@ var NAVTREE =
     [ "Connect to PLC - TwinCAT3", "simple_demo_in_twincat3.html", null ],
     [ "Beckhoff SSC", "beckhoff__s_c_c.html", null ],
     [ "API Changes", "_a_p_i_changes.html", null ],
+    [ "API Reference", "modules.html", "modules" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -114,8 +121,11 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_a_p_i_changes.html",
-"struct_e_c___a_p_i___s_l_v___s_eeprom_ab0ac4b459990f5d32689d3d42c68575d.html#ab0ac4b459990f5d32689d3d42c68575d"
+"@ref known_issues",
+"group___ci_a402_ga70684b09f2ed1d25f5d8280f7f750922.html#ga70684b09f2ed1d25f5d8280f7f750922",
+"group___e_c___a_p_i___s_l_v___b_o_a_r_d_gaa1121dd343cff9c24a14b9162fb379ac.html#gaa1121dd343cff9c24a14b9162fb379ac",
+"group___sdo_types_ga74f3acd6363cc574ff232f43b5f10cb4.html#ga74f3acd6363cc574ff232f43b5f10cb4",
+"struct_e_c___s_l_v___a_p_i___s_sync_man_desc_a9e45b9251fc8242fbdb65bdf409bedde.html#a9e45b9251fc8242fbdb65bdf409bedde"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['basic_20functions_0',['Basic Functions',['../group___e_c___a_p_i___s_l_v___b_a_s_i_c.html',1,'']]],
-  ['board_20support_20api_1',['Board Support API',['../group___e_c___a_p_i___s_l_v___b_o_a_r_d.html',1,'']]],
-  ['buffer_20handling_20api_2',['Buffer Handling API',['../group___e_c___a_p_i___s_l_v___b_u_f_f_e_r.html',1,'']]]
+  ['cia402_20codes_0',['CiA402 Codes',['../group___ci_a402.html',1,'']]],
+  ['coe_20object_20types_1',['CoE Object types',['../group___object_types.html',1,'']]],
+  ['coe_20protocol_2',['CoE Protocol',['../group___e_c___a_p_i___s_l_v___o_b_d.html',1,'']]]
 ];

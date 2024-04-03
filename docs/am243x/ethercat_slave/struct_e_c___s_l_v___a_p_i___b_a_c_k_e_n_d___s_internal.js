@@ -11,6 +11,5 @@ var struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal =
     [ "pdiTaskPrio", "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a2200f0b7b0aa49a9365ec9b8d3570cb4.html#a2200f0b7b0aa49a9365ec9b8d3570cb4", null ],
     [ "statusLEDTaskPrio", "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a5b9aec53721ab65257b3b3ddbfa80744.html#a5b9aec53721ab65257b3b3ddbfa80744", null ],
     [ "sync0TaskPrio", "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a103827457708cad8b53a2cecf3168a67.html#a103827457708cad8b53a2cecf3168a67", null ],
-    [ "sync1TaskPrio", "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a8751f3a51dc375e446a4513e9ea2891c.html#a8751f3a51dc375e446a4513e9ea2891c", null ],
-    [ "eoETaskPrio", "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_ab93f70e552bf7d974ee05594b1fa27a9.html#ab93f70e552bf7d974ee05594b1fa27a9", null ]
+    [ "sync1TaskPrio", "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a8751f3a51dc375e446a4513e9ea2891c.html#a8751f3a51dc375e446a4513e9ea2891c", null ]
 ];
