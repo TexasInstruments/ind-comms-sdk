@@ -11,7 +11,7 @@
  *  Copyright (c) 2020, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -261,7 +261,7 @@ static uint32_t EC_SLV_APP_setCiA402ObjectValue(EC_SLV_APP_CIA_Application_t*  p
         }
     }
 
-    err = EC_API_SLV_CoE_setObjectData(pApplication_p->ptEcSlvApi, pObject, length_p, pValue_p);
+    err = EC_API_SLV_CoE_setObjectData(pApplication_p->ptEcSlvApi, pObject, 0, length_p, pValue_p);
 
 Exit:
     return  err;

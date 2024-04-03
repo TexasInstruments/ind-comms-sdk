@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -51,13 +51,9 @@
 extern "C" {
 #endif
 
-extern void EC_SLV_APP_EEP_initFlash        (void*      pContext_p);
-extern void EC_SLV_APP_EEP_writeEeprom      (void*      pContext_p
-                                            ,void*      pEeprom_p
-                                            ,uint32_t   length_p);
-extern bool EC_SLV_APP_EEP_loadEeprom       (void*      pContext_p
-                                            ,void*      pEeprom_p
-                                            ,uint32_t*  pLength_p);
+extern void EC_SLV_APP_EEP_init(void*pContext);
+extern void EC_SLV_APP_EEP_write(void*pContext,void*pEeprom,uint32_t length);
+extern bool EC_SLV_APP_EEP_read(void*pContext,void*pEeprom,uint32_t *pLength);
 
 #if (defined __cplusplus)
 }

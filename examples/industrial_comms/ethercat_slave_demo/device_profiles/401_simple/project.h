@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -71,21 +71,21 @@
 #define EC_BOOTSTRAP_MBXIN_DEF_LENGTH       256
 
 #define EC_MBXOUT_START                     0x1000
-#define EC_MBXOUT_DEF_LENGTH                256
+#define EC_MBXOUT_DEF_LENGTH                1024
 #define EC_MBXOUT_CONTROLREG                0x26
 #define EC_MBXOUT_ENABLE                    1
 
-#define EC_MBXIN_START                      EC_MBXOUT_START + EC_MBXOUT_DEF_LENGTH
-#define EC_MBXIN_DEF_LENGTH                 256
+#define EC_MBXIN_START                      (EC_MBXOUT_START + EC_MBXOUT_DEF_LENGTH)
+#define EC_MBXIN_DEF_LENGTH                 1024
 #define EC_MBXIN_CONTROLREG                 0x22
 #define EC_MBXIN_ENABLE                     1
 
-#define EC_OUTPUT_START                     EC_MBXIN_START + EC_MBXIN_DEF_LENGTH
+#define EC_OUTPUT_START                     (EC_MBXIN_START + EC_MBXIN_DEF_LENGTH)
 #define EC_OUTPUT_CONTROLREG                0x64
 #define EC_OUTPUT_DEF_LENGTH                (EC_MAX_PD_LEN * 3) //in Bytes
 #define EC_OUTPUT_ENABLE                    1
 
-#define EC_INPUT_START                      EC_OUTPUT_START + EC_OUTPUT_DEF_LENGTH
+#define EC_INPUT_START                      (EC_OUTPUT_START + EC_OUTPUT_DEF_LENGTH)
 #define EC_INPUT_CONTROLREG                 0x20
 #define EC_INPUT_DEF_LENGTH                 (EC_MAX_PD_LEN * 3) //in Bytes
 #define EC_INPUT_ENABLE                     1
@@ -109,7 +109,7 @@
 #define KBECSLV_PRIO_EOE                    OSAL_TASK_Prio_ECEoE
 #define KBECSLV_PRIO_LED                    OSAL_TASK_Prio_ECLED
 
-#define OSPIFLASH_APP_STARTMAGIC \
+#define EEPROM_MAGIC_KEY \
     /* @cppcheck_justify{misra-c2012-11.6} void cast required for signature */ \
     /* cppcheck-suppress misra-c2012-11.6 */ \
     ((void*)0xEE11AA55u)

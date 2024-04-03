@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -43,6 +43,15 @@
 #include <osal.h>
 #include <ESL_foeDemo.h>
 #include <string.h>
+#include "ti_board_config.h"
+#if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
+#include "nvm.h"
+#endif
+
+// Offset at which file is written for FoE. 
+#define APP_OSPI_FLASH_OFFSET_BASE  (0x200000U)
+
+#define FOE_FRAGMENT_MAX_SIZE       1012
 
 /*---------------------------------------------
 -    Error Codes
@@ -67,16 +76,81 @@
 #define    ECAT_FOE_ERRCODE_NO_FILE_HEADER      ECAPP_ERROR_CLASS(0x8010)   /**< \brief Missing file header of error in file header*/
 #define    ECAT_FOE_ERRCODE_FLASH_ERROR         ECAPP_ERROR_CLASS(0x8011)   /**< \brief Flash cannot be accessed*/
 
-typedef struct EC_SLV_APP_FoE_SInternalHandle
+// FoE header stored along with the actual file data.
+typedef struct ESL_FOE_header
 {
-    FILE*       pFileHandle;
-    char        aFilename[MAX_FILE_NAME_SIZE]; // 0 terminated absolute filename
     uint32_t    password;
-    uint8_t     isRead;
-} EC_SLV_APP_FoE_SInternalHandle_t;
+    uint32_t    dataSize;
+} ESL_FOE_header_t;
 
-static EC_SLV_APP_FoE_SInternalHandle_t     EC_SLV_APP_FoE_InternalHandle_s     = { 0 };
+// buffer used for async write
+static void * foeBufferPtr = NULL;
 
+// Used when FoE file size is larger.
+static void * foeBufferPtr1 = NULL;
+static void * foeBufferPtr2 = NULL;
+
+// stores the accumulated file size during a larger FoE file write 
+static uint32_t foeFileWriteChunkSize = 0;
+
+// stores the FoE file access password for authentication check during file read/write process.
+static uint32_t fileAccessPassword = 0;
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  Callback function registered for FoE file write in async mode.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  status          NVM async write status
+ *  \return     void            
+ *
+ *  <!-- Example: -->
+ *
+ *  \par Example
+ *  \code{.c}
+ *  uint32_t    status;
+ *
+ *  // the Call
+ *  EC_SLV_APP_FoE_fileWriteCb(status);
+ *  \endcode
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup EC_SLV_APP
+ *
+ * */
+#if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
+void EC_SLV_APP_FoE_fileWriteCb(uint32_t status)
+{
+    if (status == NVM_ERR_SUCCESS)
+    {
+#if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+        OSAL_printf("FoE - File download to flash : ok!\n\r");
+#endif
+    }
+
+    foeFileWriteChunkSize = 0;
+
+    if(foeBufferPtr != NULL)
+    {
+        OSAL_MEMORY_free(foeBufferPtr);
+        foeBufferPtr = NULL;
+    }
+    if(foeBufferPtr1 != NULL)
+    {
+        OSAL_MEMORY_free(foeBufferPtr1);
+        foeBufferPtr1 = NULL;
+    }
+    if(foeBufferPtr2 != NULL)
+    {
+        OSAL_MEMORY_free(foeBufferPtr2);
+        foeBufferPtr2 = NULL;
+    }
+}
+#endif
+ 
 /*! <!-- Description: -->
  *
  *  \brief
@@ -84,11 +158,11 @@ static EC_SLV_APP_FoE_SInternalHandle_t     EC_SLV_APP_FoE_InternalHandle_s     
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext_p      context handle
- *  \param[in]  pData_p         data buffer.
- *  \param[in]  size_p          read length parameter.
- *  \param[in]  fileOffset_p    File offset.
- *  \return     ErrorCode       FoE error code.
+ *  \param[in]  pContext      context handle
+ *  \param[in]  pData         data buffer.
+ *  \param[in]  size          read length parameter.
+ *  \param[in]  fileOffset    File offset.
+ *  \return     ErrorCode     FoE error code.
  *
  *  <!-- Example: -->
  *
@@ -107,49 +181,78 @@ static EC_SLV_APP_FoE_SInternalHandle_t     EC_SLV_APP_FoE_InternalHandle_s     
  *  \ingroup EC_SLV_APP
  *
  * */
-uint32_t EC_SLV_APP_FoE_fileRead(void* pContext_p, uint16_t* pData_p, uint16_t size_p, uint32_t fileOffset_p)
+uint32_t EC_SLV_APP_FoE_fileRead(void* pContext, uint16_t* pData, uint16_t size, uint32_t fileOffset)
 {
-    size_t      readLen;
-    uint32_t    retVal;
+    uint32_t            retVal;
+    static uint32_t     foeFileReadDoneSize = 0;
+    uint32_t            foeFileChunkReadSize = 0;
+    ESL_FOE_header_t    foeHeader = {0};
 
-    OSALUNREF_PARM(pContext_p);
+    retVal = ECAT_FOE_ERRCODE_ILLEGAL;
 
-    if (EC_SLV_APP_FoE_InternalHandle_s.pFileHandle == NULL)
+#if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
+    NVM_err_t error;
+    error = NVM_APP_read(NVM_TYPE_FLASH,
+                         CONFIG_FLASH0,
+                         APP_OSPI_FLASH_OFFSET_BASE,
+                         (uint32_t)sizeof(ESL_FOE_header_t),
+                         (uint8_t*)&foeHeader);
+
+    if (error != NVM_ERR_SUCCESS)
     {
-        // no file
-        retVal = ECAT_FOE_ERRCODE_PACKENO;
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
+        retVal = ECAT_FOE_ERRCODE_FLASH_ERROR;
+        return retVal;
     }
 
-    if (fseek(EC_SLV_APP_FoE_InternalHandle_s.pFileHandle, fileOffset_p, SEEK_SET) != 0)
+    if (foeHeader.password != fileAccessPassword)
     {
-        retVal = ECAT_FOE_ERRCODE_ILLEGAL;
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
+        #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+            OSAL_printf("FoE - File access password incorrect!\n\r");
+        #endif
+        retVal = ECAT_FOE_ERRCODE_ACCESS;
+        return retVal;
     }
 
-    if (feof(EC_SLV_APP_FoE_InternalHandle_s.pFileHandle))
+    if (foeHeader.dataSize == 0)
     {
-        retVal = EC_API_eERR_NONE; // end of file
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
+        #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+            OSAL_printf("FoE - File not found or empty!\n\r");
+        #endif
+        retVal = ECAT_FOE_ERRCODE_NOTFOUND;
+        return retVal;
     }
 
-    readLen = fread(pData_p, 1, size_p, EC_SLV_APP_FoE_InternalHandle_s.pFileHandle);
-    if (ferror(EC_SLV_APP_FoE_InternalHandle_s.pFileHandle) != 0)
+    if ((foeHeader.dataSize - foeFileReadDoneSize) >= FOE_FRAGMENT_MAX_SIZE)
     {
-        retVal = ECAT_FOE_ERRCODE_ILLEGAL;
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
+        fileOffset = foeFileReadDoneSize;
+        foeFileReadDoneSize += size;
+        foeFileChunkReadSize = size;
     }
-    retVal = readLen;
+    else
+    {
+        fileOffset = foeFileReadDoneSize;
+        foeFileChunkReadSize = foeHeader.dataSize - foeFileReadDoneSize;
+        foeFileReadDoneSize = 0;
+    }
 
-Exit:
+    error = NVM_APP_read(NVM_TYPE_FLASH,
+                         CONFIG_FLASH0,
+                         APP_OSPI_FLASH_OFFSET_BASE + sizeof(ESL_FOE_header_t) + fileOffset,
+                         (uint32_t)foeFileChunkReadSize,
+                         (uint8_t*)pData);
+
+    if (error != NVM_ERR_SUCCESS)
+    {
+        #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+            OSAL_printf("FoE - File upload NOT successful!\n\r");
+        #endif
+        retVal = ECAT_FOE_ERRCODE_FLASH_ERROR;
+        return retVal;
+    }
+
+    retVal = foeFileChunkReadSize;
+#endif
+
     return retVal;
 }
 
@@ -160,9 +263,9 @@ Exit:
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext_p      context
- *  \param[in]  pData_p   		Data Buffer.
- *  \param[in]  size_p    		write length parameter.
+ *  \param[in]  pContext        context
+ *  \param[in]  pData   	Data Buffer.
+ *  \param[in]  size    	write length parameter.
  *  \return     ErrorCode       FoE error code.
  *
  *  <!-- Example: -->
@@ -182,33 +285,101 @@ Exit:
  *  \ingroup EC_SLV_APP
  *
  * */
-uint32_t EC_SLV_APP_FoE_fileWrite(void *pContext_p, uint16_t* pData_p, uint16_t size_p)
+uint32_t EC_SLV_APP_FoE_fileWrite(void *pContext, uint16_t* pData, uint16_t size)
 {
-    size_t      writeLen;
     uint32_t    retVal;
 
-    OSALUNREF_PARM(pContext_p);
+    retVal = ECAT_FOE_ERRCODE_DISKFULL;
 
-    if (EC_SLV_APP_FoE_InternalHandle_s.pFileHandle == NULL)
+#if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
+    NVM_err_t error;
+    
+    if (size >= FOE_FRAGMENT_MAX_SIZE)
     {
-        // no file
-        retVal = ECAT_FOE_ERRCODE_ILLEGAL;
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
+        foeFileWriteChunkSize += size;
+        if (foeBufferPtr1 == NULL)
+        {
+            if(foeBufferPtr2 == NULL)
+            {
+                foeBufferPtr1 = OSAL_MEMORY_calloc(foeFileWriteChunkSize,sizeof(uint8_t));
+                OSAL_MEMORY_memcpy(foeBufferPtr1,pData,foeFileWriteChunkSize);
+            }
+            else
+            {
+                foeBufferPtr1 = OSAL_MEMORY_calloc(foeFileWriteChunkSize,sizeof(uint8_t));
+                OSAL_MEMORY_memcpy(foeBufferPtr1,foeBufferPtr2,(foeFileWriteChunkSize-size));
+                OSAL_MEMORY_memcpy((foeBufferPtr1 + (foeFileWriteChunkSize-size)),pData,size);
+                OSAL_MEMORY_free(foeBufferPtr2);
+                foeBufferPtr2 = NULL;
+            }
+        }
+        else if (foeBufferPtr2 == NULL)
+        {
+            if(foeBufferPtr1 == NULL)
+            {
+                foeBufferPtr2 = OSAL_MEMORY_calloc(foeFileWriteChunkSize,sizeof(uint8_t));
+                OSAL_MEMORY_memcpy(foeBufferPtr2,pData,foeFileWriteChunkSize);
+            }
+            else
+            {
+                foeBufferPtr2 = OSAL_MEMORY_calloc(foeFileWriteChunkSize,sizeof(uint8_t));
+                OSAL_MEMORY_memcpy(foeBufferPtr2,foeBufferPtr1,(foeFileWriteChunkSize-size));
+                OSAL_MEMORY_memcpy((foeBufferPtr2 + (foeFileWriteChunkSize-size)),pData,size);
+                OSAL_MEMORY_free(foeBufferPtr1);
+                foeBufferPtr1 = NULL;
+            }
+        }
+        retVal = size;
+        return retVal; 
     }
 
-    writeLen = fwrite(pData_p, 1, size_p, EC_SLV_APP_FoE_InternalHandle_s.pFileHandle);
-    if (writeLen != size_p)
+    foeFileWriteChunkSize += size;
+
+    ESL_FOE_header_t foeHeader = {  .dataSize = foeFileWriteChunkSize,
+                                    .password = fileAccessPassword
+                                 };
+
+    foeBufferPtr = OSAL_MEMORY_calloc((sizeof(ESL_FOE_header_t) + foeFileWriteChunkSize),sizeof(uint8_t));
+    OSAL_MEMORY_memcpy(foeBufferPtr,&foeHeader,sizeof(ESL_FOE_header_t));
+    if(foeBufferPtr1 != NULL)
     {
-        retVal = ECAT_FOE_ERRCODE_DISKFULL;
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
+        OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t)),foeBufferPtr1,(foeFileWriteChunkSize - size));
+        if (size != 0)
+        {
+            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize - size)),pData,size);
+        }
+    }
+    else if(foeBufferPtr2 != NULL)
+    {
+        OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t)),foeBufferPtr2,(foeFileWriteChunkSize - size));
+        if (size != 0)
+        {
+            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize - size)),pData,size);
+        }
+    }
+    else
+    {
+        OSAL_MEMORY_memcpy(foeBufferPtr + sizeof(ESL_FOE_header_t),pData,foeFileWriteChunkSize);
+    }
+    
+    #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+        OSAL_printf("FoE - Downloaded file size : %d\n\r",foeFileWriteChunkSize);
+    #endif
+
+    error = NVM_APP_writeAsync( NVM_TYPE_FLASH,
+                                CONFIG_FLASH0,
+                                APP_OSPI_FLASH_OFFSET_BASE,
+                                (uint32_t)(sizeof(ESL_FOE_header_t) + foeFileWriteChunkSize),
+                                (uint8_t*)foeBufferPtr);
+    
+    if (error != NVM_ERR_SUCCESS)
+    {
+        retVal = ECAT_FOE_ERRCODE_ACCESS;
+        return retVal;
     }
 
-    retVal = writeLen;
-Exit:
+    retVal = size;
+#endif
     return retVal;
 }
 
@@ -219,14 +390,14 @@ Exit:
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext_p  context
- *  \param[in]  errorCode_p Error code handed by the Stack.
+ *  \param[in]  pContext  context
+ *  \param[in]  errorCode Error code handed by the Stack.
  *  \return     ErrorCode   FoE error code.
  *
  *  <!-- Example: -->
  *  // required variables
  *  uint32_t errorCode;
- *  void* pCtxt;
+ *  void*    pCtxt;
  *
  *  EC_SLV_APP_FoE_fileClose(pCtxt, errorCode);
  *
@@ -235,30 +406,10 @@ Exit:
  *  \ingroup EC_SLV_APP
  *
  * */
-uint32_t EC_SLV_APP_FoE_fileClose(void* pContext_p, uint32_t errorCode_p)
+uint32_t EC_SLV_APP_FoE_fileClose(void* pContext, uint32_t errorCode)
 {
     uint32_t    retVal  = 0;
-
-    OSALUNREF_PARM(pContext_p);
-
-    if (EC_SLV_APP_FoE_InternalHandle_s.pFileHandle)
-    {
-        fclose(EC_SLV_APP_FoE_InternalHandle_s.pFileHandle);
-
-        // copy write file
-        if (errorCode_p == 0 && !EC_SLV_APP_FoE_InternalHandle_s.isRead)
-        {
-            uint32_t error = EC_SLV_APP_FILE_copy(KBFOE_TMPFILE, EC_SLV_APP_FoE_InternalHandle_s.aFilename);
-
-            if (error  != EC_API_eERR_NONE)
-            {
-                retVal = ECAT_FOE_ERRCODE_DISKFULL;
-            }
-        }
-    }
-
-    OSAL_MEMORY_memset(&EC_SLV_APP_FoE_InternalHandle_s, 0, sizeof(EC_SLV_APP_FoE_SInternalHandle_t));
-
+    retVal = EC_API_eERR_NONE;
     return retVal;
 }
 
@@ -269,12 +420,12 @@ uint32_t EC_SLV_APP_FoE_fileClose(void* pContext_p, uint32_t errorCode_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext_p          context
- *  \param[in]  pName_p             Filename.
- *  \param[in]  nameLen_p           Filename length.
- *  \param[in]  isRead_p            Access rigths.
- *  \param[in]  password_p          Access code.
- *  \return     ErrorCode           FoE Error code.
+ *  \param[in]  pContext          context
+ *  \param[in]  pName             Filename.
+ *  \param[in]  nameLen           Filename length.
+ *  \param[in]  isRead            Access rigths.
+ *  \param[in]  password          Access code.
+ *  \return     ErrorCode         FoE Error code.
  *
  *  <!-- Example: -->
  *
@@ -283,8 +434,8 @@ uint32_t EC_SLV_APP_FoE_fileClose(void* pContext_p, uint32_t errorCode_p)
  *  // required variables
  *  uin16t_t    length;
  *  const char* pName;
- *  bool access;
- *  uint32_t password;
+ *  bool        access;
+ *  uint32_t    password;
  *
  *  // the Call
  *  EC_SLV_APP_FoeFileOpen(fileName, length, access, password)
@@ -295,43 +446,21 @@ uint32_t EC_SLV_APP_FoE_fileClose(void* pContext_p, uint32_t errorCode_p)
  *  \ingroup EC_SLV_APP
  *
  * */
-uint32_t EC_SLV_APP_FoE_fileOpen(void* pContext_p, const char* pName_p, uint16_t nameLen_p, bool isRead_p, uint32_t password_p)
+uint32_t EC_SLV_APP_FoE_fileOpen(void* pContext, const char* pName, uint16_t nameLen, bool isRead, uint32_t password)
 {
-    const char* pFmode_p    = NULL;
     uint32_t    retVal;
-
-    EC_SLV_APP_FoE_fileClose(pContext_p, ~0);
-
-    // store filename
-    strcpy(EC_SLV_APP_FoE_InternalHandle_s.aFilename, KBFOE_PREFIX);
-    OSAL_MEMORY_memcpy(EC_SLV_APP_FoE_InternalHandle_s.aFilename + sizeof(KBFOE_PREFIX) - 1, pName_p, nameLen_p);
-
-    EC_SLV_APP_FoE_InternalHandle_s.aFilename[nameLen_p + (sizeof(KBFOE_PREFIX) - 1)] = '\0';
-    EC_SLV_APP_FoE_InternalHandle_s.password    = password_p;
-    EC_SLV_APP_FoE_InternalHandle_s.isRead      = isRead_p;
-
-    // open file
-    if (isRead_p)
-    {
-        pFmode_p = "rb";
-        EC_SLV_APP_FoE_InternalHandle_s.pFileHandle = fopen(EC_SLV_APP_FoE_InternalHandle_s.aFilename, pFmode_p);
-    }
-    else
-    {
-        pFmode_p = "wb";
-        EC_SLV_APP_FoE_InternalHandle_s.pFileHandle = fopen(KBFOE_TMPFILE, pFmode_p);
-    }
-
-    if (EC_SLV_APP_FoE_InternalHandle_s.pFileHandle == NULL)
-    {
-        retVal = ECAT_FOE_ERRCODE_DISKFULL;
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
-
     retVal = EC_API_eERR_NONE;
-Exit:
+#if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
+    NVM_err_t error;
+    error = NVM_APP_registerCallback(EC_SLV_APP_FoE_fileWriteCb);
+
+    if (error != NVM_ERR_SUCCESS)
+    {
+        retVal = ECAT_FOE_ERRCODE_NOTDEFINED;
+        return retVal;
+    }
+#endif
+    fileAccessPassword = password;
     return retVal;
 }
 

@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -1060,13 +1060,20 @@ void EC_SLV_APP_CIA_applicationInit(EC_SLV_APP_CIA_Application_t* pAppInstance_p
     }
 
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
-    EC_API_SLV_cbRegisterFlashInit              (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_initFlash, pAppInstance_p->ptEcSlvApi);
+    EC_API_SLV_EEPROM_cbRegisterInit(
+        pAppInstance_p->ptEcSlvApi,
+        EC_SLV_APP_EEP_init,
+        pAppInstance_p->ptEcSlvApi);
     /* @cppcheck_justify{misra-c2012-11.6} generic API requires cast */
     /* cppcheck-suppress misra-c2012-11.6 */
-    EC_API_SLV_EEPROM_cbRegisterWrite           (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_writeEeprom, OSPIFLASH_APP_STARTMAGIC);
+    EC_API_SLV_EEPROM_cbRegisterWrite(
+        pAppInstance_p->ptEcSlvApi,
+        EC_SLV_APP_EEP_write, EEPROM_MAGIC_KEY);
     /* @cppcheck_justify{misra-c2012-11.6} generic API requires cast */
     /* cppcheck-suppress misra-c2012-11.6 */
-    EC_API_SLV_EEPROM_cbRegisterLoad            (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_loadEeprom, OSPIFLASH_APP_STARTMAGIC);
+    EC_API_SLV_EEPROM_cbRegisterRead(
+        pAppInstance_p->ptEcSlvApi,
+        EC_SLV_APP_EEP_read, EEPROM_MAGIC_KEY);
 
     EC_API_SLV_cbRegisterUserApplicationRun     (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CIA_applicationRun, pAppInstance_p);
 #endif

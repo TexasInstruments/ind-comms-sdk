@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -514,11 +514,12 @@ Exit:
  */
 void ESL_OS_printf(void *pContext_p, const char *pFormat_p, va_list arg_p)
 {
-    int32_t             transferOK;
-    UART_Transaction    transaction;
+    int32_t                 transferOK;
+    static UART_Transaction transaction;
 
     OSALUNREF_PARM(pContext_p);
 
+    UART_flushTxFifo(gUartHandle[CONFIG_UART_CONSOLE]);
     UART_Transaction_init(&transaction);
 
     memset(aOutStream_s, 0, sizeof(aOutStream_s));

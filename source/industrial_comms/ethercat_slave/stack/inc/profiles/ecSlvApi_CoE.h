@@ -11,7 +11,7 @@
  *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: LicenseRef-Kunbus
  *
- *  Copyright (c) 2023 KUNBUS GmbH
+ *  Copyright (c) 2024 KUNBUS GmbH
  *  All rights reserved.
  *
  *
@@ -52,6 +52,7 @@ extern ECATSLV_API uint32_t EC_API_SLV_CoE_getObjectData(
 extern ECATSLV_API uint32_t EC_API_SLV_CoE_setObjectData(
     EC_API_SLV_SHandle_t *pHandle,
     EC_API_SLV_SCoE_Object_t *pObject,
+    uint8_t subIndex,
     uint32_t length,
     uint16_t *pData);
 extern ECATSLV_API uint32_t EC_API_SLV_CoE_getObjectEntryCount(
