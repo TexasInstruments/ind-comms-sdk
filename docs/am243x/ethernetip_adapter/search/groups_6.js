@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['getter_0',['Attribute Functions (Getter)',['../group___e_i___a_p_i___c_i_p___a_t_t_r___g_e_t.html',1,'']]]
+  ['node_20functions_1261',['Node Functions',['../group___e_i___a_p_i___c_i_p___n_o_d_e.html',1,'']]]
 ];
