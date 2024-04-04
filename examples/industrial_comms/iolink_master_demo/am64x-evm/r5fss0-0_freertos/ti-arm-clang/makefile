@@ -38,15 +38,15 @@ BOOTIMAGE_NAME_HS_FS:=iolink_master_demo.$(PROFILE).appimage.hs_fs
 TARGETS := $(BOOTIMAGE_NAME)
 
 FILES_common := \
-	IOLM_Port_LEDTask.c \
-	IOLM_Port_Sitara_soc.c \
-	IOLM_Port_SMI.c \
-	IOLM_Port_spi.c \
-	IOLM_Port_smiExample.c \
-	IOLM_Port_Utils.c \
+	iolm_port_ledtask.c \
+	iolm_port_sitara_soc.c \
+	iolm_port_smi.c \
+	iolm_port_spi.c \
+	iolm_port_smi_example.c \
+	iolm_port_utils.c \
 	nvram_driver.c \
 	main.c \
-	IOLM_workTask.c \
+	iolm_work_task.c \
 	ti_drivers_config.c \
 	ti_drivers_open_close.c \
 	ti_board_config.c \
@@ -73,9 +73,10 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/IOLinkPort \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc/ext \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc/SMI \
 	-Igenerated \
 
 DEFINES_common := \
@@ -124,6 +125,7 @@ LIBS_PATH_common = \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/lib \
+	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/lib \
 	-Wl,-i${CG_TOOL_ROOT}/lib \
 
 LIBS_common = \
@@ -157,6 +159,7 @@ LIBS_PATH_NAME = \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib \
 	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/lib \
+	${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/lib \
 	${CG_TOOL_ROOT}/lib \
 
 FILES := $(FILES_common) $(FILES_$(PROFILE))

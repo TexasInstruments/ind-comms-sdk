@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -53,32 +53,35 @@
  * Member variables of the driver instance
  *
  **************************************************************/
-typedef struct nvram_driver {
+typedef struct NVRAM_Driver
+{
     Flash_Handle flash; //!< handle to instance of the hardware driver
-    uint32_t baseAdr; //!< minimum absolute flash address so that other things can be stored below
+    uint32_t baseAdr;   //!< minimum absolute flash address so that other things can be stored below
     uint32_t baseBlock; //!< absolute block at baseAdr
-    uint32_t endAdr; //!< one after the last absolute flash address
-    uint32_t endBlock; //!< one after the last absolute block
+    uint32_t endAdr;    //!< one after the last absolute flash address
+    uint32_t endBlock;  //!< one after the last absolute block
     struct lfs_config lfscfg; //!< backup of LitteFS config type
 } nvram_driver_t;
 
 // the one and only driver instance
-static nvram_driver_t drv = {
-        .flash = NULL,
-        .baseAdr = 0,
-        .baseBlock = 0,
-        .endAdr = 0,
-        .endBlock = 0,
-        .lfscfg = { 0 }
-};
+static nvram_driver_t drv
+    = { .flash = NULL, .baseAdr = 0, .baseBlock = 0, .endAdr = 0, .endBlock = 0, .lfscfg = { 0 } };
 
 /********** Private Function Declarations ********/
 
-static int NVR_DRV_s_read(const struct lfs_config *pCfg, lfs_block_t block,
-        lfs_off_t off, void *pBuffer, lfs_size_t size);
-static int NVR_DRV_s_prog(const struct lfs_config *pCfg, lfs_block_t block,
-        lfs_off_t off, const void *pBuffer, lfs_size_t size);
-static int NVR_DRV_s_erase(const struct lfs_config *pCfg, lfs_block_t block);
+static int32_t NVR_DRV_S_read(
+    const struct lfs_config *pCfg,
+    lfs_block_t              block,
+    lfs_off_t                off,
+    void                    *pBuffer,
+    lfs_size_t               size);
+static int32_t NVR_DRV_S_prog(
+    const struct lfs_config *pCfg,
+    lfs_block_t              block,
+    lfs_off_t                off,
+    const void              *pBuffer,
+    lfs_size_t               size);
+static int32_t NVR_DRV_S_erase(const struct lfs_config *pCfg, lfs_block_t block);
 
 /************ Private Function Definitions ******************/
 
@@ -97,10 +100,14 @@ static int NVR_DRV_s_erase(const struct lfs_config *pCfg, lfs_block_t block);
  * \return Negative littleFS error codes are propagated to the user.
  *
  **************************************************************/
-static int NVR_DRV_s_read(const struct lfs_config *pCfg, lfs_block_t block,
-        lfs_off_t off, void *pBuffer, lfs_size_t size)
+static int32_t NVR_DRV_S_read(
+    const struct lfs_config *pCfg,
+    lfs_block_t              block,
+    lfs_off_t                off,
+    void                    *pBuffer,
+    lfs_size_t               size)
 {
-    int ret = LFS_ERR_OK;
+    int32_t ret = LFS_ERR_OK;
     // calculate absolute offset
     const uint32_t absOffs = drv.baseAdr + block * drv.lfscfg.block_size + off;
     NVR_LOG_DEBUG("block = %u, off = %u, size = %u, absOffs = 0x%X", block, off, size, absOffs);
@@ -108,11 +115,13 @@ static int NVR_DRV_s_read(const struct lfs_config *pCfg, lfs_block_t block,
     {
         NVR_LOG_ERROR("no flash instance");
         ret = LFS_ERR_INVAL;
-    } else if((absOffs < drv.baseAdr) || (absOffs > drv.endAdr - size))
+    }
+    else if ((absOffs < drv.baseAdr) || (absOffs > drv.endAdr - size))
     {
         NVR_LOG_ERROR("address out of range [0x%08X, 0x%08X]", drv.baseAdr, drv.endAdr - size);
         ret = LFS_ERR_INVAL;
-    } else if(SystemP_SUCCESS != Flash_read(drv.flash, absOffs, pBuffer, size))
+    }
+    else if (SystemP_SUCCESS != Flash_read(drv.flash, absOffs, pBuffer, size))
     {
         NVR_LOG_ERROR("Flash_read FAILED");
         ret = LFS_ERR_IO;
@@ -136,10 +145,14 @@ static int NVR_DRV_s_read(const struct lfs_config *pCfg, lfs_block_t block,
  * May return LFS_ERR_CORRUPT if the block should be considered bad.
  *
  **************************************************************/
-static int NVR_DRV_s_prog(const struct lfs_config *pCfg, lfs_block_t block,
-        lfs_off_t off, const void *pBuffer, lfs_size_t size)
+static int32_t NVR_DRV_S_prog(
+    const struct lfs_config *pCfg,
+    lfs_block_t              block,
+    lfs_off_t                off,
+    const void              *pBuffer,
+    lfs_size_t               size)
 {
-    int ret = LFS_ERR_OK;
+    int32_t ret = LFS_ERR_OK;
     // calculate absolute offset
     const uint32_t absOffs = drv.baseAdr + block * drv.lfscfg.block_size + off;
     NVR_LOG_DEBUG("block = %u, off = %u, size = %u, absOffs = 0x%X", block, off, size, absOffs);
@@ -147,11 +160,13 @@ static int NVR_DRV_s_prog(const struct lfs_config *pCfg, lfs_block_t block,
     {
         NVR_LOG_ERROR("no flash instance");
         ret = LFS_ERR_INVAL;
-    } else if((absOffs < drv.baseAdr) || (absOffs > drv.endAdr - size))
+    }
+    else if ((absOffs < drv.baseAdr) || (absOffs > drv.endAdr - size))
     {
         NVR_LOG_ERROR("address out of range [0x%08X, 0x%08X]", drv.baseAdr, drv.endAdr - size);
         ret = LFS_ERR_INVAL;
-    } else if(SystemP_SUCCESS != Flash_write(drv.flash, absOffs, (uint8_t*)pBuffer, size))
+    }
+    else if (SystemP_SUCCESS != Flash_write(drv.flash, absOffs, (uint8_t *)pBuffer, size))
     {
         // absOffs must be aligned to page
         NVR_LOG_ERROR("Flash_write FAILED");
@@ -173,21 +188,23 @@ static int NVR_DRV_s_prog(const struct lfs_config *pCfg, lfs_block_t block,
  * May return LFS_ERR_CORRUPT if the block should be considered bad.
  *
  **************************************************************/
-static int NVR_DRV_s_erase(const struct lfs_config *pCfg, lfs_block_t block)
+static int32_t NVR_DRV_S_erase(const struct lfs_config *pCfg, lfs_block_t block)
 {
     // calculate absolute block
     const uint32_t absBlock = drv.baseBlock + block;
-    int ret = LFS_ERR_OK;
+    int32_t        ret      = LFS_ERR_OK;
     NVR_LOG_DEBUG("block = %u, absBlock = %u", block, absBlock);
     if (NULL == drv.flash)
     {
         NVR_LOG_ERROR("no flash instance");
         ret = LFS_ERR_INVAL;
-    } else if((absBlock < drv.baseBlock) || (absBlock >= drv.endBlock))
+    }
+    else if ((absBlock < drv.baseBlock) || (absBlock >= drv.endBlock))
     {
         NVR_LOG_ERROR("block out of range [%u, %u]", drv.baseBlock, drv.endBlock);
         ret = LFS_ERR_INVAL;
-    } else if(SystemP_SUCCESS != Flash_eraseBlk(drv.flash, absBlock))
+    }
+    else if (SystemP_SUCCESS != Flash_eraseBlk(drv.flash, absBlock))
     {
         NVR_LOG_ERROR("Flash_eraseBlk FAILED");
         ret = LFS_ERR_IO;
@@ -212,61 +229,72 @@ static int NVR_DRV_s_erase(const struct lfs_config *pCfg, lfs_block_t block)
  * \return Pointer to littleFS configuration or NULL on error
  *
  **************************************************************/
-extern struct lfs_config* NVR_DRV_init(const unsigned int instance, const unsigned int baseAdr)
+extern struct lfs_config *NVR_DRV_init(const uint32_t instance, const uint32_t baseAdr)
 {
-    struct lfs_config* ret = NULL;
+    struct lfs_config *ret = NULL;
     NVR_LOG_DEBUG("");
 #ifndef CONFIG_FLASH_NUM_INSTANCES
 #error "flash driver not available, check sysconfig"
 #else
     // NB: Flash_open() must have been called before via Board_driversOpen()
-    if(CONFIG_FLASH_NUM_INSTANCES <= instance)
+    if (CONFIG_FLASH_NUM_INSTANCES <= instance)
     {
-        NVR_LOG_ERROR("flash driver instance %u out of range [0, %u]", instance, CONFIG_FLASH_NUM_INSTANCES);
-    } else if(NULL == (drv.flash = gFlashHandle[instance]))
+        NVR_LOG_ERROR(
+            "flash driver instance %u out of range [0, %u]",
+            instance,
+            CONFIG_FLASH_NUM_INSTANCES);
+    }
+    else if (NULL == (drv.flash = gFlashHandle[instance]))
     {
         NVR_LOG_ERROR("flash driver not open, call Board_driversOpen() first");
-    } else {
+    }
+    else
+    {
         NVR_LOG_INFO("base address for the NVRAM file system: 0x%04X", baseAdr);
-        drv.baseAdr = baseAdr;
+        drv.baseAdr           = baseAdr;
         drv.lfscfg.block_size = Flash_getAttrs(CONFIG_FLASH0)->blockSize;
-        drv.lfscfg.read_size = Flash_getAttrs(CONFIG_FLASH0)->pageSize;
-        if(drv.baseAdr % drv.lfscfg.block_size)
+        drv.lfscfg.read_size  = Flash_getAttrs(CONFIG_FLASH0)->pageSize;
+        if (drv.baseAdr % drv.lfscfg.block_size)
         {
             // start address must be block-aligned
-            NVR_LOG_ERROR("base address %u must be block-aligned (%u)", drv.baseAdr,
-                    drv.lfscfg.block_size);
-        } else if(drv.lfscfg.block_size % drv.lfscfg.read_size)
+            NVR_LOG_ERROR("base address %u must be block-aligned (%u)", drv.baseAdr, drv.lfscfg.block_size);
+        }
+        else if (drv.lfscfg.block_size % drv.lfscfg.read_size)
         {
-            NVR_LOG_ERROR("read size %u must be block-aligned (%u)", drv.lfscfg.read_size,
-                    drv.lfscfg.block_size);
-        } else {
+            NVR_LOG_ERROR(
+                "read size %u must be block-aligned (%u)",
+                drv.lfscfg.read_size,
+                drv.lfscfg.block_size);
+        }
+        else
+        {
             // littleFS configuration
             // block device operations
-            drv.lfscfg.read  = NVR_DRV_s_read;
-            drv.lfscfg.prog  = NVR_DRV_s_prog;
-            drv.lfscfg.erase = NVR_DRV_s_erase;
+            drv.lfscfg.read  = NVR_DRV_S_read;
+            drv.lfscfg.prog  = NVR_DRV_S_prog;
+            drv.lfscfg.erase = NVR_DRV_S_erase;
             // other functions are defined and assigned in NVRAM module
-            drv.lfscfg.sync = NULL;
-            drv.lfscfg.lock = NULL;
+            drv.lfscfg.sync   = NULL;
+            drv.lfscfg.lock   = NULL;
             drv.lfscfg.unlock = NULL;
             // block device configuration
-            drv.baseBlock = drv.baseAdr / drv.lfscfg.block_size;
-            drv.lfscfg.block_count = Flash_getAttrs(CONFIG_FLASH0)->blockCount - baseAdr / drv.lfscfg.block_size;
-            drv.endBlock = drv.baseBlock + drv.lfscfg.block_count;
-            drv.endAdr = drv.baseAdr + drv.lfscfg.block_count * drv.lfscfg.block_size;
-            drv.lfscfg.prog_size = drv.lfscfg.read_size;
+            drv.baseBlock          = drv.baseAdr / drv.lfscfg.block_size;
+            drv.lfscfg.block_count = Flash_getAttrs(CONFIG_FLASH0)->blockCount
+                                     - baseAdr / drv.lfscfg.block_size;
+            drv.endBlock          = drv.baseBlock + drv.lfscfg.block_count;
+            drv.endAdr            = drv.baseAdr + drv.lfscfg.block_count * drv.lfscfg.block_size;
+            drv.lfscfg.prog_size  = drv.lfscfg.read_size;
             drv.lfscfg.cache_size = drv.lfscfg.read_size;
             drv.lfscfg.lookahead_size = (drv.lfscfg.read_size / 8u) * 8u;
             // buffers are allocated by LittleFS
-            drv.lfscfg.read_buffer = NULL;
-            drv.lfscfg.prog_buffer = NULL;
+            drv.lfscfg.read_buffer      = NULL;
+            drv.lfscfg.prog_buffer      = NULL;
             drv.lfscfg.lookahead_buffer = NULL;
             // limit for wear leveling
             drv.lfscfg.block_cycles = 100;
             // a file cannot be greater than the entire memory space less the journal
             drv.lfscfg.file_max = (drv.lfscfg.block_count - 1u) * drv.lfscfg.block_size;
-            ret = &drv.lfscfg;
+            ret                 = &drv.lfscfg;
         }
     }
 #endif
@@ -281,12 +309,11 @@ extern struct lfs_config* NVR_DRV_init(const unsigned int instance, const unsign
  * \return Error code
  *
  **************************************************************/
-extern int NVR_DRV_fini(void)
+extern int32_t NVR_DRV_fini(void)
 {
     NVR_err_t ret = NVR_ERR_OK;
     NVR_LOG_DEBUG("");
     return ret;
     // NB: Flash_close() must afterwards be called via Board_driversClose()
 }
-
 
