@@ -345,10 +345,6 @@ void EIP_DLR_port0ISR(uintptr_t arg)
 #ifdef DLR_DEBUG
         genSeqOfEvents(STOP_BOTH_TIMERS_PORT0);
 #endif
-        /*set the flag*/
-        commonEvtsFlag |= (DLR_RESET_EVENT_OCCURED_MASK);
-        *(commonEvtsPtr) = commonEvtsFlag;
-
         otherPortPtr = (uint32_t *)(pruicssHwAttrs->pru1DramBase +
                                     DLR_PORT_EVENTS_OFFSET);
         otherPortFlag = *(otherPortPtr);
@@ -634,10 +630,6 @@ void EIP_DLR_port1ISR(uintptr_t arg)
 #ifdef DLR_DEBUG
         genSeqOfEvents(STOP_BOTH_TIMERS_PORT1);
 #endif
-        /*set the flag*/
-        commonEvtsFlag |= (DLR_RESET_EVENT_OCCURED_MASK);
-        *(commonEvtsPtr) = commonEvtsFlag;
-
         otherPortPtr = (uint32_t *)(pruicssHwAttrs->pru0DramBase +
                                     DLR_PORT_EVENTS_OFFSET);
         otherPortFlag = *(otherPortPtr);
@@ -2417,8 +2409,6 @@ void EIP_DLR_periodicProcessing(ClockP_Object *obj, void *userArg)
     volatile uint8_t ifLoopExists;
     volatile uint8_t *loopDetectedPtr;
     volatile uint32_t *wordPtr;
-    volatile uint8_t *commonEvtsPtr;
-    volatile uint8_t commonEvtsFlag;
     uint8_t currSupMACAddress[6];
 
     EIP_DLRHandle dlrHandle = (EIP_DLRHandle)userArg;
@@ -2452,24 +2442,6 @@ void EIP_DLR_periodicProcessing(ClockP_Object *obj, void *userArg)
                            DLR_ACTIVE_SUP_IP_OFFSET);
     actSupAddrPtr->supIPAddress = EIP_DLR_convBigEndianToLittleEndianWord((
                                       uint8_t *)wordPtr);
-
-    commonEvtsPtr = (uint8_t *)(pruicssHwAttrs->sharedDramBase +
-                                DLR_STATE_MACHINE_OFFSET + 3);
-    commonEvtsFlag = *(commonEvtsPtr);
-
-    if((((dlrHandle->stateMachineCount)++ & 0x7) == 0))
-    {
-        if(commonEvtsFlag & DLR_RESET_EVENT_OCCURED_MASK)
-        {
-            /*clear the reset event flag*/
-            commonEvtsFlag &= ~(DLR_RESET_EVENT_OCCURED_MASK);
-            /*write back*/
-            *(commonEvtsPtr) = commonEvtsFlag;
-            EIP_DLR_resetStateMachine(dlrHandle);
-        }
-
-        dlrHandle->stateMachineCount = 0;
-    }
 
     if(NODE_IDLE != dlrHandle->dlrObj->SMVariables.node_state)
     {
