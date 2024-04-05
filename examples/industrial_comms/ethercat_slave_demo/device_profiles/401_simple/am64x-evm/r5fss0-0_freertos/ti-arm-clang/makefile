@@ -4,7 +4,7 @@
 
 export INDUSTRIAL_COMMUNICATIONS_SDK_PATH?=$(abspath ../../../../../../../..)
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
-include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/devconfig/devconfig.mak
+include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/devconfig/devconfig.mak
 
 CG_TOOL_ROOT=$(CGT_TI_ARM_CLANG_PATH)
 

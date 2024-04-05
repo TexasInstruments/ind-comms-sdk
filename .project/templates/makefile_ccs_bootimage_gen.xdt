@@ -13,7 +13,7 @@
 CCS_PATH=$(CCS_INSTALL_DIR)
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
 % if (["am243x", "am64x", "am263x", "am263px", "am273x","awr294x"].includes(args.project.device)) {
-include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/devconfig/devconfig.mak
+include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/devconfig/devconfig.mak
 % }
 
 STRIP=$(CG_TOOL_ROOT)/bin/`args.cgtOptions.strip`
