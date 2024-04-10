@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['0x01_0',['Identity Object (Class Code: 0x01)',['../group___e_i___a_p_i___a_d_p___i_d_e_n_t_i_t_y.html',1,'']]],
-  ['0x06_1',['Connection Manager Object (Class Code: 0x06)',['../group___e_i___a_p_i___a_d_p___c_o_n_n_e_c_t_i_o_n_m_a_n_a_g_e_r.html',1,'']]],
-  ['0x109_2',['LLDP Management Object (Class Code: 0x109)',['../group___e_i___a_p_i___a_d_p___l_l_d_p___m_a_n_a_g_e_m_e_n_t.html',1,'']]],
-  ['0x43_3',['Time Sync Object (Class Code: 0x43)',['../group___e_i___a_p_i___a_d_p___t_i_m_e_s_y_n_c.html',1,'']]],
-  ['0x48_4',['QoS Object (Class Code: 0x48)',['../group___e_i___a_p_i___a_d_p___q_o_s.html',1,'']]],
-  ['0xf5_5',['TCP/IP Interface Object (Class Code: 0xF5)',['../group___e_i___a_p_i___a_d_p___t_c_p.html',1,'']]],
-  ['0xf6_6',['Ethernet Link Object (Class Code: 0xF6)',['../group___e_i___a_p_i___a_d_p___e_t_h_e_r_n_e_t.html',1,'']]]
+  ['application_20callbacks_1244',['Application Callbacks',['../group___e_i___a_p_i___a_d_p___c_a_l_l_b_a_c_k.html',1,'']]],
+  ['assembly_20functions_1245',['Assembly Functions',['../group___e_i___a_p_i___c_i_p___a_s_s_e_m_b_l_y.html',1,'']]],
+  ['attribute_20functions_20_28getter_29_1246',['Attribute Functions (Getter)',['../group___e_i___a_p_i___c_i_p___a_t_t_r___g_e_t.html',1,'']]],
+  ['attribute_20functions_20_28setter_29_1247',['Attribute Functions (Setter)',['../group___e_i___a_p_i___c_i_p___a_t_t_r___s_e_t.html',1,'']]],
+  ['application_20callbacks_1248',['Application Callbacks',['../group___e_i___a_p_i___c_i_p___c_a_l_l_b_a_c_k.html',1,'']]]
 ];

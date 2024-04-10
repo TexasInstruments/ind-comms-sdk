@@ -27,6 +27,7 @@ var annotated_dup =
     [ "CUST_PRUICSS_PRU_Mdio", "struct_c_u_s_t___p_r_u_i_c_s_s___p_r_u___mdio.html", "struct_c_u_s_t___p_r_u_i_c_s_s___p_r_u___mdio" ],
     [ "EI_API_ADP_SCmgrForwardCloseInfo", "struct_e_i___a_p_i___a_d_p___s_cmgr_forward_close_info.html", "struct_e_i___a_p_i___a_d_p___s_cmgr_forward_close_info" ],
     [ "EI_API_ADP_SCmgrForwardOpenInfo", "struct_e_i___a_p_i___a_d_p___s_cmgr_forward_open_info.html", "struct_e_i___a_p_i___a_d_p___s_cmgr_forward_open_info" ],
+    [ "EI_API_ADP_SCurrentIpData", "struct_e_i___a_p_i___a_d_p___s_current_ip_data.html", "struct_e_i___a_p_i___a_d_p___s_current_ip_data" ],
     [ "EI_API_ADP_SEipStatus", "struct_e_i___a_p_i___a_d_p___s_eip_status.html", "struct_e_i___a_p_i___a_d_p___s_eip_status" ],
     [ "EI_API_ADP_SInit", "struct_e_i___a_p_i___a_d_p___s_init.html", "struct_e_i___a_p_i___a_d_p___s_init" ],
     [ "EI_API_ADP_SIntfConfBits", "struct_e_i___a_p_i___a_d_p___s_intf_conf_bits.html", "struct_e_i___a_p_i___a_d_p___s_intf_conf_bits" ],
