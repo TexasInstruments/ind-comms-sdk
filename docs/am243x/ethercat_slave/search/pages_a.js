@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['memory_20access_0',['Process data memory access',['../proc_data_mem_access.html',1,'']]]
+  ['non_2dvolatile_20memory_20_28nvm_29_0',['Non-Volatile Memory (NVM)',['../persistentstorage.html',1,'']]]
 ];

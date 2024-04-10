@@ -1,27 +1,9 @@
 var searchData=
 [
-  ['i_20o_20mapping_0',['i o mapping',['../plc_codesys_revpi.html#iomap_cia402',1,'EtherCAT CiA402 Example I/O Mapping'],['../plc_codesys_am64x.html#iomap_cia402_am64x',1,'EtherCAT CiA402 Example I/O Mapping'],['../plc_codesys_revpi.html#iomap_slave_simple',1,'EtherCAT Slave Simple Example I/O Mapping'],['../plc_codesys_am64x.html#iomap_slave_simple_am64x',1,'EtherCAT Slave Simple Example I/O Mapping']]],
-  ['id_1',['id',['../struct_e_c___s_l_v___a_p_p___ci_a402___s_axis_a1e6927fa1486224044e568f9c370519b.html#a1e6927fa1486224044e568f9c370519b',1,'EC_SLV_APP_CiA402_SAxis']]],
-  ['identification_2',['Initialization of Stack, PRU, and Device Identification',['../example2.html#section4225',1,'']]],
-  ['identifier_3',['SDO Abort Codes Identifier',['../group___s_d_o_abort_index.html',1,'']]],
-  ['imgidx_4',['imgIdx',['../struct_e_c___a_p_i___s_l_v___e_e_p___s_cat___general_ab7d20ebe0708a470aa244fb38861541b.html#ab7d20ebe0708a470aa244fb38861541b',1,'EC_API_SLV_EEP_SCat_General']]],
-  ['in_20ethercat_20slave_20simple_5',['in ethercat slave simple',['../plc_codesys_am64x.html#ioleds_slave_simple_am64x',1,'Address Process Data LEDs in EtherCAT Slave Simple'],['../plc_codesys_revpi.html#ioleds_slave_simple',1,'Address Process Data LEDs in EtherCAT Slave Simple']]],
-  ['in_20object_20dictionary_6',['Enumerations in Object Dictionary',['../_enum_example.html',1,'']]],
-  ['in_20structured_20text_7',['in structured text',['../plc_codesys_am64x.html#plc_program_am64x',1,'Start your PLC program in Structured Text'],['../plc_codesys_revpi.html#plc_program',1,'Start your PLC program in Structured Text']]],
-  ['in_20the_20twincat_20project_8',['Setup a network interface controller (NIC) in the TwinCAT Project',['../simple_demo_in_twincat3.html#ETHERCAT_SIMPLE_DEMO_TWINCAT_PROJECT_NETWORK_CARD',1,'']]],
-  ['in_20twincat_9',['Enumeration in TwinCAT',['../_enum_example.html#EnumInTwinCAT',1,'']]],
-  ['in_20twincat3_10',['Simple demo in TwinCAT3',['../simple_demo_in_twincat3.html',1,'']]],
-  ['index_11',['index',['../struct_e_c___a_p_i___s_l_v___co_e___obj_entry_a852b86a2eaee9852ada7a43e61e311a2.html#a852b86a2eaee9852ada7a43e61e311a2',1,'EC_API_SLV_CoE_ObjEntry::index'],['../struct_e_c___s_l_v___i_n_t___p_d_o___s_entry_map_def_a852b86a2eaee9852ada7a43e61e311a2.html#a852b86a2eaee9852ada7a43e61e311a2',1,'EC_SLV_INT_PDO_SEntryMapDef::index'],['../struct_e_c___s_l_v___a_p_i___p_d_o___s_entry_map_a852b86a2eaee9852ada7a43e61e311a2.html#a852b86a2eaee9852ada7a43e61e311a2',1,'EC_SLV_API_PDO_SEntryMap::index']]],
-  ['information_12',['General Information',['../generalinformation.html',1,'']]],
-  ['initialization_20and_20starting_20the_20stacks_13',['Initialization and starting the Stacks',['../example1.html#subsection42154',1,'']]],
-  ['initialization_20of_20stack_20pru_20and_20device_20identification_14',['Initialization of Stack, PRU, and Device Identification',['../example2.html#section4225',1,'']]],
-  ['initialization_20of_20stack_20pru_20and_20example_20application_15',['Initialization of Stack, PRU, and Example Application',['../example1.html#section4215',1,'']]],
-  ['inlocked_16',['inLocked',['../struct_e_c___a_p_i___s_l_v___handle_aabd3dca7274a9f64ffe3c2134aae554c.html#aabd3dca7274a9f64ffe3c2134aae554c',1,'EC_API_SLV_Handle']]],
-  ['installation_17',['installation',['../plc_codesys_revpi.html#plc_install_codesys',1,'CODESYS Installation'],['../plc_codesys_am64x.html#plc_install_codesys_am64x',1,'CODESYS Installation'],['../simple_demo_in_twincat3.html#ETHERCAT_SIMPLE_DEMO_TWINCAT_SW_INSTALLATION',1,'Software Installation'],['../page_quickstart_installation.html#qs_installation_software',1,'Software installation']]],
-  ['interface_20controller_20nic_20in_20the_20twincat_20project_18',['Setup a network interface controller (NIC) in the TwinCAT Project',['../simple_demo_in_twincat3.html#ETHERCAT_SIMPLE_DEMO_TWINCAT_PROJECT_NETWORK_CARD',1,'']]],
-  ['interpolation_5fposition_5fmode_19',['INTERPOLATION_POSITION_MODE',['../group___ci_a402_ga2498e34c9a85ee242adea1e52f22cfb4.html#ga2498e34c9a85ee242adea1e52f22cfb4',1,'ecSlvApiDef_CiA402.h']]],
-  ['introduction_20',['introduction',['../plc_codesys.html#plc_intro',1,'Introduction'],['../index.html',1,'Introduction']]],
-  ['ioexpledhandle_21',['ioexpledhandle',['../struct_e_c___s_l_v___a_p_p___c_i_a__application_a88464b7d04f124519b6b9ff6b971ed7a.html#a88464b7d04f124519b6b9ff6b971ed7a',1,'EC_SLV_APP_CIA_application::ioexpLedHandle'],['../struct_e_c___s_l_v___a_p_p___sapplication_a88464b7d04f124519b6b9ff6b971ed7a.html#a88464b7d04f124519b6b9ff6b971ed7a',1,'EC_SLV_APP_Sapplication::ioexpLedHandle'],['../struct_e_c___s_l_v___a_p_p___s_s__application_a88464b7d04f124519b6b9ff6b971ed7a.html#a88464b7d04f124519b6b9ff6b971ed7a',1,'EC_SLV_APP_SS_application::ioexpLedHandle']]],
-  ['issues_22',['Known Issues',['../known_issues.html',1,'']]],
-  ['istx_23',['isTx',['../struct_e_c___a_p_i___s_l_v___pdo_abe95fdea4e4d4f53073f93c676eaa46a.html#abe95fdea4e4d4f53073f93c676eaa46a',1,'EC_API_SLV_Pdo']]]
+  ['nameidx_0',['nameIdx',['../struct_e_c___a_p_i___s_l_v___e_e_p___s_cat___general_ad069bbaed02bdf7b7649c6892a6c7edf.html#ad069bbaed02bdf7b7649c6892a6c7edf',1,'EC_API_SLV_EEP_SCat_General::nameIdx'],['../struct_e_c___a_p_i___s_l_v___e_e_p___s_cat___d_c_entry_ad069bbaed02bdf7b7649c6892a6c7edf.html#ad069bbaed02bdf7b7649c6892a6c7edf',1,'EC_API_SLV_EEP_SCat_DCEntry::nameIdx']]],
+  ['needinputmapping_1',['needInputMapping',['../struct_e_c___s_l_v___i_n_t___status_a58393f06a495faffbb73ee95f90a9b96.html#a58393f06a495faffbb73ee95f90a9b96',1,'EC_SLV_INT_Status']]],
+  ['no_5fmode_2',['NO_MODE',['../group___ci_a402_gae9401c0bbf62d69045a3df8b9ce7e372.html#gae9401c0bbf62d69045a3df8b9ce7e372',1,'ecSlvApiDef_CiA402.h']]],
+  ['noerror_5finwork_3',['NOERROR_INWORK',['../group___a_l_status_ga6e9118306a2e09adcd8c85016af3926b.html#ga6e9118306a2e09adcd8c85016af3926b',1,'ecSlvApiDef_AL_codes.h']]],
+  ['non_2dvolatile_20memory_20_28nvm_29_4',['Non-Volatile Memory (NVM)',['../persistentstorage.html',1,'']]],
+  ['numberofstrings_5',['numberOfStrings',['../struct_e_c___a_p_i___s_l_v___e_e_p___s_cat__string_a0c9d9e0a21c03cca3df4f7ff8147ab61.html#a0c9d9e0a21c03cca3df4f7ff8147ab61',1,'EC_API_SLV_EEP_SCat_string']]]
 ];

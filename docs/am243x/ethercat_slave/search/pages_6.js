@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['faq_0',['EtherCAT FAQ',['../ethercat_faq.html',1,'page_quickstart']]],
-  ['functionality_1',['Supported EtherCAT Functionality',['../functionality_am3.html',1,'']]]
+  ['general_20information_0',['General Information',['../generalinformation.html',1,'']]]
 ];
