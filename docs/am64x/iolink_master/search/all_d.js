@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['references_575',['References',['../references.html',1,'generalinformation']]],
-  ['release_20notes_576',['Release Notes',['../releasenotes.html',1,'']]]
+  ['known_20issues_20br_0',['Known Issues&lt;br/&gt;',['../known_issues.html',1,'']]]
 ];
