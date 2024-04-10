@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -51,13 +51,12 @@
 #include <lfs.h>
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /********** Public Interface Function Declarations ************/
-extern struct lfs_config* NVR_DRV_init(const unsigned int instanceID, const unsigned int baseAdr);
-extern int NVR_DRV_fini(void);
+extern struct lfs_config *NVR_DRV_init(const uint32_t instanceID, const uint32_t baseAdr);
+extern int32_t            NVR_DRV_fini(void);
 
 #ifdef __cplusplus
 } /* extern "C" */

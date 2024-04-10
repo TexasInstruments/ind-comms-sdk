@@ -4,15 +4,15 @@ let device = "am64x";
 
 const files = {
     common: [
-        "IOLM_Port_LEDTask.c",
-        "IOLM_Port_Sitara_soc.c",
-        "IOLM_Port_SMI.c",
-        "IOLM_Port_spi.c",
-        "IOLM_Port_smiExample.c",
-        "IOLM_Port_Utils.c",
+        "iolm_port_ledtask.c",
+        "iolm_port_sitara_soc.c",
+        "iolm_port_smi.c",
+        "iolm_port_spi.c",
+        "iolm_port_smi_example.c",
+        "iolm_port_utils.c",
         "nvram_driver.c",
         "main.c",
-        "IOLM_workTask.c",
+        "iolm_work_task.c",
     ],
 };
 
@@ -34,6 +34,7 @@ const libdirs_freertos = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/lib",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/lib",
     ],
 };
 
@@ -46,9 +47,10 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am64x-evm/IOLinkPort",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc/ext",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc/SMI",
     ],
 };
 

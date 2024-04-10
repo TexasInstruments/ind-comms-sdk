@@ -39,9 +39,10 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-lp
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-lp/IOLinkPort
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc/ext
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc/SMI
             -mcpu=cortex-r5
             -mfloat-abi=hard
             -mfpu=vfpv3-d16
@@ -62,6 +63,7 @@
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/lib
+            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/lib
             -i${CG_TOOL_ROOT}/lib
             -m=iolink_master_demo.${ConfigName}.map
             --diag_suppress=10063
@@ -110,25 +112,25 @@
             "
         ></configuration>
         <pathVariable name="INDUSTRIAL_COMMUNICATIONS_SDK_PATH" path="${COM_TI_INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
-        <file path="../../IOLinkPort/IOLM_Port_led.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../IOLinkPort/iolm_port_led.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../IOLinkPort/IOLM_Port_LEDTask.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../IOLinkPort/iolm_port_ledtask.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../IOLinkPort/IOLM_Port_Sitara_soc.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../IOLinkPort/iolm_port_sitara_soc.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../IOLinkPort/IOLM_Port_SMI.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../IOLinkPort/iolm_port_smi.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../IOLinkPort/IOLM_Port_spi.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../IOLinkPort/iolm_port_spi.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../IOLM_Port_smiExample.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../iolm_port_smi_example.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../IOLM_Port_Utils.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../iolm_port_utils.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../KBDrv/nvram_driver.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../IOLM_workTask.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../iolm_work_task.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
