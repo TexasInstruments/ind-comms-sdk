@@ -90,6 +90,7 @@ extern ETHIP_API uint32_t EI_API_ADP_setIpConfig(T* pAdp_p,    EIP_SConfiguratio
                                        uint32_t gateway_p,     uint32_t nameServer1_p,
                                        uint32_t nameServer2_p, char*    pDomainName_p,
                                        bool     applyChanges);
+extern ETHIP_API uint32_t EI_API_ADP_getIpConfig(T* pAdp_p, EI_API_ADP_SCurrentIpData_t *currentIpData);
 
 extern ETHIP_API uint32_t EI_API_ADP_getIpAddr(T* pAdp_p, uint32_t* pIpAddr_p);
 //extern ETHIP_API uint32_t EI_API_ADP_setIpAddr(T* pAdp_p, uint32_t ipAddr_p);

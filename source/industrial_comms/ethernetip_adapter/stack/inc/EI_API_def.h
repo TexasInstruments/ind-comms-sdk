@@ -75,7 +75,7 @@ extern "C" {
 
 #define EI_API_CIP_OBD_MAX                  256 // set not lower as 20 because init holds around 17 common objects
 #define EI_API_ADP_CMGR_CONNECTION_SIZE_MAX 510 // maximum size of connection size in bytes for ForwardOpen and ForwardClose
-
+#define EI_API_CIP_DOMAIN_NAME_LENGTH        48 // length of domain name
 /*!
  *  \brief Available module and network status LED states.
  */

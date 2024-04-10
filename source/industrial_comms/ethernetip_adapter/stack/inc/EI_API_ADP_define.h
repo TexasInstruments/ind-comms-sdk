@@ -236,4 +236,15 @@ typedef struct EIP_SPortState
     EIP_EPhyDuplexMode  enMode;
 } EIP_TPortState;
 
+typedef struct EI_API_ADP_SCurrentIpData
+{
+    EIP_EConfigurationMethod_t configurationMethod;
+    uint32_t ipAddr;
+    uint32_t networkMask;
+    uint32_t gatewayAdress;
+    uint32_t nameServer1;
+    uint32_t nameServer2;
+    char domainName[EI_API_CIP_DOMAIN_NAME_LENGTH + 1]; // zero terminated string
+} EI_API_ADP_SCurrentIpData_t;
+
 #endif // EI_API_ADP_DEFINE_H_INC
