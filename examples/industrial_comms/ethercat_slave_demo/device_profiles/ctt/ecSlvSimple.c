@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -96,7 +96,7 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateSlaveInfo(EC_SLV_APP_CTT_Applicati
     }
     ptSlave = pApplicationInstance_p->ptEcSlvApi;
 
-    error = (EC_API_EError_t)EC_API_SLV_setVendorId      (ptSlave, ECAT_VENDORID);
+    error = (EC_API_EError_t)EC_API_SLV_setVendorId(ptSlave, ECAT_VENDORID);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1175,7 +1175,7 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
 
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 0, 2, (uint16_t*)&value);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1202,7 +1202,7 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
 
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&value);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 0, 2, (uint16_t*)&value);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1229,7 +1229,7 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
 
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, &offset);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 0, 2, &offset);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1256,7 +1256,7 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
 
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, (uint16_t*)&length);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 0, 2, (uint16_t*)&length);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1283,7 +1283,7 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
 
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, &offset);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 0, 2, &offset);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1310,7 +1310,7 @@ static EC_API_EError_t EC_SLV_APP_CTT_populateDescriptionObjectValues(EC_SLV_APP
 
     /* @cppcheck_justify{misra-c2012-11.3} type cast required to fit API */
     /* cppcheck-suppress misra-c2012-11.3 */
-    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 2, &length);
+    error = (EC_API_EError_t)EC_API_SLV_CoE_setObjectData(ptSlave, ptCoEObj, 0, 2, &length);
     if (error != EC_API_eERR_NONE)
     {
         OSAL_printf("%s:%d Error code: 0x%08x\r\n", __func__, __LINE__, error);
@@ -1712,13 +1712,17 @@ void EC_SLV_APP_CTT_applicationInit(EC_SLV_APP_CTT_Application_t* pAppInstance_p
     EC_API_SLV_FoE_cbRegisterCloseFileHandler   (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileClose, pAppInstance_p->ptEcSlvApi);
 
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
-    EC_API_SLV_cbRegisterFlashInit              (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_initFlash, pAppInstance_p);
+    EC_API_SLV_EEPROM_cbRegisterInit(pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_init, pAppInstance_p);
     /* @cppcheck_justify{misra-c2012-11.6} void cast required for signature */
     /* cppcheck-suppress misra-c2012-11.6 */
-    EC_API_SLV_EEPROM_cbRegisterWrite           (pAppInstance_p->ptEcSlvApi,   EC_SLV_APP_EEP_writeEeprom, OSPIFLASH_APP_STARTMAGIC);
+    EC_API_SLV_EEPROM_cbRegisterWrite(
+        pAppInstance_p->ptEcSlvApi,
+        EC_SLV_APP_EEP_write, EEPROM_MAGIC_KEY);
     /* @cppcheck_justify{misra-c2012-11.6} void cast required for signature */
     /* cppcheck-suppress misra-c2012-11.6 */
-    EC_API_SLV_EEPROM_cbRegisterLoad            (pAppInstance_p->ptEcSlvApi,   EC_SLV_APP_EEP_loadEeprom, OSPIFLASH_APP_STARTMAGIC);
+    EC_API_SLV_EEPROM_cbRegisterRead(
+        pAppInstance_p->ptEcSlvApi,
+        EC_SLV_APP_EEP_read, EEPROM_MAGIC_KEY);
 #endif
     EC_API_SLV_cbRegisterUserApplicationRun     (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CTT_applicationRun, pAppInstance_p);
 

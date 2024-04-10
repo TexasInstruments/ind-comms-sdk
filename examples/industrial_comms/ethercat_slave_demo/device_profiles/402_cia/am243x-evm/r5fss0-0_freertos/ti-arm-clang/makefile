@@ -52,6 +52,9 @@ FILES_common := \
 	ESL_cia402Demo.c \
 	ESL_cia402Obd.c \
 	EtherCAT_Slave_CiA402.c \
+	nvm.c \
+	nvm_drv_eeprom.c \
+	nvm_drv_flash.c \
 	ti_drivers_config.c \
 	ti_drivers_open_close.c \
 	ti_board_config.c \
@@ -70,6 +73,11 @@ FILES_PATH_common = \
 	../../../../../common/os/freertos \
 	../../../../../../custom_phy/src \
 	../../../../../../custom_phy/inc \
+	../../../../../../nvm \
+	../../../../../../nvm/app/src \
+	../../../../../../nvm/app/inc \
+	../../../../../../nvm/drv/src \
+	../../../../../../nvm/drv/inc \
 	generated \
 
 INCLUDES_common := \
@@ -86,7 +94,12 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am243evm \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am243evm/freertos \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc/defines \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc/ext \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc/profiles \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc \
 	-Igenerated \
 

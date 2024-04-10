@@ -11,7 +11,7 @@
  *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: LicenseRef-Kunbus
  *
- *  Copyright (c) 2023 KUNBUS GmbH
+ *  Copyright (c) 2024 KUNBUS GmbH
  *  All rights reserved.
  *
  *
@@ -89,16 +89,6 @@ extern "C" {
 #define     DEFTYPE_BIT6                                                    0x0035      /**< \brief BIT6*/
 #define     DEFTYPE_BIT7                                                    0x0036      /**< \brief BIT7*/
 #define     DEFTYPE_BIT8                                                    0x0037      /**< \brief BIT8*/
-#define     DEFTYPE_ARRAY_OF_INT                                            0x0260      /**< \brief DEFTYPE_ARRAY_OF_INT*/
-#define     DEFTYPE_ARRAY_OF_SINT                                           0x0261      /**< \brief DEFTYPE_ARRAY_OF_SINT*/
-#define     DEFTYPE_ARRAY_OF_DINT                                           0x0262      /**< \brief DEFTYPE_ARRAY_OF_DINT*/
-#define     DEFTYPE_ARRAY_OF_UDINT                                          0x0263      /**< \brief DEFTYPE_ARRAY_OF_UDINT*/
-#define     DEFTYPE_ERRORHANDLING                                           0x0281      /**< \brief DEFTYPE_ERRORHANDLING*/
-#define     DEFTYPE_DIAGHISTORY                                             0x0282      /**< \brief DEFTYPE_DIAGHISTORY*/
-#define     DEFTYPE_SYNCSTATUS                                              0x0283      /**< \brief DEFTYPE_SYNCSTATUS*/
-#define     DEFTYPE_SYNCSETTINGS                                            0x0284      /**< \brief DEFTYPE_SYNCSETTINGS*/
-#define     DEFTYPE_FSOEFRAME                                               0x0285      /**< \brief DEFTYPE_FSOEFRAME*/
-#define     DEFTYPE_FSOECOMMPAR                                             0x0286      /**< \brief DEFTYPE_FSOECOMMPAR*/
 /** @}*/
 
 /**

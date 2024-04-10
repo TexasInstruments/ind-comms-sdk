@@ -8,10 +8,10 @@
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2024, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -40,30 +40,48 @@
  *
  */
 
-#define EEPROM_FILEPATH "eeprom.bin"
-
 #include <defines/ecSlvApiDef.h>
 #include <ecSlvApi.h>
 #include <ESL_eeprom.h>
 #include <osal.h>
-
-#include <drivers/i2c.h>
-#include <board/eeprom.h>
-
-#include "ti_board_open_close.h"
-
-#define APP_OSPI_FLASH_OFFSET_BASE  (0x200000U)
-typedef struct SPI_SEepromHeader
-{
-    uint32_t    startMagic;
-    uint32_t    dataSize;
-} SPI_SEepromHeader_t;
-
+#include "ti_board_config.h"
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
-#if (defined CONFIG_FLASH0)
-static Flash_Attrs*     flashAttribute_s    = NULL;
+#include "nvm.h"
 #endif
-#endif
+
+
+#define EEPROM_EMPTY_DATA   (0xFFFFFFFFU)
+#define EEPROM_DATA_OFFSET  (0x200U)
+
+/// EEPROM header containing magic key and data length parameters
+typedef struct ESL_EEP_header
+{
+    uint32_t    magicKey;
+    uint32_t    dataSize;
+} ESL_EEP_header_t;
+
+/// EtherCAT EEPROM header containing identity data. Refer to ETG2010 Table 2
+typedef struct ESL_EEP_EC_info
+{
+    uint16_t pdiControl;
+    uint16_t pdiConfiguration;
+
+    uint16_t syncImpulseLen;
+    uint16_t pdiConfiguration2;
+
+    uint16_t stationAlias;
+    uint16_t reserved[2];
+    uint16_t checksum;
+
+    uint32_t vendorID;
+    uint32_t productCode;
+    uint32_t revisionNo;
+    uint32_t serialNo;
+}ESL_EEP_EC_info_t;
+
+static ESL_EEP_EC_info_t ESL_EEP_identity = {0};
+
+static bool EC_SLV_APP_EEP_verifyIntegrity(ESL_EEP_EC_info_t *pAppInfo);
 
 /*! <!-- Description: -->
  *
@@ -72,7 +90,7 @@ static Flash_Attrs*     flashAttribute_s    = NULL;
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext_p  application context
+ *  \param[in]  pContext  application context
  *
  *  <!-- Example: -->
  *
@@ -84,7 +102,7 @@ static Flash_Attrs*     flashAttribute_s    = NULL;
  *  void* pHandle;
  *
  *  // the Call
- *  EC_SLV_APP_initFlash(pHandle);
+ *  EC_SLV_APP_EEP_init(pHandle);
  *  \endcode
  *
  *
@@ -93,14 +111,12 @@ static Flash_Attrs*     flashAttribute_s    = NULL;
  *  \ingroup EC_SLV_APP
  *
  * */
-void EC_SLV_APP_EEP_initFlash(void* pContext_p)
+void EC_SLV_APP_EEP_init(void*pContext)
 {
-    OSALUNREF_PARM(pContext_p);
+    OSALUNREF_PARM(pContext);
 
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
-#if (defined CONFIG_FLASH0)
-    flashAttribute_s = Flash_getAttrs(CONFIG_FLASH0);
-#endif
+    NVM_APP_init(OSAL_TASK_Prio_Normal);
 #endif
 }
 
@@ -111,9 +127,9 @@ void EC_SLV_APP_EEP_initFlash(void* pContext_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext_p      Application context
- *  \param[in]  pEeprom_p		Pointer to eeprom memory address.
- *  \param[in]  length_p    Eeprom length.
+ *  \param[in]  pContext      Application context
+ *  \param[in]  pEeprom		Pointer to eeprom memory address.
+ *  \param[in]  length    Eeprom length.
  *
  *  <!-- Example: -->
  *
@@ -127,7 +143,7 @@ void EC_SLV_APP_EEP_initFlash(void* pContext_p)
  *  uint32_t    length = 0x400;
  *
  *  // the Call
- *  EC_SLV_APP_writeEeprom(handle, pEeprom, length);
+ *  EC_SLV_APP_EEP_write(handle, pEeprom, length);
  *  \endcode
  *
  *  <!-- Group: -->
@@ -135,47 +151,41 @@ void EC_SLV_APP_EEP_initFlash(void* pContext_p)
  *  \ingroup SLVAPI
  *
  * */
-void EC_SLV_APP_EEP_writeEeprom(void *pContext_p, void* pEeprom_p, uint32_t length_p)
+void EC_SLV_APP_EEP_write(void *pContext, void*pEeprom, uint32_t length)
 {
-    uint32_t                offset      = APP_OSPI_FLASH_OFFSET_BASE;
-
-    uint32_t                pageCount   = 0;
-    uint32_t                idx         = 0;
-    uint32_t                blk,page;
-    uint32_t                flashMagic  = (uint32_t)pContext_p;
-    SPI_SEepromHeader_t*    pageHead    = NULL;
+    uint32_t magicKey  = (uint32_t)pContext;
+    ESL_EEP_header_t* pageHead = NULL;
+    bool validIdentity = false;
 
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
-#if (defined CONFIG_FLASH0)
-    if (NULL == flashAttribute_s)
+
+    if(pEeprom != NULL && length > sizeof(ESL_EEP_EC_info_t))
     {
-        return;
+        //Read current EEPROM content and compare with application data
+        validIdentity = EC_SLV_APP_EEP_verifyIntegrity((ESL_EEP_EC_info_t *)pEeprom);
     }
-
-    pageCount = (length_p + flashAttribute_s->blockSize - 1) / flashAttribute_s->blockSize;
-#endif
-#endif
-
-    pageHead = (SPI_SEepromHeader_t*)OSAL_MEMORY_calloc(sizeof(SPI_SEepromHeader_t)+length_p, sizeof(uint8_t));
-    OSAL_MEMORY_memcpy((void*)&pageHead[1], pEeprom_p, length_p);
-    pageHead[0].startMagic  = flashMagic;
-    pageHead[0].dataSize    = length_p;
-
-#if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
-#if (defined CONFIG_FLASH0)
-    for (idx = 0; idx < pageCount; ++idx)
+    if(!validIdentity)
     {
-        Flash_offsetToBlkPage   (gFlashHandle[CONFIG_FLASH0],
-                                 offset+(idx*flashAttribute_s->blockSize),
-                                 &blk, &page);
+        //Allocate memory for header and eeprom data
+        pageHead = (ESL_EEP_header_t*)OSAL_MEMORY_calloc(sizeof(ESL_EEP_header_t)+ length,
+                                                          sizeof(uint8_t));
+        if(pageHead != NULL)
+        {
+            pageHead[0].magicKey = magicKey;
+            pageHead[0].dataSize = length;
+            OSAL_MEMORY_memcpy((void*)&pageHead[1], pEeprom, length);
 
-        Flash_eraseBlk          (gFlashHandle[CONFIG_FLASH0], blk);
+            //If application data is different to EEPROM content, overwrite EEPROM content
+            NVM_APP_write(NVM_TYPE_EEPROM,
+                          CONFIG_EEPROM0,
+                          EEPROM_DATA_OFFSET,
+                          sizeof(ESL_EEP_header_t) + length,
+                          pageHead);
+        }
+
+        OSAL_MEMORY_free(pageHead);
     }
-
-    Flash_write(gFlashHandle[CONFIG_FLASH0], offset, (uint8_t*)pageHead, sizeof(SPI_SEepromHeader_t)+length_p);
 #endif
-#endif
-    OSAL_MEMORY_free(pageHead);
 }
 
 /*! <!-- Description: -->
@@ -185,9 +195,9 @@ void EC_SLV_APP_EEP_writeEeprom(void *pContext_p, void* pEeprom_p, uint32_t leng
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext_p      application context
- *  \param[out] pEeprom_p       Pointer to eeprom memory address.
- *  \param[out] pLength_p       Eeprom length.
+ *  \param[in]  pContext      application context
+ *  \param[out] pEeprom       Pointer to eeprom memory address.
+ *  \param[out] pLength       Eeprom length.
  *
  *  \return     bool            eeprom loaded correctly or not.
  *
@@ -203,9 +213,8 @@ void EC_SLV_APP_EEP_writeEeprom(void *pContext_p, void* pEeprom_p, uint32_t leng
  *  uint32_t length;
  *
  *  // the Call
- *  EC_SLV_APP_loadEeprom(pEeprom, &length);
  *  pEeprom = (uint8_t*)OSAL_MEMORY_calloc(length, sizeof(uint8_t));
- *  EC_SLV_APP_loadEeprom(pEeprom, &length);
+ *  EC_SLV_APP_EEP_read(pEeprom, &length);
  *  \endcode
  *
  *  <!-- Group: -->
@@ -213,57 +222,89 @@ void EC_SLV_APP_EEP_writeEeprom(void *pContext_p, void* pEeprom_p, uint32_t leng
  *  \ingroup EC_SLV_APP
  *
  * */
-bool EC_SLV_APP_EEP_loadEeprom(void* pContext_p, void* pEeprom_p, uint32_t* pLength_p)
+bool EC_SLV_APP_EEP_read(void*pContext, void*pEeprom, uint32_t *pLength)
 {
-    bool                    bRet        = false;
-    uint32_t                offset      = APP_OSPI_FLASH_OFFSET_BASE;
-    SPI_SEepromHeader_t     pageProto   = {0};
-    int32_t                 status      = SystemP_SUCCESS;
+    bool ret = false;
+    ESL_EEP_header_t pageProto = {0};
+    uint32_t magicKey = (uint32_t)pContext;
+
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
-#if (defined CONFIG_FLASH0)
-    uint32_t                flashMagic  = (uint32_t)pContext_p;
+    uint32_t error = NVM_ERR_SUCCESS;
 
-    status = Flash_read(gFlashHandle[CONFIG_FLASH0], offset, (uint8_t*)&pageProto, sizeof(SPI_SEepromHeader_t));
-    if (SystemP_SUCCESS !=status)
-    {
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
+    OSAL_MEMORY_memset(&ESL_EEP_identity, 0, sizeof(ESL_EEP_EC_info_t));
 
-    if (pageProto.startMagic != flashMagic)
-    {
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
+    //Read EEPROM header (magic key and eeprom length)
+    error = NVM_APP_read(NVM_TYPE_EEPROM,
+                 CONFIG_EEPROM0,
+                 EEPROM_DATA_OFFSET,
+                 sizeof(ESL_EEP_header_t),
+                 &pageProto);
 
-    status = Flash_read(gFlashHandle[CONFIG_FLASH0], offset+sizeof(SPI_SEepromHeader_t), pEeprom_p, pageProto.dataSize);
-    if (SystemP_SUCCESS !=status)
+    if(error == NVM_ERR_SUCCESS &&
+        pageProto.magicKey == magicKey &&
+        pageProto.dataSize != EEPROM_EMPTY_DATA)
     {
-        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-        /* cppcheck-suppress misra-c2012-15.1 */
-        goto Exit;
-    }
+        //Read EEPROM data (EtherCAT EEPROM content)
+        error = NVM_APP_read(NVM_TYPE_EEPROM,
+                             CONFIG_EEPROM0,
+                             EEPROM_DATA_OFFSET + sizeof(ESL_EEP_header_t),
+                             pageProto.dataSize,
+                             pEeprom);
 
-    if (pLength_p)
-    {
-        pLength_p[0] = pageProto.dataSize;
+        if (error == NVM_ERR_SUCCESS && pLength != NULL)
+        {
+            *pLength = pageProto.dataSize;
+
+            //Copy EtherCAT info for verification
+            if(pageProto.dataSize > sizeof(ESL_EEP_EC_info_t))
+            {
+                OSAL_MEMORY_memcpy(&ESL_EEP_identity, pEeprom, sizeof(ESL_EEP_EC_info_t));
+            }
+            ret = true;
+        }
     }
-#else
-    /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-    /* cppcheck-suppress misra-c2012-15.1 */
-    goto Exit;
 #endif
-#else
-    /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
-    /* cppcheck-suppress misra-c2012-15.1 */
-    goto Exit;
-#endif
+    return ret;
+}
 
-    bRet = true;
-Exit:
-    return bRet;
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Verify EEPROM Cache VendorID, Product Code, Revision Number and CRC.
+ *
+ *  \details
+ *  This function compares the EtherCAT identity data and the CRC between the EEPROM data and
+ *  the application data. If this data is the same, then the EEPROM write function does not
+ *  write into the EEPROM to prevent physical wearing.
+
+ *  \remarks
+ *  The EtherCAT stack calls EEPROM read and therefore the identity data and CRC are known.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  pAppInfo    EtherCAT EEPROM info from application.
+ *  \return     bool        EEPROM Identity correct or not.
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup SLVAPI
+ *
+ * */
+static bool EC_SLV_APP_EEP_verifyIntegrity(ESL_EEP_EC_info_t *pAppInfo)
+{
+    bool ret = false;
+    if(pAppInfo != NULL)
+    {
+        if(pAppInfo->vendorID == ESL_EEP_identity.vendorID &&
+           pAppInfo->productCode == ESL_EEP_identity.productCode &&
+           pAppInfo->revisionNo == ESL_EEP_identity.revisionNo &&
+           pAppInfo->checksum == ESL_EEP_identity.checksum)
+        {
+            ret = true;
+        }
+    }
+    return ret;
 }
 
 //*************************************************************************************************

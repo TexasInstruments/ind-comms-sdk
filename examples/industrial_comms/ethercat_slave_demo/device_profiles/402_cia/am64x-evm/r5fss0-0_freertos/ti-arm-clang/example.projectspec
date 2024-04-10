@@ -42,7 +42,12 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am64gpevm
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am64gpevm/freertos
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc/defines
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc/ext
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc/profiles
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc
             -mcpu=cortex-r5
             -mfloat-abi=hard
@@ -142,6 +147,12 @@
         <file path="../../../ESL_cia402Obd.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../EtherCAT_Slave_CiA402.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../nvm/app/src/nvm.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../nvm/drv/src/nvm_drv_eeprom.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../nvm/drv/src/nvm_drv_flash.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

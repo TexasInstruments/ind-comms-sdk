@@ -11,7 +11,7 @@
  *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: LicenseRef-Kunbus
  *
- *  Copyright (c) 2023 KUNBUS GmbH
+ *  Copyright (c) 2024 KUNBUS GmbH
  *  All rights reserved.
  *
  *
@@ -506,25 +506,18 @@ typedef uint8_t(*EC_API_SLV_CBObjRead_t)(void* pContext, uint16_t index, uint8_t
  * */
 typedef uint8_t(*EC_API_SLV_CBObjWrite_t)(void* pContext, uint16_t index, uint8_t subindex, uint32_t length, uint16_t* pData, uint8_t completeAccess);
 
-/*!
- *  <!-- Description: -->
- *
- *  \brief
+/*! \brief
  *  User defined EoE receive function. Called when an EoE frame is received.
- *
- *  <!-- Parameters and return values: -->
  *
  *  \param[in]  pContext          function context
  *  \param[in]  pData             EoE Frame Data
- *  \param[in]  length            EoE Frame Size
+ *  \param[in]  size              EoE Frame Size
  *  \return true if frame is handle, false if it should be passed on.
- *
- *  <!-- Group: -->
  *
  *  \ingroup SLVAPI
  *
  * */
-typedef bool (*EC_API_SLV_EoE_CBReceiveHandler_t)(void* pContext, uint16_t* pData, uint16_t length);
+typedef bool (*EC_API_SLV_EoE_CBReceiveHandler_t)(void* pContext, uint16_t* pData, uint16_t size);
 
 /*!
  *  <!-- Description: -->
@@ -908,7 +901,7 @@ typedef void (*EC_API_SLV_CiA402_CBUsrApplLocalError_t)(void* pContext, uint16_t
  *  <!-- Description: -->
  *
  *  \brief
- *  Load EEPROM from memory.
+ *  Read EEPROM from memory.
  *
  *  <!-- Parameters and return values: -->
  *
@@ -922,7 +915,7 @@ typedef void (*EC_API_SLV_CiA402_CBUsrApplLocalError_t)(void* pContext, uint16_t
  *  \ingroup SLVAPI
  *
  * */
-typedef bool(*EC_API_SLV_CBEepromLoad_t)(void* pContext, void* pEeprom, uint32_t* pLength);
+typedef bool(*EC_API_SLV_CBEepromRead_t)(void* pContext, void* pEeprom, uint32_t* pLength);
 
 /*!
  *  <!-- Description: -->
@@ -947,7 +940,7 @@ typedef void(*EC_API_SLV_CBEepromWrite_t)(void* pContext, void* pEeprom, uint32_
  *  <!-- Description: -->
  *
  *  \brief
- *  Init flash memory block to load and store eeprom content.
+ *  Init eeprom memory block to load and store eeprom content.
  *
  *  <!-- Parameters and return values: -->
  *  \param[in]  pContext  call context
@@ -957,7 +950,7 @@ typedef void(*EC_API_SLV_CBEepromWrite_t)(void* pContext, void* pEeprom, uint32_
  *  \ingroup SLVAPI
  *
  * */
-typedef void(*EC_API_SLV_CBInitFlash_t)(void* pContext);
+typedef void(*EC_API_SLV_CBEepromInit_t)(void* pContext);
 /** @}*/
 
 /** \addtogroup EC_API_SLV_BOARD

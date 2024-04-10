@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: LicenseRef-Kunbus
  *
- *  Copyright (c) 2023 KUNBUS GmbH
+ *  Copyright (c) 2024 KUNBUS GmbH
  *  All rights reserved.
  *
  *
@@ -68,8 +68,7 @@ extern ECATSLV_API uint32_t EC_API_SLV_prepareTasks(
     OSAL_TASK_Priority_t pdiTaskPrio,
     OSAL_TASK_Priority_t statusLEDTaskPrio,
     OSAL_TASK_Priority_t sync0TaskPrio,
-    OSAL_TASK_Priority_t sync1TaskPrio,
-    OSAL_TASK_Priority_t eoeTaskPrio);
+    OSAL_TASK_Priority_t sync1TaskPrio);
 
 extern ECATSLV_API uint32_t EC_API_SLV_stackInit(void);
 

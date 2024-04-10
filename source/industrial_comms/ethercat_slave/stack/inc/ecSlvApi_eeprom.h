@@ -11,7 +11,7 @@
  *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: LicenseRef-Kunbus
  *
- *  Copyright (c) 2023 KUNBUS GmbH
+ *  Copyright (c) 2024 KUNBUS GmbH
  *  All rights reserved.
  *
  *
@@ -41,17 +41,17 @@ extern "C" {
 #endif
 
 
-extern ECATSLV_API uint32_t EC_API_SLV_EEPROM_cbRegisterLoad(
-    EC_API_SLV_SHandle_t *pHandle,
-    EC_API_SLV_CBEepromLoad_t cbFunc,
+extern ECATSLV_API uint32_t EC_API_SLV_EEPROM_cbRegisterRead(
+    EC_API_SLV_SHandle_t     *pHandle,
+    EC_API_SLV_CBEepromRead_t cbFunc,
     void *pContext);
 extern ECATSLV_API uint32_t EC_API_SLV_EEPROM_cbRegisterWrite(
     EC_API_SLV_SHandle_t *pHandle,
     EC_API_SLV_CBEepromWrite_t cbFunc,
     void *pContext);
-extern ECATSLV_API uint32_t EC_API_SLV_cbRegisterFlashInit(
-    EC_API_SLV_SHandle_t *pHandle,
-    EC_API_SLV_CBInitFlash_t cbFunc,
+extern ECATSLV_API uint32_t EC_API_SLV_EEPROM_cbRegisterInit(
+    EC_API_SLV_SHandle_t    *pHandle,
+    EC_API_SLV_CBEepromInit_t cbFunc,
     void *pContext);
 #if (defined __cplusplus)
 }
