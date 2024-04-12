@@ -9,6 +9,9 @@ const files = {
         "main.c",
         "nvram_driver.c",
         "SMIdirect_UART.c",
+        "nvm.c",
+        "nvm_drv_eeprom.c",
+        "nvm_drv_flash.c",
     ],
 };
 
@@ -24,6 +27,8 @@ const filedirs = {
         "../../../../../common/board/am64gpevm/freertos",
         "../../../../ethercat_slave_demo/common/os",
         "../../../../ethercat_slave_demo/common/os/freertos",
+        "../../../../nvm/app/src",
+        "../../../../nvm/drv/src",
     ],
 };
 
@@ -51,13 +56,15 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am64gpevm",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am64gpevm/freertos",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/littlefs",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/drivers",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/stack/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc/SMI",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
     ],
 };

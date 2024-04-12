@@ -43,6 +43,9 @@ FILES_common := \
 	main.c \
 	nvram_driver.c \
 	SMIdirect_UART.c \
+	nvm.c \
+	nvm_drv_eeprom.c \
+	nvm_drv_flash.c \
 	ti_drivers_config.c \
 	ti_drivers_open_close.c \
 	ti_board_config.c \
@@ -59,6 +62,8 @@ FILES_PATH_common = \
 	../../../../../common/board/am64gpevm/freertos \
 	../../../../ethercat_slave_demo/common/os \
 	../../../../ethercat_slave_demo/common/os/freertos \
+	../../../../nvm/app/src \
+	../../../../nvm/drv/src \
 	generated \
 
 INCLUDES_common := \
@@ -76,13 +81,15 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am64gpevm \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am64gpevm/freertos \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/littlefs \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/drivers \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/stack/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/inc \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/SMI \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc/SMI \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc \
 	-Igenerated \
 

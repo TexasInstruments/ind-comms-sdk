@@ -8,6 +8,8 @@
 /**
  * Import the modules used in this configuration.
  */
+const eeprom     = scripting.addModule("/board/eeprom/eeprom", {}, false);
+const eeprom1    = eeprom.addInstance();
 const flash           = scripting.addModule("/board/flash/flash", {}, false);
 const flash1          = flash.addInstance();
 const led             = scripting.addModule("/board/led/led", {}, false);
@@ -61,6 +63,7 @@ const gpio40          = gpio.addInstance();
 const gpio41          = gpio.addInstance();
 const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1            = i2c.addInstance();
+const i2c2       = i2c.addInstance();
 const mcspi           = scripting.addModule("/drivers/mcspi/mcspi", {}, false);
 const mcspi1          = mcspi.addInstance();
 const pruicss         = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
@@ -103,6 +106,8 @@ const section11       = section.addInstance();
 /**
  * Write custom configuration values to the imported modules.
  */
+eeprom1.$name = "CONFIG_EEPROM0";
+
 flash1.$name                  = "CONFIG_FLASH0";
 flash1.peripheralDriver.$name = "CONFIG_OSPI0";
 
@@ -348,15 +353,18 @@ gpio41.GPIO.$assign         = "GPIO0";
 gpio41.GPIO.gpioPin.pu_pd   = "pu";
 gpio41.GPIO.gpioPin.$assign = "GPMC0_AD7";
 
-i2c1.$name            = "CONFIG_I2C0";
 led1.peripheralDriver = i2c1;
 led2.peripheralDriver = i2c1;
 led3.peripheralDriver = i2c1;
 led5.peripheralDriver = i2c1;
 led6.peripheralDriver = i2c1;
+i2c1.$name            = "CONFIG_I2C1";
 i2c1.I2C.$assign      = "I2C1";
 i2c1.I2C.SCL.$assign  = "I2C1_SCL";
 i2c1.I2C.SDA.$assign  = "I2C1_SDA";
+
+i2c2.$name               = "CONFIG_I2C0";
+eeprom1.peripheralDriver = i2c2;
 
 mcspi1.$name                       = "CONFIG_MCSPI_IOL";
 mcspi1.mode                        = "MULTI_CONTROLLER";
@@ -365,7 +373,6 @@ mcspi1.SPI.$assign                 = "SPI1";
 mcspi1.SPI.CLK.$assign             = "SPI1_CLK";
 mcspi1.SPI.D0.$assign              = "SPI1_D0";
 mcspi1.SPI.D1.$assign              = "SPI1_D1";
-mcspi1.child.$name                 = "drivers_mcspi_v0_mcspi_v0_template0";
 mcspi1.mcspiChannel.create(2);
 mcspi1.mcspiChannel[0].$name       = "CONFIG_MCSPI_CH0";
 mcspi1.mcspiChannel[0].CSn.$assign = "SPI1_CS0";
@@ -394,18 +401,6 @@ uart3.$name            = "CONFIG_UART0";
 uart3.UART.$assign     = "USART0";
 uart3.UART.RXD.$assign = "UART0_RXD";
 uart3.UART.TXD.$assign = "UART0_TXD";
-
-const uart_v0_template  = scripting.addModule("/drivers/uart/v0/uart_v0_template", {}, false);
-const uart_v0_template1 = uart_v0_template.addInstance({}, false);
-uart_v0_template1.$name = "drivers_uart_v0_uart_v0_template0";
-uart1.child             = uart_v0_template1;
-uart2.child             = uart_v0_template1;
-uart3.child             = uart_v0_template1;
-
-const udma        = scripting.addModule("/drivers/udma/udma", {}, false);
-const udma1       = udma.addInstance({}, false);
-udma1.$name       = "CONFIG_UDMA0";
-mcspi1.udmaDriver = udma1;
 
 ethercat1.$name              = "CONFIG_ETHERCAT0";
 ethercat1.instance           = "ICSSG1";
@@ -627,6 +622,9 @@ flash1.peripheralDriver.OSPI.D2.$suggestSolution             = "OSPI0_D2";
 flash1.peripheralDriver.OSPI.D1.$suggestSolution             = "OSPI0_D1";
 flash1.peripheralDriver.OSPI.D0.$suggestSolution             = "OSPI0_D0";
 gpio1.MCU_GPIO.$suggestSolution                              = "MCU_GPIO0";
+i2c2.I2C.$suggestSolution                                    = "I2C0";
+i2c2.I2C.SCL.$suggestSolution                                = "I2C0_SCL";
+i2c2.I2C.SDA.$suggestSolution                                = "I2C0_SDA";
 ethercat1.PRU_ICSSG1_MDIO.$suggestSolution                   = "PRU_ICSSG1_MDIO0";
 ethercat1.PRU_ICSSG1_MDIO.MDC.$suggestSolution               = "PRG1_MDIO0_MDC";
 ethercat1.PRU_ICSSG1_MDIO.MDIO.$suggestSolution              = "PRG1_MDIO0_MDIO";
