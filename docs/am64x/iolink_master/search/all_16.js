@@ -9,7 +9,7 @@ var searchData=
   ['the_20example_6',['Steps to Run the Example',['../page_quickstart.html#qs_example_run',1,'']]],
   ['the_20master_7',['Connect to the Master',['../page_quickstart.html#qs_gui_connect',1,'']]],
   ['timer_8',['Physical Frame Handler and/or Cycle Timer',['../page_hwport.html#sect_hwport_example_phy',1,'']]],
-  ['timer_20system_9',['timer system',['../page_hwport.html#sect_hwport_example_timer',1,'Timer System'],['../page_hwport.html#sect_hwport_timer',1,'Timer System']]],
+  ['timer_20system_9',['timer system',['../page_hwport.html#sect_hwport_timer',1,'Timer System'],['../page_hwport.html#sect_hwport_example_timer',1,'Timer System']]],
   ['timing_20api_10',['Timing API',['../page_smi.html#section_api_Timing',1,'']]],
   ['to_20be_20done_20to_20configure_20icss1_20instead_20of_20icss0_11',['Steps to be done to configure ICSS1 instead of ICSS0',['../page_configure__i_c_s_s1.html#sect_configure_ICSS1_start',1,'']]],
   ['to_20run_20the_20example_12',['Steps to Run the Example',['../page_quickstart.html#qs_example_run',1,'']]],

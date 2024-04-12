@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['api_0',['api',['../group__grp__api__non__smi.html',1,'Non SMI API'],['../group__grp__api__smi.html',1,'SMI API']]],
-  ['arg_20blocks_1',['SMI Arg Blocks',['../group__grp__smi__arg.html',1,'']]]
+  ['definitions_2ftypes_1268',['Definitions/Types',['../group__grp__api__deftype.html',1,'']]],
+  ['data_20storage_1269',['Data Storage',['../group__grp__api__ds.html',1,'']]]
 ];

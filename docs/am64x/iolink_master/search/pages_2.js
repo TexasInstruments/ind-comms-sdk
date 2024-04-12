@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['communication_0',['Device Communication',['../page_startcom.html',1,'Implementation']]],
-  ['configuration_1',['Configuration',['../page_configure__i_c_s_s1.html',1,'Implementation']]],
-  ['content_2',['Delivery Content',['../deliverycontent.html',1,'generalinformation']]],
-  ['customer_20service_3',['Customer Service',['../customerservice.html',1,'generalinformation']]]
+  ['delivery_20content_1291',['Delivery Content',['../deliverycontent.html',1,'generalinformation']]],
+  ['disclaimer_1292',['Disclaimer',['../disclaimer.html',1,'generalinformation']]],
+  ['datasheet_1293',['Datasheet',['../iolink_datasheet.html',1,'']]],
+  ['data_20storage_1294',['Data Storage',['../page_datastorage.html',1,'Implementation']]],
+  ['device_20communication_1295',['Device Communication',['../page_startcom.html',1,'Implementation']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['config_0',['SMI Config',['../group__grp__smi__config.html',1,'']]]
+  ['general_1271',['General',['../group__grp__api__general.html',1,'']]]
 ];
