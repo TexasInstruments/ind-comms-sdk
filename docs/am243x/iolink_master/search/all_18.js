@@ -35,7 +35,7 @@ var searchData=
   ['version_201_2009_2007_32',['Release Version 1.09.07',['../releasenotes.html#version_release10907',1,'']]],
   ['version_201_2009_2008_33',['Release Version 1.09.08',['../releasenotes.html#version_release10908',1,'']]],
   ['version_202_2000_2000_34',['Release Version 2.00.00',['../releasenotes.html#version_release20000',1,'']]],
-  ['version_202_2001_2000_35',['Release Version 2.01.00',['../releasenotes.html#version_release20100',1,'']]],
+  ['version_202_2000_2001_35',['Release Version 2.00.01',['../releasenotes.html#version_release20001',1,'']]],
   ['volatile_20storage_36',['Non Volatile Storage',['../page_datastorage.html#sect_ds_nonvolatile',1,'']]],
   ['volatile_20storage_20hardware_20driver_37',['Modify Non-volatile Storage Hardware Driver',['../page_quickstart.html#example_nvram',1,'']]],
   ['volatile_20storage_20nvram_20hardware_20driver_38',['Non-volatile Storage (NVRAM) Hardware Driver',['../page_nvram.html',1,'']]]
