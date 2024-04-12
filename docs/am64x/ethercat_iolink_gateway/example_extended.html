@@ -116,12 +116,15 @@ Software Requirements</h1>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Software   </th><th class="markdownTableHeadNone">Version    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Code Composer Studio   </td><td class="markdownTableBodyNone">12.5    </td></tr>
+<td class="markdownTableBodyNone">Code Composer Studio   </td><td class="markdownTableBodyNone">12.6    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">IND COMMS SDK for AM64x   </td><td class="markdownTableBodyNone">09.01.00    </td></tr>
+<td class="markdownTableBodyNone">IND COMMS SDK for AM64x   </td><td class="markdownTableBodyNone">09.02.00.03    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">TwinCAT TcXaeShell   </td><td class="markdownTableBodyNone">15.0.28010.2050 D15.8   </td></tr>
 </table>
+<p>Under Windows, make sure that the following environment variable is set (adjust path): </p><blockquote class="doxtable">
+<p>set MCU_PLUS_SDK_AM64X_PATH = C:\ti\ind_comms_sdk_09_02_00_03\mcu_plus_sdk </p>
+</blockquote>
 <h1><a class="anchor" id="import-projects"></a>
 Import Example Projects in Code Composer Studio</h1>
 <p>In Code Composer Studio (CCS) the example projects are imported as CCS projects from the directory examples/ in the EtherCAT-IOLink Gateway archive.</p>
@@ -153,7 +156,7 @@ Run and debug the examples with CCS</h1>
  <em>Launch selected configuration</em></li>
 <li>Open a scripting console by clicking on <b>View -&gt; Scripting Console</b>.</li>
 <li>In the new window: type and press ENTER <br  />
- <em>loadJSFile "C:\ti\ind_comms_sdk_am64x_09_00_00_01\mcu_plus_sdk\tools\ccs_load\am64x\load_dmsc_hsfs.js"</em> </li>
+ <em>loadJSFile "C:\ti\ind_comms_sdk_09_02_00_03\mcu_plus_sdk\tools\ccs_load\am64x\load_dmsc_hsfs.js"</em> </li>
 <li>In the window "Debug" left click on "Texas Instruments XDS110 USB Debug Probe/MAIN_Cortex_R5_0_0". </li>
 <li>Click in the toolbar on the icon "Connect".</li>
 <li>Click in the toolbar on the icon "CPU Reset" and select "CPU Reset".</li>
