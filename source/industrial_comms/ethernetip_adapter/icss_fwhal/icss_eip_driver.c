@@ -120,23 +120,12 @@ void EIP_drvInit(EIP_Handle icssEipHandle)
         PRUICSS_enableCore(icssEipHandle->pruicssHandle, ICSS_EMAC_PORT_2 - 1);
     }
 
-    /*TODO: Review this. This needs to be done before ICSS_EMAC_open*/
-    /*Packet processing callback*/
-    // ((((ICSS_EmacObject *)
-    //    icssEmacHandle->object)->callBackHandle)->rxRTCallBack)->callBack =
-    //        (ICSS_EmacCallBack)EIP_processProtocolFrames;
-    // ((((ICSS_EmacObject *)
-    //    icssEmacHandle->object)->callBackHandle)->rxRTCallBack)->userArg =
-    //        icssEipHandle;
-
     icssEipHandle->dlrHandle->pruicssHandle = icssEipHandle->pruicssHandle;
     icssEipHandle->dlrHandle->emacHandle = icssEipHandle->emacHandle;
     /*Initialize DLR Engine*/
     EIP_DLR_init(icssEipHandle->dlrHandle);
 
     /*Initialise Multicast filter*/
-    /*TODO: Review this*/
-    // eip_multicast_filter_init(icssEmacHandle);
     eip_multicast_filter_init(icssEipHandle->pruicssHandle);
 
     icssEipHandle->timeSyncHandle->pruicssHandle = icssEipHandle->pruicssHandle;
@@ -203,7 +192,6 @@ void EIP_drvStop(EIP_Handle icssEipHandle)
  *  @retval  none
  *
  */
-/*TODO: Review this function*/
 void EIP_processProtocolFrames(uint32_t *queue_number, void *userArg)
 {
 

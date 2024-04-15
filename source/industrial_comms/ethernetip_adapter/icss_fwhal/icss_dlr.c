@@ -159,7 +159,6 @@ void EIP_DLR_init(EIP_DLRHandle dlrHandle)
         0x01                                    /*Ring Protocol Ver*/
     };
 
-    /*TODO: Review this*/
     ifMacID = (uint8_t *)(&(dlrHandle->macId[0]));
 
     /*Copy common DLR part*/
@@ -176,7 +175,6 @@ void EIP_DLR_init(EIP_DLRHandle dlrHandle)
     /*Initialize the watch dogs*/
     EIP_DLR_setDivider_WD_IEP(dlrHandle);
 
-    /*TODO: Review this. Check if ClockP_init needs to be called*/
     /*Create clock for DLR periodic processing*/
     ClockP_Params_init(&clockParams);
 
@@ -191,7 +189,6 @@ void EIP_DLR_init(EIP_DLRHandle dlrHandle)
     if(status == SystemP_FAILURE)
     {
         DebugP_log("\n\r DLR Periodic Clock create failed\n");
-        /*TODO: Review if this is need or some alternate is better.*/
         exit(-1);
     }
 
@@ -326,7 +323,6 @@ void EIP_DLR_port0ISR(uintptr_t arg)
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(dlrHandle->pruicssHandle->hwAttrs);
     ICSS_EMAC_IoctlCmd ioctlParams;
 
-    /*TODO: Review this*/
     intStatusPtr = (uint32_t *)(uint32_t)(pruicssHwAttrs->intcRegBase +
                                           CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0);
 
@@ -484,8 +480,6 @@ void EIP_DLR_port0ISR(uintptr_t arg)
 
         /*Both links are up, send neighbor request on both frames*/
         /*Check link status of DLR_PORT1*/
-        /*TODO: Review this*/
-        // if(((ICSS_EmacObject *)dlricssEmacHandle->object)->linkStatus[DLR_PORT1 - 1])
         linkStatus = 0;
         retVal =  MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase,
                                     ((ICSS_EMAC_Attrs *)(dlricssEmacHandle->attrs))->phyAddr[DLR_PORT1 - 1]);
@@ -495,10 +489,6 @@ void EIP_DLR_port0ISR(uintptr_t arg)
         if(linkStatus)
         {
             EIP_DLR_genNCReqFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0);
-            /*TODO: Review this and other similar places*/
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
-            //                          1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT0;
@@ -509,9 +499,6 @@ void EIP_DLR_port0ISR(uintptr_t arg)
             ClockP_start(&(dlrHandle->dlrNeighborTimeoutClock[ICSS_EMAC_PORT_1 - 1]));
 
             EIP_DLR_genNCReqFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1);
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
-            //                          1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT1;
@@ -527,9 +514,6 @@ void EIP_DLR_port0ISR(uintptr_t arg)
             EIP_DLR_genNeighborLinkStatFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
                                              IS_A_LINK_STATUS_FRAME,
                                              DLR_PORT1_FAIL);
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
-            //                          1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT0;
@@ -559,8 +543,6 @@ void EIP_DLR_port0ISR(uintptr_t arg)
             EIP_DLR_addWord(learnUpdateFrame + DLR_LEARN_UPDATE_SEQ_ID_OFFSET,
                     dlrHandle->sequenceID++);
             /*Send the packet*/
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, learnUpdateFrame, DLR_PORT0, 1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT0;
@@ -764,8 +746,6 @@ void EIP_DLR_port1ISR(uintptr_t arg)
 
         /*Both links are up, send neighbor request on both frames*/
         /*Check link status of DLR_PORT0*/
-        /*TODO: Review this and other similar pieces of code*/
-        // if(((ICSS_EmacObject *)dlricssEmacHandle->object)->linkStatus[DLR_PORT0 - 1])
         linkStatus = 0;
         retVal =  MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase,
                                     ((ICSS_EMAC_Attrs *)(dlricssEmacHandle->attrs))->phyAddr[DLR_PORT0 - 1]);
@@ -776,9 +756,6 @@ void EIP_DLR_port1ISR(uintptr_t arg)
         {
 
             EIP_DLR_genNCReqFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0);
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
-            //                          1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT0;
@@ -789,9 +766,6 @@ void EIP_DLR_port1ISR(uintptr_t arg)
             ClockP_start(&(dlrHandle->dlrNeighborTimeoutClock[ICSS_EMAC_PORT_1 - 1]));
 
             EIP_DLR_genNCReqFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1);
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
-            //                          1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT1;
@@ -808,9 +782,6 @@ void EIP_DLR_port1ISR(uintptr_t arg)
             EIP_DLR_genNeighborLinkStatFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
                                              IS_A_LINK_STATUS_FRAME,
                                              DLR_PORT0_FAIL);
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
-            //                          1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT1;
@@ -842,8 +813,6 @@ void EIP_DLR_port1ISR(uintptr_t arg)
             EIP_DLR_addWord(learnUpdateFrame + DLR_LEARN_UPDATE_SEQ_ID_OFFSET,
                     dlrHandle->sequenceID++);
             /*Send the packet*/
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, learnUpdateFrame, DLR_PORT1, 1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT1;
@@ -1204,9 +1173,6 @@ void EIP_DLR_neighborTimeoutISR0(ClockP_Object *obj, void *arg)
 #endif
         /*send a Neighbor check request again*/
         EIP_DLR_genNCReqFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0);
-        // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
-        //                          1,
-        //                          DEFAULT_DLR_PACKET_SIZE);
         txArg.icssEmacHandle = dlricssEmacHandle;
         txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
         txArg.portNumber = DLR_PORT0;
@@ -1231,9 +1197,6 @@ void EIP_DLR_neighborTimeoutISR0(ClockP_Object *obj, void *arg)
         EIP_DLR_genNeighborLinkStatFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
                                          IS_A_NEIGHBOR_STAT_FRAME,
                                          DLR_PORT0_FAIL);
-        // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
-        //                          1,
-        //                          DEFAULT_DLR_PACKET_SIZE);
         txArg.icssEmacHandle = dlricssEmacHandle;
         txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
         txArg.portNumber = DLR_PORT1;
@@ -1286,9 +1249,6 @@ void EIP_DLR_neighborTimeoutISR1(ClockP_Object *obj, void *arg)
 #endif
         /*send a Neighbor check request again*/
         EIP_DLR_genNCReqFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1);
-        // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
-        //                          1,
-        //                          DEFAULT_DLR_PACKET_SIZE);
         txArg.icssEmacHandle = dlricssEmacHandle;
         txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
         txArg.portNumber = DLR_PORT1;
@@ -1312,9 +1272,6 @@ void EIP_DLR_neighborTimeoutISR1(ClockP_Object *obj, void *arg)
         EIP_DLR_genNeighborLinkStatFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
                                          IS_A_NEIGHBOR_STAT_FRAME,
                                          DLR_PORT1_FAIL);
-        // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
-        //                          1,
-        //                          DEFAULT_DLR_PACKET_SIZE);
         txArg.icssEmacHandle = dlricssEmacHandle;
         txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
         txArg.portNumber = DLR_PORT0;
@@ -1360,7 +1317,6 @@ void EIP_DLR_processDLRFrame(EIP_DLRHandle dlrHandle, uint8_t *pktBuffer,
     uint8_t *dlrSrc = (uint8_t *)pktBuffer;
     ICSS_EMAC_TxArgument txArg;
 
-    /*TODO: Review this*/
     ifMacID = (uint8_t *)(&(dlrHandle->macId[0]));
 
     signOnRcvdStatus = (uint8_t *)(pruicssHwAttrs->sharedDramBase +
@@ -1410,9 +1366,6 @@ void EIP_DLR_processDLRFrame(EIP_DLRHandle dlrHandle, uint8_t *pktBuffer,
         EIP_DLR_genNCResFrame(dlrHandle->dlrEmptyFrame, portNum + 1, reqSrcPort,
                               sequenceId);
         /*send the neighbor check response frame*/
-        // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame,
-        //                          portNum + 1, 1,
-        //                          DEFAULT_DLR_PACKET_SIZE);
         txArg.icssEmacHandle = dlricssEmacHandle;
         txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
         txArg.portNumber = portNum + 1;
@@ -1458,7 +1411,6 @@ void EIP_DLR_processDLRFrame(EIP_DLRHandle dlrHandle, uint8_t *pktBuffer,
         EIP_DLR_addMACID(dlrSrc + DLR_SRC_MAC_OFFSET, ifMacID);
         /*This packet is meant for the ring supervisor*/
         EIP_DLR_addMACID(dlrSrc, actSupAddrPtr->supMACAddress);
-        // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrSrc, portNum, 1, size);
         txArg.icssEmacHandle = dlricssEmacHandle;
         txArg.lengthOfPacket = size;
         txArg.portNumber = portNum;
@@ -1492,7 +1444,6 @@ void EIP_DLR_processDLRFrame(EIP_DLRHandle dlrHandle, uint8_t *pktBuffer,
 
         if(offset < 60)
         {
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, pktBuffer, portNum, 1, 60);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = 60;
             txArg.portNumber = portNum;
@@ -1504,7 +1455,6 @@ void EIP_DLR_processDLRFrame(EIP_DLRHandle dlrHandle, uint8_t *pktBuffer,
 
         else
         {
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, pktBuffer, portNum, 1, offset);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = offset;
             txArg.portNumber = portNum;
@@ -1559,8 +1509,6 @@ void EIP_DLR_port0ProcessLinkBrk(uint8_t linkStatus, void *arg2)
             /*Since there is a link break update loop in network status*/
             loopDetectedPtr = (uint8_t *)(pruicssHwAttrs->sharedDramBase +
                                           DLR_LOOP_DETECTED_OFFSET);
-            /*TODO: Check this. FALSE_VAL->0*/
-            // *(loopDetectedPtr) =  FALSE_VAL;
             *(loopDetectedPtr) =  0;
             dlrHandle->dlrObj->SMVariables.status = NORMAL_STAT;
             dlrHandle->checkForLoop = DLR_FALSE;
@@ -1570,7 +1518,6 @@ void EIP_DLR_port0ProcessLinkBrk(uint8_t linkStatus, void *arg2)
         else
         {
             /*Check link status of ICSS_EMAC_PORT_2*/
-            // if(((ICSS_EmacObject *)dlricssEmacHandle->object)->linkStatus[ICSS_EMAC_PORT_2 - 1])
             tempLinkStatus = 0;
             retVal =  MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase,
                                         ((ICSS_EMAC_Attrs *)(dlricssEmacHandle->attrs))->phyAddr[ICSS_EMAC_PORT_2 - 1]);
@@ -1618,7 +1565,6 @@ void EIP_DLR_port0ProcessLinkBrk(uint8_t linkStatus, void *arg2)
 
         /*In case state machine is still running with both links disabled*/
         /*Check link status of ICSS_EMAC_PORT_2*/
-        // if(((ICSS_EmacObject *)dlricssEmacHandle->object)->linkStatus[ICSS_EMAC_PORT_2 - 1])
         tempLinkStatus = 0;
         retVal =  MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase,
                                     ((ICSS_EMAC_Attrs *)(dlricssEmacHandle->attrs))->phyAddr[ICSS_EMAC_PORT_2 - 1]);
@@ -1656,9 +1602,6 @@ void EIP_DLR_port0ProcessLinkBrk(uint8_t linkStatus, void *arg2)
                 EIP_DLR_genNeighborLinkStatFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
                                                  IS_A_LINK_STATUS_FRAME,
                                                  DLR_PORT0_FAIL);
-                // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
-                //                          1,
-                //                          DEFAULT_DLR_PACKET_SIZE);
                 txArg.icssEmacHandle = dlricssEmacHandle;
                 txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
                 txArg.portNumber = DLR_PORT1;
@@ -1707,9 +1650,6 @@ void EIP_DLR_port0ProcessLinkBrk(uint8_t linkStatus, void *arg2)
             EIP_DLR_genNeighborLinkStatFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
                                              IS_A_LINK_STATUS_FRAME,
                                              DLR_PORT0_FAIL);
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT1,
-            //                          1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT1;
@@ -1766,7 +1706,6 @@ void EIP_DLR_port1ProcessLinkBrk(uint8_t linkStatus, void *arg2)
             /*Since there is a link break update loop in network status*/
             loopDetectedPtr = (uint8_t *)(pruicssHwAttrs->sharedDramBase +
                                           DLR_LOOP_DETECTED_OFFSET);
-            /*TODO: Review this. FALSE_VAL -> 0*/
             *(loopDetectedPtr) =  0;
             dlrHandle->dlrObj->SMVariables.status = NORMAL_STAT;
             dlrHandle->checkForLoop = DLR_FALSE;
@@ -1776,7 +1715,6 @@ void EIP_DLR_port1ProcessLinkBrk(uint8_t linkStatus, void *arg2)
         else
         {
             /*Check link status of ICSS_EMAC_PORT_1*/
-            // if(((ICSS_EmacObject *)dlricssEmacHandle->object)->linkStatus[ICSS_EMAC_PORT_1 - 1])
             tempLinkStatus = 0;
             retVal =  MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase,
                                         ((ICSS_EMAC_Attrs *)(dlricssEmacHandle->attrs))->phyAddr[ICSS_EMAC_PORT_1 - 1]);
@@ -1824,7 +1762,6 @@ void EIP_DLR_port1ProcessLinkBrk(uint8_t linkStatus, void *arg2)
 
         /*In case state machine is still running with both links disabled*/
         /*Check link status of ICSS_EMAC_PORT_1*/
-        // if(((ICSS_EmacObject *)dlricssEmacHandle->object)->linkStatus[ICSS_EMAC_PORT_1 - 1])
         tempLinkStatus = 0;
         retVal =  MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase,
                                     ((ICSS_EMAC_Attrs *)(dlricssEmacHandle->attrs))->phyAddr[ICSS_EMAC_PORT_1 - 1]);
@@ -1862,9 +1799,6 @@ void EIP_DLR_port1ProcessLinkBrk(uint8_t linkStatus, void *arg2)
                 EIP_DLR_genNeighborLinkStatFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
                                                  IS_A_LINK_STATUS_FRAME,
                                                  DLR_PORT1_FAIL);
-                // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
-                //                          1,
-                //                          DEFAULT_DLR_PACKET_SIZE);
                 txArg.icssEmacHandle = dlricssEmacHandle;
                 txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
                 txArg.portNumber = DLR_PORT0;
@@ -1912,9 +1846,6 @@ void EIP_DLR_port1ProcessLinkBrk(uint8_t linkStatus, void *arg2)
             EIP_DLR_genNeighborLinkStatFrame(dlrHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
                                              IS_A_LINK_STATUS_FRAME,
                                              DLR_PORT1_FAIL);
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, dlrHandle->dlrEmptyFrame, DLR_PORT0,
-            //                          1,
-            //                          DEFAULT_DLR_PACKET_SIZE);
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = DEFAULT_DLR_PACKET_SIZE;
             txArg.portNumber = DLR_PORT0;
@@ -2289,8 +2220,6 @@ int32_t EIP_DLR_isrInit(EIP_DLRHandle dlrHandle)
     hwiParams.intNum = dlrHandle->dlrObj->port0IntNum;
     hwiParams.callback = (HwiP_FxnCallback)EIP_DLR_port0ISR;
     hwiParams.args = (void *)dlrHandle;
-    /*TODO: evtId is not available. Review the impact*/
-    // hwiParams.evtId = dlrHandle->dlrObj->port0IntNum;
     status = HwiP_construct(&(dlrHandle->dlrObj->port0IntObject), &hwiParams);
 
     if(status == SystemP_SUCCESS)
@@ -2300,8 +2229,6 @@ int32_t EIP_DLR_isrInit(EIP_DLRHandle dlrHandle)
         hwiParams.intNum = dlrHandle->dlrObj->port1IntNum;
         hwiParams.callback = (HwiP_FxnCallback)EIP_DLR_port1ISR;
         hwiParams.args = (void *)dlrHandle;
-        /*TODO: evtId is not available. Review the impact*/
-        // hwiParams.evtId = dlrHandle->dlrObj->port1IntNum;
         status = HwiP_construct(&(dlrHandle->dlrObj->port1IntObject), &hwiParams);
     }
 
@@ -2312,8 +2239,6 @@ int32_t EIP_DLR_isrInit(EIP_DLRHandle dlrHandle)
         hwiParams.intNum = dlrHandle->dlrObj->beaconTimeoutIntNum_P0;
         hwiParams.callback = (HwiP_FxnCallback)EIP_DLR_beaconTimeoutISR_P0;
         hwiParams.args = (void *)dlrHandle;
-        /*TODO: evtId is not available. Review the impact*/
-        // hwiParams.evtId = dlrHandle->dlrObj->beaconTimeoutIntNum_P0;
         status = HwiP_construct(&(dlrHandle->dlrObj->beaconTimeoutIntP0Object), &hwiParams);
     }
 
@@ -2324,8 +2249,6 @@ int32_t EIP_DLR_isrInit(EIP_DLRHandle dlrHandle)
         hwiParams.intNum = dlrHandle->dlrObj->beaconTimeoutIntNum_P1;
         hwiParams.callback = (HwiP_FxnCallback)EIP_DLR_beaconTimeoutISR_P1;
         hwiParams.args = (void *)dlrHandle;
-        /*TODO: evtId is not available. Review the impact*/
-        // hwiParams.evtId = dlrHandle->dlrObj->beaconTimeoutIntNum_P1;
         status = HwiP_construct(&(dlrHandle->dlrObj->beaconTimeoutIntP1Object), &hwiParams);
     }
 
@@ -2349,9 +2272,6 @@ void EIP_DLR_addToExceptionList(EIP_DLRHandle dlrHandle, uint8_t *macId)
 {
 
     dlrHandle->exclusionList->numExceptions = 1;
-
-    /*TODO: Review this*/
-    // ICSS_EMAC_copyMAC(dlrHandle->exclusionList->MAC, macId);
     memcpy((void *)(dlrHandle->exclusionList->MAC), (void *)macId, 6);
 }
 /**
@@ -2386,8 +2306,6 @@ uint8_t EIP_DLR_checkSupervisorException(uint8_t *macId,
     if(dlrHandle->exclusionList->numExceptions)
     {
         /*if the source mac id matches the exclusion list return*/
-        /*TODO: Review this*/
-        // if(COMPARE_MAC(dlrHandle->exclusionList->MAC,  macId))
         if(memcmp((void *)(dlrHandle->exclusionList->MAC), (void *)(macId), 6U) == 0)
         {
             return 0;
@@ -2472,11 +2390,6 @@ void EIP_DLR_periodicProcessing(ClockP_Object *obj, void *userArg)
         if((((dlrHandle->tracePktIntervalCount) & 0xf) == 0)
                 || (0 == (dlrHandle->pktSendCounter)))    /*modulo 16 or interval of 1.6 seconds*/
         {
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, tracePkt, ICSS_EMAC_PORT_1, 1,
-            //                          ETHERNET_FRAME_SIZE_60);
-            // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, tracePkt, ICSS_EMAC_PORT_2, 1,
-            //                          ETHERNET_FRAME_SIZE_60);
-
             txArg.icssEmacHandle = dlricssEmacHandle;
             txArg.lengthOfPacket = ETHERNET_FRAME_SIZE_60;
             txArg.portNumber = ICSS_EMAC_PORT_1;
@@ -2506,10 +2419,6 @@ void EIP_DLR_periodicProcessing(ClockP_Object *obj, void *userArg)
             dlrHandle->tracePktIntervalCount++;
             if(((dlrHandle->tracePktIntervalCount) & 0xf) == 0)
             {
-                // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, tracePkt, ICSS_EMAC_PORT_1, 1,
-                //                          ETHERNET_FRAME_SIZE_60);
-                // ICSS_EmacTxPacketEnqueue(dlricssEmacHandle, tracePkt, ICSS_EMAC_PORT_2, 1,
-                //                          ETHERNET_FRAME_SIZE_60);
                 txArg.icssEmacHandle = dlricssEmacHandle;
                 txArg.lengthOfPacket = ETHERNET_FRAME_SIZE_60;
                 txArg.portNumber = ICSS_EMAC_PORT_1;
@@ -2528,7 +2437,6 @@ void EIP_DLR_periodicProcessing(ClockP_Object *obj, void *userArg)
                 dlrHandle->tracePktIntervalCount = 0;
                 loopDetectedPtr = (uint8_t *)(pruicssHwAttrs->sharedDramBase +
                                               DLR_LOOP_DETECTED_OFFSET);
-                /*TODO: Review FALSE_VAL -> 0*/
                 *(loopDetectedPtr) =  0;
             }
         }
