@@ -891,7 +891,7 @@ int8_t PN_findFreeSlot(PN_Handle pnHandle, uint8_t pmTyp, uint8_t *pBlock)
     return -1;              /* bad param pmTyp*/
 }
 
-int32_t PN_chgPpmBuffer(PN_Handle pnHandle, t_rtcPacket *ppmPkt)
+int32_t FAST_CODE_HWAL PN_chgPpmBuffer(PN_Handle pnHandle, t_rtcPacket *ppmPkt)
 {
     uint32_t *dest;
     int32_t ret;
@@ -929,7 +929,7 @@ int32_t PN_chgPpmBuffer(PN_Handle pnHandle, t_rtcPacket *ppmPkt)
 }
 
 /*TODO: Review this function */
-void PN_clearPruIRQ(PRUICSS_HwAttrs const *pruicssHwAttrs,
+void FAST_CODE_HWAL PN_clearPruIRQ(PRUICSS_HwAttrs const *pruicssHwAttrs,
                     uint8_t irq_num)      /* event clearing*/
 {
     HW_WR_REG32((pruicssHwAttrs->intcRegBase + CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0), 1 << irq_num);
@@ -940,6 +940,10 @@ void PN_setFSODeviationComp(PRUICSS_HwAttrs const *pruicssHwAttrs, uint16_t fso_
     HW_WR_REG32((pruicssHwAttrs->pru0DramBase + FSO_DEVIATION_COMP), fso_comp_val);
 }
 
+void PN_registerThreadsafeFunc(PN_Handle pnHandle, pnDrvThreadSafe_t callBackEnt, pnDrvThreadSafe_t callBackExt) {
+    pnHandle->lockSynchronizedEntry = callBackEnt;
+    pnHandle->lockSynchronizedExit = callBackExt;
+}
 #ifdef IRT_LEGACY_STARTUP_SUPPORT
 void PN_registerSetState(PN_Handle pnHandle, pnLegCallBack_t callBack)
 {

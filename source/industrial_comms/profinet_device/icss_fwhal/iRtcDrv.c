@@ -92,7 +92,7 @@ void PN_initLists(PN_Handle pnHandle);
  * ...;
  * \endmsc
  */
-void PN_ppmIsrHandler(void* arg)
+void FAST_CODE_HWAL PN_ppmIsrHandler(void* arg)
 {
     PN_Handle pnHandle = (PN_Handle)arg;
     volatile uint8_t *pBcEvent;
@@ -182,7 +182,7 @@ void PN_ppmIsrHandler(void* arg)
  * \endmsc
  *
  */
-void PN_cpmIsrHandler(void* arg)
+void FAST_CODE_HWAL PN_cpmIsrHandler(void* arg)
 {
     PN_Handle pnHandle = (PN_Handle)arg;
     uint8_t j;
@@ -300,7 +300,7 @@ void PN_cpmIsrHandler(void* arg)
  * Stack box Stack [label="ALARM"];
  * \endmsc
  */
-void PN_dhtIsrHandler(void* arg)
+void FAST_CODE_HWAL PN_dhtIsrHandler(void* arg)
 {
     PN_Handle pnHandle = (PN_Handle)arg;
     PN_IntAttrs *dhtIntConfig = &((pnHandle->pnIntConfig).dhtIntConfig);
@@ -378,7 +378,7 @@ void PN_dhtIsrHandler(void* arg)
 /* PROFINET packet processing API                                      */
 /***********************************************************************/
 
-int32_t PN_cpmBuffLock(PRUICSS_HwAttrs const *pruicssHwAttrs,
+int32_t FAST_CODE_HWAL PN_cpmBuffLock(PRUICSS_HwAttrs const *pruicssHwAttrs,
                        uint8_t pos, buffLocks buff)
 {
     if(pos >= NO_CPM)
@@ -393,7 +393,7 @@ int32_t PN_cpmBuffLock(PRUICSS_HwAttrs const *pruicssHwAttrs,
     return 0;
 }
 
-int8_t PN_getLastCpmBuffIndex(PN_Handle pnHandle,
+int8_t FAST_CODE_HWAL PN_getLastCpmBuffIndex(PN_Handle pnHandle,
                               uint8_t pos)
 {
 
@@ -417,7 +417,7 @@ int8_t PN_getLastCpmBuffIndex(PN_Handle pnHandle,
 
 }
 
-int32_t PN_setPPMARlink(PRUICSS_HwAttrs const *pruicssHwAttrs,
+int32_t FAST_CODE_HWAL PN_setPPMARlink(PRUICSS_HwAttrs const *pruicssHwAttrs,
                         uint8_t ARgroup, uint8_t PpmNum)
 {
     uint8_t *ppmARgroup;
@@ -449,7 +449,7 @@ int32_t PN_setPPMARlink(PRUICSS_HwAttrs const *pruicssHwAttrs,
  * define AR group for CPM
  * direct access to PRU register
  */
-int32_t PN_setCPMARlink(PRUICSS_HwAttrs const *pruicssHwAttrs,
+int32_t FAST_CODE_HWAL PN_setCPMARlink(PRUICSS_HwAttrs const *pruicssHwAttrs,
                         uint8_t ARgroup, uint8_t CpmNum)
 {
     if(--ARgroup >= NO_CPM)
@@ -469,7 +469,7 @@ int32_t PN_setCPMARlink(PRUICSS_HwAttrs const *pruicssHwAttrs,
     return 0; /* success*/
 }
 
-int32_t PN_resetARlink(PRUICSS_HwAttrs const *pruicssHwAttrs,
+int32_t FAST_CODE_HWAL PN_resetARlink(PRUICSS_HwAttrs const *pruicssHwAttrs,
                        uint8_t ARgroup, uint8_t pmNum, uint8_t dir)
 {
     if(--ARgroup >= NO_CPM)
@@ -509,7 +509,7 @@ int32_t PN_resetARlink(PRUICSS_HwAttrs const *pruicssHwAttrs,
 
 #ifdef MRP_SUPPORT
 
-uint32_t PN_allCpmKnown(PN_Handle pnHandle)
+uint32_t FAST_CODE_HWAL PN_allCpmKnown(PN_Handle pnHandle)
 {
     uint32_t i;
     t_rtcPacket *cpmArray = (pnHandle->currPN).cpmPkts;        /*array pointer*/
@@ -528,7 +528,7 @@ uint32_t PN_allCpmKnown(PN_Handle pnHandle)
     return 1; /* no CPM active or all CPM structs contain a 'port' value != 0*/
 }
 
-void PN_setCpmPort(PN_Handle pnHandle, t_rtcPacket *pID)
+void FAST_CODE_HWAL PN_setCpmPort(PN_Handle pnHandle, t_rtcPacket *pID)
 {
     uint8_t j, chgFlag = 0;
     t_cpmDesc desc;
@@ -575,7 +575,7 @@ MRP_ERROR:
 }
 
 
-void PN_resetCpmPorts(PN_Handle pnHandle)
+void FAST_CODE_HWAL PN_resetCpmPorts(PN_Handle pnHandle)
 {
     uint32_t i;
     t_rtcPacket *cpmArray = (pnHandle->currPN).cpmPkts;       /* array pointer*/
@@ -591,7 +591,7 @@ void PN_resetCpmPorts(PN_Handle pnHandle)
 #endif /*MRP_SUPPORT*/
 
 
-int32_t PN_setCpmDHT(PRUICSS_HwAttrs const *pruicssHwAttrs,
+int32_t FAST_CODE_HWAL PN_setCpmDHT(PRUICSS_HwAttrs const *pruicssHwAttrs,
                      uint16_t dht, uint8_t pos)
 {
 
@@ -606,7 +606,7 @@ int32_t PN_setCpmDHT(PRUICSS_HwAttrs const *pruicssHwAttrs,
     return 0;
 }
 /* only use this with DHT ISR*/
-int8_t PN_getDhtStatusEvent(PN_Handle pnHandle, t_rtcPacket **pktID)
+int8_t FAST_CODE_HWAL PN_getDhtStatusEvent(PN_Handle pnHandle, t_rtcPacket **pktID)
 {
     uint8_t i, j, src;
     uint8_t maxAR = (pnHandle->currPN).cfgAR;
@@ -656,7 +656,7 @@ int8_t PN_getDhtStatusEvent(PN_Handle pnHandle, t_rtcPacket **pktID)
 }
 
 /*only use this with DHT ISR*/
-int8_t PN_getListToggleStatusEvent(PN_Handle pnHandle, t_rtcPacket **pktID)
+int8_t FAST_CODE_HWAL PN_getListToggleStatusEvent(PN_Handle pnHandle, t_rtcPacket **pktID)
 {
 
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
@@ -677,7 +677,7 @@ int8_t PN_getListToggleStatusEvent(PN_Handle pnHandle, t_rtcPacket **pktID)
     return 0;
 }
 
-int32_t PN_getPmStatus(PRUICSS_HwAttrs const *pruicssHwAttrs,
+int32_t FAST_CODE_HWAL PN_getPmStatus(PRUICSS_HwAttrs const *pruicssHwAttrs,
                        uint8_t dir, uint8_t numPm)
 {
     if(numPm >= NO_CPM)
@@ -704,7 +704,7 @@ int32_t PN_getPmStatus(PRUICSS_HwAttrs const *pruicssHwAttrs,
     }
 }
 
-int32_t PN_writeSortedList(PN_Handle pnHandle, t_rtcPacket *pPkts)
+int32_t FAST_CODE_HWAL PN_writeSortedList(PN_Handle pnHandle, t_rtcPacket *pPkts)
 {
     uint8_t pos = 0, i;
     uint16_t fId;
@@ -836,7 +836,7 @@ int32_t PN_writeSortedList(PN_Handle pnHandle, t_rtcPacket *pPkts)
     return 0;
 }
 
-int32_t PN_writePpmDesc(PN_Handle pnHandle, t_rtcPacket *pPkt, uint8_t pos)
+int32_t FAST_CODE_HWAL PN_writePpmDesc(PN_Handle pnHandle, t_rtcPacket *pPkt, uint8_t pos)
 {
     t_ppmDesc   newDesc;
     uint32_t        *dstAddr;
@@ -885,7 +885,7 @@ int32_t PN_writePpmDesc(PN_Handle pnHandle, t_rtcPacket *pPkt, uint8_t pos)
 }
 
 
-int32_t PN_writeCpmDesc(PN_Handle pnHandle, t_rtcPacket *pPkt, uint8_t pos)
+int32_t FAST_CODE_HWAL PN_writeCpmDesc(PN_Handle pnHandle, t_rtcPacket *pPkt, uint8_t pos)
 {
     t_cpmDesc   newDesc;
 
@@ -932,7 +932,7 @@ int32_t PN_writeCpmDesc(PN_Handle pnHandle, t_rtcPacket *pPkt, uint8_t pos)
 }
 
 
-int32_t PN_readPpmDesc(PN_Handle pnHandle, t_ppmDesc *pDesc, uint8_t pos,
+int32_t FAST_CODE_HWAL PN_readPpmDesc(PN_Handle pnHandle, t_ppmDesc *pDesc, uint8_t pos,
                        uint8_t act)
 {
     uint32_t *descAddr;
@@ -956,7 +956,7 @@ int32_t PN_readPpmDesc(PN_Handle pnHandle, t_ppmDesc *pDesc, uint8_t pos,
     return 0;
 }
 
-int32_t PN_readCpmDesc(PN_Handle pnHandle, t_cpmDesc *pDesc, uint8_t pos)
+int32_t FAST_CODE_HWAL PN_readCpmDesc(PN_Handle pnHandle, t_cpmDesc *pDesc, uint8_t pos)
 {
     uint32_t *descAddr;
 
@@ -972,10 +972,10 @@ int32_t PN_readCpmDesc(PN_Handle pnHandle, t_cpmDesc *pDesc, uint8_t pos)
     return 0;
 }
 
-int32_t PN_setBaseClock(PN_Handle pnHandle, uint16_t factor)
+int32_t FAST_CODE_HWAL PN_setBaseClock(PN_Handle pnHandle, uint16_t factor)
 {
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
-    uint32_t prevBaseClk; 
+    uint32_t prevBaseClk;
 
     if((factor > 128) || (factor < 8)
             || (factor & (factor - 1)))       /*Checks power of 2*/
@@ -985,7 +985,8 @@ int32_t PN_setBaseClock(PN_Handle pnHandle, uint16_t factor)
 
     /* Check if previous clock is same as the current. Skip updating value in memory if clock values are same. */
     prevBaseClk = HW_RD_REG32(pruicssHwAttrs->pru0DramBase + RTC_BASE_CLK_OFFSET);
-    if(prevBaseClk == RTC_3125_CLK_CONST * factor ) {
+    if(prevBaseClk == (RTC_3125_CLK_CONST * factor) )
+    {
         return 0;
     }
 

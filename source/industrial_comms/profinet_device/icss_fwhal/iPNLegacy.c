@@ -148,8 +148,7 @@ int32_t setDcpFilterStationName(const uint8_t *dcpNameOfStation,
 int32_t TxPacketOS(const uint8_t *srcAddress, int32_t portNumber,
                    int32_t queuePriority, int32_t lengthOfPacket)
 {
-    ICSS_EMAC_Handle emacHandle = PN_getPnHandle()->emacHandle;
-    return PN_OS_txPacket(emacHandle,  srcAddress, portNumber, queuePriority,
+    return PN_OS_txPacket(PN_getPnHandle(),  srcAddress, portNumber, queuePriority,
                           lengthOfPacket);
 }
 

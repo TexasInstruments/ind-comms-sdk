@@ -152,7 +152,7 @@ int32_t PN_initOs(PN_Handle pnHandle)
     taskParams.name = "PTCPTask";
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->PTCP_taskStack));
-    taskParams.priority = 11;
+    taskParams.priority = PTCP_TASK_PRIORITY;
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_PTCP_task;
     status = TaskP_construct(&(pnHandle->PTCPTaskObject), &taskParams);
@@ -167,7 +167,8 @@ int32_t PN_initOs(PN_Handle pnHandle)
     taskParams.name = "SyncMonitorTask";
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->PTCP_syncMonitorTaskStack));
-    taskParams.priority = 11;
+
+    taskParams.priority = SYNC_MONITOR_TASK_PRIORITY;
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_PTCP_syncMonitorTask;
     status = TaskP_construct(&(pnHandle->SyncMonitorTaskObject), &taskParams);
@@ -185,7 +186,7 @@ int32_t PN_initOs(PN_Handle pnHandle)
     taskParams.name = "LegacyModeTask";
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->IRT_legacyTaskStack));
-    taskParams.priority = 3;
+    taskParams.priority = LEGACY_MODE_TASK_PRIOROTY;
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_IRT_legacyTask;
     status = TaskP_construct(&(pnHandle->LegModeTaskObject), &taskParams);
@@ -205,7 +206,8 @@ int32_t PN_initOs(PN_Handle pnHandle)
 
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->MRP_CPMTaskStack));
-    taskParams.priority = 3;        /* FW low prio ok?*/
+
+    taskParams.priority = MRP_TASK_PRIORITY;        /* FW low prio ok?*/
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_MRP_CPMTask;
     status = TaskP_construct(&(pnHandle->MrpMachineTaskObject), &taskParams);
@@ -220,7 +222,7 @@ int32_t PN_initOs(PN_Handle pnHandle)
     taskParams.name = "WatchDogTimer";
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->tapWatchDog_taskStack));
-    taskParams.priority = 11;
+    taskParams.priority = WATCHDOG_TASK_PRIORITY;
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_tapWatchDog_task;
     status = TaskP_construct(&(pnHandle->WatchDogTimerTaskObject), &taskParams);
@@ -333,7 +335,7 @@ int32_t PN_RTC_disableISR(PN_Handle pnHandle)
 /*
  * called by HWI!
  */
-int32_t PN_checkLastPPM(PN_Handle pnHandle, t_rtcPacket *pkt)
+int32_t FAST_CODE_HWAL PN_checkLastPPM(PN_Handle pnHandle, t_rtcPacket *pkt)
 {
     uint8_t temp;
     uintptr_t key;
@@ -358,7 +360,7 @@ int32_t PN_checkLastPPM(PN_Handle pnHandle, t_rtcPacket *pkt)
     return 0;
 }
 
-uint8_t *PN_getPpmBuff(t_rtcPacket *pkt)
+uint8_t* FAST_CODE_HWAL PN_getPpmBuff(t_rtcPacket *pkt)
 {
     if(pkt->type != PPM)
     {
@@ -369,7 +371,7 @@ uint8_t *PN_getPpmBuff(t_rtcPacket *pkt)
 
 }
 
-uint8_t *PN_relPpmBuff(PN_Handle pnHandle, t_rtcPacket *pkt)
+uint8_t* FAST_CODE_HWAL PN_relPpmBuff(PN_Handle pnHandle, t_rtcPacket *pkt)
 {
     uint8_t temp;
     uintptr_t key;
@@ -421,7 +423,7 @@ uint8_t *PN_relPpmBuff(PN_Handle pnHandle, t_rtcPacket *pkt)
     return pkt->pBuffer->addr[pkt->next];   /* new NEXT buffer address*/
 }
 
-int32_t PN_nextCpmRdy(PN_Handle pnHandle, t_rtcPacket *pkt)
+int32_t FAST_CODE_HWAL PN_nextCpmRdy(PN_Handle pnHandle, t_rtcPacket *pkt)
 {
     uint8_t temp;
     int32_t ret = 0;
@@ -462,7 +464,7 @@ int32_t PN_nextCpmRdy(PN_Handle pnHandle, t_rtcPacket *pkt)
 }
 
 
-uint8_t *PN_getLastCpm(PN_Handle pnHandle, t_rtcPacket *pkt)
+uint8_t* FAST_CODE_HWAL PN_getLastCpm(PN_Handle pnHandle, t_rtcPacket *pkt)
 {
     uint8_t temp;
     uintptr_t key;
@@ -538,16 +540,13 @@ void PN_IRT_legacyTask(uintptr_t arg0, uintptr_t arg1)
                         HW_WR_REG16(((pnHandle->pLegPkt)->pBuffer->addr[(pnHandle->pLegPkt)->proc] +
                                (pnHandle->pLegPkt)->length - 4),
                                    (fCycleCount >> 8 | (fCycleCount & 0xFF) << 8));
-                        PN_OS_txPacket(pnHandle->emacHandle,
+                        PN_OS_txPacket(pnHandle,
                                        (pnHandle->pLegPkt)->pBuffer->addr[(pnHandle->pLegPkt)->proc],
                                        (pnHandle->pLegPkt)->port, ICSS_EMAC_QUEUE2,
                                        (pnHandle->pLegPkt)->length);      /* send high prio*/
                         fCycleCount += (sClk * 128);   /* RR=128*/
 
-                        /* TODO: Review this*/
-                        // TaskP_sleep(sClk * 4 * 1000 /
-                        //            ClockP_getTickPeriod());         /* base clock * 128  period*/
-                        ClockP_usleep(ClockP_ticksToUsec(sClk * 4));         /* base clock * 128  period*/
+                       ClockP_usleep(ClockP_ticksToUsec(sClk * 4));         /* base clock * 128  period*/
                     }
 
                     else
@@ -591,7 +590,7 @@ void PN_setLegPkt(void *arg, void *arg2)
  *-----------------------------------------------------*/
 #ifdef MRP_SUPPORT
 
-void PN_MRP_CPMTask(uintptr_t arg0, uintptr_t arg1)
+void FAST_CODE_HWAL PN_MRP_CPMTask(uintptr_t arg0, uintptr_t arg1)
 {
     PN_Handle pnHandle = (PN_Handle)arg0;
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
@@ -669,7 +668,7 @@ uint32_t PN_enterFlushMode(PN_Handle pnHandle)
  *-----------------------------------------------------*/
 #ifdef PTCP_SUPPORT
 
-void PN_PTCP_task(uintptr_t arg0, uintptr_t arg1)
+void FAST_CODE_HWAL PN_PTCP_task(uintptr_t arg0, uintptr_t arg1)
 {
     PN_Handle pnHandle = (PN_Handle)arg0;
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)((pnHandle->pruicssHandle)->hwAttrs);
@@ -693,7 +692,7 @@ void PN_PTCP_task(uintptr_t arg0, uintptr_t arg1)
 }
 
 
-void PN_PTCP_syncMonitorTask(uintptr_t arg0, uintptr_t arg1)
+void FAST_CODE_HWAL PN_PTCP_syncMonitorTask(uintptr_t arg0, uintptr_t arg1)
 {
     PN_Handle pnHandle = (PN_Handle)arg0;
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)((pnHandle->pruicssHandle)->hwAttrs);
@@ -705,22 +704,26 @@ void PN_PTCP_syncMonitorTask(uintptr_t arg0, uintptr_t arg1)
     // while(!(((ICSS_EmacObject *)(pnHandle->emacHandle)->object)->linkStatus[0] ||
     //         ((ICSS_EmacObject *)(
     //              pnHandle->emacHandle)->object)->linkStatus[1]))             /* wait for link up*/
-    while(!((MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase, ((ICSS_EMAC_Attrs *)((pnHandle->emacHandle)->attrs))->phyAddr[0]) == SystemP_SUCCESS) ||
-          (MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase, ((ICSS_EMAC_Attrs *)((pnHandle->emacHandle)->attrs))->phyAddr[1]) == SystemP_SUCCESS)))   /* wait for link up*/
-    {
-        /*TODO: Review this*/
-        // TaskP_sleep(1);                              /* needs link down management later*/
-        ClockP_usleep(ClockP_ticksToUsec(1));           /* needs link down management later*/
+    if((pnHandle->pnPtcpConfig).ptcpSyncMonitorCall == NULL) {
+        while(!((MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase, ((ICSS_EMAC_Attrs *)((pnHandle->emacHandle)->attrs))->phyAddr[0]) == SystemP_SUCCESS) ||
+            (MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase, ((ICSS_EMAC_Attrs *)((pnHandle->emacHandle)->attrs))->phyAddr[1]) == SystemP_SUCCESS)))   /* wait for link up*/
+        {
+            /*TODO: Review this*/
+            // TaskP_sleep(1);                              /* needs link down management later*/
+            ClockP_usleep(ClockP_ticksToUsec(1));           /* needs link down management later*/
+        }        
+        PN_PTCP_syncTimeoutMonitor(pnHandle);       /* endless loop*/
     }
-
-    PN_PTCP_syncTimeoutMonitor(pnHandle);       /* endless loop*/
+    else 
+        (pnHandle->pnPtcpConfig).ptcpSyncMonitorCall(pnHandle); /* endless loop*/
 }
+
 #endif /*PTCP_SUPPORT*/
 
 /*-----------------------------------------------------
  *
  *-----------------------------------------------------*/
-int32_t PN_OS_txPacket(ICSS_EMAC_Handle icssEmacHandle,
+int32_t PN_OS_txPacket(PN_Handle pnHandle,
                        const uint8_t *srcAddress, int32_t portNumber, int32_t queuePriority,
                        int32_t lengthOfPacket)
 {
@@ -728,9 +731,11 @@ int32_t PN_OS_txPacket(ICSS_EMAC_Handle icssEmacHandle,
     ICSS_EMAC_TxArgument txArgs;
 
     /*TODO: Find appropriate replacement*/
+    if(pnHandle->lockSynchronizedEntry != NULL) 
+        pnHandle->lockSynchronizedEntry();
     // llEnter();
     memset(&txArgs, 0, sizeof(ICSS_EMAC_TxArgument));
-    txArgs.icssEmacHandle = icssEmacHandle;
+    txArgs.icssEmacHandle = pnHandle->emacHandle;
     txArgs.lengthOfPacket = lengthOfPacket;
     txArgs.portNumber = portNumber;
     txArgs.queuePriority = queuePriority;
@@ -739,8 +744,9 @@ int32_t PN_OS_txPacket(ICSS_EMAC_Handle icssEmacHandle,
     ret= ICSS_EMAC_txPacket(&txArgs, NULL);
 
     /*TODO: Find appropriate replacement*/
+    if(pnHandle->lockSynchronizedExit != NULL)
+        pnHandle->lockSynchronizedExit();
     // llExit();
-
     return ret;
 }
 

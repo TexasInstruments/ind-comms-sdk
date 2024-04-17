@@ -65,6 +65,17 @@ extern "C"
 #include "PN_Handle.h"
 #include "iRtcDrv2.h"
 
+
+/* ========================================================================== */
+/*                                 Macros                                     */
+/* ========================================================================== */
+
+#define PTCP_TASK_PRIORITY           26
+#define SYNC_MONITOR_TASK_PRIORITY   23
+#define LEGACY_MODE_TASK_PRIOROTY    3
+#define MRP_TASK_PRIORITY            23
+#define WATCHDOG_TASK_PRIORITY       11
+
 /* ========================================================================== */
 /*                          Function Declarations                             */
 /* ========================================================================== */
@@ -245,14 +256,14 @@ int32_t PN_RTC_disableISR(PN_Handle pnHandle);
  * The protection scheme is borrowed from NDK and we use their code too.
  * This requires to adhere to NDK priority scheme
  *
- * \param[in] icssEmacHandle ICSS Emac LLD handle
+ * \param[in] pnHandle      Profinet Handle
  * \param srcAddress        pointer to TX packet
  * \param portNumber        output port number
  * \param queuePriority     output queue priority
  * \param lengthOfPacket    TX packet length (without CRC)
  * \callgraph
  */
-int32_t PN_OS_txPacket(ICSS_EMAC_Handle icssEmacHandle,
+int32_t PN_OS_txPacket(PN_Handle pnHandle,
                        const uint8_t *srcAddress, int32_t portNumber, int32_t queuePriority,
                        int32_t lengthOfPacket);
 

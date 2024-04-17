@@ -42,11 +42,10 @@ extern "C"
 /* ========================================================================== */
 /*                           Macros & Typedefs                                */
 /* ========================================================================== */
-
-/* ========================================================================== */
+#define FAST_CODE_HWAL __attribute__((section(".text_tcm")))
+/* ===================  ======================================================= */
 /*                      Driver feature definitions                            */
 /* ========================================================================== */
-
 /** @def PTCP_SUPPORT
  *       Enable PTPCP support - required for IRT device
  */
@@ -60,7 +59,7 @@ extern "C"
 /** @def MRP_SUPPORT
  *       needs to be defined in case of MRP support
  */
-/*#define MRP_SUPPORT*/
+#define MRP_SUPPORT
 
 #define APP_NAME "Profinet Slave IRT"
 

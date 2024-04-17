@@ -554,6 +554,9 @@ typedef enum
  */
 typedef void (*pnLegCallBack_t)(void *arg, void *arg2);
 
+typedef void (*pnDrvThreadSafe_t)(void);
+
+
 /**
  * \brief Registers callback function for legacy state
  * This callback is used to change the Legacy state machine
@@ -579,6 +582,8 @@ void PN_registerSetPkt(PN_Handle pnHandle, pnLegCallBack_t callBack);
 /**
 @}
 */
+
+void PN_registerThreadsafeFunc(PN_Handle pnHandle, pnDrvThreadSafe_t callBackEnt, pnDrvThreadSafe_t callBackExt);
 
 
 /**

@@ -76,10 +76,11 @@ typedef enum
 
 typedef enum
 {
-    OUT_OF_SYNC,            /**< Out of sync (Jitter Out of Boundary)*/
+    OUT_OF_SYNC = 0,         /**< Out of sync (Jitter Out of Boundary)*/
     IN_SYNC,                /**< In sync */
     TAKEOVER_TIMEOUT,       /**< Takeover timeout expired and Master Lost */
-    SYNC_TIMEOUT           /**< Sync timeout expired (No sync msg received)*/
+    SYNC_TIMEOUT,           /**< Sync timeout expired (No sync msg received)*/
+    SYNC_RESET              /*ESYSE: added to identify SYNC-Reset state  */
 } syncState_t;
 
 /* ========================================================================== */
@@ -156,6 +157,8 @@ typedef struct
  */
 typedef void (*ptcpCallBack_t)(uint32_t arg, uint32_t arg2);
 
+typedef void (*ptcpSyncCallBack_t)(void* arg1);
+
 /**
  * \brief               Registers the callback function for getting notifications about change in sync state
  *
@@ -185,6 +188,11 @@ void PN_PTCP_registerDelayUpdateCall(PN_Handle pnHandle,
  * \param[in] portDelays    Reference to structure for ptcp delay values\n
  * \param[in] portNum       Port no. (1 or 2) for which delay values are requested
  */
+
+void PN_PTCP_registerSyncMonitorCall(PN_Handle pnHandle,
+                                     ptcpSyncCallBack_t callBack);
+
+
 void PN_PTCP_getDelayValues(PN_Handle pnHandle, ptcpPortDelayVal_t *portDelays,
                             uint8_t portNum);
 

@@ -200,7 +200,7 @@ typedef struct PN_PtcpConfig_s
     /*! Callback to update sync status            */
     ptcpCallBack_t ptcpSyncStatusCall;
     /*! Callback to update delay                  */
-    ptcpCallBack_t ptcpDelayUpdateCall;
+    ptcpCallBack_t ptcpDelayUpdateCall;   
     /*TODO: Check if this should be always included*/
     /* Debug                                      */
     /*! Debug information                         */
@@ -212,6 +212,10 @@ typedef struct PN_PtcpConfig_s
     uint8_t ptcpEnableSlowCompensation;
     /* Timer for PTCP */
     PN_PtcpTimerAttrs ptcpTimer;
+    /*! Callback to sync timeout monitor                  */
+    ptcpSyncCallBack_t ptcpSyncMonitorCall; 
+    /*! Set flag if custom sync timeout monitor handling is present*/
+    uint8_t enableCustomSyncMonitorFlag; 
 } PN_PtcpConfig;
 
 
@@ -311,7 +315,10 @@ typedef struct PN_Config_s
 #ifdef WATCHDOG_SUPPORT
     uint32_t tapWatchDog_taskStack[PN_TASK_STACK_SIZE/sizeof(uint32_t)]     __attribute__((aligned(32)));
 #endif /*WATCHDOG_SUPPORT*/
-
+    /* Callback for thread safety entry. Enter critical section*/
+    pnDrvThreadSafe_t lockSynchronizedEntry;
+    /* Callback for thread safety exit. Exit critical section*/
+    pnDrvThreadSafe_t lockSynchronizedExit;
 } PN_Config;
 
 

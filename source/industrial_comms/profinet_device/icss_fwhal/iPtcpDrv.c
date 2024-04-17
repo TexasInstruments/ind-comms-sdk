@@ -147,6 +147,13 @@ void PN_PTCP_registerDelayUpdateCall(PN_Handle pnHandle,
     (pnHandle->pnPtcpConfig).ptcpDelayUpdateCall = callBack;
 }
 
+void PN_PTCP_registerSyncMonitorCall(PN_Handle pnHandle,
+                                     ptcpSyncCallBack_t callBack)
+{
+    (pnHandle->pnPtcpConfig).ptcpSyncMonitorCall = callBack;
+    (pnHandle->pnPtcpConfig).enableCustomSyncMonitorFlag = 1;
+}
+
 void PN_PTCP_start(PN_Handle pnHandle)
 {
     SemaphoreP_post(&((pnHandle->pnPtcpConfig).ptcpStartSem));
@@ -559,8 +566,7 @@ void PN_PTCP_reset(PN_Handle pnHandle)
 
     if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
     {
-        (pnHandle->pnPtcpConfig).ptcpSyncStatusCall((
-                    pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)NULL);
+        (pnHandle->pnPtcpConfig).ptcpSyncStatusCall(SYNC_RESET, (uint32_t)NULL);
     }
 /*TODO: Review this*/
 // #ifdef PTCP_SYNC_SIGNAL
@@ -572,7 +578,7 @@ void PN_PTCP_reset(PN_Handle pnHandle)
 #endif
 }
 
-void PN_PTCP_delayMeasurement(PN_Handle pnHandle)
+void FAST_CODE_HWAL PN_PTCP_delayMeasurement(PN_Handle pnHandle)
 {
     int32_t i = 0;
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
@@ -610,12 +616,12 @@ void PN_PTCP_delayMeasurement(PN_Handle pnHandle)
 
         /* fill queue1 with delay req*/
         if((pnHandle->pnPtcpConfig).currentPtcpStatus.cDelayEnable[0] == enable)
-            PN_OS_txPacket(pnHandle->emacHandle,
+            PN_OS_txPacket(pnHandle,
                            (pnHandle->pnPtcpConfig).devicePortOffsets[0].pDelayReqPacket,
                            ICSS_EMAC_PORT_1, ICSS_EMAC_QUEUE1, PTCP_DELAY_REQ_LEN);
 
         if((pnHandle->pnPtcpConfig).currentPtcpStatus.cDelayEnable[1] == enable)
-            PN_OS_txPacket(pnHandle->emacHandle,
+            PN_OS_txPacket(pnHandle,
                            (pnHandle->pnPtcpConfig).devicePortOffsets[1].pDelayReqPacket,
                            ICSS_EMAC_PORT_2, ICSS_EMAC_QUEUE1, PTCP_DELAY_REQ_LEN);
 
@@ -646,7 +652,7 @@ void PN_PTCP_delayMeasurement(PN_Handle pnHandle)
     }
 }
 
-void PN_PTCP_resetDelayValues(PN_Handle pnHandle)
+void FAST_CODE_HWAL PN_PTCP_resetDelayValues(PN_Handle pnHandle)
 {
     int32_t i, j;
     (pnHandle->pnPtcpConfig).delayIndex        =
@@ -677,7 +683,7 @@ void PN_PTCP_resetDelayValues(PN_Handle pnHandle)
 
 }
 
-void PN_PTCP_resetDelayTimings(PN_Handle pnHandle, uint8_t portNum)
+void FAST_CODE_HWAL PN_PTCP_resetDelayTimings(PN_Handle pnHandle, uint8_t portNum)
 {
     /* reset the timing values*/
     *((pnHandle->pnPtcpConfig).devicePortOffsets[portNum].pT1TS)           =
@@ -692,7 +698,7 @@ void PN_PTCP_resetDelayTimings(PN_Handle pnHandle, uint8_t portNum)
                     pnHandle->pnPtcpConfig).seqId >> 8) & 0x00FF);
 }
 
-void PN_PTCP_processDelayResponse(PN_Handle pnHandle, uint8_t portNum)
+void FAST_CODE_HWAL PN_PTCP_processDelayResponse(PN_Handle pnHandle, uint8_t portNum)
 {
     ptcp_iDelayResp_struct_t    ptcp_iDelayResp_parsed;
 
@@ -790,7 +796,7 @@ void PN_PTCP_processDelayResponse(PN_Handle pnHandle, uint8_t portNum)
 
 #endif
 }
-void PN_PTCP_smaDelayMeasurement(PN_Handle pnHandle)
+void FAST_CODE_HWAL PN_PTCP_smaDelayMeasurement(PN_Handle pnHandle)
 {
     uint32_t  portNum;
     /*TODO: Review this. ClockP_getTickPeriod was used for TI-RTOS osal*/
@@ -854,7 +860,7 @@ void PN_PTCP_smaDelayMeasurement(PN_Handle pnHandle)
     while(1);
 }
 
-void PN_PTCP_portDelaySmaCalc(PN_Handle pnHandle, uint8_t portNum)
+void FAST_CODE_HWAL PN_PTCP_portDelaySmaCalc(PN_Handle pnHandle, uint8_t portNum)
 {
     uint32_t    lDelaySum = 0, cDelaySum = 0;
     uint32_t    i = 0;
@@ -886,7 +892,7 @@ void PN_PTCP_portDelaySmaCalc(PN_Handle pnHandle, uint8_t portNum)
     (pnHandle->pnPtcpConfig).firstDelayBurst = 0;
 }
 
-int32_t PN_PTCP_lineDelayCalc(PN_Handle pnHandle,
+int32_t FAST_CODE_HWAL PN_PTCP_lineDelayCalc(PN_Handle pnHandle,
                               ptcp_iDelayResp_struct_t *ptcp_port_desc)
 {
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)((pnHandle->pruicssHandle)->hwAttrs);
@@ -912,7 +918,7 @@ int32_t PN_PTCP_lineDelayCalc(PN_Handle pnHandle,
     return 0;
 }
 
-int32_t PN_PTCP_parseInDelayResp(ptcp_iDelayResp_struct_t
+int32_t FAST_CODE_HWAL PN_PTCP_parseInDelayResp(ptcp_iDelayResp_struct_t
                                  *ptcp_iDelayResp_parsed, uint8_t *ptcp_iDelayResp_packet,
                                  uint8_t *ptcp_iDelayFupResp_packet, int32_t w_FUP)
 {
@@ -942,7 +948,7 @@ int32_t PN_PTCP_parseInDelayResp(ptcp_iDelayResp_struct_t
     return 0;
 }
 
-int32_t PN_PTCP_cableDelayCalc(PN_Handle pnHandle,
+int32_t FAST_CODE_HWAL PN_PTCP_cableDelayCalc(PN_Handle pnHandle,
                                ptcp_iDelayResp_struct_t *ptcpDelayRespParsed, uint8_t port)
 {
     uint32_t temp;
@@ -1038,7 +1044,7 @@ int32_t PN_PTCP_cableDelayCalc(PN_Handle pnHandle,
     return 0;
 }
 
-int32_t PN_PTCP_adjCtrDiff(PN_Handle pnHandle, int32_t ctrDiff)
+int32_t FAST_CODE_HWAL PN_PTCP_adjCtrDiff(PN_Handle pnHandle, int32_t ctrDiff)
 {
     if(ctrDiff < 0)
     {
@@ -1051,19 +1057,19 @@ int32_t PN_PTCP_adjCtrDiff(PN_Handle pnHandle, int32_t ctrDiff)
     }
 }
 
-uint32_t PN_PTCP_rotUint(uint32_t *input)
+uint32_t FAST_CODE_HWAL PN_PTCP_rotUint(uint32_t *input)
 {
     return ((*input & 0xFF000000) >> 24) | ((*input & 0x00FF0000) >> 8) | ((
                 *input & 0x0000FF00) << 8) | ((*input & 0x000000FF) << 24);
 }
 
-uint16_t PN_PTCP_rotUshort(uint16_t *input)
+uint16_t FAST_CODE_HWAL PN_PTCP_rotUshort(uint16_t *input)
 {
     return ((*input & 0xFF00) >> 8) | ((*input & 0x00FF) << 8);
 }
 
 
-int32_t PN_PTCP_parseSyncFields(PN_Handle pnHandle,
+int32_t FAST_CODE_HWAL PN_PTCP_parseSyncFields(PN_Handle pnHandle,
                                 volatile ptcpSyncInfo_t *ptcp_sync_parsed, uint8_t *sync_sblock)
 {
     int32_t i;
@@ -1383,14 +1389,12 @@ int32_t PN_PTCP_setupIsr(PN_Handle pnHandle)
     return 0;
 }
 
-void PN_PTCP_timerHandler(void* arg)
+void FAST_CODE_HWAL PN_PTCP_timerHandler(void* arg)
 {
     PN_Handle pnHandle = (PN_Handle)arg;
     PN_PTCP_syncHandling(pnHandle);
 }
-
-
-void PN_PTCP_isrHandler(void* arg)
+void FAST_CODE_HWAL PN_PTCP_isrHandler(void* arg)
 {
     PN_Handle pnHandle = (PN_Handle)arg;
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
@@ -1407,7 +1411,7 @@ void PN_PTCP_isrHandler(void* arg)
     return;
 }
 
-int32_t PN_PTCP_enableIsr(PN_Handle pnHandle)
+int32_t FAST_CODE_HWAL PN_PTCP_enableIsr(PN_Handle pnHandle)
 {
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
     PN_IntAttrs *ptcpIntConfig = &((pnHandle->pnIntConfig).ptcpIntConfig);
@@ -1428,7 +1432,7 @@ int32_t PN_PTCP_enableIsr(PN_Handle pnHandle)
     return 0;
 }
 
-int32_t PN_PTCP_disableIsr(PN_Handle pnHandle)
+int32_t FAST_CODE_HWAL PN_PTCP_disableIsr(PN_Handle pnHandle)
 {
     /*disable IRQ*/
     PN_IntAttrs *ptcpIntConfig = &((pnHandle->pnIntConfig).ptcpIntConfig);
@@ -1437,7 +1441,7 @@ int32_t PN_PTCP_disableIsr(PN_Handle pnHandle)
     return 0;
 }
 
-void PN_PTCP_syncHandling(PN_Handle pnHandle)
+void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
 {
 
     int32_t iep_counter = 0;
@@ -1469,8 +1473,9 @@ void PN_PTCP_syncHandling(PN_Handle pnHandle)
 
     uint8_t ctrlByte = *temp;
 
-    if(ctrlByte != 0)
+    if((ctrlByte == 1) || (ctrlByte == 2))
     {
+
         PN_PTCP_syncPreprocess(pnHandle, ctrlByte);
         *temp = 0;
     }
@@ -1843,12 +1848,9 @@ void PN_PTCP_syncHandling(PN_Handle pnHandle)
 #endif
 
     }
-
-    if(PN_PTCP_absVal(deltaT) >
-            (pnHandle->pnPtcpConfig).currentPtcpStatus.syncPllWnd ||
-            (pnHandle->pnPtcpConfig).currentPtcpStatus.firstSyncRcv == 0 ||
-            (pnHandle->pnPtcpConfig).numInSync <= smaFactor +
-            2) /*outside PLL window ; let filter get stabilized*/
+    if( (PN_PTCP_absVal(deltaT) > (pnHandle->pnPtcpConfig).currentPtcpStatus.syncPllWnd) ||
+        ((pnHandle->pnPtcpConfig).currentPtcpStatus.firstSyncRcv == 0) ||
+        ((pnHandle->pnPtcpConfig).numInSync <= (smaFactor + 2)) ) /*outside PLL window ; let filter get stabilized*/
     {
         (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState = OUT_OF_SYNC;
     }
@@ -1858,29 +1860,47 @@ void PN_PTCP_syncHandling(PN_Handle pnHandle)
         (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState = IN_SYNC;
     }
 
+
     /*update the flags*/
     (pnHandle->pnPtcpConfig).currentPtcpStatus.syncRcv = 1;
     (pnHandle->pnPtcpConfig).currentPtcpStatus.firstSyncRcv = 1;
 
-    if((pnHandle->pnPtcpConfig).currentPtcpStatus.syncState !=
-            (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState ||
-            (pnHandle->pnPtcpConfig).masterChange == 1)
-    {
-/*TODO: Review this*/
-// #ifdef PTCP_SYNC_SIGNAL
-//         GPIO_write(0, (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState & 0x1);
-// #endif
-        HW_WR_REG8(pruicssHwAttrs->pru0DramBase + RTC_DEVICE_SYNC_STATUS_OFFSET,
-            (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState);
+    if((pnHandle->pnPtcpConfig).enableCustomSyncMonitorFlag == 0) {
+        if( ((pnHandle->pnPtcpConfig).currentPtcpStatus.syncState !=
+            (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState) ||
+            ( (pnHandle->pnPtcpConfig).masterChange == 1) )
+        {
 
-        (pnHandle->pnPtcpConfig).currentPtcpStatus.syncState =
-            (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState;
+            HW_WR_REG8(pruicssHwAttrs->pru0DramBase + RTC_DEVICE_SYNC_STATUS_OFFSET,
+                (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState);
 
+            (pnHandle->pnPtcpConfig).currentPtcpStatus.syncState =
+                (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState;
+
+            if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
+            {
+                (pnHandle->pnPtcpConfig).ptcpSyncStatusCall((
+                            pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)&deltaT);
+            }   
+        }
+    }
+    else if((pnHandle->pnPtcpConfig).enableCustomSyncMonitorFlag == 1){
+        if( ((pnHandle->pnPtcpConfig).currentPtcpStatus.syncState !=
+            (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState) )
+        {
+            HW_WR_REG8(pruicssHwAttrs->pru0DramBase + RTC_DEVICE_SYNC_STATUS_OFFSET,
+                (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState);
+
+            (pnHandle->pnPtcpConfig).currentPtcpStatus.syncState =
+                (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState;
+        }
+    
         if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
         {
             (pnHandle->pnPtcpConfig).ptcpSyncStatusCall((
-                        pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)NULL);
-        }
+                        pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)&deltaT);
+        }    
+    }
 
 #ifdef SYNC_SYS_LOG
 
@@ -1921,10 +1941,10 @@ void PN_PTCP_syncHandling(PN_Handle pnHandle)
         }
 
 #endif
-    }
+    
 }
 
-void PN_PTCP_syncIepAdjustment(PN_Handle pnHandle, int32_t ecapPeriod,
+void FAST_CODE_HWAL PN_PTCP_syncIepAdjustment(PN_Handle pnHandle, int32_t ecapPeriod,
                                uint32_t compensation)
 {
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
@@ -1981,8 +2001,8 @@ void PN_PTCP_getSyncInfo(PN_Handle pnHandle, ptcpSyncInfo_t *syncInfo)
 {
     /*copy the values from internal sync info structure to the application structure*/
     syncInfo->syncState = (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState;
-    memcpy((void *)(&(syncInfo->masterSA)),
-           (void *)(&((pnHandle->pnPtcpConfig).deviceSyncInfo.masterSA)), 6);
+    memcpy((void *)(&(syncInfo->masterSA[0])),
+           (void *)(&((pnHandle->pnPtcpConfig).deviceSyncInfo.masterSA[0])), 6);
     memcpy((void *)(&(syncInfo->subdomainUUID)),
            (void *)(&((pnHandle->pnPtcpConfig).deviceSyncInfo.subdomainUUID)), 16);
 }
@@ -1991,10 +2011,10 @@ void PN_PTCP_getSyncMasterAddress(PN_Handle pnHandle, uint8_t *addr)
 {
     /*copy the values from internal sync info structure to the application structure*/
     memcpy((void *)addr, (void *)(&((
-                                        pnHandle->pnPtcpConfig).deviceSyncInfo.masterSA)), 6);
+                                        pnHandle->pnPtcpConfig).deviceSyncInfo.masterSA[0])), 6);
 }
 
-void PN_PTCP_syncPreprocess(PN_Handle pnHandle, uint8_t ctrlByte)
+void FAST_CODE_HWAL PN_PTCP_syncPreprocess(PN_Handle pnHandle, uint8_t ctrlByte)
 {
     uint8_t    *syncPacket;
     uint32_t *pSyncSOF;
@@ -2088,7 +2108,7 @@ void PN_PTCP_setTakeoverTimeoutFactor(PN_Handle pnHandle,
         takeoverTimeoutFactor;
 }
 
-void PN_PTCP_syncTimeoutMonitor(PN_Handle pnHandle)
+void FAST_CODE_HWAL PN_PTCP_syncTimeoutMonitor(PN_Handle pnHandle)
 {
     uint8_t syncInitFlag;
 
@@ -2118,7 +2138,7 @@ void PN_PTCP_syncTimeoutMonitor(PN_Handle pnHandle)
                 (pnHandle->pnPtcpConfig.pnPtcpDebugAttrs).syncmissCounter++;
 #endif
 
-                if((pnHandle->pnPtcpConfig).currentPtcpStatus.nSyncMissed ==
+                if((pnHandle->pnPtcpConfig).currentPtcpStatus.nSyncMissed >=
                         (pnHandle->pnPtcpConfig).currentPtcpStatus.takeoverTimeoutFactor)
                 {
                     (pnHandle->pnPtcpConfig).masterChange = 1;
@@ -2130,17 +2150,17 @@ void PN_PTCP_syncTimeoutMonitor(PN_Handle pnHandle)
                     }
                 }
 
-                if((pnHandle->pnPtcpConfig).currentPtcpStatus.nSyncMissed ==
+                if((pnHandle->pnPtcpConfig).currentPtcpStatus.nSyncMissed >=
                         (pnHandle->pnPtcpConfig).currentPtcpStatus.syncTimeoutFactor)
                 {
-                    PN_PTCP_reset(pnHandle);
-                    (pnHandle->pnPtcpConfig).masterChange = 0;
+                     PN_PTCP_reset(pnHandle);
+                     (pnHandle->pnPtcpConfig).masterChange = 0;
+
 
                     if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
                     {
                         (pnHandle->pnPtcpConfig).ptcpSyncStatusCall(SYNC_TIMEOUT, (uint32_t)NULL);
                     }
-
                 }
             }
         }
