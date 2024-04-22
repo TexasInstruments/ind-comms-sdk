@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
-<title>EtherNet/IP™ Adapter: /data/jenkins/workspace/workspace/dtk_ethernetip_release_V03.07.01/application/DemoFreeRTOS/board/am243x-evm/freertos/drivers/uart Directory Reference</title>
+<title>EtherNet/IP™ Adapter: EI_API_ADP_setAcdDelay</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> EtherNet/IP™ Adapter<span id="projectnumber">3.07.01</span></div></td>
+         <td id="projectalign"><div id="projectname"> EtherNet/IP™ Adapter<span id="projectnumber">3.07.02</span></div></td>
          <td id="projectbrief" align="right"><img src=EtherNetIP.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -82,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('dir_6f23631496852045740b1d1301fc337c.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('group___e_i___a_p_i___a_d_p___t_c_p_ga15e4a5d50137b6721f0ec40634c1e0e4.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -100,28 +100,67 @@ $(document).ready(function(){initNavTree('dir_6f23631496852045740b1d1301fc337c.h
 </iframe>
 </div>
 
-<div class="header">
-  <div class="headertitle">
-<div class="title">uart Directory Reference</div>  </div>
-</div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="files"></a>
-Files</h2></td></tr>
-<tr class="memitem:am243x-evm_2freertos_2drivers_2uart_2_c_u_s_t__uart_8c"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>CUST_uart.c</b></td></tr>
-<tr class="memdesc:am243x-evm_2freertos_2drivers_2uart_2_c_u_s_t__uart_8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides initialization of custom UART's. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:am243x-evm_2freertos_2drivers_2uart_2_c_u_s_t__uart_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>CUST_uart.h</b></td></tr>
-<tr class="memdesc:am243x-evm_2freertos_2drivers_2uart_2_c_u_s_t__uart_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom UART interface. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
+<a id="ga15e4a5d50137b6721f0ec40634c1e0e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga15e4a5d50137b6721f0ec40634c1e0e4">&#9670;&nbsp;</a></span>EI_API_ADP_setAcdDelay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t EI_API_ADP_setAcdDelay </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>pAdp_p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>acdDelayMs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the ACD delay in ms. </p>
+<p>This function sets the delay for the ACD state machine to send the first ARP probe frame. The default value for the delay is 200 ms. This can lead to an error in some ACD test programs, which can be avoid when the delay is enhanced (e.g. to 500 ms). Call this function after <a class="el" href="group___e_i___a_p_i___a_d_p___b_a_s_i_c_gaed1bdce203fd4d04d4cd87fdc86e44f3.html#gaed1bdce203fd4d04d4cd87fdc86e44f3" title="Apply parameters.">EI_API_ADP_init()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pAdp_p</td><td>Pointer to the adapter. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">acdDelayMs</td><td>The delay in milliseconds.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group___e_i___a_p_i___a_d_p___e_r_r_o_r___c_o_d_e_s_gaa0a8dc289c220bcc2720d9648bc4a29b.html#gaa0a8dc289c220bcc2720d9648bc4a29b" title="ADP error codes (base 0x38020Axx).">EI_API_ADP_EError_t</a> as uint32_t value. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="group___e_i___a_p_i___a_d_p___e_r_r_o_r___c_o_d_e_s_gad0151da1ccef0397dd6d043c2f53f513.html#ggad0151da1ccef0397dd6d043c2f53f513a4276d6de8bc8a20c99989a70e748a6f8">EI_API_ADP_eERR_OK</a></td><td>Success.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><span class="preprocessor">#include &quot;EI_API.h&quot;</span></div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="group___e_i___a_p_i___a_d_p___b_a_s_i_c_gaed1bdce203fd4d04d4cd87fdc86e44f3.html#gaed1bdce203fd4d04d4cd87fdc86e44f3">EI_API_ADP_init</a>(adapter_s, initParams);</div>
+<div class="line"><a class="code" href="group___e_i___a_p_i___a_d_p___t_c_p_ga15e4a5d50137b6721f0ec40634c1e0e4.html#ga15e4a5d50137b6721f0ec40634c1e0e4">EI_API_ADP_setAcdDelay</a>(adapter_s, 500);</div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="agroup___e_i___a_p_i___a_d_p___b_a_s_i_c_gaed1bdce203fd4d04d4cd87fdc86e44f3_html_gaed1bdce203fd4d04d4cd87fdc86e44f3"><div class="ttname"><a href="group___e_i___a_p_i___a_d_p___b_a_s_i_c_gaed1bdce203fd4d04d4cd87fdc86e44f3.html#gaed1bdce203fd4d04d4cd87fdc86e44f3">EI_API_ADP_init</a></div><div class="ttdeci">ETHIP_API uint32_t EI_API_ADP_init(T *pAdp_p, EI_API_ADP_SInit_t params_p)</div><div class="ttdoc">Apply parameters.</div><div class="ttdef"><b>Definition:</b> EI_API_ADP_stub.c:379</div></div>
+<div class="ttc" id="agroup___e_i___a_p_i___a_d_p___t_c_p_ga15e4a5d50137b6721f0ec40634c1e0e4_html_ga15e4a5d50137b6721f0ec40634c1e0e4"><div class="ttname"><a href="group___e_i___a_p_i___a_d_p___t_c_p_ga15e4a5d50137b6721f0ec40634c1e0e4.html#ga15e4a5d50137b6721f0ec40634c1e0e4">EI_API_ADP_setAcdDelay</a></div><div class="ttdeci">ETHIP_API uint32_t EI_API_ADP_setAcdDelay(T *pAdp_p, uint16_t acdDelayMs)</div><div class="ttdoc">Set the ACD delay in ms.</div><div class="ttdef"><b>Definition:</b> EI_API_ADP_stub.c:3726</div></div>
 <!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d75c23162a2652451dce46d2e7e8aead.html">application</a></li><li class="navelem"><a class="el" href="dir_8ec67f9961985d95d4431abf89e6a64c.html">DemoFreeRTOS</a></li><li class="navelem"><a class="el" href="dir_190651ade3acf6bcb7b60f465aabd744.html">board</a></li><li class="navelem"><a class="el" href="dir_6fb002606f092866bbb784284863dca9.html">am243x-evm</a></li><li class="navelem"><a class="el" href="dir_aeb719f44073d68a34d67176e8b7cf01.html">freertos</a></li><li class="navelem"><a class="el" href="dir_2c8348d8ab4a51046465fc293ac7a094.html">drivers</a></li><li class="navelem"><a class="el" href="dir_6f23631496852045740b1d1301fc337c.html">uart</a></li>
+    <li class="navelem"><a class="el" href="group___e_i___a_p_i___a_d_p___t_c_p.html">TCP/IP Interface Object (Class Code: 0xF5)</a></li>
     <li class="footer">generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

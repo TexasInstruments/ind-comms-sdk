@@ -40,7 +40,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> EtherNet/IP™ Adapter<span id="projectnumber">3.07.01</span></div></td>
+         <td id="projectalign"><div id="projectname"> EtherNet/IP™ Adapter<span id="projectnumber">3.07.02</span></div></td>
          <td id="projectbrief" align="right"><img src=EtherNetIP.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -130,23 +130,6 @@ Public Licensed Packages</h2>
 <h1><a class="anchor" id="eip_known_issues"></a>
 Known Issues</h1>
 <dl class="issue">
-<dt>[OSS1-3215] </dt>
-<dd>Errors reported during CT20 - LLDP Data Table Object Test: <pre>
-1&gt; *** Expected Number of Instances is 1 but found 0.
-2&gt; *** Expected Number of Instances is 2 but found 1.
-3&gt; *** Expected Number of Instances is 3 but found 2.
-4&gt; *** Expected Number of Instances is 4 but found 3.
-5&gt; *** Expected Number of Instances is 5 but found 4.
-6&gt; *** Expected Number of Instances is 6 but found 5.
-7&gt; *** Expected Number of Instances is 7 but found 6.
-        </pre> Errors are reported on Discrete IO device profile sporadically.  </dd>
-<dt>[OSS1-3213] </dt>
-<dd><p class="startdd">CALLOC error reported during CT20 - Encapsulation Test sporadically. Error can be easily recognized on UART output where following message is reported: </p><pre>
-CALLOC 1078,1 return NULL (did alloc 0x3f2ff)
-PRU_EIP_EmacNrtRxCallback: 0x1d0000 EC is fatal=1,
-SRC:PRU_EIP_EmacNrtRxCallback:465</pre><pre>Error: 0x001d0000, Fatal: yes
-        </pre><p> It's fatal error and device stops to communicate. </p>
-</dd>
 <dt>[DTKEIPA-1921] </dt>
 <dd>EtherNet/IP CIP API functions (EI_API_CIP_getAttr_xxx) do not support access of Attributes within statically created Classes (Identity Object, TCP/IP Interface Object, Ethernet Link Object, &hellip;). </dd>
 <dt>[DTKEIPA-1919] </dt>
@@ -156,17 +139,60 @@ SRC:PRU_EIP_EmacNrtRxCallback:465</pre><pre>Error: 0x001d0000, Fatal: yes
 3&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0
 4&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0
         </pre> </dd>
-<dt>[DTKEIPA-1918] </dt>
-<dd>CT20 fails after a device reset procedure and cannot reconnect to the device under test. </dd>
-<dt>[DTKEIPA-1836] </dt>
-<dd>ACD tests may fail depending on the type of network switch that is deployed between DUT and test PC executing the ODVA ACD Behavior Test.<br  />
- It has been observed that network switches by some manufacturers do not forward all APR probes within the timings required by Volume 2 EtherNet/IP Adaptation of CIP, Edition 1.32, April 2023, appendix F-1.2.1. It has been verified with a network TAP between DUT and switch that the DUT correctly transmits all 4 ARP probes before transmitting the 2 ARP announce frames. The issue is currently clarified with ODVA. </dd>
-<dt>[DTKEIPA-1603] </dt>
-<dd>Sporadic messages “pbuf_alloc failed on receiving nrt frame” reported on a UART console. A packet is lost and a retransmission is required. The stack is still able to recover from this error. </dd>
-<dt>[DTKEIPA-1585] </dt>
-<dd>The Active Supervisor Address (Attribute 10) of the DLR Object contains the Supervisor IP Address and the Supervisor MAC Address once a DLR supervisor is enabled. If all DLR supervisors are disabled Attribute 10 shall be cleared, however only the MAC address field is cleared and not the IP address field. </dd>
 <dt>[DTKEIPA-1334] </dt>
 <dd>Attribute 28 SystemTimeAndOffset is unstable. </dd>
+</dl>
+<h1><a class="anchor" id="eip_version_release30702"></a>
+Release Version 3.07.02</h1>
+<h2><a class="anchor" id="eip_new_features_release30702"></a>
+New Features</h2>
+<ul>
+<li>
+[OSS1-3261] Migration to latest MCU+ SDK 09.02.00.49 </li>
+<li>
+[OSS1-3259] New function <a class="el" href="group___e_i___a_p_i___a_d_p___t_c_p_ga15e4a5d50137b6721f0ec40634c1e0e4.html#ga15e4a5d50137b6721f0ec40634c1e0e4" title="Set the ACD delay in ms.">EI_API_ADP_setAcdDelay()</a> added, which sets the time in ms to send the first ARP probe. The default value for this delay is 200 ms. </li>
+<li>
+[OSS1-3228] Application part of LED's implementation moved from custom drivers. </li>
+<li>
+[OSS1-3245] UART implementation moved from custom drivers. </li>
+</ul>
+<h2><a class="anchor" id="eip_fixed_issues_release30702"></a>
+Fixed Issues</h2>
+<dl class="issue">
+<dt>[OSS1-3213] </dt>
+<dd>CALLOC error reported during CT20 - Encapsulation Test sporadically. Error can be easily recognized on UART output where following message is reported: <pre>
+CALLOC 1078,1 return NULL (did alloc 0x3f2ff)
+PRU_EIP_EmacNrtRxCallback: 0x1d0000 EC is fatal=1,
+SRC:PRU_EIP_EmacNrtRxCallback:465
+Error: 0x001d0000, Fatal: yes
+        </pre> It's fatal error and device stops to communicate.<br  />
+ <em>It was fixed by replacing unsafe thread access with thread-safe calloc.</em> </dd>
+<dt>[DTKEIPA-1918] </dt>
+<dd>CT20 fails after a device reset procedure and cannot reconnect to the device under test.<br  />
+ <em>It was fixed by not closing drivers during the reset.</em> </dd>
+<dt>[OSS1-3246] </dt>
+<dd>Fixed an issue where LWIP_HOOK_DHCP_PARSE was not correctly implemented and had resulted in Host name in DHCP mode not being configured correctly. </dd>
+<dt>[OSS1-3215] </dt>
+<dd>Errors reported during CT20 - LLDP Data Table Object Test: <pre>
+1&gt; *** Expected Number of Instances is 1 but found 0.
+2&gt; *** Expected Number of Instances is 2 but found 1.
+3&gt; *** Expected Number of Instances is 3 but found 2.
+4&gt; *** Expected Number of Instances is 4 but found 3.
+5&gt; *** Expected Number of Instances is 5 but found 4.
+6&gt; *** Expected Number of Instances is 6 but found 5.
+7&gt; *** Expected Number of Instances is 7 but found 6.
+        </pre> Errors are reported on Discrete IO device profile sporadically.<br  />
+ <em>It was fixed by switching to the LLDP state machine after receiving a LLDP enable request.</em> </dd>
+<dt>[DTKEIPA-1603] </dt>
+<dd>Sporadic messages “pbuf_alloc failed on receiving nrt frame” reported on a UART console. A packet is lost and a retransmission is required. The stack is still able to recover from this error.<br  />
+ <em>After analysis, it was realized that this is not an error.</em> </dd>
+<dt>[DTKEIPA-1836] </dt>
+<dd>ACD tests may fail depending on the type of network switch that is deployed between DUT and test PC executing the ODVA ACD Behavior Test.<br  />
+ It has been observed that network switches by some manufacturers do not forward all APR probes within the timings required by Volume 2 EtherNet/IP Adaptation of CIP, Edition 1.32, April 2023, appendix F-1.2.1. It has been verified with a network TAP between DUT and switch that the DUT correctly transmits all 4 ARP probes before transmitting the 2 ARP announce frames. The issue is currently clarified with ODVA.<br  />
+ <em>It was fixed by reset of the initial probe state, when a link-up is detected on the second port.</em> </dd>
+<dt>[DTKEIPA-1585] </dt>
+<dd>The Active Supervisor Address (Attribute 10) of the DLR Object contains the Supervisor IP Address and the Supervisor MAC Address once a DLR supervisor is enabled. If all DLR supervisors are disabled Attribute 10 shall be cleared, however only the MAC address field is cleared and not the IP address field.<br  />
+ <em>This issue is solved in PRU firmware binary</em> </dd>
 </dl>
 <h1><a class="anchor" id="eip_version_release30701"></a>
 Release Version 3.07.01</h1>
