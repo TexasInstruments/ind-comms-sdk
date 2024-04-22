@@ -323,11 +323,14 @@ gpio40.GPIO.gpioPin.$assign = "GPMC0_AD7";
 
 i2c1.$name               = "CONFIG_I2C0";
 eeprom1.peripheralDriver = i2c1;
+i2c1.I2C_child.$name     = "drivers_i2c_v0_i2c_v0_template1";
 
 i2c2.$name            = "CONFIG_I2C1";
 led1.peripheralDriver = i2c2;
+i2c2.I2C_child.$name  = "drivers_i2c_v0_i2c_v0_template2";
 
-i2c3.$name = "CONFIG_I2C2";
+i2c3.$name           = "CONFIG_I2C2";
+i2c3.I2C_child.$name = "drivers_i2c_v0_i2c_v0_template3";
 
 mcspi1.$name                       = "CONFIG_MCSPI_IOL";
 mcspi1.mode                        = "MULTI_CONTROLLER";

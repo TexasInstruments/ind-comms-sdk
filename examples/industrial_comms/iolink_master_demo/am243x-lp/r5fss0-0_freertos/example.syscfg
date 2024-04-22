@@ -176,149 +176,135 @@ led16.ioIndex = 15;
 led17.$name = "CONFIG_LED_HEARTBEAT";
 led17.name  = "TPIC2810";
 
-gpio1.$name                = "CONFIG_IOL_TX1";
-gpio1.pinDir               = "OUTPUT";
-gpio1.GPIO.gpioPin.rx      = false;
-gpio1.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO11";
+gpio1.$name          = "CONFIG_IOL_TX1";
+gpio1.pinDir         = "OUTPUT";
+gpio1.GPIO_n.$assign = "PRG0_PRU0_GPO11";
 
-gpio2.$name                = "CONFIG_IOL_TX2";
-gpio2.pinDir               = "OUTPUT";
-gpio2.GPIO.gpioPin.rx      = false;
-gpio2.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO12";
+gpio2.$name          = "CONFIG_IOL_TX2";
+gpio2.pinDir         = "OUTPUT";
+gpio2.GPIO_n.$assign = "PRG0_PRU0_GPO12";
 
-gpio3.$name                = "CONFIG_IOL_TX3";
-gpio3.pinDir               = "OUTPUT";
-gpio3.GPIO.gpioPin.rx      = false;
-gpio3.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO13";
+gpio3.$name          = "CONFIG_IOL_TX3";
+gpio3.pinDir         = "OUTPUT";
+gpio3.GPIO_n.$assign = "PRG0_PRU0_GPO13";
 
-gpio4.$name                = "CONFIG_IOL_TX4";
-gpio4.pinDir               = "OUTPUT";
-gpio4.GPIO.gpioPin.pu_pd   = "pd";
-gpio4.GPIO.gpioPin.rx      = false;
-gpio4.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO14";
+gpio4.$name          = "CONFIG_IOL_TX4";
+gpio4.pinDir         = "OUTPUT";
+gpio4.pu_pd          = "pd";
+gpio4.GPIO_n.$assign = "PRG0_PRU0_GPO14";
 
-gpio5.$name                = "CONFIG_IOL_TX5";
-gpio5.pinDir               = "OUTPUT";
-gpio5.GPIO.gpioPin.rx      = false;
-gpio5.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO15";
+gpio5.$name          = "CONFIG_IOL_TX5";
+gpio5.pinDir         = "OUTPUT";
+gpio5.GPIO_n.$assign = "PRG0_PRU0_GPO15";
 
-gpio6.$name                = "CONFIG_IOL_TX6";
-gpio6.pinDir               = "OUTPUT";
-gpio6.GPIO.gpioPin.rx      = false;
-gpio6.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO16";
+gpio6.$name          = "CONFIG_IOL_TX6";
+gpio6.pinDir         = "OUTPUT";
+gpio6.GPIO_n.$assign = "PRG0_PRU0_GPO16";
 
-gpio7.$name                = "CONFIG_IOL_TX7";
-gpio7.pinDir               = "OUTPUT";
-gpio7.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO17";
+gpio7.$name          = "CONFIG_IOL_TX7";
+gpio7.pinDir         = "OUTPUT";
+gpio7.rx             = true;
+gpio7.GPIO_n.$assign = "PRG0_PRU0_GPO17";
 
-gpio8.$name                = "CONFIG_IOL_TX8";
-gpio8.pinDir               = "OUTPUT";
-gpio8.GPIO.gpioPin.rx      = false;
-gpio8.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO18";
+gpio8.$name          = "CONFIG_IOL_TX8";
+gpio8.pinDir         = "OUTPUT";
+gpio8.GPIO_n.$assign = "PRG0_PRU0_GPO18";
 
-gpio9.$name                = "CONFIG_IOL_RX1";
-gpio9.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO0";
+gpio9.$name          = "CONFIG_IOL_RX1";
+gpio9.rx             = true;
+gpio9.GPIO_n.$assign = "PRG0_PRU0_GPO0";
 
-gpio10.$name                = "CONFIG_IOL_RX2";
-gpio10.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO1";
+gpio10.$name          = "CONFIG_IOL_RX2";
+gpio10.rx             = true;
+gpio10.GPIO_n.$assign = "PRG0_PRU0_GPO1";
 
-gpio11.$name                = "CONFIG_IOL_RX3";
-gpio11.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO2";
+gpio11.$name          = "CONFIG_IOL_RX3";
+gpio11.rx             = true;
+gpio11.GPIO_n.$assign = "PRG0_PRU0_GPO2";
 
-gpio12.$name                = "CONFIG_IOL_RX4";
-gpio12.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO3";
+gpio12.$name          = "CONFIG_IOL_RX4";
+gpio12.rx             = true;
+gpio12.GPIO_n.$assign = "PRG0_PRU0_GPO3";
 
-gpio13.$name                = "CONFIG_IOL_RX5";
-gpio13.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO4";
+gpio13.$name          = "CONFIG_IOL_RX5";
+gpio13.rx             = true;
+gpio13.GPIO_n.$assign = "PRG0_PRU0_GPO4";
 
-gpio14.$name                = "CONFIG_IOL_RX6";
-gpio14.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO5";
+gpio14.$name          = "CONFIG_IOL_RX6";
+gpio14.rx             = true;
+gpio14.GPIO_n.$assign = "PRG0_PRU0_GPO5";
 
-gpio15.$name                = "CONFIG_IOL_RX7";
-gpio15.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO6";
+gpio15.$name          = "CONFIG_IOL_RX7";
+gpio15.rx             = true;
+gpio15.GPIO_n.$assign = "PRG0_PRU0_GPO6";
 
-gpio16.$name                = "CONFIG_IOL_RX8";
-gpio16.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO7";
+gpio16.$name          = "CONFIG_IOL_RX8";
+gpio16.rx             = true;
+gpio16.GPIO_n.$assign = "PRG0_PRU0_GPO7";
 
-gpio17.$name                = "CONFIG_IOL_TXEN1";
-gpio17.pinDir               = "OUTPUT";
-gpio17.GPIO.gpioPin.rx      = false;
-gpio17.GPIO.gpioPin.$assign = "PRG0_PRU1_GPO15";
+gpio17.$name          = "CONFIG_IOL_TXEN1";
+gpio17.pinDir         = "OUTPUT";
+gpio17.GPIO_n.$assign = "PRG0_PRU1_GPO15";
 
-gpio18.$name                = "CONFIG_IOL_TXEN2";
-gpio18.pinDir               = "OUTPUT";
-gpio18.GPIO.gpioPin.rx      = false;
-gpio18.GPIO.gpioPin.$assign = "PRG0_PRU1_GPO16";
+gpio18.$name          = "CONFIG_IOL_TXEN2";
+gpio18.pinDir         = "OUTPUT";
+gpio18.GPIO_n.$assign = "PRG0_PRU1_GPO16";
 
-gpio19.$name                = "CONFIG_IOL_TXEN3";
-gpio19.pinDir               = "OUTPUT";
-gpio19.GPIO.gpioPin.rx      = false;
-gpio19.GPIO.gpioPin.$assign = "PRG0_MDIO0_MDIO";
+gpio19.$name          = "CONFIG_IOL_TXEN3";
+gpio19.pinDir         = "OUTPUT";
+gpio19.GPIO_n.$assign = "PRG0_MDIO0_MDIO";
 
-gpio20.$name                = "CONFIG_IOL_TXEN4";
-gpio20.pinDir               = "OUTPUT";
-gpio20.GPIO.gpioPin.rx      = false;
-gpio20.GPIO.gpioPin.$assign = "PRG0_MDIO0_MDC";
+gpio20.$name          = "CONFIG_IOL_TXEN4";
+gpio20.pinDir         = "OUTPUT";
+gpio20.GPIO_n.$assign = "PRG0_MDIO0_MDC";
 
-gpio21.$name                = "CONFIG_IOL_TXEN5";
-gpio21.pinDir               = "OUTPUT";
-gpio21.GPIO.gpioPin.rx      = false;
-gpio21.GPIO.gpioPin.$assign = "SPI0_D0";
+gpio21.$name          = "CONFIG_IOL_TXEN5";
+gpio21.pinDir         = "OUTPUT";
+gpio21.GPIO_n.$assign = "SPI0_D0";
 
-gpio22.$name                = "CONFIG_IOL_TXEN6";
-gpio22.pinDir               = "OUTPUT";
-gpio22.GPIO.gpioPin.rx      = false;
-gpio22.GPIO.gpioPin.$assign = "PRG1_PRU0_GPO17";
+gpio22.$name          = "CONFIG_IOL_TXEN6";
+gpio22.pinDir         = "OUTPUT";
+gpio22.GPIO_n.$assign = "PRG1_PRU0_GPO17";
 
-gpio23.$name                = "CONFIG_IOL_TXEN7";
-gpio23.pinDir               = "OUTPUT";
-gpio23.GPIO.gpioPin.rx      = false;
-gpio23.GPIO.gpioPin.$assign = "PRG1_PRU0_GPO18";
+gpio23.$name          = "CONFIG_IOL_TXEN7";
+gpio23.pinDir         = "OUTPUT";
+gpio23.GPIO_n.$assign = "PRG1_PRU0_GPO18";
 
-gpio24.$name                = "CONFIG_IOL_TXEN8";
-gpio24.pinDir               = "OUTPUT";
-gpio24.GPIO.gpioPin.rx      = false;
-gpio24.GPIO.gpioPin.$assign = "PRG1_PRU0_GPO19";
+gpio24.$name          = "CONFIG_IOL_TXEN8";
+gpio24.pinDir         = "OUTPUT";
+gpio24.GPIO_n.$assign = "PRG1_PRU0_GPO19";
 
-gpio25.$name                = "CONFIG_IOL_ENL1";
-gpio25.pinDir               = "OUTPUT";
-gpio25.GPIO.gpioPin.rx      = false;
-gpio25.GPIO.gpioPin.$assign = "PRG0_PRU0_GPO19";
+gpio25.$name          = "CONFIG_IOL_ENL1";
+gpio25.pinDir         = "OUTPUT";
+gpio25.GPIO_n.$assign = "PRG0_PRU0_GPO19";
 
-gpio26.$name                = "CONFIG_IOL_ENL2";
-gpio26.pinDir               = "OUTPUT";
-gpio26.GPIO.gpioPin.rx      = false;
-gpio26.GPIO.gpioPin.$assign = "PRG0_PRU1_GPO0";
+gpio26.$name          = "CONFIG_IOL_ENL2";
+gpio26.pinDir         = "OUTPUT";
+gpio26.GPIO_n.$assign = "PRG0_PRU1_GPO0";
 
-gpio27.$name                = "CONFIG_IOL_ENL3";
-gpio27.pinDir               = "OUTPUT";
-gpio27.GPIO.gpioPin.rx      = false;
-gpio27.GPIO.gpioPin.$assign = "PRG0_PRU1_GPO1";
+gpio27.$name          = "CONFIG_IOL_ENL3";
+gpio27.pinDir         = "OUTPUT";
+gpio27.GPIO_n.$assign = "PRG0_PRU1_GPO1";
 
-gpio28.$name                = "CONFIG_IOL_ENL4";
-gpio28.pinDir               = "OUTPUT";
-gpio28.GPIO.gpioPin.rx      = false;
-gpio28.GPIO.gpioPin.$assign = "PRG0_PRU1_GPO2";
+gpio28.$name          = "CONFIG_IOL_ENL4";
+gpio28.pinDir         = "OUTPUT";
+gpio28.GPIO_n.$assign = "PRG0_PRU1_GPO2";
 
-gpio29.$name                = "CONFIG_IOL_ENL5";
-gpio29.pinDir               = "OUTPUT";
-gpio29.GPIO.gpioPin.rx      = false;
-gpio29.GPIO.gpioPin.$assign = "PRG0_PRU1_GPO6";
+gpio29.$name          = "CONFIG_IOL_ENL5";
+gpio29.pinDir         = "OUTPUT";
+gpio29.GPIO_n.$assign = "PRG0_PRU1_GPO6";
 
-gpio30.$name                = "CONFIG_IOL_ENL6";
-gpio30.pinDir               = "OUTPUT";
-gpio30.GPIO.gpioPin.rx      = false;
-gpio30.GPIO.gpioPin.$assign = "PRG0_PRU1_GPO11";
+gpio30.$name          = "CONFIG_IOL_ENL6";
+gpio30.pinDir         = "OUTPUT";
+gpio30.GPIO_n.$assign = "PRG0_PRU1_GPO11";
 
-gpio31.$name                = "CONFIG_IOL_ENL7";
-gpio31.pinDir               = "OUTPUT";
-gpio31.GPIO.gpioPin.rx      = false;
-gpio31.GPIO.gpioPin.$assign = "PRG0_PRU1_GPO12";
+gpio31.$name          = "CONFIG_IOL_ENL7";
+gpio31.pinDir         = "OUTPUT";
+gpio31.GPIO_n.$assign = "PRG0_PRU1_GPO12";
 
-gpio32.$name                = "CONFIG_IOL_ENL8";
-gpio32.pinDir               = "OUTPUT";
-gpio32.GPIO.gpioPin.rx      = false;
-gpio32.GPIO.gpioPin.$assign = "PRG0_PRU1_GPO13";
+gpio32.$name          = "CONFIG_IOL_ENL8";
+gpio32.pinDir         = "OUTPUT";
+gpio32.GPIO_n.$assign = "PRG0_PRU1_GPO13";
 
 i2c1.$name               = "CONFIG_I2C1";
 led5.peripheralDriver    = i2c1;
@@ -341,12 +327,14 @@ led1.peripheralDriver    = i2c1;
 i2c1.I2C.$assign         = "I2C1";
 i2c1.I2C.SCL.$assign     = "I2C1_SCL";
 i2c1.I2C.SDA.$assign     = "I2C1_SDA";
+i2c1.I2C_child.$name     = "drivers_i2c_v0_i2c_v0_template1";
 
 i2c2.$name             = "CONFIG_I2C0";
 led17.peripheralDriver = i2c2;
 i2c2.I2C.$assign       = "I2C0";
 i2c2.I2C.SCL.$assign   = "I2C0_SCL";
 i2c2.I2C.SDA.$assign   = "I2C0_SDA";
+i2c2.I2C_child.$name   = "drivers_i2c_v0_i2c_v0_template2";
 
 mcspi1.$name                 = "CONFIG_MCSPI_IOL";
 mcspi1.mcspiChannel[0].$name = "CONFIG_MCSPI_CH0";
@@ -578,38 +566,6 @@ flash1.peripheralDriver.OSPI.D3.$suggestSolution   = "OSPI0_D3";
 flash1.peripheralDriver.OSPI.D2.$suggestSolution   = "OSPI0_D2";
 flash1.peripheralDriver.OSPI.D1.$suggestSolution   = "OSPI0_D1";
 flash1.peripheralDriver.OSPI.D0.$suggestSolution   = "OSPI0_D0";
-gpio1.GPIO.$suggestSolution                        = "GPIO1";
-gpio2.GPIO.$suggestSolution                        = "GPIO1";
-gpio3.GPIO.$suggestSolution                        = "GPIO1";
-gpio4.GPIO.$suggestSolution                        = "GPIO1";
-gpio5.GPIO.$suggestSolution                        = "GPIO1";
-gpio6.GPIO.$suggestSolution                        = "GPIO1";
-gpio7.GPIO.$suggestSolution                        = "GPIO1";
-gpio8.GPIO.$suggestSolution                        = "GPIO1";
-gpio9.GPIO.$suggestSolution                        = "GPIO1";
-gpio10.GPIO.$suggestSolution                       = "GPIO1";
-gpio11.GPIO.$suggestSolution                       = "GPIO1";
-gpio12.GPIO.$suggestSolution                       = "GPIO1";
-gpio13.GPIO.$suggestSolution                       = "GPIO1";
-gpio14.GPIO.$suggestSolution                       = "GPIO1";
-gpio15.GPIO.$suggestSolution                       = "GPIO1";
-gpio16.GPIO.$suggestSolution                       = "GPIO1";
-gpio17.GPIO.$suggestSolution                       = "GPIO1";
-gpio18.GPIO.$suggestSolution                       = "GPIO1";
-gpio19.GPIO.$suggestSolution                       = "GPIO1";
-gpio20.GPIO.$suggestSolution                       = "GPIO1";
-gpio21.GPIO.$suggestSolution                       = "GPIO1";
-gpio22.GPIO.$suggestSolution                       = "GPIO0";
-gpio23.GPIO.$suggestSolution                       = "GPIO0";
-gpio24.GPIO.$suggestSolution                       = "GPIO0";
-gpio25.GPIO.$suggestSolution                       = "GPIO1";
-gpio26.GPIO.$suggestSolution                       = "GPIO1";
-gpio27.GPIO.$suggestSolution                       = "GPIO1";
-gpio28.GPIO.$suggestSolution                       = "GPIO1";
-gpio29.GPIO.$suggestSolution                       = "GPIO1";
-gpio30.GPIO.$suggestSolution                       = "GPIO1";
-gpio31.GPIO.$suggestSolution                       = "GPIO1";
-gpio32.GPIO.$suggestSolution                       = "GPIO1";
 mcspi1.SPI.$suggestSolution                        = "SPI4";
 mcspi1.SPI.CLK.$suggestSolution                    = "UART0_CTSn";
 mcspi1.SPI.D0.$suggestSolution                     = "UART0_RTSn";
