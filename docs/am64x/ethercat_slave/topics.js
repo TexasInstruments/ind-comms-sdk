@@ -1,4 +1,4 @@
-var modules =
+var topics =
 [
     [ "Operating System and Hardware Abstraction", "group___o_s_a_l___h_w_a_l.html", null ],
     [ "EtherCAT Slave API", "group___e_c___a_p_i___s_l_v.html", "group___e_c___a_p_i___s_l_v" ],

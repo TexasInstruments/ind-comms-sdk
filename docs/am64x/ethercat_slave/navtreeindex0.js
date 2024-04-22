@@ -1,7 +1,5 @@
 var NAVTREEINDEX0 =
 {
-"@ref known_issues":[2,0],
-"@ref page_quickstart_installation":[4,0],
 "_a_p_i_changes.html":[8],
 "_enum_example.html":[4,1,0,0],
 "_eo_e_page.html":[4,1,4],
@@ -45,8 +43,8 @@ var NAVTREEINDEX0 =
 "functions_s.html":[10,2,0,17],
 "functions_t.html":[10,2,0,18],
 "functions_v.html":[10,2,0,19],
-"functions_vars.html":[10,2,1,0],
 "functions_vars.html":[10,2,1],
+"functions_vars.html":[10,2,1,0],
 "functions_vars_b.html":[10,2,1,1],
 "functions_vars_c.html":[10,2,1,2],
 "functions_vars_d.html":[10,2,1,3],
@@ -249,5 +247,7 @@ var NAVTREEINDEX0 =
 "group___ci_a402_ga6e10435c7fbae31995ed34171f06568b.html#ga6e10435c7fbae31995ed34171f06568b":[9,8,32],
 "group___ci_a402_ga6e4382fac0cef1fb2a83c5bd97d917fc.html#ga6e4382fac0cef1fb2a83c5bd97d917fc":[9,8,286],
 "group___ci_a402_ga6e471ac147fb7f23df3a5cb5afcf9e0c.html#ga6e471ac147fb7f23df3a5cb5afcf9e0c":[9,8,267],
-"group___ci_a402_ga6fb9dcfd94a017d71124ffc9c48e6959.html#ga6fb9dcfd94a017d71124ffc9c48e6959":[9,8,236]
+"group___ci_a402_ga6fb9dcfd94a017d71124ffc9c48e6959.html#ga6fb9dcfd94a017d71124ffc9c48e6959":[9,8,236],
+"group___ci_a402_ga70684b09f2ed1d25f5d8280f7f750922.html#ga70684b09f2ed1d25f5d8280f7f750922":[9,8,123],
+"group___ci_a402_ga71ff2833dda905b49ca9c39c422f150e.html#ga71ff2833dda905b49ca9c39c422f150e":[9,8,276]
 };
