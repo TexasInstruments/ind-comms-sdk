@@ -39,7 +39,7 @@ var searchData=
   ['suheader_36',['suHeader',['../struct_i_o_l_m___s_m_i___s_job.html#a8a61888d2b843c5df696dedba107ae83',1,'IOLM_SMI_SJob']]],
   ['supported_20functionality_37',['Supported Functionality',['../iolink_datasheet.html#functionality',1,'']]],
   ['suslowqueue_38',['suSlowQueue',['../struct_i_o_l_m___s_m_i___s_port_instance.html#a6d45dbef90e3d7a101ef73fa69b79457',1,'IOLM_SMI_SPortInstance']]],
-  ['system_39',['system',['../page_hwport.html#sect_hwport_example_timer',1,'Timer System'],['../page_hwport.html#sect_hwport_timer',1,'Timer System']]],
+  ['system_39',['system',['../page_hwport.html#sect_hwport_timer',1,'Timer System'],['../page_hwport.html#sect_hwport_example_timer',1,'Timer System']]],
   ['system_20management_40',['System Management',['../group__grp__api__sm.html',1,'']]],
   ['system_20management_20api_41',['System Management API',['../page_smi.html#section_sm_api_functions',1,'']]]
 ];

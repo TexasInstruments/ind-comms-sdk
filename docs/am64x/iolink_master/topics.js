@@ -1,4 +1,4 @@
-var modules =
+var topics =
 [
     [ "SMI API", "group__grp__api__smi.html", "group__grp__api__smi" ],
     [ "Non SMI API", "group__grp__api__non__smi.html", "group__grp__api__non__smi" ],

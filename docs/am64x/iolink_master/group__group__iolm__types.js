@@ -1,29 +1,10 @@
 var group__group__iolm__types =
 [
     [ "IOLM_SMsgHandlerConfig", "struct_i_o_l_m___s_msg_handler_config.html", [
-      [ "boInterleave", "struct_i_o_l_m___s_msg_handler_config.html#ae81849410104515ce100d4f29d1d7789", null ],
-      [ "eMSequenceType", "struct_i_o_l_m___s_msg_handler_config.html#a477bad9e394261d9e0a0e628baac8cd3", null ],
-      [ "u32MSequenceTime", "struct_i_o_l_m___s_msg_handler_config.html#a4e1ca25afe55108e5154ef6fd1842e8c", null ],
-      [ "u8ODLength", "struct_i_o_l_m___s_msg_handler_config.html#a335c4b5f9d15c441560ca9e85998dd7e", null ],
-      [ "u8PDInputLength", "struct_i_o_l_m___s_msg_handler_config.html#a8e43c7709c6448a4fd5294390b71900f", null ],
-      [ "u8PDOutputLength", "struct_i_o_l_m___s_msg_handler_config.html#a8db28d6ef35f4202e2ddfbd657ecef47", null ]
+      [ "u32MSequenceTime", "struct_i_o_l_m___s_msg_handler_config.html#a4e1ca25afe55108e5154ef6fd1842e8c", null ]
     ] ],
-    [ "IOLM_SDSObject", "struct_i_o_l_m___s_d_s_object.html", [
-      [ "au8Data", "struct_i_o_l_m___s_d_s_object.html#a04b1d5c31d768cb78cdef49522b5fb71", null ],
-      [ "au8Index", "struct_i_o_l_m___s_d_s_object.html#a914c14ad591ed0be1a142fcb5027fde8", null ],
-      [ "u8Length", "struct_i_o_l_m___s_d_s_object.html#a15b006f57c8549d4ffbc14212f2b64a0", null ],
-      [ "u8Subindex", "struct_i_o_l_m___s_d_s_object.html#a95daa03aece7e11066d89449d0fe27d2", null ]
-    ] ],
-    [ "IOLM_SDSContent", "struct_i_o_l_m___s_d_s_content.html", [
-      [ "au8ArgBlockID", "struct_i_o_l_m___s_d_s_content.html#a69f5f7d7993b158519c49bb1cc99ad27", null ],
-      [ "au8Checksum", "struct_i_o_l_m___s_d_s_content.html#adf8bd6dfb2a944fef224cf63624e1935", null ],
-      [ "au8Data", "struct_i_o_l_m___s_d_s_content.html#a107d64877abdb15c61f5c37c69427afc", null ],
-      [ "au8DeviceID", "struct_i_o_l_m___s_d_s_content.html#ad29f4f8c36faac634b4a1eb51ba28c74", null ],
-      [ "au8FunctionID", "struct_i_o_l_m___s_d_s_content.html#a558ecaf284e25be57e1037e601c23873", null ],
-      [ "au8VendorID", "struct_i_o_l_m___s_d_s_content.html#aaf3f8348266062d10eccb58e4b22caf4", null ],
-      [ "u16Size", "struct_i_o_l_m___s_d_s_content.html#a1c11d34e04cf61d6402db126ffcabfdc", null ],
-      [ "u32NVChecksum", "struct_i_o_l_m___s_d_s_content.html#a3a4388be4d58be212d42f8de9fb84134", null ]
-    ] ],
+    [ "IOLM_SDSObject", "struct_i_o_l_m___s_d_s_object.html", null ],
+    [ "IOLM_SDSContent", "struct_i_o_l_m___s_d_s_content.html", null ],
     [ "IOLM_SPortConfig", "struct_i_o_l_m___s_port_config.html", [
       [ "au8ConfiguredDeviceID", "struct_i_o_l_m___s_port_config.html#a20b4d762411d639144815b91866ebfbe", null ],
       [ "au8ConfiguredFunctionID", "struct_i_o_l_m___s_port_config.html#aa7699b7b59144d7adf1e9a1dad7def11", null ],
@@ -55,16 +36,9 @@ var group__group__iolm__types =
       [ "u8Writing", "struct_i_o_l_m___s_p_d_buffer_ctrl.html#a309e7808d773d72ebdd439131750c300", null ]
     ] ],
     [ "IOLM_SPDBuffer", "struct_i_o_l_m___s_p_d_buffer.html", [
-      [ "au8Buffer", "struct_i_o_l_m___s_p_d_buffer.html#a1fcbaa8a82477388d14f25a5ff5497d3", null ],
-      [ "boFirstReceive", "struct_i_o_l_m___s_p_d_buffer.html#aebdf6a666c5d5e2655b516cfd7ffe951", null ],
-      [ "boNewData", "struct_i_o_l_m___s_p_d_buffer.html#ad80ba72e1217db532cc962359a82d1cc", null ],
-      [ "suCtrl", "struct_i_o_l_m___s_p_d_buffer.html#acee4eacbfbadffd1c7d73b83b05c7faf", null ]
+      [ "boNewData", "struct_i_o_l_m___s_p_d_buffer.html#ad80ba72e1217db532cc962359a82d1cc", null ]
     ] ],
     [ "IOLM_SPageRequest", "struct_i_o_l_m___s_page_request.html", [
-      [ "au8PageData", "struct_i_o_l_m___s_page_request.html#a3e34a627af0d3c6a9fd991bf24fd5c11", null ],
-      [ "ePageDirection", "struct_i_o_l_m___s_page_request.html#a55d8c314d1534659bb28460af1cca6d0", null ],
-      [ "u8PageAddress", "struct_i_o_l_m___s_page_request.html#ae04d616fd592e799df577453b750e13f", null ],
-      [ "u8PageLen", "struct_i_o_l_m___s_page_request.html#af265de69477bd971ceae1db9a1d0aa3a", null ],
       [ "u8PageRequest", "struct_i_o_l_m___s_page_request.html#a7cc8f44e92ef54cc676e4a97054162d4", null ]
     ] ],
     [ "IOLM_DS_EMPTY", "group__group__iolm__types.html#gad5a367d60fa239450891de32dfba808b", null ],

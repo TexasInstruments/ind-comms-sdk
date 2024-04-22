@@ -31,6 +31,7 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 2.01.01", "releasenotes.html#version_release20101", null ],
       [ "Release Version 2.01.00", "releasenotes.html#version_release20100", null ],
       [ "Release Version 2.00.00", "releasenotes.html#version_release20000", null ],
       [ "Release Version 1.09.08", "releasenotes.html#version_release10908", null ],
@@ -93,7 +94,7 @@ var NAVTREE =
       [ "Data Storage", "page_datastorage.html", null ],
       [ "Configuration", "page_configure__i_c_s_s1.html", null ]
     ] ],
-    [ "API Reference", "modules.html", "modules" ],
+    [ "API Reference", "topics.html", "topics" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -112,9 +113,8 @@ var NAVTREEINDEX =
 [
 "_implementation.html",
 "group__group__iol__types.html#ggad0ca49c3bb7c13c80fd6a22eea40bccfa21737088b071d7c393731d280260a98a",
-"pages.html",
-"struct_i_o_l_m___s_m_i___s_header.html",
-"struct_i_o_l_m___s_m_i___s_w_track_config_list.html"
+"releasenotes.html#version_release10601",
+"struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a388016bbe100f27f613255f7f0d7e6d9"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
