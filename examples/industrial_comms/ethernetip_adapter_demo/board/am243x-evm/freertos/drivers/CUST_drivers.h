@@ -51,6 +51,7 @@
 #include "kernel/dpl/TaskP.h"
 
 #include <board.h>
+#include <board/led.h>
 #include <board/flash.h>
 #include <board/eeprom.h>
 #include <board/ethphy.h>
@@ -58,7 +59,6 @@
 #include <drivers/pruicss/g_v0/pruicss.h>
 
 #include <drivers/led/CUST_led.h>
-#include <drivers/uart/CUST_uart.h>
 #include <drivers/flash/CUST_flash.h>
 #include <drivers/eeprom/CUST_eeprom.h>
 #include <drivers/ethphy/CUST_ethPhy.h>
@@ -150,15 +150,10 @@ extern "C" {
 extern uint32_t        CUST_DRIVERS_init                            (CUST_DRIVERS_SInit_t* pParams_p);
 extern uint32_t        CUST_DRIVERS_deinit                          (void);
 
-extern void            CUST_DRIVERS_UART_printf           (void* pContext_p, const char* __restrict pFormat_p, va_list argptr_p);
-extern void            CUST_DRIVERS_LOG_printf            (void* pContext_p, const char* __restrict pFormat_p, va_list argptr_p);
-
 extern void*           CUST_DRIVERS_PRM_getHandle         (uint32_t type_p, uint32_t instance_p);
 extern uint32_t        CUST_DRIVERS_PRM_read              (void* handler_p, uint32_t type_p, uint32_t offset_p, uint8_t* pBuf_p, uint32_t length_p);
 extern uint32_t        CUST_DRIVERS_PRM_write             (void* handler_p, uint32_t type_p, uint32_t offset_p, uint8_t* pBuf_p, uint32_t length_p, bool blocking_p);
 extern bool            CUST_DRIVERS_PRM_isWritePending    (void);
-
-extern void            CUST_DRIVERS_LED_setIndustrialLeds (uint32_t value);
 
 #if (defined __cplusplus)
 }

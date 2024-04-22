@@ -1,14 +1,14 @@
 /*!
- *  \file CUST_uart.h
+ *  \file appLed.h
  *
  *  \brief
- *  Custom UART interface.
+ *  Declarations related to access LED's.
  *
  *  \author
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -40,26 +40,40 @@
  *
  */
 
-#if !(defined PROTECT_CUST_UART_H)
-#define PROTECT_CUST_UART_H     1
 
-#include <osal.h>
+#ifndef APPLED_H
+#define APPLED_H
 
-typedef enum CUST_UART_EError
+// definition of missing OSAL codes - remove on next OSAL release
+#define OSAL_GENERAL_ERROR          (0x80000000u)  //!< Negative default value
+
+#define OSAL_LED_DRV_HANDLE_INVALID (0x00060003u)  //!< LED handle set to NULL
+#define OSAL_LED_DRV_GETATTR        (0x00060004u)  //!< LED_getAttrs call returns NULL
+#define OSAL_LED_DRV_OPEN           (0x00060005u)  //!< LED_open call failed
+#define OSAL_LED_DRV_CLOSE          (0x00060006u)  //!< LED_close call failed
+#define OSAL_LED_DRV_ON             (0x00060007u)  //!< LED_on call failed
+#define OSAL_LED_DRV_OFF            (0x00060008u)  //!< LED_off call failed
+#define OSAL_LED_DRV_SETMASK        (0x00060009u)  //!< LED_setMask call failed
+
+/*!
+ *  \brief
+ *  Application LED's initialization parameters.
+ */
+typedef struct EI_APP_LED_SInit
 {
-    CUST_UART_eERR_NOERROR           = 0,    /*!< No error, everything is fine. */
-    CUST_UART_eERR_GENERALERROR      = -1    /*!< General error */
-} CUST_UART_EError_t;
+    uint32_t   industrialLedsInst;         /* Industrial LED's instance */
+}EI_APP_LED_SInit_t;
 
-#if (defined __cplusplus)
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-extern uint32_t CUST_UART_init   (void);
-extern uint32_t CUST_UART_deInit (void);
+extern void     EI_APP_LED_industrialSet    (uint32_t value);
+extern uint32_t EI_APP_LED_init             (EI_APP_LED_SInit_t* pParams);
+extern uint32_t EI_APP_LED_deInit           (void);
 
-#if (defined __cplusplus)
+#ifdef  __cplusplus
 }
 #endif
 
-#endif /* PROTECT_CUST_UART_H */
+#endif // APPLED_H

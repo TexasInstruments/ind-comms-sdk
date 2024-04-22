@@ -141,6 +141,10 @@
         </file>
         <file path="../../../../../../appTask.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
+        <file path="../../../../../../appLed.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../appUart.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
         <file path="../../../../../../appWebServer.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../board/am243x-lp/freertos/drivers/CUST_drivers.c" openOnCreation="false" excludeFromBuild="false" action="link">
@@ -154,8 +158,6 @@
         <file path="../../../../../../board/am243x-lp/freertos/drivers/led/CUST_led.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../board/am243x-lp/freertos/drivers/pru_icss/CUST_pruIcss.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="../../../../../../board/am243x-lp/freertos/drivers/uart/CUST_uart.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../../custom_phy/src/CUST_PHY_base.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

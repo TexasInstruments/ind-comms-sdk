@@ -1,14 +1,14 @@
 /*!
- *  \file CUST_uart.h
+ *  \file appUart.h
  *
  *  \brief
- *  Custom UART interface.
+ *  Declarations related to access UART's.
  *
  *  \author
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -40,26 +40,32 @@
  *
  */
 
-#if !(defined PROTECT_CUST_UART_H)
-#define PROTECT_CUST_UART_H     1
 
-#include <osal.h>
+#ifndef APPUART_H
+#define APPUART_H
 
-typedef enum CUST_UART_EError
+#define OSAL_UART_DRV_HANDLE_INVALID (0x00040010u)  //!< UART handle set to NULL
+
+/*!
+ *  \brief
+ *  Application LED's initialization parameters.
+ */
+typedef struct EI_APP_UART_SInit
 {
-    CUST_UART_eERR_NOERROR           = 0,    /*!< No error, everything is fine. */
-    CUST_UART_eERR_GENERALERROR      = -1    /*!< General error */
-} CUST_UART_EError_t;
+    uint32_t   uartInst;         /* UART instance */
+}EI_APP_UART_SInit_t;
 
-#if (defined __cplusplus)
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-extern uint32_t CUST_UART_init   (void);
-extern uint32_t CUST_UART_deInit (void);
+extern uint32_t EI_APP_UART_init       (const EI_APP_UART_SInit_t* pParams);
+extern uint32_t EI_APP_UART_deInit     (void);
+extern void     EI_APP_UART_printf     (void* pContext, const char* pFormat, va_list argptr);
+extern void     EI_APP_UART_LOG_printf (void* pContext, const char* pFormat, va_list argptr);
 
-#if (defined __cplusplus)
+#ifdef  __cplusplus
 }
 #endif
 
-#endif /* PROTECT_CUST_UART_H */
+#endif // APPUART_H

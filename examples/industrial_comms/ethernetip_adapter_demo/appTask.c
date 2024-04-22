@@ -50,6 +50,8 @@
 #include "EI_API.h"
 #include "EI_API_def.h"
 
+#include "appUart.h"
+#include "appLed.h"
 #include "appNV.h"
 
 #include <osal.h>
@@ -238,7 +240,7 @@ laError:
  *  Create a CIP&trade; node.<br>
  *
  */
-static bool EI_APP_TASK_init(APP_SParams_t* param)
+static bool EI_APP_TASK_init(APP_SParams_t* pParam)
 {
     bool result = 1;
 
@@ -274,7 +276,7 @@ static bool EI_APP_TASK_init(APP_SParams_t* param)
     EI_API_ADP_setQuickConnectSupported(adapter_s);
 #endif
 
-    EI_APP_TASK_stackInit(param);
+    EI_APP_TASK_stackInit(pParam);
 
     // Create a CIP node.
     cipNode_s = EI_API_CIP_NODE_new();
@@ -286,18 +288,20 @@ static bool EI_APP_TASK_init(APP_SParams_t* param)
     EI_APP_DEVICE_PROFILE_TASK_init(adapter_s, cipNode_s);
 
     // Finally apply.
-    initParams.taskPrioCyclicIo  = param->adapter.taskPrioCyclicIo;
-    initParams.taskPrioPacket    = param->adapter.taskPrioPacket;
-    initParams.taskPrioStatistic = param->adapter.taskPrioStatistic;
+    initParams.taskPrioCyclicIo  = pParam->adapter.taskPrioCyclicIo;
+    initParams.taskPrioPacket    = pParam->adapter.taskPrioPacket;
+    initParams.taskPrioStatistic = pParam->adapter.taskPrioStatistic;
 
-    initParams.dll.ptp.taskPrioTsDelayRqTx = param->adapter.taskPrioPtpDelayRqTx;   /* Task priority for TX delay request. */
-    initParams.dll.ptp.taskPrioTxTimeStamp = param->adapter.taskPrioPtpTxTimeStamp; /* Task priority for TX time stamp P1 and P2. */
-    initParams.dll.ptp.taskPrioNRT         = param->adapter.taskPrioPtpNRT;         /* Task priority for NRT. */
-    initParams.dll.ptp.taskPrioBackground  = param->adapter.taskPrioPtpBackground;  /* Task priority for background thread. */
+    initParams.dll.ptp.taskPrioTsDelayRqTx = pParam->adapter.taskPrioPtpDelayRqTx;   /* Task priority for TX delay request. */
+    initParams.dll.ptp.taskPrioTxTimeStamp = pParam->adapter.taskPrioPtpTxTimeStamp; /* Task priority for TX time stamp P1 and P2. */
+    initParams.dll.ptp.taskPrioNRT         = pParam->adapter.taskPrioPtpNRT;         /* Task priority for NRT. */
+    initParams.dll.ptp.taskPrioBackground  = pParam->adapter.taskPrioPtpBackground;  /* Task priority for background thread. */
 
-    initParams.dll.lldp.taskPrioReceive    = param->adapter.taskPrioLldpReceive;    /* Task priority for receive thread. */
+    initParams.dll.lldp.taskPrioReceive    = pParam->adapter.taskPrioLldpReceive;    /* Task priority for receive thread. */
 
     EI_API_ADP_init(adapter_s, initParams);
+
+    EI_API_ADP_setAcdDelay(adapter_s, pParam->acd.initialDelay);
 
     EI_API_ADP_getMacAddr(adapter_s, &macAddr);
 
@@ -358,6 +362,11 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
     CUST_DRIVERS_init(&pAppInstance->config.customDrivers);
 
+    EI_APP_UART_init(&pAppInstance->config.uart);
+    EI_APP_LED_init(&pAppInstance->config.led);
+
+    OSAL_registerPrintOut(NULL, EI_APP_UART_printf);
+
     err = HWAL_init ();
     if (err != OSAL_NO_ERROR)
     {
@@ -410,15 +419,11 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 laError:
     OSAL_printf("resetting device\n");
 
+    EI_APP_UART_deInit();
+
     EI_APP_TASK_cleanup(adapter_s, cipNode_s);
 
     EI_API_ADP_pruicssStop();
-
-    CUST_DRIVERS_deinit();
-
-    CMN_BOARD_deinit();
-
-    CMN_OS_deinit();
 
     CMN_OS_reset();
 

@@ -48,10 +48,6 @@
 typedef enum CUST_LED_EError
 {
     CUST_LED_eERR_NOERROR            =  0,   /*!< No error, everything is fine. */
-    CUST_LED_eERR_OFF                = -5,   /*!< LED off failed. */
-    CUST_LED_eERR_SET_MASK           = -4,   /*!< LED set mask failed. */
-    CUST_LED_eERR_ATTRIBUTES_INVALID = -3,   /*!< LED attributes are invalid. */
-    CUST_LED_eERR_HANDLE_INVALID     = -2,   /*!< LED handle is invalid. */
     CUST_LED_eERR_GENERALERROR       = -1    /*!< General error */
 } CUST_LED_EError_t;
 
@@ -59,8 +55,9 @@ typedef enum CUST_LED_EError
 extern "C" {
 #endif
 
-extern uint32_t CUST_LED_init               (void);
-extern uint32_t CUST_LED_deInit             (void);
+extern uint32_t   CUST_LED_init      (void);
+extern uint32_t   CUST_LED_deInit    (void);
+extern LED_Handle CUST_LED_getHandle (uint32_t instanceId);
 
 #if (defined __cplusplus)
 }

@@ -50,6 +50,8 @@
 #include "EI_API.h"
 #include "EI_API_def.h"
 
+#include "appUart.h"
+#include "appLed.h"
 #include "appNV.h"
 
 #include <osal.h>
@@ -900,12 +902,12 @@ uint32_t EI_APP_DOP_setValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId, u
     if (EI_APP_DOP_LED_ON == value)
     {
         EI_APP_DOP_ledStatus_s |= EI_APP_DOP_LED_ON << instanceIndex;
-        CUST_DRIVERS_LED_setIndustrialLeds(EI_APP_DOP_ledStatus_s);
+        EI_APP_LED_industrialSet(EI_APP_DOP_ledStatus_s);
     }
     else
     {
         EI_APP_DOP_ledStatus_s &= ~(EI_APP_DOP_LED_ON << instanceIndex);
-        CUST_DRIVERS_LED_setIndustrialLeds(EI_APP_DOP_ledStatus_s);
+        EI_APP_LED_industrialSet(EI_APP_DOP_ledStatus_s);
     }
 
     error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03, value);
@@ -1867,12 +1869,12 @@ void EI_APP_DOP_run(EI_API_CIP_NODE_T* pCipNode)
             if (EI_APP_DOP_LED_OFF == buffer[instanceIndex])
             {
                 EI_APP_DOP_ledStatus_s &= ~(EI_APP_DOP_LED_ON << instanceIndex);
-                CUST_DRIVERS_LED_setIndustrialLeds(EI_APP_DOP_ledStatus_s);
+                EI_APP_LED_industrialSet(EI_APP_DOP_ledStatus_s);
             }
             else if (EI_APP_DOP_LED_ON == buffer[instanceIndex])
             {
                 EI_APP_DOP_ledStatus_s |= (EI_APP_DOP_LED_ON << instanceIndex);
-                CUST_DRIVERS_LED_setIndustrialLeds(EI_APP_DOP_ledStatus_s);
+                EI_APP_LED_industrialSet(EI_APP_DOP_ledStatus_s);
             }
         }
     }

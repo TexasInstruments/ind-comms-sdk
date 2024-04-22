@@ -126,6 +126,26 @@
 #define LWIP_TCPIP_TIMEOUT  1
 #define MEM_LIBC_MALLOC                 1
 
+#include<stdio.h>
+#include<string.h>
+extern void * pvPortMalloc( size_t xWantedSize );
+extern void vPortFree( void * pv );
+
+static inline void * pvPortCalloc(size_t count, size_t size)
+{
+    size_t len = count * size;
+    void * data = pvPortMalloc(len);
+    if (data)
+    {
+        memset(data, 0, len);
+    }
+    return data;
+}
+
+#define mem_clib_malloc(x) pvPortMalloc(x)
+#define mem_clib_calloc(c, s) pvPortCalloc(c, s)
+#define mem_clib_free(x) vPortFree(x)
+
 /* ---------- Memory options ---------- */
 /* MEM_ALIGNMENT: should be set to the alignment of the CPU for which
    lwIP is compiled. 4 byte alignment -> define MEM_ALIGNMENT to 4, 2
@@ -369,6 +389,11 @@ void sys_unlock_tcpip_core(void);
 #endif
 #endif
 
+
+
+/*-------------------------Hook Options-------------------------*/
+#define LWIP_HOOK_FILENAME "lwip/lwip-config/lwiphooks.h"
+#define LWIP_HOOK_DHCP_PARSE_OPTION ethernetif_dhcp_parse_option_hook
 
 /*-------------------------Misc Options-------------------------*/
 /* Enables ARP*/

@@ -48,6 +48,7 @@
 #include "EI_API.h"
 #include "EI_API_def.h"
 
+#include "appLed.h"
 #include "appCfg.h"
 #include <device_profiles/app_device_profile.h>
 #include <device_profiles/app_device_profile_intern.h>
@@ -207,7 +208,7 @@ void EI_APP_GENERIC_DEVICE_run(EI_API_CIP_NODE_T* pCipNode)
 
         if (attr == 0 && errCode == EI_API_CIP_eERR_OK)
         {
-            CUST_DRIVERS_LED_setIndustrialLeds(attrValue);
+            EI_APP_LED_industrialSet(attrValue);
         }
 
         EI_API_CIP_setAttr_usint(pCipNode, 0x0070, 0x0001, attr + 0x0300, attrValue);

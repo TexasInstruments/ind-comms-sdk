@@ -50,6 +50,8 @@
 #include "EI_API.h"
 #include "EI_API_def.h"
 
+#include "appUart.h"
+#include "appLed.h"
 #include "appNV.h"
 
 #include <osal.h>

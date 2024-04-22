@@ -65,8 +65,10 @@
 #include <drivers/CUST_drivers.h>
 
 #include <appWebServer.h>
-#include <app.h>
+#include "appUart.h"
+#include "appLed.h"
 #include "appTask.h"
+#include "app.h"
 
 /*!
  *  <!-- Description: -->
@@ -118,11 +120,20 @@ int main(
     pCfg->customDrivers.pruIcss.ethPhy.instance_1              = PRU_ICSS_ETHPHY_1_INSTANCE;
     pCfg->customDrivers.pruIcss.ethPhy.taskPrioPhyMdixTask     = OSAL_TASK_Prio_EIP_PHYMDIX;
 
+    /* UART configuration */
+    pCfg->uart.uartInst = CONFIG_UART_CONSOLE;
+
+    /* LED's configuration */
+    pCfg->led.industrialLedsInst = CONFIG_LED0;
+
     /* Custom drivers configuration - EEPROM. */
     pCfg->customDrivers.eeprom.taskPrio = OSAL_TASK_Prio_EIP_EEPROM,
 
     /* Custom drivers configuration - FLASH. */
     pCfg->customDrivers.flash.taskPrio  = OSAL_TASK_Prio_EIP_FLASH,
+
+    /* Adress conflict detection */
+    pCfg->acd.initialDelay = 200;
 
 #if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)
     /* Web Server configuration. */

@@ -43,6 +43,8 @@ FILES_common := \
 	appNV.c \
 	appRst.c \
 	appTask.c \
+	appLed.c \
+	appUart.c \
 	appWebServer.c \
 	CUST_drivers.c \
 	CUST_eeprom.c \
@@ -50,7 +52,6 @@ FILES_common := \
 	CUST_flash.c \
 	CUST_led.c \
 	CUST_pruIcss.c \
-	CUST_uart.c \
 	CUST_PHY_base.c \
 	CUST_PHY_dp83869.c \
 	CMN_CPU_main.c \
@@ -77,7 +78,6 @@ FILES_PATH_common = \
 	../../../../../../board/am243x-lp/freertos/drivers/flash \
 	../../../../../../board/am243x-lp/freertos/drivers/led \
 	../../../../../../board/am243x-lp/freertos/drivers/pru_icss \
-	../../../../../../board/am243x-lp/freertos/drivers/uart \
 	../../../../../../device_profiles \
 	../../../../../../device_profiles/generic_device \
 	../../../../../../../custom_phy/src \

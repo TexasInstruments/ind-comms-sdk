@@ -81,13 +81,21 @@ typedef struct APP_SAdapter
     OSAL_TASK_Priority_t taskPrioLldpReceive;       /* Task priority for receive thread */
 }APP_SAdapter_t;
 
+typedef struct APP_SAcd
+{
+    uint16_t initialDelay;                          /* Delay for sending the first ARP probe on start */
+}APP_SAcd_t;
+
 typedef struct APP_SParams
 {
     APP_SApplication_t      application;
     APP_SHwal_t             hwal;
     APP_SLwip_t             lwip;
     APP_SAdapter_t          adapter;
+    EI_APP_UART_SInit_t     uart;                   /* UART initialization parameters */
+    EI_APP_LED_SInit_t      led;                    /* LED's initialization parameters */
     CUST_DRIVERS_SInit_t    customDrivers;
+    APP_SAcd_t              acd;
 
 #if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)
     CMN_CPU_API_SParams_t   cpuLoad;

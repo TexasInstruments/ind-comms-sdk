@@ -62,8 +62,6 @@ static void CUST_DRIVERS_eepromWriteTask (void *pArg_p);
 static OSAL_TASK_Priority_t    eepromTaskPrio_s;
 static OSAL_TASK_Priority_t    flashTaskPrio_s;
 
-static char aOutStream_s[0x200] = {0};
-
 static uint32_t writeOperationPendingCnt_s = 0;
 static bool     writeOperationPending_s    = false;
 
@@ -97,14 +95,6 @@ uint32_t CUST_DRIVERS_init(CUST_DRIVERS_SInit_t* pParams_p)
     flashTaskPrio_s  = pParams_p->flash.taskPrio;
 
     Drivers_open();
-
-    OSAL_registerPrintOut(NULL, PRINTF_CALLBACK_FUNCTION);
-
-    if (CUST_UART_eERR_NOERROR != CUST_UART_init())
-    {
-        error = (uint32_t) CUST_DRIVERS_eERR_UART;
-        goto initErr;
-    }
 
     ethPhyParams.pruIcssSysConfigId  = pParams_p->pruIcss.instance;
     ethPhyParams.ethPhySysConfigId_0 = pParams_p->pruIcss.ethPhy.instance_0;
@@ -200,83 +190,10 @@ uint32_t CUST_DRIVERS_deinit(void)
 
     Board_driversClose();
 
-    if (CUST_UART_eERR_NOERROR != CUST_UART_deInit())
-    {
-        error = (uint32_t) CUST_DRIVERS_eERR_UART;
-        goto deinitErr;
-    }
-
     Drivers_close();
 
 deinitErr:
     return error;
-}
-
-/*!
-* <!-- Description: -->
-*
-* \brief
-* UART printf output function.
-*
-* \details
-* Printing of specific string to UART output.
-*
-*
-*  <!-- Parameters and return values: -->
-*
-*  \param[in]  pContext_p      Call context
-*  \param[in]  pFormat_p       Format string.
-*  \param[in]  argptr_p        Parameter list.
-*
-*
-*/
-void CUST_DRIVERS_UART_printf(void* pContext_p, const char* __restrict pFormat_p, va_list argptr_p)
-{
-    /* @cppcheck_justify{unusedVariable} false-positive: variable is used */
-    //cppcheck-suppress unusedVariable
-    int32_t transferOK;
-    /* @cppcheck_justify{unusedVariable} false-positive: variable is used */
-    //cppcheck-suppress unusedVariable
-    static UART_Transaction transaction;
-
-    UART_flushTxFifo(gUartHandle[PRINTF_UART_CALLBACK_INSTANCE]);
-    UART_Transaction_init(&transaction);
-
-    OSAL_MEMORY_memset(aOutStream_s, 0, sizeof(aOutStream_s));
-    (void)vsnprintf(aOutStream_s, sizeof(aOutStream_s), pFormat_p, argptr_p);
-
-    transaction.count = strlen(aOutStream_s);
-    transaction.buf = (void *)aOutStream_s;
-    transaction.args = NULL;
-    transferOK = UART_write(gUartHandle[PRINTF_UART_CALLBACK_INSTANCE], &transaction);
-
-    (void)transferOK;
-}
-
-/*!
-* <!-- Description: -->
-*
-* \brief
-* DebugLog printf output function.
-*
-* \details
-* Printing of specific string to CCS console output.
-*
-*
-*  <!-- Parameters and return values: -->
-*
-*  \param[in]  pContext_p      Call context
-*  \param[in]  pFormat_p       Format string.
-*  \param[in]  argptr_p        Parameter list.
-*
-*
-*/
-void CUST_DRIVERS_LOG_printf(void* pContext_p, const char* __restrict pFormat_p, va_list argptr_p)
-{
-    OSAL_MEMORY_memset(aOutStream_s, 0, sizeof(aOutStream_s));
-    (void)vsnprintf(aOutStream_s, sizeof(aOutStream_s), pFormat_p, argptr_p);
-
-    DebugP_log(aOutStream_s);
 }
 
 /*!
@@ -697,63 +614,4 @@ laError:
     writeOperationPendingCnt_s--;
 
     OSAL_SCHED_exitTask(NULL);
-}
-
-/*!
- *  <!-- Description: -->
- *
- *  \brief
- *  Set industrial LEDs controlled by TPIC2810
- *
- *  \details
- *  .
- *
- *  <!-- Parameters and return values: -->
- *
- *  \param[in]  pattern             LED pattern.
- *
- */
-void CUST_DRIVERS_LED_setIndustrialLeds (uint32_t value_p)
-{
-    static uint32_t ledValue_s = 0;
-
-    LED_Handle handle = NULL;
-    LED_Attrs* pAttrs = NULL;
-    int32_t    status;
-    int32_t    ledCnt;
-
-    handle = gLedHandle[INDUSTRIAL_LEDS_INSTANCE];
-
-    if (NULL == handle)
-    {
-        return;
-    }
-
-    pAttrs = (LED_Attrs*) LED_getAttrs(INDUSTRIAL_LEDS_INSTANCE);
-
-    if( ledValue_s == value_p)
-    {
-        return;
-    }
-
-    ledValue_s = value_p;
-
-    for(ledCnt = 0U; ledCnt < pAttrs->numLedPerGroup; ledCnt++)
-    {
-        if(value_p & 1)
-        {
-            status = LED_on(handle, ledCnt);
-        }
-        else
-        {
-            status = LED_off(handle, ledCnt);
-        }
-
-        if(SystemP_SUCCESS != status)
-        {
-            return;
-        }
-
-        value_p >>= 1;
-    }
 }

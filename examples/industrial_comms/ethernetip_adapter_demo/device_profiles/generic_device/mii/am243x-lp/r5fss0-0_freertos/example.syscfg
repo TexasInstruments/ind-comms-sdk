@@ -70,18 +70,20 @@ flash1.peripheralDriver.OSPI.$assign = "OSPI0";
 led1.$name = "CONFIG_LED0";
 led1.name  = "TPIC2810";
 
-gpio1.$name                = "CONFIG_GPIO0";
-gpio1.GPIO.$assign         = "GPIO0";
-gpio1.GPIO.gpioPin.$assign = "GPMC0_AD7";
+gpio1.$name          = "CONFIG_GPIO0";
+gpio1.rx             = true;
+gpio1.GPIO_n.$assign = "GPMC0_AD7";
 
-gpio2.$name                = "DIP_BTN_GPIO1";
-gpio2.GPIO.gpioPin.pu_pd   = "pd";
-gpio2.GPIO.gpioPin.$assign = "UART0_CTSn";
+gpio2.$name          = "DIP_BTN_GPIO1";
+gpio2.pu_pd          = "pd";
+gpio2.rx             = true;
+gpio2.GPIO_n.$assign = "UART0_CTSn";
 
 i2c1.$name               = "CONFIG_I2C0";
 led1.peripheralDriver    = i2c1;
 eeprom1.peripheralDriver = i2c1;
 i2c1.I2C.$assign         = "I2C0";
+i2c1.I2C_child.$name     = "drivers_i2c_v0_i2c_v0_template1";
 
 uart1.$name                   = "CONFIG_UART1";
 uart1.intrEnable              = "USER_INTR";
@@ -367,7 +369,6 @@ flash1.peripheralDriver.OSPI.D3.$suggestSolution             = "OSPI0_D3";
 flash1.peripheralDriver.OSPI.D2.$suggestSolution             = "OSPI0_D2";
 flash1.peripheralDriver.OSPI.D1.$suggestSolution             = "OSPI0_D1";
 flash1.peripheralDriver.OSPI.D0.$suggestSolution             = "OSPI0_D0";
-gpio2.GPIO.$suggestSolution                                  = "GPIO1";
 i2c1.I2C.SCL.$suggestSolution                                = "I2C0_SCL";
 i2c1.I2C.SDA.$suggestSolution                                = "I2C0_SDA";
 uart1.MCU_UART.RXD.$suggestSolution                          = "MCU_UART0_RXD";

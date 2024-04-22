@@ -50,112 +50,58 @@
 #include "ti_board_open_close.h"
 
 /*!
- *  <!-- Description: -->
  *
  *  \brief
- *  Initialization of the industrial LEDs on board.
+ *  Initialization of custom LEDs on board.
  *
  *  \return     uint32_t                            Error code.
  *
  *  \retval     CUST_LED_eERR_NOERROR               Success.
- *  \retval     CUST_LED_eERR_HANDLE_INVALID        LED handle is invalid.
- *  \retval     CUST_LED_eERR_ATTRIBUTES_INVALID    LED attributes are invalid.
- *  \retval     CUST_LED_eERR_SET_MASK              LED set mask failed.
- *  \retval     CUST_LED_eERR_OFF                   LED off failed.
  *
  */
 uint32_t CUST_LED_init(void)
 {
-    uint32_t   result = (uint32_t) CUST_LED_eERR_NOERROR;
+    // Custom LED's are currently not supported by SysConfig
 
-    LED_Handle handle = NULL;
-    LED_Attrs* pAttrs = NULL;
-    int32_t    status = SystemP_FAILURE;
-    int32_t    ledCnt = 0;
-
-    // Get LED handle from sys config
-    handle = gLedHandle[CONFIG_LED0];
-    if(NULL == handle)
-    {
-        OSAL_printf("No led handle available.\n");
-        result = (uint32_t) CUST_LED_eERR_HANDLE_INVALID;
-    }
-    else
-    {
-        pAttrs = (LED_Attrs*) LED_getAttrs(CONFIG_LED0);
-        if(NULL == pAttrs)
-        {
-            OSAL_printf("Can not get LED attributes.\n");
-            result = (uint32_t) CUST_LED_eERR_ATTRIBUTES_INVALID;
-        }
-        else
-        {
-            if(pAttrs->numLedPerGroup > 1U)
-            {
-                status = LED_setMask(handle, 0xFFU);
-                if(SystemP_SUCCESS != status)
-                {
-                    OSAL_printf("Can not set LED Mask.\n");
-                    result = (uint32_t) CUST_LED_eERR_SET_MASK;
-                }
-                else
-                {
-                    // Switch all LEDs off
-                    for(ledCnt = 0U; ledCnt < pAttrs->numLedPerGroup; ledCnt++)
-                    {
-                        status = LED_off(handle, ledCnt);
-
-                        if (SystemP_SUCCESS != status)
-                        {
-                            OSAL_printf("LED off failed.\n");
-                            result = (uint32_t) CUST_LED_eERR_OFF;
-
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return result;
+    return (uint32_t) CUST_LED_eERR_NOERROR;
 }
 
 /*!
- *  <!-- Description: -->
  *
  *  \brief
- *  Deinitialization of the industrial LEDs on board.
+ *  Deinitialization of custom LEDs on board.
  *
  *  \return     uint32_t                        Error code.
  *
  *  \retval     CUST_LED_eERR_NOERROR           Success.
- *  \retval     CUST_LED_eERR_HANDLE_INVALID    LED handle is invalid.
- *  \retval     CUST_LED_eERR_GENERALERROR      Failed.
  *
  */
 uint32_t CUST_LED_deInit(void)
 {
-    uint32_t   result = (uint32_t) CUST_LED_eERR_NOERROR;
+    // Custom LED's are currently not supported by SysConfig
 
-    int32_t    status = SystemP_FAILURE;
+    return (uint32_t) CUST_LED_eERR_NOERROR;
+}
+
+/*!
+*
+*  \brief
+*  Provides handle to LED driver.
+*
+*  \return     LED_Handle  Handle to LED driver.
+*
+*  \retval     NULL           Failed.
+*  \retval     Other          Success.
+*
+*/
+LED_Handle CUST_LED_getHandle(uint32_t instanceId)
+{
     LED_Handle handle = NULL;
 
-    // Get LED handle from sys config
-    handle = gLedHandle[CONFIG_LED0];
-    if(NULL == handle)
+    if (CONFIG_LED_NUM_INSTANCES > instanceId)
     {
-        OSAL_printf("No led handle available.\n");
-        result = (uint32_t) CUST_LED_eERR_HANDLE_INVALID;
+        handle = gLedHandle[instanceId];
     }
 
-    status = LED_setMask(handle, 0x0U);
-
-    if (SystemP_FAILURE == status)
-    {
-        OSAL_printf("Can not set LED Mask.\n");
-        result = (uint32_t) CUST_LED_eERR_SET_MASK;
-    }
-
-    return result;
+    return handle;
 }

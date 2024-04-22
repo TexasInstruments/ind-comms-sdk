@@ -142,6 +142,8 @@ extern ETHIP_API uint32_t EI_API_ADP_setEnipAcdHdr(T* pAdp_p, const EI_API_ADP_S
 extern ETHIP_API uint32_t EI_API_ADP_getMcastConfiguration(T* pAdp_p, EI_API_ADP_SMcastConfig_t* pMcastConfig_p);
 extern ETHIP_API uint32_t EI_API_ADP_setMcastConfiguration(T* pAdp_p, const EI_API_ADP_SMcastConfig_t* pMcast_p);
 
+extern ETHIP_API uint32_t EI_API_ADP_setAcdDelay(T* pAdp_p, uint16_t acdDelayMs);
+
 
 // general adapter status functions
 extern ETHIP_API uint32_t EI_API_ADP_getModuleNetworkStatus(T* pAdp_p, EI_API_ADP_SModNetStatus_t* pStatus_p);
