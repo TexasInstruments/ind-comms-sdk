@@ -990,7 +990,6 @@ void EC_SLV_APP_cia402Application(void* ctxt)
     /* cppcheck-suppress threadsafety-threadsafety */
     static bool gotInOffset = false;
     static bool gotOutOffset = false;
-    bool gotOffsets = false;
     uint8_t                     axisNo;
 
     uint16_t controlWord = 0;
@@ -1055,7 +1054,6 @@ void EC_SLV_APP_cia402Application(void* ctxt)
 
     if ((EC_API_SLV_eESM_op == curState) && !gotOutOffset)
     {
-        gotOffsets = (gotInOffset && gotOutOffset);
         (void)EC_SLV_APP_CiA_fetchPDOffsets(pApplication_p);
 
         EC_API_SLV_getOutputProcDataLength(pApplication_p->ptEcSlvApi, &pApplication_p->pdoOutLen);
