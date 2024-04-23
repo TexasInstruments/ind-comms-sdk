@@ -11,7 +11,7 @@
  *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: LicenseRef-Kunbus
  *
- *  Copyright (c) 2023 KUNBUS GmbH
+ *  Copyright (c) 2024 KUNBUS GmbH
  *  All rights reserved.
  *
  *
@@ -68,20 +68,20 @@ typedef enum GW_API_EErrorcode {
  * */
 typedef struct GW_API_SPortExpConfig
 {
-    uint32_t vendorID;         /**! \brief vendorId for connected device - for check */
-    uint32_t deviceID;         /**! \brief deviceId for connected device - for check */
-    uint8_t  revisionID;       /**! \brief revisionId for connected device - for check */
-    uint8_t  inputDataLength;  /**! \brief length of PDin - for check */
-    uint8_t  outputDataLength; /**! \brief length of PDout - for check */
+    uint32_t vendorID;         /**! \brief vendorId for connected device - for check, 0=undefinied */
+    uint32_t deviceID;         /**! \brief deviceId for connected device - for check, 0=undefinied */
+    uint8_t  revisionID;       /**! \brief revisionId for connected device - for check, 0=undefinied */
+    uint8_t  inputDataLength;  /**! \brief length of PDin - for check (max. 31 Bytes) */
+    uint8_t  outputDataLength; /**! \brief length of PDout - for check (max. 31 Bytes) */
     uint8_t  serialNumber[GW_API_SERIALNR_LEN]; /**! \brief 0x8nn1:0  16Byte, CPC Data - for check */
-    uint8_t  portCycleTime;    /**! \brief master cycle time of port */
+    uint8_t  portCycleTime;    /**! \brief master cycle time of port, 0=undefinied */
     uint8_t  iQBehavior;       /**! \brief only GW_API_IQBEHAVIOR_DIGITALINPUT supported */
     uint8_t  validationType;   /**! \brief type 0=no check, 1=VID+DID, 2=VID+DID+SN */
     uint8_t  masterControl;    /**! \brief type 0=inactive, 1=DI, 2=DO, 3=protocol, 4=comstop */
 } GW_API_SPortExpConfig_t;
-#define GW_API_VALIDATION_TYPE_NONE        0U    
-#define GW_API_VALIDATION_TYPE_ID          1U
-#define GW_API_VALIDATION_TYPE_SERIAL      2U
+#define GW_API_VALIDATION_TYPE_NONE        0U   /* no validation */  
+#define GW_API_VALIDATION_TYPE_ID          1U   /* validate with IO-Link VendorId and DeviceId */
+#define GW_API_VALIDATION_TYPE_SERIAL      2U   /* validate with IO-Link VendorId, DeviceId and Serial Number */
 
 #define GW_API_IQBEHAVIOR_NOTSUPPORTED     0U
 #define GW_API_IQBEHAVIOR_DIGITALINPUT     1U
@@ -91,13 +91,13 @@ typedef struct GW_API_SPortExpConfig
 #define GW_API_IQBEHAVIOR_ANALOGOUTPUT     4U
 #define GW_API_IQBEHAVIOR_POWER2           5U
 
-#define GW_API_MASTERCONTROL_DEACTIVATED   0U
-#define GW_API_MASTERCONTROL_DI            1U
-#define GW_API_MASTERCONTROL_DO            2U
-#define GW_API_MASTERCONTROL_IOLINKPROT    3U
-#define GW_API_MASTERCONTROL_IOLCOMSTOP    4U
-#define GW_API_MASTERCONTROL_ACTIVE     0x20U
-#define GW_API_MASTERCONTROL_DISABLED   0x40U
+#define GW_API_MASTERCONTROL_DEACTIVATED   0U   /* port is deactivated */
+#define GW_API_MASTERCONTROL_DI            1U   /* use port as Digital Input */
+#define GW_API_MASTERCONTROL_DO            2U   /* use port as Digital Output */
+#define GW_API_MASTERCONTROL_IOLINKPROT    3U   /* use IO-Link protocol */
+#define GW_API_MASTERCONTROL_IOLCOMSTOP    4U   /* stop IO-Link communication */
+#define GW_API_MASTERCONTROL_ACTIVE     0x20U   /* IO-Link port active */
+#define GW_API_MASTERCONTROL_DISABLED   0x40U   /* IO-Link port disabled */
 
 /*!
  *  <!-- Description: -->

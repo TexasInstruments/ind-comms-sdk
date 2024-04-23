@@ -9,7 +9,11 @@
  *
  *  \copyright
  *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  @KUNBUS_LICENSE@
+ *  SPDX-License-Identifier: LicenseRef-Kunbus
+ *
+ *  Copyright (c) 2024 KUNBUS GmbH
+ *  All rights reserved.
+ *
  *
  */
 
