@@ -2964,7 +2964,7 @@ static uint32_t EC_SLAVE_APP_mappingChangedHandler(
         OSAL_printf("New mapping for PDO 0x%04x: \r\n", pdoIndex_p);
         for (idx = 0; idx < count_p; idx++)
         {
-            OSAL_printf("0x%04x:%d\r\n", pPdoMap_p[idx].index, pPdoMap_p[idx].subIndex);
+            OSAL_printf("0x%04x:%d:0x%02x\r\n", pPdoMap_p[idx].index, pPdoMap_p[idx].subIndex,pPdoMap_p[idx].size );
         }
         OSAL_printf("**************************************\r\n");
     }

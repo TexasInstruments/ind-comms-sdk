@@ -127,7 +127,8 @@ typedef struct EC_SLV_API_PDO_SEntryMap
 {
     uint16_t    index;
     uint8_t     subIndex;
-} OSAL_STRUCT_PACKED EC_API_SLV_PDO_SEntryMap_t;
+    uint8_t     size;
+}  EC_API_SLV_PDO_SEntryMap_t;
 
 /// TEntry describes an Entry of a PDO Mapping.
 typedef struct EC_API_SLV_PdoEntry EC_API_SLV_SPdoEntry_t;
