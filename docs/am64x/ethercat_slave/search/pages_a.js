@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['non_2dvolatile_20memory_20_28nvm_29_0',['Non-Volatile Memory (NVM)',['../persistentstorage.html',1,'']]]
+  ['large_20object_20padding_0',['Large object padding',['../_large_obj_config_page.html',1,'']]]
 ];
