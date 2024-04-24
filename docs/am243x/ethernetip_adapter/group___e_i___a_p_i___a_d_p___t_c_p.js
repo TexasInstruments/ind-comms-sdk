@@ -16,6 +16,7 @@ var group___e_i___a_p_i___a_d_p___t_c_p =
     [ "EI_API_ADP_setIpTTL", "group___e_i___a_p_i___a_d_p___t_c_p_ga900046037cce6f3d4717e7d2bfbfcb6a.html#ga900046037cce6f3d4717e7d2bfbfcb6a", null ],
     [ "EI_API_ADP_getMcastConfiguration", "group___e_i___a_p_i___a_d_p___t_c_p_gab2548fa7e1488c84d4614f4d597f3529.html#gab2548fa7e1488c84d4614f4d597f3529", null ],
     [ "EI_API_ADP_setMcastConfiguration", "group___e_i___a_p_i___a_d_p___t_c_p_ga2e19e39edef945247ceb487f554f2918.html#ga2e19e39edef945247ceb487f554f2918", null ],
+    [ "EI_API_ADP_setAcdDelay", "group___e_i___a_p_i___a_d_p___t_c_p_ga15e4a5d50137b6721f0ec40634c1e0e4.html#ga15e4a5d50137b6721f0ec40634c1e0e4", null ],
     [ "EI_API_ADP_getACD", "group___e_i___a_p_i___a_d_p___t_c_p_gab288bb3d89aad0661aab26efda07edc3.html#gab288bb3d89aad0661aab26efda07edc3", null ],
     [ "EI_API_ADP_setACD", "group___e_i___a_p_i___a_d_p___t_c_p_gae7f48c66800fa74f7c9fcf0008e2f43c.html#gae7f48c66800fa74f7c9fcf0008e2f43c", null ],
     [ "EI_API_ADP_getEnipAcdState", "group___e_i___a_p_i___a_d_p___t_c_p_gab0514574d904e20e6e8eb3bf97d346c8.html#gab0514574d904e20e6e8eb3bf97d346c8", null ],

@@ -1,5 +1,6 @@
 var annotated_dup =
 [
+    [ "APP_SAcd", "struct_a_p_p___s_acd.html", "struct_a_p_p___s_acd" ],
     [ "APP_SAdapter", "struct_a_p_p___s_adapter.html", "struct_a_p_p___s_adapter" ],
     [ "APP_SApplication", "struct_a_p_p___s_application.html", "struct_a_p_p___s_application" ],
     [ "APP_SHwal", "struct_a_p_p___s_hwal.html", "struct_a_p_p___s_hwal" ],
@@ -56,6 +57,10 @@ var annotated_dup =
     [ "EI_APP_DOP_ClassData", "struct_e_i___a_p_p___d_o_p___class_data.html", "struct_e_i___a_p_p___d_o_p___class_data" ],
     [ "EI_APP_GENERIC_DEVICE_CFG_Data", "struct_e_i___a_p_p___g_e_n_e_r_i_c___d_e_v_i_c_e___c_f_g___data.html", "struct_e_i___a_p_p___g_e_n_e_r_i_c___d_e_v_i_c_e___c_f_g___data" ],
     [ "EI_APP_GENERIC_DEVICE_CFG_ProfileData", "struct_e_i___a_p_p___g_e_n_e_r_i_c___d_e_v_i_c_e___c_f_g___profile_data.html", null ],
+    [ "EI_APP_Industrial", "struct_e_i___a_p_p___industrial.html", "struct_e_i___a_p_p___industrial" ],
+    [ "EI_APP_LED_SInit", "struct_e_i___a_p_p___l_e_d___s_init.html", "struct_e_i___a_p_p___l_e_d___s_init" ],
+    [ "EI_APP_Uart", "struct_e_i___a_p_p___uart.html", "struct_e_i___a_p_p___uart" ],
+    [ "EI_APP_UART_SInit", "struct_e_i___a_p_p___u_a_r_t___s_init.html", "struct_e_i___a_p_p___u_a_r_t___s_init" ],
     [ "EIP_SConfigurationControl_t", "struct_e_i_p___s_configuration_control__t.html", "struct_e_i_p___s_configuration_control__t" ],
     [ "EIP_SLoadParameter", "struct_e_i_p___s_load_parameter.html", "struct_e_i_p___s_load_parameter" ],
     [ "EIP_SPortState", "struct_e_i_p___s_port_state.html", "struct_e_i_p___s_port_state" ],
