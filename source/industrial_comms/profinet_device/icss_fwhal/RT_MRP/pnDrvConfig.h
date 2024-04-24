@@ -65,7 +65,7 @@ extern "C"
 /** @def APP_NAME
  *       Used in UART logs/LCD etc..
  */
-#define APP_NAME "Profinet Slave RT/MRP"
+#define APP_NAME "Profinet Device RT/MRP"
 
 /** application version */
 #define APP_VERSION "3.0.0.0"

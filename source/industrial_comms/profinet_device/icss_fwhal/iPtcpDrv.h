@@ -182,16 +182,24 @@ void PN_PTCP_registerDelayUpdateCall(PN_Handle pnHandle,
                                      ptcpCallBack_t callBack);
 
 /**
+ * \brief                   Registers the callback function for custom sync timeout monitor
+ *                          typedef void (*ptcpSyncCallBack_t)(void* arg1);\n
+ *                          arg1: pnHandle
+ * \param pnHandle Profinet Handle
+ * \param[in] callBack      Function pointer for callback function\n
+ *                          
+ */
+void PN_PTCP_registerSyncMonitorCall(PN_Handle pnHandle,
+                                     ptcpSyncCallBack_t callBack);
+
+
+/**
  * \brief                   Returns the current cable delay related values
  *
  * \param pnHandle Profinet Handle
  * \param[in] portDelays    Reference to structure for ptcp delay values\n
  * \param[in] portNum       Port no. (1 or 2) for which delay values are requested
  */
-
-void PN_PTCP_registerSyncMonitorCall(PN_Handle pnHandle,
-                                     ptcpSyncCallBack_t callBack);
-
 
 void PN_PTCP_getDelayValues(PN_Handle pnHandle, ptcpPortDelayVal_t *portDelays,
                             uint8_t portNum);

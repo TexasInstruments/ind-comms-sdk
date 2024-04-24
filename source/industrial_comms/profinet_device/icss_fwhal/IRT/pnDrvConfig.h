@@ -61,7 +61,7 @@ extern "C"
  */
 #define MRP_SUPPORT
 
-#define APP_NAME "Profinet Slave IRT"
+#define APP_NAME "Profinet Device IRT"
 
 /** application version */
 #define APP_VERSION "3.0.0.0"
