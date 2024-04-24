@@ -36,10 +36,11 @@ var searchData=
   ['release_20version_201_2009_2007_33',['Release Version 1.09.07',['../releasenotes.html#version_release10907',1,'']]],
   ['release_20version_201_2009_2008_34',['Release Version 1.09.08',['../releasenotes.html#version_release10908',1,'']]],
   ['release_20version_202_2000_2000_35',['Release Version 2.00.00',['../releasenotes.html#version_release20000',1,'']]],
-  ['release_20version_202_2000_2001_36',['Release Version 2.00.01',['../releasenotes.html#version_release20001',1,'']]],
-  ['report_37',['Conformity Test Report',['../references.html#section_conformity_test_report',1,'']]],
-  ['request_20data_38',['SMI On Request Data',['../group__grp__smi__onreq.html',1,'']]],
-  ['run_39',['Initialization and Run',['../page_smi.html#sect_smi_init',1,'']]],
-  ['run_20and_20debug_20project_40',['Compile, Run and Debug Project',['../page_quickstart.html#qs_example_debug',1,'']]],
-  ['run_20the_20example_41',['Steps to Run the Example',['../page_quickstart.html#qs_example_run',1,'']]]
+  ['release_20version_202_2001_2000_36',['Release Version 2.01.00',['../releasenotes.html#version_release20100',1,'']]],
+  ['release_20version_202_2001_2001_37',['Release Version 2.01.01',['../releasenotes.html#version_release20101',1,'']]],
+  ['report_38',['Conformity Test Report',['../references.html#section_conformity_test_report',1,'']]],
+  ['request_20data_39',['SMI On Request Data',['../group__grp__smi__onreq.html',1,'']]],
+  ['run_40',['Initialization and Run',['../page_smi.html#sect_smi_init',1,'']]],
+  ['run_20and_20debug_20project_41',['Compile, Run and Debug Project',['../page_quickstart.html#qs_example_debug',1,'']]],
+  ['run_20the_20example_42',['Steps to Run the Example',['../page_quickstart.html#qs_example_run',1,'']]]
 ];

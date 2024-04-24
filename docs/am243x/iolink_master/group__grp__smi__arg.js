@@ -11,17 +11,12 @@ var group__grp__smi__arg =
     [ "IOLM_SMI_SMasterident", "struct_i_o_l_m___s_m_i___s_masterident.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_masterident.html#aaf0217e0508624674f27170a32aa2428", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_masterident.html#a0988d21ac866bb36f3ff3030c66d7d5b", null ],
-      [ "u32MasterID", "struct_i_o_l_m___s_m_i___s_masterident.html#a026daac07a73acc73608ac93006e666c", null ],
-      [ "u8Features_1", "struct_i_o_l_m___s_m_i___s_masterident.html#a67d337ff869f31fbe04724e7c1a04357", null ],
-      [ "u8Features_2", "struct_i_o_l_m___s_m_i___s_masterident.html#a6e6d42305ea81b58f68cb79548bef51d", null ],
-      [ "u8MasterType", "struct_i_o_l_m___s_m_i___s_masterident.html#ab918498eb0d027273c177928a70a1e2f", null ],
-      [ "u8MaxNumberOfPorts", "struct_i_o_l_m___s_m_i___s_masterident.html#a04d7df6007dab5a044b108cccf4d99e3", null ]
+      [ "u32MasterID", "struct_i_o_l_m___s_m_i___s_masterident.html#a026daac07a73acc73608ac93006e666c", null ]
     ] ],
     [ "IOLM_SMI_SFSMasterAccess", "struct_i_o_l_m___s_m_i___s_f_s_master_access.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_f_s_master_access.html#a92a9b1050550c314b01f8dd7c7bfb139", null ],
       [ "u32FSMasterPassword", "struct_i_o_l_m___s_m_i___s_f_s_master_access.html#aa2b3178407d94bc5e047817448a2617b", null ],
-      [ "u32FSResetMasterPW", "struct_i_o_l_m___s_m_i___s_f_s_master_access.html#ae1e57cc7d4f1fc692864e19df4022150", null ],
-      [ "u8FSUserRole", "struct_i_o_l_m___s_m_i___s_f_s_master_access.html#a023a812008def22cb19e43ec59a63052", null ]
+      [ "u32FSResetMasterPW", "struct_i_o_l_m___s_m_i___s_f_s_master_access.html#ae1e57cc7d4f1fc692864e19df4022150", null ]
     ] ],
     [ "IOLM_SMI_SFSCPAuthenticity", "struct_i_o_l_m___s_m_i___s_f_s_c_p_authenticity.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_f_s_c_p_authenticity.html#acb7cbcd85e00be5bc9c44532b5d1e70d", null ],
@@ -29,122 +24,56 @@ var group__grp__smi__arg =
       [ "u32FSCPAuthenticity2", "struct_i_o_l_m___s_m_i___s_f_s_c_p_authenticity.html#a2555dd7e70afe0d6a99e50dd79b0cb2d", null ]
     ] ],
     [ "IOLM_SMI_SWMasterConfigListOld", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html", [
-      [ "au8Blocklist", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#a3af5dea3c67b429241776d2ae5193469", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#a78f03bc76d92f200aaff6a3e61ae388d", null ],
       [ "u16PairingTimeout", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#adbe8e89938a5c76e92e8403a081f413d", null ],
       [ "u8AHTEnable", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#aa1799e65c9d602f1ffa15e78793c5e54", null ],
       [ "u8MasterID", "struct_i_o_l_m___s_m_i___s_w_master_config_list_old.html#aec054a2e74ad8bbc354198298f71c569", null ]
     ] ],
     [ "IOLM_SMI_SWPortConfigList", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html", [
-      [ "au8UniqueID", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a6abdefe69f922aa6133922e7300f8244", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a253d6df2308f00ee05d4794aa1001a7c", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a08f616908d4d17dd334376a74fc44070", null ],
       [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#aa157645c8ba1e85cafcef20e70c67dea", null ],
-      [ "u8DeviceTxPower", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a45cece2d36b9e7dc1cd4d1ddd92e0ae4", null ],
       [ "u8ImaTimeBase", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a7bab871c155e6287e22728849901145c", null ],
       [ "u8ImaTimeMulti", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#ac71186a1a39139cf3b8947a526543ddc", null ],
-      [ "u8IQBehavior", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#ac2655efb6185a0b1782eda70195e6fce", null ],
       [ "u8LowPowerDevice", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a03a8ea2e93c8d0467fa7f52babb04334", null ],
-      [ "u8MaxPDSegLength", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a1ea839dbea2e27681ad0cf13617ec921", null ],
-      [ "u8MaxRetry", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#ae1cbf6b15b377534aa09eeb841cd3607", null ],
-      [ "u8PortCycleTime", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a04bb5f95a78a9a8494f7fedd18aee8a8", null ],
-      [ "u8PortMode", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a648c4789145c9e9492e23fe572f0f26e", null ],
       [ "u8Slot", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a92c918b361990ea42d56dfe55624a5ec", null ],
       [ "u8SlotType", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a7889fe87338b2957ccd8776a7e3c537a", null ],
-      [ "u8Track", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a09b117dc5ebcf969c82bfb83525a64b9", null ],
-      [ "u8ValidationBackup", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a54ce2341caba7b9673310209931aed8e", null ],
-      [ "u8WMasterCycleTimePDIn", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a5ceafec9a624fa80d4a79350670c3968", null ],
-      [ "u8WMasterCycleTimePDOut", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#ac421bfc2e3ab4ea0ea8118f55693399e", null ]
+      [ "u8Track", "struct_i_o_l_m___s_m_i___s_w_port_config_list.html#a09b117dc5ebcf969c82bfb83525a64b9", null ]
     ] ],
     [ "IOLM_SMI_SWPortConfigListOld", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html", [
-      [ "au8UniqueID", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#a12be7d4a64974f011c3cc5da82370092", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#a7c72219d43bc9e3e37e7b7ae8bceab0b", null ],
       [ "u16ImaTime", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#ab684d57e86e92427c0558554cf41cd28", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#a12b2eb8835d96f9787d9f36df83d892b", null ],
       [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#a46d61e6a1f9d1dcf08ba57d4e25d42b6", null ],
-      [ "u8DeviceTxPower", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#ac78c7b13d4a1bc6473b66222cf0ecc21", null ],
-      [ "u8IQBehavior", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#a1d27fd3bee47e4caa1f00ebe0ec5e05d", null ],
       [ "u8LowPowerDevice", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#a0a8aa452279b57a27f6eba6d5e1f2f26", null ],
-      [ "u8MaxPDSegLength", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#ac6c6f2afa0db8497ef8b1d2d994ea6ab", null ],
-      [ "u8MaxRetry", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#a514f413bf3670d3b81499625aaa81038", null ],
-      [ "u8PortCycleTime", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#aa0fb043ba66237482c91a4d2341b49d2", null ],
-      [ "u8PortMode", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#ac2e7831540add63ed7389bb238d6f024", null ],
       [ "u8Slot", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#ac468931fde9bb359c6e25ff0ecd027c9", null ],
       [ "u8SlotType", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#aab6088b7175835d5670e8681de72252a", null ],
-      [ "u8Track", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#ab97dc5fb1409baaabb18e1c265dba776", null ],
-      [ "u8ValidationBackup", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#a1650ed4cb06425a8e3958d2177bea1c6", null ]
+      [ "u8Track", "struct_i_o_l_m___s_m_i___s_w_port_config_list_old.html#ab97dc5fb1409baaabb18e1c265dba776", null ]
     ] ],
     [ "IOLM_SMI_SFSPortConfigList", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a3b03fcf1efc8747b0606767b83f3c71c", null ],
-      [ "u16FSPAuthentCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a98e435c180780d06c47319215c00b282", null ],
-      [ "u16FSPIOStructCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a62a2a9d9b0b03e994dd3585c3abc7671", null ],
-      [ "u16FSPMinShutDownTime", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#aedd0e3a33783b93c3e80e28f670cdaa2", null ],
-      [ "u16FSPProtParCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ab547f6b7e92d7ec01990150711ab5a1e", null ],
-      [ "u16FSPTime2Ready", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#acfcd17d9be512e9dab844fe80f429386", null ],
-      [ "u16FSPWatchdogTime", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a35b8a7c81b2953056813b55ded479ffe", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a8776369f0ea4f9afcf454b6afe53d8c0", null ],
-      [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ab3d6b328713f90de52ab3a240209fb92", null ],
-      [ "u32FSCPAuthenticity1", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a5ce40b2db17e9eb4d0f7d1a1b1f5d617", null ],
-      [ "u32FSCPAuthenticity2", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ad5e2c941bf13270081c5bac59c720254", null ],
-      [ "u32FSPTechParCRC", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ac86e1a61383c645efee3e90f8c988529", null ],
-      [ "u8FSPPort", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a5c508314fc313ab6d7a835af08ced255", null ],
-      [ "u8FSPProtMode", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ad0a05e6df999589bd56df54407c84587", null ],
-      [ "u8FSPProtVersion", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a0af850246d688501666ccffcc1016632", null ],
-      [ "u8IODescVersion", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ad540fe98e0e7f293f64c7d1e33606dba", null ],
-      [ "u8IQBehavior", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a5b8c84d7c80f517750cb70e89e1c42bb", null ],
-      [ "u8PortCycleTime", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ad1fd2f153276d270f38c0a76e4235aac", null ],
-      [ "u8PortMode", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a680fa6dc48028b17c81112bb53f07424", null ],
-      [ "u8SPDUInLength", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a6b9b2b1fc35e8ec22b219b007c247e9f", null ],
-      [ "u8SPDUOutLength", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ade8cfcba2c3da2bab01c7581d1623e6f", null ],
-      [ "u8TotalOfInBits", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#aa2680437140f17a4151f93066635a2ff", null ],
-      [ "u8TotalOfInInt16", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a023d0ec172b3ea007a601f53cb68f38d", null ],
-      [ "u8TotalOfInInt32", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a42ba77d96ae0fa6727b92e8148214dcd", null ],
-      [ "u8TotalOfInOctets", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a925cb59fea79277869cae22089c9daba", null ],
-      [ "u8TotalOfOutBits", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a2509f888ed68d0cc3876d0a55df5bde0", null ],
-      [ "u8TotalOfOutInt16", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#abf64aadb99e492fbdaaa7c7c0c6d66b5", null ],
-      [ "u8TotalOfOutInt32", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a7b06669435e0aaf32f68d9d72a15a9f2", null ],
-      [ "u8TotalOfOutOctets", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#a19b7ba818a0783cf0c84013648c122e3", null ],
-      [ "u8ValidationBackup", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ab9fb43cd163ff44431ec1a0c7f8d1b79", null ]
+      [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_f_s_port_config_list.html#ab3d6b328713f90de52ab3a240209fb92", null ]
     ] ],
     [ "IOLM_SMI_SPortConfigList", "struct_i_o_l_m___s_m_i___s_port_config_list.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_port_config_list.html#a4c253764b2646fe3fdd27737da60d60d", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_port_config_list.html#a235dd656b07c525f1a77b9c3cd689033", null ],
       [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_port_config_list.html#ae2ec62858e0ca2789833f7fc086cfff0", null ],
       [ "u8IQBehavior", "struct_i_o_l_m___s_m_i___s_port_config_list.html#ad35f3195e0d9cad13322d9014721f4a8", null ],
-      [ "u8PortCycleTime", "struct_i_o_l_m___s_m_i___s_port_config_list.html#a2f5ac35ab16de691887311a043208489", null ],
       [ "u8PortMode", "struct_i_o_l_m___s_m_i___s_port_config_list.html#a9e396fc755e59d3e31947267446c43be", null ],
       [ "u8ValidationBackup", "struct_i_o_l_m___s_m_i___s_port_config_list.html#aabd2af3148304c548b0df2aa54747c2f", null ]
     ] ],
     [ "IOLM_SMI_SWPortStatusList", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html", [
-      [ "au8DiagData", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a2d4ef6ec40073c07a3ac19e4934fd2cd", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a63fd687f0fe79554cb1d69ccf5d1e067", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#ad57184e9cc680e7b460f23c8585d97e1", null ],
       [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a9fc5c1cec93eac30bc083fa13f7fa481", null ],
-      [ "u8ConnectionQuality", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a337c21eee440a33fd3cb268a26aead89", null ],
-      [ "u8InputDataLength", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a21f723454c02915ee69720b9f358277a", null ],
-      [ "u8MasterCycleTime", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a7b0fba9c6bd3604795d13927bfb5c37f", null ],
-      [ "u8NumberOfDiags", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#aaa1fd21938c9c50f5921069297c6b3ab", null ],
-      [ "u8OutputDataLength", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a2adc03f17aaec30c0d3220c710e5703a", null ],
-      [ "u8PortQualityInfo", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#aa9fde3f629241f3b043385252df41b5e", null ],
-      [ "u8PortStatusInfo", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a388016bbe100f27f613255f7f0d7e6d9", null ],
-      [ "u8RevisionID", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a93ad7bb974688da53b6756e03b862ff1", null ],
-      [ "u8WMasterCycleTimePDIn", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#aebe3545711b7c0e065dc325080239b95", null ],
-      [ "u8WMasterCycleTimePDOut", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a9339dd37b0905a275aa70177c33310e5", null ]
+      [ "u8PortStatusInfo", "struct_i_o_l_m___s_m_i___s_w_port_status_list.html#a388016bbe100f27f613255f7f0d7e6d9", null ]
     ] ],
     [ "IOLM_SMI_V113_SWPortStatusList", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html", [
-      [ "au8DiagData", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a4fb602ee80a093def3ccbae4b5e54509", null ],
-      [ "au8Reserved", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a36d9c13c5e3385c0e6e10037b6baa861", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a33ae8b44090178939b3bb19cb05778d9", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a930286451a65cf33db39c34a13a104b1", null ],
       [ "u32DeviceID", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a6740eed166c60d2ac2557a7b084d3776", null ],
-      [ "u8InputDataLength", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a74520d028868ff33015c72f4b2fb919a", null ],
-      [ "u8MasterCycleTimePDIn", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a485e332947f5e27d2f38339a53cb64fa", null ],
-      [ "u8MasterCycleTimePDOut", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#aa34fae376ef3d6aff06321b7c913d5e5", null ],
-      [ "u8NumberOfDiags", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a8a17c1f64753be3b6f4abe3b8906ff8e", null ],
-      [ "u8OutputDataLength", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a0dd70f1d8441f7e9393f9ea3592f8248", null ],
-      [ "u8PortQualityInfo", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a39c689238849756155c4df50a1451d74", null ],
-      [ "u8PortStatusInfo", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a7518413768ab6296406ec5cf025f6d39", null ],
-      [ "u8RevisionID", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a9fa9d23492171e31a5a6a0f125c7bccb", null ]
+      [ "u8PortStatusInfo", "struct_i_o_l_m___s_m_i___v113___s_w_port_status_list.html#a7518413768ab6296406ec5cf025f6d39", null ]
     ] ],
     [ "IOLM_SMI_SWTrackStatusList", "struct_i_o_l_m___s_m_i___s_w_track_status_list.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_w_track_status_list.html#a24203de5cfc16a8bff8700553fdfc143", null ],
@@ -166,18 +95,10 @@ var group__grp__smi__arg =
       [ "u8TXPower", "struct_i_o_l_m___s_m_i___s_w_track_config_list.html#a84f7571aab021ddd10a7e8d6c9debf39", null ]
     ] ],
     [ "IOLM_SMI_SPortStatusList", "struct_i_o_l_m___s_m_i___s_port_status_list.html", [
-      [ "au8DiagData", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a83dd51906894c72193a29b7fdc2e5cac", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_port_status_list.html#aa07abd24c42ee416641fe0538880ff4b", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a91fc3075515058d45b0cacda247b97e1", null ],
       [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a4376c0e6a49c1ce657d2c96a67f230db", null ],
-      [ "u8InputDataLength", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a97c50b742d541def0d8d994c6f9f20dd", null ],
-      [ "u8MasterCycleTime", "struct_i_o_l_m___s_m_i___s_port_status_list.html#af6141abb8e5d18e1f4f1bbca29bc04de", null ],
-      [ "u8NumberOfDiags", "struct_i_o_l_m___s_m_i___s_port_status_list.html#ae0a93c6a8b368d183dae26c1a3045424", null ],
-      [ "u8OutputDataLength", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a4dd19ecf447ac955f4f16efc43a08576", null ],
-      [ "u8PortQualityInfo", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a722c2957b003be66a58aa9eed690109e", null ],
-      [ "u8PortStatusInfo", "struct_i_o_l_m___s_m_i___s_port_status_list.html#ab36f594ed990c4fe6b13fa4c6935b631", null ],
-      [ "u8RevisionID", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a2b3a0132c6872598ed5543c190beb5e2", null ],
-      [ "u8TransmissionRate", "struct_i_o_l_m___s_m_i___s_port_status_list.html#a7942da21f8ae051f7bffe493a119da05", null ]
+      [ "u8PortStatusInfo", "struct_i_o_l_m___s_m_i___s_port_status_list.html#ab36f594ed990c4fe6b13fa4c6935b631", null ]
     ] ],
     [ "IOLM_SMI_SPDIn", "struct_i_o_l_m___s_m_i___s_p_d_in.html", [
       [ "au8Data", "struct_i_o_l_m___s_m_i___s_p_d_in.html#a0d71472048188d072eb673032d4bfabd", null ],
@@ -221,14 +142,10 @@ var group__grp__smi__arg =
     ] ],
     [ "IOLM_SMI_SPortEvent", "struct_i_o_l_m___s_m_i___s_generic_event.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_generic_event.html#a3d8ec6c3f90d8e25fd293d708a2e2413", null ],
-      [ "u16EventCode", "struct_i_o_l_m___s_m_i___s_generic_event.html#a86a4b4c326fa1345452618b17ee1368c", null ],
-      [ "u8EventQualifier", "struct_i_o_l_m___s_m_i___s_generic_event.html#a9d5132a8831c8f3e1159efc569d4aacc", null ]
+      [ "u16EventCode", "struct_i_o_l_m___s_m_i___s_generic_event.html#a86a4b4c326fa1345452618b17ee1368c", null ]
     ] ],
     [ "IOLM_SMI_SScanResult", "struct_i_o_l_m___s_m_i___s_scan_result.html", [
-      [ "au8UniqueID", "struct_i_o_l_m___s_m_i___s_scan_result.html#a0afb6b2dfd2b2ac5f3aa3442bc4ea5cf", null ],
-      [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_scan_result.html#a3193233a1584e18cce4110de2fb68de7", null ],
-      [ "u8RevisionID", "struct_i_o_l_m___s_m_i___s_scan_result.html#a02cbc360fab9b10e0311b93ad9ceaff8", null ],
-      [ "u8SlotType", "struct_i_o_l_m___s_m_i___s_scan_result.html#a10a52c8fe690f85551846f84af4e0970", null ]
+      [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_scan_result.html#a3193233a1584e18cce4110de2fb68de7", null ]
     ] ],
     [ "IOLM_SMI_SScanStatusResult", "struct_i_o_l_m___s_m_i___s_scan_status_result.html", [
       [ "au8ResUniqueID", "struct_i_o_l_m___s_m_i___s_scan_status_result.html#ab6967dc8b8a5457c636b6975f6ae4dd3", null ],
@@ -248,23 +165,19 @@ var group__grp__smi__arg =
       [ "u8ScanStatus", "struct_i_o_l_m___s_m_i___s_w_single_scan_status_list.html#a76d840e63188eafc1ebbc1ae62e5992a", null ]
     ] ],
     [ "IOLM_SMI_SOnRequestData", "struct_i_o_l_m___s_m_i___s_on_request_data.html", [
-      [ "au8Data", "struct_i_o_l_m___s_m_i___s_on_request_data.html#acc5f869d20b568bce08a4eb9e72752a1", null ],
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_on_request_data.html#a52ad8bd0c327f53b5219564a7afbaab5", null ],
-      [ "u16Index", "struct_i_o_l_m___s_m_i___s_on_request_data.html#a7ed10181435bf65a7214bbe55ba79f1c", null ],
-      [ "u8Subindex", "struct_i_o_l_m___s_m_i___s_on_request_data.html#a8e9d80a9b7c2452f5825ddeee9c48cb9", null ]
+      [ "u16Index", "struct_i_o_l_m___s_m_i___s_on_request_data.html#a7ed10181435bf65a7214bbe55ba79f1c", null ]
     ] ],
     [ "IOLM_SMI_SPortPowerOffOn", "struct_i_o_l_m___s_m_i___s_port_power_off_on.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_port_power_off_on.html#af8fe0f4ec06993a6ef67183cb2fc6428", null ],
-      [ "u16PowerOffTime", "struct_i_o_l_m___s_m_i___s_port_power_off_on.html#aaa570c6824b18eb50019d4d8443d146d", null ],
-      [ "u8PortPowerMode", "struct_i_o_l_m___s_m_i___s_port_power_off_on.html#aca19490664e7ac41136860c9f85c3e07", null ]
+      [ "u16PowerOffTime", "struct_i_o_l_m___s_m_i___s_port_power_off_on.html#aaa570c6824b18eb50019d4d8443d146d", null ]
     ] ],
     [ "IOLM_SMI_SDSData", "struct_i_o_l_m___s_m_i___s_d_s_data.html", [
       [ "u16ArgBlockID", "struct_i_o_l_m___s_m_i___s_d_s_data.html#a38ed44f5e99a9ff7bd3ee4f1b64d2d61", null ],
       [ "u16FunctionID", "struct_i_o_l_m___s_m_i___s_d_s_data.html#a6c151356b0452f8ac662667f103fef55", null ],
       [ "u16VendorID", "struct_i_o_l_m___s_m_i___s_d_s_data.html#ad7859939a13be6e328bec4f6250f1b25", null ],
       [ "u32DeviceID", "struct_i_o_l_m___s_m_i___s_d_s_data.html#a333b6ac8fd805afa1954153959ffa08a", null ],
-      [ "u32ParamCheckSum", "struct_i_o_l_m___s_m_i___s_d_s_data.html#ae7e05b483996d5bc5604af2493a5f6bd", null ],
-      [ "u8DSData", "struct_i_o_l_m___s_m_i___s_d_s_data.html#a9eff9da85cb052415c55484192483a28", null ]
+      [ "u32ParamCheckSum", "struct_i_o_l_m___s_m_i___s_d_s_data.html#ae7e05b483996d5bc5604af2493a5f6bd", null ]
     ] ],
     [ "IOLM_SMI_SHeader", "struct_i_o_l_m___s_m_i___s_header.html", [
       [ "u16ArgBlockLength", "struct_i_o_l_m___s_m_i___s_header.html#a45d124aa0bd888bd68805856e765bffa", null ],

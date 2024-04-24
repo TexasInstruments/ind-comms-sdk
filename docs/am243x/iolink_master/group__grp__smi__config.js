@@ -1,12 +1,5 @@
 var group__grp__smi__config =
 [
-    [ "IOLM_SMI_CBDSBackupFromParServCnf", "group__grp__smi__config.html#ga586985a6ab806bfbea086e71d710c8e2", null ],
-    [ "IOLM_SMI_CBDSBackupToParServCnf", "group__grp__smi__config.html#ga3f9c96ece9d436aeef3126211db5309a", null ],
-    [ "IOLM_SMI_CBMasterConfigurationCnf", "group__grp__smi__config.html#gafd57c086524519289d4723f6a00e61e8", null ],
-    [ "IOLM_SMI_CBMasterIdentificationCnf", "group__grp__smi__config.html#ga2a404cbb271a07e665aacc6c89621a61", null ],
-    [ "IOLM_SMI_CBPortConfigurationCnf", "group__grp__smi__config.html#ga37c281dd01d8710d4013ed4c529eccbd", null ],
-    [ "IOLM_SMI_CBPortStatusCnf", "group__grp__smi__config.html#gafb12fcfbcc220442d6c7812953f465d9", null ],
-    [ "IOLM_SMI_CBReadbackPortConfigurationCnf", "group__grp__smi__config.html#ga6fca1e7da2e9f9034c72cec609e8b7d3", null ],
     [ "IOLM_SMI_u16PortPowerOffOnReqCnf", "group__grp__smi__config.html#ga17cadd1c45fd0c24a9a3840c2b6c7ba8", null ],
     [ "IOLM_SMI_u16PortStatusReqCnf", "group__grp__smi__config.html#ga6ca8f2d84482acede15b5fed11f0546e", null ],
     [ "IOLM_SMI_vDSBackupFromParServReq", "group__grp__smi__config.html#ga6c70d95516968fd2fdf1e77ac864ea6f", null ],

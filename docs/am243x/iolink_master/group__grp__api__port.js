@@ -20,7 +20,7 @@ var group__grp__api__port =
     [ "IOLM_Port_PL_vSwitchPortPower", "group__grp__api__port.html#ga7a3fd9cbca429ca4c2f4925e649c5ee1", null ],
     [ "IOLM_Port_PL_vTransferPrepare", "group__grp__api__port.html#ga583483ea6397e01bf9a0502d05524d4b", null ],
     [ "IOLM_Port_PL_vTransferTrig", "group__grp__api__port.html#ga3c426594ce09a3fc95e3bbeab3b5dec2", null ],
-    [ "IOLM_Port_pu8MemAlloc", "group__grp__api__port.html#ga9ec3b72bdc3be3b1993c91bb1c333c17", null ],
+    [ "IOLM_Port_pu8MemAlloc", "group__grp__api__port.html#gabb678cb11d9218ed547be16b7a7ebaf8", null ],
     [ "IOLM_Port_s32SysTickVal", "group__grp__api__port.html#ga65eb361bc638770d50681bd9977cfedc", null ],
     [ "IOLM_Port_u32CriticalStart", "group__grp__api__port.html#gad88902def476d3a678332f397971c2e2", null ],
     [ "IOLM_Port_vCriticalEnd", "group__grp__api__port.html#gae817659f830a5117389894311c8a9083", null ],
