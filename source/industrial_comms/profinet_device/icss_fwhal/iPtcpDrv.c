@@ -1475,7 +1475,7 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
 
     if((ctrlByte == 1) || (ctrlByte == 2))
     {
-
+        (pnHandle->pnPtcpConfig).SyncCtrlPort = ctrlByte;
         PN_PTCP_syncPreprocess(pnHandle, ctrlByte);
         *temp = 0;
     }
@@ -1486,6 +1486,7 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
         *((pnHandle->pnPtcpConfig).pSyncInDelayPlusLD) = (*((
                     pnHandle->pnPtcpConfig).pSyncInDelayPlusLD))
                 + PN_PTCP_rotUint((uint32_t *)pFupDelay);
+        (pnHandle->pnPtcpConfig).SyncCtrlFup = 1;
     }
 
     int32_t send_clock_factor = HW_RD_REG16(pruicssHwAttrs->pru0DramBase +
@@ -1544,7 +1545,8 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
                        sizeof(syncSysLogFrame));
 #endif
         }
-
+        (pnHandle->pnPtcpConfig).SyncCtrlPort = 0;
+        (pnHandle->pnPtcpConfig).SyncCtrlFup = 0;
         return;
     }
 
@@ -1901,6 +1903,9 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
                         pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)&deltaT);
         }    
     }
+    // Reset the sync port and Fup flag values after using in the application.
+    (pnHandle->pnPtcpConfig).SyncCtrlPort = 0;
+    (pnHandle->pnPtcpConfig).SyncCtrlFup = 0;
 
 #ifdef SYNC_SYS_LOG
 

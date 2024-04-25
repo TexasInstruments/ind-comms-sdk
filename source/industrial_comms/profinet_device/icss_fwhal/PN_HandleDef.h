@@ -114,8 +114,6 @@ typedef struct PN_PtcpConfig_s
 {
     /*! PTCP Cycle period                 */
     uint32_t pnCyclePeriod;
-    /*! Previous PTCP Cycle Period        */
-    uint32_t prevPnCyclePeriod;
     /*! Mandatory counter adjustment for inter delay request gap        */
     uint32_t mandCtrAdj;
     /*! T2 previous                       */
@@ -212,10 +210,16 @@ typedef struct PN_PtcpConfig_s
     uint8_t ptcpEnableSlowCompensation;
     /* Timer for PTCP */
     PN_PtcpTimerAttrs ptcpTimer;
+    /*! Previous PTCP Cycle Period        */
+    uint32_t prevPnCyclePeriod;
     /*! Callback to sync timeout monitor                  */
     ptcpSyncCallBack_t ptcpSyncMonitorCall; 
     /*! Set flag if custom sync timeout monitor handling is present*/
     uint8_t enableCustomSyncMonitorFlag; 
+    /* Port at which sync frame is received. To be used by application if required */
+    uint8_t SyncCtrlPort;
+    /* Flag set if received sync frame is followup frame. To be used by application if required */
+    uint8_t SyncCtrlFup;
 } PN_PtcpConfig;
 
 
