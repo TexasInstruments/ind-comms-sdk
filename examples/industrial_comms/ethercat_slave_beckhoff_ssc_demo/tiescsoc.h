@@ -67,4 +67,8 @@ void tiesc_ethphyDisablePowerDown();
 
 void tiesc_mdioManualModeSetup();
 
+#if ICSSG_INSTANCE == ICSSG0
+void tiesc_addOnBoardResetSequence();
+#endif
+
 #endif /* _TIESC_SOC_H_*/

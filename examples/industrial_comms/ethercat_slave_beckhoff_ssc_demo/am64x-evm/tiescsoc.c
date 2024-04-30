@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  Copyright (C) 2024 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -44,9 +44,12 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_config.h"
 #include <industrial_comms/ethercat_slave/beckhoff_stack/stack_hal/tieschw.h>
-#include "tiesc_eeprom.h" /*  header equivalent of ESI bin file */
+#include "tiesc_eeprom.h" /* header equivalent of ESI bin file */
 #ifdef  MDIO_MANUAL_MODE_ENABLED
 #include <industrial_comms/ethercat_slave/icss_fwhal/firmware/g_v1.3/mdio_fw_bin.h>  /* > Contains MDIO firmware */
+#endif
+#ifdef ICSSG0_INSTANCE
+#include <ethphy_dp83826e.h>
 #endif
 
 /* ========================================================================== */
@@ -56,8 +59,14 @@
 /* EEPROM data offset in I2C EEPROM Flash */
 #define I2C_EEPROM_DATA_OFFSET      (0x8000)
 
+/* For ICSSG0 SEM daughter card, link polarity is inverted*/
+#ifdef ICSSG0_INSTANCE
+#define TIESC_LINK0_POL             TIESC_LINK_POL_ACTIVE_LOW
+#define TIESC_LINK1_POL             TIESC_LINK_POL_ACTIVE_LOW
+#else
 #define TIESC_LINK0_POL             TIESC_LINK_POL_ACTIVE_HIGH
 #define TIESC_LINK1_POL             TIESC_LINK_POL_ACTIVE_HIGH
+#endif
 
 /* SPI Flash offset at which application binary downloaded over FOE will be stored*/
 #define FOE_APPL_BIN_OFFSET         (0x80000)
@@ -84,6 +93,11 @@
 #define PRUICSS_PRUx                            PRUICSS_TX_PRU0
 #define PRU_REG_10                              (4*10)
 #define PRU_REG_12                              (4*12)
+
+#ifdef ICSSG0_INSTANCE
+/* Macro for phy register address to fix strapping issue*/
+#define DP83826E_AUTO_NEGOTIATION_ADVERTISEMENT_REG_ADDRESS          (0x04)
+#endif
 
 /* ========================================================================== */
 /*                            Global Variables                                */
@@ -176,6 +190,9 @@ void tiesc_bspSoftReset()
 
 void tiesc_socEvmInit()
 {
+#ifdef ICSSG0_INSTANCE
+    tiesc_addOnBoardResetSequence();
+#endif
     const PRUICSS_HwAttrs *pruicssHwAttrs;
     uint32_t inEventLatch0, inEventLatch1, outEventLatch0, outEventLatch1;
 
@@ -240,20 +257,16 @@ void tiesc_socParamsInit(bsp_params *bspInitParams)
     bspInitParams->phy1_address = ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY1))->phyAddress;
     bspInitParams->default_tiesc_eeprom = (const unsigned char *)(&(tiesc_eeprom));
     bspInitParams->eeprom_pointer_for_stack = &(pEEPROM);
-    /*CONFIG_PRU_ICSS1_CORE_CLK_FREQ_HZ is defined in SysConfig generated code*/
 #if CONFIG_PRU_ICSS1_CORE_CLK_FREQ_HZ == (333333333U)
     bspInitParams->pruicssClkFreq = TIESC_PRUICSS_CLOCK_FREQUENCY_333_MHZ;
 #elif CONFIG_PRU_ICSS1_CORE_CLK_FREQ_HZ == (200000000U)
     bspInitParams->pruicssClkFreq = TIESC_PRUICSS_CLOCK_FREQUENCY_200_MHZ;
 #endif
-    /*MDIO_MANUAL_MODE_ENABLED is defined in SysConfig generated code*/
 #ifdef  MDIO_MANUAL_MODE_ENABLED
     bspInitParams->mdioManualMode = TIESC_MDIO_MANUAL_MODE_FW;
 #else
     bspInitParams->mdioManualMode = TIESC_MDIO_HW_MODE;
 #endif
-
-
 #ifndef ENABLE_PDI_TASK
     bspInitParams->pdi_isr = PDI_Isr;
 #endif
@@ -327,9 +340,15 @@ void tiesc_ethphyInit(PRUICSS_Handle pruIcssHandle, uint8_t phy0addr,
 {
     uint32_t mdioBaseAddress = ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY0))->mdioBaseAddress;
 
+#ifdef ICSSG0_INSTANCE
+    ETHPHY_DP83826E_LedSourceConfig ledConfig;
+    ETHPHY_DP83826E_LedBlinkRateConfig ledBlinkConfig;
+    ETHPHY_DP83826E_FastLinkDownDetectionConfig fastLinkDownDetConfig;
+#else
     ETHPHY_DP83869_LedSourceConfig ledConfig;
     ETHPHY_DP83869_LedBlinkRateConfig ledBlinkConfig;
     ETHPHY_DP83869_FastLinkDownDetectionConfig fastLinkDownDetConfig;
+#endif
 
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_ENABLE_AUTO_MDIX, NULL, 0);
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_ENABLE_AUTO_MDIX, NULL, 0);
@@ -337,8 +356,13 @@ void tiesc_ethphyInit(PRUICSS_Handle pruIcssHandle, uint8_t phy0addr,
     if(TIESC_MDIO_RX_LINK_ENABLE == enhancedlink_enable)
     {
         /*TODO: Review these 2 calls*/
+    #ifdef ICSSG0_INSTANCE
+        ledConfig.ledNum = ETHPHY_DP83826E_LED0;
+        ledConfig.mode = ETHPHY_DP83826E_LED_MODE_LINK_OK;
+    #else
         ledConfig.ledNum = ETHPHY_DP83869_LED0;
         ledConfig.mode = ETHPHY_DP83869_LED_MODE_LINK_OK;
+    #endif
 
         ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
         ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
@@ -357,30 +381,56 @@ void tiesc_ethphyInit(PRUICSS_Handle pruIcssHandle, uint8_t phy0addr,
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_ENABLE_ENHANCED_IPG_DETECTION, NULL, 0);
 
     /* PHY pin LED_0 as link for fast link detection */
+#ifdef ICSSG0_INSTANCE
+    ledConfig.ledNum = ETHPHY_DP83826E_LED0;
+    ledConfig.mode = ETHPHY_DP83826E_LED_MODE_MII_LINK_100BT_FD;
+#else
     ledConfig.ledNum = ETHPHY_DP83869_LED0;
     ledConfig.mode = ETHPHY_DP83869_LED_MODE_LINK_OK;
+#endif
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
 
     /* PHY pin LED_1 as RX_ER. Needed for detecting RX_ER during frame. */
+#ifdef ICSSG0_INSTANCE
+    ledConfig.ledNum = ETHPHY_DP83826E_LED1;
+    /*For DP83286E, RX_ER is a separate pin (not an LED pin like DP83869E). Configuring LED_1 for 10M speed indication. */
+    ledConfig.mode = ETHPHY_DP83826E_LED_MODE_SPEED_10BT;
+ #else
     ledConfig.ledNum = ETHPHY_DP83869_LED1;
     ledConfig.mode = ETHPHY_DP83869_LED_MODE_RX_ERROR;
+#endif
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
 
     /* PHY pin LED_2 as Rx/Tx Activity */
+#ifdef ICSSG0_INSTANCE
+    ledConfig.ledNum = ETHPHY_DP83826E_LED2;
+    ledConfig.mode = ETHPHY_DP83826E_LED_MODE_LINK_OK_AND_BLINK_ON_RX_TX;
+ #else
     ledConfig.ledNum = ETHPHY_DP83869_LED2;
     ledConfig.mode = ETHPHY_DP83869_LED_MODE_LINK_OK_AND_BLINK_ON_RX_TX;
+#endif
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
 
     /* PHY pin LED_3 as 100M link established */
+#ifdef ICSSG0_INSTANCE
+    ledConfig.ledNum = ETHPHY_DP83826E_LED2;
+    ledConfig.mode = ETHPHY_DP83826E_LED_MODE_MII_LINK_100BT_FD;
+#else
     ledConfig.ledNum = ETHPHY_DP83869_LED_GPIO;
     ledConfig.mode = ETHPHY_DP83869_LED_MODE_10_OR_100BT_LINK_UP;
+
+#endif
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_CONFIGURE_LED_SOURCE, (void *)&ledConfig, sizeof(ledConfig));
 
+#ifdef ICSSG0_INSTANCE
+    ledBlinkConfig.rate = ETHPHY_DP83826E_LED_BLINK_RATE_200_MS;
+#else
     ledBlinkConfig.rate = ETHPHY_DP83869_LED_BLINK_RATE_200_MS;
+#endif
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_CONFIGURE_LED_BLINK_RATE, (void *)&ledBlinkConfig, sizeof(ledBlinkConfig));
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_CONFIGURE_LED_BLINK_RATE, (void *)&ledBlinkConfig, sizeof(ledBlinkConfig));
 
@@ -392,7 +442,11 @@ void tiesc_ethphyInit(PRUICSS_Handle pruIcssHandle, uint8_t phy0addr,
      * time is 10us. If it needs to be enabled, set fastLinkDownDetConfig.mode as
      * (ETHPHY_DP83869_FAST_LINKDOWN_MODE_ENERGY_LOST | ETHPHY_DP83869_FAST_LINKDOWN_MODE_RX_ERR)
      */
+#ifdef ICSSG0_INSTANCE
+    fastLinkDownDetConfig.mode = ETHPHY_DP83826E_FAST_LINKDOWN_MODE_RX_ERR;
+#else
     fastLinkDownDetConfig.mode = ETHPHY_DP83869_FAST_LINKDOWN_MODE_RX_ERR;
+#endif
 
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_ENABLE_FAST_LINK_DOWN_DETECTION, (void *)&fastLinkDownDetConfig, sizeof(fastLinkDownDetConfig));
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_ENABLE_FAST_LINK_DOWN_DETECTION, (void *)&fastLinkDownDetConfig, sizeof(fastLinkDownDetConfig));
@@ -421,6 +475,23 @@ void tiesc_ethphyInit(PRUICSS_Handle pruIcssHandle, uint8_t phy0addr,
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_SOFT_RESTART, NULL, 0);
 }
 
+#ifdef ICSSG0_INSTANCE
+void tiesc_addOnBoardResetSequence()
+{
+    GPIO_setDirMode(CONFIG_GPIO_31_BASE_ADDR, CONFIG_GPIO_31_PIN, GPIO_DIRECTION_OUTPUT);
+    GPIO_pinWriteHigh(CONFIG_GPIO_31_BASE_ADDR, CONFIG_GPIO_31_PIN);
+    GPIO_setDirMode(CONFIG_GPIO_32_BASE_ADDR, CONFIG_GPIO_32_PIN, GPIO_DIRECTION_OUTPUT);
+    GPIO_pinWriteHigh(CONFIG_GPIO_32_BASE_ADDR, CONFIG_GPIO_32_PIN);
+    ClockP_usleep(1000);
+    GPIO_pinWriteLow(CONFIG_GPIO_31_BASE_ADDR, CONFIG_GPIO_31_PIN);
+    GPIO_pinWriteLow(CONFIG_GPIO_32_BASE_ADDR, CONFIG_GPIO_32_PIN);
+    ClockP_usleep(1000);
+    GPIO_pinWriteHigh(CONFIG_GPIO_31_BASE_ADDR, CONFIG_GPIO_31_PIN);
+    GPIO_pinWriteHigh(CONFIG_GPIO_32_BASE_ADDR, CONFIG_GPIO_32_PIN);
+    ClockP_usleep(1000);
+}
+#endif
+
 void tiesc_ethphyEnablePowerDown()
 {
 #if CONFIG_PRU_ICSS1_CORE_CLK_FREQ_HZ == (333333333U)
@@ -429,11 +500,31 @@ void tiesc_ethphyEnablePowerDown()
     uint32_t mdioBaseAddress = ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY0))->mdioBaseAddress;
     HW_WR_REG32((mdioBaseAddress + CSL_MDIO_CONTROL_REG), (CSL_FMKT(MDIO_CONTROL_REG_ENABLE, YES) | CSL_FMK(MDIO_CONTROL_REG_CLKDIV, MDIO_CLK_DIV_CFG)));
 #endif
-
     /* Ensure that PHY register access is working by checking the Identifier register */
     while(SystemP_SUCCESS != ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_VERIFY_IDENTIFIER_REGISTER, NULL, 0));
     while(SystemP_SUCCESS != ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_VERIFY_IDENTIFIER_REGISTER, NULL, 0));
 
+#ifdef ICSSG0_INSTANCE
+    /* Set Bit6 and Bit8 of DP83826E Auto-Negotiation Advertisemenmt register for PORT0 manually*/
+    uint32_t mdioBaseAddress = ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY0))->mdioBaseAddress;
+    int32_t status;
+    uint16_t phyRegVal = 0;
+    status = MDIO_phyRegRead(
+                        mdioBaseAddress, 
+                        NULL, 
+                        ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY0))->phyAddress,  
+                        DP83826E_AUTO_NEGOTIATION_ADVERTISEMENT_REG_ADDRESS, 
+                        &phyRegVal);
+    if(status == SystemP_SUCCESS)
+    {
+        status = MDIO_phyRegWrite(
+                            mdioBaseAddress, 
+                            NULL, 
+                            ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY0))->phyAddress, 
+                            DP83826E_AUTO_NEGOTIATION_ADVERTISEMENT_REG_ADDRESS, 
+                            phyRegVal | 1<<6 | 1<<8);
+    }
+#endif
     /* Enable IEEE Power Down mode so that PHY does not establish any link */
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_ENABLE_IEEE_POWER_DOWN, NULL, 0);
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_ENABLE_IEEE_POWER_DOWN, NULL, 0);

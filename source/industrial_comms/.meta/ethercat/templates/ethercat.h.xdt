@@ -35,3 +35,7 @@
 #define     MDIO_MANUAL_MODE_FW_CONFIG_VALUE    (MDIO_MANUAL_MODE_LINK_POLLING_DISABLE | MDIO_MANUAL_MODE_LINK_POLLING_INTR_DISABLE | `macro_value`)
 % }
 % }
+
+% if(module.$instances[0].icss.instance === "ICSSG0") {
+#define     ICSSG0_INSTANCE
+% }
