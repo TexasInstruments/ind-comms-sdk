@@ -197,7 +197,7 @@ EtherNet/IP firmware generates the following interrupts.
 
 ## Device Level Ring
 
-Device Level Ring on EtherNet/IP firmware provides redundancy to the switch implementation. It is a beacon based implementation with support for a minimum beacon of 200us and timeout of 400us. More information is available in developer guide(provide a link here).
+Device Level Ring on EtherNet/IP firmware provides redundancy to the switch implementation. It is a beacon based implementation with support for a minimum beacon of 200us and timeout of 400us. More information is available in \subpage ICSS_DLR_DESIGN.
 
 ## IEEE PTP-1588 Implementation
 PTP/1588 on EtherNet/IP provides time synchronization support. The implementation is driven by CIP Sync requirements which require End to End clock support over UDP (Annex D). EtherNet/IP adapter application supports both OC and TC implementations along with syntonization.
