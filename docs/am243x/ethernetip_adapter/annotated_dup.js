@@ -41,6 +41,7 @@ var annotated_dup =
     [ "EI_API_ADP_SRevision", "struct_e_i___a_p_i___a_d_p___s_revision.html", "struct_e_i___a_p_i___a_d_p___s_revision" ],
     [ "EI_API_ADP_UCmgrInfo", "union_e_i___a_p_i___a_d_p___u_cmgr_info.html", "union_e_i___a_p_i___a_d_p___u_cmgr_info" ],
     [ "EI_API_ADP_UIntfConf", "union_e_i___a_p_i___a_d_p___u_intf_conf.html", "union_e_i___a_p_i___a_d_p___u_intf_conf" ],
+    [ "EI_API_CIP_NODE_InitParams", "struct_e_i___a_p_i___c_i_p___n_o_d_e___init_params.html", "struct_e_i___a_p_i___c_i_p___n_o_d_e___init_params" ],
     [ "EI_API_CIP_SAttr", "struct_e_i___a_p_i___c_i_p___s_attr.html", "struct_e_i___a_p_i___c_i_p___s_attr" ],
     [ "EI_API_CIP_SService", "struct_e_i___a_p_i___c_i_p___s_service.html", "struct_e_i___a_p_i___c_i_p___s_service" ],
     [ "EI_APP_CFG_AdapterData", "struct_e_i___a_p_p___c_f_g___adapter_data.html", "struct_e_i___a_p_p___c_f_g___adapter_data" ],

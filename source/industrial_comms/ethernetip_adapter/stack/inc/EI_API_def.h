@@ -73,7 +73,7 @@ typedef enum EI_API_ADP_PRUICSS_MaxInstances_s
 extern "C" {
 #endif
 
-#define EI_API_CIP_OBD_MAX                  256 // set not lower as 20 because init holds around 17 common objects
+#define EI_API_CIP_OBD_MIN                   70 // object dictionary size needs to be set to 70 as minimum due to holding around of 69 common objects
 #define EI_API_ADP_CMGR_CONNECTION_SIZE_MAX 510 // maximum size of connection size in bytes for ForwardOpen and ForwardClose
 #define EI_API_CIP_DOMAIN_NAME_LENGTH        48 // length of domain name
 /*!

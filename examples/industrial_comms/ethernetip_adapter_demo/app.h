@@ -51,6 +51,8 @@ extern "C" {
 #define EI_APP_STACK_MAIN_TASK_STACK_SIZE_BYTE    0x1000
 #define EI_APP_STACK_MAIN_TASK_STACK_SIZE         (EI_APP_STACK_MAIN_TASK_STACK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
 
+#define APP_SCip_t EI_API_CIP_NODE_InitParams_t
+
 typedef struct APP_SApplication
 {
     OSAL_TASK_Priority_t taskPrio;
@@ -91,6 +93,7 @@ typedef struct APP_SParams
     APP_SApplication_t      application;
     APP_SHwal_t             hwal;
     APP_SLwip_t             lwip;
+    APP_SCip_t              cip;
     APP_SAdapter_t          adapter;
     EI_APP_UART_SInit_t     uart;                   /* UART initialization parameters */
     EI_APP_LED_SInit_t      led;                    /* LED's initialization parameters */

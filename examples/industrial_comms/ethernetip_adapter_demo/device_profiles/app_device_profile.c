@@ -114,7 +114,11 @@ uint32_t EI_APP_DEVICE_PROFILE_init (void)
  *
  * bool               ret      = false;
  * EI_API_ADP_T*      pAdapter = EI_API_ADP_new(1);
- * EI_API_CIP_NODE_T* pCipNode = EI_API_CIP_NODE_new();
+ * 
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * EI_API_CIP_NODE_T* pCipNode = EI_API_CIP_NODE_new(&initParams);
  *
  * if (false = EI_APP_DEVICE_PROFILE_TASK_init(pAdapter, pCipNode))
  * {
@@ -154,7 +158,11 @@ bool EI_APP_DEVICE_PROFILE_TASK_init (EI_API_ADP_T *pAdapter, EI_API_CIP_NODE_T 
  * \code{.c}
  * #include "device_profiles/app_device_profile.h"
  *
- * EI_API_CIP_NODE_T* pCipNode = EI_API_CIP_NODE_new();
+ * 
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * EI_API_CIP_NODE_T* pCipNode = EI_API_CIP_NODE_new(&initParams);
  *
  * for (;;)
  * {

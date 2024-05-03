@@ -242,7 +242,7 @@ laError:
  */
 static bool EI_APP_TASK_init(APP_SParams_t* pParam)
 {
-    bool result = 1;
+    bool result = true;
 
     EI_API_ADP_SParam_t macAddr = {0};
 
@@ -279,7 +279,12 @@ static bool EI_APP_TASK_init(APP_SParams_t* pParam)
     EI_APP_TASK_stackInit(pParam);
 
     // Create a CIP node.
-    cipNode_s = EI_API_CIP_NODE_new();
+    cipNode_s = EI_API_CIP_NODE_new(&pParam->cip);
+
+    if (NULL == cipNode_s)
+    {
+        return false;
+    }
 
     // Create callbacks for changed values.
     EI_APP_TASK_cipCreateCallback(cipNode_s);

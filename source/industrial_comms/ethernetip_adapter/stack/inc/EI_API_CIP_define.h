@@ -146,6 +146,16 @@ typedef enum EI_API_CIP_ECdt
 /// @endcond
 } EI_API_CIP_ECdt_t;
 
+/*!
+ *  \brief Initialization parameters to create new CIP Node
+ */
+typedef struct EI_API_CIP_NODE_InitParams
+{
+    uint16_t    maxInstanceNum;     /*!< Maximum number of instances defined in CIP object dictionary.
+                                         Please be aware that minimum value is defined for this parameter.
+                                         It is depended on number of common classes/instances created by default by the stack.
+                                         Minimum value is defined by EI_API_CIP_OBD_MIN macro in EI_API_def.h header file. */
+}EI_API_CIP_NODE_InitParams_t;
 
 /*!
  *  \brief General service parameter collection
