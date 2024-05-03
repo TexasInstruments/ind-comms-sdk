@@ -102,6 +102,9 @@ int main(
     /* LWIP configuration */
     pCfg->lwip.taskPrio = OSAL_TASK_Prio_EIP_LWIP_TCPIP;  // Value change will have no impact.
 
+    /* CIP configuration */
+    pCfg->cip.maxInstanceNum = 256; // Maximum number of instances defined as CIP object. Set not lower as 70.
+
     /* EtherNet/IP Adapter configuration */
     pCfg->adapter.taskPrioCyclicIo  = OSAL_TASK_Prio_EIP_CYCLICIO;
     pCfg->adapter.taskPrioPacket    = OSAL_TASK_Prio_EIP_PACKET;

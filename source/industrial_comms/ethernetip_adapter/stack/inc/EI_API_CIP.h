@@ -40,8 +40,8 @@ extern "C" {
 #endif
 
 // CIP node functions
-extern ETHIP_API T*       EI_API_CIP_NODE_new(void);
-extern ETHIP_API uint32_t EI_API_CIP_NODE_delete(T* pCipNode_p);
+extern ETHIP_API T*       EI_API_CIP_NODE_new    (EI_API_CIP_NODE_InitParams_t* pInitParams);
+extern ETHIP_API uint32_t EI_API_CIP_NODE_delete (T* pCipNode_p);
 
 // class functions
 extern ETHIP_API uint32_t EI_API_CIP_createClass         (T *pCipNode_p, uint16_t classId_p);
