@@ -234,7 +234,7 @@ void EI_APP_DOP_SM_NONEXISTENT_doAction(void)
 void EI_APP_DOP_SM_NONEXISTENT_entryAction(void)
 {
     EI_API_CIP_NODE_T* pCipNode = NULL;
-    pCipNode = EI_API_CIP_NODE_new();
+    pCipNode = EI_API_CIP_NODE_new(NULL);
 
     EI_APP_DOP_init(pCipNode);
 
@@ -292,7 +292,7 @@ void EI_APP_DOP_SM_IDLE_doAction(void)
     uint8_t instanceId          = 0x01;
     // uint8_t value           = 0;
 
-    pCipNode = EI_API_CIP_NODE_new();
+    pCipNode = EI_API_CIP_NODE_new(NULL);
 
     EI_APP_DIO_DEVICE_getConnectionInfo(&EI_APP_DIO_DEVICE_connectionState_s, &EI_APP_DIO_DEVICE_receiveData_s);
 
@@ -308,7 +308,7 @@ void EI_APP_DOP_SM_IDLE_doAction(void)
         {
             // If the DOP
             // enters the Recoverable_Fault state from the Idle state in response to the I/O connection
-            // transitioning to Timed Out, the DOP’s value should go unchanged.
+            // transitioning to Timed Out, the DOPï¿½s value should go unchanged.
             nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_RECOVERABLEFAULT);
         }
 
@@ -338,7 +338,7 @@ void EI_APP_DOP_SM_IDLE_doAction(void)
 void EI_APP_DOP_SM_IDLE_entryAction(void)
 {
     EI_API_CIP_NODE_T* pCipNode = NULL;
-    pCipNode = EI_API_CIP_NODE_new();
+    pCipNode = EI_API_CIP_NODE_new(NULL);
 
     uint8_t idleValue = 0;
     uint8_t idleAction = 0;
@@ -390,7 +390,7 @@ void EI_APP_DOP_SM_READY_doAction(void)
     uint8_t command             = 0;
     uint8_t instanceId          = 0x01;
 
-    pCipNode = EI_API_CIP_NODE_new();
+    pCipNode = EI_API_CIP_NODE_new(NULL);
 
     EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06, &command);
 
@@ -452,7 +452,7 @@ void EI_APP_DOP_SM_RUN_doAction(void)
     uint8_t command             = 0;
     uint8_t instanceId          = 0x01;
 
-    pCipNode = EI_API_CIP_NODE_new();
+    pCipNode = EI_API_CIP_NODE_new(NULL);
 
     EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06, &command);
 
@@ -548,7 +548,7 @@ void EI_APP_DOP_SM_RECOVERABLEFAULT_entryAction(void)
     uint8_t faultValue  = 0;
     uint8_t faultAction = 0;
 
-    pCipNode = EI_API_CIP_NODE_new();
+    pCipNode = EI_API_CIP_NODE_new(NULL);
 
     EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, &faultAction);
 
@@ -683,7 +683,10 @@ void EI_APP_DOP_SM_init(void)
  * uint16_t revision = 0x0002; // Create one of the class level attribute
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DOP_addClassAttribute(pEI_API_CIP_NODE, 0x0001, &revision);
  *
@@ -775,7 +778,10 @@ laError:
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add attribute 3 for instance 1
  * errCode = EI_APP_DOP_addInstanceAttribute(
@@ -883,7 +889,10 @@ laError:
  * uint8_t value = 1;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DOP_setValue(pEI_API_CIP_NODE, 0x0001, value);
  *
@@ -945,7 +954,10 @@ uint32_t EI_APP_DOP_setValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId, u
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use set callback
  * errCode = EI_APP_DOP_addInstanceAttribute(
@@ -1018,7 +1030,10 @@ laError:
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOP_getValue(pEI_API_CIP_NODE, 0x0001);
  *
@@ -1061,7 +1076,10 @@ bool EI_APP_DOP_getValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOP_addInstanceAttribute(
@@ -1106,7 +1124,7 @@ uint32_t EI_APP_DOP_getValueCb(
  * this value will be getting from DOG's Fault Action attribute.
  *
  * \details
- * Function for the get service of action taken on output’s value in Recoverable Fault state.
+ * Function for the get service of action taken on outputï¿½s value in Recoverable Fault state.
  *
  * \param[in]  pCipNode   Pointer to the CIP node.
  * \param[in]  instanceId Instance identifier.
@@ -1124,7 +1142,10 @@ uint32_t EI_APP_DOP_getValueCb(
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOP_getFaultAction(pEI_API_CIP_NODE, 0x0001);
  *
@@ -1166,7 +1187,10 @@ bool EI_APP_DOP_getFaultAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOP_addInstanceAttribute(
@@ -1211,7 +1235,7 @@ uint32_t EI_APP_DOP_getFaultActionCb(
  * this value will be getting from DOG's Fault value attribute.
  *
  * \details
- * Function for the get service of User–defined value for use with Fault Action attribute.
+ * Function for the get service of Userï¿½defined value for use with Fault Action attribute.
  *
  * \param[in]  pCipNode   Pointer to the CIP node.
  * \param[in]  instanceId Instance identifier.
@@ -1229,7 +1253,10 @@ uint32_t EI_APP_DOP_getFaultActionCb(
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOP_getFaultValue(pEI_API_CIP_NODE, 0x0001);
  *
@@ -1271,7 +1298,10 @@ bool EI_APP_DOP_getFaultValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOP_addInstanceAttribute(
@@ -1316,7 +1346,7 @@ uint32_t EI_APP_DOP_getFaultValueCb(
  * this value will be getting from DOG's Idle Action attribute.
  *
  * \details
- * Function for the get service of action taken on output’s value in Idle state.
+ * Function for the get service of action taken on outputï¿½s value in Idle state.
  *
  * \param[in]  pCipNode   Pointer to the CIP node.
  * \param[in]  instanceId Instance identifier.
@@ -1334,7 +1364,10 @@ uint32_t EI_APP_DOP_getFaultValueCb(
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOP_getIdleAction(pEI_API_CIP_NODE, 0x0001);
  *
@@ -1376,7 +1409,10 @@ bool EI_APP_DOP_getIdleAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOP_addInstanceAttribute(
@@ -1421,7 +1457,7 @@ uint32_t EI_APP_DOP_getIdleActionCb(
  * this value will be getting from DOG's Idle Value attribute.
  *
  * \details
- * Function for the get service of User–defined value for use with Idle Action attribute.
+ * Function for the get service of Userï¿½defined value for use with Idle Action attribute.
  *
  * \param[in]  pCipNode   Pointer to the CIP node.
  * \param[in]  instanceId Instance identifier.
@@ -1439,7 +1475,10 @@ uint32_t EI_APP_DOP_getIdleActionCb(
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOP_getIdleValue(pEI_API_CIP_NODE, 0x0001);
  *
@@ -1481,7 +1520,10 @@ bool EI_APP_DOP_getIdleValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOP_addInstanceAttribute(
@@ -1544,7 +1586,10 @@ uint32_t EI_APP_DOP_getIdleValueCb(
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOP_getRunIdleCommand(pEI_API_CIP_NODE, 0x0001);
  *
@@ -1586,7 +1631,10 @@ bool EI_APP_DOP_getRunIdleCommand(EI_API_CIP_NODE_T* pCipNode, uint16_t instance
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOP_addInstanceAttribute(
@@ -1643,7 +1691,10 @@ uint32_t EI_APP_DOP_getRunIdleCommandCb(
  * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * EI_APP_DOP_init(pEI_API_CIP_NODE);
  *
@@ -1836,7 +1887,10 @@ laError:
  * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * EI_APP_DOP_run(pEI_API_CIP_NODE);
  *

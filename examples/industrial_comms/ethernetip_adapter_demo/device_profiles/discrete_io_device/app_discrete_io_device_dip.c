@@ -127,7 +127,10 @@ static EI_APP_DIP_ClassData_t dipClassData_s = {.revision = EI_APP_DIO_DEVICE_DI
  * uint16_t revision = 0x0002; // Create one of the class level attribute
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DIP_addClassAttribute(pEI_API_CIP_NODE, 0x0003, &revision);
  *
@@ -217,7 +220,10 @@ laError:
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add attribute 3 for instance 1
  * errCode = EI_APP_DIP_addInstanceAttribute(
@@ -316,7 +322,10 @@ laError:
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DIP_getValue(pEI_API_CIP_NODE, 0x0001);
  *
@@ -361,7 +370,10 @@ bool EI_APP_DIP_getValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DIP_addInstanceAttribute(
@@ -418,7 +430,10 @@ uint32_t EI_APP_DIP_getValueCb(
  * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * EI_APP_DIP_init(pEI_API_CIP_NODE);
  *
@@ -520,7 +535,10 @@ laError:
  * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * EI_APP_DIP_run(pEI_API_CIP_NODE);
  *

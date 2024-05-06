@@ -306,7 +306,10 @@ laError:
  * bool result = false;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * result = EI_APP_DIO_DEVICE_init(pEI_API_CIP_NODE);
  *
@@ -355,7 +358,10 @@ bool EI_APP_DIO_DEVICE_init(EI_API_ADP_T *pAdapter, EI_API_CIP_NODE_T *pCipNode)
  * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * EI_APP_DIO_DEVICE_run(pEI_API_CIP_NODE);
  *
@@ -401,7 +407,10 @@ void EI_APP_DIO_DEVICE_run(EI_API_CIP_NODE_T* pCipNode)
  * uint32_t errCode = EI_API_CIP_eERR_GENERAL;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Create configuration assembly
  * errCode = EI_API_CIP_createAssembly(pEI_API_CIP_NODE, 0x66, EI_API_CIP_eAR_GET_AND_SET);
@@ -494,7 +503,10 @@ void EI_APP_DIO_DEVICE_getConfigurationAssemblyCb(uint8_t *faultAction, uint8_t 
  * bool result = false;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ * 
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * result = EI_APP_DIO_DEVICE_cipSetup(pEI_API_CIP_NODE);
  *

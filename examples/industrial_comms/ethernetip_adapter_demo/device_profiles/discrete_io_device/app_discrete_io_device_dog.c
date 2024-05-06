@@ -129,7 +129,10 @@ static uint8_t EI_APP_DOG_idleActionConfiguration_s   = 0;
  * uint16_t revision = 0x0002; // Create one of the class level attribute
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DOG_addClassAttribute(pEI_API_CIP_NODE, 0x0001, &revision);
  *
@@ -221,7 +224,10 @@ laError:
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add attribute 3 for instance 1
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -328,7 +334,10 @@ laError:
  * uint8_t command = 1;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DOG_setCommand(pEI_API_CIP_NODE, 0x0001, command);
  *
@@ -379,7 +388,10 @@ uint32_t EI_APP_DOG_setCommand(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId,
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use set callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -452,7 +464,10 @@ laError:
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOG_getCommand(pEI_API_CIP_NODE, 0x0001);
  *
@@ -494,7 +509,10 @@ bool EI_APP_DOG_getCommand(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -564,7 +582,10 @@ uint32_t EI_APP_DOG_getCommandCb(
  * uint8_t faultValue = 1;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DOG_setFaultAction(pEI_API_CIP_NODE, 0x0001, faultValue);
  *
@@ -647,7 +668,10 @@ uint32_t EI_APP_DOG_setFaultAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instanc
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use set callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -720,7 +744,10 @@ laError:
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOG_getFaultAction(pEI_API_CIP_NODE, 0x0001);
  *
@@ -763,7 +790,10 @@ bool EI_APP_DOG_getFaultAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -833,7 +863,10 @@ uint32_t EI_APP_DOG_getFaultActionCb(
  * uint8_t faultValue = 1;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DOG_setFaultValue(pEI_API_CIP_NODE, 0x0001, faultValue);
  *
@@ -883,7 +916,10 @@ uint32_t EI_APP_DOG_setFaultValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instance
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use set callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -956,7 +992,10 @@ laError:
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOG_getFaultValue(pEI_API_CIP_NODE, 0x0001);
  *
@@ -998,7 +1037,10 @@ bool EI_APP_DOG_getFaultValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -1068,7 +1110,10 @@ uint32_t EI_APP_DOG_getFaultValueCb(
  * uint8_t idleAction = 1;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DOG_setIdleAction(pEI_API_CIP_NODE, 0x0001, idleAction);
  *
@@ -1129,7 +1174,10 @@ uint32_t EI_APP_DOG_setIdleAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instance
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use set callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -1202,7 +1250,10 @@ laError:
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOG_getIdleAction(pEI_API_CIP_NODE, 0x0001);
  *
@@ -1244,7 +1295,10 @@ bool EI_APP_DOG_getIdleAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -1314,7 +1368,10 @@ uint32_t EI_APP_DOG_getIdleActionCb(
  * uint8_t idleValue = 1;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DOG_setIdleValue(pEI_API_CIP_NODE, 0x0001, idleValue);
  *
@@ -1364,7 +1421,10 @@ uint32_t EI_APP_DOG_setIdleValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceI
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use set callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -1437,7 +1497,10 @@ laError:
  * uint32_t error;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * error = EI_APP_DOG_getIdleValue(pEI_API_CIP_NODE, 0x0001);
  *
@@ -1479,7 +1542,10 @@ bool EI_APP_DOG_getIdleValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add instance attribute & use get callback
  * errCode = EI_APP_DOG_addInstanceAttribute(
@@ -1536,7 +1602,10 @@ uint32_t EI_APP_DOG_getIdleValueCb(
  * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * EI_APP_DOG_init(pEI_API_CIP_NODE);
  *
@@ -1709,7 +1778,10 @@ laError:
  * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
  *
  * // Create a CIP node
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new();
+ * EI_API_CIP_NODE_InitParams_t initParams;
+ * initParams.maxInstanceNum = 256;
+ *
+ * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * EI_APP_DOG_run(pEI_API_CIP_NODE);
  *
