@@ -54,7 +54,17 @@ Following features are not tested or implemented in this release :
  ICSSG          | ICSSG1
  Toolchain      | ti-arm-clang
  Board          | @VAR_BOARD_NAME_LOWER
- Example folder | examples/industrial_comms/ethercat_SubDevice_beckhoff_ssc_demo
+ Example folder | examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo
+
+
+
+ Parameter      | Value
+ ---------------|-----------
+ CPU + OS       | r5fss1-0 freertos
+ ICSSG          | ICSSG0
+ Toolchain      | ti-arm-clang
+ Board          | @VAR_BOARD_NAME_LOWER
+ Example folder | examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo
 
 \endcond
 
@@ -66,12 +76,22 @@ Following features are not tested or implemented in this release :
  ICSSG          | ICSSG1
  Toolchain      | ti-arm-clang
  Boards         | @VAR_BOARD_NAME_LOWER, @VAR_LP_BOARD_NAME_LOWER (E3 Revision)
- Example folder | examples/industrial_comms/ethercat_SubDevice_beckhoff_ssc_demo
+ Example folder | examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo
+
+
+
+ Parameter      | Value
+ ---------------|-----------
+ CPU + OS       | r5fss1-0 freertos
+ ICSSG          | ICSSG0
+ Toolchain      | ti-arm-clang
+ Board          | @VAR_BOARD_NAME_LOWER, @VAR_LP_BOARD_NAME_LOWER (E3 Revision)
+ Example folder | examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo
 
 As mentioned above, SDK example will work on E3 revision of @VAR_LP_BOARD_NAME_LOWER only. For running it on E1/E2 revision, following changes are needed.
 
 - Disable enhanced link detection
-    - In `tiesc_socParamsInit()` function present in "${SDK_INSTALL_PATH}/examples/industrial_comms/ethercat_SubDevice_beckhoff_ssc_demo/am243x-lp/tiescsoc.c", set `bspInitParams->enhancedlink_enable` to `TIESC_MDIO_RX_LINK_DISABLE`.
+    - In `tiesc_socParamsInit()` function present in "${SDK_INSTALL_PATH}/examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am243x-lp/tiescsoc.c", set `bspInitParams->enhancedlink_enable` to `TIESC_MDIO_RX_LINK_DISABLE`.
 
 - Disable the pinmux configuration for pins not available in E1/E2 revision
     - In "EtherCAT" module in SysConfig, uncheck following pins from PRU_ICSSG1_MII_G_RT.
@@ -90,11 +110,18 @@ As mentioned above, SDK example will work on E3 revision of @VAR_LP_BOARD_NAME_L
  CPU + OS       | r5fss0-0 freertos
  Toolchain      | ti-arm-clang
  Boards         | @VAR_BOARD_NAME_LOWER, @VAR_LP_BOARD_NAME_LOWER
- Example folder | examples/industrial_comms/ethercat_SubDevice_beckhoff_ssc_demo
+ Example folder | examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo
 
 \endcond
 
 \cond SOC_AM64X || SOC_AM243X
+
+# PRU ICSSG0 Instance
+
+This example, configured to run on r5fss_1_0_freertos uses PRU_ICSSG0 instance in PRU_ICSSG peripheral. On EVMs supported by TI (AM64X-EVM, AM243X-EVM), it is not possible to use PRU_ICSSG0, as the PRG0_RGMII1 and PRG0_RGMII0 pins are not connected to Ethernet PHYs. This example would require a dedicated custom board to use the PRU_ICSSG0 instance of ICSSG peripheral.
+This example, with the custom board, is compatible for PRU_ICSSG0 and it provides full support out of the box.
+
+See \htmllink{@VAR_MCU_SDK_DOCS_PATH/ICSSG0_USAGE_GUIDE.html, ICSSG0 Usage Guide} for more details
 
 # Performance Benchmarking
 
@@ -135,12 +162,12 @@ Following is the interrupt processing time for PDI and Sync ISRs with 50 us cycl
 - To build this example, it is necessary to get the EtherCAT SubDevice Stack Code (SSC). Download EtherCAT stack version 5.13 from [ETG website](http://www.ethercat.org/) and extract it to a local folder. Please refer to "Application Note ET9300 (EtherCAT SubDevice Stack Code)" for more details on SSC.
 - Generate the patched EtherCAT SubDevice stack code source files using any one of the below mentioned methods:
     - **Using the patch file**
-        - Copy the EtherCAT SubDevice Stack files to `{SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/stack_sources/` folder.
+        - Copy the EtherCAT SubDevice Stack files to `{SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/` folder.
         - Download Windows Patch Utility from [gnuwin32 sourceforge](http://gnuwin32.sourceforge.net/downlinks/patch-bin-zip.php). (Note that this is not a TI tool. See [licensing information](http://savannah.gnu.org/projects/patch/) page for more details)
         - Download Dos2Unix/Unix2Dos-Text file format converters from [gnuwin32 sourceforge](https://sourceforge.net/projects/dos2unix/). (Note that this is not a TI tool. See [licensing information](http://www.freebsd.org/copyright/freebsd-license.html) page for more details)
         - Patch file utility(Patch.exe) and unix2dos.exe utility can be found in their bin folders.
         - Launch DOS Command prompt
-        - CD to the folder `${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/patch` which contains TI_ECAT.patch.
+        - CD to the folder `${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/patch` which contains TI_ECAT.patch.
         - Execute unix2dos.exe as given below:
           \code
           $(Dos2Unix/Unix2Dos-DIR)/bin/unix2dos.exe TI_ECAT.patch
@@ -148,22 +175,22 @@ Following is the interrupt processing time for PDI and Sync ISRs with 50 us cycl
         - CD to patch file utility bin folder.
         - Execute patch.exe as given below:
           \code
-          patch.exe -i ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/patch/TI_ECAT.patch -d ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/stack_sources/
+          patch.exe -i ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/patch/TI_ECAT.patch -d ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/
           \endcode
     - **Using Beckhoff SSC Tool**
-        - Install SSC tool version 1.5.3.0. This configuration tool facilitates working with the EtherCAT SubDevice Stack Code (SSC), as it allows reducing the size of the EtherCAT SubDevice stack code by removing unused code parts depending on the desired configuration. Objects should be defined in a .xlsx file. Please refer to [EtherCAT SubDevice Design - Quick Guide](https://download.beckhoff.com/download/document/io/ethercat-development-products/ethercat_SubDevice_design_quick_guide.pdf) for details.
-        - Click on "Import" button and select TI_ESC_[SDK_VERSION].xml present in SoC specific folder inside `${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/patch` folder.
+        - Install SSC tool version 1.5.3.0. This configuration tool facilitates working with the EtherCAT SubDevice Stack Code (SSC), as it allows reducing the size of the EtherCAT SubDevice stack code by removing unused code parts depending on the desired configuration. Objects should be defined in a .xlsx file. Please refer to [EtherCAT SubDevice Design - Quick Guide](https://download.beckhoff.com/download/document/io/ethercat-development-products/ethercat_slave_design_quick_guide.pdf) for details.
+        - Click on "Import" button and select TI_ESC_[SDK_VERSION].xml present in SoC specific folder inside `${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/patch` folder.
         - Make sure "Custom" is selected in the dialog box and "TI [SOC] Sample \<Texas Instruments Incorporated\>" is selected from the list.
         - Set DC_SUPPORTED to 1 if not set.
         - Save the project.
         - Click "Project->Create new SubDevice Files". This will generate the EtherCAT Source files specific to the the selected TI device.
-        - Copy all the generated files except tiescappl.c, tiescappl.h and tiescapplObjects.h to `${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/stack_sources/`.
+        - Copy all the generated files except tiescappl.c, tiescappl.h and tiescapplObjects.h to `${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/`.
 
         \note
-        - For the SDK example, tiescappl.c and tiescappl.h files are used from "${SDK_INSTALL_PATH}/examples/industrial_comms/ethercat_SubDevice_beckhoff_ssc_demo/" folder, and not from the SSC Tool generated files.
-        - If you want to modify the object dictionary, you can update the "${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/patch/am64x_am243x_am263x/tiescappl.xlsx" file and then the SSC tool will generate the application code accordingly.
+        - For the SDK example, tiescappl.c and tiescappl.h files are used from "${SDK_INSTALL_PATH}/examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/" folder, and not from the SSC Tool generated files.
+        - If you want to modify the object dictionary, you can update the "${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/patch/am64x_am243x_am263x/tiescappl.xlsx" file and then the SSC tool will generate the application code accordingly.
 
-- Change macro defintions in `{SDK_INSTALL_PATH}/source/industrial_comms/ethercat_SubDevice/beckhoff_stack/stack_sources/ecat_def.h`, if required for your application. Please ensure that TIESC_HW is set to 1, and TIESC_APPLICATION is set to 1.
+- Change macro defintions in `{SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/beckhoff_stack/stack_sources/ecat_def.h`, if required for your application. Please ensure that TIESC_HW is set to 1, and TIESC_APPLICATION is set to 1.
 
 \note
 Fast link detection using RX_LINK pins (MLINK mode) is required to support complete EtherCAT functionality, and certain conformance tests will fail if fast link detection is not used. Link Polling is not suggested, use it only for debugging if required. 
@@ -184,8 +211,8 @@ Shown below is a sample output when the application is run:
 \code
 EtherCAT Device
 EtherCAT Sample application
-Revision/Type : x0590 Build : x04FD
-Firmware Version : 5.4.253
+Revision/Type : x0690 Build : x0514
+Firmware Version : 6.5.20
 SYNC0 task started
 SYNC1 task started
 \endcode
