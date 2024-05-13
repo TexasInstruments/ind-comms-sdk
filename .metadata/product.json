@@ -1,21 +1,23 @@
 {
     "name": "INDUSTRIAL_COMMUNICATIONS_SDK",
     "displayName": "INDUSTRIAL COMMUNICATIONS SDK",
-    "version": "09.01.00",
+    "version": "09.02.00",
     "documentationPath": "../docs",
     "includePaths": [
         "../source",
         "../mcu_plus_sdk/source",
     ],
     "components": [
+        "/industrial_comms/industrial_comms",
         "/kernel/dpl",
         "/drivers/drivers",
         "/board/board",
         "/fs/fs",
         "/networking/networking",
         "/security/security",
-        "/xbar/xbar",
-        "/memory_configurator/components",
+        "/usb/usb",
+        "/pru_io/pru_io",
+        "/memory_configurator/components"
     ],
     "devices": [
         "AM64x",

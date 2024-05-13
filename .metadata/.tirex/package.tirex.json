@@ -4,7 +4,7 @@
         "id": "com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX",
         "name": "Industrial Communications SDK for AMXXX",
         "rootCategory": [ "INDUSTRIAL COMMUNICATIONS SDK", "Industrial Communications SDK for AMXXX" ],
-        "version": "09.01.00.03",
+        "version": "09.02.00.08",
         "type": "software",
         "image": "./ind_comms_sdk.png",
         "license": "../../license.txt",
