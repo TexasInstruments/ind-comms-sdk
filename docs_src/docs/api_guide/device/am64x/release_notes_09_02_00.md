@@ -9,6 +9,11 @@
 \note The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
       Unless noted otherwise, the SW modules would work on all supported EVMs \n
 
+\note The EtherCAT IOLINK Gateway demo support is broken in the release. Please use the demo from Industrial Communication SDK 9.1 for evaluation\n
+
+\note Examples uses ICSS EMAC driver from Industrial Communication SDK package in 9.2 Release. This driver support will be moved to MCU SDK from 10.0 onwards\n
+
+
 ## New in this Release
 
 <table>
@@ -16,28 +21,25 @@
     <th> Feature
 </tr>
 <tr>
-    <td> Refactoring of EtherCAT API
+    <td> Ethernet over EtherCAT EoE
 </tr>
 <tr>
-    <td> Improvements in Discrete I/O Device example 
+    <td> File access over EtherCAT FoE
 </tr>
 <tr>
-    <td> Ethernet IP Conformance Tool v20 Support
+    <td> Integrate NVM library for persistent data storage - EtherCAT examples now use EEPROM and not Flash memory to store EtherCAT EEPROM data
 </tr>
 <tr>
-    <td> ICSSM Ethernet/IP FW supports additional MAC address for traffic routing
+    <td> Ethernet/IP - The object dictionary size should be possible to change without rebuild of stack
 </tr>
 <tr>
-    <td> IOLINK Improvements - Added NVRAM support for AM243 LP and EVM in example app. Support for flexible Maximum number of Ports.
-</tr>
-<tr>
-    <td> Moved ICSSG ENET LLD examples back to MCU SDK
+    <td> IOLINK Controller - Added NVRAM support for AM243 LP and EVM in example app
 </tr>
 <tr>
     <td> Bug Fixes
 </tr>
 </table>
-
+ 
 ## Device and Validation Information
 
 SOC    | Supported CPUs  | Boards                                                                                                      | Host PC
@@ -76,44 +78,44 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
 </tr>
 <tr>
     <td> PINDSW-5668
-    <td> HSR/PRP is not functional in rgmii mode
-    <td> HSR-PRP
-    <td> 08.04.00
-    <td> 
-</tr>
-<tr>
-    <td> PINDSW-5669
-    <td> Read access for 0x0984 Register not enabled
+    <td> PR0_IEP0_EDIO_DATA_IN_OUT30 is not functioning as AL event
     <td> EtherCAT Device
-    <td> 08.06.00
+    <td> 09.01.00
     <td> 
 </tr>
 <tr>
-    <td> PINDSW-5675
-    <td> HSR/PRP - PTP Device is unable to keep offset under 1000 ns
-    <td> HSR-PRP
-    <td> 08.04.00
-    <td> 
-</tr>
-<tr>
-    <td> PINDSW-6644
-    <td> EtherCAT - Disable Link Polling Mode Support in MDIO Workaround firmware
+    <td> PINDSW-7521
+    <td> Drift Compensation issue for filter values other than 0
     <td> EtherCAT Device
-    <td> 08.06.00
+    <td> 09.01.00
     <td> 
 </tr>
 <tr>
-    <td> PINDSW-6904
-    <td> Change of IP configuration does not work
+    <td> PINDSW-7712
+    <td> DLR : Active Supervisor IP Address gets updated regardless of Supervisor change
     <td> EtherNet/IP Adapter
-    <td> 09.00.00
+    <td> 09.01.00
     <td> 
 </tr>
 <tr>
-    <td> PINDSW-7099
-    <td> Reg.0x805.bit1 remains 0 and does not change
-    <td> EtherCAT Device
-    <td> 08.05.00
+    <td> PINDSW-7593
+    <td> Correct Host Name Attribute is not returned in TCP/IP Object in Bootp mode
+    <td> EtherNet/IP Adapter
+    <td> 09.01.00
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-7554
+    <td> Incorrect Watchdog timer configuration for Beacon time out
+    <td> EtherNet/IP Adapter
+    <td> 09.01.00
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-7042
+    <td> ACD - Active phase not getting restated on Second Link up event
+    <td> EtherNet/IP Adapter
+    <td> 09.01.00
     <td> 
 </tr>
 </table>

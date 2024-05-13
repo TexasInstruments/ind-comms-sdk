@@ -12,7 +12,7 @@ This example is an EtherCAT-IOLink Gateway application based on evaluation stack
 - <a href="../am64x/ethercat_iolink_gateway/ethercat_datasheet.html" target="_blank"> Data Sheet </a>
 - <a href="../am64x/ethercat_iolink_gateway/releasenotes.html" target="_blank"> Release Notes </a>
 - <a href="../am64x/ethercat_iolink_gateway/usergroup0.html" target="_blank"> Example Quick Start </a>
-- <a href="../am64x/ethercat_iolink_gateway/modules.html" target="_blank"> API Documentation </a>
+- <a href="../am64x/ethercat_iolink_gateway/topics.html" target="_blank"> API Documentation </a>
 
 \endcond
 
@@ -24,7 +24,7 @@ This example is an EtherCAT-IOLink Gateway application based on evaluation stack
 - <a href="../am243x/ethercat_iolink_gateway/evm/ethercat_datasheet.html" target="_blank"> Data Sheet </a>
 - <a href="../am243x/ethercat_iolink_gateway/evm/releasenotes.html" target="_blank"> Release Notes </a>
 - <a href="../am243x/ethercat_iolink_gateway/evm/usergroup0.html" target="_blank"> Example Quick Start </a>
-- <a href="../am243x/ethercat_iolink_gateway/evm/modules.html" target="_blank"> API Documentation </a>
+- <a href="../am243x/ethercat_iolink_gateway/evm/topics.html" target="_blank"> API Documentation </a>
 
 ## @VAR_LP_BOARD_NAME
 

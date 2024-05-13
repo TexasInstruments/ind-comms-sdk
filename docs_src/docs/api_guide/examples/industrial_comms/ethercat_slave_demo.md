@@ -33,7 +33,7 @@ Links to important sections in the detailed documentation are provided below:
 - <a href="../am64x/ethercat_slave/ethercat_certificate.pdf" target="_blank"> Certificate </a>
 - <a href="../am64x/ethercat_slave/releasenotes.html" target="_blank"> Release Notes </a>
 - <a href="../am64x/ethercat_slave/page_quickstart.html" target="_blank"> Example Quick Start </a>
-- <a href="../am64x/ethercat_slave/modules.html" target="_blank"> API Documentation </a>
+- <a href="../am64x/ethercat_slave/topics.html" target="_blank"> API Documentation </a>
 
 \endcond
 
@@ -44,7 +44,7 @@ Links to important sections in the detailed documentation are provided below:
 - <a href="../am243x/ethercat_slave/ethercat_certificate.pdf" target="_blank"> Certificate </a>
 - <a href="../am243x/ethercat_slave/releasenotes.html" target="_blank"> Release Notes </a>
 - <a href="../am243x/ethercat_slave/page_quickstart.html" target="_blank"> Example Quick Start </a>
-- <a href="../am243x/ethercat_slave/modules.html" target="_blank"> API Documentation </a>
+- <a href="../am243x/ethercat_slave/topics.html" target="_blank"> API Documentation </a>
 
 \endcond
 
