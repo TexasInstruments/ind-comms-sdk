@@ -96,6 +96,12 @@ const lnkfiles = {
     ]
 };
 
+const defines_r5f_cc = {
+    common: [
+        "AM263PX_CC"
+    ],
+};
+
 const syscfgfile = "../example.syscfg";
 
 const readmeDoxygenPageTag = "EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_BECKHOFF_SSC_DEMO";
@@ -139,6 +145,10 @@ function getComponentBuildProperty(buildOption) {
             build_property.cflags = cflags_r5f;
             build_property.lflags = lflags_r5f;
         }
+    }
+    if(buildOption.board.match(/cc*/))
+    {
+        build_property.defines = defines_r5f_cc;
     }
 
     return build_property;

@@ -19,17 +19,10 @@ const example_file_list = [
 function getProjectSpecCpu(cpu) {
     let projectSpecCpu =
     {
-<<<<<<< HEAD
         "r5fss0-0": "Cortex_R5_0",
         "r5fss0-1": "Cortex_R5_1",
         "r5fss1-0": "Cortex_R5_2",
         "r5fss1-1": "Cortex_R5_3",
-=======
-        "r5fss0-0": "MAIN_PULSAR_Cortex_R5_0_0",
-        "r5fss0-1": "MAIN_PULSAR_Cortex_R5_0_1",
-        "r5fss1-0": "MAIN_PULSAR_Cortex_R5_1_0",
-        "r5fss1-1": "MAIN_PULSAR_Cortex_R5_1_1",
->>>>>>> e7cccdd4 (am263px: EtherCAT: Add support in AM263Px-CC)
         "icssm-pru0": "ICSSM_PRU_0",
         "icssm-pru1": "ICSSM_PRU_1",
     }
@@ -125,11 +118,7 @@ function getLinuxFwName(cpu) {
 }
 
 function getProductNameProjectSpec() {
-<<<<<<< HEAD
     return "INDUSTRIAL_COMMUNICATIONS_SDK_AM263PX";
-=======
-    return "INDUSTRIAL_COMMUNICATIONS_SDK_AM263X";
->>>>>>> e7cccdd4 (am263px: EtherCAT: Add support in AM263Px-CC)
 }
 
 function getFlashAddr() {

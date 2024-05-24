@@ -19,9 +19,9 @@
         "
         connection="TIXDS110_Connection.xml"
         toolChain="TICLANG"
-        cgtVersion="3.2.0"
+        cgtVersion="3.2.2"
         device="Cortex R.AM263Px"
-        deviceCore="MAIN_PULSAR_Cortex_R5_0_0"
+        deviceCore="Cortex_R5_0"
         ignoreDefaultDeviceSettings="true"
         ignoreDefaultCCSSettings="true"
         endianness="little"
@@ -53,7 +53,7 @@
             -Wno-address-of-packed-member
             -Wno-tautological-pointer-compare
             -DSOC_AM263PX
-            -DTIESC_APPLICATION=1
+            -DAM263PX_CC
         "
         linkerBuildOptions="
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib
@@ -69,7 +69,7 @@
             --use_memset=fast
         "
 
-        postBuildStep="$(MAKE) -C ${CCS_PROJECT_DIR} -f makefile_ccs_bootimage_gen OUTNAME=${BuildArtifactFileBaseName} PROFILE=${ConfigName} INDUSTRIAL_COMMUNICATIONS_SDK_PATH=${INDUSTRIAL_COMMUNICATIONS_SDK_PATH} CG_TOOL_ROOT=${CG_TOOL_ROOT} CCS_INSTALL_DIR=${CCS_INSTALL_DIR} CCS_IDE_MODE=${CCS_IDE_MODE} DEVICE=am263Px"
+        postBuildStep="$(MAKE) -C ${CCS_PROJECT_DIR} -f makefile_ccs_bootimage_gen OUTNAME=${BuildArtifactFileBaseName} PROFILE=${ConfigName} INDUSTRIAL_COMMUNICATIONS_SDK_PATH=${INDUSTRIAL_COMMUNICATIONS_SDK_PATH} CG_TOOL_ROOT=${CG_TOOL_ROOT} CCS_INSTALL_DIR=${CCS_INSTALL_DIR} CCS_IDE_MODE=${CCS_IDE_MODE} DEVICE=am263px"
 
         enableSysConfigTool="true"
         sysConfigBuildOptions="
@@ -140,8 +140,6 @@
         <file path="../../../tiescutils.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="linker.cmd" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

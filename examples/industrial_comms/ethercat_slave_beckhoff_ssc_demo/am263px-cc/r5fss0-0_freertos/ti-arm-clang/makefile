@@ -89,7 +89,7 @@ INCLUDES_common := \
 
 DEFINES_common := \
 	-DSOC_AM263PX \
-	-DTIESC_APPLICATION=1 \
+	-DAM263PX_CC \
 
 CFLAGS_common := \
 	-mcpu=cortex-r5 \
@@ -124,6 +124,9 @@ CFLAGS_debug := \
 
 CFLAGS_release := \
 	-Os \
+
+LNK_FILES_common = \
+	generated/linker.cmd \
 
 LIBS_PATH_common = \
 	-Wl,-i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib \
