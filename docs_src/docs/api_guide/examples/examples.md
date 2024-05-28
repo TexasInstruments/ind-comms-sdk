@@ -6,6 +6,6 @@ This page lists all the examples and demos supported in this SDK.
 -# \subpage EXAMPLES_INDUSTRIAL_COMMS
 \endcond
 
-\cond SOC_AM263X
+\cond SOC_AM263X || SOC_AM263PX
 -# \subpage EXAMPLES_INDUSTRIAL_COMMS
 \endcond

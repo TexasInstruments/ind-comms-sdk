@@ -34,10 +34,16 @@ The example does the below
 
 \endcond
 
-\cond SOC_AM263X
+\cond SOC_AM263X || SOC_AM263PX
 
 \note
-Following features are not tested or implemented in this release :
+EtherCAT support is not enabled on the device AM263Px ControlCard. EtherCAT application is configured to work on AM263Px ControlCard  in order to demonstrate the working of Ethernet Add-on Connector. Please refer to \htmllink{https://www.ti.com/lit/pdf/spruj86, AM263Px Control Card Evaluation Module User's Guide (Rev. B)} for more information. Table 2-16 of the mentioned document provides insight to various configurations possible using the Ethernet Add-on connector.
+EtherCAT example on AM263Px ControlCard is configured to use the second state (mentioned in Table 2-16).
+\endcond
+
+\cond SOC_AM263X || SOC_AM263PX
+
+## Following features are not tested or implemented in this release :
 - Use of flash (Online Application Upgrade) is not verified
 - Run and Error LEDs are not implemented
 - LEDs linked to Process Data are not implemented
@@ -104,6 +110,17 @@ As mentioned above, SDK example will work on E3 revision of @VAR_LP_BOARD_NAME_L
 \endcond
 
 \cond SOC_AM263X
+
+ Parameter      | Value
+ ---------------|-----------
+ CPU + OS       | r5fss0-0 freertos
+ Toolchain      | ti-arm-clang
+ Boards         | @VAR_BOARD_NAME_LOWER, @VAR_LP_BOARD_NAME_LOWER
+ Example folder | examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo
+
+\endcond
+
+\cond SOC_AM263PX
 
  Parameter      | Value
  ---------------|-----------
@@ -208,6 +225,8 @@ Fast link detection using RX_LINK pins (MLINK mode) is required to support compl
 
 Shown below is a sample output when the application is run:
 
+\cond SOC_AM64X || SOC_AM243X
+
 \code
 EtherCAT Device
 EtherCAT Sample application
@@ -216,6 +235,49 @@ Firmware Version : 6.5.20
 SYNC0 task started
 SYNC1 task started
 \endcode
+
+\endcond
+
+\cond SOC_AM263X
+
+\code
+EtherCAT Device
+EtherCAT Sample application
+Revision/Type : x0690 Build : x0514
+Firmware Version : 6.5.20
+SYNC0 task started
+SYNC1 task started
+\endcode
+
+\endcond
+
+\cond SOC_AM263PX
+
+<table>
+<tr>
+    <th> AM263PX LaunchPad
+    <th> AM263PX ControlCard
+</tr>
+<tr>
+    <td>\code    EtherCAT Device
+    EtherCAT Sample application 
+    Revision/Type : x0590 Build : x0514
+    Firmware Version : 5.5.20
+    SYNC0 task started
+    SYNC1 task started \endcode
+    <td>\code    Non-EtherCAT Device 
+    EtherCAT Sample application
+    Revision/Type : x0590 Build : x0514
+    Firmware Version : 5.5.20
+    SYNC0 task started
+    SYNC1 task started \endcode
+</tr>
+</table>
+
+\note
+AM263Px ControlCard is identified as **Non-EtherCAT Device** as EtherCAT support is not enabled on the device. EtherCAT itself will not work on CC boards. For full EtherCAT validation, you will need to use the AM263Px-LP.
+
+\endcond
 
 # See Also
 

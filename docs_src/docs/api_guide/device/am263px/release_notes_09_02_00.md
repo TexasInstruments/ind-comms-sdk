@@ -16,7 +16,13 @@
     <th> Feature
 </tr>
 <tr>
-    <td> Bug Fixes
+    <td> EtherCAT SubDevice Beckhoff SSC Demo
+</tr>
+</table>
+
+<table>
+<tr>
+    <th> Bug Fixes
 </tr>
 </table>
 
@@ -24,7 +30,8 @@
 
 SOC    | Supported CPUs  | Boards                                                                                                      | Host PC
 -------|-----------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------
-AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code), \n AM263x LAUNCHPAD (referred to as am263x-lp in code)     | Windows 10 64b or Ubuntu 18.04 64b
+AM263Px| R5F             | AM263Px ControlCard E2 Rev                      (referred to as am263Px-cc in code). \n                     | Windows 10 64b or Ubuntu 18.04 64b
+AM263Px| R5F             | AM263Px LaunchPad                               (referred to as am263Px-lp in code). \n                     | Windows 10 64b or Ubuntu 18.04 64b
 
 ## Tools, Compiler and Other Open Source SW Module Information
 
@@ -52,17 +59,17 @@ Mbed-TLS                | R5F            | mbedtls-2.13.1
     <th> Resolution/Comments
 </tr>
 <tr>
-    <td> PINDSW-7084
-    <td> DP83826E PHY configuration mismatch for Odd Nibble Detection
+    <td> PINDSW-5668
+    <td> PR0_IEP0_EDIO_DATA_IN_OUT30 is not functioning as AL event
     <td> EtherCAT Device
-    <td> 09.00.00
+    <td> -
     <td> -
 </tr>
 <tr>
-    <td> PINDSW-7095
-    <td> Incorrect RAM size configuration for AM263x Devices
+    <td> PINDSW-7521
+    <td> Drift Compensation issue for filter values other than 0
     <td> EtherCAT Device
-    <td> 09.00.00
+    <td> -
     <td> -
 </tr>
 </table>
