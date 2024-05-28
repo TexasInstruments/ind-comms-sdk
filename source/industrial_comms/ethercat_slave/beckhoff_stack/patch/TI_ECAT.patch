@@ -490,7 +490,7 @@ Index: cia402appl.h
  
      CiA402Objects        Objects; /**< \brief CiA402 Axis object variable*/
      TOBJECT OBJMEM        * ObjDic; /**< \brief Pointer to Axis specific object dictionary*/
-+    UINT16               axisIndex; /**< \brief CiA402 Axis index variable */
++    UINT16               axisIndex; /**< \brief CiA402 Axis ===================================================================
  }
  TCiA402Axis, *pTCiA402Axis;
  /** @}*/
@@ -563,7 +563,7 @@ Index: ecat_def.h
  #include <stdlib.h>
  #include <string.h>
 +#include <stdio.h>
-+#if defined(SOC_AM65XX) || defined(SOC_AM64X) || defined(SOC_AM243X) || defined(SOC_AM263X)
++#if defined(SOC_AM65XX) || defined(SOC_AM64X) || defined(SOC_AM243X) || defined(SOC_AM263X) || defined(SOC_AM263PX)
 +#if !defined (__aarch64__)
 +/* Only for R5F build. */
 +#include <stdint.h>
@@ -785,7 +785,7 @@ Index: ecat_def.h
 +#if TIESC_HW
 +#if defined (TIESC_SPI_MASTER_MODE)
 +#define PRODUCT_CODE                              0x54490081
-+#elif defined (SOC_AM65XX) || defined (SOC_AM64X) || defined(SOC_AM243X) || defined(SOC_AM263X)
++#elif defined (SOC_AM65XX) || defined (SOC_AM64X) || defined(SOC_AM243X) || defined(SOC_AM263X) || defined(SOC_AM263PX)
 +#define PRODUCT_CODE                              0x54490004
 +#elif defined (SOC_AM572x) || defined (SOC_AM571x)
 +#define PRODUCT_CODE                              0x54490003
