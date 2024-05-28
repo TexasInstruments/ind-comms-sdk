@@ -18,7 +18,7 @@ To get started, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/GETTING_STARTED.html, GETTI
 
 Given below is a block diagram of the SW modules in this SDK
 
-\image html block_diagram_am263x.png "Software Block Diagram"
+\image html block_diagram_am263px.png "Software Block Diagram"
 
 The main software components in the block diagram are described below
 
