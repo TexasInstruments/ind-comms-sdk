@@ -841,12 +841,12 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
 
     if(emacMode == 0U)
     {   /*Switch Mode*/
-        temp_addr = (pruicssHwAttrs->pru1DramBase + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber))*8U));
+        temp_addr = (pruicssHwAttrs->pru1DramBase + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
         qDesc = (ICSS_EMAC_Queue *)(temp_addr);
     }
     else
     {
-        temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber))*8U));
+        temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
         qDesc = (ICSS_EMAC_Queue *)(temp_addr);
     }
     queue_wr_ptr = qDesc->wr_ptr;
@@ -874,16 +874,16 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
         }
         else
         {
-            rd_buf_desc_num = (queue_rd_ptr - rxQueue->buffer_desc_offset) >> 2;
-            temp_var1 = (((uint32_t)(rd_buf_desc_num)) * 32U);
+            rd_buf_desc_num = ((queue_rd_ptr - rxQueue->buffer_desc_offset)/(ICSS_EMAC_DEFAULT_FW_BD_SIZE));
+            temp_var1 = (((uint32_t)(rd_buf_desc_num)) * (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));
             temp_var2 = (rxQueue->buffer_offset);
             rd_buffer_l3_addr = ((((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->l3OcmcBaseAddr) + temp_var1 + temp_var2);
         }
     }
     else
     {
-        rd_buf_desc_num = (queue_rd_ptr - rxQueue->buffer_desc_offset) >> 2;
-        temp_var1 = ((uint32_t)(rd_buf_desc_num)) * 32U;
+        rd_buf_desc_num = ((queue_rd_ptr - rxQueue->buffer_desc_offset)/(ICSS_EMAC_DEFAULT_FW_BD_SIZE));
+        temp_var1 = (((uint32_t)(rd_buf_desc_num))* (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));
         temp_var2 = (rxQueue->buffer_offset);
         rd_buffer_l3_addr = ((((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->l3OcmcBaseAddr) + temp_var1 + temp_var2);
     }
@@ -903,10 +903,10 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
     }
 
     /*Compute number of buffer desc required & update rd_ptr in queue */
-    update_rd_ptr = ((rd_packet_length >> 5U)*4U) + queue_rd_ptr;
-    if( (rd_packet_length & 0x0000001fU) != 0U) /* checks multiple of 32 else need to increment by 4 */
+    update_rd_ptr = ((rd_packet_length/(ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE))*(ICSS_EMAC_DEFAULT_FW_BD_SIZE)) + queue_rd_ptr;
+    if( (rd_packet_length % (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE)) != 0U) /* checks multiple of 32 else need to increment by 4 */
     {
-        update_rd_ptr += 4U;
+        update_rd_ptr += ICSS_EMAC_DEFAULT_FW_BD_SIZE;
     }
 
     true_rd_ptr = update_rd_ptr;
@@ -916,7 +916,7 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
     if(rd_buf_desc & 0x8000)
     {
         ptp_pkt = 1;
-        update_rd_ptr += 4U;
+        update_rd_ptr += ICSS_EMAC_DEFAULT_FW_BD_SIZE;
     }
 
     /*Check for wrap around */
@@ -948,8 +948,8 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
             typeProt2 = ((uint16_t)((*typeProt) >> 8U));
             typeProt1 = typeProt1 | typeProt2;
             rx_num_of_bytes = (rxQueue->queue_size - queue_rd_ptr);
-            rx_num_of_bytes = (rx_num_of_bytes >> 2);
-            rx_num_of_bytes = (uint16_t)((rx_num_of_bytes) << 5);
+            rx_num_of_bytes = (rx_num_of_bytes/(ICSS_EMAC_DEFAULT_FW_BD_SIZE));
+            rx_num_of_bytes = (uint16_t)((rx_num_of_bytes)*(ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));
 
             ICSS_EMAC_memcpyLocal((int32_t*)destAddress, (int32_t*)rd_buffer_l3_addr, (size_t)rx_num_of_bytes);
             destAddress = destAddress + rx_num_of_bytes;
@@ -1004,7 +1004,7 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
     {
         if(emacMode == 0U)
         { /*Switch Mode*/
-            temp_addr = (pruicssHwAttrs->pru1DramBase  + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber))*8U));
+            temp_addr = (pruicssHwAttrs->pru1DramBase  + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
             /* Write back to queue */
             HW_WR_REG16(temp_addr, update_rd_ptr);
             /* Check if Host needs to change the wr_ptr for collision queue as well */
@@ -1026,7 +1026,7 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
         }
         else
         {
-            temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber))*8U));
+            temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
             HW_WR_REG16(temp_addr, update_rd_ptr);
         }
         rxQueue->qStat.rawCount++;
@@ -1034,13 +1034,13 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
         rxArg->more = 0;
         if(emacMode == 0U)
         { /*Switch Mode*/
-            temp_addr = (pruicssHwAttrs->pru1DramBase  + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber))*8U));
+            temp_addr = (pruicssHwAttrs->pru1DramBase  + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
             /* get new pointer data in case new packets received in meantime - experimental.. */
             qDesc = (ICSS_EMAC_Queue *)(temp_addr);
         }
         else
         {
-            temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber))*8U));
+            temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
             qDesc = (ICSS_EMAC_Queue *)(temp_addr);
         }
         queue_wr_ptr = qDesc->wr_ptr;
@@ -1346,18 +1346,18 @@ int32_t ICSS_EMAC_txPacketEnqueue(ICSS_EMAC_Handle  icssEmacHandle,
     queue_wr_ptr = ((uint16_t)(temp >> 16));
     queue_rd_ptr = ((uint16_t)(temp & 0x0000ffffU));
 
-    wrk_queue_wr_ptr = (((uint16_t)(lengthOfPacket)) >> 5U);  /* Divide by 32 */
-    wrk_queue_wr_ptr = (uint16_t)((wrk_queue_wr_ptr) << 2);  /* Multiply by 4 ..as one descriptor represents 32 bytes and BD takes 4 bytes */
-    if((((uint32_t)(lengthOfPacket)) & 0x0000001fU) != 0U)
+    wrk_queue_wr_ptr = (((uint16_t)(lengthOfPacket))/(ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));  /* Divide by 32 */
+    wrk_queue_wr_ptr = (uint16_t)((wrk_queue_wr_ptr)*(ICSS_EMAC_DEFAULT_FW_BD_SIZE));  /* Multiply by 4 ..as one descriptor represents 32 bytes and BD takes 4 bytes */
+    if((((uint32_t)(lengthOfPacket)) % (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE)) != 0U)
     {
-         wrk_queue_wr_ptr = wrk_queue_wr_ptr + 4U;
+         wrk_queue_wr_ptr = wrk_queue_wr_ptr + (ICSS_EMAC_DEFAULT_FW_BD_SIZE);
     }
 
     /* Add to get the value of new queue write pointer */
     wrk_queue_wr_ptr = wrk_queue_wr_ptr + queue_wr_ptr;
     size = txQueue->queue_size;
     /*Check if queue is full and there is an wrap around */
-    if(((queue_wr_ptr + 4U) % size) == 0U)
+    if(((queue_wr_ptr + (ICSS_EMAC_DEFAULT_FW_BD_SIZE)) % size) == 0U)
     {
         if(queue_rd_ptr == txQueue->buffer_desc_offset) /* Since queue is not starting from 0. */
         {
@@ -1377,7 +1377,7 @@ int32_t ICSS_EMAC_txPacketEnqueue(ICSS_EMAC_Handle  icssEmacHandle,
         }
     }
     /* Check if the Queue is already full */
-    if((queue_wr_ptr + 4U) == queue_rd_ptr)
+    if((queue_wr_ptr + (ICSS_EMAC_DEFAULT_FW_BD_SIZE)) == queue_rd_ptr)
     {
         txQueue->qStat.errCount++;
         if(emacMode == 0U)
@@ -1449,7 +1449,9 @@ int32_t ICSS_EMAC_txPacketEnqueue(ICSS_EMAC_Handle  icssEmacHandle,
         }
     }
     /* Compute the offset of buffer descriptor in ICSS shared RAM */
-    temp_var = (txQueue->buffer_offset) + ((queue_wr_ptr - txQueue->buffer_desc_offset)*((uint16_t)8U));
+    temp_var = ((queue_wr_ptr - txQueue->buffer_desc_offset)/(ICSS_EMAC_DEFAULT_FW_BD_SIZE));
+    temp_var = temp_var * (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE);
+    temp_var = (txQueue->buffer_offset) + temp_var;
     buffer_offset_computed = (uint32_t)temp_var;    /* queue_wr_ptr points to currently available free buffer */
     /*  Add the offset of Tx Queues */
     buffer_offset_computed = buffer_offset_computed + pDynamicMMap->transmitQueuesBufferOffset;
@@ -1458,7 +1460,8 @@ int32_t ICSS_EMAC_txPacketEnqueue(ICSS_EMAC_Handle  icssEmacHandle,
     if( (wrk_queue_wr_ptr < queue_wr_ptr) &&  (wrk_queue_wr_ptr != txQueue->buffer_desc_offset))
     {
         num_of_bytes = (size - queue_wr_ptr);
-        num_of_bytes *= 8U;                    /* divide by 4 * 32! */
+        num_of_bytes /= (ICSS_EMAC_DEFAULT_FW_BD_SIZE);
+        num_of_bytes *= (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE);      /* divide by buffer descriptor size * buffer size */
         /* check if Padding has to be done. If yes then Pad with Zero's to reach the minimum size for the ethernet frame. */
         if(packet_min_size_padding == 1U)
         {
@@ -1802,13 +1805,13 @@ int32_t ICSS_EMAC_rxPktInfo2(ICSS_EMAC_Handle   icssEmacHandle,
     {
         if(emacMode == 0U)
         {   /*Switch Mode*/
-            temp_var1 = ((uint32_t)(i))*8U;
+            temp_var1 = ((uint32_t)(i))* ICSS_EMAC_DEFAULT_FW_QD_SIZE;
             temp_addr = (pruicssHwAttrs->pru1DramBase + pStaticMMap->p0QueueDescOffset + temp_var1);
             qDesc = (ICSS_EMAC_Queue *)(temp_addr);
         }
         else
         {
-            temp_var1 = ((uint32_t)(i))*8U;
+            temp_var1 = ((uint32_t)(i))* ICSS_EMAC_DEFAULT_FW_QD_SIZE;
             temp_addr = (pruicssHwAttrs->sharedDramBase + pDynamicMMap->hostQ1RxContextOffset + 64U + temp_var1);
             qDesc = (ICSS_EMAC_Queue *)(temp_addr);
         }
@@ -2377,14 +2380,14 @@ static inline void ICSS_EMAC_portFlush(ICSS_EMAC_Handle icssEmacHandle, uint8_t 
         {
             sPort->queue[qCount].buffer_offset      = bufferOffsets[qCount];
             sPort->queue[qCount].buffer_desc_offset = bdOffsets[qCount];
-            sPort->queue[qCount].queue_desc_offset  = pStaticMMap->p0QueueDescOffset + 32U + (qCount * 8U);
-            sPort->queue[qCount].queue_size         = (uint16_t)(((uint16_t)pDynamicMMap->txQueueSize[qCount]) << 2) + (uint16_t)bdOffsets[qCount];
+            sPort->queue[qCount].queue_desc_offset  = pStaticMMap->p0QueueDescOffset + (pDynamicMMap->numQueues * ICSS_EMAC_DEFAULT_FW_QD_SIZE * ICSS_EMAC_PORT_1) + (qCount * 8U);
+            sPort->queue[qCount].queue_size         = (uint16_t)(((uint16_t)pDynamicMMap->txQueueSize[qCount]) * ICSS_EMAC_DEFAULT_FW_BD_SIZE) + (uint16_t)bdOffsets[qCount];
         }
 
         sPort->queue[ICSS_EMAC_COLQUEUE].buffer_offset      = bufferOffsets[ICSS_EMAC_COLQUEUE];
         sPort->queue[ICSS_EMAC_COLQUEUE].buffer_desc_offset = bdOffsets[ICSS_EMAC_COLQUEUE];
-        sPort->queue[ICSS_EMAC_COLQUEUE].queue_desc_offset  = pStaticMMap->p0ColQueueDescOffset + 8U;
-        sPort->queue[ICSS_EMAC_COLQUEUE].queue_size         = (uint16_t)(((uint16_t)pDynamicMMap->collisionQueueSize) << 2) +  (uint16_t)bdOffsets[ICSS_EMAC_COLQUEUE];
+        sPort->queue[ICSS_EMAC_COLQUEUE].queue_desc_offset  = pStaticMMap->p0ColQueueDescOffset + (ICSS_EMAC_DEFAULT_FW_QD_SIZE * ICSS_EMAC_PORT_1);
+        sPort->queue[ICSS_EMAC_COLQUEUE].queue_size         = (uint16_t)(((uint16_t)pDynamicMMap->collisionQueueSize) * ICSS_EMAC_DEFAULT_FW_BD_SIZE) +  (uint16_t)bdOffsets[ICSS_EMAC_COLQUEUE];
 
         break;
 
@@ -2395,14 +2398,14 @@ static inline void ICSS_EMAC_portFlush(ICSS_EMAC_Handle icssEmacHandle, uint8_t 
         {
             sPort->queue[qCount].buffer_offset      = bufferOffsets[qCount];
             sPort->queue[qCount].buffer_desc_offset = bdOffsets[qCount];
-            sPort->queue[qCount].queue_desc_offset  = pStaticMMap->p0QueueDescOffset + 64U + (qCount * 8U);
-            sPort->queue[qCount].queue_size         = (uint16_t)(((uint16_t)pDynamicMMap->txQueueSize[qCount]) << 2) + (uint16_t)bdOffsets[qCount];
+            sPort->queue[qCount].queue_desc_offset  = pStaticMMap->p0QueueDescOffset + (pDynamicMMap->numQueues * ICSS_EMAC_DEFAULT_FW_QD_SIZE * ICSS_EMAC_PORT_2) + (qCount * 8U);
+            sPort->queue[qCount].queue_size         = (uint16_t)(((uint16_t)pDynamicMMap->txQueueSize[qCount]) * ICSS_EMAC_DEFAULT_FW_BD_SIZE) + (uint16_t)bdOffsets[qCount];
         }
 
         sPort->queue[ICSS_EMAC_COLQUEUE].buffer_offset      = bufferOffsets[ICSS_EMAC_COLQUEUE];
         sPort->queue[ICSS_EMAC_COLQUEUE].buffer_desc_offset = bdOffsets[ICSS_EMAC_COLQUEUE];
-        sPort->queue[ICSS_EMAC_COLQUEUE].queue_desc_offset  = pStaticMMap->p0ColQueueDescOffset + 16U;
-        sPort->queue[ICSS_EMAC_COLQUEUE].queue_size         = (uint16_t)(((uint16_t)pDynamicMMap->collisionQueueSize) << 2U) +  (uint16_t)bdOffsets[ICSS_EMAC_COLQUEUE];
+        sPort->queue[ICSS_EMAC_COLQUEUE].queue_desc_offset  = pStaticMMap->p0ColQueueDescOffset + (ICSS_EMAC_DEFAULT_FW_QD_SIZE * ICSS_EMAC_PORT_2);
+        sPort->queue[ICSS_EMAC_COLQUEUE].queue_size         = (uint16_t)(((uint16_t)pDynamicMMap->collisionQueueSize) * ICSS_EMAC_DEFAULT_FW_BD_SIZE) +  (uint16_t)bdOffsets[ICSS_EMAC_COLQUEUE];
 
         break;
 
