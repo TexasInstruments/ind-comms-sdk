@@ -16,9 +16,23 @@
     <th> Feature
 </tr>
 <tr>
-    <td> Bug Fixes
+    <td> -
 </tr>
 </table>
+
+<table>
+<tr>
+    <th> Bug Fixes
+</tr>
+<tr>
+    <td> PINDSW-5668
+</tr>
+<tr>
+    <td> PINDSW-7521
+</tr>
+</table>
+
+\note ICSS-EMAC driver has been migrated to MCU+ SDK for AM263x platforms. \n
 
 ## Device and Validation Information
 
@@ -52,17 +66,17 @@ Mbed-TLS                | R5F            | mbedtls-2.13.1
     <th> Resolution/Comments
 </tr>
 <tr>
-    <td> PINDSW-7084
-    <td> DP83826E PHY configuration mismatch for Odd Nibble Detection
+    <td> PINDSW-5668
+    <td> PR0_IEP0_EDIO_DATA_IN_OUT30 is not functioning as AL event
     <td> EtherCAT Device
-    <td> 09.00.00
+    <td> 09.01.00
     <td> -
 </tr>
 <tr>
-    <td> PINDSW-7095
-    <td> Incorrect RAM size configuration for AM263x Devices
+    <td> PINDSW-7521
+    <td> Drift Compensation issue for filter values other than 0
     <td> EtherCAT Device
-    <td> 09.00.00
+    <td> 09.01.00
     <td> -
 </tr>
 </table>
