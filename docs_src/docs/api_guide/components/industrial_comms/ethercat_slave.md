@@ -67,6 +67,34 @@ SysConfig can be used to configure things mentioned below:
 - Firmware based on 200 MHz clock frequency for PRU-ICSS Core Clock and IEP Clock
 \endcond
 
+\cond  SOC_AM263X || SOC_AM263PX 
+#### Key Performance Parameters
+
+Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff PLC) on AM263x and AM263Px.
+
+<table>
+    <tr>
+        <th style="width: 40%">Feature</th>
+        <th style="width: 30%">Detail</th>
+        <th style="width: 30%">Value</th>
+    </tr>
+    <tr>
+        <td>Distributed Clock</td>
+        <td>Sync Jitter</td>
+        <td>30ns</td>
+    </tr>
+    <tr>
+        <td rowspan=2>Latency</td>
+        <td>Process Path</td>
+        <td>Average = 420ns, Max = 440ns</td>
+    </tr>
+    <tr>
+        <td>Auto Forward Path</td>
+        <td>Average = 420ns, Max = 440ns</td>
+    </tr>
+</table>
+\endcond
+
 #### Release Notes
 
 \cond SOC_AM64X || SOC_AM243X
