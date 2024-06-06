@@ -16,21 +16,10 @@
     <th> Feature
 </tr>
 <tr>
-    <td> -
+    <td> Bug Fixes
 </tr>
 </table>
 
-<table>
-<tr>
-    <th> Bug Fixes
-</tr>
-<tr>
-    <td> PINDSW-5668
-</tr>
-<tr>
-    <td> PINDSW-7521
-</tr>
-</table>
 
 \note ICSS-EMAC driver has been migrated to MCU+ SDK for AM263x platforms. \n
 

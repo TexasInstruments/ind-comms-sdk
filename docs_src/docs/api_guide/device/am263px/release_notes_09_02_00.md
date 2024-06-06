@@ -20,20 +20,6 @@
 </tr>
 </table>
 
-<table>
-<tr>
-    <th> Bug Fixes
-</tr>
-<tr>
-    <td> PINDSW-5668
-</tr>
-<tr>
-    <td> PINDSW-7521
-</tr>
-</table>
-
-\note ICSS-EMAC driver has been migrated to MCU+ SDK for AM263Px platforms. \n
-
 ## Device and Validation Information
 
 SOC    | Supported CPUs  | Boards                                                                                                      | Host PC
@@ -65,20 +51,6 @@ Mbed-TLS                | R5F            | mbedtls-2.13.1
     <th> Module
     <th> Applicable Releases
     <th> Resolution/Comments
-</tr>
-<tr>
-    <td> PINDSW-5668
-    <td> PR0_IEP0_EDIO_DATA_IN_OUT30 is not functioning as AL event
-    <td> EtherCAT Device
-    <td> -
-    <td> -
-</tr>
-<tr>
-    <td> PINDSW-7521
-    <td> Drift Compensation issue for filter values other than 0
-    <td> EtherCAT Device
-    <td> -
-    <td> -
 </tr>
 </table>
 
