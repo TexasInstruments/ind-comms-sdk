@@ -1,7 +1,7 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM263x_beta" --package "ZCZ" --part "AM263x" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM263X@09.02.00"
+ * @cliArgs --device "AM263x_beta" --package "ZCZ" --part "AM263x" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM263x@09.02.00"
  * @versions {"tool":"1.20.0+3587"}
  */
 
@@ -10,9 +10,6 @@
  */
 const eeprom          = scripting.addModule("/board/eeprom/eeprom", {}, false);
 const eeprom1         = eeprom.addInstance();
-const ethphy          = scripting.addModule("/board/ethphy/ethphy", {}, false);
-const ethphy1         = ethphy.addInstance();
-const ethphy2         = ethphy.addInstance();
 const flash           = scripting.addModule("/board/flash/flash", {}, false);
 const flash1          = flash.addInstance();
 const led             = scripting.addModule("/board/led/led", {}, false);
@@ -63,12 +60,6 @@ const section12       = section.addInstance();
 eeprom1.$name      = "CONFIG_EEPROM0";
 eeprom1.i2cAddress = 0x53;
 
-ethphy1.$name    = "CONFIG_ETHPHY0";
-ethphy1.mdioPort = 12;
-
-ethphy2.$name    = "CONFIG_ETHPHY1";
-ethphy2.mdioPort = 3;
-
 flash1.$name                        = "CONFIG_FLASH0";
 flash1.peripheralDriver.$name       = "CONFIG_QSPI0";
 flash1.peripheralDriver.dmaEnable   = false;
@@ -89,10 +80,9 @@ edma1.edmaRmQdmaCh[0].$name        = "CONFIG_EDMA_RM1";
 edma1.edmaRmTcc[0].$name           = "CONFIG_EDMA_RM2";
 edma1.edmaRmParam[0].$name         = "CONFIG_EDMA_RM3";
 
-gpio1.$name           = "CONFIG_GPIO0";
-gpio1.pinDir          = "OUTPUT";
-led2.peripheralDriver = gpio1;
-gpio1.GPIO_n.$assign  = "PR0_PRU1_GPIO10";
+gpio1.$name          = "CONFIG_GPIO0";
+gpio1.pinDir         = "OUTPUT";
+gpio1.GPIO_n.$assign = "PR0_PRU1_GPIO10";
 
 gpio2.$name  = "CONFIG_GPIO1";
 gpio2.pinDir = "OUTPUT";
@@ -100,9 +90,10 @@ gpio2.pinDir = "OUTPUT";
 gpio3.$name          = "CONFIG_GPIO2";
 gpio3.GPIO_n.$assign = "EPWM7_B";
 
-gpio4.$name          = "CONFIG_GPIO3";
-gpio4.pinDir         = "OUTPUT";
-gpio4.GPIO_n.$assign = "UART0_CTSn";
+gpio4.$name           = "CONFIG_GPIO3";
+gpio4.pinDir          = "OUTPUT";
+led2.peripheralDriver = gpio4;
+gpio4.GPIO_n.$assign  = "UART0_CTSn";
 
 i2c1.$name               = "CONFIG_I2C1";
 eeprom1.peripheralDriver = i2c1;
@@ -112,8 +103,10 @@ i2c1.I2C_child.$name     = "drivers_i2c_v1_i2c_v1_template0";
 
 ethercat1.$name                       = "CONFIG_ETHERCAT0";
 ethercat1.ICSSM.PR0_PRU1_GPIO10.$used = false;
-ethercat1.ethphy[0].$name             = "CONFIG_ETHPHY2";
-ethercat1.ethphy[1].$name             = "CONFIG_ETHPHY3";
+ethercat1.ethphy[0].$name             = "CONFIG_ETHPHY0";
+ethercat1.ethphy[0].mdioPort          = 12;
+ethercat1.ethphy[1].$name             = "CONFIG_ETHPHY1";
+ethercat1.ethphy[1].mdioPort          = 3;
 
 pruicss1.$name                           = "CONFIG_PRU_ICSS0";
 ethercat1.icss                           = pruicss1;

@@ -33,6 +33,7 @@
         "/memory_configurator/components"
 % }
 % if(args.device == "am263x") {
+        "/industrial_comms/industrial_comms",
         "/kernel/dpl",
         "/drivers/drivers",
         "/board/board",
@@ -43,6 +44,7 @@
         "/memory_configurator/components",
 % }
 % if(args.device == "am263px"){
+        "/industrial_comms/industrial_comms",
         "/kernel/dpl",
         "/drivers/drivers",
         "/board/board",
