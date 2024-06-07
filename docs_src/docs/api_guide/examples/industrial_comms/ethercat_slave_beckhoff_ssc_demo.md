@@ -34,7 +34,7 @@ The example does the below
 
 \endcond
 
-\cond SOC_AM263X || SOC_AM263PX
+\cond SOC_AM263PX
 
 \note
 EtherCAT support is not enabled on the device AM263Px ControlCard. EtherCAT application is configured to work on AM263Px ControlCard  in order to demonstrate the working of Ethernet Add-on Connector. Please refer to \htmllink{https://www.ti.com/lit/pdf/spruj86, AM263Px Control Card Evaluation Module User's Guide (Rev. B)} for more information. Table 2-16 of the mentioned document provides insight to various configurations possible using the Ethernet Add-on connector.
