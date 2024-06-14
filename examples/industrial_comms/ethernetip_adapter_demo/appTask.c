@@ -78,6 +78,21 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
+#ifdef ENABLE_INTERCORE_TUNNELING
+#include "udp_iperf.h"
+#include "app_tcpserver.h"
+#include "netif_common.h"
+#include "app_control.h"
+#include "app_netif.h"
+#include <examples/lwiperf/lwiperf_example.h>
+
+/* UDP Iperf task should be highest priority task to ensure processed buffers
+ * are freed without delay so that we get maximum throughput for
+ * UDP Iperf.
+ */
+#define UDP_IPERF_THREAD_PRIO  (14U)
+#endif
+
 extern PRUICSS_Handle prusshandle;
 
 // Static variables and pointers used in this example.
@@ -95,11 +110,14 @@ static uint8_t*                EI_APP_TASK_getMacAddr          (void);
 static void                    EI_APP_TASK_stackErrorHandlerCb (uint32_t errorCode,   uint8_t fatal, uint8_t numOfPara, va_list argPtr);
 static bool                    EI_APP_TASK_cipCreateCallback   (EI_API_CIP_NODE_T *pCipNode);
 
+static void                    App_printCpuLoad                ();
+
 // Global variables and pointers used in this example.
 // has to stay, used in lib_eip_lwip_ip :-(
 static uint8_t EI_APP_TASK_macAddress[] = {0xc8, 0x3e, 0xa7, 0x00, 0x00, 0x59};
 
 uint32_t globalError = 0;
+uint8_t* bridgeMac; 
 
 /*!
  *  <!-- Description: -->
@@ -310,6 +328,8 @@ static bool EI_APP_TASK_init(APP_SParams_t* pParam)
 
     EI_API_ADP_getMacAddr(adapter_s, &macAddr);
 
+    bridgeMac = macAddr.data;
+
     if (macAddr.data != NULL)
     {
         OSAL_printf("EI_API_ADP_getMacAddr:  %02x:%02x:%02x:%02x:%02x:%02x\r\n",
@@ -356,6 +376,7 @@ static void EI_APP_TASK_run(EI_API_CIP_NODE_T* cipNode)
  *
  *
  */
+volatile int8_t loopHalt = 1;
 void EI_APP_TASK_main(void* pvTaskArg_p)
 {
     uint32_t err = OSAL_NO_ERROR;
@@ -363,12 +384,20 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
     APP_SInstance_t* pAppInstance = (APP_SInstance_t*) pvTaskArg_p;
 
+    while(loopHalt)
+    {
+        DebugP_log("%d", loopHalt);
+    }
+
     CMN_BOARD_init();
 
     CUST_DRIVERS_init(&pAppInstance->config.customDrivers);
 
     EI_APP_UART_init(&pAppInstance->config.uart);
+
+#ifndef ENABLE_INTERCORE_TUNNELING
     EI_APP_LED_init(&pAppInstance->config.led);
+#endif
 
     OSAL_registerPrintOut(NULL, EI_APP_UART_printf);
 
@@ -403,6 +432,29 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
     CMN_CPU_API_startMonitor(&pAppInstance->config.cpuLoad);
 #endif
 
+#ifdef ENABLE_INTERCORE_TUNNELING
+    DebugP_log("Main Core init\r\n");
+
+    /*! Initialize the IPC Task */
+    AppCtrl_createRecvTask();
+    
+    sys_lock_tcpip_core();
+    /*! Handle the IC up notify to bring IC-netif up */
+    EthApp_initNetif();
+    /* Start the TCP server for the core */
+    AppTcp_startServer();
+    /* Wait for the TCP initialization to complete
+     * Send the IP for remote cores for self test
+     */
+    ClockP_sleep(2);
+    AppCtrl_sendIPNotify();
+
+    lwiperf_example_init();
+    sys_thread_new("UDP Iperf", start_application, NULL, DEFAULT_THREAD_STACKSIZE,
+                               UDP_IPERF_THREAD_PRIO);
+    sys_unlock_tcpip_core();
+#endif
+
     for (;;)
     {
         EI_APP_TASK_run(cipNode_s);
@@ -417,6 +469,8 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
         {
             EI_APP_NV_write(false);
         }
+
+        App_printCpuLoad();
 
         OSAL_SCHED_yield();
     }
@@ -581,3 +635,117 @@ static uint8_t* EI_APP_TASK_getMacAddr (void)
 #endif
 }
 
+#ifdef ENABLE_INTERCORE_TUNNELING
+uint32_t EnetSoc_getCoreId(void)
+{
+    uint32_t coreId = CSL_CORE_ID_R5FSS0_0;
+    return coreId;
+}
+
+uint32_t App_getSelfCoreId()
+{
+    uint32_t coreId = EnetSoc_getCoreId();
+    return coreId;
+}
+
+void assignMacAddr(ICSS_EMAC_Handle emachandle)
+{
+    int32_t status = ICVE_OK;
+
+    Icss_MacAddr assignMac;
+    assignMac.macAddr[0] = 0x00;
+    assignMac.macAddr[1] = 0x01;
+    assignMac.macAddr[2] = 0x02;
+    assignMac.macAddr[3] = 0x04;
+    assignMac.macAddr[4] = 0x05;
+    assignMac.macAddr[5] = 0x06;
+
+    ICSS_EMAC_IoctlCmd ioctlParamsPNTest;
+    ioctlParamsPNTest.ioctlVal = (void *)(assignMac.macAddr);
+    ioctlParamsPNTest.command = ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_ENABLE_CMD;
+    int32_t ICSS_EMAC_ioctl_status = ICSS_EMAC_ioctl(emachandle,ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL, (uint32_t)NULL, (void *)&ioctlParamsPNTest);
+    if(ICSS_EMAC_ioctl_status == 0)
+    {
+        status = ICVE_OK;
+    }
+    else
+    {
+        status = ICVE_FAIL;
+    }
+    DebugP_log("Adding new MAC to FDB  \r\n");
+}
+
+static void App_printCpuLoad()
+{
+    static uint32_t startTime_ms = 0;
+    const  uint32_t currTime_ms  = ClockP_getTimeUsec()/1000;
+    const  uint32_t printInterval_ms = 5000;
+
+    if (startTime_ms == 0)
+    {
+        startTime_ms = currTime_ms;
+    }
+    else if ( (currTime_ms - startTime_ms) > printInterval_ms )
+    {
+        const uint32_t cpuLoad = TaskP_loadGetTotalCpuLoad();
+
+        DebugP_log(" %6d.%3ds : CPU load = %3d.%02d %%\r\n",
+                    currTime_ms/1000, currTime_ms%1000,
+                    cpuLoad/100, cpuLoad%100 );
+
+        startTime_ms = currTime_ms;
+        TaskP_loadResetAll();
+    }
+    return;
+}
+
+int32_t AppCtrl_addMcastAddr(Icss_MacAddr mac)
+{
+    int32_t status = ICVE_OK;
+
+    if(status == ICVE_OK)
+    {
+        status = AddNetif_addBridgeMcastEntry(mac);
+        DebugP_log("Adding new MCast entry to LwIP Bridge \r\n");
+    }
+
+    if(status == ICVE_OK)
+    {
+        DebugP_log("MC addr added Successfully \r\n");
+    }
+
+    return status;
+}
+
+int32_t AppCtrl_delMcastAddr(Icss_MacAddr mac)
+{
+    int32_t status = ICVE_OK;
+
+    if(status == ICVE_OK)
+    {
+        status = AddNetif_delBridgeMcastEntry(mac);
+        DebugP_log("Deleting new MCast entry from LwIP Bridge \r\n");
+    }
+
+    if(status == ICVE_OK)
+    {
+        DebugP_log("MCast address deleted from FDB \r\n");
+    }
+
+    return status;
+}
+
+bool App_IsLinuxPresent()
+{
+    return 1;//ENET_IS_LINUX_PRESENT;
+}
+
+/* Remote MAC update via RPMSG is not supported
+*  Hard code the remote MAC in the function - assignMacAddr
+*/ 
+int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr assignMac) 
+{
+    int32_t status = ICVE_OK;
+    return status;
+}
+#endif

@@ -1,14 +1,14 @@
 /*!
- *  \file CUST_led.c
+ *  \file app_generic_device.h
  *
  *  \brief
- *  Provides initialization of custom LED's.
+ *  Generic device profile declarations.
  *
  *  \author
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -39,71 +39,18 @@
  *  SUCH DAMAGE.
  *
  */
-#include <stdio.h>
-#include <string.h>
 
-#include <board/led.h>
-#include <drivers/i2c.h>
+#ifndef APP_GENERIC_DEVICE_H
+#define APP_GENERIC_DEVICE_H
 
-#include <drivers/led/CUST_led.h>
-#include "ti_board_config.h"
-#include "ti_board_open_close.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/*!
- *
- *  \brief
- *  Initialization of custom LEDs on board.
- *
- *  \return     uint32_t                            Error code.
- *
- *  \retval     CUST_LED_eERR_NOERROR               Success.
- *
- */
-uint32_t CUST_LED_init(void)
-{
-    // Custom LED's are currently not supported by SysConfig
+EI_API_ADP_SEipStatus_t EI_APP_GENERIC_DEVICE_cmgrCb(uint32_t serviceCode, EI_API_ADP_UCmgrInfo_u cmgrInfo);
 
-    return (uint32_t) CUST_LED_eERR_NOERROR;
-}
-
-/*!
- *
- *  \brief
- *  Deinitialization of custom LEDs on board.
- *
- *  \return     uint32_t                        Error code.
- *
- *  \retval     CUST_LED_eERR_NOERROR           Success.
- *
- */
-uint32_t CUST_LED_deInit(void)
-{
-    // Custom LED's are currently not supported by SysConfig
-
-    return (uint32_t) CUST_LED_eERR_NOERROR;
-}
-
-/*!
-*
-*  \brief
-*  Provides handle to LED driver.
-*
-*  \return     LED_Handle  Handle to LED driver.
-*
-*  \retval     NULL           Failed.
-*  \retval     Other          Success.
-*
-*/
-#ifndef ENABLE_INTERCORE_TUNNELING
-LED_Handle CUST_LED_getHandle(uint32_t instanceId)
-{
-    LED_Handle handle = NULL;
-
-    if (CONFIG_LED_NUM_INSTANCES > instanceId)
-    {
-        handle = gLedHandle[instanceId];
-    }
-
-    return handle;
+#ifdef  __cplusplus
 }
 #endif
+
+#endif // APP_GENERIC_DEVICE_H
