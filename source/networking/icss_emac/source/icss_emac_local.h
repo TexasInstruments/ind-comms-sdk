@@ -83,6 +83,8 @@ extern "C" {
 
 #define ICSS_EMAC_DEFAULT_FW_BD_SIZE                         (4U)            /* one buffer descriptor is 4 bytes */
 #define ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE                      (32U)           /* bytes derived from ICSS architecture */
+#define ICSS_EMAC_DEFAULT_FW_QD_SIZE                         (8U)
+#define ICSS_EMAC_DEFAULT_FW_COLLISION_QUEUE_SIZE            (48U)           /* collision queue size*/
 
 /* Firmware feature set defines*/
 #define ICSS_EMAC_FW_TTS_FEATURE_SHIFT                  ((uint32_t)0U)
