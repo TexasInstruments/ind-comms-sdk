@@ -31,6 +31,7 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 2.00.02", "releasenotes.html#version_release20002", null ],
       [ "Release Version 2.00.01", "releasenotes.html#version_release20001", null ],
       [ "Release Version 2.00.00", "releasenotes.html#version_release20000", null ],
       [ "Release Version 1.99.00", "releasenotes.html#version_release16300", null ],
@@ -125,8 +126,8 @@ var NAVTREEINDEX =
 "_a_p_i_changes.html",
 "group___ci_a402_ga747c8f9bf5c62bd7446b5fbc65468246.html#ga747c8f9bf5c62bd7446b5fbc65468246",
 "group___e_c___a_p_i___s_l_v___c_f_g.html",
-"group___sdo_types_ga864800a1b552c88f5380e6495473d0b3.html#ga864800a1b552c88f5380e6495473d0b3",
-"struct_e_c___s_l_v___a_p_i___s_sync_man_desc_a7870e467792805f1b2fa0e47170e4b28.html#a7870e467792805f1b2fa0e47170e4b28"
+"group___sdo_types_ga7f8ff6ff42d6880ebbbd686fb97525f6.html#ga7f8ff6ff42d6880ebbbd686fb97525f6",
+"struct_e_c___s_l_v___a_p_i___p_d_o___s_entry_map.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

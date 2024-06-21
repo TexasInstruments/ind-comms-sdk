@@ -119,6 +119,10 @@ $(document).ready(function(){initNavTree('_a_p_i_changes.html',''); initResizabl
 <tr class="markdownTableHead">
 <th class="markdownTableHeadRight">Old Signature   </th><th class="markdownTableHeadRight">New Signature    </th></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyRight">uint32_t EC_API_SLV_load(OSAL_PJumpBuf_t *pExceptionPoint, OSAL_ERR_CBHandler_t cbErrHandler, uint32_t pruSelect)   </td><td class="markdownTableBodyRight">uint32_t EC_API_SLV_load(OSAL_ERR_CBHandler_t cbErrHandler, uint32_t pruSelect)    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyRight">uint32_t EC_API_SLV_prepareTasks(OSAL_TASK_Priority_t pdiTaskPrio, OSAL_TASK_Priority_t statusLEDTaskPrio, OSAL_TASK_Priority_t sync0TaskPrio, OSAL_TASK_Priority_t sync1TaskPrio, OSAL_TASK_Priority_t eoeTaskPrio)   </td><td class="markdownTableBodyRight">uint32_t EC_API_SLV_prepareTasks(OSAL_TASK_Priority_t pdiTaskPrio, OSAL_TASK_Priority_t statusLEDTaskPrio, OSAL_TASK_Priority_t sync0TaskPrio, OSAL_TASK_Priority_t sync1TaskPrio, uint32_t pdiTaskStackSize, uint32_t statusLEDTaskStackSize, uint32_t sync0TaskStackSize, uint32_t sync1TaskStackSize)    </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyRight">void EC_API_SLV_unLoad(void)   </td><td class="markdownTableBodyRight">uint32_t EC_API_SLV_unLoad(void)    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyRight">void EC_API_SLV_prepareTasks(OSAL_TASK_Priority_t pdiTaskPrio_p, OSAL_TASK_Priority_t statusLEDTaskPrio_p, OSAL_TASK_Priority_t sync0TaskPrio_p, OSAL_TASK_Priority_t sync1TaskPrio_p, OSAL_TASK_Priority_t eoeTaskPrio_p)   </td><td class="markdownTableBodyRight">uint32_t EC_API_SLV_prepareTasks(OSAL_TASK_Priority_t pdiTaskPrio, OSAL_TASK_Priority_t statusLEDTaskPrio, OSAL_TASK_Priority_t sync0TaskPrio, OSAL_TASK_Priority_t sync1TaskPrio, OSAL_TASK_Priority_t eoeTaskPrio)   </td></tr>
@@ -250,6 +254,10 @@ $(document).ready(function(){initNavTree('_a_p_i_changes.html',''); initResizabl
 <tr class="markdownTableHead">
 <th class="markdownTableHeadRight">Old Signature   </th><th class="markdownTableHeadRight">New Signature    </th></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyRight">uint16_t (<em>EC_API_SLV_AoE_CBReadRequestHandler_t)(void</em> pContext, uint16_t port, uint16_t index, uint8_t subIndex, bool completeAccess, uint32_t* pLength, uint16_t* pData)   </td><td class="markdownTableBodyRight">uint32_t (<em>EC_API_SLV_AoE_CBReadRequestHandler_t)(void</em> pContext, uint16_t port, uint16_t index, uint8_t subIndex, bool completeAccess, uint32_t* pLength, uint16_t* pData)    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyRight">uint16_t (<em>EC_API_SLV_AoE_CBWriteRequestHandler_t)(void</em> pContext, uint16_t port, uint16_t index, uint8_t subIndex, bool completeAccess, uint32_t* pLength, uint16_t* pData)   </td><td class="markdownTableBodyRight">uint32_t (<em>EC_API_SLV_AoE_CBWriteRequestHandler_t)(void</em> pContext, uint16_t port, uint16_t index, uint8_t subIndex, bool completeAccess, uint32_t* pLength, uint16_t* pData)    </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyRight">void EC_API_SLV_AoE_cbRegisterReadRequestHandler(EC_API_SLV_SHandle_t* pEcSlaveApi_p, void* pContext_p, EC_API_SLV_AoE_CBReadRequestHandler_t cbFunc_p)   </td><td class="markdownTableBodyRight">uint32_t EC_API_SLV_AoE_cbRegisterReadRequestHandler(EC_API_SLV_SHandle_t* pHandle, EC_API_SLV_AoE_CBReadRequestHandler_t cbFunc, void* pContext)    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyRight">void EC_API_SLV_AoE_cbRegisterWriteRequestHandler(EC_API_SLV_SHandle_t* pEcSlaveApi_p, void* pContext_p, EC_API_SLV_AoE_CBWriteRequestHandler_t cbFunc_p)   </td><td class="markdownTableBodyRight">uint32_t EC_API_SLV_AoE_cbRegisterWriteRequestHandler(EC_API_SLV_SHandle_t* pHandle, EC_API_SLV_AoE_CBWriteRequestHandler_t cbFunc, void* pContext)   </td></tr>
@@ -309,7 +317,9 @@ $(document).ready(function(){initNavTree('_a_p_i_changes.html',''); initResizabl
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyRight">void EC_API_SLV_PDO_registerAssignmentChanges(EC_API_SLV_SHandle_t* pEcSlaveApi_p, void* pContext_p, EC_API_SLV_PDO_CBAssignmentChanges_t cbFunc_p)   </td><td class="markdownTableBodyRight">uint32_t EC_API_SLV_PDO_registerAssignmentChanges(EC_API_SLV_SHandle_t* pEcSlaveApi_p, EC_API_SLV_PDO_CBAssignmentChanges_t cbFunc_p, void* pContext)    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyRight">void EC_API_SLV_PDO_registerMappingChanges(EC_API_SLV_SHandle_t* pEcSlaveApi_p, void* pContext_p, EC_API_SLV_PDO_CBMappingChanges_t cbFunc_p)   </td><td class="markdownTableBodyRight">uint32_t EC_API_SLV_PDO_registerMappingChanges(EC_API_SLV_SHandle_t* pEcSlaveApi_p, EC_API_SLV_PDO_CBMappingChanges_t cbFunc_p, void* pContext)   </td></tr>
+<td class="markdownTableBodyRight">void EC_API_SLV_PDO_registerMappingChanges(EC_API_SLV_SHandle_t* pEcSlaveApi_p, void* pContext_p, EC_API_SLV_PDO_CBMappingChanges_t cbFunc_p)   </td><td class="markdownTableBodyRight">uint32_t EC_API_SLV_PDO_registerMappingChanges(EC_API_SLV_SHandle_t* pEcSlaveApi_p, EC_API_SLV_PDO_CBMappingChanges_t cbFunc_p, void* pContext)    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyRight">uint32_t (*EC_API_SLV_PDO_CBAssignmentChanges_t)(void* pContext, bool rx, uint8_t count, uint16_t* pPdoIndexArray)   </td><td class="markdownTableBodyRight">uint32_t (*EC_API_SLV_PDO_CBAssignmentChanges_t)(void* pContext, EC_API_SLV_PDO_SReconfigAssignMap_t* pRxPdoAssignMap_p, EC_API_SLV_PDO_SReconfigAssignMap_t* pTxPdoAssignMap_p)   </td></tr>
 </table>
 <h2>ESM </h2>
 <table class="markdownTable">

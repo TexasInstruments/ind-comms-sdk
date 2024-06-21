@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('proc_data_mem_access.html',''); initRe
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>This chapter provides guidance to the developers who want to optimize the access to the process data. The SDK uses by default the process data buffers provided by the Beckhoff Stack if none is provided. The PDO setter and getter functions listed in the PDO <a class="el" href="proc_data_config.html#faqPdHelp">Help functions</a> copy the process data from one memory area to another. Those functions have time and performance costs, therefore, the SDK allows to register callbacks to access the customer specific memory areas and enable <em>zero copy</em> behaviour.</p>
-<p>The SDK API provides the customer the following API:</p>
+<p>The SDK provides the following API to register the customer callbacks :</p>
 <table class="doxtable">
 <tr>
 <th>Function </th><th>Description  </th></tr>
@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('proc_data_mem_access.html',''); initRe
 <tr>
 <td>EC_API_SLV_cbRegisterPostSeqInputPDBuffer </td><td>Triggered after input process data has been read  </td></tr>
 <tr>
-<td>EC_API_SLV_cbRegisterPostSeqOutputPDBuffer </td><td>Triggered after input process data has been written  </td></tr>
+<td>EC_API_SLV_cbRegisterPostSeqOutputPDBuffer </td><td>Triggered after output process data has been written  </td></tr>
 </table>
 <p>Using these functions, the end user can register its own callbacks and handle the process data on its own will. For instance, the customer can implement a triple buffer mechanism in a Dual Port RAM and the SDK will get and set the data from it.</p>
 <div class="fragment"><div class="line"><a class="code hl_struct" href="struct_e_c___a_p_i___s_l_v___handle.html">EC_API_SLV_SHandle_t</a>*   ptSlave = pApplicationInstance_p-&gt;ptEcSlvApi;</div>

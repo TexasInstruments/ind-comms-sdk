@@ -154,10 +154,6 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line"><span class="comment">/* stack */</span></div>
 <div class="line"><span class="preprocessor">#include &lt;ecSlvApi.h&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="comment">/* @cppcheck_justify{misra-c2012-8.9} prefer module global over threadsafety */</span></div>
-<div class="line"><span class="comment">/* cppcheck-suppress misra-c2012-8.9 */</span></div>
-<div class="line"><span class="keyword">static</span> OSAL_PJumpBuf_t  farJumpBuf_cia;</div>
-<div class="line"> </div>
 <div class="line"><span class="keyword">static</span> uint32_t EC_SLV_APP_CIA_remoteInit(<a id="_a0" name="_a0"></a><a class="code hl_struct" href="struct_e_c___s_l_v___a_p_p___c_i_a__application.html">EC_SLV_APP_CIA_Application_t</a> *applicationInstance);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> EC_SLV_APP_CIA_loopTask(<span class="keywordtype">void</span> *pArg_p)</div>
@@ -274,11 +270,13 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line">        <span class="keywordflow">goto</span> Exit;</div>
 <div class="line">    }</div>
 <div class="line"> </div>
-<div class="line">    retVal = EC_API_SLV_load(&amp;farJumpBuf_cia, NULL <span class="comment">/* &amp;applErrHandler*/</span>, applicationInstance-&gt;<a class="code hl_variable" href="struct_e_c___s_l_v___a_p_p___c_i_a__application_ab6530e619c5714155076c713f18bbaca.html#ab6530e619c5714155076c713f18bbaca">selectedPruInstance</a>);</div>
+<div class="line">    retVal = EC_API_SLV_load(NULL <span class="comment">/* &amp;applErrHandler*/</span>, applicationInstance-&gt;<a class="code hl_variable" href="struct_e_c___s_l_v___a_p_p___c_i_a__application_ab6530e619c5714155076c713f18bbaca.html#ab6530e619c5714155076c713f18bbaca">selectedPruInstance</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_enumvalue" href="group___e_c___a_p_i___s_l_v___e_r_r_o_r___c_o_d_e_s_ga022716c308f5d5bd84876c11d568a77e.html#gga022716c308f5d5bd84876c11d568a77eaf748c4e7857631705f4832b53534282a">EC_API_eERR_NONE</a> == retVal)</div>
 <div class="line">    {</div>
-<div class="line">        EC_API_SLV_prepareTasks(KBECSLV_PRIO_PDI, KBECSLV_PRIO_LED, KBECSLV_PRIO_SYNC0, KBECSLV_PRIO_SYNC1);</div>
+<div class="line">        EC_API_SLV_prepareTasks(KBECSLV_PRIO_PDI, KBECSLV_PRIO_LED, KBECSLV_PRIO_SYNC0, KBECSLV_PRIO_SYNC1,</div>
+<div class="line">                                KBECSLV_STACKSIZE_PDI, KBECSLV_STACKSIZE_LED, KBECSLV_STACKSIZE_SYNC0,</div>
+<div class="line">                                KBECSLV_STACKSIZE_SYNC1);</div>
 <div class="line"> </div>
 <div class="line">        applicationInstance-&gt;<a id="a7" name="a7"></a><a class="code hl_variable" href="struct_e_c___s_l_v___a_p_p___c_i_a__application_a2ae1259270b75ebf16f129723a9e480b.html#a2ae1259270b75ebf16f129723a9e480b">loopThreadHandle</a> = OSAL_SCHED_startTask(EC_SLV_APP_CIA_loopTask</div>
 <div class="line">                                                                    ,applicationInstance</div>
