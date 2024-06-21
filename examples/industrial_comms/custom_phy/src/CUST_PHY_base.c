@@ -11,7 +11,7 @@
  *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -41,11 +41,23 @@
  */
 
 #include <CUST_PHY_base.h>
+#if (defined CUST_PHY_DP83869) && (1==CUST_PHY_DP83869)
 #include <CUST_PHY_dp83869.h>
+#endif
+#if (defined CUST_PHY_DP83826) && (1==CUST_PHY_DP83826)
+#include <CUST_PHY_dp83826e.h>
+#include <CUST_PHY_dp83826b.h>
+#endif
 
 static CUST_PHY_CBextPhyLibDetect_t CUST_PHY_knownImplementation_s [] =
 {
+#if (defined CUST_PHY_DP83869) && (1==CUST_PHY_DP83869)
     CUST_PHY_DP83869_detect,
+#endif
+#if (defined CUST_PHY_DP83826) && (1==CUST_PHY_DP83826)
+    CUST_PHY_DP83826E_detect,
+    CUST_PHY_DP83826B_detect,
+#endif
     NULL
 };
 
