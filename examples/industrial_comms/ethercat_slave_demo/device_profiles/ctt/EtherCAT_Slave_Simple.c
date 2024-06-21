@@ -66,10 +66,6 @@
 /* stack */
 #include <ecSlvApi.h>
 
-/* @cppcheck_justify{misra-c2012-8.9} we prefer moduleGlobal over threadSafety error */
-/* cppcheck-suppress misra-c2012-8.9 */
-static OSAL_PJumpBuf_t  ECTT_farJumpBuf;
-
 static uint32_t EC_SLV_APP_CTT_remoteInit(EC_SLV_APP_CTT_Application_t *applicationInstance);
 
 /*!
@@ -197,11 +193,13 @@ static void EC_SLV_APP_CTT_mainTask(void* pArg_p)
         goto Exit;
     }
 
-    retVal = EC_API_SLV_load(&ECTT_farJumpBuf, NULL /* &applErrHandler*/, applicationInstance->selectedPruInstance);
+    retVal = EC_API_SLV_load(NULL /* &applErrHandler*/, applicationInstance->selectedPruInstance);
 
     if(0u == retVal)
     {
-        EC_API_SLV_prepareTasks(KBECSLV_PRIO_PDI, KBECSLV_PRIO_LED, KBECSLV_PRIO_SYNC0, KBECSLV_PRIO_SYNC1);
+        EC_API_SLV_prepareTasks(KBECSLV_PRIO_PDI, KBECSLV_PRIO_LED, KBECSLV_PRIO_SYNC0, KBECSLV_PRIO_SYNC1,
+                                KBECSLV_STACKSIZE_PDI, KBECSLV_STACKSIZE_LED, KBECSLV_STACKSIZE_SYNC0,
+                                KBECSLV_STACKSIZE_SYNC1);
 
         applicationInstance->loopThreadHandle = OSAL_SCHED_startTask(EC_SLV_APP_CTT_loopTask
                                                                     ,applicationInstance

@@ -70,6 +70,7 @@ uint32_t NVM_DRV_FLASH_read(
     const uint32_t length,
     void * const pData)
 {
+#if defined(CONFIG_FLASH_NUM_INSTANCES) && CONFIG_FLASH_NUM_INSTANCES > 0
     uint32_t error = NVM_ERR_SUCCESS;
     int32_t status = SystemP_SUCCESS;
 
@@ -85,6 +86,13 @@ uint32_t NVM_DRV_FLASH_read(
     {
         error = NVM_ERR_REJECT;
     }
+#else
+    (void)id;
+    (void)offset;
+    (void)length;
+    (void)pData;
+    error = NVM_ERR_REJECT;
+#endif
 
     return error;
 }
@@ -114,6 +122,7 @@ uint32_t NVM_DRV_FLASH_write(
     const uint32_t length,
     const void * const pData)
 {
+#if defined(CONFIG_FLASH_NUM_INSTANCES) && CONFIG_FLASH_NUM_INSTANCES > 0
     uint32_t error = NVM_ERR_SUCCESS;
     uint32_t pageCount = 0;
     uint32_t block = 0;
@@ -154,5 +163,13 @@ uint32_t NVM_DRV_FLASH_write(
     {
         error = NVM_ERR_REJECT;
     }
+#else
+    (void)id;
+    (void)offset;
+    (void)length;
+    (void)pData;
+    error = NVM_ERR_REJECT;
+#endif
+
     return error;
 }

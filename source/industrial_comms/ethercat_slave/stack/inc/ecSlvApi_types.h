@@ -130,6 +130,14 @@ typedef struct EC_SLV_API_PDO_SEntryMap
     uint8_t     size;
 }  EC_API_SLV_PDO_SEntryMap_t;
 
+/// Describes the information passed to the PDO assignment change callback.
+typedef struct EC_SLV_API_PDO_SReconfigAssignMap
+{
+    bool        pdoAssignmentChanged;     ///< Flag to indicate the PDO assignment change to SyncManager.
+    uint8_t     pdoCount;                 ///< Number of PDOs assigned to SyncManager.
+    uint16_t*   pPdoIndexArray;           ///< Array of PDO indexes assigned to SyncManager.
+} EC_API_SLV_PDO_SReconfigAssignMap_t;
+
 /// TEntry describes an Entry of a PDO Mapping.
 typedef struct EC_API_SLV_PdoEntry EC_API_SLV_SPdoEntry_t;
 
@@ -415,9 +423,8 @@ typedef void (*EC_API_SLV_CBPostSeqOutputPD_t)(void* pContext, void* pData, uint
  *
  *  <!-- Parameters and return values: -->
  *  \param[in]  pContext          Function context.
- *  \param[in]  rx                True if PDO assignment description belongs to Rx, false otherwise.
- *  \param[in]  count             Number of PDOs assigned to the SyncManager.
- *  \param[in]  pPdoIndexArray    Array of PDO indexes.
+ *  \param[in]  pRxPdoAssignMap_p   pointer to SM2 PDO reconfigure assignments.
+ *  \param[in]  pTxPdoAssignMap_p   pointer to SM3 PDO reconfigure assignments.
  *  \return     Returns the API error code.
  *  \retval     EC_API_eERR_NONE    Allow the assignment changes.
  *  \retval     EC_API_eERR_ABORT   Refuse the assignment changes.
@@ -427,7 +434,7 @@ typedef void (*EC_API_SLV_CBPostSeqOutputPD_t)(void* pContext, void* pData, uint
  *  \ingroup SLVAPI
  *
  * */
-typedef uint32_t (*EC_API_SLV_PDO_CBAssignmentChanges_t)(void* pContext, bool rx, uint8_t count, uint16_t* pPdoIndexArray);
+typedef uint32_t (*EC_API_SLV_PDO_CBAssignmentChanges_t)(void* pContext, EC_API_SLV_PDO_SReconfigAssignMap_t* pRxPdoAssignMap_p, EC_API_SLV_PDO_SReconfigAssignMap_t* pTxPdoAssignMap_p);
 
 /*!
  *  <!-- Description: -->
@@ -705,7 +712,7 @@ typedef void(*EC_API_SLV_CBSystemRebootHandler_t)(void* pContext);
  *  \ingroup SLVAPI
  *
  * */
-typedef uint16_t (*EC_API_SLV_AoE_CBReadRequestHandler_t)(void*         pContext,
+typedef uint32_t (*EC_API_SLV_AoE_CBReadRequestHandler_t)(void*         pContext,
                                                           uint16_t      port,
                                                           uint16_t      index,
                                                           uint8_t       subIndex,
@@ -735,7 +742,7 @@ typedef uint16_t (*EC_API_SLV_AoE_CBReadRequestHandler_t)(void*         pContext
  *  \ingroup SLVAPI
  *
  * */
-typedef uint16_t (*EC_API_SLV_AoE_CBWriteRequestHandler_t)(void*           pContext,
+typedef uint32_t (*EC_API_SLV_AoE_CBWriteRequestHandler_t)(void*           pContext,
                                                            uint16_t        port,
                                                            uint16_t        index,
                                                            uint8_t         subIndex,

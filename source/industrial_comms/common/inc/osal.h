@@ -11,7 +11,7 @@
  *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: LicenseRef-Kunbus
  *
- *  Copyright (c) 2023 KUNBUS GmbH
+ *  Copyright (c) 2024 KUNBUS GmbH
  *  All rights reserved.
  *
  *
@@ -36,12 +36,6 @@
 #error "Unknown OS selected. Implement OS specific abstraction Layer."
 #endif
 
-
-#if (defined OSAL_LINUX)
-/* @cppcheck_justify{misra-c2012-21.4} until long jump is used for exceptions we need setjmp.h */
-/* cppcheck-suppress misra-c2012-21.4 */
-#include <setjmp.h>
-#endif
 
 #if defined _WIN32 || defined __CYGWIN__
 #define OSAL_DLL_IMPORT __declspec(dllimport)
@@ -418,6 +412,7 @@ typedef enum OSAL_MemoryError
 {
     OSAL_MEM_Calloc,
     OSAL_MEM_Malloc,
+    OSAL_MEM_Realloc,
     OSAL_MEM_Free,
     OSAL_MEM_Memset,
     OSAL_MEM_Memcpy,
@@ -482,12 +477,6 @@ typedef struct OSAL_CMDQUEUE_Handle
     /* ------------- Additional fields for OSAL only usage -------------------------- */
     char name[0x20];
 } OSAL_CMDQUEUE_Handle_t;
-
-#if (defined OSAL_LINUX)
-typedef jmp_buf OSAL_PJumpBuf_t;
-#else
-typedef long long OSAL_PJumpBuf_t[64] __attribute__((__aligned__ (8)));
-#endif
 
 /*!
  *  \brief
@@ -560,6 +549,38 @@ typedef void (*OSAL_MEMORY_TraceCallocCB_t)(void *context, size_t nmemb, size_t 
  *  \ingroup OSALAPI_MEMORY
  * */
 typedef void (*OSAL_MEMORY_TraceMallocCB_t)(void *context, size_t size, void *ptr);
+
+/*!
+ *  \brief
+ *  Realloc trace, called after memory reallocation to show memory usage
+ *
+ *  \param[in]  context     Call context.
+ *  \param[in]  ptrOld      pointer to previously allocated memory block
+ *  \param[in]  size        new size of memory block
+ *  \param[in]  ptrNew      pointer to allocated memory
+ *
+ *  \note can be provided by the application layer, and registered with
+ *          \ref OSAL_MEMORY_traceReallocRegister
+ *
+ *  \par Example
+ *  \code{.c}
+ *  #include <osal.h>
+ *
+ *  // required variables
+ *  void* pvOld = OSAL_MEMORY_calloc(1, sizeof(type));
+ *
+ *  void* pvNew = OSAL_MEMORY_realloc(pvOld, 456);
+ *
+ *  // the call
+ *  OSAL_MEMORY_traceRealloc(NULL, pvOld, 456, pvNew);
+ *  \endcode
+ *
+ *  \sa OSAL_SCHED_traceThreadRegister OSAL_MEMORY_traceReallocRegister OSAL_MEMORY_traceFreeRegister
+ *      OSAL_MEMORY_errorRegister
+ *
+ *  \ingroup OSALAPI_MEMORY
+ * */
+typedef void (*OSAL_MEMORY_TraceReallocCB_t)(void* context, void* ptrOld, size_t size, void* ptrNew);
 
 /*!
  *  \brief
@@ -699,11 +720,6 @@ extern OSAL_API uint32_t OSAL_getVersion(void);
 extern OSAL_API uint32_t OSAL_getVersionStr(uint32_t bufLen, char *buffer, uint32_t *usedLen);
 extern OSAL_API uint32_t OSAL_getVersionId(uint32_t bufLen, char *buffer, uint32_t *usedLen);
 
-extern OSAL_API void OSAL_setExceptionPoint(OSAL_PJumpBuf_t *jumpBuf);
-extern OSAL_API OSAL_PJumpBuf_t *OSAL_getExceptionPoint(void);
-extern OSAL_API int32_t OSAL_setJmp(OSAL_PJumpBuf_t *jumpBuf);
-extern OSAL_API void OSAL_longJmp(OSAL_PJumpBuf_t *jumpBuf, int32_t value);
-
 /* @cppcheck_justify{misra-c2012-2.7} va_list is false positive shown as unused */
 /* cppcheck-suppress misra-c2012-2.7 */
 extern OSAL_API void OSAL_error(
@@ -756,7 +772,6 @@ extern OSAL_API bool OSAL_SCHED_isRunning(void);
 extern OSAL_API void OSAL_SCHED_traceThreadRegister(
     OSAL_SCHED_TraceThreadCB_t cbFunc,
     void *cbFuncContext);
-extern OSAL_API volatile OSAL_PJumpBuf_t *OSAL_getExceptPointFromTcb(volatile void *tcb);
 
 extern OSAL_API void OSAL_startOs(void);
 
@@ -858,6 +873,7 @@ extern OSAL_API uint32_t OSAL_MEMORY_config(
     OSAL_MEMMAN_ConfigParameter_t *config);
 extern OSAL_API void *OSAL_MEMORY_calloc(size_t nmemb, size_t size);
 extern OSAL_API void *OSAL_MEMORY_malloc(size_t size);
+extern OSAL_API void *OSAL_MEMORY_realloc(void* ptr, size_t size);
 extern OSAL_API void OSAL_MEMORY_free(void *ptr);
 extern OSAL_API void OSAL_MEMORY_memcpy(void *target, const void *source, size_t size);
 extern OSAL_API void OSAL_MEMORY_memset(void *target, int32_t value, size_t size);
