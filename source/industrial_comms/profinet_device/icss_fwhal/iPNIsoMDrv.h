@@ -138,7 +138,7 @@ void PN_ISO_disableGPIOEvent(PN_Handle pnHandle,PNISOM_Handle isoHandle);
  * \param isoHandle   ISOM handle that needs to be de initialized
  *
  */
-void PN_ISO_deInitGPIOEvent(PN_Handle pnHandle,PNISOM_Handle isoHandle);
+void PN_ISO_deInitGPIOEvent(PN_Handle pnHandle);
 
 /**
 @}

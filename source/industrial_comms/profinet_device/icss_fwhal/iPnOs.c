@@ -730,10 +730,9 @@ int32_t PN_OS_txPacket(PN_Handle pnHandle,
     int32_t ret=0;
     ICSS_EMAC_TxArgument txArgs;
 
-    /*TODO: Find appropriate replacement*/
     if(pnHandle->lockSynchronizedEntry != NULL) 
         pnHandle->lockSynchronizedEntry();
-    // llEnter();
+
     memset(&txArgs, 0, sizeof(ICSS_EMAC_TxArgument));
     txArgs.icssEmacHandle = pnHandle->emacHandle;
     txArgs.lengthOfPacket = lengthOfPacket;
@@ -743,10 +742,9 @@ int32_t PN_OS_txPacket(PN_Handle pnHandle,
 
     ret= ICSS_EMAC_txPacket(&txArgs, NULL);
 
-    /*TODO: Find appropriate replacement*/
     if(pnHandle->lockSynchronizedExit != NULL)
         pnHandle->lockSynchronizedExit();
-    // llExit();
+
     return ret;
 }
 

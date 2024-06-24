@@ -105,7 +105,6 @@ typedef struct PN_PtcpTimerAttrs_s
     void *ptcpTimerHandle;
 } PN_PtcpTimerAttrs;
 
-/*TODO: Review this*/
 /*
 *  \brief     PN_PtcpConfig
 *             Structure storing the PTCP info
@@ -240,7 +239,6 @@ typedef struct PN_IsoMConfig_s
 
 }PN_IsoMConfig;
 
-/*TODO: Review the changes here*/
 /*
 *  \brief     PN_Config
 *             Profinet handle - stores the Profinet configuration
@@ -278,7 +276,6 @@ typedef struct PN_Config_s
     int32_t icssWatchDogEnabled;
     /*! ICSSEMAC Handle                   */
     ICSS_EMAC_Handle emacHandle;
-    /*TODO: Review this*/
     /*! PRUICSS LLD Handle                   */
     PRUICSS_Handle pruicssHandle;
     /*! Profinet Interrupt configuration      */
@@ -296,9 +293,8 @@ typedef struct PN_Config_s
     TaskP_Object MrpMachineTaskObject;
     /*! Watchdog timer Task handle            */
     TaskP_Object WatchDogTimerTaskObject;
-    /*TODO: Review this change*/
     /*! ISOM handle                           */
-    uint32_t pnIsoMObject;
+    uint32_t* pnIsoMObject;
     /*! ISOM config                           */
     PN_IsoMConfig pnIsoMConfig;
     /*TODO: Review this*/

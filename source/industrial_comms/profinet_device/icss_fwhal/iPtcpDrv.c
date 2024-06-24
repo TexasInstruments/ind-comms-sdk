@@ -57,8 +57,6 @@
 /* ========================================================================== */
 
 #ifdef PTCP_SUPPORT
-/*enable RED sync LED on ICE*/
-#define PTCP_SYNC_SIGNAL
 
 #define DEBUG_SYNC_EVENTS
 #ifdef DEBUG_SYNC_EVENTS
@@ -104,6 +102,9 @@ uint32_t syncmissCounter = 0;
 #define TLV_DELAY 0x060c
 
 #define DELAY_CALC_ADJ 0xFF
+
+#define PULSE_WIDTH 0xC7 /* Sync pulse width set to 1us (200 cycles)*/
+
 /* ========================================================================== */
 /*                             Static variables                               */
 /* ========================================================================== */
@@ -491,10 +492,6 @@ void PN_PTCP_init(PN_Handle pnHandle)
     pnPtcpDebugAttrs->debugSyncIndex    = 1;
 #endif
 
-/*TODO: Review this*/
-// #ifdef PTCP_SYNC_SIGNAL
-//     GPIO_write(0, 0);
-// #endif
 
     memset((void *)((ptcpConfig->deviceSyncInfo).masterSA), 0, 6);
     memset((void *)((ptcpConfig->deviceSyncInfo).subdomainUUID), 0, 16);
@@ -568,10 +565,7 @@ void PN_PTCP_reset(PN_Handle pnHandle)
     {
         (pnHandle->pnPtcpConfig).ptcpSyncStatusCall(SYNC_RESET, (uint32_t)NULL);
     }
-/*TODO: Review this*/
-// #ifdef PTCP_SYNC_SIGNAL
-//     GPIO_write(0, 0);
-// #endif
+
 #ifdef SYNC_ANALYSIS
     nResets++;
     nSyncTrans = 0;
@@ -2210,21 +2204,19 @@ void PN_PTCP_configureSync0Pin(PN_Handle pnHandle)
 {
     uint32_t iepCmpCfg = 0;
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
-
+    /* Sync start time = pnCyclePeriod - pulsewidth*/
+    uint32_t syncStart = (pnHandle->pnPtcpConfig).pnCyclePeriod - (PULSE_WIDTH*5);
     /*enable cmp1 : t2 bit of cfg registers*/
 
     iepCmpCfg = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_CFG_REG);
     iepCmpCfg = iepCmpCfg | 0x4;
     HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_CFG_REG, iepCmpCfg);
-    /*program cmp1 reg with period, used for sync0 signal generation: 10 us*/
+    /*program cmp1 reg with period, used for sync0 signal generation: -1us from start of cycle*/
     HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP1_REG0,
-        (pnHandle->pnPtcpConfig).ptcpSync0PinStart);
-
-    /*configure the pulse width for sync0: 5000+1 cycles i.e. 25us*/
+        syncStart);
+    /*configure the pulse width for sync0: 199+1 cycles i.e. 1us*/
     HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_SYNC_PWIDTH_REG,
-        (pnHandle->pnPtcpConfig).ptcpSync0PinPulseWidth);
-
-
+        PULSE_WIDTH);
 }
 
 void PN_PTCP_configureDelayMeasurement(PN_Handle pnHandle, uint8_t portNum,
