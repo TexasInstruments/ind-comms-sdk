@@ -20,6 +20,8 @@ function getSelfSysCfgCoreName() {
             return "r5fss0-0";
         case "am62x":
             return "m4fss0-0";
+        case "am65x":
+            return system.context;
     }
 };
 
@@ -28,6 +30,8 @@ function isSciClientSupported() {
         case "am243x":
             return true;
         case "am64x":
+            return true;
+        case "am65x":
             return true;
         case "am62x":
             return true;
@@ -52,6 +56,8 @@ function getSocName() {
         return "am263px";
     if(system.deviceData.device == "AM273x")
         return "am273x";
+    if(system.deviceData.device == "AM65xx_SR2.0_beta")
+        return "am65x";
     if((system.deviceData.device == "AWR294X") || (system.deviceData.device == "AWR294XLOP"))
         return "awr294x";
     if(system.deviceData.device == "AM62x")
@@ -61,6 +67,8 @@ function getSocName() {
 function getDeviceName() {
     if(system.deviceData.device == "AM64x")
         return "am64x-evm";
+    if(system.deviceData.device == "AM65xx_SR2.0_beta")
+        return "am65x-idk";
     if(system.deviceData.device == "AM243x_ALV_beta")
         return "am243x-evm";
     if(system.deviceData.device == "AM243x_ALX_beta")
@@ -204,9 +212,52 @@ function isMcuDomainSupported()
     switch(getSocName()) {
         case "am243x":
             return true;
+        case "am65x":
+            return true;
         case "am64x":
             return true;
         case "am62x":
+            return true;
+        default:
+            return false;
+    }
+}
+
+function getUseWakeupDomainPeripheralsConfig()
+{
+    let config = {
+        name: "useWakeUpDomainPeripherals",
+        displayName: "Use Wakeup Domain Peripherals",
+        default: false,
+        readOnly: false,
+        onChange: function(inst, ui) {
+            let property = false;
+            if(inst.useWakeupDomainPeripherals == true)
+            {
+                property = true;
+            }
+            if(getSocName() != "am65x" )
+            {
+                ui.useMcuDomainPeripherals.readOnly = property;
+            }
+        }
+    }
+
+    if (getSocName().match(/am65x/)){
+        if (getSelfSysCfgCoreName().includes("r5f")) {
+            /* For Wakeup Domain r5 */
+            config.default = true;
+            config.readOnly = false;
+        }
+    }
+
+    return config;
+}
+
+function isWakeupDomainSupported()
+{
+    switch(getSocName()) {
+        case "am65x":
             return true;
         default:
             return false;
@@ -285,6 +336,58 @@ function typeMatches(type, nameArray)
     return (false);
 }
 
+function getOtherContextNames()
+{
+    var contextNames = Object.keys(system.contexts)
+    return contextNames.filter(e => e !== system.context);
+}
+
+/*
+ * If ZCZ_S to ZCZ_F (SIP) migration is being done for am263px, resolve pinmux conflicts based on if the selected function exists
+ * for the particular pad or not.
+ */
+function onMigrate(newInst, oldInst, oldSystem, pins, interfaceName) {
+    const pads = {
+        A9: ["OSPI0_RESET_OUT1", "OSPI0_ECC_FAIL"], B9: ["OSPI0_RESET0_OUT0"], K1: ["OSPI0_D7"], L3: ["OSPI0_LBCLKO"], M3: ["OSPI0_DQS"], N1: ["OSPI0_D0"], N2: ["OSPI0_CLK"], N4: ["OSPI0_D1"], R3: ["OSPI0_CSN1"]
+    };
+
+    if(oldSystem.deviceData.device == "AM263Px" && system.deviceData.device == "AM263Px") {
+        if((oldSystem.deviceData.package == "ZCZ_S" && system.deviceData.package == "ZCZ_F") || (oldSystem.deviceData.package == "ZCZ_F" && system.deviceData.package == "ZCZ_S")) {
+
+            pins.forEach(pinName => {
+
+                let oldInst_config, newInst_config;
+
+                if(interfaceName === "GPIO") {
+                    interfaceName = "GPIO_n";
+                    oldInst_config = oldInst[interfaceName];
+                    newInst_config = newInst[interfaceName];
+                }
+                else {
+                    oldInst_config = oldInst[interfaceName][pinName];
+                    newInst_config = newInst[interfaceName][pinName];
+                }
+
+                if(oldInst_config) {
+                    let ball, signalName;
+
+                    ball = oldInst_config.$solution.packagePinName;
+                    signalName = oldInst_config.$solution.peripheralPinName;
+
+                    if(Object.keys(pads).includes(ball) && !pads[ball].includes(signalName)) {
+                        if(oldInst_config.$assign == ball) {
+                            newInst_config.$assign = ball;
+                        }
+                        if(oldInst_config.$assignAllow == ball) {
+                            newInst_config.$assignAllow = ball;
+                        }
+                    }
+                }
+            });
+        }
+    }
+}
+
 exports = {
     getSelfSysCfgCoreName,
     isSciClientSupported,
@@ -296,10 +399,14 @@ exports = {
     getSysCfgCoreNames,
     getUseMcuDomainPeripheralsConfig,
     isMcuDomainSupported,
+    getUseWakeupDomainPeripheralsConfig,
+    isWakeupDomainSupported,
     findDuplicates,
     stringOrEmpty,
     typeMatches,
     getNodePath,
+    getOtherContextNames,
+    onMigrate,
 
     validate: {
         checkSameInstanceName : function (instance, report) {
@@ -352,12 +459,20 @@ exports = {
                 }
             }
         },
+        checkValidIdName: function(instance, report, property, IdName, displayName){
+            const pattern = /^0x[0-9a-fA-F]{1,4}$/;
+
+            if (pattern.test(IdName) == false)
+            {
+                report.logError("Invalid " + displayName + ". The required string format is: '0xABCD' ", instance, property);
+            }
+        }
     },
 
     ui:
     {
         makeInstanceConfig: function(staticConfigArr) {
-            return makeConfig(staticConfigArr, "instance", "Instance");
+            return makeConfig(staticConfigArr, "instance", "XBar Instance");
         },
         makeConfig: makeConfig,
     }
