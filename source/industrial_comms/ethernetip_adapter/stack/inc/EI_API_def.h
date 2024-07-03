@@ -351,6 +351,28 @@ typedef union EI_API_ADP_UCmgrInfo
     EI_API_ADP_SCmgrForwardCloseInfo_t forwardCloseInfo;
 } EI_API_ADP_UCmgrInfo_u;
 
+typedef enum EI_API_CIP_EAssemb_Return_Code
+{
+    ASSEMB_SERVICE_RESPONSE_OK = 1,         //!< Send normal response back
+    ASSEMB_SERVICE_RESPONSE_ERROR = 2,      //!< Send an error response; error data are prepared in LPO buffer
+    ASSEMB_SERVICE_NO_RESPONSE = 3          //!< Send no response of the message
+} EI_API_CIP_EAssemb_Return_Code_t;
+
+typedef struct EI_API_CIP_SAssemMapData
+{
+    uint16_t classId;
+    uint16_t instanceId;
+    uint16_t attributeId;
+    uint8_t *pAttribBuf;
+}EI_API_CIP_SAssemMapData_t;
+
+typedef struct EI_API_CIP_STransferBuffer
+{
+    uint16_t u16uMaxData;                             //!< Maximum Number of data
+    uint16_t u16uActData;                             //!< Current index in buffer / current used data
+    uint8_t *p8uDataBuf;                             //!< Pointer to data buffer
+}EI_API_CIP_STransferBuffer_t;
+
 // callback function declaration/typedef
 
 #define T EI_API_CIP_NODE_T
@@ -372,6 +394,16 @@ typedef uint32_t(*EI_API_CIP_CBGetAttr)(EI_API_CIP_NODE_T* pCipNode_p, uint16_t 
  */
 typedef uint32_t(*EI_API_CIP_CBGetAttr_CIPRouting)(EI_API_CIP_NODE_T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, uint16_t attrId_p, uint16_t *len_p, void* pvValue_p, uint16_t linkAddress_p);
 
+/*!
+ *  \brief Function prototype for CIP get mapped assembly data callback function.
+ *  \ingroup EI_API_CIP_CALLBACK
+ */
+typedef EI_API_CIP_EAssemb_Return_Code_t (*EI_API_CIP_CBGetAssemblyMapped)( const EI_API_CIP_SAssemMapData_t *pAttrMapData, EI_API_CIP_STransferBuffer_t *pProduceBuffer);
+/*!
+ *  \brief Function prototype for CIP set mapped assembly data callback function.
+ *  \ingroup EI_API_CIP_CALLBACK
+ */
+typedef EI_API_CIP_EAssemb_Return_Code_t (*EI_API_CIP_CBSetAssemblyMapped)( EI_API_CIP_SAssemMapData_t *pAttrMapData, const EI_API_CIP_STransferBuffer_t *pConsumeBuffer);
 /*!
  *  \brief Function prototype for CIP get configuration assembly data callback function. (with routing)
  *  \ingroup EI_API_CIP_CALLBACK

@@ -36,7 +36,6 @@ FILES_common := \
     tcp_out.c \
     timeouts.c \
     udp.c \
-    acd.c \
     autoip.c \
     dhcp.c \
     etharp.c \
@@ -45,6 +44,7 @@ FILES_common := \
     ip4_frag.c \
     ip4.c \
     ip4_addr.c \
+    acd.c \
     dhcp6.c \
     ethip6.c \
     icmp6.c \

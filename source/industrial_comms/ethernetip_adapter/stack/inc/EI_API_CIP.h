@@ -53,18 +53,20 @@ extern ETHIP_API uint32_t EI_API_CIP_getClassAttr        (T *pCipNode_p, uint16_
 extern ETHIP_API uint32_t EI_API_CIP_setClassAttr        (T *pCipNode_p, uint16_t classId_p, EI_API_CIP_SAttr_t    *pAttr_p);
 
 // instance functions
-extern ETHIP_API uint32_t EI_API_CIP_createInstance              (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p);
-extern ETHIP_API uint32_t EI_API_CIP_createRoutableInstance      (T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, uint8_t linkAddr_p);
-extern ETHIP_API uint32_t EI_API_CIP_addInstanceService          (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SService_t *pService_p);
-extern ETHIP_API uint32_t EI_API_CIP_addRoutableInstanceService  (T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SService_t* pService_p, uint8_t linkAddr_p);
-extern ETHIP_API uint32_t EI_API_CIP_setInstanceServiceFunc      (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SService_t *pService_p);
-extern ETHIP_API uint32_t EI_API_CIP_addInstanceAttr             (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t    *pAttr_p);
-extern ETHIP_API uint32_t EI_API_CIP_addRoutableInstanceAttr     (T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t* pAttr_p, uint8_t linkAddr_p);
-extern ETHIP_API uint32_t EI_API_CIP_setInstanceAttrFunc         (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t    *pAttr_p);
-extern ETHIP_API uint32_t EI_API_CIP_setRoutableInstanceAttrFunc (T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t* pAttr_p, uint8_t linkAddr_p);
-extern ETHIP_API uint32_t EI_API_CIP_cloneInstance               (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, uint16_t               instanceIdSrc_p);
-extern ETHIP_API uint32_t EI_API_CIP_getInstanceAttr             (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t    *pAttr_p);
-extern ETHIP_API uint32_t EI_API_CIP_setInstanceAttr             (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t    *pAttr_p);
+extern ETHIP_API uint32_t EI_API_CIP_createInstance                 (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p);
+extern ETHIP_API uint32_t EI_API_CIP_createRoutableInstance         (T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, uint8_t linkAddr_p);
+extern ETHIP_API uint32_t EI_API_CIP_addInstanceService             (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SService_t *pService_p);
+extern ETHIP_API uint32_t EI_API_CIP_addInstanceCustService         (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SCustomService_t *pService_p);
+extern ETHIP_API uint32_t EI_API_CIP_addRoutableInstanceService     (T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SService_t* pService_p, uint8_t linkAddr_p);
+extern ETHIP_API uint32_t EI_API_CIP_addRoutableInstanceCustService (T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SCustomService_t* pService_p, uint8_t linkAddr_p);
+extern ETHIP_API uint32_t EI_API_CIP_setInstanceServiceFunc         (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SService_t *pService_p);
+extern ETHIP_API uint32_t EI_API_CIP_addInstanceAttr                (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t    *pAttr_p);
+extern ETHIP_API uint32_t EI_API_CIP_addRoutableInstanceAttr        (T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t* pAttr_p, uint8_t linkAddr_p);
+extern ETHIP_API uint32_t EI_API_CIP_setInstanceAttrFunc            (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t    *pAttr_p);
+extern ETHIP_API uint32_t EI_API_CIP_setRoutableInstanceAttrFunc    (T* pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t* pAttr_p, uint8_t linkAddr_p);
+extern ETHIP_API uint32_t EI_API_CIP_cloneInstance                  (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, uint16_t               instanceIdSrc_p);
+extern ETHIP_API uint32_t EI_API_CIP_getInstanceAttr                (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t    *pAttr_p);
+extern ETHIP_API uint32_t EI_API_CIP_setInstanceAttr                (T *pCipNode_p, uint16_t classId_p, uint16_t instanceId_p, EI_API_CIP_SAttr_t    *pAttr_p);
 
 //Connection Manager functions
 extern ETHIP_API uint32_t EI_API_CIP_setRoutingMaxLinkAddr(T* pCipNode_p, uint8_t linkAddr_p);
@@ -75,6 +77,7 @@ extern ETHIP_API uint32_t EI_API_CIP_setRoutingRoutablePorts(T* pCipNode_p, cons
 // assembly functions
 extern ETHIP_API uint32_t EI_API_CIP_createAssembly    (T *pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_EAr_t accessRule_p);
 extern ETHIP_API uint32_t EI_API_CIP_addAssemblyMember (T *pCipNode_p, uint16_t assemblyInstanceId_p, uint16_t classId_p, uint16_t instanceId_p, uint16_t attributeId_p);
+extern ETHIP_API uint32_t EI_API_CIP_addAssemblyMemberCustomMapped (T *pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_SAssemCustomMap_t *pCustomAssembMap);
 extern ETHIP_API uint32_t EI_API_CIP_getAssemblySize   (T *pCipNode_p, uint16_t assemblyInstanceId_p, uint16_t* pSize_p);
 extern ETHIP_API uint32_t EI_API_CIP_getAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pDestinationBuffer_p, uint16_t destinationBufferLength_p);
 extern ETHIP_API uint32_t EI_API_CIP_setAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pSourceBuffer_p, uint16_t sourceBufferLength_p);
@@ -82,11 +85,11 @@ extern ETHIP_API uint32_t EI_API_CIP_setAssemblyAppType(T *pCipNode_p, uint16_t 
 extern ETHIP_API uint32_t EI_API_CIP_createCfgAssembly (T* pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_CBCfgAssembly fuCfgAssemblyAccess_p);
 extern ETHIP_API uint32_t EI_API_CIP_setCfgAssemblyCb  (T* pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_CBCfgAssemblySimple fuCfgAssemblyAccess_p);
 
-extern ETHIP_API uint32_t EI_API_CIP_getRoutingAssemblySize   (T *pCipNode_p, uint16_t assemblyInstanceId_p, uint16_t* pSize_p, uint8_t linkAddr);
-extern ETHIP_API uint32_t EI_API_CIP_getRoutingAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pDestinationBuffer_p, uint16_t destinationBufferLength_p, uint8_t linkAddr);
-extern ETHIP_API uint32_t EI_API_CIP_setRoutingAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pSourceBuffer_p, uint16_t sourceBufferLength_p, uint8_t linkAddr);
-extern ETHIP_API uint32_t EI_API_CIP_addRoutingAssemblyMember (T *pCipNode_p, uint16_t assemblyInstanceId_p, uint16_t classId_p, uint16_t instanceId_p, uint16_t attributeId_p, uint8_t linkAddr);
-extern ETHIP_API uint32_t EI_API_CIP_createRoutingAssembly    (T *pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_EAr_t accessRule_p, uint8_t linkAddr);
+extern ETHIP_API uint32_t EI_API_CIP_getRoutingAssemblySize   (T *pCipNode_p, uint16_t assemblyInstanceId_p, uint16_t* pSize_p, uint8_t linkAddr_p);
+extern ETHIP_API uint32_t EI_API_CIP_getRoutingAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pDestinationBuffer_p, uint16_t destinationBufferLength_p, uint8_t linkAddr_p);
+extern ETHIP_API uint32_t EI_API_CIP_setRoutingAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pSourceBuffer_p, uint16_t sourceBufferLength_p, uint8_t linkAddr_p);
+extern ETHIP_API uint32_t EI_API_CIP_addRoutingAssemblyMember (T *pCipNode_p, uint16_t assemblyInstanceId_p, uint16_t classId_p, uint16_t instanceId_p, uint16_t attributeId_p, uint8_t linkAddr_p);
+extern ETHIP_API uint32_t EI_API_CIP_createRoutingAssembly    (T *pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_EAr_t accessRule_p, uint8_t linkAddr_p);
 /*
 // cyclic functions
 uint32_t EI_API_CIP_makeAttributeCyclicInput(T *cipNode, uint16_t classId, uint16_t instanceId, uint16_t attributeId, uint16_t *pResOffset);

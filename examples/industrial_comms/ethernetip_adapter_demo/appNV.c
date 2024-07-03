@@ -74,6 +74,8 @@ bool EI_APP_NV_init(EI_API_ADP_T *pAdapter)
 {
     bool ret = false;
 
+    (void)pAdapter;
+
     EI_APP_NV_pData_s  = (uint8_t*) EI_APP_CFG_getRuntimeData();
     EI_APP_NV_length_s = EI_APP_CFG_getLength();
 

@@ -147,6 +147,18 @@ typedef enum EI_API_CIP_ECdt
 } EI_API_CIP_ECdt_t;
 
 /*!
+ *  \brief Custom service function return values
+ *  \ingroup EI_API_CIP_ENUMERATIONS
+ */
+typedef enum EI_API_CIP_SERVICE_EError
+{
+    EI_API_CIP_SERVICE_eERR_INVALID      = 0x00,    /*!< Initialization value. */
+    EI_API_CIP_SERVICE_eERR_RESPONSE     = 0x01,    /*!< Correct response, send success response. */
+    EI_API_CIP_SERVICE_eERR_ERR_RESPONSE = 0x02,    /*!< Error response, send error response. */
+    EI_API_CIP_SERVICE_eERR_NO_RESPONSE  = 0x03     /*!< No response. */
+}EI_API_CIP_CUSTSERVICE_EError_t;
+
+/*!
  *  \brief Initialization parameters to create new CIP Node
  */
 typedef struct EI_API_CIP_NODE_InitParams

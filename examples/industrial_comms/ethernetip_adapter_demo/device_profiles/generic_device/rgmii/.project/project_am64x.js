@@ -77,6 +77,7 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/inc/ext",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack/lwip/lwip-config",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-stack/src/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/networking/lwip/lwip-port/include",
@@ -86,15 +87,15 @@ const includes_freertos_r5f = {
 
 const libs_freertos_r5f = {
     common: [
-        "freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "icss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "icss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "ethernetip_adapter_rgmii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "ethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "ethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "ethernetipadapter_rgmii.am64x.r5f.ti-arm-clang.release.lib",
+    "freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+    "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+    "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+    "icss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+    "icss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+    "ethernetip_adapter_rgmii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+    "ethernetip_adapter_lwip_contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+    "ethernetip_adapter_lwip_freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+    "ethernetipadapter_rgmii.am64x.r5f.ti-arm-clang.release.lib",
     ],
 };
 

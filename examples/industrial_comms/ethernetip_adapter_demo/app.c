@@ -130,10 +130,10 @@ int main(
     pCfg->led.industrialLedsInst = CONFIG_LED0;
 
     /* Custom drivers configuration - EEPROM. */
-    pCfg->customDrivers.eeprom.taskPrio = OSAL_TASK_Prio_EIP_EEPROM,
+    pCfg->customDrivers.eeprom.taskPrio = OSAL_TASK_Prio_EIP_EEPROM;
 
     /* Custom drivers configuration - FLASH. */
-    pCfg->customDrivers.flash.taskPrio  = OSAL_TASK_Prio_EIP_FLASH,
+    pCfg->customDrivers.flash.taskPrio  = OSAL_TASK_Prio_EIP_FLASH;
 
     /* Adress conflict detection */
     pCfg->acd.initialDelay = 200;

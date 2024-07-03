@@ -27,7 +27,6 @@ const files = {
         "udp.c"            ,
 
         /* lwipcore4_SRCS */
-        "acd.c"            ,
         "autoip.c"         ,
         "dhcp.c"           ,
         "etharp.c"         ,
@@ -36,6 +35,7 @@ const files = {
         "ip4_frag.c"       ,
         "ip4.c"            ,
         "ip4_addr.c"       ,
+        "acd.c"       ,
 
         /* lwipcore6_SRCS */
         "dhcp6.c"          ,
