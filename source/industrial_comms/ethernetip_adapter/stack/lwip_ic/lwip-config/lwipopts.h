@@ -210,7 +210,7 @@ a lot of data that needs to be copied, this should be set high. */
 /* PBUF_POOL_SIZE: the number of buffers in the pbuf pool. */
 // 14 is the lowest value for the pool size, otherwise there is a lwip_sanity_check error
 // which depends on the current TCP_WND setting
-#define PBUF_POOL_SIZE          256   // decreased due to decreasing TCP_WND size
+#define PBUF_POOL_SIZE          8   // decreased due to decreasing TCP_WND size
 
 /* PBUF_POOL_BUFSIZE: the size of each pbuf in the pbuf pool. */
 #define PBUF_POOL_BUFSIZE       1536

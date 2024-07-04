@@ -39,13 +39,15 @@
 /* ========================================================================== */
 /*                             Include Files                                  */
 /* ========================================================================== */
+#include "ti_dpl_config.h"
+#include <kernel/dpl/CycleCounterP.h>
+
 /* lwIP core includes */
 #include "lwip/opt.h"
 #include "lwip/sys.h"
 #include "lwip/tcpip.h"
 #include "lwip/dhcp.h"
 #include "netif/bridgeif.h"
-
 
 #include <networking/enet/core/lwipif/inc/pbufQ.h>
 #include <lwip_ic.h>
@@ -114,18 +116,21 @@ const ip_addr_t gStaticIPNetmask = IPADDR4_INIT_BYTES(255, 255, 255, 0);
 
 static void EthApp_waitForNetifUp(struct netif *netif);
 
-static void EthApp_createTimer(Ic_Object_Handle hIcObj);
+// static void EthApp_createTimer(Ic_Object_Handle hIcObj);
 
-static void EthApp_timerCb(ClockP_Object *hClk, void * arg);
+// static void EthApp_timerCb(ClockP_Object *hClk, void * arg);
+
+static void EthApp_createHwTimer(Ic_Object_Handle hIcObj);
+
+void EthApp_hwTimerCb();
 
 /* ========================================================================== */
 /*                          Function Definitions                              */
 /* ========================================================================== */
-
+Ic_Object_Handle hIcObj;
 void EthApp_initNetif(void)
 {
     ip4_addr_t ipaddr, netmask, gw;
-    Ic_Object_Handle hIcObj;
     err_t err;
 
     ip4_addr_set_zero(&gw);
@@ -143,13 +148,20 @@ void EthApp_initNetif(void)
 
     netif_set_down(gEmacNetif);
 
+    /* Change EIP netif MAC address to custom MAC address*/
+    for(uint16_t i =0; i<ETHARP_HWADDR_LEN; i++)
+    {
+        gEmacNetif->hwaddr[i] = bridgeMac[i] + 0x1;
+    }
+
     /* Create and initialise Intercore shared memory driver */
     hIcObj = App_doIcOpen(IC_ETH_IF_R5_0_0_R5_0_1);
     DebugP_assert(hIcObj != NULL);
 
     err = SemaphoreP_constructBinary(&hIcObj->rxSemObj, 0);
     DebugP_assert(SystemP_SUCCESS == err);
-    EthApp_createTimer(hIcObj);
+    // EthApp_createTimer(hIcObj);
+    EthApp_createHwTimer(hIcObj);
 
     /* Create inter-core virtual ethernet interface: MCU2_0 <-> MCU2_1 */
     netif_add(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], &ipaddr, &netmask, &gw,
@@ -255,28 +267,45 @@ int32_t AddNetif_delBridgeMcastEntry(Icss_MacAddr mac)
     return status;
 }
 
-static void EthApp_createTimer(Ic_Object_Handle hIcObj)
+// static void EthApp_createTimer(Ic_Object_Handle hIcObj)
+// {
+//     ClockP_Params clkPrms;
+//     int32_t status;
+
+//     ClockP_Params_init(&clkPrms);
+//     clkPrms.start  = false;
+//     clkPrms.timeout = ClockP_usecToTicks(1000U); // 1ms
+//     clkPrms.period = ClockP_usecToTicks(1000U); // 1ms
+//     clkPrms.callback = &EthApp_timerCb;
+//     clkPrms.args = hIcObj;
+
+//     status =  ClockP_construct(&hIcObj->pacingClkObj, &clkPrms);
+//     DebugP_assert(status == SystemP_SUCCESS);
+
+//     ClockP_start(&hIcObj->pacingClkObj);
+// }
+
+// static void EthApp_timerCb(ClockP_Object *hClk, void * arg)
+// {
+// #if (IC_ETH_RX_POLLING_MODE)
+//     Ic_Object_Handle hIcObj = (Ic_Object_Handle) arg;
+//     if (hIcObj->initComplete)
+//     {
+//         SemaphoreP_post(&hIcObj->rxSemObj);
+//     }
+// #endif
+// }
+
+static void EthApp_createHwTimer(Ic_Object_Handle hIcObject)
 {
-    ClockP_Params clkPrms;
-    int32_t status;
-
-    ClockP_Params_init(&clkPrms);
-    clkPrms.start  = false;
-    clkPrms.timeout = ClockP_usecToTicks(1000U); // 1ms
-    clkPrms.period = ClockP_usecToTicks(1000U); // 1ms
-    clkPrms.callback = &EthApp_timerCb;
-    clkPrms.args = hIcObj;
-
-    status =  ClockP_construct(&hIcObj->pacingClkObj, &clkPrms);
-    DebugP_assert(status == SystemP_SUCCESS);
-
-    ClockP_start(&hIcObj->pacingClkObj);
+//    gMyArgs.hIcObj = hIcObject; // not working
+//    HwiP_setArgs(&gTimerHwiObj[CONFIG_TIMER1], &gMyArgs);
+    TimerP_start(gTimerBaseAddr[CONFIG_TIMER1]);
 }
 
-static void EthApp_timerCb(ClockP_Object *hClk, void * arg)
+void EthApp_hwTimerCb()
 {
 #if (IC_ETH_RX_POLLING_MODE)
-    Ic_Object_Handle hIcObj = (Ic_Object_Handle) arg;
     if (hIcObj->initComplete)
     {
         SemaphoreP_post(&hIcObj->rxSemObj);

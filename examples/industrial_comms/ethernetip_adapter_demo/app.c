@@ -123,10 +123,10 @@ int main(
     pCfg->customDrivers.pruIcss.ethPhy.instance_1              = PRU_ICSS_ETHPHY_1_INSTANCE;
     pCfg->customDrivers.pruIcss.ethPhy.taskPrioPhyMdixTask     = OSAL_TASK_Prio_EIP_PHYMDIX;
 
-#ifndef ENABLE_INTERCORE_TUNNELING
     /* UART configuration */
     pCfg->uart.uartInst = CONFIG_UART_CONSOLE;
 
+#ifndef ENABLE_INTERCORE_TUNNELING
     /* LED's configuration */
     pCfg->led.industrialLedsInst = CONFIG_LED0;
 #endif

@@ -2,7 +2,7 @@
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
  * @cliArgs --device "AM64x" --package "ALV" --part "Default" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@09.01.00"
- * @versions {"tool":"1.20.0+3587"}
+ * @versions {"tool":"1.20.0+3562"}
  */
 
 /**
@@ -19,6 +19,7 @@ const pruicss         = scripting.addModule("/drivers/pruicss/pruicss", {}, fals
 const pruicss1        = pruicss.addInstance();
 const uart            = scripting.addModule("/drivers/uart/uart", {}, false);
 const uart1           = uart.addInstance();
+const uart2           = uart.addInstance();
 const ethernetip      = scripting.addModule("/industrial_comms/ethernetip/ethernetip", {}, false);
 const ethernetip1     = ethernetip.addInstance();
 const debug_log       = scripting.addModule("/kernel/dpl/debug_log");
@@ -36,6 +37,7 @@ const mpu_armv710     = mpu_armv7.addInstance();
 const mpu_armv711     = mpu_armv7.addInstance();
 const timer           = scripting.addModule("/kernel/dpl/timer", {}, false);
 const timer1          = timer.addInstance();
+const timer2          = timer.addInstance();
 const default_linker  = scripting.addModule("/memory_configurator/default_linker", {}, false);
 const default_linker1 = default_linker.addInstance();
 const general         = scripting.addModule("/memory_configurator/general", {}, false);
@@ -86,10 +88,14 @@ uart1.hwFlowControlThr        = "1";
 uart1.$name                   = "CONFIG_UART1";
 uart1.MCU_UART.$assign        = "MCU_USART0";
 
+uart2.$name        = "CONFIG_UART_CONSOLE";
+uart2.UART.$assign = "USART1";
+
 const uart_v0_template  = scripting.addModule("/drivers/uart/v0/uart_v0_template", {}, false);
 const uart_v0_template1 = uart_v0_template.addInstance({}, false);
 uart_v0_template1.$name = "drivers_uart_v0_uart_v0_template0";
 uart1.child             = uart_v0_template1;
+uart2.child             = uart_v0_template1;
 
 ethernetip1.$name                         = "CONFIG_ETHERNETIP0";
 ethernetip1.icss_emac[0].$name            = "CONFIG_ICSS_EMAC0";
@@ -166,6 +172,11 @@ timer1.$name         = "CONFIG_TIMER0";
 timer1.startTimer    = true;
 timer1.timerCallback = "OSAL_FREERTOS_callbackTimer";
 timer1.TIMER.$assign = "DMTIMER4";
+
+timer2.$name         = "CONFIG_TIMER1";
+timer2.timerCallback = "EthApp_hwTimerCb";
+timer2.usecPerTick   = 200;
+timer2.TIMER.$assign = "DMTIMER0";
 
 default_linker1.$name = "memory_configurator_default_linker0";
 
@@ -384,6 +395,8 @@ i2c1.I2C.SCL.$suggestSolution                                = "I2C0_SCL";
 i2c1.I2C.SDA.$suggestSolution                                = "I2C0_SDA";
 uart1.MCU_UART.RXD.$suggestSolution                          = "MCU_UART0_RXD";
 uart1.MCU_UART.TXD.$suggestSolution                          = "MCU_UART0_TXD";
+uart2.UART.RXD.$suggestSolution                              = "UART1_RXD";
+uart2.UART.TXD.$suggestSolution                              = "UART1_TXD";
 ethernetip1.PRU_ICSSG1_MDIO.$suggestSolution                 = "PRU_ICSSG1_MDIO0";
 ethernetip1.PRU_ICSSG1_MDIO.MDC.$suggestSolution             = "PRG1_MDIO0_MDC";
 ethernetip1.PRU_ICSSG1_MDIO.MDIO.$suggestSolution            = "PRG1_MDIO0_MDIO";

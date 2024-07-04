@@ -92,22 +92,22 @@ const LwipIc_QueueTbl gLwipIcQueueTbl[SHDMEM_CIRCULAR_BUFFER_MAX_QUEUES]=
 {
     {
         .pShdMemBuffStartAdd  = (void *)0xA0400000U,
-        .elemCount            = 16U,
+        .elemCount            = 64U,
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
         .pShdMemBuffStartAdd  = (void *)0xA0500000U,
-        .elemCount            = 16U,
+        .elemCount            = 64U,
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
         .pShdMemBuffStartAdd  = (void *)0xA0600000U,
-        .elemCount            = 16U,
+        .elemCount            = 64U,
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
     {
         .pShdMemBuffStartAdd  = (void *)0xA0700000U,
-        .elemCount            = 16U,
+        .elemCount            = 64U,
         .elemSize             = SHDMEM_CIRCULAR_BUFFER_MAX_ELEM_SIZE,
     },
 }; 
@@ -217,7 +217,7 @@ Ic_Object_Handle App_doIcOpen(uint32_t instId)
                                                   gLwipIcQueueTbl[hIcObj->rxQId].elemSize);
     LwipIc_assert(hIcObj->shmTxQ != NULL);
     LwipIc_assert(hIcObj->shmRxQ != NULL);
-    numCustomPbuf = gLwipIcQueueTbl[hIcObj->txQId].elemCount + gLwipIcQueueTbl[hIcObj->rxQId].elemCount;
+    numCustomPbuf = 32;//gLwipIcQueueTbl[hIcObj->txQId].elemCount + gLwipIcQueueTbl[hIcObj->rxQId].elemCount;
 
 #if (!IC_ETH_RX_POLLING_MODE)
     /* Initialize IPC */
