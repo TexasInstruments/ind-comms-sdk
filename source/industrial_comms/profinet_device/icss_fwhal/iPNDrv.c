@@ -791,3 +791,8 @@ int32_t PN_loadStaticTable(PRUICSS_HwAttrs const *pruicssHwAttrs,
 
     return ret_val;
 }
+
+void PN_CPMOffloadBypass(PRUICSS_HwAttrs const *pruicssHwAttrs) {
+    /* Set flag to indicate no CPM buffers to be used for RTC1 frames. */
+    HW_WR_REG8((pruicssHwAttrs->pru0DramBase + CPM_OFFLOAD_OFFSET), CpmOffloadFlag);
+}
