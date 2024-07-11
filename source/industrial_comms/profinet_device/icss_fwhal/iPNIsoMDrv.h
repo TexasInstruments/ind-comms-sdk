@@ -135,7 +135,6 @@ void PN_ISO_disableGPIOEvent(PN_Handle pnHandle,PNISOM_Handle isoHandle);
  * \brief  API to De init the ISOM event/signal.
  *
  * \param pnHandle    Profinet Handle
- * \param isoHandle   ISOM handle that needs to be de initialized
  *
  */
 void PN_ISO_deInitGPIOEvent(PN_Handle pnHandle);
