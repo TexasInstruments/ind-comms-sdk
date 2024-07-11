@@ -472,6 +472,7 @@ void AppCtrl_sendAddMacAddrReq(Icve_macAddr args, uint32_t type)
                             SystemP_WAIT_FOREVER);
     DebugP_assert(status==SystemP_SUCCESS);
 }
+
 void AppCtrl_sendIPNotify()
 {
     int32_t status;

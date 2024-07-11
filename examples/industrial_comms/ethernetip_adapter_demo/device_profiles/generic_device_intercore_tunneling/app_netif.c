@@ -89,8 +89,6 @@
 /*                            Global Variables                                */
 /* ========================================================================== */
 
-extern uint8_t* bridgeMac; 
-
 struct netif netif_bridge;
 
 static struct netif *gEmacNetif;
@@ -100,15 +98,20 @@ static struct netif netif_ic[IC_ETH_MAX_VIRTUAL_IF];
 /* Array to store coreId to lwip bridge portId map */
 static uint8_t gEthApp_lwipBridgePortIdMap[IPC_MAX_PROCS];
 
-#if(USE_DHCP)
 /* dhcp struct for the ethernet netif */
 static struct dhcp g_netifDhcp[IC_ETH_MAX_VIRTUAL_IF];
-#else
+
 /* Addresses used in static IP mode */
 const ip_addr_t gStaticIP[IP_ADDR_POOL_COUNT] = { IPADDR4_INIT_BYTES(192, 168, 1, 10), IPADDR4_INIT_BYTES(192, 168, 1, 11),  IPADDR4_INIT_BYTES(192, 168, 1, 12)};
 const ip_addr_t gStaticIPGateway = IPADDR4_INIT_BYTES(192, 168, 1, 1);
-const ip_addr_t gStaticIPNetmask = IPADDR4_INIT_BYTES(255, 255, 255, 0);
-#endif 
+const ip_addr_t gStaticIPNetmask = IPADDR4_INIT_BYTES(255, 255, 255, 0); 
+
+/* IP mode for the application
+ * 0 - Static IP mode
+ * 1 - BOOTP mode (currently not supported)
+ * 2 - DHCP mode
+*/
+extern uint8_t  configMethod;
 
 /* ========================================================================== */
 /*                          Function Declarations                             */
@@ -120,7 +123,7 @@ static void EthApp_waitForNetifUp(struct netif *netif);
 
 // static void EthApp_timerCb(ClockP_Object *hClk, void * arg);
 
-static void EthApp_createHwTimer(Ic_Object_Handle hIcObj);
+static void EthApp_startHwTimer(Ic_Object_Handle hIcObj);
 
 void EthApp_hwTimerCb();
 
@@ -140,7 +143,7 @@ void EthApp_initNetif(void)
     DebugP_log("\r\nStarting lwIP, local interface IP is dhcp-enabled\n");
 
     /* Store the ICSS EMAC netif defined as netif_default in the stack 
-     *  before bridge netif is set as the default netif 
+     * before bridge netif is set as the default netif 
      */
     gEmacNetif = netif_default;
     gEmacNetif->flags |= NETIF_FLAG_ETHERNET | NETIF_FLAG_ETHARP;
@@ -148,28 +151,25 @@ void EthApp_initNetif(void)
 
     netif_set_down(gEmacNetif);
 
-    /* Change EIP netif MAC address to custom MAC address*/
-    for(uint16_t i =0; i<ETHARP_HWADDR_LEN; i++)
-    {
-        gEmacNetif->hwaddr[i] = bridgeMac[i] + 0x1;
-    }
 
-    /* Create and initialise Intercore shared memory driver */
+    /* Create and initialize Intercore shared memory driver */
     hIcObj = App_doIcOpen(IC_ETH_IF_R5_0_0_R5_0_1);
     DebugP_assert(hIcObj != NULL);
 
     err = SemaphoreP_constructBinary(&hIcObj->rxSemObj, 0);
     DebugP_assert(SystemP_SUCCESS == err);
     // EthApp_createTimer(hIcObj);
-    EthApp_createHwTimer(hIcObj);
+    EthApp_startHwTimer(hIcObj);
 
     /* Create inter-core virtual ethernet interface: MCU2_0 <-> MCU2_1 */
     netif_add(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], &ipaddr, &netmask, &gw,
               NULL, LWIPIF_LWIP_IC_init, tcpip_input);
-#if(!USE_DHCP)
-    netif_set_addr(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], &gStaticIP[1],
-                   &gStaticIPNetmask, &gStaticIPGateway);
-#endif
+
+    if (configMethod < 2) // static
+    {
+        netif_set_addr(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], &gStaticIP[1],
+                    &gStaticIPNetmask, &gStaticIPGateway);
+    }
 
     err = LWIPIF_LWIP_IC_start(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], IC_ETH_IF_R5_0_0_R5_0_1, hIcObj);
     DebugP_assert(err == ERR_OK);
@@ -180,7 +180,8 @@ void EthApp_initNetif(void)
     bridgeif_initdata_t mybridge_initdata = BRIDGEIF_INITDATA1 (ETHAPP_LWIP_BRIDGE_MAX_PORTS,
                                                                 ETHAPP_LWIP_BRIDGE_MAX_DYNAMIC_ENTRIES,
                                                                 ETHAPP_LWIP_BRIDGE_MAX_STATIC_ENTRIES,
-                                                                ETH_ADDR(bridgeMac[0], bridgeMac[1], bridgeMac[2], bridgeMac[3], bridgeMac[4], bridgeMac[5])); 
+                                                                ETH_ADDR(gEmacNetif->hwaddr[0], gEmacNetif->hwaddr[1], gEmacNetif->hwaddr[2], 
+                                                                         gEmacNetif->hwaddr[3], gEmacNetif->hwaddr[4], gEmacNetif->hwaddr[5])); 
 
     /* Netif state of the bridge netif is filled with the bridge handle,
      * which is used to operate on bridge settings from the application.
@@ -188,10 +189,14 @@ void EthApp_initNetif(void)
      */
     netif_add(&netif_bridge, &ipaddr, &netmask, &gw, &mybridge_initdata, bridgeif_init, netif_input);
 
-#if(!USE_DHCP)
-    netif_set_addr(&netif_bridge, &gStaticIP[0],
-                   &gStaticIPNetmask, &gStaticIPGateway);
-#endif
+    if(configMethod < 2) // static
+    {
+        netif_set_addr(&netif_bridge, netif_ip4_addr(gEmacNetif), 
+                        netif_ip4_netmask(gEmacNetif), netif_ip4_gw(gEmacNetif));
+    }
+
+    /* Modify EIP netif MAC address to custom a MAC address*/
+    gEmacNetif->hwaddr[5]++; 
 
     /* Add all netifs to the bridge and create coreId to bridge portId map */
     bridgeif_add_port(&netif_bridge, gEmacNetif);
@@ -203,9 +208,10 @@ void EthApp_initNetif(void)
     /* Set bridge interface as the default */
     netif_set_default(&netif_bridge);
     
-#if(USE_DHCP)
-    dhcp_set_struct(&netif_bridge, &g_netifDhcp[0]); 
-#endif
+    if(configMethod == 2) //DHCP
+    {
+        dhcp_set_struct(&netif_bridge, &g_netifDhcp[0]); 
+    }
 
     EthApp_setNetifCbs(gEmacNetif);
     EthApp_setNetifCbs(&netif_bridge);
@@ -214,14 +220,15 @@ void EthApp_initNetif(void)
     netif_set_up(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1]);
     netif_set_up(&netif_bridge);
 
-#if(USE_DHCP)
-    err = dhcp_start(&netif_bridge);
-
-    if (err != ERR_OK)
+    if(configMethod == 2) //DHCP
     {
-        DebugP_log("Failed to start DHCP: %d\n", err);
+        err = dhcp_start(&netif_bridge);
+
+        if (err != ERR_OK)
+        {
+            DebugP_log("Failed to start DHCP: %d\n", err);
+        }
     }
-#endif
 
 }
 
@@ -296,7 +303,7 @@ int32_t AddNetif_delBridgeMcastEntry(Icss_MacAddr mac)
 // #endif
 // }
 
-static void EthApp_createHwTimer(Ic_Object_Handle hIcObject)
+static void EthApp_startHwTimer(Ic_Object_Handle hIcObject)
 {
 //    gMyArgs.hIcObj = hIcObject; // not working
 //    HwiP_setArgs(&gTimerHwiObj[CONFIG_TIMER1], &gMyArgs);

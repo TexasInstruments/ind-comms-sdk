@@ -70,6 +70,7 @@
 static void EthApp_netifStatusCb(struct netif *netif);
 
 static void App_netifLinkChangeCb(struct netif *pNetif);
+
 static void EthApp_initLwip(void *arg);
 
 extern void EthApp_initNetif(void);
@@ -85,6 +86,11 @@ static void EthApp_netifStatusCb(struct netif *netif)
     if (netif_is_up(netif))
     {
         const ip4_addr_t *ipAddr = netif_ip4_addr(netif);
+
+        if(netif->num == 0)
+        {
+            netif_set_ipaddr(netif_default, ipAddr);
+        }
 
         DebugP_log("Added interface '%c%c%d', IP is %s \r\n",
                      netif->name[0], netif->name[1], netif->num, ip4addr_ntoa(ipAddr));

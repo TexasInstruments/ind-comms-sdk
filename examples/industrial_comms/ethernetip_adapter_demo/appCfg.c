@@ -70,6 +70,8 @@ static uint32_t EI_APP_CFG_setLldpMng (EI_API_ADP_T *pAdapter, EI_APP_CFG_Data_t
 static EI_API_ADP_T                *EI_APP_CFG_pAdapter_s      = NULL;
 static bool                         EI_APP_CFG_isChanged_s     = false;
 
+uint8_t  configMethod;
+
 /*!
  * \brief
  * Short description. Remove all tags that are not needed.
@@ -200,6 +202,8 @@ uint32_t EI_APP_CFG_apply(EI_API_ADP_T *pAdapter)
     uint32_t errCode = EI_API_ADP_eERR_GENERAL;
 
     EI_APP_CFG_Data_t *pRuntimeData = (EI_APP_CFG_Data_t*) EI_APP_DEVICE_PROFILE_CFG_getRuntimeData();
+
+    configMethod = pRuntimeData->adapter.configurationMethod;
 
     EI_APP_DEVICE_PROFILE_CFG_apply(pAdapter);
 

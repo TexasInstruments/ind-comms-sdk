@@ -117,7 +117,6 @@ static void                    App_printCpuLoad                ();
 static uint8_t EI_APP_TASK_macAddress[] = {0xc8, 0x3e, 0xa7, 0x00, 0x00, 0x59};
 
 uint32_t globalError = 0;
-uint8_t* bridgeMac; 
 
 /*!
  *  <!-- Description: -->
@@ -328,8 +327,6 @@ static bool EI_APP_TASK_init(APP_SParams_t* pParam)
 
     EI_API_ADP_getMacAddr(adapter_s, &macAddr);
 
-    bridgeMac = macAddr.data;
-
     if (macAddr.data != NULL)
     {
         OSAL_printf("EI_API_ADP_getMacAddr:  %02x:%02x:%02x:%02x:%02x:%02x\r\n",
@@ -383,11 +380,12 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
     int16_t  resetServiceFlag = 0;
 
     APP_SInstance_t* pAppInstance = (APP_SInstance_t*) pvTaskArg_p;
-
-    while(loopHalt)
-    {
-        DebugP_log("%d", loopHalt);
-    }
+    
+    /*! Uncomment this line to debug issues using CCS */
+    // while(loopHalt)
+    // {
+    //     DebugP_log("%d", loopHalt);
+    // }
 
     CMN_BOARD_init();
 
@@ -470,7 +468,9 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
             EI_APP_NV_write(false);
         }
 
+#ifdef ENABLE_INTERCORE_TUNNELING
         App_printCpuLoad();
+#endif
 
         OSAL_SCHED_yield();
     }
@@ -635,20 +635,49 @@ static uint8_t* EI_APP_TASK_getMacAddr (void)
 #endif
 }
 
-#ifdef ENABLE_INTERCORE_TUNNELING
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Get self core ID.
+ *
+ *  \details
+ *  By default, returns the self core ID, associated with R5F0_0 core.
+ *
+ */
 uint32_t EnetSoc_getCoreId(void)
 {
     uint32_t coreId = CSL_CORE_ID_R5FSS0_0;
     return coreId;
 }
 
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Returns self core ID.
+ *
+ *  \details
+ *  By default, returns the value received for the self core ID to the caller.
+ *
+ */
 uint32_t App_getSelfCoreId()
 {
     uint32_t coreId = EnetSoc_getCoreId();
     return coreId;
 }
 
-void assignMacAddr(ICSS_EMAC_Handle emachandle)
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Add remote core MAC as special MAC address
+*
+*  \details
+*  Add remote core (linux) MAC address as the Special Unicast MAC address. 
+*
+*/
+void assignMacAddr(ICSS_EMAC_Handle emacHandle) // Replace with helper function
 {
     int32_t status = ICVE_OK;
 
@@ -663,7 +692,7 @@ void assignMacAddr(ICSS_EMAC_Handle emachandle)
     ICSS_EMAC_IoctlCmd ioctlParamsPNTest;
     ioctlParamsPNTest.ioctlVal = (void *)(assignMac.macAddr);
     ioctlParamsPNTest.command = ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_ENABLE_CMD;
-    int32_t ICSS_EMAC_ioctl_status = ICSS_EMAC_ioctl(emachandle,ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL, (uint32_t)NULL, (void *)&ioctlParamsPNTest);
+    int32_t ICSS_EMAC_ioctl_status = ICSS_EMAC_ioctl(emacHandle,ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL, (uint32_t)NULL, (void *)&ioctlParamsPNTest);
     if(ICSS_EMAC_ioctl_status == 0)
     {
         status = ICVE_OK;
@@ -675,6 +704,16 @@ void assignMacAddr(ICSS_EMAC_Handle emachandle)
     DebugP_log("Adding new MAC to FDB  \r\n");
 }
 
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Print CPU load
+*
+*  \details
+*  By default, prints CPU load at every 5 seconds on the console. 
+*
+*/
 static void App_printCpuLoad()
 {
     static uint32_t startTime_ms = 0;
@@ -699,6 +738,16 @@ static void App_printCpuLoad()
     return;
 }
 
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Add multicast address to the Bridge
+*
+*  \details
+*  Add the new multicast MAC address entry to LwIP Bridge
+*
+*/
 int32_t AppCtrl_addMcastAddr(Icss_MacAddr mac)
 {
     int32_t status = ICVE_OK;
@@ -717,6 +766,16 @@ int32_t AppCtrl_addMcastAddr(Icss_MacAddr mac)
     return status;
 }
 
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Remove multicast address from the Bridge
+*
+*  \details
+*  Remove a multicast MAC address entry from LwIP Bridge
+*
+*/
 int32_t AppCtrl_delMcastAddr(Icss_MacAddr mac)
 {
     int32_t status = ICVE_OK;
@@ -735,10 +794,22 @@ int32_t AppCtrl_delMcastAddr(Icss_MacAddr mac)
     return status;
 }
 
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Get Linux availability status
+*
+*  \details
+*  By default, returns 1 since the example uses Linux as the remote core.
+*
+*/
 bool App_IsLinuxPresent()
 {
     return 1;//ENET_IS_LINUX_PRESENT;
 }
+
+// To do: Fix this after 2nd MAC address helper function addition
 
 /* Remote MAC update via RPMSG is not supported
 *  Hard code the remote MAC in the function - assignMacAddr
@@ -748,4 +819,3 @@ int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr assignMac)
     int32_t status = ICVE_OK;
     return status;
 }
-#endif
