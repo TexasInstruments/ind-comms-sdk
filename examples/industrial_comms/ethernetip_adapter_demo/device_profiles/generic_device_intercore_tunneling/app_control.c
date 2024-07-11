@@ -303,7 +303,7 @@ static int32_t AppCtrl_handleReq(Icve_reqMsg reqMsg, uint16_t remoteCoreId, uint
             status = AppCtrl_respShrMemRegion(remoteCoreId, remoteCoreEndPt);
             break;
 
-        case ICVE_REQ_SET_MAC_ADDR: // Remote MAC update via RPMSG is not supported yet. 
+        case ICVE_REQ_SET_MAC_ADDR: 
             status = AppCtrl_addMacAddr2fbd(reqMsg.mac_addr);
             if(status == ICVE_OK)
             {

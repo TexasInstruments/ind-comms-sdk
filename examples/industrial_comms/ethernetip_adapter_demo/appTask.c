@@ -87,8 +87,7 @@
 #include <examples/lwiperf/lwiperf_example.h>
 
 /* UDP Iperf task should be highest priority task to ensure processed buffers
- * are freed without delay so that we get maximum throughput for
- * UDP Iperf.
+ * are freed without delay so that we get maximum throughput for UDP Iperf.
  */
 #define UDP_IPERF_THREAD_PRIO  (14U)
 #endif
@@ -373,7 +372,7 @@ static void EI_APP_TASK_run(EI_API_CIP_NODE_T* cipNode)
  *
  *
  */
-volatile int8_t loopHalt = 1;
+
 void EI_APP_TASK_main(void* pvTaskArg_p)
 {
     uint32_t err = OSAL_NO_ERROR;
@@ -382,6 +381,7 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
     APP_SInstance_t* pAppInstance = (APP_SInstance_t*) pvTaskArg_p;
     
     /*! Uncomment this line to debug issues using CCS */
+    // volatile int8_t loopHalt = 1;
     // while(loopHalt)
     // {
     //     DebugP_log("%d", loopHalt);
@@ -471,7 +471,6 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 #ifdef ENABLE_INTERCORE_TUNNELING
         App_printCpuLoad();
 #endif
-
         OSAL_SCHED_yield();
     }
 
@@ -671,38 +670,32 @@ uint32_t App_getSelfCoreId()
 *  <!-- Description: -->
 *
 *  \brief
-*  Add remote core MAC as special MAC address
+*  Helper function enabling Special Unicast MAC address handling and writing the MAC address. 
 *
 *  \details
-*  Add remote core (linux) MAC address as the Special Unicast MAC address. 
+*  Helper function to enable Special Unicast MAC address handling and write the Linux interface MAC address. 
 *
 */
-void assignMacAddr(ICSS_EMAC_Handle emacHandle) // Replace with helper function
+void configureSpecialMacHelper(uint8_t *macAddress, uint32_t pru1DramBase, uint32_t specialUnicastMACAddrOffset, uint32_t specialUnicastMACAddrFeatureEnableOffset) 
 {
-    int32_t status = ICVE_OK;
+    uint32_t            temp_addr = 0U;
+    volatile uint8_t    *specialUnicastMACAddressPtr = NULL;
+    volatile uint8_t    *specialUnicastMACAddressFeatureEnablePtr = NULL;
 
-    Icss_MacAddr assignMac;
-    assignMac.macAddr[0] = 0x00;
-    assignMac.macAddr[1] = 0x01;
-    assignMac.macAddr[2] = 0x02;
-    assignMac.macAddr[3] = 0x04;
-    assignMac.macAddr[4] = 0x05;
-    assignMac.macAddr[5] = 0x06;
+    temp_addr = (pru1DramBase + specialUnicastMACAddrOffset);
+    specialUnicastMACAddressPtr = (uint8_t*)(temp_addr);
 
-    ICSS_EMAC_IoctlCmd ioctlParamsPNTest;
-    ioctlParamsPNTest.ioctlVal = (void *)(assignMac.macAddr);
-    ioctlParamsPNTest.command = ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL_ENABLE_CMD;
-    int32_t ICSS_EMAC_ioctl_status = ICSS_EMAC_ioctl(emacHandle,ICSS_EMAC_IOCTL_SPECIAL_UNICAST_MAC_CTRL, (uint32_t)NULL, (void *)&ioctlParamsPNTest);
-    if(ICSS_EMAC_ioctl_status == 0)
-    {
-        status = ICVE_OK;
-    }
-    else
-    {
-        status = ICVE_FAIL;
-    }
+    temp_addr = (pru1DramBase + specialUnicastMACAddrFeatureEnableOffset);
+    specialUnicastMACAddressFeatureEnablePtr = (uint8_t*)(temp_addr);
+
+    /* Special Unicast MAC Address feature enable */
+    *(specialUnicastMACAddressFeatureEnablePtr) = 1;
+    /* Write back the special unicast MAC Address */
+    memcpy((void *)specialUnicastMACAddressPtr, macAddress, 6);
+
     DebugP_log("Adding new MAC to FDB  \r\n");
 }
+
 
 /*!
 *  <!-- Description: -->
@@ -798,6 +791,37 @@ int32_t AppCtrl_delMcastAddr(Icss_MacAddr mac)
 *  <!-- Description: -->
 *
 *  \brief
+*  Add special unicast MAC address 
+*
+*  \details
+*  Add the Linux interface MAC as special unicast MAC address
+*
+*/
+int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr mac) 
+{
+    int32_t status = ICVE_OK;
+    uint8_t *pMac = (uint8_t *)(mac.macAddr);
+    uint32_t pru1DramBase = 0x030082000;
+    /*  6 bytes in order to store the special unicast MAC address */
+    uint32_t specialUnicastMACAddrOffset = 0x1FB0; 
+    /* 1 byte in order to check if the special unicast MAC address feature is enabled or disabled */ 
+    uint32_t specialUnicastMACAddrFeatureEnableOffset = 0x1FB6;
+    
+    
+    configureSpecialMacHelper(pMac, pru1DramBase, specialUnicastMACAddrOffset, specialUnicastMACAddrFeatureEnableOffset);
+
+    return status;
+}
+
+void assignMacAddr(ICSS_EMAC_Handle icssEmacHandle)
+{
+    // TODO: Remove function call from stack and delete this.
+}
+
+/*!
+*  <!-- Description: -->
+*
+*  \brief
 *  Get Linux availability status
 *
 *  \details
@@ -806,16 +830,7 @@ int32_t AppCtrl_delMcastAddr(Icss_MacAddr mac)
 */
 bool App_IsLinuxPresent()
 {
-    return 1;//ENET_IS_LINUX_PRESENT;
+    return 1;
 }
 
-// To do: Fix this after 2nd MAC address helper function addition
 
-/* Remote MAC update via RPMSG is not supported
-*  Hard code the remote MAC in the function - assignMacAddr
-*/ 
-int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr assignMac) 
-{
-    int32_t status = ICVE_OK;
-    return status;
-}
