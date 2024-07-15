@@ -11,7 +11,7 @@
  *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: LicenseRef-Kunbus
  *
- *  Copyright (c) 2023 KUNBUS GmbH
+ *  Copyright (c) 2024 KUNBUS GmbH
  *  All rights reserved.
  *
  *

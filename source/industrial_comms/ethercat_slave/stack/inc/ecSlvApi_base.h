@@ -58,7 +58,6 @@ extern ECATSLV_API uint32_t EC_API_SLV_getVersionId(
 
 extern ECATSLV_API uint32_t EC_API_SLV_FBTL_configuration(void* pFbtlHandle);
 extern ECATSLV_API uint32_t EC_API_SLV_load(
-    OSAL_PJumpBuf_t* pExceptionPoint,
     OSAL_ERR_CBHandler_t cbErrHandler,
     uint32_t pruSelect);
 
@@ -68,7 +67,11 @@ extern ECATSLV_API uint32_t EC_API_SLV_prepareTasks(
     OSAL_TASK_Priority_t pdiTaskPrio,
     OSAL_TASK_Priority_t statusLEDTaskPrio,
     OSAL_TASK_Priority_t sync0TaskPrio,
-    OSAL_TASK_Priority_t sync1TaskPrio);
+    OSAL_TASK_Priority_t sync1TaskPrio,
+    uint32_t             pdiTaskStackSize,
+    uint32_t             statusLEDTaskStackSize,
+    uint32_t             sync0TaskStackSize,
+    uint32_t             sync1TaskStackSize);
 
 extern ECATSLV_API uint32_t EC_API_SLV_stackInit(void);
 

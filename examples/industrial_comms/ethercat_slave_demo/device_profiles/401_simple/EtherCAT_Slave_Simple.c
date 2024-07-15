@@ -81,11 +81,6 @@
 
 #define THREAD_IDLE_TIMEOUT   (100U)     /* 100msec idle timeout */
 
-/* @cppcheck_justify{misra-c2012-8.9} scope could be reduced to function, but this is preferred
-    against threadsafety warning */
-/* cppcheck-suppress misra-c2012-8.9 */
-static OSAL_PJumpBuf_t  ECSS_farJumpBuf;
-
 static uint32_t EC_SLV_APP_Simple_remoteInit(EC_SLV_APP_SS_Application_t* pApplicationInstance_p);
 
 /*!
@@ -256,11 +251,13 @@ static void EC_SLV_APP_SS_mainTask(void* pArg_p)
         goto Exit;
     }
 
-    retVal = EC_API_SLV_load(&ECSS_farJumpBuf, NULL /* &applErrHandler*/, applicationInstance->selectedPruInstance);
+    retVal = EC_API_SLV_load(NULL /* &applErrHandler*/, applicationInstance->selectedPruInstance);
 
     if (EC_API_eERR_NONE == retVal)
     {
-        EC_API_SLV_prepareTasks(KBECSLV_PRIO_PDI, KBECSLV_PRIO_LED, KBECSLV_PRIO_SYNC0, KBECSLV_PRIO_SYNC1);
+        EC_API_SLV_prepareTasks(KBECSLV_PRIO_PDI, KBECSLV_PRIO_LED, KBECSLV_PRIO_SYNC0, KBECSLV_PRIO_SYNC1,
+                                KBECSLV_STACKSIZE_PDI, KBECSLV_STACKSIZE_LED, KBECSLV_STACKSIZE_SYNC0,
+                                KBECSLV_STACKSIZE_SYNC1);
 
         applicationInstance->loopThreadHandle = OSAL_SCHED_startTask(EC_SLV_APP_SS_loopTask
                                                                     ,applicationInstance

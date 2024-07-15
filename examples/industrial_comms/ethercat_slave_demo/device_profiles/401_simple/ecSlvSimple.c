@@ -2886,9 +2886,8 @@ Exit:
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]        pContext_p             The pointer to the EtherCAT API instance.
- *  \param[in]        rx_p                     Change on RX or TX PDOs.
- *  \param[in]        count_p                 Number of PDOs assigned to SyncManager.
- *  \param[in]        pPdoIndexArray_p     Array of PDO indexes assigned to SyncManager.
+ *  \param[in]  pRxPdoAssignMap_p   pointer to SM2 PDO reconfigure assignments.
+ *  \param[in]  pTxPdoAssignMap_p   pointer to SM3 PDO reconfigure assignments.
  *  \return      DTK error code
  *
  *  <!-- Group: -->
@@ -2898,32 +2897,40 @@ Exit:
  * */
 static uint32_t EC_SLAVE_APP_assignmentChangedHandler(
     void     *pContext_p,
-    bool      rx_p,
-    uint8_t   count_p,
-    uint16_t *pPdoIndexArray_p)
+    EC_API_SLV_PDO_SReconfigAssignMap_t *pRxPdoAssignMap_p,
+    EC_API_SLV_PDO_SReconfigAssignMap_t *pTxPdoAssignMap_p)
 {
     uint32_t error = EC_API_eERR_NONE;
     OSALUNREF_PARM(pContext_p);
 
-    if (pPdoIndexArray_p != NULL)
+    OSAL_printf("**************************************\r\n");
+    if (pRxPdoAssignMap_p->pdoAssignmentChanged)
+    {
+        if (pRxPdoAssignMap_p->pPdoIndexArray != NULL)
     {
         uint8_t idx;
-        OSAL_printf("**************************************\r\n");
-        if (rx_p == true)
-        {
             OSAL_printf("New assignments for SyncManager 2:\r\n");
+            for (idx = 0; idx <pRxPdoAssignMap_p->pdoCount; idx++)
+            {
+                OSAL_printf("PDO: 0x%04x\r\n", pRxPdoAssignMap_p->pPdoIndexArray[idx]);
+            }
         }
-        else
-        {
-            OSAL_printf("New assignments for SyncManager 3:\r\n");
-        }
-        for (idx = 0; idx < count_p; idx++)
-        {
-            OSAL_printf("PDO: 0x%04x\r\n", pPdoIndexArray_p[idx]);
-        }
-        OSAL_printf("**************************************\r\n");
     }
-    if (count_p == 0u)
+    if (pTxPdoAssignMap_p->pdoAssignmentChanged)
+    {
+        if (pTxPdoAssignMap_p->pPdoIndexArray != NULL)
+        {
+            uint8_t idx;
+            OSAL_printf("New assignments for SyncManager 3:\r\n");
+            for (idx = 0; idx <pTxPdoAssignMap_p->pdoCount; idx++)
+            {
+                OSAL_printf("PDO: 0x%04x\r\n", pTxPdoAssignMap_p->pPdoIndexArray[idx]);
+            }
+        }
+    }
+    OSAL_printf("**************************************\r\n");
+    
+    if (pRxPdoAssignMap_p->pdoCount == 0u && pTxPdoAssignMap_p->pdoCount == 0u)
     {
         error = EC_API_eERR_ABORT;
     }
@@ -2997,7 +3004,7 @@ static uint32_t EC_SLAVE_APP_mappingChangedHandler(
  *  \ingroup EC_SLV_APP
  *
  * */
-static uint16_t EC_SLV_APP_AoE_readRequest(
+static uint32_t EC_SLV_APP_AoE_readRequest(
     void     *pContext_p,
     uint16_t  port_p,
     uint16_t  index_p,
@@ -3006,7 +3013,7 @@ static uint16_t EC_SLV_APP_AoE_readRequest(
     uint32_t *pLength_p,
     uint16_t *pData_p)
 {
-    uint16_t adsError = ERR_NOERROR;
+    uint32_t adsError = ERR_NOERROR;
 
     EC_API_SLV_SHandle_t       *pEcSlvApi    = (EC_API_SLV_SHandle_t *)pContext_p;
     EC_API_SLV_SCoE_ObjEntry_t *pObjectEntry = NULL;
@@ -3125,7 +3132,7 @@ static uint16_t EC_SLV_APP_AoE_readRequest(
  *  \ingroup EC_SLV_APP
  *
  * */
-static uint16_t EC_SLV_APP_AoE_writeRequest(
+static uint32_t EC_SLV_APP_AoE_writeRequest(
     void     *pContext_p,
     uint16_t  port_p,
     uint16_t  index_p,
@@ -3134,7 +3141,7 @@ static uint16_t EC_SLV_APP_AoE_writeRequest(
     uint32_t *pLength_p,
     uint16_t *pData_p)
 {
-    uint16_t adsError = ERR_NOERROR;
+    uint32_t adsError = ERR_NOERROR;
 
     EC_API_SLV_SHandle_t       *pEcSlvApi    = (EC_API_SLV_SHandle_t *)pContext_p;
     EC_API_SLV_SCoE_ObjEntry_t *pObjectEntry = NULL;
