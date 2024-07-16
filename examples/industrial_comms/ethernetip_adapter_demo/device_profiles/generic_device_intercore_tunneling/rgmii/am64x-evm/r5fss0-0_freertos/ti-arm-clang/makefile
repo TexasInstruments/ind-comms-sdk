@@ -43,6 +43,7 @@ FILES_common := \
 	appNV.c \
 	appRst.c \
 	appTask.c \
+	appUart.c \
 	appWebServer.c \
 	CUST_drivers.c \
 	CUST_eeprom.c \

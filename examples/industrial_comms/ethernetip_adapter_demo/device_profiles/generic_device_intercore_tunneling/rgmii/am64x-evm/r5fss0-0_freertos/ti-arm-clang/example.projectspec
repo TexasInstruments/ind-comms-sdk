@@ -153,6 +153,8 @@
         </file>
         <file path="../../../../../../appTask.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
+        <file path="../../../../../../appUart.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
         <file path="../../../../../../appWebServer.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../board/am64x-evm/freertos/drivers/CUST_drivers.c" openOnCreation="false" excludeFromBuild="false" action="link">

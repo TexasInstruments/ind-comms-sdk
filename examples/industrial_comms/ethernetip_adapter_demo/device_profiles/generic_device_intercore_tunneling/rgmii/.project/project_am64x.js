@@ -10,7 +10,7 @@ const files = {
         "appRst.c",
         "appTask.c",
         // "appLed.c",
-        // "appUart.c",
+        "appUart.c",
         "appWebServer.c",
         "CUST_drivers.c",
         "CUST_eeprom.c",
@@ -107,7 +107,7 @@ const libs_freertos_r5f = {
         "ethernetip_adapter_lwip-ic-contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "ethernetip_adapter_lwip-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "ethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "ethernetipadapter.rgmii.am64x.r5f.ti-arm-clang.${ConfigName}.lib", //Lib needed
+        "ethernetipadapter.rgmii.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
     ],
 };
 
