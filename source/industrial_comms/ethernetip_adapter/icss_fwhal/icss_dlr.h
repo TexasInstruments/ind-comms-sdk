@@ -46,6 +46,7 @@ extern "C"
 #include <networking/icss_emac/icss_emac.h>
 #include <kernel/dpl/ClockP.h>
 #include <kernel/dpl/HwiP.h>
+#include "icss_eip_common_macros.h"
 
 #ifdef TEST_DEBUG
 #include "testing.h"

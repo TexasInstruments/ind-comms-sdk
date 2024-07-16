@@ -324,7 +324,7 @@ void EIP_DLR_port0ISR(uintptr_t arg)
     ICSS_EMAC_IoctlCmd ioctlParams;
 
     intStatusPtr = (uint32_t *)(uint32_t)(pruicssHwAttrs->intcRegBase +
-                                          CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0);
+                                          CSL_ICSS_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0);
 
     portEvtsPtr = (uint32_t *)(pruicssHwAttrs->pru0DramBase +
                                DLR_PORT_EVENTS_OFFSET);
@@ -603,7 +603,7 @@ void EIP_DLR_port1ISR(uintptr_t arg)
     commonEvtsFlag = *(commonEvtsPtr);
 
     intStatusPtr = (uint32_t *)(uint32_t)(pruicssHwAttrs->intcRegBase +
-                                          CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0);
+                                          CSL_ICSS_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0);
 
     /*when a new supervisor comes online, timers are restarted*/
     if(commonEvtsFlag & DLR_STOP_BOTH_TIMERS_MASK)
@@ -873,7 +873,7 @@ void EIP_DLR_beaconTimeoutISR_P0(uintptr_t arg)
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(dlrHandle->pruicssHandle->hwAttrs);
 
     intStatusOffset = (uint32_t)(pruicssHwAttrs->intcRegBase
-                                 + CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0);
+                                 + CSL_ICSS_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0);
 
     portEvtsPtr = (uint32_t *)(pruicssHwAttrs->pru0DramBase +
                                DLR_PORT_EVENTS_OFFSET);
@@ -1022,7 +1022,7 @@ void EIP_DLR_beaconTimeoutISR_P1(uintptr_t arg)
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(dlrHandle->pruicssHandle->hwAttrs);
 
     intStatusOffset = (uint32_t)(pruicssHwAttrs->intcRegBase
-                                 + CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0);
+                                 + CSL_ICSS_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0);
 
     portEvtsPtr = (uint32_t *)(pruicssHwAttrs->pru1DramBase +
                                DLR_PORT_EVENTS_OFFSET);
@@ -2487,7 +2487,7 @@ void EIP_DLR_setDivider_WD_IEP(EIP_DLRHandle dlrHandle)
     uintptr_t iepBaseAddress = (((PRUICSS_HwAttrs const *)(dlrHandle->pruicssHandle->hwAttrs))->iep0RegBase);
 
     /*Configure pre-divider for 1us increment value*/
-    HW_WR_REG16(iepBaseAddress + CSL_ICSS_G_PR1_IEP0_SLV_WD_PREDIV_REG, IEP_WD_PRE_DIV_10US);
+    HW_WR_REG16(iepBaseAddress + CSL_ICSS_PR1_IEP0_SLV_WD_PREDIV_REG, IEP_WD_PRE_DIV_10US);
 }
 
 /**
@@ -2504,7 +2504,7 @@ void EIP_DLR_enable_WD_IEP(EIP_DLRHandle dlrHandle, uint8_t id)
     uintptr_t iepBaseAddress = (((PRUICSS_HwAttrs const *)(dlrHandle->pruicssHandle->hwAttrs))->iep0RegBase);
 
     /*Make sure we are not overwriting Watchdog enable bit for the other port*/
-    uint32_t enableFlag = HW_RD_REG32(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_WD_CTRL_REG);
+    uint32_t enableFlag = HW_RD_REG32(iepBaseAddress +  CSL_ICSS_PR1_IEP0_SLV_WD_CTRL_REG);
 
     if(PORT0_WATCH_DOG_ID == id)
     {
@@ -2518,7 +2518,7 @@ void EIP_DLR_enable_WD_IEP(EIP_DLRHandle dlrHandle, uint8_t id)
 
     EIP_DLR_setTimeout_WD_IEP(dlrHandle,
                               dlrHandle->dlrObj->supConfig.beaconTimeout / 10, id);
-    HW_WR_REG32(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_WD_CTRL_REG, enableFlag);
+    HW_WR_REG32(iepBaseAddress +  CSL_ICSS_PR1_IEP0_SLV_WD_CTRL_REG, enableFlag);
 }
 
 /**
@@ -2537,24 +2537,24 @@ void EIP_DLR_disable_WD_IEP(EIP_DLRHandle dlrHandle, uint8_t id)
     uint32_t regValue = 0;
     uint32_t enableFlag = 0;
 
-    regValue = HW_RD_REG32(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_WD_CTRL_REG);
+    regValue = HW_RD_REG32(iepBaseAddress +  CSL_ICSS_PR1_IEP0_SLV_WD_CTRL_REG);
 
     if(PORT0_WATCH_DOG_ID == id)
     {
         enableFlag |= 1;
-        HW_WR_REG16(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_PD_WD_TIM_REG, 0);
+        HW_WR_REG16(iepBaseAddress +  CSL_ICSS_PR1_IEP0_SLV_PD_WD_TIM_REG, 0);
     }
 
     else
     {
         enableFlag |= (1 << 16);
-        HW_WR_REG16(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_PDI_WD_TIM_REG, 0);
+        HW_WR_REG16(iepBaseAddress +  CSL_ICSS_PR1_IEP0_SLV_PDI_WD_TIM_REG, 0);
     }
 
     /*clear the bit*/
     regValue &= ~(enableFlag);
 
-    HW_WR_REG32(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_WD_CTRL_REG, regValue);
+    HW_WR_REG32(iepBaseAddress +  CSL_ICSS_PR1_IEP0_SLV_WD_CTRL_REG, regValue);
 }
 
 /**
@@ -2574,12 +2574,12 @@ void EIP_DLR_setTimeout_WD_IEP(EIP_DLRHandle dlrHandle,
 
     if(PORT0_WATCH_DOG_ID == id)
     {
-        HW_WR_REG16(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_PD_WD_TIM_REG, periodInMicroSec);
+        HW_WR_REG16(iepBaseAddress +  CSL_ICSS_PR1_IEP0_SLV_PD_WD_TIM_REG, periodInMicroSec);
     }
 
     else
     {
-        HW_WR_REG16(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_PDI_WD_TIM_REG, periodInMicroSec);
+        HW_WR_REG16(iepBaseAddress +  CSL_ICSS_PR1_IEP0_SLV_PDI_WD_TIM_REG, periodInMicroSec);
     }
 
 }
@@ -2593,7 +2593,7 @@ void EIP_DLR_set_pdi_wd_trigger_mode(EIP_DLRHandle dlrHandle, uint32_t mode)
 
     uintptr_t iepBaseAddress = (((PRUICSS_HwAttrs const *)(dlrHandle->pruicssHandle->hwAttrs))->iep0RegBase);
 
-    HW_WR_REG32(iepBaseAddress +  CSL_ICSS_G_PR1_IEP0_SLV_DIGIO_CTRL_REG, mode);
+    HW_WR_REG32(iepBaseAddress +  CSL_ICSS_PR1_IEP0_SLV_DIGIO_CTRL_REG, mode);
 }
 
 void EIP_DLR_updateSupervisorDetails(EIP_DLRHandle dlrHandle)

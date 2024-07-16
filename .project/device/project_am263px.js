@@ -2,6 +2,7 @@ const common = require("../common.js");
 
 const component_file_list = [
     "source/industrial_comms/ethercat_slave/icss_fwhal/.project/project.js",
+    "source/industrial_comms/ethernetip_adapter/icss_fwhal/.project/project_mii.js",
     "docs_src/docs/api_guide/doxy_samples/.project/project.js",
 ];
 
