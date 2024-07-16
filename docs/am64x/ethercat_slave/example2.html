@@ -109,7 +109,7 @@ $(document).ready(function(){initNavTree('example2.html',''); initResizable(); }
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="section4221"></a>
 Scope</h1>
-<p>This example covers how to load an ESI File to the SDK and how to enable the CiA 402 device profile.</p>
+<p>This example covers how to enable the CiA 402 device profile.</p>
 <h1><a class="anchor" id="section4222"></a>
 Related Files</h1>
 <p><a href="ec_slv_ci_a402_8c-example.html" class="ec_slv_ci_a402_8c-example.html">ecSlvCiA402.c</a><br  />
@@ -134,23 +134,23 @@ EC_SLV_APP_cia402LocalError</h2>
 <p>If the CiA 402 State machine changes to an error state this function is called. It is used to notify the error, not to take any action.</p>
 <h1><a class="anchor" id="section4223"></a>
 Basic Setup</h1>
-<p>The example starts by initializing operating system (OSAL) and hardware abstraction layers (HWAL). The EtherCAT functionality itself is implemented within the <code>EC_SLV_APP_loopTask</code> that is started from the <code>main</code> application entry point, both are implemented in <code></code> <a href="_ether_c_a_t__slave__e_s_i__parser_8c-example.html" class="_ether_c_a_t__slave__e_s_i__parser_8c-example.html">EtherCAT_Slave_ESI_Parser.c</a>.</p>
+<p>The example starts by initializing operating system (OSAL) and hardware abstraction layers (HWAL). The EtherCAT functionality itself is implemented within the <code>EC_SLV_APP_loopTask</code> that is started from the <code>main</code> application entry point, both are implemented in <code></code> <a href="_ether_c_a_t__slave__ci_a402_8c-example.html" class="_ether_c_a_t__slave__ci_a402_8c-example.html">EtherCAT_Slave_CiA402.c</a>.</p>
 <h1><a class="anchor" id="section4224"></a>
 Hardware Setup</h1>
-<p><code>EC_SLV_APP_loopTask</code> starts with the initialization of the GPIO driver and the configuration of the PHY and LED pins in the function <code>EC_SLV_APP_initBoardFunctions</code> in <code></code> <a href="ec_slv_e_s_i_8c-example.html" class="ec_slv_e_s_i_8c-example.html">ecSlvESI.c</a>.</p>
-<p>Next PHY parameters, such as address, polarity and RX link are configured in <code>EC_SLV_APP_registerStacklessBoardFunctions</code>. The KUNBUS EtherCAT SDK supports Texas Instruments <code>TLK105</code>, <code>TLK110</code> and Microchip <code>KSZ8041NL</code> PHYs by default. Alternative PHYs may be used. In this case the SDK user has to implement and register the functions to handle the new PHYs. Use the <code>ESL_phyLibTlk110</code> sources as reference to implement your own PHY driver.</p>
+<p><code>EC_SLV_APP_loopTask</code> starts with the initialization of the GPIO driver and the configuration of the PHY and LED pins in the function <code>EC_SLV_APP_initBoardFunctions</code> in <code></code> <a href="ec_slv_ci_a402_8c-example.html" class="ec_slv_ci_a402_8c-example.html">ecSlvCiA402.c</a>.</p>
+<p>Next PHY parameters, such as address, polarity and RX link are configured in <code>EC_SLV_APP_registerStacklessBoardFunctions</code>. The EtherCAT SDK supports Texas Instruments <code>TLK105</code>, <code>TLK110</code> and Microchip <code>KSZ8041NL</code> PHYs by default. Alternative PHYs may be used. In this case the SDK user has to implement and register the functions to handle the new PHYs. Use the <code>ESL_phyLibTlk110</code> sources as reference to implement your own PHY driver.</p>
 <div class="image">
 <img src="KBEtherCAT_ESI.png" alt=""/>
 <div class="caption">
-Program flow of the EtherCAT Slave ESI Parser Example Application</div></div>
+Program flow of the EtherCAT Slave CiA402 Example Application</div></div>
     <h1><a class="anchor" id="section4225"></a>
 Initialization of Stack, PRU, and Device Identification</h1>
-<p>Before entering the main stack loop, the example application itself is initialized in <code>EC_SLV_APP_applicationInit</code>. This function creates a new EtherCAT Slave device instance, registers a board status LED callback, sets vendor ID, product code and name, revision number, etc.</p>
+<p>Before entering the main stack loop, the example application itself is initialized in <code>EC_SLV_APP_CIA_applicationInit</code>. This function creates a new EtherCAT Slave device instance, registers a board status LED callback, sets vendor ID, product code and name, revision number, etc.</p>
 <div class="image">
-<img src="EC_SLV_ESI_applicationInit.png" alt=""/>
+<img src="EC_SLV_APP_CIA_applicationInit.png" alt=""/>
 <div class="caption">
-Program flow of the EtherCAT Slave ESI Parser Example Application</div></div>
-    <p>After the basic initialization, <code>EC_SLV_APP_applicationInit</code> continues with the setup of the CiA 402 example drives and motion control example.</p>
+Program flow of the EtherCAT Slave CiA402 Example Application</div></div>
+    <p>After the basic initialization, <code>EC_SLV_APP_CIA_applicationInit</code> continues with the setup of the CiA 402 example drives and motion control example.</p>
 <h1><a class="anchor" id="section4227"></a>
 CiA 402 Basics</h1>
 <h2><a class="anchor" id="section42271"></a>

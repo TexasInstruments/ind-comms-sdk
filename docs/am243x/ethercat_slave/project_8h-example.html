@@ -195,6 +195,12 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line"><span class="preprocessor">#define KBECSLV_PRIO_EOE                    OSAL_TASK_Prio_ECEoE</span></div>
 <div class="line"><span class="preprocessor">#define KBECSLV_PRIO_LED                    OSAL_TASK_Prio_ECLED</span></div>
 <div class="line"> </div>
+<div class="line"><span class="comment">/* task stack sizes in bytes */</span></div>
+<div class="line"><span class="preprocessor">#define KBECSLV_STACKSIZE_PDI               0x0800</span></div>
+<div class="line"><span class="preprocessor">#define KBECSLV_STACKSIZE_LED               0x0400</span></div>
+<div class="line"><span class="preprocessor">#define KBECSLV_STACKSIZE_SYNC0             0x0800</span></div>
+<div class="line"><span class="preprocessor">#define KBECSLV_STACKSIZE_SYNC1             0x0800</span></div>
+<div class="line"> </div>
 <div class="line"><span class="preprocessor">#if (defined TI_EC_VENDOR) &amp;&amp; (1==TI_EC_VENDOR)</span></div>
 <div class="line"><span class="preprocessor">#define EEPROM_MAGIC_KEY \</span></div>
 <div class="line"><span class="preprocessor">    </span><span class="comment">/* @cppcheck_justify{misra-c2012-11.6} void cast required for signature */</span><span class="preprocessor"> \</span></div>

@@ -146,8 +146,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 <div class="line"><span class="comment">/* stack */</span></div>
 <div class="line"><span class="preprocessor">#include &lt;ecSlvApi.h&gt;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">static</span> OSAL_PJumpBuf_t  farJumpBuf_g;</div>
-<div class="line"> </div>
 <div class="line"><span class="keyword">static</span> uint32_t EC_SLV_APP_remoteInit(<span class="keywordtype">void</span>** pRemHandle_p);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> EC_SLV_APP_loopTask(<span class="keywordtype">void</span>* pArg_p)</div>
@@ -225,11 +223,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 <div class="line">        <span class="keywordflow">return</span>;</div>
 <div class="line">    }</div>
 <div class="line"> </div>
-<div class="line">    retVal = EC_API_SLV_load(&amp;farJumpBuf_g, NULL <span class="comment">/* &amp;applErrHandler*/</span>, applicationInstance-&gt;<a class="code hl_variable" href="struct_e_c___s_l_v___a_p_p___sapplication_ab6530e619c5714155076c713f18bbaca.html#ab6530e619c5714155076c713f18bbaca">selectedPruInstance</a>);</div>
+<div class="line">    retVal = EC_API_SLV_load(NULL <span class="comment">/* &amp;applErrHandler*/</span>, applicationInstance-&gt;<a class="code hl_variable" href="struct_e_c___s_l_v___a_p_p___sapplication_ab6530e619c5714155076c713f18bbaca.html#ab6530e619c5714155076c713f18bbaca">selectedPruInstance</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">if</span> (0 == retVal)</div>
 <div class="line">    {</div>
-<div class="line">        EC_API_SLV_prepareTasks(KBECSLV_PRIO_PDI, KBECSLV_PRIO_LED, KBECSLV_PRIO_SYNC0, KBECSLV_PRIO_SYNC1);</div>
+<div class="line">        EC_API_SLV_prepareTasks(KBECSLV_PRIO_PDI, KBECSLV_PRIO_LED, KBECSLV_PRIO_SYNC0, KBECSLV_PRIO_SYNC1,</div>
+<div class="line">                                KBECSLV_STACKSIZE_PDI, KBECSLV_STACKSIZE_LED, KBECSLV_STACKSIZE_SYNC0,</div>
+<div class="line">                                KBECSLV_STACKSIZE_SYNC1);</div>
+<div class="line"> </div>
 <div class="line"> </div>
 <div class="line">        applicationInstance-&gt;<a id="a9" name="a9"></a><a class="code hl_variable" href="struct_e_c___s_l_v___a_p_p___sapplication_a2ae1259270b75ebf16f129723a9e480b.html#a2ae1259270b75ebf16f129723a9e480b">loopThreadHandle</a> = OSAL_SCHED_startTask(EC_SLV_APP_loopTask</div>
 <div class="line">                                                                    ,applicationInstance</div>

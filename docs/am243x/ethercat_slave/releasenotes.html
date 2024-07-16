@@ -129,11 +129,101 @@ Redistributions in binary form must reproduce the above copyright notice, this l
 Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
 </ol>
 <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h1><a class="anchor" id="version_release20002"></a>
+Release Version 2.00.02</h1>
+<p><b>New Features:</b> </p><ul>
+<li>
+[ICSTACK-30] Migration to latest INDUSTRIAL-COMMUNICATIONS-SDK 09.02.<br  />
+ Also containing support for: <ul>
+<li>
+OSAL 1.2.2 </li>
+<li>
+HWAL 2.0.2 </li>
+</ul>
+Further changes: <ul>
+<li>
+Rework of EC_API_SLV_load parameters to reduce stack size. Signature changes documented on <a class="el" href="_a_p_i_changes.html">API Changes</a>. </li>
+<li>
+Enabled DP83826 PHY in custom PHY library. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+[ICSTACK-18] Stack size of PDI-, LED-, Sync0- and Sync1-Task configurable from application.<br  />
+ Major changes: <ul>
+<li>
+Stack size of PDI-, Sync0- and Sync1-Task can be configured with EC_API_SLV_prepareTasks. </li>
+<li>
+Signature changes documented on <a class="el" href="_a_p_i_changes.html">API Changes</a>. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+[ICSTACK-44] Increase stack size of PDI-, Sync0- and Sync1-Task.<br  />
+ Major changes: <ul>
+<li>
+Stack size of PDI-, Sync0- and Sync1-Task increased. </li>
+<li>
+Prevents memory overflow in memory demanding applications. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+[OSS1-3289] Added memory configurator in SysConfig.<br  />
+ Major changes: <ul>
+<li>
+Added memory configurator in SysConfig for demo applications. </li>
+<li>
+Automatically generates linker.cmd file from SysConfig. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+[OSS1-3288] Support for modelling the relation between Rx-PDOs and Tx-PDOs with EC_API_SLV_PDO_CBAssignmentChanges_t callback.<br  />
+ Major changes: <ul>
+<li>
+The callback function use RxPDO and TxPDO reconfigure assignment map structures as a second and third parameter respectively. </li>
+<li>
+The page <a class="el" href="_proc_data_reconfig_page.html">Process data reconfiguration</a> updated with new PDO assignment and mapping changes callback log screenshots. </li>
+<li>
+Signature changes documented on <a class="el" href="_a_p_i_changes.html">API Changes</a>. </li>
+</ul>
+</li>
+</ul>
+<p><b>Bugfixes:</b></p>
+<ul>
+<li>
+Change ADS error size of AoE write and read request callbacks.<br  />
+ <ul>
+<li>
+Change ADS error size of AoE write request callback EC_API_SLV_AoE_CBWriteRequestHandler_t. </li>
+<li>
+Change ADS error size of AoE read request callback EC_API_SLV_AoE_CBReadRequestHandler_t. </li>
+<li>
+Signature changes documented on <a class="el" href="_a_p_i_changes.html">API Changes</a>. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+[OSS1-3295] Process data input and output buffer callbacks receives invalid bit length.<br  />
+ <ul>
+<li>
+Process data input buffer callbacks receive TxPDOs bit length. </li>
+<li>
+Process data output buffer callbacks receive RxPDOs bit length. </li>
+</ul>
+</li>
+</ul>
 <h1><a class="anchor" id="version_release20001"></a>
 Release Version 2.00.01</h1>
 <p><b>New Features:</b> </p><ul>
 <li>
-[OSS1-3262] Migration to Industrial communications SDK 9.02.00.49<br  />
+[OSS1-3262] Migration to latest INDUSTRIAL-COMMUNICATIONS-SDK 09.02.<br  />
  Also containing support for: <ul>
 <li>
 CCS 12.7.0 </li>
@@ -237,7 +327,7 @@ The documentation has been extended with more detailed information. </li>
 </ul>
 <ul>
 <li>
-[OSS1-2966] Integration of Industrial communications SDK 9.02.00<br  />
+[OSS1-2966] Integration of INDUSTRIAL-COMMUNICATIONS-SDK 09.02.<br  />
  Also containing support for: <ul>
 <li>
 CCS 12.6.0 </li>
@@ -325,7 +415,7 @@ Release Version 1.13.00</h1>
 </ul>
 <ul>
 <li>
-[OSS1-1302] Integration of Industrial communications SDK 9.00.00.01 Also containing support for: <ul>
+[OSS1-1302] Integration of latest INDUSTRIAL-COMMUNICATIONS-SDK 09.00. Also containing support for: <ul>
 <li>
 CCS 12.4 </li>
 <li>
@@ -362,7 +452,7 @@ HWAL 1.00.06 </li>
 </ul>
 <p><b>New Features:</b> </p><ul>
 <li>
-[OSS1-1302] Update to TI Industrial Communications SDK 9.0.<br  />
+[OSS1-1302] Update to INDUSTRIAL-COMMUNICATIONS-SDK 09.00.<br  />
  Integration into new SDK deployment structure of TI.  </li>
 </ul>
 <ul>

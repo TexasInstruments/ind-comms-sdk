@@ -11,6 +11,11 @@ var group___e_c___a_p_i___s_l_v___t_y_p_e_s =
       [ "subIndex", "struct_e_c___s_l_v___a_p_i___p_d_o___s_entry_map_a54cd425acffee97de7ad68b5960d7584.html#a54cd425acffee97de7ad68b5960d7584", null ],
       [ "size", "struct_e_c___s_l_v___a_p_i___p_d_o___s_entry_map_ae5dc6ffcd9b7605c7787791e40cc6bb0.html#ae5dc6ffcd9b7605c7787791e40cc6bb0", null ]
     ] ],
+    [ "EC_SLV_API_PDO_SReconfigAssignMap", "struct_e_c___s_l_v___a_p_i___p_d_o___s_reconfig_assign_map.html", [
+      [ "pdoAssignmentChanged", "struct_e_c___s_l_v___a_p_i___p_d_o___s_reconfig_assign_map_ae4efb41b36f2476cfe397422da1aa00b.html#ae4efb41b36f2476cfe397422da1aa00b", null ],
+      [ "pdoCount", "struct_e_c___s_l_v___a_p_i___p_d_o___s_reconfig_assign_map_a289dcd64c0eacc41ab7790e0b4a12e17.html#a289dcd64c0eacc41ab7790e0b4a12e17", null ],
+      [ "pPdoIndexArray", "struct_e_c___s_l_v___a_p_i___p_d_o___s_reconfig_assign_map_afc3af271b218b4b1bb9d816cac07ac58.html#afc3af271b218b4b1bb9d816cac07ac58", null ]
+    ] ],
     [ "EC_API_SLV_EPRUICSS_MaxInstances_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_gad009618e2a5c7f0011bec4144c07deb6.html#gad009618e2a5c7f0011bec4144c07deb6", null ],
     [ "EC_API_SLV_EUserRetCodes_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_gaaf1ccc9933b0e445cf60586e347c70c7.html#gaaf1ccc9933b0e445cf60586e347c70c7", null ],
     [ "EC_API_SLV_EEsmState_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_ga4c3c1662ad7855b25ba55c68c5264add.html#ga4c3c1662ad7855b25ba55c68c5264add", null ],
@@ -19,6 +24,7 @@ var group___e_c___a_p_i___s_l_v___t_y_p_e_s =
     [ "EC_API_SLV_EErrorRegister_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_ga47d5511ace0375e2e3b253b5eb593929.html#ga47d5511ace0375e2e3b253b5eb593929", null ],
     [ "EC_API_SLV_EPhy_Index_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_ga3dbc4056d889108b56d93c657cdca5b8.html#ga3dbc4056d889108b56d93c657cdca5b8", null ],
     [ "EC_API_SLV_PDO_SEntryMap_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_gadb4756a38caefe2fddbcd39ad8e133b0.html#gadb4756a38caefe2fddbcd39ad8e133b0", null ],
+    [ "EC_API_SLV_PDO_SReconfigAssignMap_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_ga0dd367c58972027a11770b8bc7ff98b2.html#ga0dd367c58972027a11770b8bc7ff98b2", null ],
     [ "EC_API_SLV_SPdoEntry_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_gab4cd7a4249afe8f82b28ee81f1d8bc91.html#gab4cd7a4249afe8f82b28ee81f1d8bc91", null ],
     [ "EC_API_SLV_Pdo_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_gaca69e8abf7c92c67cf585f152fc3a3ee.html#gaca69e8abf7c92c67cf585f152fc3a3ee", null ],
     [ "EC_API_SLV_SCoE_ObjEntry_t", "group___e_c___a_p_i___s_l_v___t_y_p_e_s_ga4c715c8ecdeca9203bce0d522ee0ad53.html#ga4c715c8ecdeca9203bce0d522ee0ad53", null ],

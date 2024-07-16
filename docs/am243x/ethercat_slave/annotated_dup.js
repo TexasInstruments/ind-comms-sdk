@@ -15,6 +15,7 @@ var annotated_dup =
     [ "EC_API_SLV_SEeprom", "struct_e_c___a_p_i___s_l_v___s_eeprom.html", "struct_e_c___a_p_i___s_l_v___s_eeprom" ],
     [ "EC_SLV_API_BACKEND_SInternal", "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal.html", "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal" ],
     [ "EC_SLV_API_PDO_SEntryMap", "struct_e_c___s_l_v___a_p_i___p_d_o___s_entry_map.html", "struct_e_c___s_l_v___a_p_i___p_d_o___s_entry_map" ],
+    [ "EC_SLV_API_PDO_SReconfigAssignMap", "struct_e_c___s_l_v___a_p_i___p_d_o___s_reconfig_assign_map.html", "struct_e_c___s_l_v___a_p_i___p_d_o___s_reconfig_assign_map" ],
     [ "EC_SLV_API_SSyncManDesc", "struct_e_c___s_l_v___a_p_i___s_sync_man_desc.html", "struct_e_c___s_l_v___a_p_i___s_sync_man_desc" ],
     [ "EC_SLV_APP_CiA402_SAxis", "struct_e_c___s_l_v___a_p_p___ci_a402___s_axis.html", "struct_e_c___s_l_v___a_p_p___ci_a402___s_axis" ],
     [ "EC_SLV_APP_CIA_application", "struct_e_c___s_l_v___a_p_p___c_i_a__application.html", "struct_e_c___s_l_v___a_p_p___c_i_a__application" ],
