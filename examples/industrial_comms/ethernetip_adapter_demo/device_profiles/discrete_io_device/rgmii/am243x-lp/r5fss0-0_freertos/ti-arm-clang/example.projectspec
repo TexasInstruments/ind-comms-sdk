@@ -68,7 +68,6 @@
         "
         linkerBuildOptions="
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib
-            -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/networking/icss_emac/lib
