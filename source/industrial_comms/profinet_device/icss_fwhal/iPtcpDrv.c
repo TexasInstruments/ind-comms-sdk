@@ -48,6 +48,7 @@
 #include "iPtcpUtils.h"
 #include "iPNLegacy.h"
 #include "iPnOs.h"
+#include "PN_CommonMacros.h"
 #include <drivers/hw_include/hw_types.h>
 #include <kernel/dpl/ClockP.h>
 #include <drivers/mdio.h>
@@ -512,7 +513,7 @@ void PN_PTCP_init(PN_Handle pnHandle)
     (ptcpConfig->currentPtcpStatus).cDelayEnable[ICSS_EMAC_PORT_2 - 1] = enable;
 
     /* enabling Single shot mode for capture register 4/5, i.e. TX PORT1 and TX PORT2*/
-    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CAP_CFG_REG, 0x0001FC30);
+    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CAP_CFG_REG, 0x0001FC30);
 
     /* enable sync forwarding by default*/
     pTemp8 = (uint8_t *)(pruicssHwAttrs->sharedDramBase +
@@ -1233,7 +1234,7 @@ int32_t PN_PTCP_getAbsoluteTime(PN_Handle pnHandle,
     {
 
         (pnHandle->pnPtcpConfig).g_Latch.IEP_count_fn  = HW_RD_REG32(
-                    pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_COUNT_REG0);
+                    pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_COUNT_REG0);
 
         /*TODO: Review this*/
         /*Redundant timer */
@@ -1344,9 +1345,9 @@ int32_t PN_PTCP_latchSetupIsr(PN_Handle pnHandle)
     uint32_t regVal;
 
     /*Set capture to first event mode*/
-    regVal = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CAP_CFG_REG);
+    regVal = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CAP_CFG_REG);
     regVal |= 0x000000C0;
-    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CAP_CFG_REG, regVal);
+    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CAP_CFG_REG, regVal);
 
     HwiP_Params_init(&hwiParams);
     hwiParams.intNum = latchIntConfig->coreIntNum;
@@ -1504,7 +1505,7 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
     /* assumption: interrupt latency less than (cycle time - 8 us)*/
     if((pnHandle->pnPtcpConfig).cycleCtrInitPending == 1)
     {
-        current_iep_val = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_COUNT_REG0);
+        current_iep_val = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_COUNT_REG0);
 
         /* 4 us boundary on both sides*/
         if((pnHandle->pnPtcpConfig).pnCyclePeriod - current_iep_val > 4000
@@ -1569,7 +1570,7 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
         ptcp_time += PN_PTCP_rotUint((pnHandle->pnPtcpConfig).pSyncTorgNs);
 
         /* take care of processing delay: interrupt latency, computation delay, etc.*/
-        current_iep_val = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_COUNT_REG0);
+        current_iep_val = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_COUNT_REG0);
 
 
         /* Difference in cycle counter used to calculate Sync to ISR latency. Handles multiple wraparounds.*/
@@ -1594,7 +1595,7 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
         cycle_counter = (ptcp_time / 31250) & 0xFFFF; /* % 65536*/
 
         /* take more accurate timestamp*/
-        current_iep_val = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_COUNT_REG0);
+        current_iep_val = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_COUNT_REG0);
 
         /* 4 us boundary on both sides => 4 us empirical value based on assumption that firmware updation of cycle counter will be done by 4 us.*/
         if((pnHandle->pnPtcpConfig).pnCyclePeriod - current_iep_val < 4000
@@ -1705,8 +1706,8 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
     if((pnHandle->pnPtcpConfig).currentPtcpStatus.firstSyncRcv == 0)
     {
         /* check whether transmission is going on or not*/
-        iep_counter = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_COUNT_REG0);
-        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_COUNT_REG0, PN_PTCP_modFunc(
+        iep_counter = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_COUNT_REG0);
+        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_COUNT_REG0, PN_PTCP_modFunc(
                     iep_counter + deltaT + 900, (pnHandle->pnPtcpConfig).pnCyclePeriod));
         deltaT = 0;
         adjDeltaT = 0;
@@ -1754,12 +1755,12 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
 
     int32_t cmpValue = 0;
 
-    cmpValue = (0x5 << CSL_ICSS_G_PR1_IEP0_SLV_GLOBAL_CFG_REG_DEFAULT_INC_SHIFT) |
-               CSL_ICSS_G_PR1_IEP0_SLV_GLOBAL_CFG_REG_CNT_ENABLE_MAX;
+    cmpValue = (0x5 << CSL_ICSS_PR1_IEP0_SLV_GLOBAL_CFG_REG_DEFAULT_INC_SHIFT) |
+               CSL_ICSS_PR1_IEP0_SLV_GLOBAL_CFG_REG_CNT_ENABLE_MAX;
 
     if(adjDeltaT == 0)
     {
-        cmpValue |= (0x5 << CSL_ICSS_G_PR1_IEP0_SLV_GLOBAL_CFG_REG_CMP_INC_SHIFT);
+        cmpValue |= (0x5 << CSL_ICSS_PR1_IEP0_SLV_GLOBAL_CFG_REG_CMP_INC_SHIFT);
         PN_PTCP_syncIepAdjustment(pnHandle, SYNC_INTERVAL, cmpValue);
     }
 
@@ -1770,13 +1771,13 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
 
         if(adjDeltaT > 0)                      /* master is faster*/
         {
-            cmpValue |= (0xA << CSL_ICSS_G_PR1_IEP0_SLV_GLOBAL_CFG_REG_CMP_INC_SHIFT);
+            cmpValue |= (0xA << CSL_ICSS_PR1_IEP0_SLV_GLOBAL_CFG_REG_CMP_INC_SHIFT);
             PN_PTCP_syncIepAdjustment(pnHandle, ecapPeriod, cmpValue);
         }
 
         else                                    /* slave is faster*/
         {
-            cmpValue |= (0x0 << CSL_ICSS_G_PR1_IEP0_SLV_GLOBAL_CFG_REG_CMP_INC_SHIFT);
+            cmpValue |= (0x0 << CSL_ICSS_PR1_IEP0_SLV_GLOBAL_CFG_REG_CMP_INC_SHIFT);
             PN_PTCP_syncIepAdjustment(pnHandle, ecapPeriod, cmpValue);
         }
     }
@@ -1957,8 +1958,8 @@ void FAST_CODE_HWAL PN_PTCP_syncIepAdjustment(PN_Handle pnHandle, int32_t ecapPe
 
     if((pnHandle->pnPtcpConfig).ptcpEnableSlowCompensation)
     {
-        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_GLOBAL_CFG_REG, compensation);
-        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_SLOW_COMPEN_REG, ecapPeriod/5);
+        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_GLOBAL_CFG_REG, compensation);
+        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_SLOW_COMPEN_REG, ecapPeriod/5);
     }
 }
 
@@ -2214,14 +2215,14 @@ void PN_PTCP_configureSync0Pin(PN_Handle pnHandle)
     uint32_t syncStart = (pnHandle->pnPtcpConfig).pnCyclePeriod - (PULSE_WIDTH*5);
     /*enable cmp1 : t2 bit of cfg registers*/
 
-    iepCmpCfg = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_CFG_REG);
+    iepCmpCfg = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CMP_CFG_REG);
     iepCmpCfg = iepCmpCfg | 0x4;
-    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_CFG_REG, iepCmpCfg);
+    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CMP_CFG_REG, iepCmpCfg);
     /*program cmp1 reg with period, used for sync0 signal generation: -1us from start of cycle*/
-    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP1_REG0,
+    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CMP1_REG0,
         syncStart);
     /*configure the pulse width for sync0: 199+1 cycles i.e. 1us*/
-    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_SYNC_PWIDTH_REG,
+    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_SYNC_PWIDTH_REG,
         PULSE_WIDTH);
 }
 

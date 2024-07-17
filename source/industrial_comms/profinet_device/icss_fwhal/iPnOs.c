@@ -43,6 +43,7 @@
 #include "PN_HandleDef.h"
 #include "iRtcDrv.h"
 #include "iPnOs.h"
+#include "PN_CommonMacros.h"
 #ifdef PTCP_SUPPORT
 #include "iPtcpDrv.h"
 #include "iPtcpUtils.h"
@@ -764,7 +765,7 @@ void PN_tapWatchDog_task(uintptr_t arg0, uintptr_t arg1)
     {
         if(pnHandle->icssWatchDogEnabled)
         {
-            HW_WR_REG16(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_PD_WD_TIM_REG, pnHandle->icssWachDogTimerPeriod);
+            HW_WR_REG16(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_PD_WD_TIM_REG, pnHandle->icssWachDogTimerPeriod);
         }
 
         /*TODO: Review this*/

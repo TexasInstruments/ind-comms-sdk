@@ -41,6 +41,7 @@
 #include "pnDrvConfig.h"
 #include "PN_Handle.h"
 #include "PN_HandleDef.h"
+#include "PN_CommonMacros.h"
 #include "iPnOs.h"
 #include "iRtcDrv.h"
 #include "iPtcpDrv.h"
@@ -1241,11 +1242,11 @@ int32_t PN_initRtcDrv(PN_Handle pnHandle)
         /* always set the base clock before starting the PRUs!!!*/
         /* Initializing with the Cycle Time of 250us.*/
 
-        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP0_REG0, RTC_3125_CLK_CONST * 8);
-        iepCmpCfg = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_CFG_REG);
+        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CMP0_REG0, RTC_3125_CLK_CONST * 8);
+        iepCmpCfg = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CMP_CFG_REG);
 
         iepCmpCfg = iepCmpCfg | PRU_IEP_CMP_CFG_INIT_VALUE;
-        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_CFG_REG, iepCmpCfg);
+        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CMP_CFG_REG, iepCmpCfg);
 
         PN_setBaseClock(pnHandle,
                         8);       /* 8*31.25us = 250us - default for IRT/RT devices without performance options*/

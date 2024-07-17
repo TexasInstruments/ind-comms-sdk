@@ -49,6 +49,7 @@
 #include "iPtcpUtils.h"
 #include "PN_ForwardDecisionTable.h"
 #include "PN_ReceiveDecisionTable.h"
+#include "PN_CommonMacros.h"
 
 #include <string.h>
 #include <stdint.h>
@@ -174,7 +175,7 @@ int32_t PN_initDrv(PN_Handle pnHandle)
     pTemp8 = (uint8_t *)(pruicssHwAttrs->pru0DramBase + ISOM_TIO_TIMEVAL1);
     memset((void*)pTemp8, 0, (size_t)24);
 
-    pTemp8 = (uint8_t *)(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_STATUS_REG);
+    pTemp8 = (uint8_t *)(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CMP_STATUS_REG);
     *pTemp8 = 0xFE;
 
     pTemp16 = (uint16_t *)(pruicssHwAttrs->pru0DramBase + PRU0_PHASE_EVENT_OFFSET);
@@ -209,7 +210,7 @@ int32_t PN_initDrv(PN_Handle pnHandle)
     /* this gets disabled by disabling ptcpTask*/
 
     /* enabling Single shot mode for capture register 4/5, i.e. TX PORT1 and TX PORT2*/
-    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CAP_CFG_REG, 0x0001FC30);
+    HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CAP_CFG_REG, 0x0001FC30);
 #endif
     /* Write the Profinet Static Tables for PORT1*/
     PN_loadStaticTable(pruicssHwAttrs, PN_Forward_Decision_Table, 50,

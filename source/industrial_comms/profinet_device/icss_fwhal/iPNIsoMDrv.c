@@ -36,6 +36,7 @@
 #include <string.h>
 #include "iPNIsoMDrv.h"
 #include "PN_HandleDef.h"
+#include "PN_CommonMacros.h"
 #include <drivers/hw_include/hw_types.h>
 
 /* ========================================================================== */
@@ -142,12 +143,12 @@ PNISOM_Handle PN_ISO_initGPIOEvent(PN_Handle pnHandle, uint8_t isoMode, uint32_t
             }
         }
 
-        iepCmpCfg = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_CFG_REG);
+        iepCmpCfg = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CMP_CFG_REG);
         iepCmpCfg = iepCmpCfg | 0x48;  /*Enable CMP2 and CMP5*/
-        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_CFG_REG, iepCmpCfg);
+        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_CMP_CFG_REG, iepCmpCfg);
 
         /*configure the pulse width for sync signal. need to configure nof cycles*/
-        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_SYNC_PWIDTH_REG, duration/5);
+        HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_PR1_IEP0_SLV_SYNC_PWIDTH_REG, duration/5);
 
         isomConfig->isoMNumEvents++;
         return (pnHandle->pnIsoMObject);
