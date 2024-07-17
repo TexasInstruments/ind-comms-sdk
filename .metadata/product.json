@@ -5,7 +5,7 @@
     "documentationPath": "../docs",
     "includePaths": [
         "../source",
-        "../mcu_plus_sdk/source/sysconfig",
+        "../mcu_plus_sdk/source",
     ],
     "components": [
         "/industrial_comms/industrial_comms",
