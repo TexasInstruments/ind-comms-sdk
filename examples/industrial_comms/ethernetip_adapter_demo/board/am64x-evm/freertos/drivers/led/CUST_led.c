@@ -94,7 +94,6 @@ uint32_t CUST_LED_deInit(void)
 *  \retval     Other          Success.
 *
 */
-#ifndef ENABLE_INTERCORE_TUNNELING
 LED_Handle CUST_LED_getHandle(uint32_t instanceId)
 {
     LED_Handle handle = NULL;
@@ -106,4 +105,3 @@ LED_Handle CUST_LED_getHandle(uint32_t instanceId)
 
     return handle;
 }
-#endif

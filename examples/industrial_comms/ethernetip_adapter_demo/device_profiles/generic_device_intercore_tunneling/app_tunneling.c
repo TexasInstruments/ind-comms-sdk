@@ -1,43 +1,37 @@
 /*!
- *  \file app.c
+ *  \file app_tunneling.c
  *
  *  \brief
  *  EtherNet/IP&trade; Adapter Example Application.
  *
- *  \author
- *  KUNBUS GmbH
- *
- *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br><br>
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (c) Texas Instruments Incorporated 2024
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
@@ -64,11 +58,10 @@
 
 #include <drivers/CUST_drivers.h>
 
-#include <appWebServer.h>
+#include "appWebServer.h"
 #include "appUart.h"
-#include "appLed.h"
-#include "appTask.h"
-#include "app.h"
+#include "appTask_tunneling.h"
+#include "app_tunneling.h"
 
 /*!
  *  <!-- Description: -->
@@ -126,16 +119,13 @@ int main(
     /* UART configuration */
     pCfg->uart.uartInst = CONFIG_UART_CONSOLE;
 
-    /* LED's configuration */
-    pCfg->led.industrialLedsInst = CONFIG_LED0;
-
     /* Custom drivers configuration - EEPROM. */
-    pCfg->customDrivers.eeprom.taskPrio = OSAL_TASK_Prio_EIP_EEPROM;
+    pCfg->customDrivers.eeprom.taskPrio = OSAL_TASK_Prio_EIP_EEPROM,
 
     /* Custom drivers configuration - FLASH. */
-    pCfg->customDrivers.flash.taskPrio  = OSAL_TASK_Prio_EIP_FLASH;
+    pCfg->customDrivers.flash.taskPrio  = OSAL_TASK_Prio_EIP_FLASH,
 
-    /* Adress conflict detection */
+    /* Address conflict detection */
     pCfg->acd.initialDelay = 200;
 
 #if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)

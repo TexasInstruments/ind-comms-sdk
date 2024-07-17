@@ -38,18 +38,17 @@ BOOTIMAGE_NAME_HS_FS:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(P
 TARGETS := $(BOOTIMAGE_NAME)
 
 FILES_common := \
-	app.c \
-	appCfg.c \
+	app_tunneling.c \
 	appNV.c \
 	appRst.c \
-	appTask.c \
+	appTask_tunneling.c \
 	appUart.c \
 	appWebServer.c \
+	appCfg.c \
 	CUST_drivers.c \
 	CUST_eeprom.c \
 	CUST_ethPhy.c \
 	CUST_flash.c \
-	CUST_led.c \
 	CUST_pruIcss.c \
 	CUST_PHY_base.c \
 	CUST_PHY_dp83869.c \
@@ -81,7 +80,6 @@ FILES_PATH_common = \
 	../../../../../../board/am64x-evm/freertos/drivers/eeprom \
 	../../../../../../board/am64x-evm/freertos/drivers/ethphy \
 	../../../../../../board/am64x-evm/freertos/drivers/flash \
-	../../../../../../board/am64x-evm/freertos/drivers/led \
 	../../../../../../board/am64x-evm/freertos/drivers/pru_icss \
 	../../../../../../device_profiles \
 	../../../../../../device_profiles/generic_device_intercore_tunneling \
@@ -96,9 +94,9 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am64x/r5f \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/board/am64x-evm/freertos \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device_intercore_tunneling \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/os/freertos \
@@ -184,7 +182,7 @@ LIBS_common = \
 	-lethernetip_adapter_lwip-ic-contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethernetip_adapter_lwip-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lethernetipadapter.rgmii.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-lethernetipadapter_rgmii.am64x.r5f.ti-arm-clang.release.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -207,7 +205,7 @@ LIBS_NAME = \
 	ethernetip_adapter_lwip-ic-contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethernetip_adapter_lwip-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	ethernetipadapter.rgmii.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	ethernetipadapter_rgmii.am64x.r5f.ti-arm-clang.release.lib \
 	libc.a \
 	libsysbm.a \
 

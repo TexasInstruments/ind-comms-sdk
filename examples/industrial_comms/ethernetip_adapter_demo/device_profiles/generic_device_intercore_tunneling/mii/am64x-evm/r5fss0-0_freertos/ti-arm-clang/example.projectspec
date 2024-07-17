@@ -35,9 +35,9 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am64x/r5f
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/board/am64x-evm/freertos
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device_intercore_tunneling
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/os/freertos
@@ -116,7 +116,7 @@
                 -lethernetip_adapter_lwip-ic-contrib.am64x.r5f.ti-arm-clang.release.lib
                 -lethernetip_adapter_lwip-ic-freertos.am64x.r5f.ti-arm-clang.release.lib
                 -lethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.release.lib
-                -lethernetipadapter.mii.am64x.r5f.ti-arm-clang.release.lib
+                -lethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib
                 -llibc.a
                 -llibsysbm.a
             "
@@ -137,25 +137,25 @@
                 -lethernetip_adapter_lwip-ic-contrib.am64x.r5f.ti-arm-clang.debug.lib
                 -lethernetip_adapter_lwip-ic-freertos.am64x.r5f.ti-arm-clang.debug.lib
                 -lethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.debug.lib
-                -lethernetipadapter.mii.am64x.r5f.ti-arm-clang.debug.lib
+                -lethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib
                 -llibc.a
                 -llibsysbm.a
             "
         ></configuration>
         <pathVariable name="INDUSTRIAL_COMMUNICATIONS_SDK_PATH" path="${COM_TI_INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
-        <file path="../../../../../../app.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="../../../../../../appCfg.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/app_tunneling.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../appNV.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../appRst.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../appTask.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/appTask_tunneling.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../appUart.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../appWebServer.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../appCfg.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../board/am64x-evm/freertos/drivers/CUST_drivers.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
@@ -164,8 +164,6 @@
         <file path="../../../../../../board/am64x-evm/freertos/drivers/ethphy/CUST_ethPhy.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../board/am64x-evm/freertos/drivers/flash/CUST_flash.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="../../../../../../board/am64x-evm/freertos/drivers/led/CUST_led.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../board/am64x-evm/freertos/drivers/pru_icss/CUST_pruIcss.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

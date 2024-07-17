@@ -38,11 +38,6 @@
 #ifndef _APP_NETIF_H_
 #define _APP_NETIF_H_
 
-/* Use DHCP mode for IP assignment
- * 0 - static IP mode, 1 - DHCP mode
- */
-#define USE_DHCP        (0U)
-
 /* ========================================================================== */
 /*                         Structure Declarations                             */
 /* ========================================================================== */

@@ -91,9 +91,11 @@ static void EthApp_netifStatusCb(struct netif *netif)
         {
             netif_set_ipaddr(netif_default, ipAddr);
         }
-
-        DebugP_log("Added interface '%c%c%d', IP is %s \r\n",
-                     netif->name[0], netif->name[1], netif->num, ip4addr_ntoa(ipAddr));
+        else
+        {
+            DebugP_log("Added interface '%c%c%d', IP is %s \r\n",
+                        netif->name[0], netif->name[1], netif->num, ip4addr_ntoa(ipAddr));
+        }
     }
     else
     {

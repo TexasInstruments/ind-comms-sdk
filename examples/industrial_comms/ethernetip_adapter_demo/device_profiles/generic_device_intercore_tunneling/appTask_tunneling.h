@@ -1,15 +1,13 @@
-/**
- * @file
+/*!
+ *  \file appTask_tunneling.h
  *
- * lwIP Pools options configuration
- */
- 
-/*
+ *  \brief
+ *  Declarations related to EtherNet/IP adapter task.
+ *
  *  Copyright (c) Texas Instruments Incorporated 2024
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions
- *  are met:
+ *  modification, are permitted provided that the following conditions are met:
  *
  *    Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
@@ -34,28 +32,20 @@
  *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This file is part of the lwIP TCP/IP stack.
- * 
  */
- 
-/* OPTIONAL: Pools to replace heap allocation
- * Optional: Pools can be used instead of the heap for mem_malloc. If
- * so, these should be defined here, in increasing order according to 
- * the pool element size.
- *
- * LWIP_MALLOC_MEMPOOL(number_elements, element_size)
- */
-#if MEM_USE_POOLS
-LWIP_MALLOC_MEMPOOL_START
-LWIP_MALLOC_MEMPOOL(100, 256)
-LWIP_MALLOC_MEMPOOL(50, 512)
-LWIP_MALLOC_MEMPOOL(20, 1024)
-LWIP_MALLOC_MEMPOOL(20, 1536)
-LWIP_MALLOC_MEMPOOL_END
-#endif /* MEM_USE_POOLS */
 
-/* Optional: Your custom pools can go here if you would like to use
- * lwIP's memory pools for anything else.
- */
-LWIP_MEMPOOL(SYS_MBOX, 22, 100, "SYS_MBOX")
+
+#ifndef APP_TASK_H
+#define APP_TASK_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern void  EI_APP_TASK_osErrorHandlerCb (uint32_t errorCode, bool fatal, uint8_t paraCnt, va_list argptr);
+
+#ifdef  __cplusplus
+}
+#endif
+
+#endif // APP_TASK_H

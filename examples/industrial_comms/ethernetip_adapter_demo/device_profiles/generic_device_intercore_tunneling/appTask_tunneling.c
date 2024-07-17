@@ -1,43 +1,37 @@
 /*!
- *  \file appTask.c
+ *  \file appTask_tunneling.c
  *
  *  \brief
  *  EtherNet/IP&trade; Adapter Example Application profile common functions.
  *
- *  \author
- *  KUNBUS GmbH
- *
- *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br><br>
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (c) Texas Instruments Incorporated 2024
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
@@ -51,7 +45,6 @@
 #include "EI_API_def.h"
 
 #include "appUart.h"
-#include "appLed.h"
 #include "appNV.h"
 
 #include <osal.h>
@@ -69,14 +62,28 @@
 
 #include <appWebServer.h>
 
-#include "app.h"
-#include "appTask.h"
 #include "appCfg.h"
+#include "app_tunneling.h"
+#include "appTask_tunneling.h"
 #include "appRst.h"
-#include <device_profiles/app_device_profile.h>
+#include <../device_profiles/app_device_profile.h>
 
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
+
+#ifdef ENABLE_INTERCORE_TUNNELING
+#include "udp_iperf.h"
+#include "app_tcpserver.h"
+#include "netif_common.h"
+#include "app_control.h"
+#include "app_netif.h"
+#include <examples/lwiperf/lwiperf_example.h>
+
+/* UDP Iperf task should be highest priority task to ensure processed buffers
+ * are freed without delay so that we get maximum throughput for UDP Iperf.
+ */
+#define UDP_IPERF_THREAD_PRIO  (14U)
+#endif
 
 extern PRUICSS_Handle prusshandle;
 
@@ -95,11 +102,15 @@ static uint8_t*                EI_APP_TASK_getMacAddr          (void);
 static void                    EI_APP_TASK_stackErrorHandlerCb (uint32_t errorCode,   uint8_t fatal, uint8_t numOfPara, va_list argPtr);
 static bool                    EI_APP_TASK_cipCreateCallback   (EI_API_CIP_NODE_T *pCipNode);
 
+static void                    App_printCpuLoad                ();
+
 // Global variables and pointers used in this example.
 // has to stay, used in lib_eip_lwip_ip :-(
 static uint8_t EI_APP_TASK_macAddress[] = {0xc8, 0x3e, 0xa7, 0x00, 0x00, 0x59};
 
 uint32_t globalError = 0;
+
+uint32_t configMethod;
 
 /*!
  *  <!-- Description: -->
@@ -356,19 +367,30 @@ static void EI_APP_TASK_run(EI_API_CIP_NODE_T* cipNode)
  *
  *
  */
+
 void EI_APP_TASK_main(void* pvTaskArg_p)
 {
     uint32_t err = OSAL_NO_ERROR;
     int16_t  resetServiceFlag = 0;
 
     APP_SInstance_t* pAppInstance = (APP_SInstance_t*) pvTaskArg_p;
+    
+    /*! Uncomment this line to debug issues using CCS */
+    // volatile int8_t loopHalt = 1;
+    // while(loopHalt)
+    // {
+    //     DebugP_log("%d", loopHalt);
+    // }
 
     CMN_BOARD_init();
 
     CUST_DRIVERS_init(&pAppInstance->config.customDrivers);
 
     EI_APP_UART_init(&pAppInstance->config.uart);
+
+#ifndef ENABLE_INTERCORE_TUNNELING
     EI_APP_LED_init(&pAppInstance->config.led);
+#endif
 
     OSAL_registerPrintOut(NULL, EI_APP_UART_printf);
 
@@ -403,6 +425,33 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
     CMN_CPU_API_startMonitor(&pAppInstance->config.cpuLoad);
 #endif
 
+#ifdef ENABLE_INTERCORE_TUNNELING
+    EI_APP_CFG_Data_t *pRuntimeData = (EI_APP_CFG_Data_t*) EI_APP_DEVICE_PROFILE_CFG_getRuntimeData();
+
+    configMethod = pRuntimeData->adapter.configurationMethod;
+
+    DebugP_log("Main Core init\r\n");
+
+    /*! Initialize the IPC Task */
+    AppCtrl_createRecvTask();
+    
+    sys_lock_tcpip_core();
+    /*! Handle the IC up notify to bring IC-netif up */
+    EthApp_initNetif();
+    /* Start the TCP server for the core */
+    AppTcp_startServer();
+    /* Wait for the TCP initialization to complete
+     * Send the IP for remote cores for self test
+     */
+    ClockP_sleep(2);
+    AppCtrl_sendIPNotify();
+
+    lwiperf_example_init();
+    sys_thread_new("UDP Iperf", start_application, NULL, DEFAULT_THREAD_STACKSIZE,
+                               UDP_IPERF_THREAD_PRIO);
+    sys_unlock_tcpip_core();
+#endif
+
     for (;;)
     {
         EI_APP_TASK_run(cipNode_s);
@@ -418,6 +467,9 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
             EI_APP_NV_write(false);
         }
 
+#ifdef ENABLE_INTERCORE_TUNNELING
+        App_printCpuLoad();
+#endif
         OSAL_SCHED_yield();
     }
 
@@ -580,3 +632,197 @@ static uint8_t* EI_APP_TASK_getMacAddr (void)
     return EI_APP_TASK_macAddress;
 #endif
 }
+
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Get self core ID.
+ *
+ *  \details
+ *  By default, returns the self core ID, associated with R5F0_0 core.
+ *
+ */
+uint32_t EnetSoc_getCoreId(void)
+{
+    uint32_t coreId = CSL_CORE_ID_R5FSS0_0;
+    return coreId;
+}
+
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Returns self core ID.
+ *
+ *  \details
+ *  By default, returns the value received for the self core ID to the caller.
+ *
+ */
+uint32_t App_getSelfCoreId()
+{
+    uint32_t coreId = EnetSoc_getCoreId();
+    return coreId;
+}
+
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Helper function enabling Special Unicast MAC address handling and writing the MAC address. 
+*
+*  \details
+*  Helper function to enable Special Unicast MAC address handling and write the Linux interface MAC address. 
+*
+*/
+void configureSpecialMacHelper(uint8_t *macAddress, uint32_t pru1DramBase, uint32_t specialUnicastMACAddrOffset, uint32_t specialUnicastMACAddrFeatureEnableOffset) 
+{
+    uint32_t            temp_addr = 0U;
+    volatile uint8_t    *specialUnicastMACAddressPtr = NULL;
+    volatile uint8_t    *specialUnicastMACAddressFeatureEnablePtr = NULL;
+
+    temp_addr = (pru1DramBase + specialUnicastMACAddrOffset);
+    specialUnicastMACAddressPtr = (uint8_t*)(temp_addr);
+
+    temp_addr = (pru1DramBase + specialUnicastMACAddrFeatureEnableOffset);
+    specialUnicastMACAddressFeatureEnablePtr = (uint8_t*)(temp_addr);
+
+    /* Special Unicast MAC Address feature enable */
+    *(specialUnicastMACAddressFeatureEnablePtr) = 1;
+    /* Write back the special unicast MAC Address */
+    memcpy((void *)specialUnicastMACAddressPtr, macAddress, 6);
+
+    DebugP_log("Adding new MAC to FDB  \r\n");
+}
+
+
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Print CPU load
+*
+*  \details
+*  By default, prints CPU load at every 5 seconds on the console. 
+*
+*/
+static void App_printCpuLoad()
+{
+    static uint32_t startTime_ms = 0;
+    const  uint32_t currTime_ms  = ClockP_getTimeUsec()/1000;
+    const  uint32_t printInterval_ms = 5000;
+
+    if (startTime_ms == 0)
+    {
+        startTime_ms = currTime_ms;
+    }
+    else if ( (currTime_ms - startTime_ms) > printInterval_ms )
+    {
+        const uint32_t cpuLoad = TaskP_loadGetTotalCpuLoad();
+
+        DebugP_log(" %6d.%3ds : CPU load = %3d.%02d %%\r\n",
+                    currTime_ms/1000, currTime_ms%1000,
+                    cpuLoad/100, cpuLoad%100 );
+
+        startTime_ms = currTime_ms;
+        TaskP_loadResetAll();
+    }
+    return;
+}
+
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Add multicast address to the Bridge
+*
+*  \details
+*  Add the new multicast MAC address entry to LwIP Bridge
+*
+*/
+int32_t AppCtrl_addMcastAddr(Icss_MacAddr mac)
+{
+    int32_t status = ICVE_OK;
+
+    if(status == ICVE_OK)
+    {
+        status = AddNetif_addBridgeMcastEntry(mac);
+        DebugP_log("Adding new MCast entry to LwIP Bridge \r\n");
+    }
+
+    if(status == ICVE_OK)
+    {
+        DebugP_log("MC addr added Successfully \r\n");
+    }
+
+    return status;
+}
+
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Remove multicast address from the Bridge
+*
+*  \details
+*  Remove a multicast MAC address entry from LwIP Bridge
+*
+*/
+int32_t AppCtrl_delMcastAddr(Icss_MacAddr mac)
+{
+    int32_t status = ICVE_OK;
+
+    if(status == ICVE_OK)
+    {
+        status = AddNetif_delBridgeMcastEntry(mac);
+        DebugP_log("Deleting new MCast entry from LwIP Bridge \r\n");
+    }
+
+    if(status == ICVE_OK)
+    {
+        DebugP_log("MCast address deleted from FDB \r\n");
+    }
+
+    return status;
+}
+
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Add special unicast MAC address 
+*
+*  \details
+*  Add the Linux interface MAC as special unicast MAC address
+*
+*/
+int32_t AppCtrl_addMacAddr2fbd(Icss_MacAddr mac) 
+{
+    int32_t status = ICVE_OK;
+    uint8_t *pMac = (uint8_t *)(mac.macAddr);
+    uint32_t pru1DramBase = 0x030082000;
+    /*  6 bytes in order to store the special unicast MAC address */
+    uint32_t specialUnicastMACAddrOffset = 0x1FB0; 
+    /* 1 byte in order to check if the special unicast MAC address feature is enabled or disabled */ 
+    uint32_t specialUnicastMACAddrFeatureEnableOffset = 0x1FB6;
+    
+    configureSpecialMacHelper(pMac, pru1DramBase, specialUnicastMACAddrOffset, specialUnicastMACAddrFeatureEnableOffset);
+
+    return status;
+}
+
+/*!
+*  <!-- Description: -->
+*
+*  \brief
+*  Get Linux availability status
+*
+*  \details
+*  By default, returns 1 since the example uses Linux as the remote core.
+*
+*/
+bool App_IsLinuxPresent()
+{
+    return 1;
+}
+

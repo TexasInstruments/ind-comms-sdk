@@ -106,10 +106,12 @@ const ip_addr_t gStaticIP[IP_ADDR_POOL_COUNT] = { IPADDR4_INIT_BYTES(192, 168, 1
 const ip_addr_t gStaticIPGateway = IPADDR4_INIT_BYTES(192, 168, 1, 1);
 const ip_addr_t gStaticIPNetmask = IPADDR4_INIT_BYTES(255, 255, 255, 0); 
 
+Ic_Object_Handle hIcObj;
+
 /* IP mode for the application
  * 0 - Static IP mode
  * 1 - BOOTP mode (currently not supported)
- * 2 - DHCP mode
+ * 2 - DHCP mode (currently not supported)
 */
 extern uint8_t  configMethod;
 
@@ -119,18 +121,14 @@ extern uint8_t  configMethod;
 
 static void EthApp_waitForNetifUp(struct netif *netif);
 
-// static void EthApp_createTimer(Ic_Object_Handle hIcObj);
-
-// static void EthApp_timerCb(ClockP_Object *hClk, void * arg);
-
-static void EthApp_startHwTimer(Ic_Object_Handle hIcObj);
+static void EthApp_startHwTimer();
 
 void EthApp_hwTimerCb();
 
 /* ========================================================================== */
 /*                          Function Definitions                              */
 /* ========================================================================== */
-Ic_Object_Handle hIcObj;
+
 void EthApp_initNetif(void)
 {
     ip4_addr_t ipaddr, netmask, gw;
@@ -151,15 +149,13 @@ void EthApp_initNetif(void)
 
     netif_set_down(gEmacNetif);
 
-
     /* Create and initialize Intercore shared memory driver */
     hIcObj = App_doIcOpen(IC_ETH_IF_R5_0_0_R5_0_1);
     DebugP_assert(hIcObj != NULL);
 
     err = SemaphoreP_constructBinary(&hIcObj->rxSemObj, 0);
     DebugP_assert(SystemP_SUCCESS == err);
-    // EthApp_createTimer(hIcObj);
-    EthApp_startHwTimer(hIcObj);
+    EthApp_startHwTimer();
 
     /* Create inter-core virtual ethernet interface: MCU2_0 <-> MCU2_1 */
     netif_add(&netif_ic[IC_ETH_IF_R5_0_0_R5_0_1], &ipaddr, &netmask, &gw,
@@ -274,39 +270,8 @@ int32_t AddNetif_delBridgeMcastEntry(Icss_MacAddr mac)
     return status;
 }
 
-// static void EthApp_createTimer(Ic_Object_Handle hIcObj)
-// {
-//     ClockP_Params clkPrms;
-//     int32_t status;
-
-//     ClockP_Params_init(&clkPrms);
-//     clkPrms.start  = false;
-//     clkPrms.timeout = ClockP_usecToTicks(1000U); // 1ms
-//     clkPrms.period = ClockP_usecToTicks(1000U); // 1ms
-//     clkPrms.callback = &EthApp_timerCb;
-//     clkPrms.args = hIcObj;
-
-//     status =  ClockP_construct(&hIcObj->pacingClkObj, &clkPrms);
-//     DebugP_assert(status == SystemP_SUCCESS);
-
-//     ClockP_start(&hIcObj->pacingClkObj);
-// }
-
-// static void EthApp_timerCb(ClockP_Object *hClk, void * arg)
-// {
-// #if (IC_ETH_RX_POLLING_MODE)
-//     Ic_Object_Handle hIcObj = (Ic_Object_Handle) arg;
-//     if (hIcObj->initComplete)
-//     {
-//         SemaphoreP_post(&hIcObj->rxSemObj);
-//     }
-// #endif
-// }
-
-static void EthApp_startHwTimer(Ic_Object_Handle hIcObject)
+static void EthApp_startHwTimer()
 {
-//    gMyArgs.hIcObj = hIcObject; // not working
-//    HwiP_setArgs(&gTimerHwiObj[CONFIG_TIMER1], &gMyArgs);
     TimerP_start(gTimerBaseAddr[CONFIG_TIMER1]);
 }
 

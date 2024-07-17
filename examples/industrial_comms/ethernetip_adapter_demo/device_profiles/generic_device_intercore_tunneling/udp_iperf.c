@@ -60,7 +60,6 @@ const char udperf_kLabel[] =
  */
 #define DISPLAY_INTERIM_STATS 0
 
-
 #define UDP_IPERF_ENABLE_UDPLITE            (0)
 
 #define UDP_TX_TIME_CHECK_PACKET_COUNT (50 * 1000)
