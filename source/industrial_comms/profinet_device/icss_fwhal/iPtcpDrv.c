@@ -178,6 +178,8 @@ void PN_PTCP_ClockChange(PN_Handle pnHandle, uint32_t cycleTime)
 
     /* reset ptcp sync : direct adjustment and reset the filter*/
     PN_PTCP_reset(pnHandle);
+    /* Configure Sync0 Pin to send signal 1us before start of cycle for every clock change */
+    PN_PTCP_configureSync0Pin(pnHandle);
 }
 
 void PN_PTCP_init(PN_Handle pnHandle)
