@@ -1586,14 +1586,14 @@ int32_t bsp_init(bsp_params *init_params)
         {
             bsp_write_word(pruIcssHandle, TIESC_PORT0_TX_DELAY_200_MHZ_CLOCK,
                         ESC_ADDR_TI_PORT0_TX_START_DELAY);
-            bsp_write_word(pruIcssHandle, TIESC_PORT0_TX_DELAY_200_MHZ_CLOCK,
+            bsp_write_word(pruIcssHandle, TIESC_PORT1_TX_DELAY_200_MHZ_CLOCK,
                         ESC_ADDR_TI_PORT1_TX_START_DELAY);
         }
         else if(g_bsp_params.pruicssClkFreq == TIESC_PRUICSS_CLOCK_FREQUENCY_333_MHZ)
         {
             bsp_write_word(pruIcssHandle, TIESC_PORT0_TX_DELAY_333_MHZ_CLOCK,
                         ESC_ADDR_TI_PORT0_TX_START_DELAY);
-            bsp_write_word(pruIcssHandle, TIESC_PORT0_TX_DELAY_333_MHZ_CLOCK,
+            bsp_write_word(pruIcssHandle, TIESC_PORT1_TX_DELAY_333_MHZ_CLOCK,
                         ESC_ADDR_TI_PORT1_TX_START_DELAY);
         }
 
