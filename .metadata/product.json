@@ -5,7 +5,7 @@
     "documentationPath": "../docs",
     "includePaths": [
         "../source",
-        "../mcu_plus_sdk/source",
+        "../mcu_plus_sdk/source/sysconfig",
     ],
     "components": [
         "/industrial_comms/industrial_comms",
@@ -15,8 +15,9 @@
         "/fs/fs",
         "/networking/networking",
         "/security/security",
-        "/xbar/xbar",
-        "/memory_configurator/components",
+        "/usb/usb",
+        "/pru_io/pru_io",
+        "/memory_configurator/components"
     ],
     "devices": [
         "AM64x",
