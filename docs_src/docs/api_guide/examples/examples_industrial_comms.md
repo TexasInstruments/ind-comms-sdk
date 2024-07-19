@@ -8,6 +8,10 @@ Following is the list of all the examples related to industrial communication pr
     - \subpage EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_BECKHOFF_SSC_DEMO : Example based on Beckhoff SSC. The stack sources should be added manually and patched to build this example.
 - EtherNet/IP Adapter
     - \subpage EXAMPLES_INDUSTRIAL_COMMS_ETHERNETIP_ADAPTER_DEMOS : Evaluation example of pre-integrated stack.
+\cond SOC_AM64X
+- EtherNet/IP Adapter Intercore Tunneling
+    - \subpage EXAMPLES_INDUSTRIAL_COMMS_ETHERNETIP_ADAPTER_TUNNELING_DEMO : Evaluation example of pre-integrated stack with intercore traffic tunneling feature between Linux and RTOS.
+\endcond
 - IO-Link Controller
     - \subpage EXAMPLES_INDUSTRIAL_COMMS_IOLINK_MASTER_DEMO : Evaluation example of pre-integrated stack.
 - HSR/PRP (High Availability Seamless Redundancy/Parallel Redundancy Protocol)
