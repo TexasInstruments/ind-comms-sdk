@@ -53,6 +53,7 @@ const section11       = section.addInstance();
 const section12       = section.addInstance();
 const section13       = section.addInstance();
 const section14       = section.addInstance();
+const dpl_cfg         = scripting.addModule("/kernel/dpl/dpl_cfg");
 
 /**
  * Write custom configuration values to the imported modules.
