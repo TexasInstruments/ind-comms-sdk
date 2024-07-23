@@ -2,6 +2,7 @@ var group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s =
 [
     [ "EI_API_CIP_EEdt_t", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga3312a1950313629ee72f93e9f25d4e1e.html#ga3312a1950313629ee72f93e9f25d4e1e", null ],
     [ "EI_API_CIP_ECdt_t", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gab914586beaa6067438c5f8560c1bcbfd.html#gab914586beaa6067438c5f8560c1bcbfd", null ],
+    [ "EI_API_CIP_CUSTSERVICE_EError_t", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gaf7d5837c19e4abc580084f1a2f91fb96.html#gaf7d5837c19e4abc580084f1a2f91fb96", null ],
     [ "EI_API_CIP_ESc_t", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga4da69806485bf5d98139f5570b6c31b7.html#ga4da69806485bf5d98139f5570b6c31b7", null ],
     [ "EI_API_CIP_EAr_t", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gadca60955273183e780ff8e3448105636.html#gadca60955273183e780ff8e3448105636", null ],
     [ "EI_API_CIP_EAPP_TYPE_t", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga8042da0e5fc30e4a53c764f58cdc33c3.html#ga8042da0e5fc30e4a53c764f58cdc33c3", null ],
@@ -47,6 +48,12 @@ var group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s =
       [ "EI_API_CIP_eCDT_FARRAY", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gadcf1d77008c8e8a396877e8e9840713a.html#ggadcf1d77008c8e8a396877e8e9840713aa214dfecb4290476d25bb3a565d4bb791", null ],
       [ "EI_API_CIP_eCDT_FHSTRUCTURE", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gadcf1d77008c8e8a396877e8e9840713a.html#ggadcf1d77008c8e8a396877e8e9840713aa44ca2d1b75c36d9421b9e63365ae8b5d", null ],
       [ "EI_API_CIP_eCDT_DCDT", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gadcf1d77008c8e8a396877e8e9840713a.html#ggadcf1d77008c8e8a396877e8e9840713aa445c9fa9d5a207066fc7e548a94e8b49", null ]
+    ] ],
+    [ "EI_API_CIP_SERVICE_EError", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga8d297abba386446d1c503886ac540765.html#ga8d297abba386446d1c503886ac540765", [
+      [ "EI_API_CIP_SERVICE_eERR_INVALID", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga8d297abba386446d1c503886ac540765.html#gga8d297abba386446d1c503886ac540765a05c8b9de19a119aa723452f319cc0c10", null ],
+      [ "EI_API_CIP_SERVICE_eERR_RESPONSE", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga8d297abba386446d1c503886ac540765.html#gga8d297abba386446d1c503886ac540765aa7f7de0791b710842416f93f623a1af6", null ],
+      [ "EI_API_CIP_SERVICE_eERR_ERR_RESPONSE", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga8d297abba386446d1c503886ac540765.html#gga8d297abba386446d1c503886ac540765a233eb2e1d240dc8da1eb466b4baf6d0e", null ],
+      [ "EI_API_CIP_SERVICE_eERR_NO_RESPONSE", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga8d297abba386446d1c503886ac540765.html#gga8d297abba386446d1c503886ac540765aac4ed2886478cb621ad8725f79228bd4", null ]
     ] ],
     [ "EI_API_CIP_ESc", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga3a7c1fdca1806025845dd4ad5c64f60b.html#ga3a7c1fdca1806025845dd4ad5c64f60b", [
       [ "EI_API_CIP_eSC_GETATTRIBUTESALL", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_ga3a7c1fdca1806025845dd4ad5c64f60b.html#gga3a7c1fdca1806025845dd4ad5c64f60ba20b86a84b7313488dbe481dc6e918520", null ],
