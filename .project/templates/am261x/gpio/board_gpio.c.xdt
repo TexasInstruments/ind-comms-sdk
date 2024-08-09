@@ -1,5 +1,13 @@
+%%{
+    let options = args.options;
+
+    exampleType   = "input_interrupt";
+    if(options && options.exampleType)
+         exampleType = options.exampleType;
+
+%%}
 /*
- *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  Copyright (C) 2018-2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -30,51 +38,40 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _TIESC_SOC_H_
-#define _TIESC_SOC_H_
+#include <stdlib.h>
+#include <drivers/hw_include/cslr_soc.h>
+#include <drivers/gpio.h>
+#include "ti_drivers_config.h"
 
-/* ========================================================================== */
-/*                             Include Files                                  */
-/* ========================================================================== */
+/*
+ * Board info
+ */
+% if ( exampleType == "input_interrupt" ) {
+/* This is based on DMSC board config and core */
+%if(args.project.board == "am261x-lp") {
+#define BOARD_BUTTON_GPIO_INTR_NUM      (CSLR_R5FSS0_CORE0_INTR_GPIO_INTRXBAR_OUT_14)
+#define BOARD_BUTTON_GPIO_SWITCH_NUM    (4)
+%}
+%else {
+#define BOARD_BUTTON_GPIO_INTR_NUM      (CSLR_R5FSS0_CORE0_INTR_GPIO_INTRXBAR_OUT_14)
+#define BOARD_BUTTON_GPIO_SWITCH_NUM    (1)
+%}
 
-#include <industrial_comms/ethercat_slave/icss_fwhal/tiescbsp.h>
+void Board_gpioInit(void)
+{
+}
 
-/* ========================================================================== */
-/*                       Function Declarations                                */
-/* ========================================================================== */
+void Board_gpioDeinit(void)
+{
+}
 
-uint8_t tiesc_isEthercatDevice(void);
+uint32_t Board_getGpioButtonIntrNum(void)
+{
+    return (BOARD_BUTTON_GPIO_INTR_NUM);
+}
 
-void tiesc_bspSoftReset();
-
-void tiesc_socEvmInit();
-
-void tiesc_socParamsInit(bsp_params *bspInitParams);
-
-void tiesc_displayEscVersion(uint16_t revision, uint16_t build);
-
-void tiesc_setOutputLed(uint8_t mask);
-
-void tiesc_setRunLed(uint8_t value);
-
-void tiesc_setErrorLed(uint8_t value);
-
-void tiesc_getFoeFlashOffset(uint32_t *offset);
-
-void tiesc_ethphyEnablePowerDown();
-
-void tiesc_ethphyDisablePowerDown();
-
-void tiesc_mdioManualModeSetup();
-
-#if ICSSG_INSTANCE == ICSSG0
-void tiesc_addOnBoardResetSequence();
-#endif
-
-#ifdef AM263PX_CC
-void tiesc_setIOExpMuxSelection(void *args);
-#endif
-
-void tiesc_setIOExpMuxSelection(void *args);
-
-#endif /* _TIESC_SOC_H_*/
+uint32_t Board_getGpioButtonSwitchNum(void)
+{
+    return (BOARD_BUTTON_GPIO_SWITCH_NUM);
+}
+% }

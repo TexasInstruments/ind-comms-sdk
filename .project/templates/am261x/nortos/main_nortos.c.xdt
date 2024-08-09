@@ -1,5 +1,24 @@
-/*
- *  Copyright (C) 2021 Texas Instruments Incorporated
+%%{
+    let options = args.options;
+
+    entryFunction = "example_main";
+
+    if(options && options.entryFunction)
+         entryFunction = options.entryFunction;
+    if(options.license == "ti_commercial")
+         license = `/*
+ * TIFS-MCU Source File
+ *
+ * Example main.c
+ *
+ * Copyright (C) 2022 Texas Instruments Incorporated - http://www.ti.com/
+ * ALL RIGHTS RESERVED
+ */
+`
+
+    else
+         license = `/*
+ *  Copyright (C) 2018-2022 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -29,52 +48,24 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+`
+%%}
+`license`
+#include <stdlib.h>
+#include "ti_drivers_config.h"
+#include "ti_board_config.h"
 
-#ifndef _TIESC_SOC_H_
-#define _TIESC_SOC_H_
+void `entryFunction`(void *args);
 
-/* ========================================================================== */
-/*                             Include Files                                  */
-/* ========================================================================== */
+int main(void)
+{
+    System_init();
+    Board_init();
 
-#include <industrial_comms/ethercat_slave/icss_fwhal/tiescbsp.h>
+    `entryFunction`(NULL);
 
-/* ========================================================================== */
-/*                       Function Declarations                                */
-/* ========================================================================== */
+    Board_deinit();
+    System_deinit();
 
-uint8_t tiesc_isEthercatDevice(void);
-
-void tiesc_bspSoftReset();
-
-void tiesc_socEvmInit();
-
-void tiesc_socParamsInit(bsp_params *bspInitParams);
-
-void tiesc_displayEscVersion(uint16_t revision, uint16_t build);
-
-void tiesc_setOutputLed(uint8_t mask);
-
-void tiesc_setRunLed(uint8_t value);
-
-void tiesc_setErrorLed(uint8_t value);
-
-void tiesc_getFoeFlashOffset(uint32_t *offset);
-
-void tiesc_ethphyEnablePowerDown();
-
-void tiesc_ethphyDisablePowerDown();
-
-void tiesc_mdioManualModeSetup();
-
-#if ICSSG_INSTANCE == ICSSG0
-void tiesc_addOnBoardResetSequence();
-#endif
-
-#ifdef AM263PX_CC
-void tiesc_setIOExpMuxSelection(void *args);
-#endif
-
-void tiesc_setIOExpMuxSelection(void *args);
-
-#endif /* _TIESC_SOC_H_*/
+    return 0;
+}

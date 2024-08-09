@@ -41,6 +41,22 @@ EtherCAT support is not enabled on the device AM263Px ControlCard. EtherCAT appl
 EtherCAT example on AM263Px ControlCard is configured to use the second state (mentioned in Table 2-16).
 \endcond
 
+\cond SOC_AM261X
+## Following features are not tested or implemented in this release :
+- Enhanced Link is not enabled
+- Flash not enabled
+
+## PHY Connection
+AM261x-LP does not have On-board PHY. Two Ethernet Add-on Connector needs to be connected at ETHERNET CONNECTOR 0 and ETHERNET CONNECTOR 1 respectively. Once connected, PHY on ETHERNET CONNECTOR 0 will be EtherCAT Port0 and PHY on ETHERNET CONNECTOR 1 will be EtherCAT Port1. For the Ethernet Add-on Connector, refer to \htmllink{https://www.ti.com/tool/DP83826-EVM-AM2, DP83826-EVM-AM2} for more details.
+
+\note
+In AM261x-LP, for the second PHY, PRU-ICSS1 MDIO is connected instead of PRU-ICSS0 MDIO. To fix this mismatch, blue wire and connect:
+- R167 Pin 1 to R137 Pin 1
+- R180 Pin 1 to R135 Pin 1
+\imageStyle{am261x_lp_blue_wire.png,width:20%}
+\image html am261x_lp_blue_wire.png "AM261x-LP Blue Wire"
+\endcond
+
 \cond SOC_AM263X || SOC_AM263PX
 
 ## Following features are not tested or implemented in this release :
@@ -127,6 +143,17 @@ As mentioned above, SDK example will work on E3 revision of @VAR_LP_BOARD_NAME_L
  CPU + OS       | r5fss0-0 freertos
  Toolchain      | ti-arm-clang
  Boards         | @VAR_BOARD_NAME_LOWER, @VAR_LP_BOARD_NAME_LOWER
+ Example folder | examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo
+
+\endcond
+
+\cond SOC_AM261X
+
+ Parameter      | Value
+ ---------------|-----------
+ CPU + OS       | r5fss0-0 freertos
+ Toolchain      | ti-arm-clang
+ Boards         | @VAR_LP_BOARD_NAME_LOWER
  Example folder | examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo
 
 \endcond
@@ -238,13 +265,13 @@ SYNC1 task started
 
 \endcond
 
-\cond SOC_AM263X
+\cond SOC_AM263X || SOC_AM261X
 
 \code
 EtherCAT Device
 EtherCAT Sample application
-Revision/Type : x0690 Build : x0514
-Firmware Version : 6.5.20
+Revision/Type : x0590 Build : x0514
+Firmware Version : 5.5.20
 SYNC0 task started
 SYNC1 task started
 \endcode

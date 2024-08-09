@@ -73,7 +73,7 @@
 
     \image html EtherCAT_SubDevice_TwinCAT_SubDevice_Detection_5.PNG
 
-\cond SOC_AM263X || SOC_AM263PX
+\cond SOC_AM263X || SOC_AM263PX || SOC_AM261X
 \note On @VAR_BOARD_NAME_LOWER, LED control is not supported right now.
 \endcond
 

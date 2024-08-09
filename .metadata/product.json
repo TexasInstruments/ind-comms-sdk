@@ -8,16 +8,16 @@
         "../mcu_plus_sdk/source/sysconfig",
     ],
     "components": [
-        "/industrial_comms/industrial_comms",
-        "/kernel/dpl",
-        "/drivers/drivers",
-        "/board/board",
-        "/fs/fs",
-        "/networking/networking",
-        "/security/security",
-        "/usb/usb",
-        "/pru_io/pru_io",
-        "/memory_configurator/components"
+    "/industrial_comms/industrial_comms",
+    "/kernel/dpl",
+    "/drivers/drivers",
+    "/board/board",
+    "/fs/fs",
+    "/networking/networking",
+    "/security/security",
+    "/xbar/xbar",
+    "/memory_configurator/components",
+    "/optiflash/optiflash"
     ],
     "devices": [
         "AM64x",
@@ -27,6 +27,8 @@
         "AWR294X",
         "AM263x_beta",
         "AM263Px",
+    "AM261x_ZCZ",
+    "AM261x_ZFG",
         "AM62x",
     ],
     "contexts": {
@@ -279,6 +281,26 @@
             "name": "hsm0-0",
             "targetdbId": "Cortex_M4_0"
         }],
+    "AM261x_ZCZ": [{
+        "name": "r5fss0-0",
+        "targetdbId": "Cortex_R5_0"
+    }, {
+        "name": "r5fss0-1",
+        "targetdbId": "Cortex_R5_1"
+    },{
+        "name": "hsm0-0",
+        "targetdbId": "Cortex_M4_0"
+    }],
+    "AM261x_ZFG": [{
+        "name": "r5fss0-0",
+        "targetdbId": "Cortex_R5_0"
+    }, {
+        "name": "r5fss0-1",
+        "targetdbId": "Cortex_R5_1"
+    },{
+        "name": "hsm0-0",
+        "targetdbId": "Cortex_M4_0"
+    }],
         "AM62x": [{
             "name": "m4fss0-0",
             "targetdbId": "m4fss0-0"
