@@ -13,7 +13,7 @@
     "name": "INDUSTRIAL_COMMUNICATIONS_SDK_`deviceName`",
     "displayName": "INDUSTRIAL COMMUNICATIONS SDK for `deviceName`",
 % }
-    "version": "09.02.00",
+    "version": "10.00.00",
     "documentationPath": "../docs",
     "includePaths": [
         "../source",
@@ -55,6 +55,18 @@
         "/memory_configurator/components",
         "/optiflash/optiflash"
 % }
+% if(args.device == "am261x"){
+    "/industrial_comms/industrial_comms",
+    "/kernel/dpl",
+    "/drivers/drivers",
+    "/board/board",
+    "/fs/fs",
+    "/networking/networking",
+    "/security/security",
+    "/xbar/xbar",
+    "/memory_configurator/components",
+    "/optiflash/optiflash"
+% }
 % if((args.device == "am273x") || (args.device == "awr294x")) {
         "/kernel/dpl",
         "/drivers/drivers",
@@ -88,6 +100,10 @@
 % }
 % if((args.device == "am263px") || (isDevelopmentMode)) {
         "AM263Px",
+% }
+% if((args.device == "am261x") || (isDevelopmentMode)) {
+    "AM261x_ZCZ",
+    "AM261x_ZFG",
 % }
 % if((args.device == "am62x") || (isDevelopmentMode)) {
         "AM62x",
@@ -214,6 +230,28 @@
             "name": "hsm0-0",
             "targetdbId": "hsm0-0"
         }],
+% }
+% if((args.device == "am261x") || (isDevelopmentMode)) {
+    "AM261x_ZCZ": [{
+        "name": "r5fss0-0",
+        "targetdbId": "Cortex_R5_0"
+    }, {
+        "name": "r5fss0-1",
+        "targetdbId": "Cortex_R5_1"
+    },{
+        "name": "hsm0-0",
+        "targetdbId": "Cortex_M4_0"
+    }],
+    "AM261x_ZFG": [{
+        "name": "r5fss0-0",
+        "targetdbId": "Cortex_R5_0"
+    }, {
+        "name": "r5fss0-1",
+        "targetdbId": "Cortex_R5_1"
+    },{
+        "name": "hsm0-0",
+        "targetdbId": "Cortex_M4_0"
+    }],
 % }
 % if((args.device == "am62x") || (isDevelopmentMode)) {
         "AM62x": [{

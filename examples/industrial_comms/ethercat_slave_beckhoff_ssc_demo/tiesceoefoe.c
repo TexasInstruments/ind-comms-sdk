@@ -74,7 +74,7 @@ extern unsigned char bBootMode; /**< \brief Indicates in slave is in BOOT mode*/
 
 static uint32_t fw_download_flag;
 static uint32_t fw_write_offset;
-static uint32_t flash_block_size;
+//static uint32_t flash_block_size;
 volatile static uint32_t write_indx = 0;
 volatile static uint32_t read_indx = 0;
 volatile static uint8_t cir_buff[FW_CIRC_BUFF_LEN];
@@ -313,12 +313,12 @@ void tiesc_start_fw_download(uint32_t password)
     DebugP_log("FW download started\n\r");
 }
 
-void tiesc_store_fw_data(uint16_t *pData, uint16_t Size)
+/*void tiesc_store_fw_data(uint16_t *pData, uint16_t Size)
 {
     uint32_t itr1 = 0;
     uint8_t *temp_ptr = (uint8_t *)pData;
     uint8_t data_buff[256];
-    uint32_t blockNum, pageNum;      /* Block, page number */
+    uint32_t blockNum, pageNum;      // Block, page number
 
     for(itr1 = 0 ; itr1 < Size  ; itr1++)
     {
@@ -327,10 +327,10 @@ void tiesc_store_fw_data(uint16_t *pData, uint16_t Size)
 
     while(tiesc_get_cir_buff_avail_bytes() >= 256)
     {
-        /* Call Flash write code from here */
+        // Call Flash write code from here 
         if((fw_write_offset & (flash_block_size - 1)) == 0)
         {
-            /* Erase Flash block */
+            // Erase Flash block
             Flash_offsetToBlkPage(gFlashHandle[CONFIG_FLASH0],fw_write_offset, &blockNum, &pageNum);
             Flash_eraseBlk(gFlashHandle[CONFIG_FLASH0], blockNum);
         }
@@ -341,22 +341,21 @@ void tiesc_store_fw_data(uint16_t *pData, uint16_t Size)
             fw_write_offset += 256;
         }
     }
-}
-
+}*/
+/*
 void tiesc_boot_2_init_handler()
 {
-    uint8_t data_buff[256];
-    uint32_t blockNum, pageNum;      /* Block, page number */
-
-    /*
-    * Make sure that firware is completely written to SPI flash
-    */
+   uint8_t data_buff[256];
+    uint32_t blockNum, pageNum;      // Block, page number
+    
+    // Make sure that firware is completely written to SPI flash
+    
     while(tiesc_get_cir_buff_avail_bytes() > 0)
     {
-        /* Call Flash write code from here */
+        // Call Flash write code from here
         if((fw_write_offset & (flash_block_size - 1)) == 0)
         {
-            /* Erase Flash block */
+            // Erase Flash block
             Flash_offsetToBlkPage(gFlashHandle[CONFIG_FLASH0],fw_write_offset, &blockNum, &pageNum);
             Flash_eraseBlk(gFlashHandle[CONFIG_FLASH0], blockNum);
         }
@@ -368,17 +367,17 @@ void tiesc_boot_2_init_handler()
         }
     }
 
-    /*
-    * Set FW reload flag from here if a new binary is recieved
-    */
-    if(fw_download_flag)
+    
+    // Set FW reload flag from here if a new binary is recieved
+    
+   if(fw_download_flag)
     {
         DebugP_log("FW download completed\n\r");
-        /* Reset the flag */
+        // Reset the flag
         fw_download_flag = 0;
     }
 }
-
+*/
 void tiesc_incr_cir_buff_index(uint32_t *index)
 {
     (*index)++;
@@ -488,7 +487,7 @@ uint16_t tiesc_foe_write_data(uint16_t *pData, uint16_t Size,
 {
     if(bBootMode)
     {
-        tiesc_store_fw_data(pData, Size);
+//        tiesc_store_fw_data(pData, Size);
     }
     else if(bDataFollowing)
     {
@@ -549,6 +548,6 @@ void tiesc_foe_eoe_init(void)
     file_size = 0;
     fw_download_flag = 0;
     tiesc_getFoeFlashOffset(&fw_write_offset);
-    flash_block_size = ((Flash_Attrs *)Flash_getAttrs(CONFIG_FLASH0))->blockSize;
+//    flash_block_size = ((Flash_Attrs *)Flash_getAttrs(CONFIG_FLASH0))->blockSize;
 #endif
 }

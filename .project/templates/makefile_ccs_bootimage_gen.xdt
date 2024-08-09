@@ -12,7 +12,7 @@
 
 CCS_PATH=$(CCS_INSTALL_DIR)
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/imports.mak
-% if (["am243x", "am64x", "am263x", "am263px", "am273x","awr294x"].includes(args.project.device)) {
+% if (["am243x", "am64x", "am263x", "am261x", "am263px", "am273x","awr294x"].includes(args.project.device)) {
 include $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/devconfig/devconfig.mak
 % }
 
@@ -27,7 +27,7 @@ endif
 OUTFILE=$(PROFILE)/$(OUTNAME).out
 BOOTIMAGE_PATH=$(abspath ${PROFILE})
 % if (args.project.isBootLoader) {
-% if (["am243x", "am64x", "am263x", "am263px", "am273x","awr294x"].includes(args.project.device)) {
+% if (["am243x", "am64x", "am263x", "am263px", "am261x", "am273x","awr294x"].includes(args.project.device)) {
 BOOTIMAGE_NAME_GP:=$(BOOTIMAGE_PATH)/$(OUTNAME).tiimage
 BOOTIMAGE_NAME_HS:=`args.project.name`.$(PROFILE).hs.tiimage
 BOOTIMAGE_NAME_HS_FS:=`args.project.name`.$(PROFILE).hs_fs.tiimage
@@ -96,7 +96,7 @@ BOARDCFG_BLOB=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source/drivers/
 % }
 % }
 % }
-% if ((args.project.device == "am273x") || (args.project.device == "awr294x") || (args.project.device == "am263x") || (args.project.device == "am263px")) {
+% if ((args.project.device == "am273x") || (args.project.device == "awr294x") || (args.project.device == "am263x") || (args.project.device == "am263px") || (args.project.device == "am261x")) {
 ifeq ($(DEVICE_TYPE),HS)
 BOOTIMAGE_CERT_KEY=$(APP_SIGNING_KEY)
 else
@@ -107,7 +107,7 @@ BOOTIMAGE_CERT_GEN_CMD=$(PYTHON) $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_
 
 % if ((args.project.device == "am273x") || (args.project.device == "awr294x")) {
 SBL_RUN_ADDRESS=0x10200000
-% } else if( (args.project.device == "am263x")  || (args.project.device == "am263px")){
+% } else if( (args.project.device == "am263x")  || (args.project.device == "am263px") || (args.project.device == "am261x")){
 SBL_RUN_ADDRESS=0x70002000
 % } else {
 SBL_RUN_ADDRESS=0x70000000
@@ -139,7 +139,7 @@ endif
 else
 	$(BOOTIMAGE_CERT_GEN_CMD) --image-bin $(BOOTIMAGE_BIN_NAME) --core R5 --swrv 1 --loadaddr $(SBL_RUN_ADDRESS) --sign-key $(BOOTIMAGE_CERT_KEY) --out-image $(BOOTIMAGE_NAME) --debug DBG_SOC_DEFAULT
 endif
-% } else if ((args.project.device == "am263x") || (args.project.device == "am273x") || (args.project.device == "am263px")) {
+% } else if ((args.project.device == "am263x") || (args.project.device == "am273x") || (args.project.device == "am263px") || (args.project.device == "am261x")) {
 ifeq ($(DEVICE_TYPE),HS)
 ifeq ($(DEBUG_TIFS), yes)
 ifeq ($(ENC_SBL_ENABLED),yes)
@@ -194,7 +194,7 @@ BOOTIMAGE_CORE_ID_m4fss0-0 = 14
 SBL_RUN_ADDRESS=0x70000000
 SBL_DEV_ID=55
 % }
-% if( (args.project.device == "am263x")  || (args.project.device == "am263px")){
+% if( (args.project.device == "am263x")  || (args.project.device == "am263px") || (args.project.device == "am261x")){
 BOOTIMAGE_CORE_ID_r5fss0-0 = 0
 BOOTIMAGE_CORE_ID_r5fss0-1 = 1
 BOOTIMAGE_CORE_ID_r5fss1-0 = 2
@@ -229,7 +229,7 @@ OUTRPRC_CMD = $(CCS_NODE) $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/too
 % if (((args.project.device == "am243x") || (args.project.device == "am64x"))) {
 APP_IMAGE_SIGN_CMD = $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source/security/security_common/tools/boot/signing/appimage_x509_cert_gen.py
 % }
-% if ((["am263x", "am263px"].includes(args.project.device)) && (!args.project.isPartOfSystemProject)) {
+% if ((["am263x", "am263px", "am261x"].includes(args.project.device)) && (!args.project.isPartOfSystemProject)) {
 APP_IMAGE_SIGN_CMD = $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source/security/security_common/tools/boot/signing/mcu_appimage_x509_cert_gen.py
 % }
 

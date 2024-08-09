@@ -10,6 +10,12 @@ PROFILE?=release
 # GP, HS
 DEVICE_TYPE?=GP
 
+ifeq ($(DEVICE),$(filter $(DEVICE), am261x))
+    SYSCFG_DEVICE = AM261x
+    # default syscfg CPU to use,
+    # options on am261x are r5fss0-0, r5fss0-1, r5fss1-0, r5fss1-1
+    SYSCFG_CPU = r5fss0-0
+  endif
 ifeq ($(DEVICE),$(filter $(DEVICE), am263px))
     SYSCFG_DEVICE = AM263Px
     # default syscfg CPU to use,
