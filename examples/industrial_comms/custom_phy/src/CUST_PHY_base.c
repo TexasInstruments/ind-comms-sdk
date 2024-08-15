@@ -41,6 +41,9 @@
  */
 
 #include <CUST_PHY_base.h>
+#if (defined CUST_PHY_TLK110) && (1==CUST_PHY_TLK110)
+#include <CUST_PHY_tlk110.h>
+#endif
 #if (defined CUST_PHY_DP83869) && (1==CUST_PHY_DP83869)
 #include <CUST_PHY_dp83869.h>
 #endif
@@ -57,6 +60,9 @@ static CUST_PHY_CBextPhyLibDetect_t CUST_PHY_knownImplementation_s [] =
 #if (defined CUST_PHY_DP83826) && (1==CUST_PHY_DP83826)
     CUST_PHY_DP83826E_detect,
     CUST_PHY_DP83826B_detect,
+#endif
+#if (defined CUST_PHY_TLK110) && (1==CUST_PHY_TLK110)
+    CUST_PHY_TLK110_detect,
 #endif
     NULL
 };

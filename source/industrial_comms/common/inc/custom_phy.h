@@ -445,6 +445,24 @@ typedef bool (*CUST_PHY_getAutoNegotiation_t)   (void*                          
 /*! <!-- Description: -->
  *
  *  \brief
+ *  Sets auto-negotiation flags manually.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  pAppContext_p       application context
+ *  \param[in]  pStackContext_p     slave stack context
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup CUST_PHY
+ *
+ * */
+typedef void (*CUST_PHY_setAutoNegotiation_t)   (void*                          pAppContext_p
+                                                ,void*                          pStackContext_p);
+
+/*! <!-- Description: -->
+ *
+ *  \brief
  *  Configures PHY MDI crossover mode.
  *
  *  <!-- Parameters and return values: -->
@@ -671,6 +689,7 @@ typedef struct CUST_PHY_SPhyDescriptor
     CUST_PHY_configSwStrapDone_t        configSwStrapDone;
     CUST_PHY_setLinkConfig_t            setLinkConfig;
     CUST_PHY_getAutoNegotiation_t       getAutoNegotiation;
+    CUST_PHY_setAutoNegotiation_t       setAutoNegotiation;
     CUST_PHY_setMdixMode_t              setMdixMode;
     CUST_PHY_getMdixMode_t              getMdixMode;
     CUST_PHY_disable1GbAdver_t          disable1GbAdver;

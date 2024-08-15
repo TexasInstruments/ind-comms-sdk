@@ -11,7 +11,7 @@
  *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
  *  SPDX-License-Identifier: BSD-3-Clause
  *
- *  Copyright (c) 2023 KUNBUS GmbH.
+ *  Copyright (c) 2024 KUNBUS GmbH.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -146,6 +146,8 @@
 #define CUST_PHY_DP83869_LINK_PRESENT_AUTONEG_POLL_STEP         (10u)
 #define CUST_PHY_DP83869_LINK_ABSENT_AUTONEG_POLL_STEP          (1u)
 
+#define CUST_PHY_DP83869_AUTONEG_REG_ADVERT                     (0x04)
+
 /* DP8 global */
 #define CLEARREGBIT(reg, bitNum) \
     (reg) = ((reg) & ~(1 << (bitNum)))
@@ -202,6 +204,8 @@ static void     CUST_PHY_DP83869_setLinkConfig              (void*      pAppCtxt
                                                             ,uint32_t*  pResult_p);
 static bool     CUST_PHY_DP83869_getAutoNegotiation         (void*      pAppCtxt_p
                                                             ,void*      pStackCtxt_p);
+static void     CUST_PHY_DP83869_setAutoNegotiation         (void*      pAppCtxt_p
+                                                            ,void*      pStackCtxt_p);
 static void     CUST_PHY_DP83869_setMdixMode                (void*      pAppCtxt_p
                                                             ,void*      pStackCtxt_p
                                                             ,uint32_t   mdixMode_p);
@@ -238,7 +242,7 @@ static void     CUST_PHY_DP83869_closeFxn                   (void*      pAppCtxt
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pPhyLibCtxt_p	Context of External PhyLib.
+ *  \param[in]  pPhyLibCtxt_p   Context of External PhyLib (not used)
  *  \param[in]  phyId_p         Phy ID read from hardware
  *  \param[in]  pPhyLibDesc_p   External PhyLib Hooks
  *  \return     0 on success and Phy detected, error code otherwise
@@ -275,6 +279,7 @@ int16_t CUST_PHY_DP83869_detect(void* pPhyLibCtxt_p, uint32_t phyId_p, CUST_PHY_
         pPhyLibDesc_p->configSwStrapDone             = CUST_PHY_DP83869_cofigSwStrapDone;
         pPhyLibDesc_p->setLinkConfig                 = CUST_PHY_DP83869_setLinkConfig;
         pPhyLibDesc_p->getAutoNegotiation            = CUST_PHY_DP83869_getAutoNegotiation;
+        pPhyLibDesc_p->setAutoNegotiation            = CUST_PHY_DP83869_setAutoNegotiation;
         pPhyLibDesc_p->setMdixMode                   = CUST_PHY_DP83869_setMdixMode;
         pPhyLibDesc_p->getMdixMode                   = CUST_PHY_DP83869_getMdixMode;
         pPhyLibDesc_p->disable1GbAdver               = CUST_PHY_DP83869_disable1GbAdver;
@@ -299,7 +304,7 @@ int16_t CUST_PHY_DP83869_detect(void* pPhyLibCtxt_p, uint32_t phyId_p, CUST_PHY_
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p      application context
+ *  \param[in]  pAppCtxt_p      application context (not used)
  *  \param[in]  pStackCtxt_p    stack context
  *
  *  <!-- Group: -->
@@ -332,7 +337,7 @@ void CUST_PHY_DP83869_softwareReset(void* pAppCtxt_p, void* pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p      application context
+ *  \param[in]  pAppCtxt_p      application context (not used)
  *  \param[in]  pStackCtxt_p    stack context
  *
  *  <!-- Group: -->
@@ -344,6 +349,8 @@ void CUST_PHY_DP83869_softwareRestart(void* pAppCtxt_p, void* pStackCtxt_p)
 {
     uint16_t    phyRegVal   = 0;
     bool        hadLink     = false;
+
+    OSALUNREF_PARM(pAppCtxt_p);
 
     CUST_PHY_readReg(pStackCtxt_p, CUST_PHY_DP83869_BMSR_REG, &phyRegVal);
     if ( phyRegVal & CUST_PHY_DP83869_BMSR_REG_LINK_STS)
@@ -393,7 +400,7 @@ void CUST_PHY_DP83869_softwareRestart(void* pAppCtxt_p, void* pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p         application context
+ *  \param[in]  pAppCtxt_p         application context (not used)
  *  \param[in]  pStackCtxt_p       stack context
  *
  *  <!-- Group: -->
@@ -475,8 +482,6 @@ void CUST_PHY_DP83869_setMIIMode(void *pAppCtxt_p, void *pStackCtxt_p)
 {
     uint16_t phyRegVal = 0;
 
-    OSALUNREF_PARM(pAppCtxt_p);
-
     OSAL_printf("Phy %lu : Disable RGMII mode\r\n", CUST_PHY_getPhyAddr(pStackCtxt_p));
 
     phyRegVal = CUST_PHY_DP83869_readExtendedRegister(pAppCtxt_p, pStackCtxt_p, CUST_PHY_DP83869_OP_MODE_DECODE);
@@ -499,8 +504,8 @@ void CUST_PHY_DP83869_setMIIMode(void *pAppCtxt_p, void *pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p         application context
- *  \param[in]  pStackCtxt_p       stack context
+ *  \param[in]  pAppCtxt_p         application context (not used)
+ *  \param[in]  pStackCtxt_p       stack context (not used)
  *
  *  <!-- Group: -->
  *
@@ -573,8 +578,8 @@ void CUST_PHY_DP83869_enableODDNibbleDet(void *pAppCtxt_p, void *pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p         application context
- *  \param[in]  pStackCtxt_p       stack context
+ *  \param[in]  pAppCtxt_p         application context (not used)
+ *  \param[in]  pStackCtxt_p       stack context (not used)
  *
  *  <!-- Group: -->
  *
@@ -595,7 +600,7 @@ void CUST_PHY_DP83869_enableRxErrIdle(void *pAppCtxt_p, void *pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p         application context
+ *  \param[in]  pAppCtxt_p         application context (not used)
  *  \param[in]  pStackCtxt_p       stack context
  *
  *  <!-- Group: -->
@@ -647,7 +652,7 @@ void CUST_PHY_DP83869_configLed(void *pAppCtxt_p, void *pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p         application context
+ *  \param[in]  pAppCtxt_p         application context (not used)
  *  \param[in]  pStackCtxt_p       stack context
  *
  *  <!-- Group: -->
@@ -706,8 +711,6 @@ void CUST_PHY_DP83869_enableFastLinkDownDet(void *pAppCtxt_p, void *pStackCtxt_p
     uint8_t     value       = CUST_PHY_DP83869_FAST_LINKDOWN_SIGENERGY
                             | CUST_PHY_DP83869_FAST_LINKDOWN_RXERR;
 
-    OSALUNREF_PARM(pAppCtxt_p);
-
     phyRegVal = CUST_PHY_DP83869_readExtendedRegister(pAppCtxt_p, pStackCtxt_p,  CUST_PHY_DP83869_EXT_FLDCFG_REG);
     phyRegVal |= value;
     CUST_PHY_DP83869_writeExtendedRegister(pAppCtxt_p, pStackCtxt_p, CUST_PHY_DP83869_EXT_FLDCFG_REG, phyRegVal);
@@ -732,8 +735,6 @@ void CUST_PHY_DP83869_enableFastRXDVDet(void *pAppCtxt_p, void *pStackCtxt_p)
 {
     uint16_t    phyRegVal   = 0;
 
-    OSALUNREF_PARM(pAppCtxt_p);
-
     phyRegVal = CUST_PHY_DP83869_readExtendedRegister(pAppCtxt_p, pStackCtxt_p, CUST_PHY_DP83869_EXT_100CFG_REG);
 
     phyRegVal |= CUST_PHY_DP83869_EXT_100CFG_REG_FRXDV_ENA;
@@ -748,8 +749,8 @@ void CUST_PHY_DP83869_enableFastRXDVDet(void *pAppCtxt_p, void *pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p         application context
- *  \param[in]  pStackCtxt_p       stack context
+ *  \param[in]  pAppCtxt_p         application context (not used)
+ *  \param[in]  pStackCtxt_p       stack context (not used)
  *
  *  <!-- Group: -->
  *
@@ -770,9 +771,9 @@ void CUST_PHY_DP83869_cofigSwStrapDone(void *pAppCtxt_p, void *pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p      application context
+ *  \param[in]  pAppCtxt_p      application context (not used)
  *  \param[in]  pStackCtxt_p    stack context
- *  \param[in]  powerDown_p         False = Normal Operation - True = Power Down
+ *  \param[in]  powerDown_p     False = Normal Operation - True = Power Down
  *
  *  <!-- Group: -->
  *
@@ -822,7 +823,7 @@ void CUST_PHY_DP83869_setPowerMode(void* pAppCtxt_p, void *pStackCtxt_p, bool po
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p      application context
+ *  \param[in]  pAppCtxt_p      application context (not used)
  *  \param[in]  pStackCtxt_p    stack context
  *
  *  \return False = Normal Operation - True = Power Down
@@ -955,7 +956,7 @@ void CUST_PHY_DP83869_setLinkConfig(void* pAppCtxt_p, void* pStackCtxt_p, bool a
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p          application context
+ *  \param[in]  pAppCtxt_p          application context (not used)
  *  \param[in]  pStackCtxt_p        stack context
  *  \return     bool                auto-negotiation enabled flag (false - auto-negotiation disabled, true - auto-negotiation enabled)
  *
@@ -986,11 +987,41 @@ bool CUST_PHY_DP83869_getAutoNegotiation(void* pAppCtxt_p, void* pStackCtxt_p)
 /*! <!-- Description: -->
  *
  *  \brief
+ *  Sets auto-negotiation flags manually.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  pAppCtxt_p          application context (not used)
+ *  \param[in]  pStackCtxt_p        stack context
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup CUST_PHY
+ *
+ * */
+void CUST_PHY_DP83869_setAutoNegotiation(void* pAppCtxt_p, void* pStackCtxt_p)
+{
+  uint16_t    phyRegVal = 0;
+  uint32_t    status = CUST_PHY_eSTATUS_FAIL;
+
+  OSALUNREF_PARM(pAppCtxt_p);
+
+  status = CUST_PHY_readReg(pStackCtxt_p, CUST_PHY_DP83869_AUTONEG_REG_ADVERT, &phyRegVal);
+
+  if (status == CUST_PHY_eSTATUS_SUCCESS)
+  {
+    CUST_PHY_writeReg(pStackCtxt_p, CUST_PHY_DP83869_AUTONEG_REG_ADVERT, phyRegVal | 1<<6 | 1<<8);
+  }
+}
+
+/*! <!-- Description: -->
+ *
+ *  \brief
  *  Configures PHY MDI crossover mode.
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p          application context
+ *  \param[in]  pAppCtxt_p          application context (not used)
  *  \param[in]  pStackCtxt_p        stack context
  *  \param[in]  mdixMode_p          required MDI crossover mode (0 - Manual MDI configuration, 1 - Manual MDI-X configuration, 2 - Enable automatic crossover)
  *
@@ -1032,7 +1063,7 @@ void CUST_PHY_DP83869_setMdixMode(void* pAppCtxt_p, void* pStackCtxt_p, uint32_t
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p          application context
+ *  \param[in]  pAppCtxt_p          application context (not used)
  *  \param[in]  pStackCtxt_p        stack context
  *  \return     uint32_t            value of used MDI crossover mode (0 - Manual MDI configuration, 1 - Manual MDI-X configuration, 2 - Enable automatic crossover)
  *
@@ -1076,7 +1107,7 @@ uint32_t CUST_PHY_DP83869_getMdixMode(void* pAppCtxt_p, void* pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p          application context
+ *  \param[in]  pAppCtxt_p          application context (not used)
  *  \param[in]  pStackCtxt_p        stack context
  *
  *  <!-- Group: -->
@@ -1106,7 +1137,7 @@ void CUST_PHY_DP83869_disable1GbAdver(void* pAppCtxt_p, void* pStackCtxt_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p          application context
+ *  \param[in]  pAppCtxt_p          application context (not used)
  *  \param[in]  pStackCtxt_p        stack context
  *
  *  <!-- Group: -->
@@ -1136,7 +1167,7 @@ void CUST_PHY_DP83869_rgmiiLowLatencyEnable(void* pAppCtxt_p, void* pStackCtxt_p
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p          application context
+ *  \param[in]  pAppCtxt_p          application context (not used)
  *  \param[in]  pStackCtxt_p        stack context
  *  \param[in]  threshold_p         Number of cycles for threshold (2, 1)
  *
@@ -1149,6 +1180,8 @@ void CUST_PHY_DP83869_rgmiiTxHalfFullThreshold(void* pAppCtxt_p, void* pStackCtx
 {
     uint16_t phyRegVal = 0;
     uint16_t val = threshold_p;
+
+    OSALUNREF_PARM(pAppCtxt_p);
 
     OSAL_printf("Phy %lu : RGMII set TX Half/Full Threshold: %d\r\n", CUST_PHY_getPhyAddr(pStackCtxt_p), threshold_p);
     CUST_PHY_readReg(pStackCtxt_p, CUST_PHY_DP83869_EXT_RGMIICTL_REG, &phyRegVal);
@@ -1169,7 +1202,7 @@ void CUST_PHY_DP83869_rgmiiTxHalfFullThreshold(void* pAppCtxt_p, void* pStackCtx
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p          application context
+ *  \param[in]  pAppCtxt_p          application context (not used)
  *  \param[in]  pStackCtxt_p        stack context
  *  \param[in]  threshold_p         Number of cycles for threshold (2, 1)
  *
@@ -1182,6 +1215,8 @@ void CUST_PHY_DP83869_rgmiiRxHalfFullThreshold(void* pAppCtxt_p, void* pStackCtx
 {
     uint16_t phyRegVal = 0;
     uint16_t val = threshold_p;
+
+    OSALUNREF_PARM(pAppCtxt_p);
 
     OSAL_printf("Phy %lu : RGMII set RX Half/Full Threshold: %d\r\n", CUST_PHY_getPhyAddr(pStackCtxt_p), threshold_p);
     CUST_PHY_readReg(pStackCtxt_p, CUST_PHY_DP83869_EXT_RGMIICTL_REG, &phyRegVal);
@@ -1201,10 +1236,10 @@ void CUST_PHY_DP83869_rgmiiRxHalfFullThreshold(void* pAppCtxt_p, void* pStackCtx
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p          application context
+ *  \param[in]  pAppCtxt_p          application context (not used)
  *  \param[in]  pStackCtxt_p        stack context
  *  \param[in]  pData_p             pointer to data structure which contains link speed and duplex mode values
- *  \param[in]  dataSize_p          size of data structure
+ *  \param[in]  dataSize_p          size of data structure (not used)
  *
  *  <!-- Group: -->
  *
@@ -1214,10 +1249,10 @@ void CUST_PHY_DP83869_rgmiiRxHalfFullThreshold(void* pAppCtxt_p, void* pStackCtx
 void CUST_PHY_DP83869_getSpeedDuplex (void* pAppCtxt_p, void* pStackCtxt_p, void* pData_p, uint32_t dataSize_p)
 {
     CUST_PHY_SSpeedDuplexConfig_t *pSpeedDuplexCfg = NULL;
-
     uint16_t  phyRegVal    = 0;
 
     OSALUNREF_PARM(pAppCtxt_p);
+    OSALUNREF_PARM(dataSize_p);
 
     pSpeedDuplexCfg = (CUST_PHY_SSpeedDuplexConfig_t*) pData_p;
 
@@ -1273,9 +1308,9 @@ void CUST_PHY_DP83869_getSpeedDuplex (void* pAppCtxt_p, void* pStackCtxt_p, void
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p                   application context
+ *  \param[in]  pAppCtxt_p                   application context (not used)
  *  \param[in]  pStackCtxt_p                 stack context
- *  \param[in]  pParam_p                     parameters
+ *  \param[in]  pParam_p                     parameters (not used)
  *  \return     uint32_t                     status
  *  \retval     CUST_PHY_eSTATUS_FAIL        function failed
  *  \retval     CUST_PHY_eSTATUS_SUCCESS     function success
@@ -1338,8 +1373,8 @@ uint32_t CUST_PHY_DP83869_commandFxn (void *pAppCtxt_p, void *pStackCtxt_p, uint
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p              application context
- *  \param[in]  pStackCtxt_p            stack context
+ *  \param[in]  pAppCtxt_p              application context (not used)
+ *  \param[in]  pStackCtxt_p            stack context (not used)
  *
  *  <!-- Group: -->
  *
@@ -1358,6 +1393,8 @@ static uint16_t CUST_PHY_DP83869_readExtendedRegister(void *pAppCtxt_p, void *pS
 {
     uint16_t    registerValue   = 0;
 
+    OSALUNREF_PARM(pAppCtxt_p);
+
     /* 1. Write the value 0x001f (DEVAD=31) to REGCR */
     CUST_PHY_writeReg(pStackCtxt_p, CUST_PHY_DP83869_REGCR_REG, CUST_PHY_DP83869_REGCR_ADDRESS_ACCESS);
 
@@ -1375,6 +1412,8 @@ static uint16_t CUST_PHY_DP83869_readExtendedRegister(void *pAppCtxt_p, void *pS
 
 static void CUST_PHY_DP83869_writeExtendedRegister(void *pAppCtxt_p, void *pStackCtxt_p, uint16_t extAddress_p, uint16_t value_p)
 {
+    OSALUNREF_PARM(pAppCtxt_p);
+
     /* 1. Write the value 0x001f (DEVAD=31) to REGCR */
     CUST_PHY_writeReg(pStackCtxt_p, CUST_PHY_DP83869_REGCR_REG, CUST_PHY_DP83869_REGCR_ADDRESS_ACCESS);
 
