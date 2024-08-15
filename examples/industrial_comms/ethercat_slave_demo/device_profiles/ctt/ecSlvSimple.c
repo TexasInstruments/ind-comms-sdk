@@ -68,6 +68,10 @@
 #include <ESL_eeprom.h>
 #include <ESL_version.h>
 
+#if !(defined FBTL_REMOTE) && !(defined DPRAM_REMOTE)
+#include <CUST_PHY_base.h>
+#endif
+
 #include <ecSlvApi.h>
 
 #if !(defined MBXMEM)
@@ -1539,7 +1543,7 @@ Exit:
     return;
 }
 
-void EC_SLV_APP_CTT_registerStacklessBoardFunctions(const EC_SLV_APP_CTT_Application_t *pAppInstance_p)
+void EC_SLV_APP_CTT_registerStacklessBoardFunctions(EC_SLV_APP_CTT_Application_t *pAppInstance_p)
 {
     if (!pAppInstance_p)
     {
@@ -1551,11 +1555,9 @@ void EC_SLV_APP_CTT_registerStacklessBoardFunctions(const EC_SLV_APP_CTT_Applica
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
     ESL_BOARD_OS_registerPhys(pAppInstance_p->ptEcSlvApi, pAppInstance_p->selectedPruInstance);
 
-    /* @cppcheck_justify{misra-c2012-11.8} cast here or get const error on parm */
-    /* cppcheck-suppress misra-c2012-11.8 */
-    EC_API_SLV_cbRegisterPhyReset(pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CTT_boardPhyReset, (void*)pAppInstance_p);
+    CUST_PHY_CBregisterLibDetect(CUST_PHY_detect, pAppInstance_p);
+    CUST_PHY_CBregisterReset(EC_SLV_APP_CTT_boardPhyReset, pAppInstance_p);
 #endif
-
 Exit:
     return;
 }
@@ -1816,7 +1818,7 @@ static void EC_SLV_APP_escStatusAnalysis(EC_SLV_APP_CTT_Application_t* pAppInsta
 */
 static void EC_SLV_APP_CTT_applicationRun(void* appCtxt)
 {
-    /* @cppcheck_justify{misra-c2012-11.5} thread signature is void, cast required */
+    /* @cppcheck_justify{misra-c2012-11.5} generic API requires cast */
     /* cppcheck-suppress misra-c2012-11.5 */
     EC_SLV_APP_CTT_Application_t* applicationInstace = (EC_SLV_APP_CTT_Application_t*)appCtxt;
     /* @cppcheck_justify{threadsafety-threadsafety} thread body only started once */

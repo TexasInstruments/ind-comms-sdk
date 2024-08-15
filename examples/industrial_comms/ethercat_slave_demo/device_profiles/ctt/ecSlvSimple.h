@@ -92,7 +92,7 @@ extern "C" {
 #endif
 
 extern void EC_SLV_APP_CTT_initBoardFunctions             (EC_SLV_APP_CTT_Application_t *pAppInstance_p);
-extern void EC_SLV_APP_CTT_registerStacklessBoardFunctions(const EC_SLV_APP_CTT_Application_t *pAppInstance_p);
+extern void EC_SLV_APP_CTT_registerStacklessBoardFunctions(EC_SLV_APP_CTT_Application_t *pAppInstance_p);
 extern void EC_SLV_APP_CTT_applicationInit                (EC_SLV_APP_CTT_Application_t *pAppInstance_p);
 
 #if (defined __cplusplus)

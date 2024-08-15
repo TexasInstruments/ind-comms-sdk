@@ -239,6 +239,14 @@ static void EC_SLV_APP_SS_mainTask(void* pArg_p)
         OSAL_error(__func__, __LINE__, retVal, true, 1, "OS Board init error\r\n");
     }
 
+    retVal = ESL_OS_printfMutexInit();
+    if (OSAL_ERR_NoError != retVal)
+    {
+      // @cppcheck_justify{misra-c2012-15.1} use goto Exit for single point of return
+      //cppcheck-suppress misra-c2012-15.1
+      goto Exit;
+    }
+
     OSAL_registerPrintOut(NULL, ESL_OS_printf);
 
     retVal = EC_SLV_APP_Simple_remoteInit(applicationInstance);

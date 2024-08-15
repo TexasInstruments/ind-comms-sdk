@@ -52,6 +52,8 @@
 #include <board/led.h>
 #endif
 
+OSAL_SCHED_MutexHandle_t* pUartMtx;
+
 typedef struct ESL_OS_I2C_SHandle
 {
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
@@ -163,6 +165,50 @@ uint32_t ESL_OS_boardInit(uint32_t pruInstance_p)
         goto Exit;
     }
 
+    retVal = OSAL_ERR_NoError;
+Exit:
+    return retVal;
+}
+
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Mutex initialization for UART write handling.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \return     ErrorCode
+ *
+ *  <!-- Example: -->
+ *
+ *  \par Example
+ *  \code{.c}
+ *
+ *  // required variables
+ *  uint32_t retVal = 0;
+ *
+ *  // the Call
+ *  retVal = ESL_OS_printfMutexInit();
+ *  \endcode
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup ESL_OS
+ *
+ * */
+uint32_t ESL_OS_printfMutexInit(void)
+{
+    uint32_t retVal = OSAL_ERR_NoMemory;
+    //Mutex for UART
+    pUartMtx = OSAL_MTXCTRLBLK_alloc();
+    if (NULL == pUartMtx)
+    {
+        // @cppcheck_justify{misra-c2012-15.1} use goto Exit for single point of return
+        //cppcheck-suppress misra-c2012-15.1
+        goto Exit;
+    }
+    OSAL_MTX_init(pUartMtx);
     retVal = OSAL_ERR_NoError;
 Exit:
     return retVal;
@@ -516,19 +562,28 @@ void ESL_OS_printf(void *pContext_p, const char *pFormat_p, va_list arg_p)
 {
     int32_t                 transferOK;
     static UART_Transaction transaction;
+    uint32_t osalError;
 
     OSALUNREF_PARM(pContext_p);
 
-    UART_flushTxFifo(gUartHandle[CONFIG_UART_CONSOLE]);
-    UART_Transaction_init(&transaction);
+    osalError = OSAL_MTX_get(pUartMtx, OSAL_WAIT_INFINITE, NULL);
+    if( OSAL_eERR_NOERROR == osalError )
+    {
+        UART_flushTxFifo(gUartHandle[CONFIG_UART_CONSOLE]);
+        UART_Transaction_init(&transaction);
 
-    memset(aOutStream_s, 0, sizeof(aOutStream_s));
-    (void)vsnprintf(aOutStream_s, sizeof(aOutStream_s), pFormat_p, arg_p);
+        memset(aOutStream_s, 0, sizeof(aOutStream_s));
+        (void)vsnprintf(aOutStream_s, sizeof(aOutStream_s), pFormat_p, arg_p);
 
-    transaction.count   = strlen(aOutStream_s);
-    transaction.buf     = (void *)aOutStream_s;
-    transaction.args    = NULL;
-    transferOK = UART_write(gUartHandle[CONFIG_UART_CONSOLE], &transaction);
+        transaction.count   = strlen(aOutStream_s);
+        transaction.buf     = (void *)aOutStream_s;
+        transaction.args    = NULL;
+        transferOK = UART_write(gUartHandle[CONFIG_UART_CONSOLE], &transaction);
+        OSAL_MTX_release(pUartMtx);
+    }
+    else{
+        transferOK = SystemP_FAILURE;
+    }
 
     (void)transferOK;
 }

@@ -64,6 +64,7 @@ extern clock_t  ESL_OS_clockDiff(clock_t reference_p, clock_t* pNow_p);
 extern void*    ESL_OS_ioexp_leds_init(void);
 extern void     ESL_OS_ioexp_leds_write(void* pI2cHandle_p, uint8_t ledValue_p);
 extern void     ESL_OS_printf(void* pContext_p, const char* __restrict pFormat_p, va_list arg_p);
+extern uint32_t ESL_OS_printfMutexInit(void);
 
 #if (defined __cplusplus)
 }
