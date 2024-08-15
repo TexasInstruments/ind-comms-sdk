@@ -423,7 +423,7 @@ var searchData=
   ['ethercat_20cia402_20example_20i_20o_20mapping_420',['ethercat cia402 example i o mapping',['../plc_codesys_am64x.html#iomap_cia402_am64x',1,'EtherCAT CiA402 Example I/O Mapping'],['../plc_codesys_revpi.html#iomap_cia402',1,'EtherCAT CiA402 Example I/O Mapping']]],
   ['ethercat_20device_421',['Quickstart - EtherCAT Device',['../page_quickstart.html',1,'']]],
   ['ethercat_20faq_422',['EtherCAT FAQ',['../ethercat_faq.html',1,'page_quickstart']]],
-  ['ethercat_20functionality_423',['ethercat functionality',['../functionality_am3.html',1,'Supported EtherCAT Functionality'],['../ethercat_datasheet.html#supportedfunctionality',1,'Supported EtherCAT Functionality']]],
+  ['ethercat_20functionality_423',['ethercat functionality',['../ethercat_datasheet.html#supportedfunctionality',1,'Supported EtherCAT Functionality'],['../functionality_am3.html',1,'Supported EtherCAT Functionality']]],
   ['ethercat_20network_424',['ethercat network',['../plc_codesys_am64x.html#setupEC_Network_am64x',1,'Setup an EtherCAT Network'],['../plc_codesys_revpi.html#setupEC_Network',1,'Setup an EtherCAT Network']]],
   ['ethercat_20slave_425',['Simple EtherCAT Slave',['../example1.html',1,'page_quickstart']]],
   ['ethercat_20slave_20api_426',['EtherCAT Slave API',['../group___e_c___a_p_i___s_l_v.html',1,'']]],
@@ -432,11 +432,11 @@ var searchData=
   ['ethercat_20slave_20simple_20example_20i_20o_20mapping_429',['ethercat slave simple example i o mapping',['../plc_codesys_revpi.html#iomap_slave_simple',1,'EtherCAT Slave Simple Example I/O Mapping'],['../plc_codesys_am64x.html#iomap_slave_simple_am64x',1,'EtherCAT Slave Simple Example I/O Mapping']]],
   ['ethercat_20state_20machine_430',['EtherCAT State Machine',['../group___e_c___a_p_i___s_l_v___e_s_m.html',1,'']]],
   ['ethernet_20over_20ethercat_431',['Ethernet over EtherCAT',['../_eo_e_page.html',1,'']]],
-  ['example_432',['example',['../example2.html#section4226',1,'CiA 402 Example'],['../example2.html',1,'CiA 402 Example'],['../page_quickstart_example.html',1,'Example'],['../proc_data_config.html#procDataExample',1,'PDO configuration example'],['../page_quickstart_installation.html#qs_steps_to_run_example',1,'Steps to Run the Example']]],
-  ['example_20application_433',['Initialization of Stack, PRU, and Example Application',['../example1.html#section4215',1,'']]],
-  ['example_20i_20o_20mapping_434',['example i o mapping',['../plc_codesys_am64x.html#iomap_cia402_am64x',1,'EtherCAT CiA402 Example I/O Mapping'],['../plc_codesys_revpi.html#iomap_cia402',1,'EtherCAT CiA402 Example I/O Mapping'],['../plc_codesys_am64x.html#iomap_slave_simple_am64x',1,'EtherCAT Slave Simple Example I/O Mapping'],['../plc_codesys_revpi.html#iomap_slave_simple',1,'EtherCAT Slave Simple Example I/O Mapping']]],
-  ['example_20on_20twincat_435',['Using CiA 402 Example on TwinCAT',['../example2.html#section4228',1,'']]],
-  ['examples_436',['examples',['../group___e_c___s_l_v___a_p_p.html',1,'Demo Slave App (all examples)'],['../config_o_b_d.html#faqObdExamples',1,'Examples'],['../proc_data_config.html#faqOPdxamples',1,'Examples'],['../phy_config.html#phyExamples',1,'PHY Examples']]],
-  ['executiondelay_437',['executionDelay',['../struct_e_c___a_p_i___s_l_v___s_eeprom_a3e1107759fd7f1527d4691fbc57ed815.html#a3e1107759fd7f1527d4691fbc57ed815',1,'EC_API_SLV_SEeprom']]],
-  ['experimental_20features_438',['Experimental Features',['../releasenotes.html#experimental_features_release10700',1,'']]]
+  ['ethernet_20pru_5ficssg_20instance_200_20pru_5ficssg0_20usage_20guide_432',['Ethernet PRU_ICSSG instance-0 (PRU_ICSSG0) Usage Guide',['../_i_c_s_s_g0__usage__guide.html',1,'']]],
+  ['example_433',['example',['../example2.html',1,'CiA 402 Example'],['../example2.html#section4226',1,'CiA 402 Example'],['../page_quickstart_example.html',1,'Example'],['../proc_data_config.html#procDataExample',1,'PDO configuration example'],['../page_quickstart_installation.html#qs_steps_to_run_example',1,'Steps to Run the Example']]],
+  ['example_20application_434',['Initialization of Stack, PRU, and Example Application',['../example1.html#section4215',1,'']]],
+  ['example_20i_20o_20mapping_435',['example i o mapping',['../plc_codesys_revpi.html#iomap_cia402',1,'EtherCAT CiA402 Example I/O Mapping'],['../plc_codesys_am64x.html#iomap_cia402_am64x',1,'EtherCAT CiA402 Example I/O Mapping'],['../plc_codesys_revpi.html#iomap_slave_simple',1,'EtherCAT Slave Simple Example I/O Mapping'],['../plc_codesys_am64x.html#iomap_slave_simple_am64x',1,'EtherCAT Slave Simple Example I/O Mapping']]],
+  ['example_20on_20twincat_436',['Using CiA 402 Example on TwinCAT',['../example2.html#section4228',1,'']]],
+  ['examples_437',['examples',['../group___e_c___s_l_v___a_p_p.html',1,'Demo Slave App (all examples)'],['../config_o_b_d.html#faqObdExamples',1,'Examples'],['../proc_data_config.html#faqOPdxamples',1,'Examples'],['../phy_config.html#phyExamples',1,'PHY Examples']]],
+  ['executiondelay_438',['executionDelay',['../struct_e_c___a_p_i___s_l_v___s_eeprom_a3e1107759fd7f1527d4691fbc57ed815.html#a3e1107759fd7f1527d4691fbc57ed815',1,'EC_API_SLV_SEeprom']]]
 ];

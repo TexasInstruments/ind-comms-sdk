@@ -273,6 +273,14 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line">        OSAL_error(__func__, __LINE__, retVal, <span class="keyword">true</span>, 1, <span class="stringliteral">&quot;OS Board init error\r\n&quot;</span>);</div>
 <div class="line">    }</div>
 <div class="line"> </div>
+<div class="line">    retVal = ESL_OS_printfMutexInit();</div>
+<div class="line">    <span class="keywordflow">if</span> (OSAL_ERR_NoError != retVal)</div>
+<div class="line">    {</div>
+<div class="line">      <span class="comment">// @cppcheck_justify{misra-c2012-15.1} use goto Exit for single point of return</span></div>
+<div class="line">      <span class="comment">//cppcheck-suppress misra-c2012-15.1</span></div>
+<div class="line">      <span class="keywordflow">goto</span> Exit;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
 <div class="line">    OSAL_registerPrintOut(NULL, ESL_OS_printf);</div>
 <div class="line"> </div>
 <div class="line">    retVal = EC_SLV_APP_Simple_remoteInit(applicationInstance);</div>

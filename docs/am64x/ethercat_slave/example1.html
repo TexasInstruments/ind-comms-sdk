@@ -218,6 +218,10 @@ Process Data Object Configuration</h2>
 <h2><a class="anchor" id="subsection42154"></a>
 Initialization and starting the Stacks</h2>
 <p>The <code>EC_API_SLV_init()</code> function initializes the  SDK  Stack and validates whether the user defined configuration is valid or not. If the EtherCAT configuration is valid, then object content can be written and finally, the <code>EC_API_SLV_run()</code> function starts the Beckhoff Stack.</p>
+<h2><a class="anchor" id="PRU"></a>
+ICSSG0 Instance</h2>
+<p>On EVMs supported by TI (AM64X-EVM, AM243X-EVM), it is not possible to use PRU_ICSSG0, as the PRG0_RGMII1 and PRG0_RGMII0 pins are not connected to Ethernet PHYs. This example requires a dedicated custom board to use the PRU_ICSSG0 instance of the ICSSG peripheral. With a custom board, the example is compatible for PRU_ICSSG0 and it provides full support out of the box.</p>
+<p>See <a class="el" href="_i_c_s_s_g0__usage__guide.html">Ethernet PRU_ICSSG instance-0 (PRU_ICSSG0) Usage Guide</a> for more details</p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
