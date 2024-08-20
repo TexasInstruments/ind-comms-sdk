@@ -181,6 +181,15 @@ static void OSAL_FUNC_NORETURN MainTask(void* pArg_p)
         //cppcheck-suppress misra-c2012-15.1
         goto laExit;
     }
+    
+    uint32_t retVal = OSAL_ERR_NoMemory;
+    retVal = ESL_OS_printfMutexInit();
+    if (OSAL_ERR_NoError != retVal)
+    {
+        // @cppcheck_justify{misra-c2012-15.1} use goto Exit for single point of return
+        //cppcheck-suppress misra-c2012-15.1
+        goto laExit;
+    }
 
     OSAL_registerPrintOut(NULL, ESL_OS_printf);
 

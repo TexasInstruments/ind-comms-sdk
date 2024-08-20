@@ -4,6 +4,7 @@ let device = "am64x";
 
 const files = {
     common: [
+        
         "ESL_eeprom.c",
         "ESL_OS_os.c",
         "main.c",
@@ -12,6 +13,9 @@ const files = {
         "nvm.c",
         "nvm_drv_eeprom.c",
         "nvm_drv_flash.c",
+        "CUST_PHY_base.c",
+        "CUST_PHY_dp83869.c",
+    
     ],
 };
 
@@ -20,6 +24,7 @@ const files = {
  */
 const filedirs = {
     common: [
+        
         "..",         /* core_os_combo base */
         "../../..",   /* Example base */
         "../../../../../common",
@@ -29,22 +34,27 @@ const filedirs = {
         "../../../../ethercat_slave_demo/common/os/freertos",
         "../../../../nvm/app/src",
         "../../../../nvm/drv/src",
+        "../../../../custom_phy/src",
+    
     ],
 };
 
 const libdirs_freertos = {
     common: [
+        
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/stack/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/lib",
+    
     ],
 };
 
 const includes_freertos_r5f = {
     common: [
+        
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am64x/r5f",
@@ -66,24 +76,29 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink/stack/inc/SMI",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
+    
     ],
 };
 
 const libs_freertos_r5f = {
     common: [
+        
         "freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        "ethercat_slave.am64x.r5f.ti-arm-clang.release.lib",
         "ethercat_slave_bkhf_ssc.am64x.r5f.ti-arm-clang.release.lib",
         "ethercat_iolink_gateway.am64x.r5f.ti-arm-clang.release.lib",
-        "ethercat_slave.am64x.r5f.ti-arm-clang.release.lib",
         "iolink_master.am64x.r5f.ti-arm-clang.release.lib",
         "littlefs.am64x.r5f.ti-arm-clang.release.lib",
+        
+    
     ],
 };
 
 const defines_r5f = {
     common: [
+        
         "SOC_AM64X=1",
         "SOC_AM64X_ALV=1",
         "OSAL_FREERTOS=1",
@@ -109,22 +124,30 @@ const defines_r5f = {
         "IOL8M_SITARA_VERSION=0x00010000",
         "ECAT_REVISION=0x00010000",
         "OSPIFLASH_APP_STARTMAGIC=0xFFAA11EE",
+        "CUST_PHY_DP83869=1",
+    
     ],
 };
 
 const cflags_r5f = {
     common: [
+        
         "-Wno-unused-but-set-variable",
+    
     ],
     debug: [
+        
         "-Og",
+    
     ],
 };
 
 const lflags_r5f = {
     common: [
+        
         "--use_memcpy=fast",
         "--use_memset=fast",
+    
     ],
 };
 
@@ -139,7 +162,9 @@ const syscfgfile = "../example.syscfg";
 const readmeDoxygenPageTag = "EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_IOLINK_GATEWAY_DEMO";
 
 const buildOptionCombos = [
+    
     { device: device, cpu: "r5fss0-0", cgt: "ti-arm-clang", board: "am64x-evm", os: "freertos"},
+    
 ];
 
 function getComponentProperty() {

@@ -46,6 +46,8 @@ FILES_common := \
 	nvm.c \
 	nvm_drv_eeprom.c \
 	nvm_drv_flash.c \
+	CUST_PHY_base.c \
+	CUST_PHY_dp83869.c \
 	ti_drivers_config.c \
 	ti_drivers_open_close.c \
 	ti_board_config.c \
@@ -64,6 +66,7 @@ FILES_PATH_common = \
 	../../../../ethercat_slave_demo/common/os/freertos \
 	../../../../nvm/app/src \
 	../../../../nvm/drv/src \
+	../../../../custom_phy/src \
 	generated \
 
 INCLUDES_common := \
@@ -120,6 +123,7 @@ DEFINES_common := \
 	-DIOL8M_SITARA_VERSION=0x00010000 \
 	-DECAT_REVISION=0x00010000 \
 	-DOSPIFLASH_APP_STARTMAGIC=0xFFAA11EE \
+	-DCUST_PHY_DP83869=1 \
 
 CFLAGS_common := \
 	-mcpu=cortex-r5 \
@@ -168,9 +172,9 @@ LIBS_common = \
 	-lfreertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-ldrivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lboard.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-lethercat_slave.am64x.r5f.ti-arm-clang.release.lib \
 	-lethercat_slave_bkhf_ssc.am64x.r5f.ti-arm-clang.release.lib \
 	-lethercat_iolink_gateway.am64x.r5f.ti-arm-clang.release.lib \
-	-lethercat_slave.am64x.r5f.ti-arm-clang.release.lib \
 	-liolink_master.am64x.r5f.ti-arm-clang.release.lib \
 	-llittlefs.am64x.r5f.ti-arm-clang.release.lib \
 	-llibc.a \
@@ -188,9 +192,9 @@ LIBS_NAME = \
 	freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	board.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	ethercat_slave.am64x.r5f.ti-arm-clang.release.lib \
 	ethercat_slave_bkhf_ssc.am64x.r5f.ti-arm-clang.release.lib \
 	ethercat_iolink_gateway.am64x.r5f.ti-arm-clang.release.lib \
-	ethercat_slave.am64x.r5f.ti-arm-clang.release.lib \
 	iolink_master.am64x.r5f.ti-arm-clang.release.lib \
 	littlefs.am64x.r5f.ti-arm-clang.release.lib \
 	libc.a \

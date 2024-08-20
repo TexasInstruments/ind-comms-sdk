@@ -154,6 +154,7 @@ void OSAL_FUNC_NORETURN SMIdirect_UARTtask(void* pArg_p)
             // signal received command data with length 0, task will prepare a new receive for header
             SMIdirect_UART_sTransData_g.isRxComplete = true;
             SMIdirect_UART_sTransData_g.currentRxCount = 0;
+            SMIdirect_UART_sTransData_g.iolSerial.u32RxPos = 0;
         }
 
         if (!SMIdirect_UART_sTransData_g.isTxPending)
@@ -315,6 +316,7 @@ GW_API_EErrorcode_t SMIdirect_UART_start(void)
     SMIdirect_UART_sTransData_g.iolSerial.pu8RxBuffer      = SMIdirect_UART_sTransData_g.aUartDataRx;
     SMIdirect_UART_sTransData_g.iolSerial.u32RxBufferLen   = sizeof(SMIdirect_UART_sTransData_g.aUartDataRx);
     SMIdirect_UART_sTransData_g.iolSerial.cbRxGeneric     = SMIdirect_UART_SendCB;
+    SMIdirect_UART_sTransData_g.iolSerial.eCbType        = IOLM_SMI_eOrigin_Generic;
     IOL_Serial_vInit(&SMIdirect_UART_sTransData_g.iolSerial);
 
     SMIdirect_UART_pMutexHandle_g  = OSAL_MTXCTRLBLK_alloc();

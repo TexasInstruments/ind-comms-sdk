@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
-  <POU Name="MAIN" Id="{af3a25f9-bebe-48c5-aa52-aaefbd9d520e}" SpecialFunc="None">
+  <POU Name="MAIN" Id="{51818679-5ff4-4100-9dad-14f055e418b0}" SpecialFunc="None">
     <Declaration><![CDATA[(* \file MAIN.TcPOU
  *
  *  \brief
@@ -58,8 +58,7 @@ VAR
 	(* Converted value from the Autosen AI402 PDV1
        Calculated below from pos1 and pos2 *)
 	position : INT;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* From the https://media.autosen.com/Shopsystem/Assets/de/AI402_iolink.pdf:
    The process data contains 16 bits value:
@@ -90,23 +89,7 @@ ELSE
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="11" Count="0" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="90" Count="0" />
-      <LineId Id="88" Count="0" />
-      <LineId Id="91" Count="0" />
-      <LineId Id="89" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="44" Count="0" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="47" Count="2" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="78" Count="0" />
-      <LineId Id="81" Count="2" />
-      <LineId Id="75" Count="0" />
-      <LineId Id="13" Count="5" />
+      <LineId Id="63" Count="25" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

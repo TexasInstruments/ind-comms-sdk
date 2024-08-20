@@ -261,7 +261,7 @@
 							</DataType>
 							<DataType>
 								<Name>DT10F3</Name>
-								<BitSize>320</BitSize>
+								<BitSize>64</BitSize>
 								<SubItem>
 									<SubIdx>0</SubIdx>
 									<Name>SubIndex 000</Name>
@@ -310,6 +310,7 @@
 									<BitOffs>40</BitOffs>
 									<Flags>
 										<Access>ro</Access>
+										<PdoMapping>T</PdoMapping>
 									</Flags>
 								</SubItem>
 								<SubItem>
@@ -322,20 +323,10 @@
 										<Access>rw</Access>
 									</Flags>
 								</SubItem>
-								<SubItem>
-									<SubIdx>6</SubIdx>
-									<Name>Diagnosis Message 0</Name>
-									<Type>ARRAY [0..31] OF BYTE</Type>
-									<BitSize>256</BitSize>
-									<BitOffs>64</BitOffs>
-									<Flags>
-										<Access>ro</Access>
-									</Flags>
-								</SubItem>
 							</DataType>
 							<DataType>
 								<Name>DT1600</Name>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<SubItem>
 									<SubIdx>0</SubIdx>
 									<Name>SubIndex 000</Name>
@@ -352,6 +343,16 @@
 									<Type>UDINT</Type>
 									<BitSize>32</BitSize>
 									<BitOffs>16</BitOffs>
+									<Flags>
+										<Access WriteRestrictions="PreOP">rw</Access>
+									</Flags>
+								</SubItem>
+								<SubItem>
+									<SubIdx>2</SubIdx>
+									<Name>SubIndex 002</Name>
+									<Type>UDINT</Type>
+									<BitSize>32</BitSize>
+									<BitOffs>48</BitOffs>
 									<Flags>
 										<Access WriteRestrictions="PreOP">rw</Access>
 									</Flags>
@@ -1107,7 +1108,7 @@
 							</DataType>
 							<DataType>
 								<Name>DT6000</Name>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<SubItem>
 									<SubIdx>0</SubIdx>
 									<Name>SubIndex 000</Name>
@@ -1121,8 +1122,8 @@
 								<SubItem>
 									<SubIdx>1</SubIdx>
 									<Name>TxPDO 001</Name>
-									<Type>ARRAY [0..30] OF BYTE</Type>
-									<BitSize>248</BitSize>
+									<Type>ARRAY [0..31] OF BYTE</Type>
+									<BitSize>256</BitSize>
 									<BitOffs>16</BitOffs>
 									<Flags>
 										<Access>ro</Access>
@@ -1132,7 +1133,7 @@
 							</DataType>
 							<DataType>
 								<Name>DT7000</Name>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<SubItem>
 									<SubIdx>0</SubIdx>
 									<Name>SubIndex 000</Name>
@@ -1146,8 +1147,8 @@
 								<SubItem>
 									<SubIdx>1</SubIdx>
 									<Name>RxPDO 001</Name>
-									<Type>ARRAY [0..30] OF BYTE</Type>
-									<BitSize>248</BitSize>
+									<Type>ARRAY [0..31] OF BYTE</Type>
+									<BitSize>256</BitSize>
 									<BitOffs>16</BitOffs>
 									<Flags>
 										<Access>rw</Access>
@@ -1757,6 +1758,15 @@
 								</Flags>
 							</Object>
 							<Object>
+								<Index>#x10f3</Index>
+								<Name>Diagnosis History</Name>
+								<Type>DT10F3</Type>
+								<BitSize>64</BitSize>
+								<Flags>
+									<Access>ro</Access>
+								</Flags>
+							</Object>
+							<Object>
 								<Index>#x10f8</Index>
 								<Name>Timestamp Object</Name>
 								<Type>ULINT</Type>
@@ -1770,7 +1780,7 @@
 								<Index>#x1600</Index>
 								<Name>RxPDO Module 1</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1779,7 +1789,7 @@
 								<Index>#x1601</Index>
 								<Name>RxPDO Module 2</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1788,7 +1798,7 @@
 								<Index>#x1602</Index>
 								<Name>RxPDO Module 3</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1797,7 +1807,7 @@
 								<Index>#x1603</Index>
 								<Name>RxPDO Module 4</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1806,7 +1816,7 @@
 								<Index>#x1604</Index>
 								<Name>RxPDO Module 5</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1815,7 +1825,7 @@
 								<Index>#x1605</Index>
 								<Name>RxPDO Module 6</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1824,7 +1834,7 @@
 								<Index>#x1606</Index>
 								<Name>RxPDO Module 7</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1833,7 +1843,7 @@
 								<Index>#x1607</Index>
 								<Name>RxPDO Module 8</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1842,7 +1852,7 @@
 								<Index>#x1a00</Index>
 								<Name>TxPDO Module 1</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1851,7 +1861,7 @@
 								<Index>#x1a01</Index>
 								<Name>TxPDO Module 2</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1860,7 +1870,7 @@
 								<Index>#x1a02</Index>
 								<Name>TxPDO Module 3</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1869,7 +1879,7 @@
 								<Index>#x1a03</Index>
 								<Name>TxPDO Module 4</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1878,7 +1888,7 @@
 								<Index>#x1a04</Index>
 								<Name>TxPDO Module 5</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1887,7 +1897,7 @@
 								<Index>#x1a05</Index>
 								<Name>TxPDO Module 6</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1896,7 +1906,7 @@
 								<Index>#x1a06</Index>
 								<Name>TxPDO Module 7</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -1905,7 +1915,7 @@
 								<Index>#x1a07</Index>
 								<Name>TxPDO Module 8</Name>
 								<Type>DT1600</Type>
-								<BitSize>48</BitSize>
+								<BitSize>80</BitSize>
 								<Flags>
 									<Access WriteRestrictions="PreOP">rw</Access>
 								</Flags>
@@ -2508,7 +2518,7 @@
 								<Index>#x6000</Index>
 								<Name>IO-Link Input Data Module 1</Name>
 								<Type>DT6000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2517,7 +2527,7 @@
 								<Index>#x6010</Index>
 								<Name>IO-Link Input Data Module 2</Name>
 								<Type>DT6000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2526,7 +2536,7 @@
 								<Index>#x6020</Index>
 								<Name>IO-Link Input Data Module 3</Name>
 								<Type>DT6000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2535,7 +2545,7 @@
 								<Index>#x6030</Index>
 								<Name>IO-Link Input Data Module 4</Name>
 								<Type>DT6000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2544,7 +2554,7 @@
 								<Index>#x6040</Index>
 								<Name>IO-Link Input Data Module 5</Name>
 								<Type>DT6000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2553,7 +2563,7 @@
 								<Index>#x6050</Index>
 								<Name>IO-Link Input Data Module 6</Name>
 								<Type>DT6000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2562,7 +2572,7 @@
 								<Index>#x6060</Index>
 								<Name>IO-Link Input Data Module 7</Name>
 								<Type>DT6000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2571,7 +2581,7 @@
 								<Index>#x6070</Index>
 								<Name>IO-Link Input Data Module 8</Name>
 								<Type>DT6000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2580,7 +2590,7 @@
 								<Index>#x7000</Index>
 								<Name>IO-Link Output Data Module 1</Name>
 								<Type>DT7000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2589,7 +2599,7 @@
 								<Index>#x7010</Index>
 								<Name>IO-Link Output Data Module 2</Name>
 								<Type>DT7000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2598,7 +2608,7 @@
 								<Index>#x7020</Index>
 								<Name>IO-Link Output Data Module 3</Name>
 								<Type>DT7000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2607,7 +2617,7 @@
 								<Index>#x7030</Index>
 								<Name>IO-Link Output Data Module 4</Name>
 								<Type>DT7000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2616,7 +2626,7 @@
 								<Index>#x7040</Index>
 								<Name>IO-Link Output Data Module 5</Name>
 								<Type>DT7000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2625,7 +2635,7 @@
 								<Index>#x7050</Index>
 								<Name>IO-Link Output Data Module 6</Name>
 								<Type>DT7000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2634,7 +2644,7 @@
 								<Index>#x7060</Index>
 								<Name>IO-Link Output Data Module 7</Name>
 								<Type>DT7000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -2643,7 +2653,7 @@
 								<Index>#x7070</Index>
 								<Name>IO-Link Output Data Module 8</Name>
 								<Type>DT7000</Type>
-								<BitSize>264</BitSize>
+								<BitSize>272</BitSize>
 								<Flags>
 									<Access>ro</Access>
 								</Flags>
@@ -3051,9 +3061,9 @@
 					<Entry>
 						<Index>#x7000</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>RxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</RxPdo>
 				<RxPdo Fixed="true" Mandatory="true" Sm="2">
@@ -3062,9 +3072,9 @@
 					<Entry>
 						<Index>#x7010</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>RxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</RxPdo>
 				<RxPdo Fixed="true" Mandatory="true" Sm="2">
@@ -3073,9 +3083,9 @@
 					<Entry>
 						<Index>#x7020</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>RxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</RxPdo>
 				<RxPdo Fixed="true" Mandatory="true" Sm="2">
@@ -3084,9 +3094,9 @@
 					<Entry>
 						<Index>#x7030</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>RxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</RxPdo>
 				<RxPdo Fixed="true" Mandatory="true" Sm="2">
@@ -3095,9 +3105,9 @@
 					<Entry>
 						<Index>#x7040</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>RxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</RxPdo>
 				<RxPdo Fixed="true" Mandatory="true" Sm="2">
@@ -3106,9 +3116,9 @@
 					<Entry>
 						<Index>#x7050</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>RxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</RxPdo>
 				<RxPdo Fixed="true" Mandatory="true" Sm="2">
@@ -3117,9 +3127,9 @@
 					<Entry>
 						<Index>#x7060</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>RxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</RxPdo>
 				<RxPdo Fixed="true" Mandatory="true" Sm="2">
@@ -3128,9 +3138,9 @@
 					<Entry>
 						<Index>#x7070</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>RxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</RxPdo>
 				<TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -3139,9 +3149,9 @@
 					<Entry>
 						<Index>#x6000</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>TxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</TxPdo>
 				<TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -3150,9 +3160,9 @@
 					<Entry>
 						<Index>#x6010</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>TxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</TxPdo>
 				<TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -3161,9 +3171,9 @@
 					<Entry>
 						<Index>#x6020</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>TxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</TxPdo>
 				<TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -3172,9 +3182,9 @@
 					<Entry>
 						<Index>#x6030</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>TxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</TxPdo>
 				<TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -3183,9 +3193,9 @@
 					<Entry>
 						<Index>#x6040</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>TxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</TxPdo>
 				<TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -3194,9 +3204,9 @@
 					<Entry>
 						<Index>#x6050</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>TxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</TxPdo>
 				<TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -3205,9 +3215,9 @@
 					<Entry>
 						<Index>#x6060</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>TxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</TxPdo>
 				<TxPdo Fixed="true" Mandatory="true" Sm="3">
@@ -3216,9 +3226,9 @@
 					<Entry>
 						<Index>#x6070</Index>
 						<SubIndex>1</SubIndex>
-						<BitLen>248</BitLen>
+						<BitLen>256</BitLen>
 						<Name>TxPDO 001</Name>
-						<DataType>ARRAY [0..30] OF BYTE</DataType>
+						<DataType>ARRAY [0..31] OF BYTE</DataType>
 					</Entry>
 				</TxPdo>
 				<TxPdo Fixed="true" Mandatory="true" Sm="3">
