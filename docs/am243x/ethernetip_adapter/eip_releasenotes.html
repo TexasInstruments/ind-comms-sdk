@@ -40,7 +40,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> EtherNet/IP™ Adapter<span id="projectnumber">3.07.03</span></div></td>
+         <td id="projectalign"><div id="projectname"> EtherNet/IP™ Adapter<span id="projectnumber">3.07.05</span></div></td>
          <td id="projectbrief" align="right"><img src=EtherNetIP.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -142,6 +142,40 @@ Known Issues</h1>
 <dt>[DTKEIPA-1334] </dt>
 <dd>Attribute 28 SystemTimeAndOffset is unstable. </dd>
 </dl>
+<h1><a class="anchor" id="eip_version_release30705"></a>
+Release Version 3.07.05</h1>
+<h2><a class="anchor" id="eip_new_features_release30705"></a>
+New Features</h2>
+<ul>
+<li>
+[ICSTACK-23] Add customized mapping functionality in Assembly instance obj, see <a class="el" href="group___e_i___a_p_i___c_i_p___a_s_s_e_m_b_l_y_gaa844f7fa756f3ae7a84753684cc6ac9c.html#gaa844f7fa756f3ae7a84753684cc6ac9c" title="Add a member to an assembly member list with customized mapping.">EI_API_CIP_addAssemblyMemberCustomMapped</a>. </li>
+<li>
+[ICSTACK-48] Add Ethernet tunneling feature to EtherNet/IP stack. </li>
+</ul>
+<h2><a class="anchor" id="eip_fixed_issues_release30705"></a>
+Fixed Issues</h2>
+<ul>
+<li>
+[ICSTACK-135] Fix an issue in TCP/IP object, where setting wrong IP configuration was possible. </li>
+<li>
+[ICSTACK-43] Reported CALLOC issue (realloc thread safety issue). </li>
+<li>
+[ICSTACK-83] Data-Abort exception sporadically detected on ongoing communication on both ports, when one port disconnected and connected back. Issue temporary fixed on RX-path. </li>
+</ul>
+<h1><a class="anchor" id="eip_version_release30704"></a>
+Release Version 3.07.04</h1>
+<h2><a class="anchor" id="eip_new_features_release30704"></a>
+New Features</h2>
+<ul>
+<li>
+[ICSTACK-36] New custom service function EI_API_CIP_addRoutableInstanceCustService need to be implemented for routable instances. </li>
+<li>
+[ICSTACK-37] New custom service function EI_API_CIP_addInstanceCustService need to be implemented for standard instances. </li>
+<li>
+[ICSTACK-38] Add routable instance functions to the documentation. </li>
+</ul>
+<h2><a class="anchor" id="eip_fixed_issues_release30704"></a>
+Fixed Issues</h2>
 <h1><a class="anchor" id="eip_version_release30703"></a>
 Release Version 3.07.03</h1>
 <h2><a class="anchor" id="eip_new_features_release30703"></a>
@@ -250,7 +284,7 @@ Half-duplex support enabled. </li>
 <li>
 New CIP API function <a class="el" href="group___e_i___a_p_i___c_i_p___a_s_s_e_m_b_l_y_ga2424b27b0b7820b1af0d1ab3163fc8bf.html#ga2424b27b0b7820b1af0d1ab3163fc8bf" title="Apply an application type to an existing assembly instance.">EI_API_CIP_setAssemblyAppType</a> added to apply an application type to an existing assembly instance. </li>
 <li>
-New CIP API function <a class="el" href="group___e_i___a_p_i___c_i_p___a_s_s_e_m_b_l_y_ga887b26e44e543bdb6f1f1f693955f755.html#ga887b26e44e543bdb6f1f1f693955f755" title="Set configuration assembly callback.">EI_API_CIP_setCfgAssemblyCb</a> added to register callback for configuration assembly. </li>
+New CIP API function <a class="el" href="group___e_i___a_p_i___c_i_p___a_s_s_e_m_b_l_y_ga8b586ff3b0734919b655befb72b322e1.html#ga8b586ff3b0734919b655befb72b322e1" title="Set configuration assembly callback.">EI_API_CIP_setCfgAssemblyCb</a> added to register callback for configuration assembly. </li>
 <li>
 Implemented CIP API function EI_API_CIP_createCfgAssemblySimple was removed from CIP API. </li>
 </ul>
@@ -300,7 +334,7 @@ Fixed Issues</h2>
 <dt>[DTKEIPA-1891] </dt>
 <dd>Network Status Indicator shows wrong state in Bootp mode. </dd>
 <dt>[DTKEIPA-1885] </dt>
-<dd>Forward_Open service request is aborted with ”###### Stack Error: 0x21020000, fatal ######”.<br  />
+<dd>Forward_Open service request is aborted with "###### Stack Error: 0x21020000, fatal ######".<br  />
  This has been fixed by increasing the Connect Path Size to 255 UINT, which is the maximum permitted by the CIP specifications. </dd>
 <dt>[DTKEIPA-1841] </dt>
 <dd>FreeRTOS function uxTaskGetNumberOfTasks() returns a incorrect value. uxTaskGetSystemState() is now used to retrieve the correct array size. </dd>
