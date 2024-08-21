@@ -63,6 +63,10 @@
 #include <ESL_eeprom.h>
 #include <ESL_version.h>
 
+#if !(defined FBTL_REMOTE) && !(defined DPRAM_REMOTE)
+#include <CUST_PHY_base.h>
+#endif
+
 #include <ecSlvApi.h>
 
 #if !(defined MBXMEM)
@@ -928,9 +932,9 @@ void EC_SLV_APP_CIA_registerStacklessBoardFunctions(EC_SLV_APP_CIA_Application_t
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
     ESL_BOARD_OS_registerPhys(pAppInstance_p->ptEcSlvApi, pAppInstance_p->selectedPruInstance);
 
-    EC_API_SLV_cbRegisterPhyReset(pAppInstance_p->ptEcSlvApi, EC_SLV_APP_CIA_boardPhyReset, pAppInstance_p);
+    CUST_PHY_CBregisterLibDetect(CUST_PHY_detect, pAppInstance_p);
+    CUST_PHY_CBregisterReset(EC_SLV_APP_CIA_boardPhyReset, pAppInstance_p);
 #endif
-
 Exit:
     return;
 }

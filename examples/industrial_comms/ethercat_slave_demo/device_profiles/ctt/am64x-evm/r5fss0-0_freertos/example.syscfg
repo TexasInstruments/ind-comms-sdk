@@ -1,44 +1,43 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM64x" --package "ALV" --part "Default" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM64X@09.02.00"
+ * @cliArgs --device "AM64x" --package "ALV" --part "Default" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM64x@09.02.00"
  * @versions {"tool":"1.20.0+3587"}
  */
 
 /**
  * Import the modules used in this configuration.
  */
-const eeprom          = scripting.addModule("/board/eeprom/eeprom", {}, false);
-const eeprom1         = eeprom.addInstance();
-const flash           = scripting.addModule("/board/flash/flash", {}, false);
-const flash1          = flash.addInstance();
-const led             = scripting.addModule("/board/led/led", {}, false);
-const led1            = led.addInstance();
-const led2            = led.addInstance();
-const led3            = led.addInstance();
-const led4            = led.addInstance();
-const led5            = led.addInstance();
-const gpio            = scripting.addModule("/drivers/gpio/gpio", {}, false);
-const gpio1           = gpio.addInstance();
-const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
-const i2c1            = i2c.addInstance();
-const i2c2            = i2c.addInstance();
-const ipc             = scripting.addModule("/drivers/ipc/ipc");
-const pruicss         = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
-const pruicss1        = pruicss.addInstance();
-const uart            = scripting.addModule("/drivers/uart/uart", {}, false);
-const uart1           = uart.addInstance();
-const ethercat        = scripting.addModule("/industrial_comms/ethercat/ethercat", {}, false);
-const ethercat1       = ethercat.addInstance();
-const clock           = scripting.addModule("/kernel/dpl/clock");
-const debug_log       = scripting.addModule("/kernel/dpl/debug_log");
-const mpu_armv7       = scripting.addModule("/kernel/dpl/mpu_armv7", {}, false);
-const mpu_armv71      = mpu_armv7.addInstance();
-const mpu_armv72      = mpu_armv7.addInstance();
-const mpu_armv73      = mpu_armv7.addInstance();
-const mpu_armv74      = mpu_armv7.addInstance();
-const timer           = scripting.addModule("/kernel/dpl/timer", {}, false);
-const timer1          = timer.addInstance();
+const eeprom     = scripting.addModule("/board/eeprom/eeprom", {}, false);
+const eeprom1    = eeprom.addInstance();
+const flash      = scripting.addModule("/board/flash/flash", {}, false);
+const flash1     = flash.addInstance();
+const led        = scripting.addModule("/board/led/led", {}, false);
+const led1       = led.addInstance();
+const led2       = led.addInstance();
+const led3       = led.addInstance();
+const led4       = led.addInstance();
+const led5       = led.addInstance();
+const gpio       = scripting.addModule("/drivers/gpio/gpio", {}, false);
+const gpio1      = gpio.addInstance();
+const i2c        = scripting.addModule("/drivers/i2c/i2c", {}, false);
+const i2c1       = i2c.addInstance();
+const i2c2       = i2c.addInstance();
+const pruicss    = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
+const pruicss1   = pruicss.addInstance();
+const uart       = scripting.addModule("/drivers/uart/uart", {}, false);
+const uart1      = uart.addInstance();
+const ethercat   = scripting.addModule("/industrial_comms/ethercat/ethercat", {}, false);
+const ethercat1  = ethercat.addInstance();
+const clock      = scripting.addModule("/kernel/dpl/clock");
+const debug_log  = scripting.addModule("/kernel/dpl/debug_log");
+const mpu_armv7  = scripting.addModule("/kernel/dpl/mpu_armv7", {}, false);
+const mpu_armv71 = mpu_armv7.addInstance();
+const mpu_armv72 = mpu_armv7.addInstance();
+const mpu_armv73 = mpu_armv7.addInstance();
+const mpu_armv74 = mpu_armv7.addInstance();
+const timer      = scripting.addModule("/kernel/dpl/timer", {}, false);
+const timer1     = timer.addInstance();
 const default_linker  = scripting.addModule("/memory_configurator/default_linker", {}, false);
 const default_linker1 = default_linker.addInstance();
 const general         = scripting.addModule("/memory_configurator/general", {}, false);
@@ -56,6 +55,7 @@ const section7        = section.addInstance();
 const section8        = section.addInstance();
 const section9        = section.addInstance();
 const section10       = section.addInstance();
+const section11       = section.addInstance();
 
 /**
  * Write custom configuration values to the imported modules.
@@ -101,11 +101,6 @@ i2c2.$name               = "CONFIG_I2C0";
 eeprom1.peripheralDriver = i2c2;
 i2c2.I2C.$assign         = "I2C0";
 
-ipc.r5fss0_1 = "NONE";
-ipc.r5fss1_0 = "notify";
-ipc.r5fss1_1 = "NONE";
-ipc.m4fss0_0 = "NONE";
-
 uart1.$name = "CONFIG_UART_CONSOLE";
 
 ethercat1.$name              = "CONFIG_ETHERCAT0";
@@ -114,8 +109,8 @@ ethercat1.ethphy[0].$name    = "CONFIG_ETHPHY0";
 ethercat1.ethphy[1].$name    = "CONFIG_ETHPHY1";
 ethercat1.ethphy[1].mdioPort = 3;
 
-pruicss1.$name                           = "CONFIG_PRU_ICSS1";
 ethercat1.icss                           = pruicss1;
+pruicss1.$name                           = "CONFIG_PRU_ICSS1";
 pruicss1.AdditionalICSSSettings[0].$name = "CONFIG_PRU_ICSS_IO0";
 
 debug_log.enableLogZoneInfo = true;
@@ -140,19 +135,19 @@ mpu_armv74.size              = 21;
 mpu_armv74.accessPermissions = "Supervisor RD+WR, User RD";
 
 timer1.$name         = "CONFIG_TIMER0";
+timer1.timerCallback = "OSAL_FREERTOS_callbackTimer";
 timer1.usecPerTick   = 100;
 timer1.startTimer    = true;
-timer1.timerCallback = "OSAL_FREERTOS_callbackTimer";
 timer1.TIMER.$assign = "DMTIMER0";
 
 default_linker1.$name = "memory_configurator_default_linker0";
 
 general1.$name                = "CONFIG_GENERAL0";
-general1.stack_size           = 4096;
 general1.heap_size            = 65536;
-general1.irq_stack_size       = 8192;
-general1.fiq_stack_size       = 4096;
+general1.stack_size           = 4096;
 general1.undefined_stack_size = 4096;
+general1.fiq_stack_size       = 4096;
+general1.irq_stack_size       = 8192;
 general1.abort_stack_size     = 512;
 general1.linker.$name         = "TIARMCLANG0";
 
@@ -176,18 +171,18 @@ region1.memory_region[4].$name              = "USER_SHM_MEM";
 region1.memory_region[4].auto               = false;
 region1.memory_region[4].manualStartAddress = 0x701D0000;
 region1.memory_region[4].isShared           = true;
-region1.memory_region[4].shared_cores       = ["a53ss0-0","a53ss0-1","m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
+region1.memory_region[4].shared_cores       = ["m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
 region1.memory_region[4].size               = 0x4000;
 region1.memory_region[5].auto               = false;
 region1.memory_region[5].$name              = "LOG_SHM_MEM";
 region1.memory_region[5].isShared           = true;
-region1.memory_region[5].shared_cores       = ["a53ss0-0","a53ss0-1","m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
+region1.memory_region[5].shared_cores       = ["m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
 region1.memory_region[5].manualStartAddress = 0x701D4000;
 region1.memory_region[5].size               = 0x4000;
 region1.memory_region[6].auto               = false;
 region1.memory_region[6].$name              = "RTOS_NORTOS_IPC_SHM_MEM";
 region1.memory_region[6].isShared           = true;
-region1.memory_region[6].shared_cores       = ["a53ss0-0","a53ss0-1","m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
+region1.memory_region[6].shared_cores       = ["m4fss0-0","r5fss0-1","r5fss1-0","r5fss1-1"];
 region1.memory_region[6].manualStartAddress = 0x701D8000;
 region1.memory_region[6].size               = 0x8000;
 
@@ -228,16 +223,15 @@ section4.output_section[0].palignment = true;
 
 section5.$name                                   = "Memory Segments";
 section5.load_memory                             = "MSRAM";
-section5.output_section.create(4);
+section5.output_section.create(3);
 section5.output_section[0].$name                 = ".bss";
 section5.output_section[0].palignment            = true;
 section5.output_section[0].output_sections_start = "__BSS_START";
 section5.output_section[0].output_sections_end   = "__BSS_END";
-section5.output_section[1].$name                 = ".sysmem";
 section5.output_section[1].palignment            = true;
+section5.output_section[1].$name                 = ".threadstack";
 section5.output_section[2].$name                 = ".stack";
 section5.output_section[2].palignment            = true;
-section5.output_section[3].$name                 = ".threadstack";
 
 section6.$name                                    = "Stack Segments";
 section6.load_memory                              = "MSRAM";
@@ -270,6 +264,7 @@ section6.output_section[4].input_section[0].$name = ". = . + __UNDEFINED_STACK_S
 
 section7.$name                        = "Initialization and Exception Handling";
 section7.load_memory                  = "MSRAM";
+section7.group                        = false;
 section7.output_section.create(2);
 section7.output_section[0].$name      = ".init_array";
 section7.output_section[0].palignment = true;
@@ -299,6 +294,12 @@ section10.group                       = false;
 section10.output_section.create(1);
 section10.output_section[0].$name     = ".bss.ipc_vring_mem";
 section10.output_section[0].alignment = 0;
+
+section11.load_memory                  = "MSRAM";
+section11.$name                        = "System Memory";
+section11.output_section.create(1);
+section11.output_section[0].$name      = ".sysmem";
+section11.output_section[0].palignment = true;
 
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future

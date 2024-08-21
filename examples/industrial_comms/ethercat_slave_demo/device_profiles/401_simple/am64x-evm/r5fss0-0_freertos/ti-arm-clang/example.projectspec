@@ -67,6 +67,7 @@
             -Dam64x_evm
             -DSSC_CHECKTIMER=1
             -DUSE_ECAT_TIMER=1
+            -DCUST_PHY_DP83869=1
         "
         linkerBuildOptions="
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib

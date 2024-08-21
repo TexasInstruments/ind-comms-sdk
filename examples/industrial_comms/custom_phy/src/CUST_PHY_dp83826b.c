@@ -129,6 +129,8 @@
 #define CUST_PHY_DP83826B_LINK_PRESENT_AUTONEG_POLL_STEP    (10u)
 #define CUST_PHY_DP83826B_LINK_ABSENT_AUTONEG_POLL_STEP     (1u)
 
+#define CUST_PHY_DP83826B_AUTONEG_REG_ADVERT                (0x04)
+
 /* DP8 global */
 #define CLEARREGBIT(reg, bitNum) \
     (reg) = ((reg) & ~(1 << (bitNum)))
@@ -177,6 +179,8 @@ static void     CUST_PHY_DP83826B_setLinkConfig             (void*      pAppCtxt
                                                             ,bool       fullDuplex_p
                                                             ,uint32_t*  pResult_p);
 static bool     CUST_PHY_DP83826B_getAutoNegotiation        (void*      pAppCtxt_p
+                                                            ,void*      pStackCtxt_p);
+static void     CUST_PHY_DP83826B_setAutoNegotiation        (void*      pAppCtxt_p
                                                             ,void*      pStackCtxt_p);
 static void     CUST_PHY_DP83826B_setMdixMode               (void*      pAppCtxt_p
                                                             ,void*      pStackCtxt_p
@@ -252,6 +256,7 @@ int16_t CUST_PHY_DP83826B_detect(void* pPhyLibCtxt_p, uint32_t phyId_p, CUST_PHY
         pPhyLibDesc_p->configSwStrapDone             = CUST_PHY_DP83826B_cofigSwStrapDone;
         pPhyLibDesc_p->setLinkConfig                 = CUST_PHY_DP83826B_setLinkConfig;
         pPhyLibDesc_p->getAutoNegotiation            = CUST_PHY_DP83826B_getAutoNegotiation;
+        pPhyLibDesc_p->setAutoNegotiation            = CUST_PHY_DP83826B_setAutoNegotiation;
         pPhyLibDesc_p->setMdixMode                   = CUST_PHY_DP83826B_setMdixMode;
         pPhyLibDesc_p->getMdixMode                   = CUST_PHY_DP83826B_getMdixMode;
         pPhyLibDesc_p->disable1GbAdver               = CUST_PHY_DP83826B_disable1GbAdver;
@@ -934,6 +939,36 @@ bool CUST_PHY_DP83826B_getAutoNegotiation(void* pAppCtxt_p, void* pStackCtxt_p)
     }
 
     return autoNeg;
+}
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  Sets auto-negotiation flags manually.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  pAppCtxt_p          application context (not used)
+ *  \param[in]  pStackCtxt_p        stack context
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup CUST_PHY
+ *
+ * */
+void CUST_PHY_DP83826B_setAutoNegotiation(void* pAppCtxt_p, void* pStackCtxt_p)
+{
+    uint16_t    phyRegVal = 0;
+    uint32_t    status = CUST_PHY_eSTATUS_FAIL;
+
+    OSALUNREF_PARM(pAppCtxt_p);
+
+    status = CUST_PHY_readReg(pStackCtxt_p, CUST_PHY_DP83826B_AUTONEG_REG_ADVERT, &phyRegVal);
+
+    if (status == CUST_PHY_eSTATUS_SUCCESS)
+    {
+        CUST_PHY_writeReg(pStackCtxt_p, CUST_PHY_DP83826B_AUTONEG_REG_ADVERT, phyRegVal | 1<<6 | 1<<8);
+    }
 }
 
 /*! <!-- Description: -->

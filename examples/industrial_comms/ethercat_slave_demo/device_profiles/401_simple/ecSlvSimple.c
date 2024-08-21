@@ -2885,10 +2885,10 @@ Exit:
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]        pContext_p             The pointer to the EtherCAT API instance.
+ *  \param[in]  pContext_p          The pointer to the EtherCAT API instance.
  *  \param[in]  pRxPdoAssignMap_p   pointer to SM2 PDO reconfigure assignments.
  *  \param[in]  pTxPdoAssignMap_p   pointer to SM3 PDO reconfigure assignments.
- *  \return      DTK error code
+ *  \return     DTK error code
  *
  *  <!-- Group: -->
  *
@@ -2896,7 +2896,7 @@ Exit:
  *
  * */
 static uint32_t EC_SLAVE_APP_assignmentChangedHandler(
-    void     *pContext_p,
+    void                                *pContext_p,
     EC_API_SLV_PDO_SReconfigAssignMap_t *pRxPdoAssignMap_p,
     EC_API_SLV_PDO_SReconfigAssignMap_t *pTxPdoAssignMap_p)
 {
@@ -2907,8 +2907,8 @@ static uint32_t EC_SLAVE_APP_assignmentChangedHandler(
     if (pRxPdoAssignMap_p->pdoAssignmentChanged)
     {
         if (pRxPdoAssignMap_p->pPdoIndexArray != NULL)
-    {
-        uint8_t idx;
+        {
+            uint8_t idx;
             OSAL_printf("New assignments for SyncManager 2:\r\n");
             for (idx = 0; idx <pRxPdoAssignMap_p->pdoCount; idx++)
             {
@@ -3448,7 +3448,11 @@ void EC_SLV_APP_SS_applicationInit(EC_SLV_APP_SS_Application_t *pAppInstance_p)
 
     pAppInstance_p->prev = ESL_OS_clockGet();
 
-    EC_API_SLV_run(pAppInstance_p->ptEcSlvApi);
+    error = EC_API_SLV_run(pAppInstance_p->ptEcSlvApi);
+    if (EC_API_eERR_NONE != error)
+    {
+      OSAL_printf("%s:%d:0x%x\r\n", __func__, __LINE__, error);
+    }
 
 Exit:
     return;

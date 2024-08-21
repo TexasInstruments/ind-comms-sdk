@@ -44,13 +44,13 @@ const filedirs = {
         "../../../../../../nvm/app/inc",
         "../../../../../../nvm/drv/src",
         "../../../../../../nvm/drv/inc",
-        
+    
     ],
 };
 
 const libdirs_freertos = {
     common: [
-       
+        
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib",
@@ -61,7 +61,7 @@ const libdirs_freertos = {
 
 const includes_freertos_r5f = {
     common: [
-       
+        
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am64x/r5f",
@@ -85,7 +85,7 @@ const includes_freertos_r5f = {
 
 const libs_freertos_r5f = {
     common: [
-       
+        
         "freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
@@ -97,7 +97,7 @@ const libs_freertos_r5f = {
 
 const defines_r5f = {
     common: [
-       
+        
         "SOC_AM64X=1",
         "OSAL_FREERTOS=1",
         "core0",
@@ -105,20 +105,21 @@ const defines_r5f = {
         "am64x_evm",
         "SSC_CHECKTIMER=1",
         "USE_ECAT_TIMER=1",
+        "CUST_PHY_DP83869=1",
     
     ],
 };
 
 const cflags_r5f = {
     common: [
-       
+        
         "-Wno-unused-but-set-variable",
-     
+    
     ],
     debug: [
-       
+        
         "-Og",
-     
+    
     ],
 };
 
@@ -142,7 +143,7 @@ const syscfgfile = "../example.syscfg";
 const readmeDoxygenPageTag = "EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_DEMOS";
 
 const buildOptionCombos = [
-    { device: device, cpu: "r5fss0-0", cgt: "ti-arm-clang", board: "am64x-evm", os: "freertos"},  
+    { device: device, cpu: "r5fss0-0", cgt: "ti-arm-clang", board: "am64x-evm", os: "freertos"},
 ];
 
 function getComponentProperty() {

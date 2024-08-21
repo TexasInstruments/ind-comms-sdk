@@ -69,9 +69,9 @@ FILES_PATH_common = \
 	../../../../../common/board/am243lp/freertos \
 	../../../../../common/os \
 	../../../../../common/os/freertos \
+	../../../../../../nvm \
 	../../../../../../custom_phy/src \
 	../../../../../../custom_phy/inc \
-	../../../../../../nvm \
 	../../../../../../nvm/app/src \
 	../../../../../../nvm/app/inc \
 	../../../../../../nvm/drv/src \
@@ -110,6 +110,7 @@ DEFINES_common := \
 	-Dam243x_lp \
 	-DSSC_CHECKTIMER=1 \
 	-DUSE_ECAT_TIMER=1 \
+	-DCUST_PHY_DP83869=1 \
 
 CFLAGS_common := \
 	-mcpu=cortex-r5 \

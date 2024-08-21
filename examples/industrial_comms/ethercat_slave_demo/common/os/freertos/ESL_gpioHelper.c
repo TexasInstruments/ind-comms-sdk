@@ -326,7 +326,8 @@ bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO
 
     if (ESL_GPIO_enMODULE_LED == moduleId_p)
     {
-#if (defined CONFIG_PHY0_RESET) || (defined CONFIG_PHY1_RESET)
+#if (defined CONFIG_PHY0_RESET) || (defined CONFIG_PHY1_RESET) || \
+    (defined GPIO_RESET_ICSS0_PHY1) || defined GPIO_RESET_ICSS0_PHY2
         switch (pinId_p)
         {
 #if (defined CONFIG_PHY0_RESET)
@@ -335,6 +336,13 @@ bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO
 #if (defined CONFIG_PHY1_RESET)
         case ESL_GPIO_enPIN_04: pinId = CONFIG_PHY1_RESET; break;
 #endif
+#if (defined GPIO_RESET_ICSS0_PHY1)
+        case ESL_GPIO_enPIN_03: pinId = GPIO_RESET_ICSS0_PHY1; break;
+#endif
+#if (defined GPIO_RESET_ICSS0_PHY2)
+        case ESL_GPIO_enPIN_04: pinId = GPIO_RESET_ICSS0_PHY2; break;
+#endif
+
         default:
             break;
         }

@@ -60,20 +60,20 @@ const filedirs_lp = {
         "../../../../../common/board/am243lp/freertos",
         "../../../../../common/os",
         "../../../../../common/os/freertos",
+        "../../../../../../nvm",
         "../../../../../../custom_phy/src",
         "../../../../../../custom_phy/inc",
-        "../../../../../../nvm",
         "../../../../../../nvm/app/src",
         "../../../../../../nvm/app/inc",
         "../../../../../../nvm/drv/src",
         "../../../../../../nvm/drv/inc",
-        
+    
     ],
 };
 
 const libdirs_freertos = {
     common: [
-       
+        
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/drivers/lib",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/board/lib",
@@ -84,7 +84,7 @@ const libdirs_freertos = {
 
 const includes_freertos_r5f_evm = {
     common: [
-       
+        
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am243x/r5f",
@@ -108,7 +108,7 @@ const includes_freertos_r5f_evm = {
 
 const includes_freertos_r5f_lp = {
     common: [
-       
+        
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/FreeRTOS-Kernel/include",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/portable/TI_ARM_CLANG/ARM_CR5F",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am243x/r5f",
@@ -132,7 +132,7 @@ const includes_freertos_r5f_lp = {
 
 const libs_freertos_r5f_evm = {
     common: [
-       
+        
         "freertos.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "drivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
@@ -145,7 +145,7 @@ const libs_freertos_r5f_evm = {
 
 const libs_freertos_r5f_lp = {
     common: [
-       
+        
         "freertos.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "drivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
         "board.am243x.r5f.ti-arm-clang.${ConfigName}.lib",
@@ -158,7 +158,7 @@ const libs_freertos_r5f_lp = {
 
 const defines_r5f_evm = {
     common: [
-       
+        
         "SOC_AM243X=1",
         "OSAL_FREERTOS=1",
         "core0",
@@ -166,13 +166,14 @@ const defines_r5f_evm = {
         "am243x_evm",
         "SSC_CHECKTIMER=1",
         "USE_ECAT_TIMER=1",
+        "CUST_PHY_DP83869=1",
     
     ],
 };
 
 const defines_r5f_lp = {
     common: [
-       
+        
         "SOC_AM243X=1",
         "OSAL_FREERTOS=1",
         "core0",
@@ -180,20 +181,21 @@ const defines_r5f_lp = {
         "am243x_lp",
         "SSC_CHECKTIMER=1",
         "USE_ECAT_TIMER=1",
+        "CUST_PHY_DP83869=1",
     
     ],
 };
 
 const cflags_r5f = {
     common: [
-       
+        
         "-Wno-unused-but-set-variable",
-     
+    
     ],
     debug: [
-       
+        
         "-O0",
-     
+    
     ],
 };
 
@@ -220,7 +222,7 @@ const buildOptionCombos = [
     
     { device: device, cpu: "r5fss0-0", cgt: "ti-arm-clang", board: "am243x-evm", os: "freertos"},
     { device: device, cpu: "r5fss0-0", cgt: "ti-arm-clang", board: "am243x-lp", os: "freertos"},
-      
+    
 ];
 
 function getComponentProperty() {
