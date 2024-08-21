@@ -149,6 +149,10 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line"><span class="preprocessor">#include &lt;ESL_eeprom.h&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;ESL_version.h&gt;</span></div>
 <div class="line"> </div>
+<div class="line"><span class="preprocessor">#if !(defined FBTL_REMOTE) &amp;&amp; !(defined DPRAM_REMOTE)</span></div>
+<div class="line"><span class="preprocessor">#include &lt;CUST_PHY_base.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"> </div>
 <div class="line"><span class="preprocessor">#include &lt;ecSlvApi.h&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#if !(defined MBXMEM)</span></div>
@@ -869,9 +873,9 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line"><span class="preprocessor">#if !(defined DPRAM_REMOTE) &amp;&amp; !(defined FBTL_REMOTE)</span></div>
 <div class="line">    ESL_BOARD_OS_registerPhys(pAppInstance_p-&gt;<a class="code hl_variable" href="struct_e_c___s_l_v___a_p_p___c_i_a__application_ac89bac3ee590ab19a74fa960ad30c31b.html#ac89bac3ee590ab19a74fa960ad30c31b">ptEcSlvApi</a>, pAppInstance_p-&gt;<a class="code hl_variable" href="struct_e_c___s_l_v___a_p_p___c_i_a__application_ab6530e619c5714155076c713f18bbaca.html#ab6530e619c5714155076c713f18bbaca">selectedPruInstance</a>);</div>
 <div class="line"> </div>
-<div class="line">    EC_API_SLV_cbRegisterPhyReset(pAppInstance_p-&gt;<a class="code hl_variable" href="struct_e_c___s_l_v___a_p_p___c_i_a__application_ac89bac3ee590ab19a74fa960ad30c31b.html#ac89bac3ee590ab19a74fa960ad30c31b">ptEcSlvApi</a>, EC_SLV_APP_CIA_boardPhyReset, pAppInstance_p);</div>
+<div class="line">    CUST_PHY_CBregisterLibDetect(CUST_PHY_detect, pAppInstance_p);</div>
+<div class="line">    CUST_PHY_CBregisterReset(EC_SLV_APP_CIA_boardPhyReset, pAppInstance_p);</div>
 <div class="line"><span class="preprocessor">#endif</span></div>
-<div class="line"> </div>
 <div class="line">Exit:</div>
 <div class="line">    <span class="keywordflow">return</span>;</div>
 <div class="line">}</div>
@@ -1044,7 +1048,7 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="ttc" id="agroup___ci_a402_ga44ab599aa64ce579b6b487d14f4290a8_html_ga44ab599aa64ce579b6b487d14f4290a8"><div class="ttname"><a href="group___ci_a402_ga44ab599aa64ce579b6b487d14f4290a8.html#ga44ab599aa64ce579b6b487d14f4290a8">EC_SLV_APP_CIA_startInputHandler</a></div><div class="ttdeci">uint16_t EC_SLV_APP_CIA_startInputHandler(void *ctxt, uint16_t *intMask)</div><div class="ttdoc">Get cycle time information.</div><div class="ttdef"><b>Definition</b> ESL_cia402Demo.c:520</div></div>
 <div class="ttc" id="agroup___ci_a402_ga61fd652d75666cced1be9d14dbe7f97c_html_ga61fd652d75666cced1be9d14dbe7f97c"><div class="ttname"><a href="group___ci_a402_ga61fd652d75666cced1be9d14dbe7f97c.html#ga61fd652d75666cced1be9d14dbe7f97c">EC_SLV_APP_cia402Application</a></div><div class="ttdeci">void EC_SLV_APP_cia402Application(void *ctxt)</div><div class="ttdoc">CiA402 Application function.</div><div class="ttdef"><b>Definition</b> ESL_cia402Demo.c:983</div></div>
 <div class="ttc" id="agroup___ci_a402_ga82da1f6035432931946a4b5688215f6e_html_ga82da1f6035432931946a4b5688215f6e"><div class="ttname"><a href="group___ci_a402_ga82da1f6035432931946a4b5688215f6e.html#ga82da1f6035432931946a4b5688215f6e">EC_SLV_APP_cia402LocalError</a></div><div class="ttdeci">void EC_SLV_APP_cia402LocalError(void *ctxt, uint16_t errorCode)</div><div class="ttdoc">Local Error function handler.</div><div class="ttdef"><b>Definition</b> ESL_cia402Demo.c:1316</div></div>
-<div class="ttc" id="agroup___ci_a402_gad30a3cf23c5ce061ebe2b8119744a100_html_gad30a3cf23c5ce061ebe2b8119744a100"><div class="ttname"><a href="group___ci_a402_gad30a3cf23c5ce061ebe2b8119744a100.html#gad30a3cf23c5ce061ebe2b8119744a100">EC_SLV_APP_CIA_applicationInit</a></div><div class="ttdeci">void EC_SLV_APP_CIA_applicationInit(EC_SLV_APP_CIA_Application_t *pAppInstance_p)</div><div class="ttdoc">Initialize slave application example.</div><div class="ttdef"><b>Definition</b> ecSlvCiA402.c:958</div></div>
+<div class="ttc" id="agroup___ci_a402_gad30a3cf23c5ce061ebe2b8119744a100_html_gad30a3cf23c5ce061ebe2b8119744a100"><div class="ttname"><a href="group___ci_a402_gad30a3cf23c5ce061ebe2b8119744a100.html#gad30a3cf23c5ce061ebe2b8119744a100">EC_SLV_APP_CIA_applicationInit</a></div><div class="ttdeci">void EC_SLV_APP_CIA_applicationInit(EC_SLV_APP_CIA_Application_t *pAppInstance_p)</div><div class="ttdoc">Initialize slave application example.</div><div class="ttdef"><b>Definition</b> ecSlvCiA402.c:962</div></div>
 <div class="ttc" id="agroup___ci_a402_gad6e38755a20bf1c01e4e2d0d5d3dc735_html_gad6e38755a20bf1c01e4e2d0d5d3dc735"><div class="ttname"><a href="group___ci_a402_gad6e38755a20bf1c01e4e2d0d5d3dc735.html#gad6e38755a20bf1c01e4e2d0d5d3dc735">EC_SLV_APP_setObdValues</a></div><div class="ttdeci">void EC_SLV_APP_setObdValues(void *ctxt)</div><div class="ttdoc">Set default values for CiA 402 object dictionary.</div><div class="ttdef"><b>Definition</b> ESL_cia402Demo.c:463</div></div>
 <div class="ttc" id="agroup___ci_a402_gaf78b23fb141aafe3584cd569c6c218de_html_gaf78b23fb141aafe3584cd569c6c218de"><div class="ttname"><a href="group___ci_a402_gaf78b23fb141aafe3584cd569c6c218de.html#gaf78b23fb141aafe3584cd569c6c218de">EC_SLV_APP_cia402ObjectDictionary</a></div><div class="ttdeci">uint32_t EC_SLV_APP_cia402ObjectDictionary(void *pContext_p)</div><div class="ttdoc">Generate CiA402 Objects.</div><div class="ttdef"><b>Definition</b> ESL_cia402Obd.c:84</div></div>
 <div class="ttc" id="agroup___e_c___a_p_i___s_l_v___e_r_r_o_r___c_o_d_e_s_ga022716c308f5d5bd84876c11d568a77e_html_gga022716c308f5d5bd84876c11d568a77ea3a185afd519fd0da90c699fc16f1747e"><div class="ttname"><a href="group___e_c___a_p_i___s_l_v___e_r_r_o_r___c_o_d_e_s_ga022716c308f5d5bd84876c11d568a77e.html#gga022716c308f5d5bd84876c11d568a77ea3a185afd519fd0da90c699fc16f1747e">EC_API_eERR_INVALID</a></div><div class="ttdeci">@ EC_API_eERR_INVALID</div><div class="ttdef"><b>Definition</b> ecSlvApiDef_error.h:52</div></div>

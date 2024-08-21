@@ -154,6 +154,25 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line"><span class="comment">/* stack */</span></div>
 <div class="line"><span class="preprocessor">#include &lt;ecSlvApi.h&gt;</span></div>
 <div class="line"> </div>
+<div class="line"><span class="preprocessor">#if (defined OSAL_FREERTOS)</span></div>
+<div class="line"><span class="preprocessor">#define FrameProc   ECAT_FrameProcAPP</span></div>
+<div class="line"><span class="comment">// FREERTOS contained FW #include &lt;source/networking/ethercat_slave/icss_fwhal/ecat_frame_handler_bin.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;industrial_comms/ethercat_slave/icss_fwhal/firmware/g_v1.3/ecat_frame_handler_bin.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#define HostProc   ECAT_HostProcAPP</span></div>
+<div class="line"><span class="comment">// FREERTOS contained FW #include &lt;source/networking/ethercat_slave/icss_fwhal/ecat_host_interface_bin.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;industrial_comms/ethercat_slave/icss_fwhal/firmware/g_v1.3/ecat_host_interface_bin.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#if (defined INCLUDE_MDIO_MANUAL_MODE_WORKAROUND) &amp;&amp; (!defined SOC_AM263X)</span></div>
+<div class="line"><span class="preprocessor">#define PRUFirmware   PRUMDIOFirmwareECATAPP</span></div>
+<div class="line"><span class="preprocessor">#include &lt;industrial_comms/ethercat_slave/icss_fwhal/firmware/g_v1.3/mdio_fw_bin.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#define TIESC_HW    0</span></div>
+<div class="line"><span class="preprocessor">#define PRU_200MHZ  1</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#define THREAD_IDLE_TIMEOUT   (100U)     </span><span class="comment">/* 100msec idle timeout */</span><span class="preprocessor"></span></div>
+<div class="line"> </div>
 <div class="line"><span class="keyword">static</span> uint32_t EC_SLV_APP_CIA_remoteInit(<a id="_a0" name="_a0"></a><a class="code hl_struct" href="struct_e_c___s_l_v___a_p_p___c_i_a__application.html">EC_SLV_APP_CIA_Application_t</a> *applicationInstance);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> EC_SLV_APP_CIA_loopTask(<span class="keywordtype">void</span> *pArg_p)</div>
@@ -177,6 +196,28 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line"> </div>
 <div class="line">    EC_SLV_APP_CIA_initBoardFunctions(pApplicationInstance);</div>
 <div class="line">    EC_SLV_APP_CIA_registerStacklessBoardFunctions(pApplicationInstance);</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#if (defined OSAL_FREERTOS)</span></div>
+<div class="line"><span class="preprocessor">#if !(defined FBTL_REMOTE) &amp;&amp; !(defined DPRAM_REMOTE)</span></div>
+<div class="line">    <span class="comment">/* inject firmware */</span></div>
+<div class="line">    error = EC_API_SLV_stackInsertPruFirmware((uint32_t*)ECAT_FrameProcAPP, <span class="keyword">sizeof</span>(ECAT_FrameProcAPP),</div>
+<div class="line">                                              (uint32_t*)ECAT_HostProcAPP, <span class="keyword">sizeof</span>(ECAT_HostProcAPP));</div>
+<div class="line">    <span class="keywordflow">if</span> (error != <a class="code hl_enumvalue" href="group___e_c___a_p_i___s_l_v___e_r_r_o_r___c_o_d_e_s_ga022716c308f5d5bd84876c11d568a77e.html#gga022716c308f5d5bd84876c11d568a77eaf748c4e7857631705f4832b53534282a">EC_API_eERR_NONE</a>)</div>
+<div class="line">    {</div>
+<div class="line">        OSAL_printf(<span class="stringliteral">&quot;%s:%d Error code: 0x%08x\r\n&quot;</span>, __func__, __LINE__, error);</div>
+<div class="line">        OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, <span class="keyword">true</span>, 0);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#if (defined INCLUDE_MDIO_MANUAL_MODE_WORKAROUND) &amp;&amp; (!defined SOC_AM263X)</span></div>
+<div class="line">    error = EC_API_SLV_stackInsertMdioManualFirmware((uint32_t*)PRUMDIOFirmwareECATAPP, <span class="keyword">sizeof</span>(PRUMDIOFirmwareECATAPP));</div>
+<div class="line">    <span class="keywordflow">if</span> (error != <a class="code hl_enumvalue" href="group___e_c___a_p_i___s_l_v___e_r_r_o_r___c_o_d_e_s_ga022716c308f5d5bd84876c11d568a77e.html#gga022716c308f5d5bd84876c11d568a77eaf748c4e7857631705f4832b53534282a">EC_API_eERR_NONE</a>)</div>
+<div class="line">    {</div>
+<div class="line">        OSAL_printf(<span class="stringliteral">&quot;%s:%d Error code: 0x%08x\r\n&quot;</span>, __func__, __LINE__, error);</div>
+<div class="line">        OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, <span class="keyword">true</span>, 0);</div>
+<div class="line">    }</div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line"> </div>
 <div class="line">    error = EC_API_SLV_stackInit(); <span class="comment">// EtherCAT stack init</span></div>
 <div class="line">    <span class="keywordflow">if</span> (error != <a class="code hl_enumvalue" href="group___e_c___a_p_i___s_l_v___e_r_r_o_r___c_o_d_e_s_ga022716c308f5d5bd84876c11d568a77e.html#gga022716c308f5d5bd84876c11d568a77eaf748c4e7857631705f4832b53534282a">EC_API_eERR_NONE</a>)</div>
@@ -256,6 +297,14 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line">    <span class="keywordflow">if</span> (OSAL_ERR_NoError != retVal)</div>
 <div class="line">    {</div>
 <div class="line">        OSAL_error(__func__, __LINE__, retVal, <span class="keyword">true</span>, 1, <span class="stringliteral">&quot;OS Board init error\r\n&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    retVal = ESL_OS_printfMutexInit();</div>
+<div class="line">    <span class="keywordflow">if</span> (OSAL_ERR_NoError != retVal)</div>
+<div class="line">    {</div>
+<div class="line">      <span class="comment">// @cppcheck_justify{misra-c2012-15.1} use goto Exit for single point of return</span></div>
+<div class="line">      <span class="comment">//cppcheck-suppress misra-c2012-15.1</span></div>
+<div class="line">      <span class="keywordflow">goto</span> Exit;</div>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    OSAL_registerPrintOut(NULL, ESL_OS_printf);</div>
@@ -488,7 +537,7 @@ Neither the name of the copyright holder nor the names of its contributors may b
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> retVal;</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup___ci_a402_gad30a3cf23c5ce061ebe2b8119744a100_html_gad30a3cf23c5ce061ebe2b8119744a100"><div class="ttname"><a href="group___ci_a402_gad30a3cf23c5ce061ebe2b8119744a100.html#gad30a3cf23c5ce061ebe2b8119744a100">EC_SLV_APP_CIA_applicationInit</a></div><div class="ttdeci">void EC_SLV_APP_CIA_applicationInit(EC_SLV_APP_CIA_Application_t *pAppInstance_p)</div><div class="ttdoc">Initialize slave application example.</div><div class="ttdef"><b>Definition</b> ecSlvCiA402.c:958</div></div>
+<div class="ttc" id="agroup___ci_a402_gad30a3cf23c5ce061ebe2b8119744a100_html_gad30a3cf23c5ce061ebe2b8119744a100"><div class="ttname"><a href="group___ci_a402_gad30a3cf23c5ce061ebe2b8119744a100.html#gad30a3cf23c5ce061ebe2b8119744a100">EC_SLV_APP_CIA_applicationInit</a></div><div class="ttdeci">void EC_SLV_APP_CIA_applicationInit(EC_SLV_APP_CIA_Application_t *pAppInstance_p)</div><div class="ttdoc">Initialize slave application example.</div><div class="ttdef"><b>Definition</b> ecSlvCiA402.c:962</div></div>
 <div class="ttc" id="agroup___e_c___a_p_i___s_l_v___e_r_r_o_r___c_o_d_e_s_ga022716c308f5d5bd84876c11d568a77e_html_gga022716c308f5d5bd84876c11d568a77eaf748c4e7857631705f4832b53534282a"><div class="ttname"><a href="group___e_c___a_p_i___s_l_v___e_r_r_o_r___c_o_d_e_s_ga022716c308f5d5bd84876c11d568a77e.html#gga022716c308f5d5bd84876c11d568a77eaf748c4e7857631705f4832b53534282a">EC_API_eERR_NONE</a></div><div class="ttdeci">@ EC_API_eERR_NONE</div><div class="ttdef"><b>Definition</b> ecSlvApiDef_error.h:45</div></div>
 <div class="ttc" id="agroup___e_c___a_p_i___s_l_v___t_y_p_e_s_ga4c3c1662ad7855b25ba55c68c5264add_html_ga4c3c1662ad7855b25ba55c68c5264add"><div class="ttname"><a href="group___e_c___a_p_i___s_l_v___t_y_p_e_s_ga4c3c1662ad7855b25ba55c68c5264add.html#ga4c3c1662ad7855b25ba55c68c5264add">EC_API_SLV_EEsmState_t</a></div><div class="ttdeci">enum EC_API_SLV_EEsmState EC_API_SLV_EEsmState_t</div><div class="ttdoc">EC_STATE_T EtherCAT State Machine states.</div></div>
 <div class="ttc" id="agroup___e_c___a_p_i___s_l_v___t_y_p_e_s_ga7146bc5dc69f991331ea5d7bd8ddef79_html_gga7146bc5dc69f991331ea5d7bd8ddef79ab35219b9c01b5f6a38eb9bae42f6973d"><div class="ttname"><a href="group___e_c___a_p_i___s_l_v___t_y_p_e_s_ga7146bc5dc69f991331ea5d7bd8ddef79.html#gga7146bc5dc69f991331ea5d7bd8ddef79ab35219b9c01b5f6a38eb9bae42f6973d">EC_API_SLV_eESM_uninit</a></div><div class="ttdeci">@ EC_API_SLV_eESM_uninit</div><div class="ttdoc">Uninitialized State.</div><div class="ttdef"><b>Definition</b> ecSlvApi_types.h:70</div></div>

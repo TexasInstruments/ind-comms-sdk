@@ -107,11 +107,7 @@ $(document).ready(function(){initNavTree('releasenotes.html',''); initResizable(
   <div class="headertitle"><div class="title">Release Notes</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><dl class="section attention">
-<dt>Attention </dt>
-<dd>This release version includes experimental support for integration of alternate PHY components. Introduced in version 1.07.00. Please see the note on <a class="el" href="releasenotes.html#experimental_features_release10700">Experimental Features</a>.  </dd>
-</dl>
-<h1><a class="anchor" id="releasenotesoverview"></a>
+<div class="textblock"><h1><a class="anchor" id="releasenotesoverview"></a>
 Overview</h1>
 <p>The Software Development Kit (SDK) for EtherCAT allows you to quickly integrate EtherCAT slave functionality into your device. The SDK is supported for Sitara processors by Texas Instruments Incorporated and currently available for AM64x and AM243x series of Cortex<sup><small>&reg;</small></sup>-R5 based devices.</p>
 <p>This document collection contains a Quickstart Guide, the User Manual, and the API Reference Manual for the EtherCAT Slave SDK. The API consists of the following modules: an API to access the basic EtherCAT Slave functionality, the API for the CiA 402 (Drives and Motion Control), the cyclic buffer handling API, and a board support package API. </p>
@@ -129,6 +125,20 @@ Redistributions in binary form must reproduce the above copyright notice, this l
 Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
 </ol>
 <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h1><a class="anchor" id="version_release20003"></a>
+Release Version 2.00.03</h1>
+<p><b>New Features:</b> </p><ul>
+<li>
+[OSS1-2982] Add example documentation for usage of DP83826 PHY.<br  />
+ Major changes:<br  />
+ Add page which describes <ul>
+<li>
+what changes are necessary to the example code to use DP83826 PHY. </li>
+<li>
+what changes are necessary to the Sysconfig file to use DP83826 PHY. </li>
+</ul>
+</li>
+</ul>
 <h1><a class="anchor" id="version_release20002"></a>
 Release Version 2.00.02</h1>
 <p><b>New Features:</b> </p><ul>
@@ -787,22 +797,6 @@ Release Version 1.07.00</h1>
  Second vendor id was still shown on valid Beckhoff SSC compile.<br  />
  </li>
 </ul>
-<h2><a class="anchor" id="experimental_features_release10700"></a>
-Experimental Features</h2>
-<dl class="section attention">
-<dt>Attention </dt>
-<dd><ul style="list-style-type: none; margin-left: -3em;">
-<li>
-Features listed below are early versions and should be considered as "experimental". </li>
-<li>
-Users can evaluate the feature, however the feature is not fully tested at TI side. </li>
-<li>
-TI would not support these feature on public e2e. </li>
-<li>
-Experimental features will be enabled with limited examples and SW modules. </li>
-</ul>
-</dd>
-</dl>
 <ul>
 <li>
 [DTKEC-773] Custom PHY interface provided by stack.<br  />

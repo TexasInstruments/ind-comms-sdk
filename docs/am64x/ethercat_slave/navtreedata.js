@@ -31,6 +31,7 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 2.00.03", "releasenotes.html#version_release20003", null ],
       [ "Release Version 2.00.02", "releasenotes.html#version_release20002", null ],
       [ "Release Version 2.00.01", "releasenotes.html#version_release20001", null ],
       [ "Release Version 2.00.00", "releasenotes.html#version_release20000", null ],
@@ -93,7 +94,8 @@ var NAVTREE =
         [ "EEPROM Interface", "eep_config.html", null ],
         [ "PHY configuration", "phy_config.html", null ],
         [ "Ethernet over EtherCAT", "_eo_e_page.html", null ],
-        [ "File access over EtherCAT", "_fo_e_page.html", null ]
+        [ "File access over EtherCAT", "_fo_e_page.html", null ],
+        [ "PRU_ICSSG0 Usage Guide", "_i_c_s_s_g0__usage__guide.html", null ]
       ] ],
       [ "Simple EtherCAT Example", "example1.html", null ],
       [ "CiA402 EtherCAT Example", "example2.html", null ],
@@ -124,10 +126,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_a_p_i_changes.html",
-"group___ci_a402_ga747c8f9bf5c62bd7446b5fbc65468246.html#ga747c8f9bf5c62bd7446b5fbc65468246",
-"group___e_c___a_p_i___s_l_v___c_f_g.html",
-"group___sdo_types_ga7f8ff6ff42d6880ebbbd686fb97525f6.html#ga7f8ff6ff42d6880ebbbd686fb97525f6",
-"struct_e_c___s_l_v___a_p_i___p_d_o___s_entry_map.html"
+"group___ci_a402_ga71ff2833dda905b49ca9c39c422f150e.html#ga71ff2833dda905b49ca9c39c422f150e",
+"group___e_c___a_p_i___s_l_v___b_u_f_f_e_r.html",
+"group___sdo_types_ga74f3acd6363cc574ff232f43b5f10cb4.html#ga74f3acd6363cc574ff232f43b5f10cb4",
+"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_ae016744c3790505d4033b03f49bfdf6c.html#ae016744c3790505d4033b03f49bfdf6c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
