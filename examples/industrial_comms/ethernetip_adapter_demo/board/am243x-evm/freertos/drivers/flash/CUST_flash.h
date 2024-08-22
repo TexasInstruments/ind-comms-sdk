@@ -55,8 +55,9 @@ typedef enum CUST_FLASH_EError
 extern "C" {
 #endif
 
-extern uint32_t CUST_FLASH_init   (void);
-extern uint32_t CUST_FLASH_deInit (void);
+extern uint32_t     CUST_FLASH_init      (void);
+extern uint32_t     CUST_FLASH_deInit    (void);
+extern Flash_Handle CUST_FLASH_getHandle (uint32_t instanceId);
 
 #if (defined __cplusplus)
 }

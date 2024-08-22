@@ -7,6 +7,8 @@ const files = {
         "app.c",
         "appCfg.c",
         "appNV.c",
+		"appNvEeprom.c",
+		"appNvFlash.c",
         "appRst.c",
         "appTask.c",
         "appLed.c",
@@ -86,7 +88,7 @@ const includes_freertos_r5f = {
 
 const libs_freertos_r5f = {
     common: [
-    "freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        "freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
     "drivers.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
     "board.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
     "icss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib",

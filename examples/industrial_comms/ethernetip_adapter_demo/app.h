@@ -95,8 +95,10 @@ typedef struct APP_SParams
     APP_SLwip_t             lwip;
     APP_SCip_t              cip;
     APP_SAdapter_t          adapter;
-    EI_APP_UART_SInit_t     uart;                   /* UART initialization parameters */
-    EI_APP_LED_SInit_t      led;                    /* LED's initialization parameters */
+    EI_APP_NV_SInit_t       nv;                     /* Initialization parameters of non-volatile memory */
+    EI_APP_UART_SInit_t     uart;                   /* Initialization parameters of UART */
+    EI_APP_LED_SInit_t      led;                    /* Initialization parameters of LED's */
+    EI_APP_CFG_SInit_t      config;                 /* Initialization parameters of non-volatile configuration data */
     CUST_DRIVERS_SInit_t    customDrivers;
     APP_SAcd_t              acd;
 

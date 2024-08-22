@@ -197,24 +197,31 @@ ETHPHY_Config* CUST_ETHPHY_getConfig (uint32_t instance)
 
 /*!
 *
-* \brief
-* Provides pointer to specific ETHPHY handler defined by instance.
+*  \brief
+*  Provides specific ETHPHY handle defined by instance.
 *
 *  \param[in]  instance       SysConfig ID of ETHPHY
 *
 *  \return     requested ETHPHY handler
 *
+*  \retval     NULL           Failed.
+*  \retval     Other          Success.
+*
 */
 ETHPHY_Handle CUST_ETHPHY_getHandle (uint32_t instance)
 {
-    ETHPHY_Handle ethPhyHandle = NULL;
+    ETHPHY_Handle handle = NULL;
 
+#if (defined CONFIG_ETHPHY_NUM_INSTANCES) && (CONFIG_ETHPHY_NUM_INSTANCES > 0)
     if (CONFIG_ETHPHY_NUM_INSTANCES > instance)
     {
-        ethPhyHandle = gEthPhyHandle[instance];
+        handle = gEthPhyHandle[instance];
     }
+#else
+    OSALUNREF_PARM(instance);
+#endif
 
-    return ethPhyHandle;
+    return handle;
 }
 
 /*!

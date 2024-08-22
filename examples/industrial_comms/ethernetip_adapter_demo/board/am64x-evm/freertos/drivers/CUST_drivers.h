@@ -66,23 +66,12 @@
 
 /*!
  *  \brief
- *  Custom driver permanent data storage types.
- */
-typedef enum CUST_DRIVERS_PRM_EType
-{
-    CUST_DRIVERS_PRM_eTYPE_UNDEFINED,   /*!< No permanent data memory defined.  */
-    CUST_DRIVERS_PRM_eTYPE_FLASH,       /*!< FLASH permanent data memory type. */
-    CUST_DRIVERS_PRM_eTYPE_EEPROM       /*!< EEPROM permanent data memory type. */
-}CUST_DRIVERS_PRM_EType_t;
-
-/*!
- *  \brief
  *  Custom driver error codes.
  */
 typedef enum CUST_DRIVERS_EError
 {
     CUST_DRIVERS_eERR_NOERROR               =  0,   /*!< No error, everything is fine. */
-    CUST_DRIVERS_eERR_NO_PERMANENT_STORAGE  = -20,   /*!< No permanent data storage defined */
+    CUST_DRIVERS_eERR_NO_NVM_STORAGE        = -20,  /*!< No storage defined for non-volatile configuration data */
     CUST_DRIVERS_eERR_EEPROM_HANDLE_INVALID = -19,  /*!< EEPROM handle is invalid */
     CUST_DRIVERS_eERR_EEPROM_DATA_INVALID   = -18,  /*!< Pointer to data for eeprom write is invalid. */
     CUST_DRIVERS_eERR_EEPROM_LENGTH_INVALID = -17,  /*!< Length of data for eeprom write is invalid. */
@@ -106,6 +95,18 @@ typedef enum CUST_DRIVERS_EError
 
 /*!
  *  \brief
+ *  Custom Device Types definition.
+ */
+typedef enum CUST_DEVICE_Type
+{
+    CUST_DEVICE_TypeEthphy,   /*!< ETHPHY device supported by SysConfig */
+    CUST_DEVICE_TypeEeprom,   /*!< EEPROM device supported by SysConfig */
+    CUST_DEVICE_TypeFlash,    /*!< FLASH device supported by SysConfig */
+    CUST_DEVICE_TypeLed       /*!< LED device supported by SysConfig */
+} CUST_DEVICE_Type_t;
+
+/*!
+ *  \brief
  *  PRU-ICSS configuration parameters.
  */
 typedef struct CUST_DRIVERS_SInitPruIcss
@@ -116,44 +117,19 @@ typedef struct CUST_DRIVERS_SInitPruIcss
 
 /*!
  *  \brief
- *  EEPROM configuration parameters.
- */
-typedef struct CUST_DRIVERS_SEepromParams
-{
-    OSAL_TASK_Priority_t   taskPrio;         /* EEPROM write task priority */
-}CUST_DRIVERS_SEepromParams_t;
-
-/*!
- *  \brief
- *  FLASH configuration parameters.
- */
-typedef struct CUST_DRIVERS_SFlashParams
-{
-    OSAL_TASK_Priority_t   taskPrio;         /* EEPROM write task priority */
-}CUST_DRIVERS_SFlashParams_t;
-
-/*!
- *  \brief
  *  Custom drivers initialization parameters.
  */
 typedef struct CUST_DRIVERS_SInit
 {
     CUST_DRIVERS_SInitPruIcss_t     pruIcss;        /* PRUICSS init parameters */
-    CUST_DRIVERS_SEepromParams_t    eeprom;         /* EEPROM init paprameters */
-    CUST_DRIVERS_SFlashParams_t     flash;          /* FLASH init parameters */
 }CUST_DRIVERS_SInit_t;
 
 #if (defined __cplusplus)
 extern "C" {
 #endif
 
-extern uint32_t        CUST_DRIVERS_init                            (CUST_DRIVERS_SInit_t* pParams_p);
-extern uint32_t        CUST_DRIVERS_deinit                          (void);
-
-extern void*           CUST_DRIVERS_PRM_getHandle         (uint32_t type_p, uint32_t instance_p);
-extern uint32_t        CUST_DRIVERS_PRM_read              (void* handler_p, uint32_t type_p, uint32_t offset_p, uint8_t* pBuf_p, uint32_t length_p);
-extern uint32_t        CUST_DRIVERS_PRM_write             (void* handler_p, uint32_t type_p, uint32_t offset_p, uint8_t* pBuf_p, uint32_t length_p, bool blocking_p);
-extern bool            CUST_DRIVERS_PRM_isWritePending    (void);
+extern uint32_t  CUST_DRIVERS_init       (CUST_DRIVERS_SInit_t* pParams_p);
+extern uint32_t  CUST_DRIVERS_deinit     (void);
 
 #if (defined __cplusplus)
 }

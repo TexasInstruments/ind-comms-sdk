@@ -121,13 +121,13 @@ uint32_t CUST_DRIVERS_init(CUST_DRIVERS_SInit_t* pParams_p)
         error = (uint32_t) CUST_DRIVERS_eERR_PRUICSS;
         goto initErr;
     }
-#ifndef ENABLE_INTERCORE_TUNNELING
+
     if (CUST_LED_eERR_NOERROR != CUST_LED_init())
     {
         error = (uint32_t) CUST_DRIVERS_eERR_LED;
         goto initErr;
     }
-#endif
+
     if (PERMANENT_DATA_MEMORY_TYPE == CUST_DRIVERS_PRM_eTYPE_FLASH)
     {
         if (CUST_FLASH_eERR_NOERROR != CUST_FLASH_init())

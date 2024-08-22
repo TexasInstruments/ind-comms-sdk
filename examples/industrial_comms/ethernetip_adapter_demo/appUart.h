@@ -45,6 +45,7 @@
 #define APPUART_H
 
 #define OSAL_UART_DRV_HANDLE_INVALID (0x00040010u)  //!< UART handle set to NULL
+#define OSAL_UART_DRV_MUTEX_ERROR    (0x00040020u)  //!< UART handle set to NULL
 
 /*!
  *  \brief

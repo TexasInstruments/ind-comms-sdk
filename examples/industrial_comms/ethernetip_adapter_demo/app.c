@@ -67,8 +67,12 @@
 #include <appWebServer.h>
 #include "appUart.h"
 #include "appLed.h"
+#include "appNV.h"
+#include "appCfg.h"
 #include "appTask.h"
 #include "app.h"
+
+static APP_SInstance_t appInstance_s = {0};
 
 /*!
  *  <!-- Description: -->
@@ -89,8 +93,7 @@ int main(
 {
     uint32_t err;
 
-    APP_SInstance_t appInstance = {0};
-    APP_SParams_t*  pCfg        = &appInstance.config;
+    APP_SParams_t* pCfg = &appInstance_s.config;
 
     /* Application configuration. */
     pCfg->application.taskPrio = OSAL_TASK_Prio_EIP_MAIN;
@@ -124,16 +127,18 @@ int main(
     pCfg->customDrivers.pruIcss.ethPhy.taskPrioPhyMdixTask     = OSAL_TASK_Prio_EIP_PHYMDIX;
 
     /* UART configuration */
-    pCfg->uart.uartInst = CONFIG_UART_CONSOLE;
+    pCfg->uart.uartInst = APP_UART_INSTANCE;
 
     /* LED's configuration */
-    pCfg->led.industrialLedsInst = CONFIG_LED0;
+    pCfg->led.industrialLedsInst = APP_LED_INSTANCE;
 
-    /* Custom drivers configuration - EEPROM. */
-    pCfg->customDrivers.eeprom.taskPrio = OSAL_TASK_Prio_EIP_EEPROM;
+    /* Non-volatile memory */
+    pCfg->nv.taskPrio = OSAL_TASK_Prio_EIP_EEPROM;              // FLASH equivalent: OSAL_TASK_Prio_EIP_FLASH
 
-    /* Custom drivers configuration - FLASH. */
-    pCfg->customDrivers.flash.taskPrio  = OSAL_TASK_Prio_EIP_FLASH;
+    /* Non-volatile memory configuration data */
+    pCfg->config.type     = APP_NVM_CONFIG_TYPE;
+    pCfg->config.address  = APP_NVM_CONFIG_OFFSET;
+    pCfg->config.instance = APP_NVM_CONFIG_INSTANCE;
 
     /* Adress conflict detection */
     pCfg->acd.initialDelay = 200;
@@ -161,7 +166,7 @@ int main(
     OSAL_printfSuppress(true);
 #endif
 
-    CMN_APP_mainCreate(EI_APP_TASK_main, &appInstance, pCfg->application.taskPrio);
+    CMN_APP_mainCreate(EI_APP_TASK_main, &appInstance_s, pCfg->application.taskPrio);
 
     OSAL_startOs ();
 

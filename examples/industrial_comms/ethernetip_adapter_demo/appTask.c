@@ -53,6 +53,7 @@
 #include "appUart.h"
 #include "appLed.h"
 #include "appNV.h"
+#include "appCfg.h"
 
 #include <osal.h>
 #include <osal_error.h>
@@ -150,7 +151,7 @@ static int EI_APP_TASK_cleanup (EI_API_ADP_T* adapter, EI_API_CIP_NODE_T* cipNod
  *  \details
  *  Enable the device implementer to override default data, such as for example
  *  Vendor ID, Device Type, Product Code, Revision, Product Name, etc.
- *  and read permanent saved data.
+ *  and read non-volatile configuration data.
  */
 static void EI_APP_TASK_adpInit(EI_API_ADP_T* pAdapter)
 {
@@ -251,7 +252,7 @@ static bool EI_APP_TASK_init(APP_SParams_t* pParam)
     // Initialize adapter for 1 (one) interface.
     adapter_s = EI_API_ADP_new(1);
 
-    EI_APP_CFG_init(adapter_s);
+    EI_APP_CFG_init(adapter_s, &pParam->config);
 
 #if defined(EIP_TIME_SYNC) && (EIP_TIME_SYNC == 1)
     EI_API_ADP_setTimeSyncSupported(adapter_s);
@@ -263,10 +264,10 @@ static bool EI_APP_TASK_init(APP_SParams_t* pParam)
     EI_APP_TASK_getMacAddr();
 
     // Init module for non-volatile data.
-    EI_APP_NV_init(adapter_s);
+    EI_APP_NV_init(adapter_s, &pParam->nv);
 
     // Read non-volatile data
-    EI_APP_NV_read();
+    EI_APP_CFG_read();
 
     // Initialize data for the adapter.
     EI_APP_TASK_adpInit(adapter_s);
@@ -415,7 +416,7 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
         if(true == EI_APP_CFG_isChanged())
         {
-            EI_APP_NV_write(false);
+            EI_APP_CFG_write(false);
         }
 
         OSAL_SCHED_yield();
@@ -423,16 +424,7 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
 laError:
     OSAL_printf("resetting device\n");
-
-    EI_APP_UART_deInit();
-
-    EI_APP_TASK_cleanup(adapter_s, cipNode_s);
-
-    EI_API_ADP_pruicssStop();
-
-    CMN_OS_reset();
-
-    CMN_APP_mainExit();
+    SOC_generateSwWarmResetMcuDomain();
 }
 
 
@@ -482,8 +474,6 @@ void EI_APP_TASK_osErrorHandlerCb (uint32_t errorCode,      //!< [in] Error code
 
     OSAL_printf ("\nError: 0x%8.8x, Fatal: %s", errorCode, fatal ? "yes" : "no");
 
-    if (fatal == true)
-    {
 #if (defined CMN_MEM_TRACE) && (1==CMN_MEM_TRACE)
         extern uint32_t __HEAP_START;
         extern uint32_t __HEAP_END;
@@ -499,8 +489,12 @@ void EI_APP_TASK_osErrorHandlerCb (uint32_t errorCode,      //!< [in] Error code
         {
             OSAL_MEMORY_free(ptr);
         }
+
+        while(1);
 #endif
 
+    if (fatal == true)
+    {
         while(1);
     }
 }

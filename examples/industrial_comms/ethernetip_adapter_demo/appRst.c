@@ -144,6 +144,7 @@ bool EI_APP_RST_init (EI_API_ADP_T *pAdapter)
  */
 bool EI_APP_RST_execute(int16_t serviceFlag)
 {
+
     bool ret = false;
 
     switch (serviceFlag)
@@ -166,7 +167,7 @@ bool EI_APP_RST_execute(int16_t serviceFlag)
         }
     }
 
-    return EI_APP_NV_write(true);
+    return EI_APP_CFG_write(true);
 }
 
 /*!
@@ -219,7 +220,7 @@ int16_t EI_APP_RST_getServiceFlag(void)
         }
 
         if ( (difTime > 2000) &&
-             (false  == CUST_DRIVERS_PRM_isWritePending()) )
+             (false  == EI_APP_NV_isWritePending()) )
         {
             EI_APP_RST_isRequired_s = false;
             return EI_APP_RST_serviceFlag_s;

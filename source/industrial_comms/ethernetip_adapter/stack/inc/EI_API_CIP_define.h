@@ -200,4 +200,56 @@ typedef struct EI_API_CIP_SAttr
     EI_API_CIP_CBSetAttr_CIPRouting   set_callback_routed;            /*!< Pointer to the set callback function for routed objects. */
 } EI_API_CIP_SAttr_t;
 
+/*!
+ *  \brief Consumer/Producer buffer structure declaration
+ */
+typedef struct EI_API_CIP_SBuffer
+{
+    uint16_t maxData;       /*!< Maximum Number of data */
+    uint16_t actData;       /*!< Actual data in buffer */
+    uint8_t *pDataBuf;      /*!< Pointer to data buffer */
+} EI_API_CIP_SBuffer_t;
+
+/*!
+ *  \brief Declaration of custom service callback required by stack
+ *
+ *  \details
+ *  Function provides communication buffers. Consume buffer provides request data.
+ *  Produce buffer is used to compose response data.
+ *
+ *  \remarks
+ *  First two parameters are related to internal stack definitions and should be ignored.
+ *
+ *  \ingroup EI_API_CIP_CALLBACK
+ */
+typedef uint8_t (*EI_API_CIP_CBStack)(const void *ptObj_p, void *ptConObj_p, EI_API_CIP_SBuffer_t *ptConsumeBuf_p, EI_API_CIP_SBuffer_t *ptProduceBuf_p);
+
+/*!
+ *  \brief Custom service structure declaration
+ */
+typedef struct EI_API_CIP_SCustomService
+{
+    uint16_t             code;              //!< Service Code Number
+    EI_API_CIP_CBStack   fuServiceStack;    //!< Function pointer to the callback required by stack
+    EI_API_CIP_CBService fuServiceUser;     //!< Function pointer to the callback set by user
+} EI_API_CIP_SCustomService_t;
+
+/*!
+ *  \brief Custom Assembly mapping structure. 
+ *
+ *  \details
+ *  This structure encapsulates the Assembly member customized binding.
+ *  That means the Assembly member is linked to which Attribute.
+ *  And also, the user-implemented Set and Get function for customized mapping between the Attribute and its Assembly representation.
+ */
+typedef struct EI_API_CIP_SAssemCustomMap
+{
+    uint16_t assemblyMemberLength;              //!< The length of the Assembly member representation in bytes
+    uint16_t mappedClassId;                     //!< ClassID to be mapped
+    uint16_t mappedInstanceId;                  //!< InstanceID to be mapped
+    uint16_t mappedAttributeId;                 //!< AttributeID to be mapped
+    EI_API_CIP_CBGetAssemblyMapped fuCustomGet; //!< Function pointer to user implemented Get (Mapping from Attribute to Assembly representation)
+    EI_API_CIP_CBSetAssemblyMapped fuCustomSet; //!< Function pointer to user implemented Set (Mapping from Assembly to Attribute representation)
+}EI_API_CIP_SAssemCustomMap_t;
+
 #endif // EI_API_CIP_DEFINE_H_INC

@@ -103,12 +103,23 @@ typedef struct EI_APP_CFG_Data
     EI_APP_CFG_ProfileData_t  profile;
 }EI_APP_CFG_Data_t;
 
+/*!
+ *  \brief
+ *  Initialization parameters of non-volatile configuration data.
+ */
+typedef struct EI_APP_CFG_SInit
+{
+    EI_APP_NV_EType_t      type;             /* Defines type of non-volatile memory FLASH/EEPROM */
+    uint32_t               instance;         /* Non-volatile memory driver instance */
+    uint32_t               address;          /* Non-volatile data address */
+}EI_APP_CFG_SInit_t;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern bool     EI_APP_CFG_init                  (EI_API_ADP_T        *pAdapter);
-extern uint32_t EI_APP_CFG_apply                 (EI_API_ADP_T        *pAdapter);
+extern bool     EI_APP_CFG_init                  (EI_API_ADP_T *pAdapter, EI_APP_CFG_SInit_t* pParam);
+extern uint32_t EI_APP_CFG_apply                 (EI_API_ADP_T *pAdapter);
 extern bool     EI_APP_CFG_isValid               (void);
 extern bool     EI_APP_CFG_isChanged             (void);
 extern void     EI_APP_CFG_setHeader             (EI_APP_CFG_Header_t *pHeader);
@@ -117,7 +128,9 @@ extern void     EI_APP_CFG_setDefaultWithoutComm (void);
 extern uint32_t EI_APP_CFG_getLength             (void);
 extern void*    EI_APP_CFG_getRuntimeData        (void);
 extern void*    EI_APP_CFG_getFactoryResetData   (void);
-extern void     EI_APP_CFG_callback              (EI_API_CIP_NODE_T   *pCipNode, uint16_t classId, uint16_t instanceId, uint16_t attrId, EI_API_CIP_ESc_t serviceCode, int16_t serviceFlag);
+extern bool     EI_APP_CFG_read                  (void);
+extern bool     EI_APP_CFG_write                 (bool blocking);
+extern void     EI_APP_CFG_callback              (EI_API_CIP_NODE_T *pCipNode, uint16_t classId, uint16_t instanceId, uint16_t attrId, EI_API_CIP_ESc_t serviceCode, int16_t serviceFlag);
 
 #ifdef  __cplusplus
 }

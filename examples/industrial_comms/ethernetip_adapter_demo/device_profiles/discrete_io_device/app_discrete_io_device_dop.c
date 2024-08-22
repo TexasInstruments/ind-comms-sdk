@@ -53,6 +53,7 @@
 #include "appUart.h"
 #include "appLed.h"
 #include "appNV.h"
+#include "appCfg.h"
 
 #include <osal.h>
 #include <osal_error.h>

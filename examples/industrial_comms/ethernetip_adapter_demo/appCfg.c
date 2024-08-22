@@ -51,6 +51,7 @@
 #include "appCipCodes.h"
 #include "appNV.h"
 #include "appCfg.h"
+#include "appRst.h"
 
 #include "device_profiles/app_device_profile.h"
 
@@ -67,35 +68,20 @@ static uint32_t EI_APP_CFG_setQos     (EI_API_ADP_T *pAdapter, EI_APP_CFG_Data_t
 static uint32_t EI_APP_CFG_setEthLink (EI_API_ADP_T *pAdapter, EI_APP_CFG_Data_t *pRuntimeData);
 static uint32_t EI_APP_CFG_setLldpMng (EI_API_ADP_T *pAdapter, EI_APP_CFG_Data_t *pRuntimeData);
 
-static EI_API_ADP_T                *EI_APP_CFG_pAdapter_s      = NULL;
-static bool                         EI_APP_CFG_isChanged_s     = false;
+static EI_API_ADP_T       *EI_APP_CFG_pAdapter_s  = NULL;
+static bool                EI_APP_CFG_isChanged_s = false;
+static EI_APP_CFG_SInit_t *EI_APP_CFG_pNvConfig_s = {0};
 
 /*!
  * \brief
- * Short description. Remove all tags that are not needed.
+ * Initialization of non-volatile configuration data
  *
- * \details
- * Detailed description.
+ * \param[in]     pAdapter   Pointer to EtherNet/IP Adapter object.
+ * \param[in]     pParam     Pointer to initialization parameters.
  *
- * \remarks
- * Some remarks
- *
- * \pre
- * description of the precondition
- *
- * \post
- * description of the postcondition
- *
- * \warning
- * Some warning
- *
- * \param[in]     node                         A node.
- * \param[inout]  data                         A given non formatted data and returned formatted data.
- * \param[out]    pRet                         Pointer to a return value.
- *
- * \return        #NAMESPACE_Error_t as uint32_t.
- * \retval        #NAMESPACE_ERR_OK            Success.
- * \retval        #NAMESPACE_ERR_FAIL          Something went wrong.
+ * \return        return status as bool.
+ * \retval        true            Success.
+ * \retval        false           Fail.
  *
  * \par Example
  * \code{.c}
@@ -110,13 +96,22 @@ static bool                         EI_APP_CFG_isChanged_s     = false;
  * \ingroup MyGroup
  *
  */
-bool EI_APP_CFG_init (EI_API_ADP_T *pAdapter)
+bool EI_APP_CFG_init (EI_API_ADP_T *pAdapter, EI_APP_CFG_SInit_t* pParam)
 {
     bool ret = false;
 
+    if (NULL == pParam)
+    {
+        goto laError;
+    }
+
     EI_APP_CFG_pAdapter_s = pAdapter;
 
+    EI_APP_CFG_pNvConfig_s = pParam;
+
     ret =  EI_APP_DEVICE_PROFILE_CFG_init(pAdapter);
+
+laError:
 
     return ret;
 }
@@ -253,6 +248,108 @@ laError:
     return errCode;
 }
 
+/*!
+ *
+ *  \brief
+ *  Reads non-volatile configuration data.
+ *
+ *  \details
+ *  Reads non-volatile configuration data. If no data are present,
+ *  a new structure is created with default data.
+ *
+ */
+bool EI_APP_CFG_read (void)
+{
+    const void*    pHandle = NULL;
+    const uint8_t* pData   = (uint8_t*) EI_APP_CFG_getRuntimeData();
+    uint32_t       length  = EI_APP_CFG_getLength();
+    uint32_t       err     = OSAL_GENERAL_ERROR;
+    bool           ret     = false;
+
+    if ( (EI_APP_NV_eTYPE_FLASH  == EI_APP_CFG_pNvConfig_s->type) ||
+         (EI_APP_NV_eTYPE_EEPROM == EI_APP_CFG_pNvConfig_s->type) )
+    {
+        pHandle = EI_APP_NV_getHandle(EI_APP_CFG_pNvConfig_s->type, EI_APP_CFG_pNvConfig_s->instance);
+
+        if ( (NULL != pHandle) &&
+             (NULL != pData)    &&
+             (0    != length) )
+        {
+            err = EI_APP_NV_read(EI_APP_CFG_pNvConfig_s->type,
+                                 EI_APP_CFG_pNvConfig_s->instance,
+                                 EI_APP_CFG_pNvConfig_s->address,
+                                 pData,
+                                 length);
+        }
+    }
+    else
+    {
+        err = EI_APP_NV_NO_MEMORY_DEFINED;
+    }
+
+    if ( (OSAL_NO_ERROR               != err) &&
+         (EI_APP_NV_NO_MEMORY_DEFINED != err) )
+    {
+        OSAL_printf ("Non-Volatile configuration data read failed\r\n");
+        goto laError;
+    }
+
+    ret = EI_APP_CFG_isValid();
+
+    if (false == ret)
+    {
+        OSAL_printf ("The configuration data is corrupted, write default values.\r\n");
+        EI_APP_RST_execute(1);
+    }
+
+    return ret;
+
+    //-------------------------------------------------------------------------------------------------
+    laError:
+
+        exit (-1);
+}
+
+/*!
+ *
+ *  \brief
+ *  Write non-volatile configuration data.
+ *
+ *  \details
+ *  Write non-volatile configuration data to memory. Operation can be blocking or non-blocking.
+ *
+ */
+bool EI_APP_CFG_write (bool blocking)
+{
+    EI_APP_CFG_Data_t *pCfgData = (EI_APP_CFG_Data_t*) EI_APP_CFG_getRuntimeData();
+    uint32_t           length   = EI_APP_CFG_getLength();
+    uint32_t           error    = OSAL_GENERAL_ERROR;
+    bool               ret      = false;
+
+    if (EI_APP_NV_eTYPE_UNDEFINED == EI_APP_CFG_pNvConfig_s->type)
+    {
+        goto laError;
+    }
+
+    EI_APP_CFG_setHeader(&pCfgData->header);
+
+    error = EI_APP_NV_write (EI_APP_CFG_pNvConfig_s->type,
+                             EI_APP_CFG_pNvConfig_s->instance,
+                             EI_APP_CFG_pNvConfig_s->address,
+                             (uint8_t*) pCfgData,
+                             length,
+                             blocking);
+
+    if (OSAL_NO_ERROR == error)
+    {
+        ret = true;
+    }
+
+laError:
+
+    return ret;
+}
+
 bool EI_APP_CFG_isChanged(void)
 {
     bool ret = EI_APP_CFG_isChanged_s;
@@ -272,7 +369,7 @@ bool EI_APP_CFG_isChanged(void)
  *  Callback function for write accesses of several attributes.
  *
  *  \details
- *  Callback function for write accesses of several attributes. Saves the new permanent data.
+ *  Callback function for write accesses of several attributes. Saves the new non-volatile configuration data.
  *  Sets new network configuration, if necessary. Sets aHostName, if necessary.
  */
 void EI_APP_CFG_callback ( EI_API_CIP_NODE_T *pCipNode,

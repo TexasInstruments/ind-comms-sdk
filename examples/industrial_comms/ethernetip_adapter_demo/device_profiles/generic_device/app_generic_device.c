@@ -49,6 +49,7 @@
 #include "EI_API_def.h"
 
 #include "appLed.h"
+#include "appNV.h"
 #include "appCfg.h"
 #include <device_profiles/app_device_profile.h>
 #include <device_profiles/app_device_profile_intern.h>
@@ -259,6 +260,7 @@ static bool EI_APP_GENERIC_DEVICE_cipSetup(EI_API_CIP_NODE_T* pCipNode)
         }
 
     }
+
     return true;
 }
 

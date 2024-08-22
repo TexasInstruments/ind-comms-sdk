@@ -138,6 +138,10 @@
         </file>
         <file path="../../../../../../appNV.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
+        <file path="../../../../../../appNvEeprom.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../appNvFlash.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
         <file path="../../../../../../appRst.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../appTask.c" openOnCreation="false" excludeFromBuild="false" action="link">

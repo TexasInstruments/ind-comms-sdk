@@ -41,6 +41,8 @@ FILES_common := \
 	app.c \
 	appCfg.c \
 	appNV.c \
+	appNvEeprom.c \
+	appNvFlash.c \
 	appRst.c \
 	appTask.c \
 	appLed.c \

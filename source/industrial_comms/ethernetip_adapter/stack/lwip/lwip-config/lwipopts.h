@@ -124,7 +124,7 @@
 
 // some tests
 #define LWIP_TCPIP_TIMEOUT  1
-#define MEM_LIBC_MALLOC                 1
+#define MEM_LIBC_MALLOC                 0
 
 #include<stdio.h>
 #include<string.h>
@@ -154,8 +154,8 @@ static inline void * pvPortCalloc(size_t count, size_t size)
    but are faster that way! */
 #define MEM_ALIGNMENT           4U
 
-#define MEM_USE_POOLS           0
-#define MEMP_USE_CUSTOM_POOLS   0
+#define MEM_USE_POOLS           1
+#define MEMP_USE_CUSTOM_POOLS   1
 
 /* MEM_SIZE: the size of the heap memory. If the application will send
 a lot of data that needs to be copied, this should be set high. */

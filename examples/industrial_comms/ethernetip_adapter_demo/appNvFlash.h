@@ -1,14 +1,14 @@
 /*!
- *  \file CUST_eeprom.h
+ *  \file appNvEeprom.h
  *
  *  \brief
- *  Custom EEPROM support.
+ *  Declarations related to FLASH non-volatile memory access.
  *
  *  \author
  *  KUNBUS GmbH
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
+ *  Copyright (c) 2023, KUNBUS GmbH<br><br>
  *  SPDX-License-Identifier: BSD-3-Clause
  *
  *  Copyright (c) 2023 None.
@@ -39,28 +39,27 @@
  *  SUCH DAMAGE.
  *
  */
+#ifndef APPNVFLASH_H
+#define APPNVFLASH_H
 
-#if !(defined PROTECT_CUST_EEPROM_H)
-#define PROTECT_CUST_EEPROM_H      1
+#include <stdbool.h>
+#include <stdint.h>
 
-#include <osal.h>
 
-typedef enum CUST_EEPROM_EError
-{
-    CUST_EEPROM_eERR_NOERROR           = 0,    /*!< No error, everything is fine. */
-    CUST_EEPROM_eERR_GENERALERROR      = -1    /*!< General error */
-} CUST_EEPROM_EError_t;
-
-#if (defined __cplusplus)
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-extern uint32_t      CUST_EEPROM_init      (void);
-extern uint32_t      CUST_EEPROM_deInit    (void);
-extern EEPROM_Handle CUST_EEPROM_getHandle (uint32_t instanceId);
+extern uint32_t     EI_APP_NV_FLASH_init           (uint32_t taskPrio);
+extern uint32_t     EI_APP_NV_FLASH_deinit         (void);
+extern uint32_t     EI_APP_NV_FLASH_read           (Flash_Handle handle, uint32_t offset, const uint8_t* pBuf, uint32_t length);
+extern uint32_t     EI_APP_NV_FLASH_write          (Flash_Handle handle, uint32_t offset, const uint8_t* pBuf, uint32_t length, bool blocking);
+extern Flash_Handle EI_APP_NV_FLASH_getHandle      (uint32_t instanceId);
+extern bool         EI_APP_NV_FLASH_isWritePending (void);
 
-#if (defined __cplusplus)
+
+#ifdef  __cplusplus
 }
 #endif
 
-#endif /* PROTECT_CUST_EEPROM_H */
+#endif // APPNVFLASH_H

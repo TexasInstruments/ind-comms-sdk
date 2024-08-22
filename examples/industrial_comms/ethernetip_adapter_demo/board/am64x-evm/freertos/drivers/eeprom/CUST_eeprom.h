@@ -55,8 +55,9 @@ typedef enum CUST_EEPROM_EError
 extern "C" {
 #endif
 
-extern uint32_t CUST_EEPROM_init   (void);
-extern uint32_t CUST_EEPROM_deInit (void);
+extern uint32_t      CUST_EEPROM_init      (void);
+extern uint32_t      CUST_EEPROM_deInit    (void);
+extern EEPROM_Handle CUST_EEPROM_getHandle (uint32_t instanceId);
 
 #if (defined __cplusplus)
 }

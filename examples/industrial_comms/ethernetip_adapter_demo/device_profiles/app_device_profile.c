@@ -47,6 +47,7 @@
 #include "EI_API.h"
 #include "EI_API_def.h"
 
+#include "appNV.h"
 #include "appCfg.h"
 
 #include "device_profiles/app_device_profile.h"
@@ -311,7 +312,7 @@ void EI_APP_DEVICE_PROFILE_CFG_setHeader (EI_APP_CFG_Header_t *pHeader)
  * #include "device_profiles/app_device_profile.h"
  *
  * // fill runtime configuration with data from non volatile memory
- * EI_APP_NV_read();
+ * EI_APP_NV_cfgRead();
  *
  * if (false == EI_APP_DEVICE_PROFILE_CFG_isValid())
  * {

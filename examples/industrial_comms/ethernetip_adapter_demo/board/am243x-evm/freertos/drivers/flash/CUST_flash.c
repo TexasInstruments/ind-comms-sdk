@@ -40,7 +40,13 @@
  *
  */
 
-#include <drivers/flash/CUST_flash.h>
+#include "ti_board_config.h"
+
+#include "drivers/flash/CUST_flash.h"
+
+#if (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+extern Flash_Handle gFlashHandle[CONFIG_FLASH_NUM_INSTANCES];
+#endif
 
 /*!
 * <!-- Description: -->
@@ -76,4 +82,33 @@ uint32_t CUST_FLASH_deInit(void)
 {
     // nothing needs to be done for this board
     return (uint32_t) CUST_FLASH_eERR_NOERROR;
+}
+
+/*!
+*
+*  \brief
+*  Provides specific FLASH handle defined by instance.
+*
+*  \param[in]  instance       SysConfig ID of FLASH
+*
+*  \return     requested FLASH handler
+*
+*  \retval     NULL           Failed.
+*  \retval     Other          Success.
+*
+*/
+Flash_Handle CUST_FLASH_getHandle(uint32_t instanceId)
+{
+    Flash_Handle handle = NULL;
+
+#if (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+    if (CONFIG_FLASH_NUM_INSTANCES > instanceId)
+    {
+        handle = gFlashHandle[instanceId];
+    }
+#else
+    OSALUNREF_PARM(instance);
+#endif
+
+    return handle;
 }

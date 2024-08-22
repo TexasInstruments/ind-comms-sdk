@@ -3785,14 +3785,14 @@
           "IsImplemented": true,
           "IsSet": false,
           "RelationType": "ISIN",
-          "RelationStr": "0,48"
+          "RelationStr": "0,16"
         },
         {
           "Id": 3,
           "IsImplemented": true,
           "IsSet": false,
           "RelationType": "ISIN",
-          "RelationStr": "0,48"
+          "RelationStr": "0,16"
         },
         {
           "Id": 4,

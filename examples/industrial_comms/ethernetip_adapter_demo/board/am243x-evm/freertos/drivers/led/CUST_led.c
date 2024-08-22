@@ -39,15 +39,14 @@
  *  SUCH DAMAGE.
  *
  */
-#include <stdio.h>
-#include <string.h>
 
-#include <board/led.h>
-#include <drivers/i2c.h>
+#include "ti_board_config.h"
 
 #include <drivers/led/CUST_led.h>
-#include "ti_board_config.h"
-#include "ti_board_open_close.h"
+
+#if (defined CONFIG_LED_NUM_INSTANCES) && (CONFIG_LED_NUM_INSTANCES > 0)
+extern LED_Handle gLedHandle[CONFIG_LED_NUM_INSTANCES];
+#endif
 
 /*!
  *
@@ -86,9 +85,11 @@ uint32_t CUST_LED_deInit(void)
 /*!
 *
 *  \brief
-*  Provides handle to LED driver.
+*  Provides specific LED handle defined by instance.
 *
-*  \return     LED_Handle  Handle to LED driver.
+*  \param[in]  instance       SysConfig ID of LED
+*
+*  \return     requested LED handler
 *
 *  \retval     NULL           Failed.
 *  \retval     Other          Success.
@@ -98,10 +99,14 @@ LED_Handle CUST_LED_getHandle(uint32_t instanceId)
 {
     LED_Handle handle = NULL;
 
+#if (defined CONFIG_LED_NUM_INSTANCES) && (CONFIG_LED_NUM_INSTANCES > 0)
     if (CONFIG_LED_NUM_INSTANCES > instanceId)
     {
         handle = gLedHandle[instanceId];
     }
+#else
+    OSALUNREF_PARM(instance);
+#endif
 
     return handle;
 }

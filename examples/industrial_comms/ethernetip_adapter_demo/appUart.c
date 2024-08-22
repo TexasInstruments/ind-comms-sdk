@@ -56,10 +56,11 @@ extern UART_Handle gUartHandle[CONFIG_UART_NUM_INSTANCES];
 
 typedef struct EI_APP_Uart
 {
-    UART_Handle      handle;
-    uint32_t         instance;
-    char             aOutStream[0x200];
-    UART_Transaction transaction;
+    UART_Handle                        handle;
+    uint32_t                           instance;
+    char                               aOutStream[0x200];
+    UART_Transaction                   transaction;
+    OSAL_API OSAL_SCHED_MutexHandle_t *pMutex;
 }EI_APP_Uart_t;
 
 static EI_APP_Uart_t EI_APP_uart_s = {0};
@@ -110,11 +111,21 @@ uint32_t EI_APP_UART_init(const EI_APP_UART_SInit_t* pParams)
 
     if(NULL == EI_APP_uart_s.handle)
     {
-        OSAL_printf("No UART handle available.\n");
-
         result = OSAL_UART_DRV_HANDLE_INVALID;
         goto laError;
     }
+
+    EI_APP_uart_s.pMutex = OSAL_MTXCTRLBLK_alloc();
+
+    if (NULL == EI_APP_uart_s.pMutex)
+    {
+        // @cppcheck_justify{misra-c2012-15.1} use goto Exit for single point of return
+        //cppcheck-suppress misra-c2012-15.1
+        result = OSAL_UART_DRV_MUTEX_ERROR;
+        goto laError;
+    }
+
+    OSAL_MTX_init(EI_APP_uart_s.pMutex);
 
     result = OSAL_NO_ERROR;
     goto laError;
@@ -144,6 +155,9 @@ uint32_t EI_APP_UART_deInit(void)
         UART_flushTxFifo(EI_APP_uart_s.handle);
     }
 
+    OSAL_MTXCTRLBLK_free(EI_APP_uart_s.pMutex);
+    EI_APP_uart_s.pMutex = NULL;
+
     result = OSAL_NO_ERROR;
 
     return result;
@@ -170,21 +184,40 @@ void EI_APP_UART_printf(void* pContext, const char* pFormat, va_list argptr)
     int32_t transferOK;
     /* @cppcheck_justify{unusedVariable} false-positive: variable is used */
     //cppcheck-suppress unusedVariable
+    uint32_t osalError;
 
     OSALUNREF_PARM(pContext);
 
-    UART_flushTxFifo(EI_APP_uart_s.handle);
-    UART_Transaction_init(&EI_APP_uart_s.transaction);
+    if (NULL == EI_APP_uart_s.pMutex)
+    {
+        transferOK = SystemP_FAILURE;
+        goto laError;
+    }
 
-    OSAL_MEMORY_memset(EI_APP_uart_s.aOutStream, 0, sizeof(EI_APP_uart_s.aOutStream));
-    (void)vsnprintf(EI_APP_uart_s.aOutStream, sizeof(EI_APP_uart_s.aOutStream), pFormat, argptr);
+    osalError = OSAL_MTX_get(EI_APP_uart_s.pMutex, OSAL_WAIT_INFINITE, NULL);
 
-    EI_APP_uart_s.transaction.count = strlen(EI_APP_uart_s.aOutStream);
-    EI_APP_uart_s.transaction.buf = (void *) EI_APP_uart_s.aOutStream;
-    EI_APP_uart_s.transaction.args = NULL;
+    if( OSAL_eERR_NOERROR == osalError )
+    {
+        UART_flushTxFifo(EI_APP_uart_s.handle);
+        UART_Transaction_init(&EI_APP_uart_s.transaction);
 
-    transferOK = UART_write(EI_APP_uart_s.handle, &EI_APP_uart_s.transaction);
+        OSAL_MEMORY_memset(EI_APP_uart_s.aOutStream, 0, sizeof(EI_APP_uart_s.aOutStream));
+        (void)vsnprintf(EI_APP_uart_s.aOutStream, sizeof(EI_APP_uart_s.aOutStream), pFormat, argptr);
 
+        EI_APP_uart_s.transaction.count = strlen(EI_APP_uart_s.aOutStream);
+        EI_APP_uart_s.transaction.buf = (void *) EI_APP_uart_s.aOutStream;
+        EI_APP_uart_s.transaction.args = NULL;
+
+        transferOK = UART_write(EI_APP_uart_s.handle, &EI_APP_uart_s.transaction);
+
+        OSAL_MTX_release(EI_APP_uart_s.pMutex);
+    }
+    else
+    {
+        transferOK = SystemP_FAILURE;
+    }
+
+laError:
     (void)transferOK;
 }
 

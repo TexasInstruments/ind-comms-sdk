@@ -1,4 +1,4 @@
-$ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
+$ EZ-EDS Version 3.34.1.20231010 Generated Electronic Data Sheet
 
 [File]
         DescText = "EtherNet/IP(tm) Adapter am64x-evm freeRTOS";
@@ -503,8 +503,8 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         Revision = 1;
         Object_Name = "LLDP Data Table Object";
         Object_Class_Code = 0x10A;
-        MaxInst = 48;
+        MaxInst = 16;
         Number_Of_Static_Instances = 0;
-        Max_Number_Of_Dynamic_Instances = 48;
+        Max_Number_Of_Dynamic_Instances = 16;
 
 
