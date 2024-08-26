@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ISO15745Profile xmlns="http://www.profibus.com/GSDML/2003/11/DeviceProfile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.profibus.com/GSDML/2003/11/DeviceProfile ..\xsd\GSDML-DeviceProfile-V2.43.xsd">
+	<!-- ProfileHeader Definition as defined in ISO15745-1. Please do not change the content. -->
+	<ProfileHeader>
+		<ProfileIdentification>PROFINET Device Profile</ProfileIdentification>
+		<ProfileRevision>1.00</ProfileRevision>
+		<ProfileName>Device Profile for PROFINET Devices</ProfileName>
+		<ProfileSource>PROFIBUS Nutzerorganisation e. V. (PNO)</ProfileSource>
+		<ProfileClassID>Device</ProfileClassID>
+		<ISO15745Reference>
+			<ISO15745Part>4</ISO15745Part>
+			<ISO15745Edition>1</ISO15745Edition>
+			<ProfileTechnology>GSDML</ProfileTechnology>
+		</ISO15745Reference>
+	</ProfileHeader>
+	<ProfileBody>
+		<DeviceIdentity VendorID="0x01C4" DeviceID="0x6402">
+			<InfoText TextId="IDT_Info_Device"/>
+			<VendorName Value="Texas Instruments"/>
+		</DeviceIdentity>
+		<DeviceFunction>
+			<Family MainFamily="I/O" ProductFamily="TI-SITARA-PROFINET-Device"/>
+		</DeviceFunction>
+		<ApplicationProcess>
+			<DeviceAccessPointList>
+				<DeviceAccessPointItem ID="DAP_IOD_V1" PhysicalSlots="0..3" ModuleIdentNumber="0x64020000" MinDeviceInterval="32" ImplementationType="sitara" DNS_CompatibleName="TI-DevKit" FixedInSlots="0" ObjectUUID_LocalIndex="1" MultipleWriteSupported="true" SharedDeviceSupported="true" DeviceAccessSupported="true" NumberOfDeviceAccessAR="1" MaxSupportedRecordSize="8192" NameOfStationNotTransferable="true" ParameterizationSpeedupSupported="true" LLDP_NoD_Supported="true" ResetToFactoryModes="2" CheckDeviceID_Allowed="true" PowerOnToCommReady="5000" IOXS_Required="false" RequiredSchemaVersion="V2.2" PNIO_Version="V2.42" AddressAssignment="LOCAL;DCP" AdaptsRealIdentification="true" IO_SupervisorSupported="false" CIR_Supported="true" PrmBeginPrmEndSequenceSupported="true">
+					<ModuleInfo CategoryRef="CAT_IOD">
+						<Name TextId="T_DAP_Name_IOD_V1"/>
+						<InfoText TextId="T_DAP_Info_IOD_V1"/>
+						<VendorName Value="Texas Instruments"/>
+						<OrderNumber Value="TI-Sitara EVM"/>
+						<HardwareRelease Value="200"/>
+						<SoftwareRelease Value="V4.0.x"/>
+					</ModuleInfo>
+					<CertificationInfo ConformanceClass="B" ApplicationClass="" NetloadClass="III"/>
+					<SubslotList>
+						<SubslotItem SubslotNumber="32768" TextId="IDT_X1_IF"/>
+						<SubslotItem SubslotNumber="32769" TextId="IDT_X1_P1"/>
+						<SubslotItem SubslotNumber="32770" TextId="IDT_X1_P2"/>
+					</SubslotList>
+					<IOConfigData MaxInputLength="720" MaxOutputLength="720" MaxDataLength="1440"/>
+					<UseableModules>
+						<ModuleItemRef ModuleItemTarget="IDM_IM_V1" AllowedInSlots="1..3"/>
+						<ModuleItemRef ModuleItemTarget="IDM_OM_V1" AllowedInSlots="1..3"/>
+						<ModuleItemRef ModuleItemTarget="IDM_IOM_V1" AllowedInSlots="1..3" UsedInSlots="1"/>
+					</UseableModules>
+					<VirtualSubmoduleList>
+						<VirtualSubmoduleItem ID="IDM_DAP_IOD_V1_MAP" SubmoduleIdentNumber="0x64020001" Writeable_IM_Records="1 2 3 4" IM5_Supported="true" MayIssueProcessAlarm="false">
+							<IOData/>
+							<ModuleInfo>
+								<Name TextId="IDT_DAP_MAP_Name"/>
+								<InfoText TextId="IDT_DAP_MAP_Info"/>
+							</ModuleInfo>
+						</VirtualSubmoduleItem>
+					</VirtualSubmoduleList>
+					<SystemDefinedSubmoduleList>
+						<InterfaceSubmoduleItem ID="IDS_DAP1_IF" SubslotNumber="32768" SubmoduleIdentNumber="0x64028000" TextId="IDT_PNIO" Writeable_IM_Records="1 2 3 4" IM5_Supported="true" SupportedDelayMeasurements="PTCP" IsochroneModeSupported="false" SupportedRT_Classes="RT_CLASS_1" SupportedProtocols="SNMP;LLDP" NetworkComponentDiagnosisSupported="true"
+								PTP_BoundarySupported="true" DCP_BoundarySupported="true" MulticastBoundarySupported="true" DCP_HelloSupported="true" MaxFrameStartTime="1600" MinNRT_Gap="960" DelayMeasurementSupported="true" PDEV_CombinedObjectSupported="true">
+							<ApplicationRelations NumberOfAR="4" StartupMode="Legacy;Advanced" NumberOfAdditionalInputCR="0" NumberOfAdditionalMulticastProviderCR="0" NumberOfAdditionalOutputCR="0" NumberOfMulticastConsumerCR="0" PullModuleAlarmSupported="true">
+								<TimingProperties SendClock="16 32 64 128" ReductionRatio="1 2 4 8 16 32 64 128 256 512"/>
+							</ApplicationRelations>
+							<MediaRedundancy SupportedRole="Client" MRPD_Supported="false"/>
+						</InterfaceSubmoduleItem>
+						<PortSubmoduleItem ID="IDS_DAP1_P1" SubslotNumber="32769" SubmoduleIdentNumber="0x64028001" TextId="IDT_Port1" Writeable_IM_Records="1 2 3 4" IM5_Supported="true" MaxPortRxDelay="220" MaxPortTxDelay="64" IsDefaultRingport="true" MAUType="100BASETXFD" MAUTypes="16" PortDeactivationSupported="true" LinkStateDiagnosisCapability="Up+Down" ShortPreamble100MBitSupported="false" CheckMAUTypeSupported="true" CheckMAUTypeDifferenceSupported="true">
+							<MAUTypeList>
+								<MAUTypeItem Value="16" AdjustSupported="true"/>
+							</MAUTypeList>
+						</PortSubmoduleItem>
+						<PortSubmoduleItem ID="IDS_DAP1_P2" SubslotNumber="32770" SubmoduleIdentNumber="0x64028002" TextId="IDT_Port2" Writeable_IM_Records="1 2 3 4" IM5_Supported="true" MaxPortRxDelay="220" MaxPortTxDelay="64" IsDefaultRingport="true" MAUType="100BASETXFD" MAUTypes="16" PortDeactivationSupported="true" LinkStateDiagnosisCapability="Up+Down" ShortPreamble100MBitSupported="false" CheckMAUTypeSupported="true" CheckMAUTypeDifferenceSupported="true">
+							<MAUTypeList>
+								<MAUTypeItem Value="16" AdjustSupported="true"/>
+							</MAUTypeList>
+						</PortSubmoduleItem>
+					</SystemDefinedSubmoduleList>
+					<Graphics>
+						<GraphicItemRef Type="DeviceSymbol" GraphicItemTarget="ID_Graph_1"/>
+					</Graphics>
+					<!-- AssetManagement/ -->
+					<SystemRedundancy DeviceTypes="S2" DeviceType="S2" NumberOfAR_Sets="1" RT_InputOnBackupAR_Supported="false" MaxSwitchOverTime="30" />
+				</DeviceAccessPointItem>
+			</DeviceAccessPointList>
+			<ModuleList>
+				<ModuleItem ID="IDM_IM_V1" ModuleIdentNumber="0x03010100" PhysicalSubslots="2..5" RequiredSchemaVersion="V2.2">
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_IM"/>
+						<InfoText TextId="IDT_INFO_IM"/>
+					</ModuleInfo>
+					<VirtualSubmoduleList>
+						<VirtualSubmoduleItem ID="IDS_IM_MAP" SubmoduleIdentNumber="0x03010101" API="0" FixedInSubslots="1" Writeable_IM_Records="1 2 3 4" IM5_Supported="true" MayIssueProcessAlarm="false">
+							<IOData/>
+							<RecordDataList>
+								<ParameterRecordDataItem Index="4096" Length="16" TransferSequence="0">
+									<Name TextId="IDT_MOD_Param"/>
+									<Const Data="0x01,0x0E,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00"/>
+									<Ref ID="IDR_PIC"  TextId="IDT_PrmInitCtrl"      ByteOffset="2" DataType="BitArea" BitOffset="0" BitLength="2" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_PrmInitCtrl"/>
+									<Ref ID="IDR_PWP"  TextId="IDT_PrmWrProtect"     ByteOffset="2" DataType="BitArea" BitOffset="2" BitLength="3" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_PrmWriteProtect"/>
+									<Ref ID="IDR_PXP"  TextId="IDT_PrmCtrlWrProtect" ByteOffset="2" DataType="BitArea" BitOffset="5" BitLength="1" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_PrmCtrlWrProtect"/>
+									<Ref ID="IDR_RWP"  TextId="IDT_ResetProtectCtrl" ByteOffset="2" DataType="BitArea" BitOffset="6" BitLength="1" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_ResetCtrlWriteProtect"/>
+									<Ref ID="IDR_ALM"  TextId="IDT_AlarmChCtrl"      ByteOffset="3" DataType="BitArea" BitOffset="0" BitLength="1" DefaultValue="1" Changeable="true" Visible="true" ValueItemTarget="VIT_DisEnable"/>
+									<Ref ID="IDR_PRM1" TextId="IDT_PRM1" ByteOffset="4"  DataType="Integer16" DefaultValue="1" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM2" TextId="IDT_PRM2" ByteOffset="6"  DataType="Integer16" DefaultValue="2" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM3" TextId="IDT_PRM3" ByteOffset="8"  DataType="Integer16" DefaultValue="3" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM4" TextId="IDT_PRM4" ByteOffset="10" DataType="Integer16" DefaultValue="4" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM5" TextId="IDT_PRM5" ByteOffset="12" DataType="Integer16" DefaultValue="5" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM6" TextId="IDT_PRM6" ByteOffset="14" DataType="Integer16" DefaultValue="6" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<MenuList>
+										<MenuItem ID="IDM_PRM">
+											<Name TextId="IDT_MOD_Param"/>
+											<ParameterRef ParameterTarget="IDR_PIC"/>
+											<ParameterRef ParameterTarget="IDR_PWP"/>
+											<ParameterRef ParameterTarget="IDR_PXP"/>
+											<ParameterRef ParameterTarget="IDR_RWP"/>
+											<ParameterRef ParameterTarget="IDR_ALM"/>
+											<MenuRef MenuTarget="IDM_Menu1"/>
+											<MenuRef MenuTarget="IDM_Menu2"/>
+										</MenuItem>
+										<MenuItem ID="IDM_Menu1">
+											<Name TextId="IDT_Menue1_Param"/>
+											<ParameterRef ParameterTarget="IDR_PRM1"/>
+											<ParameterRef ParameterTarget="IDR_PRM2"/>
+											<ParameterRef ParameterTarget="IDR_PRM3"/>
+										</MenuItem>
+										<MenuItem ID="IDM_Menu2">
+											<Name TextId="IDT_Menue2_Param"/>
+											<ParameterRef ParameterTarget="IDR_PRM4"/>
+											<ParameterRef ParameterTarget="IDR_PRM5"/>
+											<ParameterRef ParameterTarget="IDR_PRM6"/>
+										</MenuItem>
+									</MenuList>
+								</ParameterRecordDataItem>
+							</RecordDataList>
+							<ModuleInfo>
+								<Name TextId="IDT_IM_MAP_Name"/>
+								<InfoText TextId="IDT_IM_MAP_Info"/>
+							</ModuleInfo>
+						</VirtualSubmoduleItem>
+					</VirtualSubmoduleList>
+					<UseableSubmodules>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TI1" AllowedInSubslots="2..5" UsedInSubslots="2"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TI2" AllowedInSubslots="2..5"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TI4" AllowedInSubslots="2..5"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TUI" AllowedInSubslots="2..5"/>
+					</UseableSubmodules>
+				</ModuleItem>
+				<ModuleItem ID="IDM_OM_V1" ModuleIdentNumber="0x03010200" PhysicalSubslots="2..5" RequiredSchemaVersion="V2.2">
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_OM"/>
+						<InfoText TextId="IDT_INFO_OM"/>
+					</ModuleInfo>
+					<VirtualSubmoduleList>
+						<VirtualSubmoduleItem ID="IDS_OM_MAP" SubmoduleIdentNumber="0x03010201" API="0" FixedInSubslots="1" Writeable_IM_Records="1 2 3 4" IM5_Supported="true" MayIssueProcessAlarm="false">
+							<IOData/>
+							<RecordDataList>
+								<ParameterRecordDataItem Index="4096" Length="16" TransferSequence="0">
+									<Name TextId="IDT_MOD_Param"/>
+									<Const Data="0x01,0x0E,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00"/>
+									<Ref ID="IDR_PIC"  TextId="IDT_PrmInitCtrl"      ByteOffset="2" DataType="BitArea" BitOffset="0" BitLength="2" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_PrmInitCtrl"/>
+									<Ref ID="IDR_PWP"  TextId="IDT_PrmWrProtect"     ByteOffset="2" DataType="BitArea" BitOffset="2" BitLength="3" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_PrmWriteProtect"/>
+									<Ref ID="IDR_PXP"  TextId="IDT_PrmCtrlWrProtect" ByteOffset="2" DataType="BitArea" BitOffset="5" BitLength="1" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_PrmCtrlWrProtect"/>
+									<Ref ID="IDR_RWP"  TextId="IDT_ResetProtectCtrl" ByteOffset="2" DataType="BitArea" BitOffset="6" BitLength="1" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_ResetCtrlWriteProtect"/>
+									<Ref ID="IDR_ALM"  TextId="IDT_AlarmChCtrl"      ByteOffset="3" DataType="BitArea" BitOffset="0" BitLength="1" DefaultValue="1" Changeable="true" Visible="true" ValueItemTarget="VIT_DisEnable"/>
+									<Ref ID="IDR_PRM1" TextId="IDT_PRM1" ByteOffset="4"  DataType="Integer16" DefaultValue="1" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM2" TextId="IDT_PRM2" ByteOffset="6"  DataType="Integer16" DefaultValue="2" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM3" TextId="IDT_PRM3" ByteOffset="8"  DataType="Integer16" DefaultValue="3" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM4" TextId="IDT_PRM4" ByteOffset="10" DataType="Integer16" DefaultValue="4" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM5" TextId="IDT_PRM5" ByteOffset="12" DataType="Integer16" DefaultValue="5" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM6" TextId="IDT_PRM6" ByteOffset="14" DataType="Integer16" DefaultValue="6" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<MenuList>
+										<MenuItem ID="IDM_PRM">
+											<Name TextId="IDT_MOD_Param"/>
+											<ParameterRef ParameterTarget="IDR_PIC"/>
+											<ParameterRef ParameterTarget="IDR_PWP"/>
+											<ParameterRef ParameterTarget="IDR_PXP"/>
+											<ParameterRef ParameterTarget="IDR_RWP"/>
+											<ParameterRef ParameterTarget="IDR_ALM"/>
+											<MenuRef MenuTarget="IDM_Menu1"/>
+											<MenuRef MenuTarget="IDM_Menu2"/>
+										</MenuItem>
+										<MenuItem ID="IDM_Menu1">
+											<Name TextId="IDT_Menue1_Param"/>
+											<ParameterRef ParameterTarget="IDR_PRM1"/>
+											<ParameterRef ParameterTarget="IDR_PRM2"/>
+											<ParameterRef ParameterTarget="IDR_PRM3"/>
+										</MenuItem>
+										<MenuItem ID="IDM_Menu2">
+											<Name TextId="IDT_Menue2_Param"/>
+											<ParameterRef ParameterTarget="IDR_PRM4"/>
+											<ParameterRef ParameterTarget="IDR_PRM5"/>
+											<ParameterRef ParameterTarget="IDR_PRM6"/>
+										</MenuItem>
+									</MenuList>
+								</ParameterRecordDataItem>
+							</RecordDataList>
+							<ModuleInfo>
+								<Name TextId="IDT_OM_MAP_Name"/>
+								<InfoText TextId="IDT_OM_MAP_Info"/>
+							</ModuleInfo>
+						</VirtualSubmoduleItem>
+					</VirtualSubmoduleList>
+					<UseableSubmodules>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TO1" AllowedInSubslots="2..5" UsedInSubslots="2"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TO2" AllowedInSubslots="2..5"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TO4" AllowedInSubslots="2..5"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TUO" AllowedInSubslots="2..5"/>
+					</UseableSubmodules>
+				</ModuleItem>
+				<ModuleItem ID="IDM_IOM_V1" ModuleIdentNumber="0x03010300" PhysicalSubslots="2..10" RequiredSchemaVersion="V2.2">
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_IOM"/>
+						<InfoText TextId="IDT_INFO_IOM"/>
+					</ModuleInfo>
+					<VirtualSubmoduleList>
+						<VirtualSubmoduleItem ID="IDS_IOM_MAP" SubmoduleIdentNumber="0x03010301" API="0" FixedInSubslots="1" Writeable_IM_Records="1 2 3 4" IM5_Supported="true" MayIssueProcessAlarm="false">
+							<IOData/>
+							<RecordDataList>
+								<ParameterRecordDataItem Index="4096" Length="16" TransferSequence="0">
+									<Name TextId="IDT_MOD_Param"/>
+									<Const Data="0x01,0x0E,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00"/>
+									<Ref ID="IDR_PIC"  TextId="IDT_PrmInitCtrl"      ByteOffset="2" DataType="BitArea" BitOffset="0" BitLength="2" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_PrmInitCtrl"/>
+									<Ref ID="IDR_PWP"  TextId="IDT_PrmWrProtect"     ByteOffset="2" DataType="BitArea" BitOffset="2" BitLength="3" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_PrmWriteProtect"/>
+									<Ref ID="IDR_PXP"  TextId="IDT_PrmCtrlWrProtect" ByteOffset="2" DataType="BitArea" BitOffset="5" BitLength="1" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_PrmCtrlWrProtect"/>
+									<Ref ID="IDR_RWP"  TextId="IDT_ResetProtectCtrl" ByteOffset="2" DataType="BitArea" BitOffset="6" BitLength="1" DefaultValue="0" Changeable="true" Visible="true" ValueItemTarget="VIT_ResetCtrlWriteProtect"/>
+									<Ref ID="IDR_ALM"  TextId="IDT_AlarmChCtrl"      ByteOffset="3" DataType="BitArea" BitOffset="0" BitLength="1" DefaultValue="1" Changeable="true" Visible="true" ValueItemTarget="VIT_DisEnable"/>
+									<Ref ID="IDR_PRM1" TextId="IDT_PRM1" ByteOffset="4"  DataType="Integer16" DefaultValue="1" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM2" TextId="IDT_PRM2" ByteOffset="6"  DataType="Integer16" DefaultValue="2" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM3" TextId="IDT_PRM3" ByteOffset="8"  DataType="Integer16" DefaultValue="3" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM4" TextId="IDT_PRM4" ByteOffset="10" DataType="Integer16" DefaultValue="4" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM5" TextId="IDT_PRM5" ByteOffset="12" DataType="Integer16" DefaultValue="5" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<Ref ID="IDR_PRM6" TextId="IDT_PRM6" ByteOffset="14" DataType="Integer16" DefaultValue="6" AllowedValues="-32768..32767" Changeable="true" Visible="true"/>
+									<MenuList>
+										<MenuItem ID="IDM_PRM">
+											<Name TextId="IDT_MOD_Param"/>
+											<ParameterRef ParameterTarget="IDR_PIC"/>
+											<ParameterRef ParameterTarget="IDR_PWP"/>
+											<ParameterRef ParameterTarget="IDR_PXP"/>
+											<ParameterRef ParameterTarget="IDR_RWP"/>
+											<ParameterRef ParameterTarget="IDR_ALM"/>
+											<MenuRef MenuTarget="IDM_Menu1"/>
+											<MenuRef MenuTarget="IDM_Menu2"/>
+										</MenuItem>
+										<MenuItem ID="IDM_Menu1">
+											<Name TextId="IDT_Menue1_Param"/>
+											<ParameterRef ParameterTarget="IDR_PRM1"/>
+											<ParameterRef ParameterTarget="IDR_PRM2"/>
+											<ParameterRef ParameterTarget="IDR_PRM3"/>
+										</MenuItem>
+										<MenuItem ID="IDM_Menu2">
+											<Name TextId="IDT_Menue2_Param"/>
+											<ParameterRef ParameterTarget="IDR_PRM4"/>
+											<ParameterRef ParameterTarget="IDR_PRM5"/>
+											<ParameterRef ParameterTarget="IDR_PRM6"/>
+										</MenuItem>
+									</MenuList>
+								</ParameterRecordDataItem>
+							</RecordDataList>
+							<ModuleInfo>
+								<Name TextId="IDT_IOM_MAP_Name"/>
+								<InfoText TextId="IDT_IOM_MAP_Info"/>
+							</ModuleInfo>
+						</VirtualSubmoduleItem>
+					</VirtualSubmoduleList>
+					<UseableSubmodules>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TI1"  AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TI2"  AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TI4"  AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TO1"  AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TO2"  AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TO4"  AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TIO1" AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TIO2" AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TIO4" AllowedInSubslots="2..10" UsedInSubslots="2"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TUI"  AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TUO"  AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TUIO" AllowedInSubslots="2..10"/>
+					</UseableSubmodules>
+				</ModuleItem>
+			</ModuleList>
+			<SubmoduleList>
+				<SubmoduleItem ID="IDS_TI1" SubmoduleIdentNumber="0x31010001" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Input Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TI1" Length="1" UseAsBits="true" />
+						</Input>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TI1"/>
+						<InfoText TextId="IDT_INFO_TI1"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TI2" SubmoduleIdentNumber="0x31010002" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Input Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TI2" Length="2" UseAsBits="true" />
+						</Input>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TI2"/>
+						<InfoText TextId="IDT_INFO_TI2"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TI4" SubmoduleIdentNumber="0x31010004" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Input Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TI4" Length="4" UseAsBits="true" />
+						</Input>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TI4"/>
+						<InfoText TextId="IDT_INFO_TI4"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TO1" SubmoduleIdentNumber="0x31020001" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Output Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TO1" Length="1" UseAsBits="true" />
+						</Output>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TO1"/>
+						<InfoText TextId="IDT_INFO_TO1"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TO2" SubmoduleIdentNumber="0x31020002" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Output Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TO2" Length="2" UseAsBits="true" />
+						</Output>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TO2"/>
+						<InfoText TextId="IDT_INFO_TO2"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TO4" SubmoduleIdentNumber="0x31020004" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Output Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TO4" Length="4" UseAsBits="true" />
+						</Output>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TO4"/>
+						<InfoText TextId="IDT_INFO_TO4"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TIO1" SubmoduleIdentNumber="0x31030001" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Input Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TI1" Length="1" UseAsBits="true" />
+						</Input>
+						<Output Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TO1" Length="1" UseAsBits="true" />
+						</Output>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TIO1"/>
+						<InfoText TextId="IDT_INFO_TIO1"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TIO2" SubmoduleIdentNumber="0x31030002" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Input Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TI2" Length="2" UseAsBits="true" />
+						</Input>
+						<Output Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TO2" Length="2" UseAsBits="true" />
+						</Output>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TIO2"/>
+						<InfoText TextId="IDT_INFO_TIO2"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TIO4" SubmoduleIdentNumber="0x31030004" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Input Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TI4" Length="4" UseAsBits="true" />
+						</Input>
+						<Output Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TO4" Length="4" UseAsBits="true" />
+						</Output>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TIO4"/>
+						<InfoText TextId="IDT_INFO_TIO4"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TUI" SubmoduleIdentNumber="0x31010040" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Input Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TI64" Length="64" UseAsBits="true" />
+						</Input>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TUI"/>
+						<InfoText TextId="IDT_INFO_TUI"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TUO" SubmoduleIdentNumber="0x31020040" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Output Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TO64" Length="64" UseAsBits="true" />
+						</Output>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TUO"/>
+						<InfoText TextId="IDT_INFO_TUO"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+
+				<SubmoduleItem ID="IDS_TUIO" SubmoduleIdentNumber="0x31030040" API="0" Writeable_IM_Records="1 2 3 4" MayIssueProcessAlarm="false">
+					<IOData>
+						<Input Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TI64" Length="64" UseAsBits="true" />
+						</Input>
+						<Output Consistency="All items consistency">
+							<DataItem DataType="OctetString" TextId="IDT_TO64" Length="64" UseAsBits="true" />
+						</Output>
+					</IOData>
+					<ModuleInfo>
+						<Name TextId="IDT_NAME_TUIO"/>
+						<InfoText TextId="IDT_INFO_TUIO"/>
+					</ModuleInfo>
+				</SubmoduleItem>
+			</SubmoduleList>
+			<ValueList>
+				<ValueItem ID="VIT_DisEnable">
+					<Assignments>
+						<Assign TextId="IDT_Disable" Content="0"/>
+						<Assign TextId="IDT_Enable" Content="1"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VIT_NotDisEnable">
+					<Assignments>
+						<Assign TextId="IDT_Disable" Content="1"/>
+						<Assign TextId="IDT_Enable" Content="0"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VIT_PrmInitCtrl">
+					<Assignments>
+						<Assign TextId="IDT_PrmInitCtrl_PRM" Content="0"/>
+						<Assign TextId="IDT_PrmInitCtrl_NVM" Content="1"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VIT_PrmWriteProtect">
+					<Assignments>
+						<Assign TextId="IDT_PrmWrProtect_WrAll" Content="0"/>
+						<Assign TextId="IDT_PrmWrProtect_ReadOnly" Content="1"/>
+						<Assign TextId="IDT_PrmWrProtect_WrController" Content="2"/>
+						<Assign TextId="IDT_PrmWrProtect_WrSupervisor" Content="3"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VIT_PrmCtrlWrProtect">
+					<Assignments>
+						<Assign TextId="IDT_PrmCtrlWrProtect_WriteAll" Content="0"/>
+						<Assign TextId="IDT_PrmCtrlWrProtect_ReadOnly" Content="1"/>
+					</Assignments>
+				</ValueItem>
+				<ValueItem ID="VIT_ResetCtrlWriteProtect">
+					<Assignments>
+						<Assign TextId="IDT_ResetProtectCtrl_WriteAll" Content="0"/>
+						<Assign TextId="IDT_ResetProtectCtrl_ReadOnly" Content="1"/>
+					</Assignments>
+				</ValueItem>
+			</ValueList>
+			<ChannelDiagList>
+				<!-- Faults -->
+				<ChannelDiagItem ErrorType="16">
+					<Name TextId="IDT_ERR_16"/>
+				</ChannelDiagItem>
+				<ChannelDiagItem ErrorType="19">
+					<Name TextId="IDT_ERR_19"/>
+				</ChannelDiagItem>
+			</ChannelDiagList>
+			<GraphicsList>
+				<GraphicItem ID="ID_Graph_1" GraphicFile="GSDML-01C4-6402-TI-SITARA"/>
+			</GraphicsList>
+			<CategoryList>
+				<CategoryItem ID="CAT_IOD" TextId="IDT_CAT_IOD"/>
+				<!-- CategoryItem ID="CAT_SUB" TextId="IDT_CAT_SUB"/ -->
+			</CategoryList>
+			<ExternalTextList>
+				<PrimaryLanguage>
+					<Text TextId="IDT_CAT_IOD" Value="AM64x / AM243x"/>
+					<!-- Text TextId="IDT_CAT_SUB" Value=""/ -->
+
+					<!--DAP-->
+					<Text TextId="T_DAP_Name_IOD_V1" Value="IO-Device V2.0"/>
+					<Text TextId="T_DAP_Info_IOD_V1" Value="Texas Instruments TMDS64EVM / TMDS243EVM Evaluation Board as I/O Device with PROFINET-IO-functionality (RT, cyclic and acyclic communication)."/>
+
+					<Text TextId="IDT_Info_Device" Value="Decentralized standalone Multi-channel I/O Device based on PROFINET-IO Fieldbus system."/>
+					<Text TextId="IDT_IOM" Value="I/O Module"/>
+					<Text TextId="IDT_IM" Value="Input Module"/>
+					<Text TextId="IDT_OM" Value="Output Module"/>
+					<!--port name-->
+					<Text TextId="IDT_X1_IF" Value="X1"/>
+					<Text TextId="IDT_X1_P1" Value="X1 P1"/>
+					<Text TextId="IDT_X1_P2" Value="X1 P2"/>
+					<Text TextId="IDT_PNIO"  Value="PN-IO"/>
+					<Text TextId="IDT_Port1" Value="Port 1"/>
+					<Text TextId="IDT_Port2" Value="Port 2"/>
+
+					<Text TextId="IDT_DAP_MAP_Name" Value="Device Access Point"/>
+					<Text TextId="IDT_DAP_MAP_Info" Value="Access Point to Device parameter."/>
+
+					<!--ParameterRecord name, Item -->
+					<Text TextId="IDT_AlarmChCtrl" Value="Alarm channel control"/>
+					<Text TextId="IDT_MOD_Param" Value="Module Parameter"/>
+					<Text TextId="IDT_Menue1_Param" Value="Menu-1 Parameter"/>
+					<Text TextId="IDT_Menue2_Param" Value="Menu-2 Parameter"/>
+
+					<Text TextId="IDT_PRM1" Value="Parameter 1"/>
+					<Text TextId="IDT_PRM2" Value="Parameter 2"/>
+					<Text TextId="IDT_PRM3" Value="Parameter 3"/>
+					<Text TextId="IDT_PRM4" Value="Parameter 4"/>
+					<Text TextId="IDT_PRM5" Value="Parameter 5"/>
+					<Text TextId="IDT_PRM6" Value="Parameter 6"/>
+
+					<Text TextId="IDT_Disable" Value="disable"/>
+					<Text TextId="IDT_Enable" Value="enable"/>
+
+					<Text TextId="IDT_IM_MAP_Name" Value="Module Access Point"/>
+					<Text TextId="IDT_IM_MAP_Info" Value="Input Module Access Point (MAP) which is mapped to a dedicated Input Channel representative Submodule (1)."/>
+					<Text TextId="IDT_OM_MAP_Name" Value="Module Access Point"/>
+					<Text TextId="IDT_OM_MAP_Info" Value="Output Module Access Point (MAP) which is mapped to a dedicated Output Channel representative Submodule (1)."/>
+					<Text TextId="IDT_IOM_MAP_Name" Value="Module Access Point"/>
+					<Text TextId="IDT_IOM_MAP_Info" Value="I/O Module Access Point (MAP) which is mapped to a dedicated I/O Channel representative Submodule (1)."/>
+
+					<Text TextId="IDT_NAME_IM"  Value="Input Channel V1.0"/>
+					<Text TextId="IDT_INFO_IM"  Value="Input Channel, with representative Submodule-1 for Module Access Point (MAP) and I/O Submodules 2 to 5 each for Input-Data telegrams with lengh of: 1-Byte/ 2-Byte/ 4-Byte / Universal up to 64 Byte"/>
+					<Text TextId="IDT_NAME_OM"  Value="Output Channel V1.0"/>
+					<Text TextId="IDT_INFO_OM"  Value="Output Channel, with representative Submodule-1 for Module Access Point (MAP) and I/O Submodules 2 to 5 each for Output-Data telegrams with lengh of: 1-Byte/ 2-Byte/ 4-Byte / Universal up to 64 Byte"/>
+					<Text TextId="IDT_NAME_IOM" Value="I/O Channel V1.0"/>
+					<Text TextId="IDT_INFO_IOM" Value="Input/Output Channel, with representative Submodule-1 for Module Access Point (MAP) and I/O Submodules 2 to 10 each for Input, Output or I/O Data telegrams with lengh of: 1-Byte/ 2-Byte/ 4-Byte / Universal up to 64 Byte"/>
+
+					<!--Submodule telegram x name -->
+					<Text TextId="IDT_NAME_TI1"  Value="Input 1-Byte"/>
+					<Text TextId="IDT_NAME_TI2"  Value="Input 2-Byte"/>
+					<Text TextId="IDT_NAME_TI4"  Value="Input 4-Byte"/>
+					<Text TextId="IDT_NAME_TO1"  Value="Output 1-Byte"/>
+					<Text TextId="IDT_NAME_TO2"  Value="Output 2-Byte"/>
+					<Text TextId="IDT_NAME_TO4"  Value="Output 4-Byte"/>
+					<Text TextId="IDT_NAME_TIO1" Value="I/O 1-Byte"/>
+					<Text TextId="IDT_NAME_TIO2" Value="I/O 2-Byte"/>
+					<Text TextId="IDT_NAME_TIO4" Value="I/O 4-Byte"/>
+					<Text TextId="IDT_NAME_TUI"  Value="Universal Input"/>
+					<Text TextId="IDT_NAME_TUO"  Value="Universal Output"/>
+					<Text TextId="IDT_NAME_TUIO" Value="Universal I/O"/>
+
+					<!--Submodule telegram x Info -->
+					<Text TextId="IDT_INFO_TI1"  Value="Input 1-Byte"/>
+					<Text TextId="IDT_INFO_TI2"  Value="Input 2-Byte"/>
+					<Text TextId="IDT_INFO_TI4"  Value="Input 4-Byte"/>
+					<Text TextId="IDT_INFO_TO1"  Value="Output 1-Byte"/>
+					<Text TextId="IDT_INFO_TO2"  Value="Output 2-Byte"/>
+					<Text TextId="IDT_INFO_TO4"  Value="Output 4-Byte"/>
+					<Text TextId="IDT_INFO_TIO1" Value="I/O 1-Byte"/>
+					<Text TextId="IDT_INFO_TIO2" Value="I/O 2-Byte"/>
+					<Text TextId="IDT_INFO_TIO4" Value="I/O 4-Byte"/>
+					<Text TextId="IDT_INFO_TUI"  Value="Universal Input 64-Byte"/>
+					<Text TextId="IDT_INFO_TUO"  Value="Universal Outnput 64-Byte"/>
+					<Text TextId="IDT_INFO_TUIO" Value="Universal I/O 64-Byte"/>
+
+					<Text TextId="IDT_TI1"  Value="Input 1-Byte"/>
+					<Text TextId="IDT_TI2"  Value="Input 2-Byte"/>
+					<Text TextId="IDT_TI4"  Value="Input 4-Byte"/>
+					<Text TextId="IDT_TO1"  Value="Output 1-Byte"/>
+					<Text TextId="IDT_TO2"  Value="Output 2-Byte"/>
+					<Text TextId="IDT_TO4"  Value="Output 4-Byte"/>
+					<Text TextId="IDT_TIO1" Value="I/O 1-Byte"/>
+					<Text TextId="IDT_TIO2" Value="I/O 2-Byte"/>
+					<Text TextId="IDT_TIO4" Value="I/O 4-Byte"/>
+					<Text TextId="IDT_TI64"  Value="Universal Input"/>
+					<Text TextId="IDT_TO64"  Value="Universal Outnput"/>
+
+					<Text TextId="IDT_PrmCtrl" Value="Parameter write control"/>
+					<Text TextId="IDT_PrmInitCtrl" Value="Parameter initialization control"/>
+					<Text TextId="IDT_PrmInitCtrl_PRM" Value="PRM (Parametrization)"/>
+					<Text TextId="IDT_PrmInitCtrl_NVM" Value="NV-RAM (Non-Volatile RAM)"/>
+
+					<Text TextId="IDT_PrmWrProtect" Value="Parameter write protect"/>
+					<Text TextId="IDT_PrmWrProtect_WrAll" Value="Write all"/>
+					<Text TextId="IDT_PrmWrProtect_ReadOnly" Value="Read omly"/>
+					<Text TextId="IDT_PrmWrProtect_WrController" Value="Write controller"/>
+					<Text TextId="IDT_PrmWrProtect_WrSupervisor" Value="Write Supervisor"/>
+
+					<Text TextId="IDT_PrmCtrlWrProtect" Value="Param-Ctrl (P200) write protect"/>
+					<Text TextId="IDT_PrmCtrlWrProtect_WriteAll" Value="Write all"/>
+					<Text TextId="IDT_PrmCtrlWrProtect_ReadOnly" Value="Read Only"/>
+
+					<Text TextId="IDT_ResetProtectCtrl" Value="Reset control write protect"/>
+					<Text TextId="IDT_ResetProtectCtrl_WriteAll" Value="Write all"/>
+					<Text TextId="IDT_ResetProtectCtrl_ReadOnly" Value="Read Only"/>
+
+					<Text TextId="IDT_ERR_16" Value="FAULT_PRESENT: Parametrization fault"/>
+					<Text TextId="IDT_ERR_19" Value="FAULT_PRESENT: Communication fault"/>
+				</PrimaryLanguage>
+			</ExternalTextList>
+		</ApplicationProcess>
+	</ProfileBody>
+</ISO15745Profile>

@@ -45,6 +45,7 @@ const example_file_list = [
     "examples/industrial_comms/hsr_prp_demo/prp_mii/.project/project.js",
     "examples/industrial_comms/hsr_prp_demo/prp_rgmii/.project/project.js",
     "examples/industrial_comms/iolink_master_demo/.project/project.js",
+    "examples/industrial_comms/profinet_device_demo/rt_mii/.project/project.js",
     "source/industrial_comms/mdio_fw/.project/project.js",
 ];
 
