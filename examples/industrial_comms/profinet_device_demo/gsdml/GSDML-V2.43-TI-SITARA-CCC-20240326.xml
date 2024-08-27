@@ -23,14 +23,12 @@
 		</DeviceFunction>
 		<ApplicationProcess>
 			<DeviceAccessPointList>
-				<DeviceAccessPointItem ID="DAP_IOD_V1" PhysicalSlots="0..3" ModuleIdentNumber="0x64020000" MinDeviceInterval="8" ImplementationType="sitara" DNS_CompatibleName="TI-DevKit" FixedInSlots="0" ObjectUUID_LocalIndex="1" MultipleWriteSupported="true" SharedDeviceSupported="true" DeviceAccessSupported="true" NumberOfDeviceAccessAR="1" MaxSupportedRecordSize="8192" NameOfStationNotTransferable="true" ParameterizationSpeedupSupported="true" LLDP_NoD_Supported="true" ResetToFactoryModes="2" CheckDeviceID_Allowed="true" PowerOnToCommReady="5000" IOXS_Required="false" RequiredSchemaVersion="V2.2" PNIO_Version="V2.42" AddressAssignment="LOCAL;DCP" AdaptsRealIdentification="true" IO_SupervisorSupported="false" CIR_Supported="true" PrmBeginPrmEndSequenceSupported="true">
+				<DeviceAccessPointItem ID="DAP_IOD_V1" PhysicalSlots="0..3" ModuleIdentNumber="0x64020000" MinDeviceInterval="8" ImplementationType="sitara" DNS_CompatibleName="TI-DevKit" FixedInSlots="0" ObjectUUID_LocalIndex="1" MultipleWriteSupported="true" SharedDeviceSupported="true" DeviceAccessSupported="true" NumberOfDeviceAccessAR="1" MaxSupportedRecordSize="8192" NameOfStationNotTransferable="true" ParameterizationSpeedupSupported="true" LLDP_NoD_Supported="true" ResetToFactoryModes="2" CheckDeviceID_Allowed="true" PowerOnToCommReady="5000" IOXS_Required="false" RequiredSchemaVersion="V2.2" PNIO_Version="V2.42" AddressAssignment="LOCAL;DCP" AdaptsRealIdentification="true" IO_SupervisorSupported="false" CIR_Supported="false" PrmBeginPrmEndSequenceSupported="true">
 					<ModuleInfo CategoryRef="CAT_IOD">
 						<Name TextId="T_DAP_Name_IOD_V1"/>
 						<InfoText TextId="T_DAP_Info_IOD_V1"/>
 						<VendorName Value="Texas Instruments"/>
 						<OrderNumber Value="TI-Sitara EVM"/>
-						<HardwareRelease Value="200"/>
-						<SoftwareRelease Value="V4.0.x"/>
 					</ModuleInfo>
 					<CertificationInfo ConformanceClass="C" ApplicationClass="Isochronous" NetloadClass="III"/>
 					<SubslotList>
