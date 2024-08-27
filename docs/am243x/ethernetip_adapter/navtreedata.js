@@ -37,6 +37,10 @@ var NAVTREE =
         [ "Public Licensed Packages", "eip_releasenotes.html#eip_releasenotes_opensource_license", null ]
       ] ],
       [ "Known Issues", "eip_releasenotes.html#eip_known_issues", null ],
+      [ "Release Version 3.07.06", "eip_releasenotes.html#eip_version_release30706", [
+        [ "New Features", "eip_releasenotes.html#eip_new_features_release30706", null ],
+        [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30706", null ]
+      ] ],
       [ "Release Version 3.07.05", "eip_releasenotes.html#eip_version_release30705", [
         [ "New Features", "eip_releasenotes.html#eip_new_features_release30705", null ],
         [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30705", null ]
@@ -217,9 +221,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"group___e_i___a_p_i___a_d_p___t_c_p_ga1769d1d5314f1874cf3143d07f9bdadf.html#ga1769d1d5314f1874cf3143d07f9bdadf",
-"group___e_i___a_p_i___c_i_p___i_n_s_t_a_n_c_e_ga8eaf1130cd8e97ce2c86ea5e462a13f0.html#ga8eaf1130cd8e97ce2c86ea5e462a13f0",
-"struct_e_i___a_p_i___c_i_p___s_assem_custom_map.html"
+"group___e_i___a_p_i___a_d_p___t_c_p_ga125a0ea47a3176bfd760db9f4d76375c.html#ga125a0ea47a3176bfd760db9f4d76375c",
+"group___e_i___a_p_i___c_i_p___i_n_s_t_a_n_c_e_ga65de402ea1d5fee31fc407be3de21d23.html#ga65de402ea1d5fee31fc407be3de21d23",
+"struct_e_i___a_p_i___a_d_p___s_revision_ae2f416b0a34b7beb4ed3873d791ac393.html#ae2f416b0a34b7beb4ed3873d791ac393"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
