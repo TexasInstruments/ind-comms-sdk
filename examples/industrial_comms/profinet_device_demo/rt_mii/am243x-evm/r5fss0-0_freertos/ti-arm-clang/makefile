@@ -72,6 +72,7 @@ FILES_PATH_common = \
 	../../../../../custom_phy/src \
 	../../../../../nvm/app/src \
 	../../../../../nvm/drv/src \
+	../../../../syscfg \
 	generated \
 
 INCLUDES_common := \
