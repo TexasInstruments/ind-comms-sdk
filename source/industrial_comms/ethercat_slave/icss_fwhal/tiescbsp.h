@@ -356,18 +356,29 @@ process path latency improvement can be achieved by disabling below define */
 #define PDI_WD_TRIGGER_SYNC1_OUT    (3 << 4)
 
 #if ENABLE_MULTIPLE_SM_ACCESS_IN_SINGLE_DATAGRAM
+/*  
+*    0x98 corresponds to MII port - MII port delay of 760ns
+*    0x48 corresponds to MII port - MII port delay of 360ns
+*    0x38 corresponds to MII port - MII port delay of 280ns
+*/
+
 #define TIESC_PORT0_TX_DELAY_200_MHZ_CLOCK    0x98
 #else
 #define TIESC_PORT0_TX_DELAY_200_MHZ_CLOCK    0x48
 #endif
-#define TIESC_PORT1_TX_DELAY_200_MHZ_CLOCK    TIESC_PORT0_TX_DELAY_200_MHZ_CLOCK
+#define TIESC_PORT1_TX_DELAY_200_MHZ_CLOCK    0x38
 
 #if ENABLE_MULTIPLE_SM_ACCESS_IN_SINGLE_DATAGRAM
+/*  
+*    0xA0 corresponds to MII port - MII port delay of 800ns
+*    0x50 corresponds to MII port - MII port delay of 400ns
+*    0x30 corresponds to MII port - MII port delay of 240ns
+*/
 #define TIESC_PORT0_TX_DELAY_333_MHZ_CLOCK    0xA0
 #else
 #define TIESC_PORT0_TX_DELAY_333_MHZ_CLOCK    0x50
 #endif
-#define TIESC_PORT1_TX_DELAY_333_MHZ_CLOCK    TIESC_PORT0_TX_DELAY_333_MHZ_CLOCK
+#define TIESC_PORT1_TX_DELAY_333_MHZ_CLOCK    0x30
 
 #define PDI_ISR_EDIO_NUM    7 //GPMC_CSN(2) -> pr1_edio_data_out7 for ICEv2.J4.Pin21
 
