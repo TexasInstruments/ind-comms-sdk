@@ -1,0 +1,25 @@
+var structPN__APP__IOD__Nvdata =
+[
+    [ "checkSum", "structPN__APP__IOD__Nvdata_a194a5810280cfdee24cd474ba54c5402.html#a194a5810280cfdee24cd474ba54c5402", null ],
+    [ "version", "structPN__APP__IOD__Nvdata_acd99bb05ca015e7d74448acb1deba7ca.html#acd99bb05ca015e7d74448acb1deba7ca", null ],
+    [ "ipSuiteLen", "structPN__APP__IOD__Nvdata_a1c5f918762bcf0768bf72281730002c9.html#a1c5f918762bcf0768bf72281730002c9", null ],
+    [ "ipSuite", "structPN__APP__IOD__Nvdata_ad4715d5af97516f2fc55910190ad8222.html#ad4715d5af97516f2fc55910190ad8222", null ],
+    [ "im1", "structPN__APP__IOD__Nvdata_a203ae1740d7dabfa74b6e7861ec85928.html#a203ae1740d7dabfa74b6e7861ec85928", null ],
+    [ "im2", "structPN__APP__IOD__Nvdata_ae75ea80d0c2e4fd4ffcd5f93217c086c.html#ae75ea80d0c2e4fd4ffcd5f93217c086c", null ],
+    [ "im3", "structPN__APP__IOD__Nvdata_a851d247fa57721833a0da93c238e5df7.html#a851d247fa57721833a0da93c238e5df7", null ],
+    [ "im4", "structPN__APP__IOD__Nvdata_ae0b4ebd0db3634cea062231ee8e53961.html#ae0b4ebd0db3634cea062231ee8e53961", null ],
+    [ "snmpSysNameLen", "structPN__APP__IOD__Nvdata_ae2495abfb429ea4f2f0718c33d571e05.html#ae2495abfb429ea4f2f0718c33d571e05", null ],
+    [ "snmpSysName", "structPN__APP__IOD__Nvdata_aaa7bb3af0f9b02cc54bd38ebf9e8dd35.html#aaa7bb3af0f9b02cc54bd38ebf9e8dd35", null ],
+    [ "snmpSysContLen", "structPN__APP__IOD__Nvdata_adbb9fae953fcdccc37121114ed77110b.html#adbb9fae953fcdccc37121114ed77110b", null ],
+    [ "snmpSysCont", "structPN__APP__IOD__Nvdata_a63975c19ac24238ff090c86e624abab8.html#a63975c19ac24238ff090c86e624abab8", null ],
+    [ "snmpSysLocLen", "structPN__APP__IOD__Nvdata_a4116b2bb17011b5eaa0b65e2bdcbe14a.html#a4116b2bb17011b5eaa0b65e2bdcbe14a", null ],
+    [ "snmpSysLoc", "structPN__APP__IOD__Nvdata_a631e861b4e4189891af51828ac129015.html#a631e861b4e4189891af51828ac129015", null ],
+    [ "devNameLen", "structPN__APP__IOD__Nvdata_ab92c81f2720f77eb54d5913fc87e7db8.html#ab92c81f2720f77eb54d5913fc87e7db8", null ],
+    [ "devName", "structPN__APP__IOD__Nvdata_a5988b73d057e5744c43db0c81e8fd1d4.html#a5988b73d057e5744c43db0c81e8fd1d4", null ],
+    [ "pdevLen", "structPN__APP__IOD__Nvdata_a34a165ac9bdca2385c1e6717c0143135.html#a34a165ac9bdca2385c1e6717c0143135", null ],
+    [ "pdev", "structPN__APP__IOD__Nvdata_a43f95b3df7765502d927791d477694e2.html#a43f95b3df7765502d927791d477694e2", null ],
+    [ "arfsuLen", "structPN__APP__IOD__Nvdata_a291b6642f9d26a28b962f626911f2a02.html#a291b6642f9d26a28b962f626911f2a02", null ],
+    [ "arfsu", "structPN__APP__IOD__Nvdata_a85173ad6fbe17ac6d85a56f4150a68e3.html#a85173ad6fbe17ac6d85a56f4150a68e3", null ],
+    [ "subCfgLen", "structPN__APP__IOD__Nvdata_ae8174f4371a3d05d9820c7df870553eb.html#ae8174f4371a3d05d9820c7df870553eb", null ],
+    [ "subCfgList", "structPN__APP__IOD__Nvdata_a49b8e19e27d9c76c3b2b8754d2466c6c.html#a49b8e19e27d9c76c3b2b8754d2466c6c", null ]
+];
