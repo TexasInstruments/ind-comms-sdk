@@ -715,10 +715,10 @@ int32_t PN_setWatchDogTimer(PN_Handle pnHandle
         return -1;    /* out of range*/
     }
 
-    HW_WR_REG32((pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_PD_WD_TIM_REG), 10 * timerPeriod);
+    HW_WR_REG32((pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_PD_WD_TIM_REG), 20 * timerPeriod);
     HW_WR_REG32((pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_WD_CTRL_REG), 1);
 
-    pnHandle->icssWachDogTimerPeriod = 10 * timerPeriod;
+    pnHandle->icssWachDogTimerPeriod = 20 * timerPeriod;
     pnHandle->icssWatchDogEnabled = 1;
 
     return 0;
