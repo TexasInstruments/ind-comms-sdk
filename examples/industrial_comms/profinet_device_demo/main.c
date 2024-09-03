@@ -67,9 +67,15 @@
 #include "pn_app_iod_settings.h"
 #include "pn_app_iod_utils.h"
 
+#include <drivers/hw_include/cslr_soc.h>
+
 #define PN_APP_MAIN_TASK_PRIO                   22 /* TASK_PRIO_MAIN */
 #define PN_APP_MAIN_TASK_STACK_SIZE             2048
 #define ASYNC_REC_RSP_WAITING_COUNTER           5000 /* Number of counts before sending a response */
+
+/* Sync Events*/
+#define SYNC_OUT0                               0
+#define SYNC_OUT1                               1
 
 /*!
  * \ingroup PN_APP_IOD_TYPES_DOXY_GROUP
@@ -79,6 +85,22 @@ typedef struct
     uint32_t asyncRecReadTimer;     /*!< For asynchronous record read responses */
     uint32_t asyncRecWriteTimer;    /*!< For asynchronous record write responses  */
 } PN_APP_IOD_asyncRecRspTimer_t;
+
+
+/* 
+ * PAD configuration for Ball.D18
+ * Required to configure SYNC0_OUT as pin out
+ */
+static Pinmux_PerCfg_t gTsrPinMuxMainDomainCfg[] = {
+    {
+    PIN_ECAP0_IN_APWM_OUT,
+    ( PIN_MODE(1) | PIN_PULL_DISABLE ) /* PIN_MODE 1 is SYNC0_OUT */
+    },  
+
+    {PINMUX_END, PINMUX_END}      
+};
+
+void TSR_config(uint8_t syncSignal);
 
 static char aOutStream_s[0x200] = { 0 };
 static void* PN_APP_mainHandle;
@@ -454,6 +476,24 @@ static void PN_APP_IOD_mainTask(void *pvTaskArg)
 
 /*!
  * \brief
+ *  Configuration for TSR. 
+ *
+ * \details
+ * This function configures pinmux required for TSR to route the sync signals to SYNC0_OUT pin
+ *
+ *  \param[in]      syncSignal      Sync0/Sync1 signal to be routed to SYNC0_OUT pin
+ *
+ */
+void TSR_config(uint8_t syncSignal) {
+
+    Pinmux_config(gTsrPinMuxMainDomainCfg, PINMUX_DOMAIN_ID_MAIN);
+    /* PRU IEP Enable SYNC MODE */
+    CSL_REG32_WR(CSL_PRU_ICSSG1_PR1_CFG_SLV_BASE + CSL_ICSSCFG_IEPCLK, 1);
+    CSL_REG32_WR(CSL_TIMESYNC_EVENT_INTROUTER0_CFG_BASE + 0x64, 0x0001001D + syncSignal);
+}
+
+/*!
+ * \brief
  *  Main entry point.
  *
  * \details
@@ -469,9 +509,13 @@ static void PN_APP_IOD_mainTask(void *pvTaskArg)
 int main(void)
 {
     uint32_t status = PN_API_OK;
+    uint8_t syncEvent = SYNC_OUT0;
 
     /* Initialize SoC specific modules. */
     System_init();
+    /* Additional configuration to route the sync0 or sync1 signal to SYNC0_OUT PIN */
+    TSR_config(syncEvent);
+
     Board_init();
     /*
      * Both HWAL and OSAL use OSAL error handler for error reporting.

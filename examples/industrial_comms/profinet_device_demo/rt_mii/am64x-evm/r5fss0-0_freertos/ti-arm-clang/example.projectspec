@@ -47,7 +47,6 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/profinet_device_demo
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/profinet_device_demo/appHw/eeprom
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/profinet_device_demo/appHw
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/profinet_device_demo/syscfg
             -mcpu=cortex-r5
             -mfloat-abi=hard
             -mfpu=vfpv3-d16
@@ -161,10 +160,6 @@
         <file path="../../../../../nvm/drv/src/nvm_drv_flash.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="../../../../syscfg/ti_pinmux_config.c" openOnCreation="false" excludeFromBuild="false" action="link">
-        </file>
-        <file path="../../../../syscfg/ti_drivers_config.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

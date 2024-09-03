@@ -4,8 +4,6 @@
  * @cliArgs --device "AM243x_ALV_beta" --package "ALV" --part "ALV" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@09.02.00"
  * @versions {"tool":"1.20.0+3587"}
  */
-scripting.excludeFromBuild("ti_drivers_config.c");
-scripting.excludeFromBuild("ti_pinmux_config.c");
 
 /**
  * Import the modules used in this configuration.
