@@ -147,6 +147,10 @@
         </file>
         <file path="../../../../../../appNV.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
+        <file path="../../../../../../appNvEeprom.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
+        <file path="../../../../../../appNvFlash.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
         <file path="../../../../../../appRst.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/appTask_tunneling.c" openOnCreation="false" excludeFromBuild="false" action="link">

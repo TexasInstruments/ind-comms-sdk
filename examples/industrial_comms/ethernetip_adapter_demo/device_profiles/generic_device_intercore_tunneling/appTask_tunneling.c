@@ -45,7 +45,9 @@
 #include "EI_API_def.h"
 
 #include "appUart.h"
+#include "appLed.h"
 #include "appNV.h"
+#include "appCfg.h"
 
 #include <osal.h>
 #include <osal_error.h>
@@ -262,7 +264,7 @@ static bool EI_APP_TASK_init(APP_SParams_t* pParam)
     // Initialize adapter for 1 (one) interface.
     adapter_s = EI_API_ADP_new(1);
 
-    EI_APP_CFG_init(adapter_s);
+    EI_APP_CFG_init(adapter_s, &pParam->config);
 
 #if defined(EIP_TIME_SYNC) && (EIP_TIME_SYNC == 1)
     EI_API_ADP_setTimeSyncSupported(adapter_s);
@@ -274,10 +276,10 @@ static bool EI_APP_TASK_init(APP_SParams_t* pParam)
     EI_APP_TASK_getMacAddr();
 
     // Init module for non-volatile data.
-    EI_APP_NV_init(adapter_s);
+    EI_APP_NV_init(adapter_s, &pParam->nv);
 
     // Read non-volatile data
-    EI_APP_NV_read();
+    EI_APP_CFG_read();
 
     // Initialize data for the adapter.
     EI_APP_TASK_adpInit(adapter_s);
@@ -464,7 +466,7 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
         if(true == EI_APP_CFG_isChanged())
         {
-            EI_APP_NV_write(false);
+            EI_APP_CFG_write(false);
         }
 
 #ifdef ENABLE_INTERCORE_TUNNELING
@@ -482,7 +484,7 @@ laError:
 
     EI_API_ADP_pruicssStop();
 
-    CMN_OS_reset();
+    SOC_generateSwWarmResetMcuDomain();
 
     CMN_APP_mainExit();
 }

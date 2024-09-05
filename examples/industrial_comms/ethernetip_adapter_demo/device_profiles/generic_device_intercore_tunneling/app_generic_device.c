@@ -42,6 +42,8 @@
 #include "EI_API.h"
 #include "EI_API_def.h"
 
+#include "appLed.h"
+#include "appNV.h"
 #include "appCfg.h"
 #include <app_device_profile.h>
 #include <app_device_profile_intern.h>

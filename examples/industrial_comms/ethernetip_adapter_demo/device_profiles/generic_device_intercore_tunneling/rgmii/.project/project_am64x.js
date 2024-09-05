@@ -6,6 +6,8 @@ const files = {
     common: [
         "app_tunneling.c",
         "appNV.c",
+        "appNvEeprom.c",
+        "appNvFlash.c",
         "appRst.c",
         "appTask_tunneling.c",
         "appUart.c",

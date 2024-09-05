@@ -42,6 +42,8 @@
 
 #include "drivers/CUST_drivers.h"
 
+#include "appCipCodes.h"
+#include "appNV.h"
 #include "appCfg.h"
 #include "appCipCodes.h"
 #include "appRst.h"
