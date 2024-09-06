@@ -43,7 +43,6 @@ EtherCAT example on AM263Px ControlCard is configured to use the second state (m
 
 \cond SOC_AM261X
 ## Following features are not tested or implemented in this release :
-- Enhanced Link is not enabled
 - Flash not enabled
 
 ## PHY Connection

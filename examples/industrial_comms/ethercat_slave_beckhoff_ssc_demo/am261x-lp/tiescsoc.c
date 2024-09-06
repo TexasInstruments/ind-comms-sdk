@@ -71,11 +71,6 @@
 
 #define DP83869_RX_ERR_CNT_REG_ADDRESS          (0x15)
 
-/*I2C Instance and Index for IO Expander programming*/
-/*#define IO_EXP_I2C_INSTANCE                     (0x01)
-
-#define MDIO_MDC_MUX_SEL2                       (0x06)*/
-
 /* ========================================================================== */
 /*                            Global Variables                                */
 /* ========================================================================== */
@@ -142,8 +137,6 @@ void tiesc_bspSoftReset()
 
 void tiesc_socEvmInit()
 {
-    //tiesc_setIOExpMuxSelection(NULL);
-
     /* Set bits for input pins in ICSSM_PRU0_GPIO_OUT_CTRL and ICSSM_PRU1_GPIO_OUT_CTRL registers */
     HW_WR_REG32(CSL_MSS_CTRL_U_BASE + CSL_MSS_CTRL_ICSSM0_PRU0_GPIO_OUT_CTRL, MSS_CTRL_ICSSM_PRU_GPIO_OUT_CTRL_VALUE);
     HW_WR_REG32(CSL_MSS_CTRL_U_BASE + CSL_MSS_CTRL_ICSSM0_PRU1_GPIO_OUT_CTRL, MSS_CTRL_ICSSM_PRU1_GPIO_OUT_CTRL_VALUE);
@@ -182,7 +175,7 @@ void tiesc_socParamsInit(bsp_params *bspInitParams)
     bspInitParams->ethphy_init = tiesc_ethphyInit;
     /* For EtherCAT, Fast link detection using MLINK mode is required to support complete functionality */
     /* Check example documentation for more details */
-    bspInitParams->enhancedlink_enable = TIESC_MDIO_RX_LINK_DISABLE;
+    bspInitParams->enhancedlink_enable = TIESC_MDIO_RX_LINK_ENABLE;
     bspInitParams->link0_polarity = TIESC_LINK0_POL;
     bspInitParams->link1_polarity = TIESC_LINK1_POL;
     bspInitParams->phy0_address = ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY0))->phyAddress;
