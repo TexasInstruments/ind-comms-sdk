@@ -151,6 +151,8 @@ Fixed Issues</h2>
 <ul>
 <li>
 [ICSTACK-163] Fix an instability issue during long-term tests because of dynamic memory allocation. Issue is fixed by using Static memory in LWIP and LLDP submodule. </li>
+<li>
+[ICSTACK-191] Fix a deadlock condition when accessing I2C0 from example. The issue is fixed by making sure that shared resources like I2C0 are accessed with thread-safety in mind. </li>
 </ul>
 <h1><a class="anchor" id="eip_version_release30705"></a>
 Release Version 3.07.05</h1>

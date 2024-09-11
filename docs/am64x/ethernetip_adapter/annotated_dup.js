@@ -66,6 +66,7 @@ var annotated_dup =
     [ "EI_APP_GENERIC_DEVICE_CFG_ProfileData", "struct_e_i___a_p_p___g_e_n_e_r_i_c___d_e_v_i_c_e___c_f_g___profile_data.html", null ],
     [ "EI_APP_Industrial", "struct_e_i___a_p_p___industrial.html", "struct_e_i___a_p_p___industrial" ],
     [ "EI_APP_LED_SInit", "struct_e_i___a_p_p___l_e_d___s_init.html", "struct_e_i___a_p_p___l_e_d___s_init" ],
+    [ "EI_APP_Mutex_container", "struct_e_i___a_p_p___mutex__container.html", "struct_e_i___a_p_p___mutex__container" ],
     [ "EI_APP_NV_Eeprom", "struct_e_i___a_p_p___n_v___eeprom.html", "struct_e_i___a_p_p___n_v___eeprom" ],
     [ "EI_APP_NV_EEPROM_Write", "struct_e_i___a_p_p___n_v___e_e_p_r_o_m___write.html", "struct_e_i___a_p_p___n_v___e_e_p_r_o_m___write" ],
     [ "EI_APP_NV_EEPROM_writeParam", "struct_e_i___a_p_p___n_v___e_e_p_r_o_m__write_param.html", "struct_e_i___a_p_p___n_v___e_e_p_r_o_m__write_param" ],
