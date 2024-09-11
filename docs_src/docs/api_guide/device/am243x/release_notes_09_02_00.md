@@ -9,8 +9,6 @@
 \note The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
       Unless noted otherwise, the SW modules would work on all supported EVMs \n
 
-\note The EtherCAT IOLINK Gateway demo support is broken in the release. Please use the demo from Industrial Communication SDK 9.1 for evaluation\n
-
 \note Examples uses ICSS EMAC driver from Industrial Communication SDK package in 9.2 Release. This driver support will be moved to MCU SDK from 10.0 onwards\n
 
 
@@ -19,6 +17,15 @@
 <table>
 <tr>
     <th> Feature
+</tr>
+<tr>
+    <td> PROFINET RT/IRT support with Siemens ERTEC stack on TMDS243EVM
+</tr>
+<tr>
+    <td> ICSSG0 instance support for EtherCAT Stack
+</tr>
+<tr>
+    <td> Custom PHY integration reference for DP82826 and DP83869
 </tr>
 <tr>
     <td> Ethernet over EtherCAT EoE
@@ -61,10 +68,20 @@ Tiny USB                | R5F            | 0.14.0
 LwIP                    | R5F            | STABLE-2_2_0_RELEASE
 Mbed-TLS                | R5F            | mbedtls-2.13.1
 
-## Key Features
 
-<!-- ### Features not supported in release -->
-Profinet Device Stack and example. For more information, see Profinet Stack Transition
+## Features not supported in release
+<table>
+<tr>
+    <th> Feature Not Supported in Profinet Device
+</tr>
+<tr>
+    <td> LP-AM243 Support
+</tr>
+<tr>
+    <td> RGMII Mode 
+</tr>
+</table>
+
 
 ## Fixed Issues
 
@@ -157,6 +174,34 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
     <td> EtherCAT Device
     <td> 08.06.00
     <td> 
+</tr>
+<tr>
+    <td> PINDSW-7788
+    <td> FSU tests in ART failing occasionally
+    <td> Profinet Device
+    <td> N/A
+    <td> Rerun the test
+</tr>
+<tr>
+    <td> PINDSW-7790
+    <td> Different Access Ways Port 2 Port testcase fails occasionally
+    <td> Profinet Device
+    <td> N/A
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-7791
+    <td> SysRed Part 2 - Scenario 3 and 4 failing
+    <td> Profinet Device
+    <td> N/A
+    <td> N/A - Siemens Stack Issue
+</tr>
+<tr>
+    <td> PINDSW-7792
+    <td> SysRed Port 2 Port Test Failure
+    <td> Profinet Device
+    <td> N/A
+    <td> ART Known Issues - Bug: 8670
 </tr>
 </table>
 
