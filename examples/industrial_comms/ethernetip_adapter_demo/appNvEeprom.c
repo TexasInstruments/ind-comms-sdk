@@ -58,6 +58,7 @@
 #include "appNV.h"
 #include "appCfg.h"
 #include "appRst.h"
+#include "appMutex.h"
 #include "appNvEeprom.h"
 
 #define EI_APP_NV_EEPROM_WRITE_STACK_SIZE_BYTE     1024
@@ -284,6 +285,7 @@ uint32_t EI_APP_NV_EEPROM_read (EEPROM_Handle handle, uint32_t offset, const uin
 {
     int32_t  ret    = SystemP_FAILURE;
     uint32_t err    = OSAL_GENERAL_ERROR;
+    EI_APP_MUTEX_EError_t   mutexErr;
 
     if (NULL == handle)
     {
@@ -291,11 +293,21 @@ uint32_t EI_APP_NV_EEPROM_read (EEPROM_Handle handle, uint32_t offset, const uin
         goto laError;
     }
 
-    ret = EEPROM_read (handle, offset, (uint8_t*) pBuf, length);
-
-    if (SystemP_SUCCESS != ret)
+    mutexErr = EI_APP_Mutex_Lock(EI_APP_Mutex_I2C, 2);
+    if(EI_APP_MUTEX_eERR_NOERROR == mutexErr)
     {
-        err = OSAL_EE_DRV_READ;
+        ret = EEPROM_read (handle, offset, (uint8_t*) pBuf, length);
+
+        EI_APP_Mutex_Unlock(EI_APP_Mutex_I2C);
+
+        if (SystemP_SUCCESS != ret)
+        {
+            err = OSAL_EE_DRV_READ;
+            goto laError;
+        }
+    }
+    else
+    {
         goto laError;
     }
 
@@ -422,7 +434,7 @@ laError:
 static void EI_APP_NV_EEPROM_writeTask (void *pArg)
 {
     EI_APP_NV_EEPROM_writeParam_t* pParam = (EI_APP_NV_EEPROM_writeParam_t*) pArg;
-
+    EI_APP_MUTEX_EError_t   mutexErr;
     int32_t err;
 
     while(1)
@@ -438,18 +450,24 @@ static void EI_APP_NV_EEPROM_writeTask (void *pArg)
         {
             break;
         }
-
-        err = EEPROM_write ((EEPROM_Handle) pParam->handle, pParam->offset, pParam->pData, pParam->length);
-
-        if (SystemP_SUCCESS != err)
+        
+        mutexErr = EI_APP_Mutex_Lock(EI_APP_Mutex_I2C, 10);
+        if(EI_APP_MUTEX_eERR_NOERROR == mutexErr)
         {
-            OSAL_error (__func__, __LINE__, OSAL_EE_DRV_WRITE, true, 0);
-            goto laError;
+            err = EEPROM_write ((EEPROM_Handle) pParam->handle, pParam->offset, pParam->pData, pParam->length);
+
+            EI_APP_Mutex_Unlock(EI_APP_Mutex_I2C);
+
+            if (SystemP_SUCCESS != err)
+            {
+                OSAL_error (__func__, __LINE__, OSAL_EE_DRV_WRITE, true, 0);
+                goto laError;
+            }
+
+            EI_APP_NV_Eeprom_s.write.req.count--;
+
+            OSAL_postSignal(EI_APP_NV_Eeprom_s.write.req.finished);
         }
-
-        EI_APP_NV_Eeprom_s.write.req.count--;
-
-        OSAL_postSignal(EI_APP_NV_Eeprom_s.write.req.finished);
     }
 
 laError:

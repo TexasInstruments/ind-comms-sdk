@@ -74,6 +74,7 @@
 #include "appTask.h"
 #include "appCfg.h"
 #include "appRst.h"
+#include "appMutex.h"
 #include <device_profiles/app_device_profile.h>
 
 #include "ti_board_open_close.h"
@@ -366,6 +367,12 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
     CMN_BOARD_init();
 
+    if(EI_APP_MUTEX_eERR_NOERROR != EI_APP_Mutex_init())
+    {
+        //Fatal error
+        return;
+    }
+
     CUST_DRIVERS_init(&pAppInstance->config.customDrivers);
 
     EI_APP_UART_init(&pAppInstance->config.uart);
@@ -574,3 +581,4 @@ static uint8_t* EI_APP_TASK_getMacAddr (void)
     return EI_APP_TASK_macAddress;
 #endif
 }
+

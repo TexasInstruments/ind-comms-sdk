@@ -50,6 +50,7 @@
 
 #include "drivers/led/CUST_led.h"
 #include "appLed.h"
+#include "appMutex.h"
 
 typedef struct EI_APP_Industrial
 {
@@ -79,6 +80,7 @@ static EI_APP_Industrial_t EI_APP_LED_industrial_s;
 uint32_t EI_APP_LED_init(EI_APP_LED_SInit_t* pParams)
 {
     uint32_t   result = (uint32_t) OSAL_GENERAL_ERROR;
+    EI_APP_MUTEX_EError_t mutexErr;
 
     LED_Attrs* pAttrs = NULL;
     int32_t    status = SystemP_FAILURE;
@@ -109,14 +111,20 @@ uint32_t EI_APP_LED_init(EI_APP_LED_SInit_t* pParams)
         {
             if(pAttrs->numLedPerGroup > 1U)
             {
-                status = LED_setMask(EI_APP_LED_industrial_s.handle, EI_APP_LED_industrial_s.value);
-
-                if(SystemP_SUCCESS != status)
+                mutexErr = EI_APP_Mutex_Lock(EI_APP_Mutex_I2C, 10);
+                if(EI_APP_MUTEX_eERR_NOERROR == mutexErr)
                 {
-                    OSAL_printf("Can not set LED Mask.\n");
+                    status = LED_setMask(EI_APP_LED_industrial_s.handle, EI_APP_LED_industrial_s.value);
 
-                    result = (uint32_t) OSAL_LED_DRV_SETMASK;
-                    goto laError;
+                    EI_APP_Mutex_Unlock(EI_APP_Mutex_I2C);
+
+                    if(SystemP_SUCCESS != status)
+                    {
+                        OSAL_printf("Can not set LED Mask.\n");
+
+                        result = (uint32_t) OSAL_LED_DRV_SETMASK;
+                        goto laError;
+                    }
                 }
             }
         }
@@ -145,6 +153,7 @@ laError:
 uint32_t EI_APP_LED_deInit(void)
 {
     uint32_t   result = (uint32_t) OSAL_GENERAL_ERROR;
+    EI_APP_MUTEX_EError_t mutexErr;
 
     int32_t    status = SystemP_FAILURE;
 
@@ -156,15 +165,22 @@ uint32_t EI_APP_LED_deInit(void)
         result = (uint32_t) OSAL_LED_DRV_HANDLE_INVALID;
         goto laError;
     }
-
-    status = LED_setMask(EI_APP_LED_industrial_s.handle, 0x0U);
-
-    if (SystemP_FAILURE == status)
+    mutexErr = EI_APP_Mutex_Lock(EI_APP_Mutex_I2C, 10);
+    if(EI_APP_MUTEX_eERR_NOERROR == mutexErr)
     {
-        OSAL_printf("Can not set LED Mask.\n");
+        status = LED_setMask(EI_APP_LED_industrial_s.handle, 0x0U);
 
-        result = (uint32_t) OSAL_LED_DRV_SETMASK;
-        goto laError;
+        EI_APP_Mutex_Unlock(EI_APP_Mutex_I2C);
+
+        if (SystemP_FAILURE == status)
+        {
+            OSAL_printf("Can not set LED Mask.\n");
+
+            result = (uint32_t) OSAL_LED_DRV_SETMASK;
+            goto laError;
+        }
+
+        
     }
 
     result = OSAL_NO_ERROR;
@@ -187,6 +203,7 @@ void EI_APP_LED_industrialSet (uint32_t value)
     LED_Attrs* pAttrs = NULL;
     int32_t    status;
     uint32_t   ledGroupMask;
+    EI_APP_MUTEX_EError_t mutexErr;
 
     if( EI_APP_LED_industrial_s.value == value)
     {
@@ -207,12 +224,18 @@ void EI_APP_LED_industrialSet (uint32_t value)
 
     EI_APP_LED_industrial_s.value = value;
     ledGroupMask = (1 << pAttrs->numLedPerGroup) - 1;
-
-    status = LED_setMask(EI_APP_LED_industrial_s.handle, EI_APP_LED_industrial_s.value & ledGroupMask);
-
-    if(SystemP_SUCCESS != status)
+    
+    mutexErr = EI_APP_Mutex_Lock(EI_APP_Mutex_I2C, 1);
+    if(EI_APP_MUTEX_eERR_NOERROR == mutexErr)
     {
-        OSAL_printf("Can not set LED Mask.\n");
+        status = LED_setMask(EI_APP_LED_industrial_s.handle, EI_APP_LED_industrial_s.value & ledGroupMask);
+
+        EI_APP_Mutex_Unlock(EI_APP_Mutex_I2C);
+        
+        if(SystemP_SUCCESS != status)
+        {
+            OSAL_printf("Can not set LED Mask.\n");
+        }
     }
 
     return;

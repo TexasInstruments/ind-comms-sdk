@@ -47,6 +47,7 @@ FILES_common := \
 	appTask.c \
 	appLed.c \
 	appUart.c \
+	appMutex.c \
 	appWebServer.c \
 	CUST_drivers.c \
 	CUST_eeprom.c \
