@@ -224,7 +224,7 @@ void EI_APP_LED_industrialSet (uint32_t value)
 
     EI_APP_LED_industrial_s.value = value;
     ledGroupMask = (1 << pAttrs->numLedPerGroup) - 1;
-    //ToDo use mutex to protect I2C access
+    
     mutexErr = EI_APP_Mutex_Lock(EI_APP_Mutex_I2C, 1);
     if(EI_APP_MUTEX_eERR_NOERROR == mutexErr)
     {

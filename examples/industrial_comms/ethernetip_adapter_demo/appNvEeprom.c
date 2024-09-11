@@ -450,7 +450,7 @@ static void EI_APP_NV_EEPROM_writeTask (void *pArg)
         {
             break;
         }
-        //ToDo use mutex to protect I2C access
+        
         mutexErr = EI_APP_Mutex_Lock(EI_APP_Mutex_I2C, 10);
         if(EI_APP_MUTEX_eERR_NOERROR == mutexErr)
         {
