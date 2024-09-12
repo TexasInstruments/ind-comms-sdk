@@ -33,6 +33,9 @@
     <td> Ethernet/IP - The object dictionary size should be possible to change without rebuild of stack
 </tr>
 <tr>
+    <td> Ethernet/IP - Added functionality to enable/disable forwarding of the LLDP frames in the firmware.
+</tr>
+<tr>
     <td> IOLINK Controller - Added NVRAM support for AM243 LP and EVM in example app
 </tr>
 <tr>

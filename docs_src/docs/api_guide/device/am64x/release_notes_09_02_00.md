@@ -33,6 +33,12 @@
     <td> Ethernet/IP - The object dictionary size should be possible to change without rebuild of stack
 </tr>
 <tr>
+    <td> Ethernet/IP - Added functionality to enable/disable forwarding of the LLDP frames in the firmware.
+</tr>
+<tr>
+    <td> Ethernet/IP - Added example to demonstrate Inter-core Tunneling.
+</tr>
+<tr>
     <td> IOLINK Controller - Added NVRAM support for AM243 LP and EVM in example app
 </tr>
 <tr>
@@ -156,6 +162,27 @@ Profinet Device Stack and example. For more information, see Profinet Stack Tran
     <td> EtherCAT syscfg - Rx MLINK enable does not enables MLINK if it is disabled from application
     <td> EtherCAT Device
     <td> 08.06.00
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-8035
+    <td> EtherNet/IP Tunneling : Wrong IP and MAC address returned by DUT through ENIP Messaging
+    <td> EtherNet/IP Tunneling
+    <td> 09.02.00
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-8036
+    <td> EtherNet/IP Tunneling : DHCP and BOOTP does not work in EIP Tunneling example
+    <td> EtherNet/IP Tunneling
+    <td> 09.02.00
+    <td> 
+</tr>
+<tr>
+    <td> PINDSW-8037
+    <td> EtherNet/IP Tunneling : ARP messages are sent out with Source Address of ICSS EMAC MAC address when ACD is enabled
+    <td> EtherNet/IP Tunneling
+    <td> 09.02.00
     <td> 
 </tr>
 </table>
