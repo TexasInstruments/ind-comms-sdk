@@ -10,6 +10,10 @@ PRU cores are primarily used for industrial communication, and can also be used 
 
 \attention This SDK also includes \htmllink{@VAR_MCU_SDK_DOCS_PATH/index.html, @VAR_SOC_NAME MCU+ SDK}.
 
+\note - To build examples from MCU+ SDK using CCS projects, user has to add ${SDK_INSTALL_PATH}/mcu_plus_sdk path to "Product discovery path" in CCS (from Window->Preferences->Code Composer Studio->Products).
+
+\note - In order to build the Networking examples from MCU+ SDK using CCS projects, the user needs to change the file action of the source files from "link" to "copy" in the example.projectspec and then import their project in CCS.
+
 ## Getting Started
 
 To get started, see \htmllink{@VAR_MCU_SDK_DOCS_PATH/GETTING_STARTED.html, GETTING STARTED} page.
