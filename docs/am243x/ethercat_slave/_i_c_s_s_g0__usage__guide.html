@@ -199,7 +199,12 @@ SysConfig changes for TI drivers DP83826E 2</div></div>
 <div class="image">
 <img src="customphy_ccs_symbol_dp83826e.png" alt=""/>
 <div class="caption">
-CCS Project changes for DP83826E</div></div>
+CCS Project changes for DP83826E 1</div></div>
+<p>In the Industrial Communications SDK directory, navigate to "/examples/industrial_comms/custom_phy/src/". Select "CUST_PHY_dp83826e.c" and drag and drop it into the project in the Project Explorer. Following window appears, asking how to import the file to the project. Adopt these changes:</p>
+<div class="image">
+<img src="customphy_ccs_add_file.png" alt=""/>
+<div class="caption">
+CCS Project changes for DP83826E 2</div></div>
     <h3>Simple Demo Example with DP83826E (Code)</h3>
 <p>The initialization routine of DP838261E PHY is different to the DP83869 PHY. Following code must be added to the example code. It can be placed in "ecSlvSimple.c", at the end of the function "EC_SLV_APP_SS_initBoardFunctions()".</p>
 <div class="fragment"><div class="line">GPIO_pinWriteHigh(GPIO_RESET_ICSS0_PHY1_BASE_ADDR, GPIO_RESET_ICSS0_PHY1_PIN);</div>
