@@ -11,6 +11,7 @@ const files = {
         "appRst.c",
         "appTask_tunneling.c",
         "appUart.c",
+        "appMutex.c",
         "appWebServer.c",
         "appCfg.c",
         "CUST_drivers.c",

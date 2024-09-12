@@ -157,6 +157,8 @@
         </file>
         <file path="../../../../../../appUart.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
+        <file path="../../../../../../appMutex.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        </file>
         <file path="../../../../../../appWebServer.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../appCfg.c" openOnCreation="false" excludeFromBuild="false" action="link">

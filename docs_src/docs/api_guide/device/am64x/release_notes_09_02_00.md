@@ -22,6 +22,9 @@
     <td> PROFINET RT/IRT support with Siemens ERTEC stack on TMDS64EVM
 </tr>
 <tr>
+    <td> EtherNet/IP Intercore Network tunneling example on AM64x
+</tr>
+<tr>
     <td> ICSSG0 instance support for EtherCAT Stack
 </tr>
 <tr>
@@ -41,9 +44,6 @@
 </tr>
 <tr>
     <td> Ethernet/IP - Added functionality to enable/disable forwarding of the LLDP frames in the firmware.
-</tr>
-<tr>
-    <td> Ethernet/IP - Added example to demonstrate Inter-core Tunneling.
 </tr>
 <tr>
     <td> IOLINK Controller - Added NVRAM support for AM243 LP and EVM in example app

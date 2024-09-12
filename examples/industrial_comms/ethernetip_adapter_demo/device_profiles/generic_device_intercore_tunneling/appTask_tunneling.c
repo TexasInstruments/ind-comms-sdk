@@ -48,6 +48,7 @@
 #include "appLed.h"
 #include "appNV.h"
 #include "appCfg.h"
+#include "appMutex.h"
 
 #include <osal.h>
 #include <osal_error.h>
@@ -386,6 +387,11 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
     CMN_BOARD_init();
 
+    if(EI_APP_MUTEX_eERR_NOERROR != EI_APP_Mutex_init())
+    {
+        //Fatal error
+        return;
+    }
     CUST_DRIVERS_init(&pAppInstance->config.customDrivers);
 
     EI_APP_UART_init(&pAppInstance->config.uart);
@@ -536,8 +542,6 @@ void EI_APP_TASK_osErrorHandlerCb (uint32_t errorCode,      //!< [in] Error code
 
     OSAL_printf ("\nError: 0x%8.8x, Fatal: %s", errorCode, fatal ? "yes" : "no");
 
-    if (fatal == true)
-    {
 #if (defined CMN_MEM_TRACE) && (1==CMN_MEM_TRACE)
         extern uint32_t __HEAP_START;
         extern uint32_t __HEAP_END;
@@ -553,8 +557,11 @@ void EI_APP_TASK_osErrorHandlerCb (uint32_t errorCode,      //!< [in] Error code
         {
             OSAL_MEMORY_free(ptr);
         }
+        while(1);
 #endif
 
+    if (fatal == true)
+    {
         while(1);
     }
 }
