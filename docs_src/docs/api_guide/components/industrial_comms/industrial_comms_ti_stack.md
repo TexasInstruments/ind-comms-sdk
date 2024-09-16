@@ -108,13 +108,13 @@ For information about supported features and key performance parameters, see \ht
 
 \cond SOC_AM64X
 
-For information about supported features and key performance parameters, see \htmllink{../am64x/iolink_master/iolink_test_report.pdf, IO-Link Controller Test Report}
+For information about Test Report, see \htmllink{../am64x/iolink_master/iolink_test_report.pdf, IO-Link Controller Test Report}
 
 \endcond
 
 \cond SOC_AM243X
 
-For information about supported features and key performance parameters, see \htmllink{../am243x/iolink_master/iolink_test_report.pdf, IO-Link Controller Test Report}
+For information about Test Report, see \htmllink{../am243x/iolink_master/iolink_test_report.pdf, IO-Link Controller Test Report}
 
 \endcond
 
@@ -148,10 +148,6 @@ For more details regarding the pre-integrated stack and example applications, se
 
 PROFINET is a real-time Ethernet standard for the high-speed, deterministic communications required for a wide range of industrial applications including factory automation, process automation and building automation. Originally developed under the leadership of Siemens GmbH as a network extension to the popular PROFIBUS fieldbus technology, PROFINET is now supported by PROFIBUS & PROFINET International. In 2003, PROFINET was integrated into the IEC 61158 and IEC 61784 standards.
 
-### Examples
-
-For more details regarding the pre-integrated stack and example applications, see \ref EXAMPLES_INDUSTRIAL_COMMS_PROFINET_DEVICE_DEMO.
-
 ### Data Sheet
 
 \cond SOC_AM64X
@@ -165,4 +161,23 @@ For information about supported features and key performance parameters, see \ht
 For information about supported features and key performance parameters, see \htmllink{../am243x/profinet_device/profinet_datasheet.html, Profinet Device Data Sheet}
 
 \endcond
+
+### Test Report
+
+\cond SOC_AM64X
+
+For information about ART Test report, see \htmllink{../am64x/profinet_device/art_testreport.pdf, Automated RT Tester Report}
+
+\endcond
+
+\cond SOC_AM243X
+
+For information about ART Test report, see \htmllink{../am243x/profinet_device/art_testreport.pdf, Automated RT Tester Report}
+
+\endcond
+
+### Examples
+
+For more details regarding the pre-integrated stack and example applications, see \ref EXAMPLES_INDUSTRIAL_COMMS_PROFINET_DEVICE_DEMO.
+
 \endcond

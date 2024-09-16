@@ -227,7 +227,7 @@ To get the complete logs, an infinite loop can be used to halt the code and the 
  Direction                   | Main core               | Remote Core              
  ----------------------------|-------------------------|--------------------------
  From Network; To core       | 95 Mbps @ 100% CPU load | 95 Mbps @ 40% CPU load 
- From Core; To Network       | -- Mbps @ 100% CPU load | 22 Mbps @ 20% CPU load
+ From Core; To Network       | N/A                     | 22 Mbps @ 20% CPU load
 
 ### TCP Throughput
  Direction                   | Main core               | Remote Core              
