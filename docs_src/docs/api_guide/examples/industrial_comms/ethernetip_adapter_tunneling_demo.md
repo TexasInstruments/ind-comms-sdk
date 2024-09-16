@@ -1,5 +1,7 @@
 # EtherNet/IP Adapter Intercore Tunneling {#EXAMPLES_INDUSTRIAL_COMMS_ETHERNETIP_ADAPTER_TUNNELING_DEMO_HOME}
 
+[TOC]
+
 # Introduction {#ETHERNETIP_TUNNELING_INTRODUCTION}
 
 This example shows about how to use shared memory based Intercore driver for data traffic sharing coupled with ethernet driver (ICSS_EMAC) and LwIP bridge. It uses ICSS_EMAC ethernet driver underneath with LwIP TCP/IP networking stack
