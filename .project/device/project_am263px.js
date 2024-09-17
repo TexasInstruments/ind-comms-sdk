@@ -22,8 +22,8 @@ function getProjectSpecCpu(cpu) {
         "r5fss0-1": "Cortex_R5_1",
         "r5fss1-0": "Cortex_R5_2",
         "r5fss1-1": "Cortex_R5_3",
-        "icssm-pru0": "ICSSM_PRU_0",
-        "icssm-pru1": "ICSSM_PRU_1",
+        "icss_m0_pru0": "ICSSM_PRU_0",
+        "icss_m0_pru1": "ICSSM_PRU_1",
     }
 
     return projectSpecCpu[cpu];
@@ -44,6 +44,10 @@ function getSysCfgDevice(board) {
         default:
         case "am263px-cc":
             return "AM263Px";
+        case "am263px-cc-addon-ind":
+            return "AM263Px";
+        case "am263px-cc-addon-auto":
+            return "AM263Px";
     }
 }
 
@@ -55,6 +59,10 @@ function getProjectSpecDevice(board) {
             return "AM263Px";
         default:
         case "am263px-cc":
+            return "AM263Px";
+        case "am263px-cc-addon-ind":
+            return "AM263Px";
+        case "am263px-cc-addon-auto":
             return "AM263Px";
     }
 }
@@ -70,6 +78,10 @@ function getSysCfgPkg(board) {
         default:
         case "am263px-cc":
             return "ZCZ_S";
+        case "am263px-cc-addon-ind":
+            return "ZCZ_S";
+        case "am263px-cc-addon-auto":
+            return "ZCZ_S";
     }
 }
 
@@ -80,6 +92,10 @@ function getSysCfgPart(board) {
         default:
         case "am263px-cc":
             return "AM263P4";
+        case "am263px-cc-addon-ind":
+            return "AM263P4";
+        case "am263px-cc-addon-auto":
+            return "AM263P4";
     }
 }
 
@@ -89,6 +105,10 @@ function getDevToolTirex(board) {
             return "LP-AM263P";
         default:
         case "am263px-cc":
+            return "TMDSCNCD263P";
+        case "am263px-cc-addon-ind":
+            return "TMDSCNCD263P";
+        case "am263px-cc-addon-auto":
             return "TMDSCNCD263P";
     }
 }
