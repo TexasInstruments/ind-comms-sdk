@@ -971,7 +971,11 @@ int32_t FAST_CODE_HWAL PN_PTCP_cableDelayCalc(PN_Handle pnHandle,
     if((pnHandle->pnPtcpConfig).T2_prev[port] ==
             0)                                /* for the first time*/
     {
-        ptcpDelayRespParsed->rcf_peer = 1;
+        /* Use previous rcf value for cable delay calculations if device in sync*/
+        if(pnHandle->pnPtcpConfig.deviceSyncInfo.syncState == IN_SYNC)
+            ptcpDelayRespParsed->rcf_peer = (pnHandle->pnPtcpConfig).rcf_prev[port];
+        else
+            ptcpDelayRespParsed->rcf_peer = 1;
     }
 
     else if((((pnHandle->pnPtcpConfig).seqId) % 5) == 1)
