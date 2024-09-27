@@ -4,7 +4,7 @@
         "id": "com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX",
         "name": "Industrial Communications SDK for AMXXX",
         "rootCategory": [ "INDUSTRIAL COMMUNICATIONS SDK", "Industrial Communications SDK for AMXXX" ],
-        "version": "09.02.00.08",
+        "version": "10.00.00.01",
         "type": "software",
         "image": "./ind_comms_sdk.png",
         "license": "../../license.txt",
@@ -12,8 +12,8 @@
         "tags": ["SDK", "Baremetal", "FreeRTOS"],
         "description": "Industrial Communications SDK enables real-time industrial communications Protocols (EtherCAT, EtherNet/IP, PROFINET, IO-Link etc.) on TI processors/MCUs. This has Programmable Real-Time Unit Industrial Communication Subsystem (PRU-ICSS) firmware emulating fieldbus ASIC functionality, drivers, communication stack libraries and stack application examples together with documentation.",
         "dependencies": [
-            { "packageId": "sysconfig", "version": "1.20.0", "require": "mandatory" },
-            { "packageId": "ti_cgt_tiarmclang", "version": "3.2.2", "require": "mandatory" },
+            { "packageId": "sysconfig", "version": "1.21.0", "require": "mandatory" },
+            { "packageId": "ti_cgt_tiarmclang", "version": "4.0.0", "require": "mandatory" },
             { "packageId": "arm.gnu.aarch64-none", "version": "9.2.1", "require": "mandatory" }
         ]
     }

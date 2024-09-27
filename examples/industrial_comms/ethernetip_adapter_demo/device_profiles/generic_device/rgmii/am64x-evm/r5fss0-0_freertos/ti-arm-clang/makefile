@@ -141,11 +141,12 @@ CFLAGS_cpp_common := \
 	-Wno-extern-c-compat \
 	-Wno-c++11-narrowing \
 	-Wno-reorder-init-list \
-	-Wno-deprecated-register \
+	-Wno-register \
 	-Wno-writable-strings \
 	-Wno-enum-compare \
 	-Wno-reserved-user-defined-literal \
 	-Wno-unused-const-variable \
+	-Wno-vla-cxx-extension \
 	-x c++ \
 
 CFLAGS_release := \
@@ -312,9 +313,11 @@ $(OBJDIR):
 .INTERMEDIATE: syscfg
 $(SYSCFG_GEN_FILES): syscfg
 
+ifeq ($(SYSTEM_FLAG), false)
 syscfg: ../example.syscfg
 	@echo Generating SysConfig files ...
 	$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/dist/cli.js --product $(SYSCFG_SDKPRODUCT) --context r5fss0-0 --part Default --package ALV --output generated/ ../example.syscfg
+endif
 
 syscfg-gui:
 	$(SYSCFG_NWJS) $(SYSCFG_PATH) --product $(SYSCFG_SDKPRODUCT) --device AM64x --context r5fss0-0 --part Default --package ALV --output generated/  ../example.syscfg
@@ -326,9 +329,9 @@ ifeq ($(OS),Windows_NT)
 EXE_EXT=.exe
 endif
 ifeq ($(OS),Windows_NT)
-  BOOTIMAGE_CERT_GEN_CMD=powershell -executionpolicy unrestricted -command $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/signing/x509CertificateGen.ps1
+  BOOTIMAGE_CERT_GEN_CMD=powershell -executionpolicy unrestricted -command $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source/security/security_common/tools/boot/signing/x509CertificateGen.ps1
 else
-  BOOTIMAGE_CERT_GEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/signing/x509CertificateGen.sh
+  BOOTIMAGE_CERT_GEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source/security/security_common/tools/boot/signing/x509CertificateGen.sh
 endif
 BOOTIMAGE_TEMP_OUT_FILE=temp_stdout_$(PROFILE).txt
 
@@ -345,12 +348,17 @@ SBL_DEV_ID=55
 
 MULTI_CORE_IMAGE_GEN = $(SYSCFG_NODE) $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/multicoreImageGen/multicoreImageGen.js
 OUTRPRC_CMD = $(SYSCFG_NODE) $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/out2rprc/elf2rprc.js
-APP_IMAGE_SIGN_CMD = $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/signing/appimage_x509_cert_gen.py
+APP_IMAGE_SIGN_CMD = $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source/security/security_common/tools/boot/signing/appimage_x509_cert_gen.py
 
 ifeq ($(OS),Windows_NT)
   XIPGEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/xipGen/xipGen.exe
 else
-  XIPGEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/xipGen/xipGen.out
+  UNAME_S = $(shell uname -s)
+  ifeq ($(UNAME_S), Darwin)
+    XIPGEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/xipGen/xipGen.out.mac
+  else
+    XIPGEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/xipGen/xipGen.out
+endif
 endif
 
 MULTI_CORE_IMAGE_PARAMS = \

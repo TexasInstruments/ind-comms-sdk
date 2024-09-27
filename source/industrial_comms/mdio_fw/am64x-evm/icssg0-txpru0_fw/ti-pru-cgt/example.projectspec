@@ -21,7 +21,7 @@
         toolChain="TI"
         cgtVersion="2.3.3"
         device="AM64x_GP_EVM"
-        deviceCore="ICSS_G0_TX_PRU_0"
+        deviceCore=""
         ignoreDefaultDeviceSettings="true"
         ignoreDefaultCCSSettings="true"
         endianness="little"
@@ -33,7 +33,7 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source
             -DICSSG0
-            -DTX_PRU0
+            -DPRU0
             -DSLICE0
             -v4
             -DSOC_AM64X

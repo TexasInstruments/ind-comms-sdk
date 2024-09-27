@@ -14,6 +14,8 @@ function getSelfSysCfgCoreName() {
             return "r5fss0-0";
         case "am263px":
             return "r5fss0-0";
+        case "am261x":
+            return "r5fss0-0";
         case "am273x":
             return "r5fss0-0";
         case "awr294x":
@@ -54,6 +56,8 @@ function getSocName() {
         return "am263x";
     if(system.deviceData.device == "AM263Px")
         return "am263px";
+    if((system.deviceData.device == "AM261x_ZCZ") || (system.deviceData.device == "AM261x_ZFG"))
+        return "am261x";
     if(system.deviceData.device == "AM273x")
         return "am273x";
     if(system.deviceData.device == "AM65xx_SR2.0_beta")
@@ -77,6 +81,10 @@ function getDeviceName() {
         return "am263x-cc";
     if(system.deviceData.device == "AM263Px")
         return "am263px-cc";
+    if(system.deviceData.device == "AM261x_ZCZ")
+        return "am261x-som";
+    if(system.deviceData.device == "AM261x_ZFG")
+        return "am261x-lp";
     if(system.deviceData.device == "AM273x")
         return "am273x-evm";
     if(system.deviceData.device == "AWR294X")

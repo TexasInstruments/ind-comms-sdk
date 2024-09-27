@@ -30,6 +30,8 @@ BOOTIMAGE_PATH=$(abspath .)
 BOOTIMAGE_NAME:=ethercat_slave_beckhoff_ssc_demo.$(PROFILE).appimage
 BOOTIMAGE_NAME_XIP:=ethercat_slave_beckhoff_ssc_demo.$(PROFILE).appimage_xip
 BOOTIMAGE_NAME_SIGNED:=ethercat_slave_beckhoff_ssc_demo.$(PROFILE).appimage.signed
+BOOTIMAGE_NAME_MCELF:=ethercat_slave_beckhoff_ssc_demo.$(PROFILE).mcelf
+BOOTIMAGE_NAME_MCELF_HS:=ethercat_slave_beckhoff_ssc_demo.$(PROFILE).mcelf.hs
 BOOTIMAGE_RPRC_NAME:=ethercat_slave_beckhoff_ssc_demo.$(PROFILE).rprc
 BOOTIMAGE_RPRC_NAME_XIP:=ethercat_slave_beckhoff_ssc_demo.$(PROFILE).rprc_xip
 BOOTIMAGE_RPRC_NAME_TMP:=ethercat_slave_beckhoff_ssc_demo.$(PROFILE).rprc_tmp
@@ -112,11 +114,12 @@ CFLAGS_cpp_common := \
 	-Wno-extern-c-compat \
 	-Wno-c++11-narrowing \
 	-Wno-reorder-init-list \
-	-Wno-deprecated-register \
+	-Wno-register \
 	-Wno-writable-strings \
 	-Wno-enum-compare \
 	-Wno-reserved-user-defined-literal \
 	-Wno-unused-const-variable \
+	-Wno-vla-cxx-extension \
 	-x c++ \
 
 CFLAGS_debug := \
@@ -233,6 +236,7 @@ clean:
 	$(RM) $(BOOTIMAGE_NAME_SIGNED)
 	$(RM) $(BOOTIMAGE_RPRC_NAME)
 	$(RM) $(BOOTIMAGE_RPRC_NAME_XIP)
+	$(RM) $(BOOTIMAGE_NAME_MCELF)
 	$(RMDIR) generated/
 
 scrub:
@@ -245,6 +249,10 @@ ifeq ($(OS),Windows_NT)
 	$(RM) \*.rprc*
 	$(RM) \*.tiimage*
 	$(RM) \*.bin
+	$(RM) \*.mcelf
+	$(RM) \*.mcelf_xip
+	$(RM) \*.mcelf-enc
+	$(RM) \*.mcelf.hs
 else
 	$(RM) *.out
 	$(RM) *.map
@@ -252,6 +260,10 @@ else
 	$(RM) *.rprc*
 	$(RM) *.tiimage*
 	$(RM) *.bin
+	$(RM) *.mcelf
+	$(RM) *.mcelf_xip
+	$(RM) *.mcelf-enc
+	$(RM) *.mcelf.hs
 endif
 	$(RMDIR) generated
 
@@ -266,9 +278,11 @@ $(OBJDIR):
 .INTERMEDIATE: syscfg
 $(SYSCFG_GEN_FILES): syscfg
 
+ifeq ($(SYSTEM_FLAG), false)
 syscfg: ../example.syscfg
 	@echo Generating SysConfig files ...
 	$(SYSCFG_NODE) $(SYSCFG_CLI_PATH)/dist/cli.js --product $(SYSCFG_SDKPRODUCT) --context r5fss0-0 --part AM263x --package ZCZ --output generated/ ../example.syscfg
+endif
 
 syscfg-gui:
 	$(SYSCFG_NWJS) $(SYSCFG_PATH) --product $(SYSCFG_SDKPRODUCT) --device AM263x_beta --context r5fss0-0 --part AM263x --package ZCZ --output generated/  ../example.syscfg
@@ -280,9 +294,9 @@ ifeq ($(OS),Windows_NT)
 EXE_EXT=.exe
 endif
 ifeq ($(OS),Windows_NT)
-  BOOTIMAGE_CERT_GEN_CMD=powershell -executionpolicy unrestricted -command $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/signing/x509CertificateGen.ps1
+  BOOTIMAGE_CERT_GEN_CMD=powershell -executionpolicy unrestricted -command $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source/security/security_common/tools/boot/signing/x509CertificateGen.ps1
 else
-  BOOTIMAGE_CERT_GEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/signing/x509CertificateGen.sh
+  BOOTIMAGE_CERT_GEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source/security/security_common/tools/boot/signing/x509CertificateGen.sh
 endif
 BOOTIMAGE_TEMP_OUT_FILE=temp_stdout_$(PROFILE).txt
 
@@ -296,12 +310,18 @@ SBL_DEV_ID=55
 
 MULTI_CORE_IMAGE_GEN = $(SYSCFG_NODE) $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/multicoreImageGen/multicoreImageGen.js
 OUTRPRC_CMD = $(SYSCFG_NODE) $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/out2rprc/elf2rprc.js
-APP_IMAGE_SIGN_CMD = $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/signing/mcu_appimage_x509_cert_gen.py
+APP_IMAGE_SIGN_CMD = $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/source/security/security_common/tools/boot/signing/mcu_appimage_x509_cert_gen.py
+MCELF_IMAGE_GEN = $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/multicore-elf/genimage.py
 
 ifeq ($(OS),Windows_NT)
   XIPGEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/xipGen/xipGen.exe
 else
-  XIPGEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/xipGen/xipGen.out
+  UNAME_S = $(shell uname -s)
+  ifeq ($(UNAME_S), Darwin)
+    XIPGEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/xipGen/xipGen.out.mac
+  else
+    XIPGEN_CMD=$(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/boot/xipGen/xipGen.out
+endif
 endif
 
 MULTI_CORE_IMAGE_PARAMS = \
@@ -324,20 +344,41 @@ endif
 	$(RM) $(BOOTIMAGE_RPRC_NAME_TMP)
 	$(RM) $(BOOTIMAGE_TEMP_OUT_FILE)
 	@echo  Boot image: am263x:r5fss0-0:freertos:ti-arm-clang $(BOOTIMAGE_PATH)/$@ Done !!!
+	@echo  Boot MulticoreELF image: $(BOOTIMAGE_PATH)/$(BOOTIMAGE_NAME_MCELF) ...
+	$(PYTHON) $(MCELF_IMAGE_GEN) --core-img=$(BOOTIMAGE_CORE_ID_r5fss0-0):$(OUTNAME) --output=$(BOOTIMAGE_NAME_MCELF) --merge-segments=$(MCELF_MERGE_SEGMENTS_FLAG) --tolerance-limit=$(MCELF_MERGE_SEGMENTS_TOLERANCE_LIMIT) --ignore-context=$(MCELF_IGNORE_CONTEXT_FLAG) --xip=$(MCELF_XIP_RANGE) --xlat=$(MCELF_ADDR_TRANSLATION_PATH) --max_segment_size=$(MCELF_MAX_SEGMENT_SIZE)
+	@echo  Boot MulticoreELF ELF image: $(BOOTIMAGE_PATH)/$(BOOTIMAGE_NAME_MCELF) Done !!!
 	@echo  .
 
 $(BOOTIMAGE_NAME_HS): $(BOOTIMAGE_NAME)
 ifeq ($(DEVICE_TYPE), HS)
 # Sign the appimage using appimage signing script
 ifeq ($(ENC_ENABLED),no)
+ifeq ($(RSASSAPSS_ENABLED),no)
 	@echo Boot image signing: Encryption is disabled.
-	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME) --key $(APP_SIGNING_KEY) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --output $(BOOTIMAGE_NAME_HS)
+	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME) --key $(APP_SIGNING_KEY) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --hash_algo $(APP_SIGNING_HASH_ALGO) --output $(BOOTIMAGE_NAME_HS)
+	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME_MCELF) --key $(APP_SIGNING_KEY) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --hash_algo $(APP_SIGNING_HASH_ALGO) --output $(BOOTIMAGE_NAME_MCELF_HS)
 else
+	@echo Boot image signing: Encryption is disabled. RSASSAPSS is enabled.
+	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME) --key $(APP_SIGNING_KEY) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --hash_algo $(APP_SIGNING_HASH_ALGO) --pss_saltlen $(APP_SIGNING_SALT_LENGTH) --output $(BOOTIMAGE_NAME_HS) --rsassa_pss
+	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME_MCELF) --key $(APP_SIGNING_KEY) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --hash_algo $(APP_SIGNING_HASH_ALGO) --pss_saltlen $(APP_SIGNING_SALT_LENGTH) --output $(BOOTIMAGE_NAME_MCELF_HS) --rsassa_pss
+endif
+else
+ifeq ($(RSASSAPSS_ENABLED),no)
 	@echo Boot image signing: Encryption is enabled.
-	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME) --key $(APP_SIGNING_KEY) --enc y --enckey $(APP_ENCRYPTION_KEY) --kd-salt $(KD_SALT) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --enc_key_id $(APP_ENCRYPTION_KEY_KEYRING_ID) --output $(BOOTIMAGE_NAME_HS)
+	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME) --key $(APP_SIGNING_KEY) --enc y --enckey $(APP_ENCRYPTION_KEY) --kd-salt $(KD_SALT) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --enc_key_id $(APP_ENCRYPTION_KEY_KEYRING_ID) --hash_algo $(APP_SIGNING_HASH_ALGO) --output $(BOOTIMAGE_NAME_HS)
 	$(RM) $(BOOTIMAGE_NAME)-enc
+	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME_MCELF) --key $(APP_SIGNING_KEY) --enc y --enckey $(APP_ENCRYPTION_KEY) --kd-salt $(KD_SALT) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --enc_key_id $(APP_ENCRYPTION_KEY_KEYRING_ID) --hash_algo $(APP_SIGNING_HASH_ALGO) --output $(BOOTIMAGE_NAME_MCELF_HS)
+	$(RM) $(BOOTIMAGE_NAME_MCELF)-enc
+else
+	@echo Boot image signing: Encryption is enabled. RSASSAPSS is enabled.
+	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME) --key $(APP_SIGNING_KEY) --enc y --enckey $(APP_ENCRYPTION_KEY) --kd-salt $(KD_SALT) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --enc_key_id $(APP_ENCRYPTION_KEY_KEYRING_ID) --hash_algo $(APP_SIGNING_HASH_ALGO) --pss_saltlen $(APP_SIGNING_SALT_LENGTH) --output $(BOOTIMAGE_NAME_HS) --rsassa_pss
+	$(RM) $(BOOTIMAGE_NAME)-enc
+	$(PYTHON) $(APP_IMAGE_SIGN_CMD) --bin $(BOOTIMAGE_NAME_MCELF) --key $(APP_SIGNING_KEY) --enc y --enckey $(APP_ENCRYPTION_KEY) --kd-salt $(KD_SALT) --sign_key_id $(APP_SIGNING_KEY_KEYRING_ID) --enc_key_id $(APP_ENCRYPTION_KEY_KEYRING_ID) --hash_algo $(APP_SIGNING_HASH_ALGO) --pss_saltlen $(APP_SIGNING_SALT_LENGTH) --output $(BOOTIMAGE_NAME_MCELF_HS) --rsassa_pss
+	$(RM) $(BOOTIMAGE_NAME_MCELF)-enc
+endif
 endif
 	@echo  Boot image: am263x:r5fss0-0:freertos:ti-arm-clang $(BOOTIMAGE_PATH)/$(BOOTIMAGE_NAME_HS) Done !!!
+	@echo  Boot image: am263x:r5fss0-0:freertos:ti-arm-clang $(BOOTIMAGE_PATH)/$(BOOTIMAGE_NAME_MCELF_HS) Done !!!
 	@echo  .
 endif
 .PHONY: coverage
