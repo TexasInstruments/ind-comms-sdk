@@ -48,7 +48,6 @@
 #include "iPtcpUtils.h"
 #include "iPNLegacy.h"
 #include "iPnOs.h"
-#include "PN_CommonMacros.h"
 #include <drivers/hw_include/hw_types.h>
 #include <kernel/dpl/ClockP.h>
 #include <drivers/mdio.h>

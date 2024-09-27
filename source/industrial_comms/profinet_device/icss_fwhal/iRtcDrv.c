@@ -41,7 +41,6 @@
 #include "pnDrvConfig.h"
 #include "PN_Handle.h"
 #include "PN_HandleDef.h"
-#include "PN_CommonMacros.h"
 #include "iPnOs.h"
 #include "iRtcDrv.h"
 #include "iPtcpDrv.h"

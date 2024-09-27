@@ -43,7 +43,6 @@
 #include "PN_HandleDef.h"
 #include "iRtcDrv.h"
 #include "iPnOs.h"
-#include "PN_CommonMacros.h"
 #ifdef PTCP_SUPPORT
 #include "iPtcpDrv.h"
 #include "iPtcpUtils.h"

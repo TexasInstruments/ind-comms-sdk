@@ -49,7 +49,6 @@
 #include "iPtcpUtils.h"
 #include "PN_ForwardDecisionTable.h"
 #include "PN_ReceiveDecisionTable.h"
-#include "PN_CommonMacros.h"
 
 #include <string.h>
 #include <stdint.h>

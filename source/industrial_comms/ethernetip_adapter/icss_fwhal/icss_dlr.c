@@ -324,7 +324,7 @@ void EIP_DLR_port0ISR(uintptr_t arg)
     ICSS_EMAC_IoctlCmd ioctlParams;
 
     intStatusPtr = (uint32_t *)(uint32_t)(pruicssHwAttrs->intcRegBase +
-                                          CSL_ICSS_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0);
+                                          CSL_ICSS_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0);
 
     portEvtsPtr = (uint32_t *)(pruicssHwAttrs->pru0DramBase +
                                DLR_PORT_EVENTS_OFFSET);
@@ -603,7 +603,7 @@ void EIP_DLR_port1ISR(uintptr_t arg)
     commonEvtsFlag = *(commonEvtsPtr);
 
     intStatusPtr = (uint32_t *)(uint32_t)(pruicssHwAttrs->intcRegBase +
-                                          CSL_ICSS_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0);
+                                          CSL_ICSS_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0);
 
     /*when a new supervisor comes online, timers are restarted*/
     if(commonEvtsFlag & DLR_STOP_BOTH_TIMERS_MASK)
@@ -873,7 +873,7 @@ void EIP_DLR_beaconTimeoutISR_P0(uintptr_t arg)
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(dlrHandle->pruicssHandle->hwAttrs);
 
     intStatusOffset = (uint32_t)(pruicssHwAttrs->intcRegBase
-                                 + CSL_ICSS_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0);
+                                 + CSL_ICSS_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0);
 
     portEvtsPtr = (uint32_t *)(pruicssHwAttrs->pru0DramBase +
                                DLR_PORT_EVENTS_OFFSET);
@@ -1022,7 +1022,7 @@ void EIP_DLR_beaconTimeoutISR_P1(uintptr_t arg)
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(dlrHandle->pruicssHandle->hwAttrs);
 
     intStatusOffset = (uint32_t)(pruicssHwAttrs->intcRegBase
-                                 + CSL_ICSS_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0);
+                                 + CSL_ICSS_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0);
 
     portEvtsPtr = (uint32_t *)(pruicssHwAttrs->pru1DramBase +
                                DLR_PORT_EVENTS_OFFSET);

@@ -37,7 +37,6 @@
 #include "pnDrvConfig.h"
 #include "PN_Handle.h"
 #include "PN_HandleDef.h"
-#include "PN_CommonMacros.h"
 #include "iPNLegacy.h"
 #include "iRtcDrv.h"
 #include <stdint.h>
@@ -933,7 +932,7 @@ int32_t FAST_CODE_HWAL PN_chgPpmBuffer(PN_Handle pnHandle, t_rtcPacket *ppmPkt)
 void FAST_CODE_HWAL PN_clearPruIRQ(PRUICSS_HwAttrs const *pruicssHwAttrs,
                     uint8_t irq_num)      /* event clearing*/
 {
-    HW_WR_REG32((pruicssHwAttrs->intcRegBase + CSL_ICSS_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0), 1 << irq_num);
+    HW_WR_REG32((pruicssHwAttrs->intcRegBase + CSL_ICSS_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0), 1 << irq_num);
 }
 
 void PN_setFSODeviationComp(PRUICSS_HwAttrs const *pruicssHwAttrs, uint16_t fso_comp_val) 

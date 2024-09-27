@@ -36,7 +36,6 @@
 #include <string.h>
 #include "iPNIsoMDrv.h"
 #include "PN_HandleDef.h"
-#include "PN_CommonMacros.h"
 #include <drivers/hw_include/hw_types.h>
 
 /* ========================================================================== */
