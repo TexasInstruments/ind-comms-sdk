@@ -139,11 +139,6 @@ function getComponentBuildProperty(buildOption) {
             build_property.lflags = lflags_r5f;
         }
     }
-    if(buildOption.board.match(/cc*/))
-    {
-        build_property.defines = defines_r5f_cc;
-    }
-
     return build_property;
 }
 

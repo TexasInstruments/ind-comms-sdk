@@ -75,6 +75,4 @@ void tiesc_addOnBoardResetSequence();
 void tiesc_setIOExpMuxSelection(void *args);
 #endif
 
-void tiesc_setIOExpMuxSelection(void *args);
-
 #endif /* _TIESC_SOC_H_*/
