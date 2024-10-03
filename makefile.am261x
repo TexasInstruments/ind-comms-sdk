@@ -33,10 +33,16 @@ help:
 	@echo  Library build targets,
 	@echo  ======================
 	@echo  $(MAKE) -s -f makefile.am261x ethercat_slave_icss_fwhal_r5f.ti-arm-clang
+	@echo  $(MAKE) -s -f makefile.am261x ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang
+	@echo  $(MAKE) -s -f makefile.am261x profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang
+	@echo  $(MAKE) -s -f makefile.am261x profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang
 	@echo  .
 	@echo  Library clean targets,
 	@echo  ======================
 	@echo  $(MAKE) -s -f makefile.am261x ethercat_slave_icss_fwhal_r5f.ti-arm-clang_clean
+	@echo  $(MAKE) -s -f makefile.am261x ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang_clean
+	@echo  $(MAKE) -s -f makefile.am261x profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang_clean
+	@echo  $(MAKE) -s -f makefile.am261x profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang_clean
 	@echo  .
 	@echo  Example build targets,
 	@echo  ======================
@@ -48,9 +54,12 @@ help:
 
 # Various Component Targets
 BUILD_COMBO_ethercat_slave_icss_fwhal = ethercat_slave_icss_fwhal_r5f.ti-arm-clang
+BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal = ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang
+BUILD_COMBO_profinet_device_irt_mii_icss_fwhal = profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang
+BUILD_COMBO_profinet_device_rt_mrp_mii_icss_fwhal = profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang
 
 # Combine all Components
-BUILD_COMBO_ALL = $(BUILD_COMBO_ethercat_slave_icss_fwhal)
+BUILD_COMBO_ALL = $(BUILD_COMBO_ethercat_slave_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_profinet_device_rt_mrp_mii_icss_fwhal)
 
 # Combine all Pre-built Components
 BUILD_COMBO_PREBUILT_ALL =
@@ -67,12 +76,24 @@ libs-private: $(BUILD_COMBO_PRIVATE_ALL)
 $(BUILD_COMBO_ethercat_slave_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/ethercat_slave/icss_fwhal -f makefile.am261x.$(subst ethercat_slave_icss_fwhal_,,$@) all
 
+$(BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/icss_fwhal -f makefile.mii.am261x.$(subst ethernetip_adapter_mii_icss_fwhal_,,$@) all
+
+$(BUILD_COMBO_profinet_device_irt_mii_icss_fwhal):
+	$(MAKE) -C source/industrial_comms/profinet_device/icss_fwhal -f makefile.irt_mii.am261x.$(subst profinet_device_irt_mii_icss_fwhal_,,$@) all
+
+$(BUILD_COMBO_profinet_device_rt_mrp_mii_icss_fwhal):
+	$(MAKE) -C source/industrial_comms/profinet_device/icss_fwhal -f makefile.rt_mrp_mii.am261x.$(subst profinet_device_rt_mrp_mii_icss_fwhal_,,$@) all
+
 
 # Various Component Clean Targets
 BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal = ethercat_slave_icss_fwhal_r5f.ti-arm-clang_clean
+BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal = ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang_clean
+BUILD_COMBO_CLEAN_profinet_device_irt_mii_icss_fwhal = profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang_clean
+BUILD_COMBO_CLEAN_profinet_device_rt_mrp_mii_icss_fwhal = profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang_clean
 
 # Combine all Components Clean
-BUILD_COMBO_CLEAN_ALL = $(BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal)
+BUILD_COMBO_CLEAN_ALL = $(BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal) $(BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_rt_mrp_mii_icss_fwhal)
 
 # Combine all Pre-built Components Clean
 BUILD_COMBO_PREBUILT_CLEAN_ALL =
@@ -84,12 +105,24 @@ libs-prebuilt-clean: $(BUILD_COMBO_PREBUILT_CLEAN_ALL)
 $(BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/ethercat_slave/icss_fwhal -f makefile.am261x.$(subst ethercat_slave_icss_fwhal_,,$(subst _clean,,$@)) clean
 
+$(BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/icss_fwhal -f makefile.mii.am261x.$(subst ethernetip_adapter_mii_icss_fwhal_,,$(subst _clean,,$@)) clean
+
+$(BUILD_COMBO_CLEAN_profinet_device_irt_mii_icss_fwhal):
+	$(MAKE) -C source/industrial_comms/profinet_device/icss_fwhal -f makefile.irt_mii.am261x.$(subst profinet_device_irt_mii_icss_fwhal_,,$(subst _clean,,$@)) clean
+
+$(BUILD_COMBO_CLEAN_profinet_device_rt_mrp_mii_icss_fwhal):
+	$(MAKE) -C source/industrial_comms/profinet_device/icss_fwhal -f makefile.rt_mrp_mii.am261x.$(subst profinet_device_rt_mrp_mii_icss_fwhal_,,$(subst _clean,,$@)) clean
+
 
 # Various Component Scrub Targets
 BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal = ethercat_slave_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
+BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal = ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
+BUILD_COMBO_SCRUB_profinet_device_irt_mii_icss_fwhal = profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
+BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal = profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
 
 # Combine all Components Scrub Targets
-BUILD_COMBO_SCRUB_ALL = $(BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal)
+BUILD_COMBO_SCRUB_ALL = $(BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal) $(BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal)
 
 # Combine all Pre-built Components Scrub Targets
 BUILD_COMBO_PREBUILT_SCRUB_ALL =
@@ -100,6 +133,15 @@ libs-prebuilt-scrub: $(BUILD_COMBO_PREBUILT_SCRUB_ALL)
 
 $(BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/ethercat_slave/icss_fwhal -f makefile.am261x.$(subst ethercat_slave_icss_fwhal_,,$(subst _scrub,,$@)) scrub
+
+$(BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/icss_fwhal -f makefile.mii.am261x.$(subst ethernetip_adapter_mii_icss_fwhal_,,$(subst _scrub,,$@)) scrub
+
+$(BUILD_COMBO_SCRUB_profinet_device_irt_mii_icss_fwhal):
+	$(MAKE) -C source/industrial_comms/profinet_device/icss_fwhal -f makefile.irt_mii.am261x.$(subst profinet_device_irt_mii_icss_fwhal_,,$(subst _scrub,,$@)) scrub
+
+$(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal):
+	$(MAKE) -C source/industrial_comms/profinet_device/icss_fwhal -f makefile.rt_mrp_mii.am261x.$(subst profinet_device_rt_mrp_mii_icss_fwhal_,,$(subst _scrub,,$@)) scrub
 
 
 BUILD_COMBO_EXAMPLE_ALL =

@@ -3,6 +3,8 @@ let common = system.getScript("/common");
 
 const topModules_main = [
     "/industrial_comms/ethercat/ethercat",
+    "/industrial_comms/ethernetip/ethernetip",
+    "/industrial_comms/profinet/profinet",
 ];
 
 exports = {
