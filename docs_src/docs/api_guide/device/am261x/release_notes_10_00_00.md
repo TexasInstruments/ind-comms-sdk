@@ -6,20 +6,25 @@
 
 \attention For release notes of MCU+ SDK, please refer to \htmllink{@VAR_MCU_SDK_DOCS_PATH/RELEASE_NOTES_10_00_00_PAGE.html, @VAR_SOC_NAME MCU+ SDK Release Notes 10.00.00}.
 
-\note The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
+\note 1. The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
       Unless noted otherwise, the SW modules would work on all supported EVMs \n
 
 
-\note Following changes are needed to ensure proper functioning of EtherCAT firmware running on PRU-ICSS. \n
-      In `C:\ti\<ccs_version>\ccs\ccs_base\emulation\gel\AM261x\AM261x.gel`, uncomment `Configure_R5F0_400MHZ` call and comment out `Configure_R5F0_500MHZ`. \n
-      In `C:\ti\<ccs_version>\ccs\ccs_base\emulation\gel\AM261x\AM261x_PLL\AM261x_Periheral_Clocks.gel`, update `Program_ICSSM0_Core_Clocks` to following. \n
-      hotmenu Program_ICSSM0_Core_Clocks() \n
-      {
-        Write_MMR(MSS_RCM_U_BASE+MSS_RCM_ICSSM0_CORE_CLK_DIV_VAL, 0x000);
-        Write_MMR(MSS_RCM_U_BASE+MSS_RCM_ICSSM0_CORE_CLK_SRC_SEL, 0x222);
-        while(Read_MMR(MSS_RCM_U_BASE + MSS_RCM_ICSSM0_CORE_CLK_STATUS) != 0x0004);
-        GEL_TextOut("ICSSM0_CORE Clock Enabled \n");
-      }
+\note 2. Following changes are needed to ensure proper functioning of EtherCAT firmware running on PRU-ICSS. \n
+            - In `C:\ti\<ccs_version>\ccs\ccs_base\emulation\gel\AM261x\AM261x.gel`, uncomment `Configure_R5F0_400MHZ` call and comment out `Configure_R5F0_500MHZ`. \n
+            - In `C:\ti\<ccs_version>\ccs\ccs_base\emulation\gel\AM261x\AM261x_PLL\AM261x_Periheral_Clocks.gel`, update `Program_ICSSM0_Core_Clocks` to following: \n
+                \code
+                hotmenu Program_ICSSM0_Core_Clocks() \n
+                {
+                    Write_MMR(MSS_RCM_U_BASE+MSS_RCM_ICSSM0_CORE_CLK_DIV_VAL, 0x000);
+                    Write_MMR(MSS_RCM_U_BASE+MSS_RCM_ICSSM0_CORE_CLK_SRC_SEL, 0x222);
+                    while(Read_MMR(MSS_RCM_U_BASE + MSS_RCM_ICSSM0_CORE_CLK_STATUS) != 0x0004);
+                    GEL_TextOut("ICSSM0_CORE Clock Enabled \n");
+                }
+                \endcode
+
+\note 3. EtherCAT SubDevice Beckhoff SSC Demo has been tested for R5F at 400MHz and PRU at 200MHz. \n
+
 
 ## New in this Release
 
@@ -31,6 +36,10 @@
     <td> EtherCAT SubDevice Beckhoff SSC Demo
 </tr>
 </table>
+
+## Not tested in this release
+
+- R5F at 500MHz and PRU at 225MHz
 
 ## Device and Validation Information
 
