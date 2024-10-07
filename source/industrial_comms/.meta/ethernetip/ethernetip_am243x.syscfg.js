@@ -242,7 +242,7 @@ function getPeripheralPinNames(inst)
     {
         pinList = pinList.concat( getInterfacePinList(inst, "MDIO"),
                         getInterfacePinList(inst, "IEP"),
-                        getInterfacePinList(inst, "" )
+                        getInterfacePinList(inst, "MII_G_RT" )
         );
     }
     else
