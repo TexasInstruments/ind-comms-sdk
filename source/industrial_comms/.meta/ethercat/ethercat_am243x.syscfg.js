@@ -1,5 +1,6 @@
 let common = system.getScript("/common");
 let pinmux = system.getScript("/drivers/pinmux/pinmux");
+let device = common.getDeviceName();
 
 let icss_instances = [
     {
@@ -14,6 +15,10 @@ let icss_instances = [
 
 function getIcssInstancesArr()
 {
+    if(device === "am243x-lp")
+    {
+        icss_instances.shift();
+    }
     return icss_instances;
 }
 
