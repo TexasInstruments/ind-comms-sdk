@@ -2537,10 +2537,9 @@ inline void bsp_hwspinlock_init(void)
     HW_WR_REG32((icssgBaseAddr + CSL_ICSS_RAT_REGS_1_BASE + 0x2C), (0x00000000u)); //rat0 trans_high0
     HW_WR_REG32((icssgBaseAddr + CSL_ICSS_RAT_REGS_1_BASE + 0x20), (1u << 31) | (15u)); //rat0 ctrl0
 
-    for(regval = 0; regval < 8; regval++)
-    {
-        bsp_hwspinlock_unlock(regval);
-    }
+    /* Spinlock 0 to 7 available */ 
+    /* Only spinlock 0 being used now. Spinlock 1 to 7 locked */
+    bsp_hwspinlock_unlock(0);
 }
 
 inline uint32_t bsp_hwspinlock_lock(int num)
