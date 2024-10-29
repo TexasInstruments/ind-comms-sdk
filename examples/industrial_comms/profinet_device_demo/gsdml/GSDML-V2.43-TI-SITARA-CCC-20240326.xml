@@ -58,7 +58,7 @@
 							<SynchronisationMode SupportedRole="SyncSlave" MaxLocalJitter="250" T_PLL_MAX="1000" SupportedSyncProtocols="PTCP"/>
 							<ApplicationRelations NumberOfAR="4" StartupMode="Legacy;Advanced" NumberOfAdditionalInputCR="0" NumberOfAdditionalMulticastProviderCR="0" NumberOfAdditionalOutputCR="0" NumberOfMulticastConsumerCR="0" PullModuleAlarmSupported="true">
 								<TimingProperties SendClock="16 32 64 128" ReductionRatio="1 2 4 8 16 32 64 128 256 512"/>
-								<RT_Class3TimingProperties SendClock="8 16 32 64 128" ReductionRatio="1" ReductionRatioPow2="2 4 8 16"/>
+								<RT_Class3TimingProperties SendClock="16 32 64 128" ReductionRatio="1" ReductionRatioPow2="2 4 8 16"/>
 							</ApplicationRelations>
 							<MediaRedundancy SupportedRole="Client" MRPD_Supported="false"/>
 						</InterfaceSubmoduleItem>
