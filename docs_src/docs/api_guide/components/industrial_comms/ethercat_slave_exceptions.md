@@ -135,37 +135,12 @@ TI ESC register map is fully compatible with ET1100 ASIC register map except for
     <th> **Description**
 </tr>
 <tr>
-    <td> PINDSW-47/SDOCM00092510: Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice
-    <td> Increased codememory requirements needed in firmware to implement this support. LRW command supports this which is more optimal with lower framing overhead. Minor use case impact as more optimal solutions exists. May cause interop issues with certain MainDevices if 8 SM is supported by SubDevice and all of them are accessed via single logical datagram
-</tr>
-<tr>
     <td> PINDSW-72/SDOCM00098105: PDI/PD watchdog counter incremented by 1 whenever PDI/PD watchdog is disabled using EtherCAT MainDevice
     <td> Whenever EtherCAT MainDevice disables WD by writing zero to respective Watchdog Time registers (0x0410:0x0411 or 0x0420:0x0421). ICSS h/w limitation, can potentially workaround in firmware by maintaining this counter in firmware but require additional instructions. This has very minor use case impact to undertake this.
 </tr>
 <tr>
     <td> PINDSW-74/SDOCM00098950: LRD access on unused registers results in WKC increment
     <td> Firmware does not support register protection in LRD mode at this moment, it requires more firmware footprint to support, this minor spec compliance does not justify the footprint increase and there are no Write Only registers in ESC. LRD access to unused register is not a practical use case.
-</tr>
-<tr>
-    <td> PINDSW-141/SDOCM00105048: LRW access to non-interleaved input and output process data of multiple SubDevices does not work
-    <td> **Conditions in which failures occur**<br/>
-         Single LRW datagram accessing FMMU mapped areas in multiple SubDevices and PD out is mapped.<br/>
-         FMMU0(0x1000:0x1007)-> SM2#1(Write SM)<br/>
-         FMMU1(0x1008:0x100F)->SM 2#2(Write SM)<br/>
-         FMMU2(0x1010:0x1017)->SM 3#1(Read SM)<br/>
-         FMMU3(0x1018:0x101F)->SM 3#2(Read SM)<br/>
-         Single LRW access from (0x1000:101F)<br/>
-
-         **Root Cause**<br/>
-         Pointer management is optimized for interleaved access as well as non-interleaved access I/O data is not a very optimal use of EtherCAT. It increases the cycle time overhead/datagram size and not effective use of LRW datagram which can perform read and write in the same cycle.<br/>
-
-        **Work-around**<br/>
-        Use LRD/LWR datagram to access process data Use LRW datagram to access process data Input and output overlaid on the same logical address range (TwinCAT usage)<br/>
-        Input and output of a given SubDevice back to back in logical address space<br/>
-        FMMU0(0x1000:0x1007)->SM 2 #1(Write SM)<br/>
-        FMMU1(0x1008:0x100F)->SM 3#1 (Read SM)<br/>
-        FMMU2 (0x1010:0x1017)->SM2 #2 (Write SM)<br/>
-        FMMU3(0x1018:0x101F)->SM 3#2(Read SM)<br/>
 </tr>
 </table>
 
