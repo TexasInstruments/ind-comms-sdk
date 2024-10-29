@@ -46,7 +46,7 @@ TI ESC is fully register compatible with ET1100 ASIC, for any exceptions to this
     <td> R/-
     <td> R/-
     <td> 5/6
-    <td> AM263x : 5 <br/>
+    <td> AM263x, AM263Px, AM261x : 5 <br/>
          AM64x, AM243x : 6 <br/>
 </tr>
 <tr>
@@ -64,7 +64,7 @@ TI ESC is fully register compatible with ET1100 ASIC, for any exceptions to this
     <td> 0-15
     <td> R/-
     <td> R/-
-    <td> 0x50C
+    <td> 0x52A
     <td> Firmware build version <br/>
 </tr>
 <tr>
@@ -4107,5 +4107,27 @@ TI ESC is fully register compatible with ET1100 ASIC, for any exceptions to this
     <td> R/W
     <td> 0
     <td> Reserved
+</tr>
+<tr>
+    <td> Increased TX Start Delay
+    <td> 0x0ED0
+    <td>
+    <td>
+    <td>
+    <td>
+    <td>
+</tr>
+<tr>
+    <td>
+    <td>
+    <td> 0-7
+    <td> R/-
+    <td> R/W
+    <td> 0x98
+    <td> To configure the increased start delay in the case of:
+        <ul>
+         <li>**Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice**</li>
+         <li>**LRW access to non-interleaved input and output process data of multiple SubDevices**</li>
+         </ul>
 </tr>
 </table>
