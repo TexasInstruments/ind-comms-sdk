@@ -940,12 +940,6 @@ static void ICSS_EMAC_pruicssMiiRtCfgInit(ICSS_EMAC_Handle icssEmacHandle)
         HW_WR_FIELD32((pruicssHwAttrs->miiGRtCfgRegBase) + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG,
             CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII1_FULLDUPLEX_IN, 0x1);
 
-        /* Enable RGMII Inband */
-        HW_WR_FIELD32((pruicssHwAttrs->miiGRtCfgRegBase) + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG,
-            CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII0_INBAND, 0x1);
-        HW_WR_FIELD32((pruicssHwAttrs->miiGRtCfgRegBase) + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG,
-            CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII1_INBAND, 0x1);
-
         /* Setting min and max frame size */
         HW_WR_FIELD32((pruicssHwAttrs->miiRtCfgRegBase) + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_CFG_RX_FRMS0,
                 CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_CFG_RX_FRMS0_RX_MIN_FRM0, ICSS_EMAC_RGMII_MIN_FRAME_SIZE);
@@ -2043,5 +2037,80 @@ int32_t ICSS_EMAC_vlanFilterConfig(ICSS_EMAC_FwVlanFilterParams   *pVlanFilterPa
            retVal = SystemP_FAILURE;
            break;
     }
+    return retVal;
+}
+
+int32_t ICSS_EMAC_rgmiiInbandConfig(uint8_t inbandEnable, 
+                                    uint8_t portNum,
+                                    ICSS_EMAC_Handle icssEmacHandle)
+{
+    int32_t                 retVal = SystemP_SUCCESS;
+    uint32_t                tempVal;
+    PRUICSS_Handle          pruicssHandle = ((ICSS_EMAC_Object *)icssEmacHandle->object)->pruicssHandle;
+    PRUICSS_HwAttrs const   *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pruicssHandle->hwAttrs);
+
+    if(inbandEnable == ICSS_RGMII_INBAND_ENABLE)
+    {
+        if((uint8_t)ICSS_EMAC_PORT_1 == portNum)
+        {    
+            /* Enable RGMII Inband */
+            HW_WR_FIELD32((pruicssHwAttrs->miiGRtCfgRegBase) + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG,
+                CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII0_INBAND, 0x1);
+
+            /* Read back the register value to ensure the configuration has taken effect */
+            tempVal = HW_RD_REG32(pruicssHwAttrs->miiGRtCfgRegBase + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG);
+            tempVal = (tempVal & CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII0_INBAND_MASK);
+            if(tempVal != CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII0_INBAND_MASK)
+            {
+                retVal = SystemP_FAILURE; 
+            }
+        }
+        else
+        {
+            /* Enable RGMII Inband */
+            HW_WR_FIELD32((pruicssHwAttrs->miiGRtCfgRegBase) + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG,
+                CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII1_INBAND, 0x1);
+
+            /* Read back the register value to ensure the configuration has taken effect */
+            tempVal = HW_RD_REG32(pruicssHwAttrs->miiGRtCfgRegBase + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG);
+            tempVal = (tempVal & CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII1_INBAND_MASK);
+            if(tempVal != CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII1_INBAND_MASK)
+            {
+                retVal = SystemP_FAILURE; 
+            }
+        }
+    }
+    else
+    {
+        if((uint8_t)ICSS_EMAC_PORT_1 == portNum)
+        {    
+            /* Disable RGMII Inband */
+            HW_WR_FIELD32((pruicssHwAttrs->miiGRtCfgRegBase) + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG,
+                CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII0_INBAND, 0x0);
+
+            /* Read back the register value to ensure the configuration has taken effect */
+            tempVal = HW_RD_REG32(pruicssHwAttrs->miiGRtCfgRegBase + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG);
+            tempVal = (tempVal & CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII0_INBAND_MASK);
+            if(tempVal != 0)
+            {
+                retVal = SystemP_FAILURE; 
+            }
+        }
+        else
+        {
+            /* Disable RGMII Inband */
+            HW_WR_FIELD32((pruicssHwAttrs->miiGRtCfgRegBase) + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG,
+                CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII1_INBAND, 0x0);
+
+            /* Read back the register value to ensure the configuration has taken effect */
+            tempVal = HW_RD_REG32(pruicssHwAttrs->miiGRtCfgRegBase + CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG);
+            tempVal = (tempVal & CSL_ICSS_G_PR1_MII_RT_PR1_MII_RT_G_CFG_REGS_G_RGMII_CFG_RGMII1_INBAND_MASK);
+            if(tempVal != 0)
+            {
+                retVal = SystemP_FAILURE; 
+            }
+        }
+    }
+    
     return retVal;
 }

@@ -124,6 +124,9 @@ extern "C" {
 #define TTS_CYC0_PRU_EVT_MASK            (((uint32_t)1U) << 24)
 #define TTS_CYC1_PRU_EVT_MASK            (((uint32_t)1U) << 25)
 
+#define ICSS_RGMII_INBAND_ENABLE           (0x1U)
+#define ICSS_RGMII_INBAND_DISABLE          (0x0U)
+
 /* ========================================================================== */
 /*                         Structure Declarations                             */
 /* ========================================================================== */
@@ -481,6 +484,11 @@ int32_t ICSS_EMAC_vlanFilterConfig(ICSS_EMAC_FwVlanFilterParams   *pVlanFilterPa
                                    uintptr_t                    dataRamAddr,
                                    uint8_t                      ioctlCmd,
                                    void                         *ioctlVal);
+
+/* Implements the port-specific confguration for ICSS RGMII InBAND */
+int32_t ICSS_EMAC_rgmiiInbandConfig(uint8_t inbandEnable, 
+                                    uint8_t portNum,
+                                    ICSS_EMAC_Handle icssEmacHandle);
 
 /* ========================================================================== */
 /*                            Global Variables                                */
