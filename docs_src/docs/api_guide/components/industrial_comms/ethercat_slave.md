@@ -99,10 +99,11 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
 
 ##### Industrial Communications SDK Version 10.00.00
 
-- Firmware Version : x.5.42
+- Firmware Version : x.5.43
 - Fix for PINDSW-47   : Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice
 - Fix for PINDSW-141  : LRW access to non-interleaved input and output process data of multiple SubDevices does not work. 
     - This will make EtherCAT SubDevice compatibile with default mode of few open source EtherCAT MainDevice like [SOEM](https://github.com/OpenEtherCATsociety/SOEM) and [IgH](https://gitlab.com/etherlab.org/ethercat).
+- Bug-fix for PINDSW-8246 : Triple buffer issue - Not getting the latest data from buffer during free-run mode.
 
 \cond SOC_AM64X || SOC_AM243X
 
