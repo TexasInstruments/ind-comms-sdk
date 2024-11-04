@@ -11,6 +11,8 @@
  */
 const eeprom          = scripting.addModule("/board/eeprom/eeprom", {}, false);
 const eeprom1         = eeprom.addInstance();
+const flash           = scripting.addModule("/board/flash/flash", {}, false);
+const flash1          = flash.addInstance();
 const led             = scripting.addModule("/board/led/led", {}, false);
 const led1            = led.addInstance();
 const led2            = led.addInstance();
@@ -57,17 +59,43 @@ const section12       = section.addInstance();
 eeprom1.$name      = "CONFIG_EEPROM0";
 eeprom1.i2cAddress = 0x53;
 
+flash1.$name                              = "CONFIG_FLASH0";
+flash1.fname                              = "IS25LX064";
+flash1.protocol                           = "8d_8d_8d";
+flash1.flashDeviceId                      = "0x5B17";
+flash1.strDtr_isAddrReg                   = true;
+flash1.strDtr_cmdRegRd                    = "0x85";
+flash1.strDtr_cmdRegWr                    = "0x81";
+flash1.strDtr_shift                       = 255;
+flash1.strDtr_mask                        = "255";
+flash1.xspiWipRdCmd                       = "0x05";
+flash1.fourByteEnableSeq                  = "0";
+flash1.peripheralDriver.$name             = "CONFIG_OSPI0";
+flash1.peripheralDriver.dmaEnable         = true;
+flash1.peripheralDriver.OSPI.CLK.$assign  = "GPIO10";
+flash1.peripheralDriver.OSPI.CSn0.$assign = "GPIO62";
+flash1.peripheralDriver.OSPI.DQS.$assign  = "GPIO9";
+flash1.peripheralDriver.OSPI.D7.$assign   = "GPIO68";
+flash1.peripheralDriver.OSPI.D6.$assign   = "GPIO8";
+flash1.peripheralDriver.OSPI.D5.$assign   = "GPIO67";
+flash1.peripheralDriver.OSPI.D4.$assign   = "GPIO76";
+flash1.peripheralDriver.OSPI.D3.$assign   = "GPIO69";
+flash1.peripheralDriver.OSPI.D2.$assign   = "GPIO7";
+flash1.peripheralDriver.OSPI.D1.$assign   = "GPIO70";
+flash1.peripheralDriver.OSPI.D0.$assign   = "GPIO2";
+
 led1.$name      = "CONFIG_LED_DIGITAL_OUTPUT";
 led1.name       = "TPIC2810";
 led1.i2cAddress = 0x61;
 
 led2.$name = "CONFIG_LED_RUN";
 
-edma1.$name                 = "CONFIG_EDMA0";
-edma1.edmaRmDmaCh[0].$name  = "CONFIG_EDMA_RM0";
-edma1.edmaRmQdmaCh[0].$name = "CONFIG_EDMA_RM1";
-edma1.edmaRmTcc[0].$name    = "CONFIG_EDMA_RM2";
-edma1.edmaRmParam[0].$name  = "CONFIG_EDMA_RM3";
+edma1.$name                        = "CONFIG_EDMA0";
+flash1.peripheralDriver.edmaDriver = edma1;
+edma1.edmaRmDmaCh[0].$name         = "CONFIG_EDMA_RM0";
+edma1.edmaRmQdmaCh[0].$name        = "CONFIG_EDMA_RM1";
+edma1.edmaRmTcc[0].$name           = "CONFIG_EDMA_RM2";
+edma1.edmaRmParam[0].$name         = "CONFIG_EDMA_RM3";
 
 gpio1.$name           = "CONFIG_GPIO0";
 led2.peripheralDriver = gpio1;
@@ -326,6 +354,7 @@ section12.output_section[0].alignment = 0;
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
+flash1.peripheralDriver.OSPI.$suggestSolution                           = "OSPI0";
 gpio1.GPIO_n.$suggestSolution                                           = "GPIO0";
 ethercat1["PRU-ICSS0-IEP"].$suggestSolution                             = "PRU-ICSS0-IEP";
 ethercat1["PRU-ICSS0-IEP"].PR0_IEP0_EDC_SYNC_OUT0.$suggestSolution      = "GPIO119";

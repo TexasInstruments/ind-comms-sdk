@@ -74,9 +74,7 @@ extern unsigned char bBootMode; /**< \brief Indicates in slave is in BOOT mode*/
 
 static uint32_t fw_download_flag;
 static uint32_t fw_write_offset;
-#ifndef SOC_AM261X
 static uint32_t flash_block_size;
-#endif
 volatile static uint32_t write_indx = 0;
 volatile static uint32_t read_indx = 0;
 volatile static uint8_t cir_buff[FW_CIRC_BUFF_LEN];
@@ -315,7 +313,6 @@ void tiesc_start_fw_download(uint32_t password)
     DebugP_log("FW download started\n\r");
 }
 
-#ifndef SOC_AM261X
 void tiesc_store_fw_data(uint16_t *pData, uint16_t Size)
 {
     uint32_t itr1 = 0;
@@ -348,7 +345,7 @@ void tiesc_store_fw_data(uint16_t *pData, uint16_t Size)
 
 void tiesc_boot_2_init_handler()
 {
-   uint8_t data_buff[256];
+    uint8_t data_buff[256];
     uint32_t blockNum, pageNum;      /* Block, page number */
     
     /*
@@ -374,14 +371,13 @@ void tiesc_boot_2_init_handler()
     /*
     * Set FW reload flag from here if a new binary is recieved
     */    
-   if(fw_download_flag)
+    if(fw_download_flag)
     {
         DebugP_log("FW download completed\n\r");
         /* Reset the flag */
         fw_download_flag = 0;
     }
 }
-#endif
 void tiesc_incr_cir_buff_index(uint32_t *index)
 {
     (*index)++;
@@ -491,9 +487,7 @@ uint16_t tiesc_foe_write_data(uint16_t *pData, uint16_t Size,
 {
     if(bBootMode)
     {
-#ifndef SOC_AM261X
         tiesc_store_fw_data(pData, Size);
-#endif
     }
     else if(bDataFollowing)
     {
@@ -554,8 +548,6 @@ void tiesc_foe_eoe_init(void)
     file_size = 0;
     fw_download_flag = 0;
     tiesc_getFoeFlashOffset(&fw_write_offset);
-#ifndef SOC_AM261X
     flash_block_size = ((Flash_Attrs *)Flash_getAttrs(CONFIG_FLASH0))->blockSize;
-#endif
 #endif
 }
