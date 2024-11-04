@@ -97,6 +97,14 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
 
 #### Release Notes
 
+##### Industrial Communications SDK Version 10.00.00
+
+- Firmware Version : x.5.43
+- Fix for PINDSW-47   : Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice
+- Fix for PINDSW-141  : LRW access to non-interleaved input and output process data of multiple SubDevices does not work. 
+    - This will make EtherCAT SubDevice compatibile with default mode of few open source EtherCAT MainDevice like [SOEM](https://github.com/OpenEtherCATsociety/SOEM) and [IgH](https://gitlab.com/etherlab.org/ethercat).
+- Bug-fix for PINDSW-8246 : Triple buffer issue - Not getting the latest data from buffer during free-run mode.
+
 \cond SOC_AM64X || SOC_AM243X
 
 ##### MCU+ SDK Version 08.05.00
@@ -163,11 +171,6 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
     <th> Workaround
 </tr>
 <tr>
-    <td> PINDSW-47
-    <td> Multiple FMMU access in a single datagram to a SubDevice for process data using LRD/LWR commands
-    <td> Use LRW instead of LRD/LWR
-</tr>
-<tr>
     <td> PINDSW-72
     <td> PDI/PD watchdog counter incremented by 1 whenever PDI/PD watchdog is disabled
     <td> None
@@ -176,11 +179,6 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
     <td> PINDSW-74
     <td> LRD access on unused registers increment WKC - no register protection while using LRD
     <td> None
-</tr>
-<tr>
-    <td> PINDSW-141
-    <td> LRW access to non-interleaved input and output process data of multiple SubDevices does not work. SOEM accesses S in LRW mode this way
-    <td> Use LRD/LWR for process data access or use more optimal interleaved access for process data access from MainDevice (TwinCAT way)
 </tr>
 <tr>
     <td> PINDSW-2204
