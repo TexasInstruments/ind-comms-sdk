@@ -1974,23 +1974,53 @@ void ICSS_EMAC_updatePhyStatus(uint8_t portNum, ICSS_EMAC_Handle icssEmacHandle)
                     case  ETHPHY_SPEED_DUPLEX_CONFIG_100FD:
                         *(phySpeedStatusPtr) = (uint32_t)Hundred_Mbps;
                         fullDuplex = 1u;
+                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+                        if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
+                        {
+                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_DISABLE, portNum, icssEmacHandle);
+                        }
+                        #endif
                         break;
                     case  ETHPHY_SPEED_DUPLEX_CONFIG_100HD:
                         *(phySpeedStatusPtr) = (uint32_t)Hundred_Mbps;
                         fullDuplex = 0;
+                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+                        if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
+                        {
+                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_DISABLE, portNum, icssEmacHandle);
+                        }
+                        #endif
                         break;
                     case  ETHPHY_SPEED_DUPLEX_CONFIG_10FD:
                         *(phySpeedStatusPtr) = (uint32_t)Ten_Mbps;
-                        fullDuplex = 1u;
+                        fullDuplex = 1u;      
+                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+                        if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
+                        {
+                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_ENABLE, portNum, icssEmacHandle);
+                        }
+                        #endif
                         break;
                     case  ETHPHY_SPEED_DUPLEX_CONFIG_10HD:
                         *(phySpeedStatusPtr) = (uint32_t)Ten_Mbps;
                         fullDuplex = 0;
+                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+                        if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
+                        {
+                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_ENABLE, portNum, icssEmacHandle);
+                        }
+                        #endif
                         break;
                     default:
                         /* Use 100M Full Duplex configuration by default */
                         *(phySpeedStatusPtr) = (uint32_t)Hundred_Mbps;
                         fullDuplex = 1u;
+                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+                        if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
+                        {
+                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_DISABLE, portNum, icssEmacHandle);
+                        }
+                        #endif
                         break;
                 }
             }
