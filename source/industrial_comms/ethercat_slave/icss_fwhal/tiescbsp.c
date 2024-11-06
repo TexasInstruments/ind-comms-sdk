@@ -2522,7 +2522,6 @@ inline uint8_t bsp_pdi_sm_config_ongoing(PRUICSS_Handle pruIcssHandle)
 
 inline void bsp_hwspinlock_init(void)
 {
-    uint32_t regval;
     uintptr_t icssgBaseAddr = (((PRUICSS_HwAttrs *)((g_bsp_params.pruicss_handle)->hwAttrs))->baseAddr);
 
     /* Setting up RAT config to map SOC Spinlock to C23 constant of PRUICSS */
