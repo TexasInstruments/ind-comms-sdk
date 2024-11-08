@@ -37,7 +37,12 @@ SysConfig can be used to configure things mentioned below:
 - All EtherCAT Commands (NOP, APRD, APWR, APRW, FPRD, FPWR, FPRW, BRD, BWR, BRW, LRD, LWR, LRW, ARMW and FRMW)
 - 8 FMMU support
 - 8 SM support
+\cond SOC_AM64X || SOC_AM243X
 - 59KB of Process Data RAM
+\endcond
+\cond SOC_AM263X || SOC_AM263PX || SOC_AM261X
+- 28KB of Process Data RAM
+\endcond
 - Distributed clocks
     - 64-bit DC
     - SYNC0 out generation single shot and cyclic mode support
@@ -63,7 +68,7 @@ SysConfig can be used to configure things mentioned below:
 \cond SOC_AM64X || SOC_AM243X
 - Firmware based on 200 MHz or 333 MHz clock frequency for PRU-ICSS Core Clock and IEP Clock
 \endcond
-\cond  SOC_AM263X
+\cond  SOC_AM263X || SOC_AM263PX || SOC_AM261X
 - Firmware based on 200 MHz clock frequency for PRU-ICSS Core Clock and IEP Clock
 \endcond
 
@@ -238,7 +243,7 @@ For more details, please see the \htmllink{../EtherCAT_Slave_Errata.pdf, EtherCA
 <tr><td colspan="2" bgcolor=#F0F0F0> ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave</td></tr>
 <tr>
     <td>icss_fwhal/firmware/g_v1.3</td>
-    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 6.5.12** </td>
+    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 6.5.43** </td>
 </tr>
 <tr>
     <td>icss_fwhal/lib/</td>
@@ -279,7 +284,7 @@ For more details, please see the \htmllink{../EtherCAT_Slave_Errata.pdf, EtherCA
 </table>
 \endcond
 
-\cond SOC_AM263X
+\cond SOC_AM263X || SOC_AM263PX || SOC_AM261X
 
 <table>
 <tr>
@@ -294,7 +299,7 @@ For more details, please see the \htmllink{../EtherCAT_Slave_Errata.pdf, EtherCA
 <tr><td colspan="2" bgcolor=#F0F0F0> ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave</td></tr>
 <tr>
     <td>icss_fwhal/firmware/m_v2.3</td>
-    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 5.5.12** </td>
+    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 5.5.43** </td>
 </tr>
 <tr>
     <td>icss_fwhal/lib/</td>

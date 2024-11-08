@@ -118,8 +118,10 @@ TI ESC is fully register compatible with ET1100 ASIC, for any exceptions to this
     <td> 0-7
     <td> R/-
     <td> R/-
-    <td> 59
-    <td> Size of Process Data RAM (in KB)
+    <td> 59/28
+    <td> Size of Process Data RAM (in KB) <br/>
+        AM64x, AM243x : 59 KB <br/>
+        AM263x, AM263Px, AM261x : 28 KB <br/>
 </tr>
 <tr>
     <td> Port Descriptor
