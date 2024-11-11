@@ -1,8 +1,8 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM261x_ZFG" --part "AM2612" --package "ZFG" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@10.00.00"
- * @v2CliArgs --device "AM2612" --package "NFBGA (ZFG)" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@10.00.00"
+ * @cliArgs --device "AM261x_ZFG" --part "AM2612" --package "ZFG" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM261x@10.00.00"
+ * @v2CliArgs --device "AM2612" --package "NFBGA (ZFG)" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM261x@10.00.00"
  * @versions {"tool":"1.21.999+161"}
  */
 
@@ -13,6 +13,8 @@ const eeprom          = scripting.addModule("/board/eeprom/eeprom", {}, false);
 const eeprom1         = eeprom.addInstance();
 const flash           = scripting.addModule("/board/flash/flash", {}, false);
 const flash1          = flash.addInstance();
+const ioexp           = scripting.addModule("/board/ioexp/ioexp", {}, false);
+const ioexp1          = ioexp.addInstance();
 const led             = scripting.addModule("/board/led/led", {}, false);
 const led1            = led.addInstance();
 const led2            = led.addInstance();
@@ -20,6 +22,7 @@ const edma            = scripting.addModule("/drivers/edma/edma", {}, false);
 const edma1           = edma.addInstance();
 const gpio            = scripting.addModule("/drivers/gpio/gpio", {}, false);
 const gpio1           = gpio.addInstance();
+const gpio2           = gpio.addInstance();
 const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1            = i2c.addInstance();
 const ethercat        = scripting.addModule("/industrial_comms/ethercat/ethercat", {}, false);
@@ -71,7 +74,6 @@ flash1.strDtr_mask                        = "255";
 flash1.xspiWipRdCmd                       = "0x05";
 flash1.fourByteEnableSeq                  = "0";
 flash1.peripheralDriver.$name             = "CONFIG_OSPI0";
-flash1.peripheralDriver.dmaEnable         = true;
 flash1.peripheralDriver.OSPI.CLK.$assign  = "GPIO10";
 flash1.peripheralDriver.OSPI.CSn0.$assign = "GPIO62";
 flash1.peripheralDriver.OSPI.DQS.$assign  = "GPIO9";
@@ -83,6 +85,9 @@ flash1.peripheralDriver.OSPI.D3.$assign   = "GPIO69";
 flash1.peripheralDriver.OSPI.D2.$assign   = "GPIO7";
 flash1.peripheralDriver.OSPI.D1.$assign   = "GPIO70";
 flash1.peripheralDriver.OSPI.D0.$assign   = "GPIO2";
+flash1.peripheralDriver.child.$name       = "drivers_ospi_v0_ospi_v0_am261x_template0";
+
+ioexp1.$name = "CONFIG_IOEXP0";
 
 led1.$name      = "CONFIG_LED_DIGITAL_OUTPUT";
 led1.name       = "TPIC2810";
@@ -90,16 +95,20 @@ led1.i2cAddress = 0x61;
 
 led2.$name = "CONFIG_LED_RUN";
 
-edma1.$name                        = "CONFIG_EDMA0";
-flash1.peripheralDriver.edmaDriver = edma1;
-edma1.edmaRmDmaCh[0].$name         = "CONFIG_EDMA_RM0";
-edma1.edmaRmQdmaCh[0].$name        = "CONFIG_EDMA_RM1";
-edma1.edmaRmTcc[0].$name           = "CONFIG_EDMA_RM2";
-edma1.edmaRmParam[0].$name         = "CONFIG_EDMA_RM3";
+edma1.$name                 = "CONFIG_EDMA0";
+edma1.edmaRmDmaCh[0].$name  = "CONFIG_EDMA_RM0";
+edma1.edmaRmQdmaCh[0].$name = "CONFIG_EDMA_RM1";
+edma1.edmaRmTcc[0].$name    = "CONFIG_EDMA_RM2";
+edma1.edmaRmParam[0].$name  = "CONFIG_EDMA_RM3";
 
 gpio1.$name           = "CONFIG_GPIO0";
 led2.peripheralDriver = gpio1;
 gpio1.pinDir          = "OUTPUT";
+
+gpio2.$name          = "GPIO_OSPI_RST";
+gpio2.pinDir         = "OUTPUT";
+gpio2.defaultValue   = "1";
+gpio2.GPIO_n.$assign = "GPIO61";
 
 i2c1.$name               = "CONFIG_I2C1";
 eeprom1.peripheralDriver = i2c1;
@@ -108,6 +117,12 @@ i2c1.I2C.$assign         = "I2C1";
 i2c1.I2C.SCL.$assign     = "GPIO23";
 i2c1.I2C.SDA.$assign     = "GPIO24";
 i2c1.I2C_child.$name     = "drivers_i2c_v1_i2c_v1_template0";
+
+const i2c2              = i2c.addInstance({}, false);
+i2c2.$name              = "CONFIG_I2C0";
+ioexp1.peripheralDriver = i2c2;
+i2c2.I2C.$assign        = "I2C0";
+i2c2.I2C_child.$name    = "drivers_i2c_v1_i2c_v1_template1";
 
 ethercat1.$name              = "CONFIG_ETHERCAT0";
 ethercat1.ethphy[0].$name    = "CONFIG_ETHPHY0";
@@ -356,6 +371,8 @@ section12.output_section[0].alignment = 0;
  */
 flash1.peripheralDriver.OSPI.$suggestSolution                           = "OSPI0";
 gpio1.GPIO_n.$suggestSolution                                           = "GPIO0";
+i2c2.I2C.SCL.$suggestSolution                                           = "GPIO135";
+i2c2.I2C.SDA.$suggestSolution                                           = "GPIO134";
 ethercat1["PRU-ICSS0-IEP"].$suggestSolution                             = "PRU-ICSS0-IEP";
 ethercat1["PRU-ICSS0-IEP"].PR0_IEP0_EDC_SYNC_OUT0.$suggestSolution      = "GPIO119";
 ethercat1["PRU-ICSS0-IEP"].PR0_IEP0_EDC_SYNC_OUT1.$suggestSolution      = "GPIO124";

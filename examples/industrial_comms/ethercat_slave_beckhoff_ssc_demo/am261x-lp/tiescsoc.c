@@ -175,7 +175,7 @@ void tiesc_socParamsInit(bsp_params *bspInitParams)
     bspInitParams->ethphy_init = tiesc_ethphyInit;
     /* For EtherCAT, Fast link detection using MLINK mode is required to support complete functionality */
     /* Check example documentation for more details */
-    bspInitParams->enhancedlink_enable = TIESC_MDIO_RX_LINK_ENABLE;
+    bspInitParams->enhancedlink_enable = TIESC_MDIO_RX_LINK_DISABLE;
     bspInitParams->link0_polarity = TIESC_LINK0_POL;
     bspInitParams->link1_polarity = TIESC_LINK1_POL;
     bspInitParams->phy0_address = ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY0))->phyAddress;
@@ -353,4 +353,60 @@ void tiesc_ethphyDisablePowerDown()
     /* Disable IEEE Power Down mode so that PHY does not establish any link */
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_DISABLE_IEEE_POWER_DOWN, NULL, 0);
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_DISABLE_IEEE_POWER_DOWN, NULL, 0);
+}
+
+int32_t enableLevelTranslator()
+{
+    int32_t  status = SystemP_SUCCESS;
+    static TCA6408_Config  gTCA6408_Config;
+    TCA6408_Params      TCA6408Params;
+    TCA6408_Params_init(&TCA6408Params);
+    TCA6408Params.i2cAddress  = 0x20U;
+
+    status = TCA6408_open(&gTCA6408_Config, &TCA6408Params);
+
+    /* Configure as output  */
+    status += TCA6408_config(
+                    &gTCA6408_Config,
+                    IO_EXP_BP_BO_MUX_EN_LINE,
+                    TCA6408_MODE_OUTPUT);
+
+    /* Configure State */
+    status = TCA6408_setOutput(
+                    &gTCA6408_Config,
+                    IO_EXP_BP_BO_MUX_EN_LINE,
+                    TCA6408_OUT_STATE_HIGH);
+
+
+
+    if(status != SystemP_SUCCESS)
+    {
+        DebugP_log("Failed to enable OSPI Reset Signal\r\n");
+        TCA6408_close(&gTCA6408_Config);
+    }
+
+    if(SystemP_FAILURE == status)
+    {
+        /* Exit gracefully */
+    }
+
+    return status;
+}
+
+
+void gpio_flash_reset(void)
+{
+    uint32_t    gpioBaseAddr, pinNum;
+    enableLevelTranslator();
+    /* Get address after translation translate */
+    gpioBaseAddr = (uint32_t) AddrTranslateP_getLocalAddr(GPIO_OSPI_RST_BASE_ADDR);
+    pinNum       = GPIO_OSPI_RST_PIN;
+    GPIO_setDirMode(gpioBaseAddr, pinNum, GPIO_OSPI_RST_DIR);
+    GPIO_pinWriteLow(gpioBaseAddr, pinNum);
+    GPIO_pinWriteHigh(gpioBaseAddr, pinNum);
+}
+
+void board_flash_reset(void)
+{
+    gpio_flash_reset();
 }
