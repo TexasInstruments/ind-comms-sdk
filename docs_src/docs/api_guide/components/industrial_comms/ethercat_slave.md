@@ -167,6 +167,188 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
 - EtherCAT G
 - Reset Isolation
 
+### Hardware Requirements
+
+- Sitara Processor with PRU-ICSS IP and EtherCAT support
+- ESC implementation makes use of one instance of the available 8 HW spinlock(0 to 7). Spinlocks 1 to 7 are free for use. 
+- HW signals required to implement EtherCAT slave functionality is shown below, this info needs to be used in conjunction with [SYSCONFIG](https://www.ti.com/tool/SYSCONFIG):
+<table>
+<tr>
+    <th> Signal Name
+    <th> Requirement
+    <th> Description
+</tr>
+<tr>
+    <td colspan="3">**PRU-ICSS MDIO**</td>
+</tr>
+<tr>
+    <td> PRG1_MDIO0_MDC
+    <td> Mandatory
+    <td> MDIO clock
+</tr>
+<tr>
+    <td> PRG1_MDIO0_MDIO
+    <td> Mandatory
+    <td> MDIO Data
+</tr>
+<tr>
+    <td colspan="3">**PRU-ICSS Distributed Clocks (Network Clock synchronization)**</td>
+</tr>
+<tr>
+    <td> PRG1_IEP0_EDC_SYNC_OUT0
+    <td> Recommmended (for DC capable SubDevices)
+    <td> SYNC0 out - Time synchronized OUT0
+</tr>
+<tr>
+    <td> PRG1_IEP0_EDC_SYNC_OUT1
+    <td> Optional
+    <td> SYNC1 out - Time synchronized OUT1 (depends on SYNC0)
+</tr>
+<tr>
+    <td> PRG1_IEP0_EDC_LATCH_IN0
+    <td> Optional
+    <td> LATCH0 in (Time stamp latch input0)
+</tr>
+<tr>
+    <td> PRG1_IEP0_EDC_LATCH_IN1
+    <td> Optional
+    <td> LATCH1 in (Time stamp latch input1)
+</tr>
+<tr>
+    <td colspan="3">**PRU-ICSS MII PDI Interrupt**</td>
+</tr>
+<tr>
+    <td> PRG1_IEP0_EDIO_DATA_IN_OUT28
+    <td rowspan=4> Optional
+    <td rowspan=4> PDI ISR output to external SOC pin (via one of the 4 PRU-ICSS digio outputs).<br>PDI ISR pin can be selected via vendor specific register at offset 0xE0A. 
+</tr>
+<tr>
+    <td> PRG1_IEP0_EDIO_DATA_IN_OUT29
+</tr>
+<tr>
+    <td> PRG1_IEP0_EDIO_DATA_IN_OUT30
+</tr>
+<tr>
+    <td> PRG1_IEP0_EDIO_DATA_IN_OUT31
+</tr>
+<tr>
+    <td colspan="3">**PRU-ICSS MII Port0 (IN Port) & PRU-ICSS MII Port1 (OUT Port)**</td>
+</tr>
+<tr>
+    <td> PR1_MII0_RXD0
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data0 
+</tr>
+<tr>
+    <td> PR1_MII1_RXD0
+</tr>
+<tr>
+    <td> PR1_MII0_RXD1
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data1 
+</tr>
+<tr>
+    <td> PR1_MII1_RXD1
+</tr>
+<tr>
+    <td> PR1_MII0_RXD2
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data2 
+</tr>
+<tr>
+    <td> PR1_MII1_RXD2
+</tr>
+<tr>
+    <td> PR1_MII0_RXD3
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data3 
+</tr>
+<tr>
+    <td> PR1_MII1_RXD3
+</tr>
+<tr>
+    <td> PR1_MII0_RXDV
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 RX Data Valid 
+</tr>
+<tr>
+    <td> PR1_MII1_RXDV
+</tr>
+<tr>
+    <td> PR1_MII0_RXER
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 RXERR 
+</tr>
+<tr>
+    <td> PR1_MII1_RXER
+</tr>
+<tr>
+    <td> PR1_MII0_TXD0
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data0 
+</tr>
+<tr>
+    <td> PR1_MII1_TXD0
+</tr>
+<tr>
+    <td> PR1_MII0_TXD1
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data1 
+</tr>
+<tr>
+    <td> PR1_MII1_TXD1
+</tr>
+<tr>
+    <td> PR1_MII0_TXD2
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data2 
+</tr>
+<tr>
+    <td> PR1_MII1_TXD2
+</tr>
+<tr>
+    <td> PR1_MII0_TXD3
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data3
+</tr>
+<tr>
+    <td> PR1_MII1_TXD3
+</tr>
+<tr>
+    <td> PR1_MII0_TXEN
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 TX enable 
+</tr>
+<tr>
+    <td> PR1_MII1_TXEN
+</tr>
+<tr>
+    <td> PR1_MII_MR0_CLK
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive clock
+</tr>
+<tr>
+    <td> PR1_MII_MR1_CLK
+</tr>
+<tr>
+    <td> PR1_MII_MT0_CLK
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit clock
+</tr>
+<tr>
+    <td> PR1_MII_MT1_CLK
+</tr>
+<tr>
+    <td> PR1_MII0_RXLINK
+    <td rowspan=2> Recommended
+    <td rowspan=2> Enhanced link detection. Redundancy support: connect LED_LINK/LED_SPEED from PHY
+here 
+</tr>
+<tr>
+    <td> PR1_MII1_RXLINK
+</tr>
+</table>
+
 ### Known Issues
 
 <table>
