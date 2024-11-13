@@ -2040,9 +2040,10 @@ int32_t ICSS_EMAC_vlanFilterConfig(ICSS_EMAC_FwVlanFilterParams   *pVlanFilterPa
     return retVal;
 }
 
-int32_t ICSS_EMAC_rgmiiInbandConfig(uint8_t inbandEnable, 
+#if defined(SOC_AM64X) || defined (SOC_AM243X) 
+int32_t ICSS_EMAC_rgmiiInbandConfig(ICSS_EMAC_Handle icssEmacHandle, 
                                     uint8_t portNum,
-                                    ICSS_EMAC_Handle icssEmacHandle)
+                                    uint8_t inbandEnable)
 {
     int32_t                 retVal = SystemP_SUCCESS;
     uint32_t                tempVal;
@@ -2114,3 +2115,4 @@ int32_t ICSS_EMAC_rgmiiInbandConfig(uint8_t inbandEnable,
     
     return retVal;
 }
+#endif

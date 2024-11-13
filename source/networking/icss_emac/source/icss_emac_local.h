@@ -485,11 +485,12 @@ int32_t ICSS_EMAC_vlanFilterConfig(ICSS_EMAC_FwVlanFilterParams   *pVlanFilterPa
                                    uint8_t                      ioctlCmd,
                                    void                         *ioctlVal);
 
+#if defined(SOC_AM64X) || defined (SOC_AM243X)                  
 /* Implements the port-specific confguration for ICSS RGMII InBAND */
-int32_t ICSS_EMAC_rgmiiInbandConfig(uint8_t inbandEnable, 
+int32_t ICSS_EMAC_rgmiiInbandConfig(ICSS_EMAC_Handle icssEmacHandle, 
                                     uint8_t portNum,
-                                    ICSS_EMAC_Handle icssEmacHandle);
-
+                                    uint8_t inbandEnable);
+#endif
 /* ========================================================================== */
 /*                            Global Variables                                */
 /* ========================================================================== */

@@ -841,12 +841,12 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
 
     if(emacMode == 0U)
     {   /*Switch Mode*/
-        temp_addr = (pruicssHwAttrs->pru1DramBase + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
+        temp_addr = (pruicssHwAttrs->pru1DramBase + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber)) * ICSS_EMAC_DEFAULT_FW_QD_SIZE));
         qDesc = (ICSS_EMAC_Queue *)(temp_addr);
     }
     else
     {
-        temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
+        temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber)) * ICSS_EMAC_DEFAULT_FW_QD_SIZE));
         qDesc = (ICSS_EMAC_Queue *)(temp_addr);
     }
     queue_wr_ptr = qDesc->wr_ptr;
@@ -874,7 +874,7 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
         }
         else
         {
-            rd_buf_desc_num = ((queue_rd_ptr - rxQueue->buffer_desc_offset)/(ICSS_EMAC_DEFAULT_FW_BD_SIZE));
+            rd_buf_desc_num = ((queue_rd_ptr - rxQueue->buffer_desc_offset) / (ICSS_EMAC_DEFAULT_FW_BD_SIZE));
             temp_var1 = (((uint32_t)(rd_buf_desc_num)) * (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));
             temp_var2 = (rxQueue->buffer_offset);
             rd_buffer_l3_addr = ((((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->l3OcmcBaseAddr) + temp_var1 + temp_var2);
@@ -882,8 +882,8 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
     }
     else
     {
-        rd_buf_desc_num = ((queue_rd_ptr - rxQueue->buffer_desc_offset)/(ICSS_EMAC_DEFAULT_FW_BD_SIZE));
-        temp_var1 = (((uint32_t)(rd_buf_desc_num))* (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));
+        rd_buf_desc_num = ((queue_rd_ptr - rxQueue->buffer_desc_offset) / (ICSS_EMAC_DEFAULT_FW_BD_SIZE));
+        temp_var1 = (((uint32_t)(rd_buf_desc_num)) * (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));
         temp_var2 = (rxQueue->buffer_offset);
         rd_buffer_l3_addr = ((((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->l3OcmcBaseAddr) + temp_var1 + temp_var2);
     }
@@ -903,7 +903,7 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
     }
 
     /*Compute number of buffer desc required & update rd_ptr in queue */
-    update_rd_ptr = ((rd_packet_length/(ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE))*(ICSS_EMAC_DEFAULT_FW_BD_SIZE)) + queue_rd_ptr;
+    update_rd_ptr = ((rd_packet_length/(ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE)) * (ICSS_EMAC_DEFAULT_FW_BD_SIZE)) + queue_rd_ptr;
     if( (rd_packet_length % (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE)) != 0U) /* checks multiple of 32 else need to increment by 4 */
     {
         update_rd_ptr += ICSS_EMAC_DEFAULT_FW_BD_SIZE;
@@ -949,7 +949,7 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
             typeProt1 = typeProt1 | typeProt2;
             rx_num_of_bytes = (rxQueue->queue_size - queue_rd_ptr);
             rx_num_of_bytes = (rx_num_of_bytes/(ICSS_EMAC_DEFAULT_FW_BD_SIZE));
-            rx_num_of_bytes = (uint16_t)((rx_num_of_bytes)*(ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));
+            rx_num_of_bytes = (uint16_t)((rx_num_of_bytes) * (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));
 
             ICSS_EMAC_memcpyLocal((int32_t*)destAddress, (int32_t*)rd_buffer_l3_addr, (size_t)rx_num_of_bytes);
             destAddress = destAddress + rx_num_of_bytes;
@@ -1004,7 +1004,7 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
     {
         if(emacMode == 0U)
         { /*Switch Mode*/
-            temp_addr = (pruicssHwAttrs->pru1DramBase  + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
+            temp_addr = (pruicssHwAttrs->pru1DramBase  + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber)) * ICSS_EMAC_DEFAULT_FW_QD_SIZE));
             /* Write back to queue */
             HW_WR_REG16(temp_addr, update_rd_ptr);
             /* Check if Host needs to change the wr_ptr for collision queue as well */
@@ -1026,7 +1026,7 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
         }
         else
         {
-            temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
+            temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber)) * ICSS_EMAC_DEFAULT_FW_QD_SIZE));
             HW_WR_REG16(temp_addr, update_rd_ptr);
         }
         rxQueue->qStat.rawCount++;
@@ -1034,13 +1034,13 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
         rxArg->more = 0;
         if(emacMode == 0U)
         { /*Switch Mode*/
-            temp_addr = (pruicssHwAttrs->pru1DramBase  + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
+            temp_addr = (pruicssHwAttrs->pru1DramBase  + pStaticMMap->p0QueueDescOffset + (((uint32_t)(queueNumber)) * ICSS_EMAC_DEFAULT_FW_QD_SIZE));
             /* get new pointer data in case new packets received in meantime - experimental.. */
             qDesc = (ICSS_EMAC_Queue *)(temp_addr);
         }
         else
         {
-            temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber))* ICSS_EMAC_DEFAULT_FW_QD_SIZE));
+            temp_addr = (pruicssHwAttrs->sharedDramBase + hostQDescOffset + (((uint32_t)(queueNumber)) * ICSS_EMAC_DEFAULT_FW_QD_SIZE));
             qDesc = (ICSS_EMAC_Queue *)(temp_addr);
         }
         queue_wr_ptr = qDesc->wr_ptr;
@@ -1346,8 +1346,8 @@ int32_t ICSS_EMAC_txPacketEnqueue(ICSS_EMAC_Handle  icssEmacHandle,
     queue_wr_ptr = ((uint16_t)(temp >> 16));
     queue_rd_ptr = ((uint16_t)(temp & 0x0000ffffU));
 
-    wrk_queue_wr_ptr = (((uint16_t)(lengthOfPacket))/(ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));  /* Divide by 32 */
-    wrk_queue_wr_ptr = (uint16_t)((wrk_queue_wr_ptr)*(ICSS_EMAC_DEFAULT_FW_BD_SIZE));  /* Multiply by 4 ..as one descriptor represents 32 bytes and BD takes 4 bytes */
+    wrk_queue_wr_ptr = (((uint16_t)(lengthOfPacket)) / (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE));  /* Divide by 32 */
+    wrk_queue_wr_ptr = (uint16_t)((wrk_queue_wr_ptr) * (ICSS_EMAC_DEFAULT_FW_BD_SIZE));  /* Multiply by 4 ..as one descriptor represents 32 bytes and BD takes 4 bytes */
     if((((uint32_t)(lengthOfPacket)) % (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE)) != 0U)
     {
          wrk_queue_wr_ptr = wrk_queue_wr_ptr + (ICSS_EMAC_DEFAULT_FW_BD_SIZE);
@@ -1449,7 +1449,7 @@ int32_t ICSS_EMAC_txPacketEnqueue(ICSS_EMAC_Handle  icssEmacHandle,
         }
     }
     /* Compute the offset of buffer descriptor in ICSS shared RAM */
-    temp_var = ((queue_wr_ptr - txQueue->buffer_desc_offset)/(ICSS_EMAC_DEFAULT_FW_BD_SIZE));
+    temp_var = ((queue_wr_ptr - txQueue->buffer_desc_offset) / (ICSS_EMAC_DEFAULT_FW_BD_SIZE));
     temp_var = temp_var * (ICSS_EMAC_DEFAULT_FW_BLOCK_SIZE);
     temp_var = (txQueue->buffer_offset) + temp_var;
     buffer_offset_computed = (uint32_t)temp_var;    /* queue_wr_ptr points to currently available free buffer */
@@ -1478,7 +1478,7 @@ int32_t ICSS_EMAC_txPacketEnqueue(ICSS_EMAC_Handle  icssEmacHandle,
                 /* Pad the remaining bytes with Zero's */
                 for(i=0; i< (num_of_bytes - original_length_of_packet); i++)
                 {
-                    temp_addr = ((((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->l3OcmcBaseAddr)+ ((uint32_t)buffer_offset_computed) + original_length_of_packet + i);
+                    temp_addr = ((((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->l3OcmcBaseAddr) + ((uint32_t)buffer_offset_computed) + original_length_of_packet + i);
                     HW_WR_REG8(temp_addr, 0);
                 }
             }
@@ -1805,13 +1805,13 @@ int32_t ICSS_EMAC_rxPktInfo2(ICSS_EMAC_Handle   icssEmacHandle,
     {
         if(emacMode == 0U)
         {   /*Switch Mode*/
-            temp_var1 = ((uint32_t)(i))* ICSS_EMAC_DEFAULT_FW_QD_SIZE;
+            temp_var1 = ((uint32_t)(i)) * ICSS_EMAC_DEFAULT_FW_QD_SIZE;
             temp_addr = (pruicssHwAttrs->pru1DramBase + pStaticMMap->p0QueueDescOffset + temp_var1);
             qDesc = (ICSS_EMAC_Queue *)(temp_addr);
         }
         else
         {
-            temp_var1 = ((uint32_t)(i))* ICSS_EMAC_DEFAULT_FW_QD_SIZE;
+            temp_var1 = ((uint32_t)(i)) * ICSS_EMAC_DEFAULT_FW_QD_SIZE;
             temp_addr = (pruicssHwAttrs->sharedDramBase + pDynamicMMap->hostQ1RxContextOffset + 64U + temp_var1);
             qDesc = (ICSS_EMAC_Queue *)(temp_addr);
         }
@@ -1974,53 +1974,53 @@ void ICSS_EMAC_updatePhyStatus(uint8_t portNum, ICSS_EMAC_Handle icssEmacHandle)
                     case  ETHPHY_SPEED_DUPLEX_CONFIG_100FD:
                         *(phySpeedStatusPtr) = (uint32_t)Hundred_Mbps;
                         fullDuplex = 1u;
-                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+#if defined(SOC_AM64X) || defined (SOC_AM243X)
                         if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
                         {
-                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_DISABLE, portNum, icssEmacHandle);
+                            ICSS_EMAC_rgmiiInbandConfig(icssEmacHandle, portNum, ICSS_RGMII_INBAND_DISABLE);
                         }
-                        #endif
+#endif
                         break;
                     case  ETHPHY_SPEED_DUPLEX_CONFIG_100HD:
                         *(phySpeedStatusPtr) = (uint32_t)Hundred_Mbps;
                         fullDuplex = 0;
-                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+#if defined(SOC_AM64X) || defined (SOC_AM243X)
                         if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
                         {
-                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_DISABLE, portNum, icssEmacHandle);
+                            ICSS_EMAC_rgmiiInbandConfig(icssEmacHandle, portNum, ICSS_RGMII_INBAND_DISABLE);
                         }
-                        #endif
+#endif
                         break;
                     case  ETHPHY_SPEED_DUPLEX_CONFIG_10FD:
                         *(phySpeedStatusPtr) = (uint32_t)Ten_Mbps;
                         fullDuplex = 1u;      
-                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+#if defined(SOC_AM64X) || defined (SOC_AM243X)
                         if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
                         {
-                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_ENABLE, portNum, icssEmacHandle);
+                            ICSS_EMAC_rgmiiInbandConfig(icssEmacHandle, portNum, ICSS_RGMII_INBAND_ENABLE);
                         }
-                        #endif
+#endif
                         break;
                     case  ETHPHY_SPEED_DUPLEX_CONFIG_10HD:
                         *(phySpeedStatusPtr) = (uint32_t)Ten_Mbps;
                         fullDuplex = 0;
-                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+#if defined(SOC_AM64X) || defined (SOC_AM243X)
                         if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
                         {
-                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_ENABLE, portNum, icssEmacHandle);
+                            ICSS_EMAC_rgmiiInbandConfig(icssEmacHandle, portNum, ICSS_RGMII_INBAND_ENABLE);
                         }
-                        #endif
+#endif
                         break;
                     default:
                         /* Use 100M Full Duplex configuration by default */
                         *(phySpeedStatusPtr) = (uint32_t)Hundred_Mbps;
                         fullDuplex = 1u;
-                        #if defined(SOC_AM64X) || defined (SOC_AM243X)
+#if defined(SOC_AM64X) || defined (SOC_AM243X)
                         if(((ICSS_EMAC_Attrs *)icssEmacHandle->attrs)->phyToMacInterfaceMode == ICSS_EMAC_RGMII_MODE)
                         {
-                            ICSS_EMAC_rgmiiInbandConfig(ICSS_RGMII_INBAND_DISABLE, portNum, icssEmacHandle);
+                            ICSS_EMAC_rgmiiInbandConfig(icssEmacHandle, portNum, ICSS_RGMII_INBAND_DISABLE);
                         }
-                        #endif
+#endif
                         break;
                 }
             }
