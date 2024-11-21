@@ -72,10 +72,10 @@ SysConfig can be used to configure things mentioned below:
 - Firmware based on 200 MHz clock frequency for PRU-ICSS Core Clock and IEP Clock
 \endcond
 
-\cond  SOC_AM263X || SOC_AM263PX 
+\cond  SOC_AM243X || SOC_AM64X 
 #### Key Performance Parameters
 
-Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff PLC) on AM263x and AM263Px.
+Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff PLC) for PRU core running at 200MHz.
 
 <table>
     <tr>
@@ -86,29 +86,37 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
     <tr>
         <td>Distributed Clock</td>
         <td>Sync Jitter</td>
-        <td>30ns</td>
+        <td>16ns (at 50μs cycle time running for 72 hours)</td>
     </tr>
     <tr>
         <td rowspan=2>Latency</td>
         <td>Process Path</td>
-        <td>Average = 420ns, Max = 440ns</td>
+        <td>Average = 430ns, Max = 440ns</td>
     </tr>
     <tr>
-        <td>Auto Forward Path</td>
-        <td>Average = 420ns, Max = 440ns</td>
+        <td>Auto Forward Path (Reverse Path)</td>
+        <td>Average = 330ns, Max = 340ns</td>
     </tr>
 </table>
 \endcond
 
 #### Release Notes
+\cond SOC_AM64X || SOC_AM243X
+##### Industrial Communications SDK Version 09.02 (Not available in 09.02.00.15)
+\endcond
 
+\cond SOC_AM263X || SOC_AM263PX || SOC_AM261X
 ##### Industrial Communications SDK Version 10.00.00
+\endcond
 
 - Firmware Version : x.5.43
-- Fix for PINDSW-47   : Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice
+- Fix for PINDSW-47   : Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice.
+    - Do note that if this feature is enabled, then the Process Path latency will be dynamically increased to take care of the timing constraints. Please refer to Register 0xED0 of Vendor Specific Register in \ref ETHERCAT_SUBDEVICE_CONTROLLER_REGISTER_LIST
 - Fix for PINDSW-141  : LRW access to non-interleaved input and output process data of multiple SubDevices does not work. 
     - This will make EtherCAT SubDevice compatibile with default mode of few open source EtherCAT MainDevice like [SOEM](https://github.com/OpenEtherCATsociety/SOEM) and [IgH](https://gitlab.com/etherlab.org/ethercat).
+    - Do note that if this feature is enabled, then the Process Path latency will be dynamically increased to take care of the timing constraints. Please refer to Register 0xED0 of Vendor Specific Register in \ref ETHERCAT_SUBDEVICE_CONTROLLER_REGISTER_LIST
 - Bug-fix for PINDSW-8246 : Triple buffer issue - Not getting the latest data from buffer during free-run mode.
+- Bug-fix for PINDSW-8115 : Watchdog error while using LRD and LWR with same logical address.
 
 \cond SOC_AM64X || SOC_AM243X
 
@@ -144,6 +152,8 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
 
 \endcond
 
+\cond SOC_AM64X || SOC_AM243X || SOC_AM263X
+
 ##### MCU+ SDK Version 08.03.00
 
 - Firmware Version : x.5.6
@@ -158,6 +168,8 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
 - EtherCAT SubDevice Firmware based on 333 MHz (instead of 200 MHz) clock frequency for PRU-ICSS Core Clock and IEP Clock for better process path latency
 - Add PHY RX Error Counter Register (0x0E28) for improving RX Error Counter accuracy (See \ref ETHERCAT_SUBDEVICE_CONTROLLER_EXCEPTIONS_REGISTER_EXCEPTIONS for more details)
 - Bug-fixes for PINDSW-3120, PINDSW-5194, PINDSW-5229 and PINDSW-5267
+
+\endcond
 
 ### Features Not Supported
 
@@ -351,7 +363,7 @@ It is recommended to use these FWHAL APIs in the stack adaptation files. For exa
 ## Hardware Requirements
 
 - Sitara Processor with PRU-ICSS IP and EtherCAT support
-- ESC implementation makes use of one instance of the available 8 HW spinlock(0 to 7). Spinlocks 1 to 7 are free for use. 
+- Current implementation uses only Spinlock 0. Spinlocks 1 to 7 are free for use. 
 - HW signals required to implement EtherCAT slave functionality is shown below, this info needs to be used in conjunction with [SYSCONFIG](https://www.ti.com/tool/SYSCONFIG):
 <table>
 <tr>
@@ -382,7 +394,7 @@ It is recommended to use these FWHAL APIs in the stack adaptation files. For exa
 </tr>
 <tr>
     <td> PRG1_IEP0_EDC_SYNC_OUT1
-    <td> Optional
+    <td> Optional (depends on customer application))
     <td> SYNC1 out - Time synchronized OUT1 (depends on SYNC0)
 </tr>
 <tr>
@@ -457,7 +469,7 @@ It is recommended to use these FWHAL APIs in the stack adaptation files. For exa
 </tr>
 <tr>
     <td> PR1_MII0_RXER
-    <td rowspan=2> Mandatory
+    <td rowspan=2> Optional if PHY supports Enhanced Link detection
     <td rowspan=2> MII0 and MII1 RXERR 
 </tr>
 <tr>
@@ -521,7 +533,7 @@ It is recommended to use these FWHAL APIs in the stack adaptation files. For exa
 </tr>
 <tr>
     <td> PR1_MII0_RXLINK
-    <td rowspan=2> Recommended
+    <td rowspan=2> Mandatory for cable redundancy support
     <td rowspan=2> Enhanced link detection. Redundancy support: connect LED_LINK/LED_SPEED from PHY
 here 
 </tr>

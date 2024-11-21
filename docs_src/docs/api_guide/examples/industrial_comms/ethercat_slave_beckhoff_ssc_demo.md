@@ -48,6 +48,12 @@ EtherCAT example on AM263Px ControlCard is configured to use the second state (m
 ## PHY Connection
 AM261x-LP does not have On-board PHY. Two Ethernet Add-on Connector needs to be connected at ETHERNET CONNECTOR 0 and ETHERNET CONNECTOR 1 respectively. Once connected, PHY on ETHERNET CONNECTOR 0 will be EtherCAT Port0 and PHY on ETHERNET CONNECTOR 1 will be EtherCAT Port1. For the Ethernet Add-on Connector, refer to \htmllink{https://www.ti.com/tool/DP83826-EVM-AM2, DP83826-EVM-AM2} for more details.
 
+## Hardware Setup {#AM261_EHERCAT_HARDWARE_SETUP}
+- Following image depicts the hardware setup after connecting the PHY boards for running EtherCAT Beckhoff SSC Demo. Make sure to screw the PHYs to the board for proper communication.
+
+\imageStyle{AM261x_EtherCAT_HW_SETUP.jpeg,width:30%}
+\image html AM261x_EtherCAT_HW_SETUP.jpeg "AM261x-LP Hardware Setup"
+
 \note
 In AM261x-LP, for the second PHY, PRU-ICSS1 MDIO is connected instead of PRU-ICSS0 MDIO. To fix this mismatch, blue wire and connect:
 - R167 Pin 1 to R137 Pin 1

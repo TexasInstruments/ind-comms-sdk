@@ -97,6 +97,41 @@ Mbed-TLS                | R5F            | mbedtls-2.13.1
     <th> Resolution/Comments
 </tr>
 <tr>
+    <td> PINDSW-47
+    <td> Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice.
+    <td> EtherCAT Device
+    <td> 09.02.00
+    <td> Not available in 09.02.00.15
+</tr>
+<tr>
+    <td> PINDSW-141
+    <td> LRW access to non-interleaved input and output process data of multiple SubDevices does not work.
+    <td> EtherCAT Device
+    <td> 09.02.00
+    <td> Not available in 09.02.00.15
+</tr>
+<tr>
+    <td> PINDSW-8115
+    <td> Watchdog error while using LRD and LWR with same logical address.
+    <td> EtherCAT Device
+    <td> 09.02.00
+    <td> Not available in 09.02.00.15
+</tr>
+<tr>
+    <td> PINDSW-8246
+    <td> Triple buffer issue - Not getting the latest data from buffer during free-run mode.
+    <td> EtherCAT Device
+    <td> 09.02.00
+    <td> Not available in 09.02.00.15
+</tr>
+<tr>
+    <td> PINDSW-8060
+    <td> Reduce Auto-forward (reverse path) delay.
+    <td> EtherCAT Device
+    <td> 09.02.00
+    <td> Optimization in latency. Not available in 09.02.00.15
+</tr>
+<tr>
     <td> PINDSW-5668
     <td> PR0_IEP0_EDIO_DATA_IN_OUT30 is not functioning as AL event
     <td> EtherCAT Device
