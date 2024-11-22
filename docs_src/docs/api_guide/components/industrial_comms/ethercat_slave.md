@@ -371,16 +371,17 @@ It is recommended to use these FWHAL APIs in the stack adaptation files. For exa
     <th> Requirement
     <th> Description
 </tr>
+\cond SOC_AM64X || SOC_AM243X
 <tr>
     <td colspan="3">**PRU-ICSS MDIO**</td>
 </tr>
 <tr>
-    <td> PRG1_MDIO0_MDC
+    <td> PRGx_MDIO0_MDC
     <td> Mandatory
     <td> MDIO clock
 </tr>
 <tr>
-    <td> PRG1_MDIO0_MDIO
+    <td> PRGx_MDIO0_MDIO
     <td> Mandatory
     <td> MDIO Data
 </tr>
@@ -388,22 +389,22 @@ It is recommended to use these FWHAL APIs in the stack adaptation files. For exa
     <td colspan="3">**PRU-ICSS Distributed Clocks (Network Clock synchronization)**</td>
 </tr>
 <tr>
-    <td> PRG1_IEP0_EDC_SYNC_OUT0
+    <td> PRGx_IEP0_EDC_SYNC_OUT0
     <td> Recommmended (for DC capable SubDevices)
     <td> SYNC0 out - Time synchronized OUT0
 </tr>
 <tr>
-    <td> PRG1_IEP0_EDC_SYNC_OUT1
+    <td> PRGx_IEP0_EDC_SYNC_OUT1
     <td> Optional (depends on customer application))
     <td> SYNC1 out - Time synchronized OUT1 (depends on SYNC0)
 </tr>
 <tr>
-    <td> PRG1_IEP0_EDC_LATCH_IN0
+    <td> PRGx_IEP0_EDC_LATCH_IN0
     <td> Optional
     <td> LATCH0 in (Time stamp latch input0)
 </tr>
 <tr>
-    <td> PRG1_IEP0_EDC_LATCH_IN1
+    <td> PRGx_IEP0_EDC_LATCH_IN1
     <td> Optional
     <td> LATCH1 in (Time stamp latch input1)
 </tr>
@@ -411,135 +412,413 @@ It is recommended to use these FWHAL APIs in the stack adaptation files. For exa
     <td colspan="3">**PRU-ICSS MII PDI Interrupt**</td>
 </tr>
 <tr>
-    <td> PRG1_IEP0_EDIO_DATA_IN_OUT28
+    <td> PRGx_IEP0_EDIO_DATA_IN_OUT28
     <td rowspan=4> Optional
     <td rowspan=4> PDI ISR output to external SOC pin (via one of the 4 PRU-ICSS digio outputs).<br>PDI ISR pin can be selected via vendor specific register at offset 0xE0A. 
 </tr>
 <tr>
-    <td> PRG1_IEP0_EDIO_DATA_IN_OUT29
+    <td> PRGx_IEP0_EDIO_DATA_IN_OUT29
 </tr>
 <tr>
-    <td> PRG1_IEP0_EDIO_DATA_IN_OUT30
+    <td> PRGx_IEP0_EDIO_DATA_IN_OUT30
 </tr>
 <tr>
-    <td> PRG1_IEP0_EDIO_DATA_IN_OUT31
+    <td> PRGx_IEP0_EDIO_DATA_IN_OUT31
 </tr>
+\endcond
+\cond SOC_AM263X || SOC_AM263PX || SOC_AM261X
+<tr>
+    <td colspan="3">**PRU-ICSS MDIO**</td>
+</tr>
+<tr>
+    <td> PR0_MDIO0_MDC
+    <td> Mandatory
+    <td> MDIO clock
+</tr>
+<tr>
+    <td> PR0_MDIO0_MDIO
+    <td> Mandatory
+    <td> MDIO Data
+</tr>
+<tr>
+    <td colspan="3">**PRU-ICSS Distributed Clocks (Network Clock synchronization)**</td>
+</tr>
+<tr>
+    <td> PR0_IEP0_EDC_SYNC_OUT0
+    <td> Recommmended (for DC capable SubDevices)
+    <td> SYNC0 out - Time synchronized OUT0
+</tr>
+<tr>
+    <td> PR0_IEP0_EDC_SYNC_OUT1
+    <td> Optional (depends on customer application))
+    <td> SYNC1 out - Time synchronized OUT1 (depends on SYNC0)
+</tr>
+<tr>
+    <td colspan="3">**PRU-ICSS MII PDI Interrupt**</td>
+</tr>
+<tr>
+    <td> PR0_IEP0_EDIO_DATA_IN_OUT30
+    <td rowspan=2> Optional
+    <td rowspan=2> PDI ISR output to external SOC pin (via one of the 2 PRU-ICSS digio outputs).<br>PDI ISR pin can be selected via vendor specific register at offset 0xE0A. 
+</tr>
+<tr>
+    <td> PR0_IEP0_EDIO_DATA_IN_OUT31
+</tr>
+\endcond
+\cond SOC_AM64X || SOC_AM243X
 <tr>
     <td colspan="3">**PRU-ICSS MII Port0 (IN Port) & PRU-ICSS MII Port1 (OUT Port)**</td>
 </tr>
 <tr>
-    <td> PR1_MII0_RXD0
+    <td> PRx_MII0_RXD0
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Receive Data0 
 </tr>
 <tr>
-    <td> PR1_MII1_RXD0
+    <td> PRx_MII1_RXD0
 </tr>
 <tr>
-    <td> PR1_MII0_RXD1
+    <td> PRx_MII0_RXD1
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Receive Data1 
 </tr>
 <tr>
-    <td> PR1_MII1_RXD1
+    <td> PRx_MII1_RXD1
 </tr>
 <tr>
-    <td> PR1_MII0_RXD2
+    <td> PRx_MII0_RXD2
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Receive Data2 
 </tr>
 <tr>
-    <td> PR1_MII1_RXD2
+    <td> PRx_MII1_RXD2
 </tr>
 <tr>
-    <td> PR1_MII0_RXD3
+    <td> PRx_MII0_RXD3
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Receive Data3 
 </tr>
 <tr>
-    <td> PR1_MII1_RXD3
+    <td> PRx_MII1_RXD3
 </tr>
 <tr>
-    <td> PR1_MII0_RXDV
+    <td> PRx_MII0_RXDV
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 RX Data Valid 
 </tr>
 <tr>
-    <td> PR1_MII1_RXDV
+    <td> PRx_MII1_RXDV
 </tr>
 <tr>
-    <td> PR1_MII0_RXER
+    <td> PRx_MII0_RXER
     <td rowspan=2> Optional if PHY supports Enhanced Link detection
     <td rowspan=2> MII0 and MII1 RXERR 
 </tr>
 <tr>
-    <td> PR1_MII1_RXER
+    <td> PRx_MII1_RXER
 </tr>
 <tr>
-    <td> PR1_MII0_TXD0
+    <td> PRx_MII0_TXD0
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Transmit Data0 
 </tr>
 <tr>
-    <td> PR1_MII1_TXD0
+    <td> PRx_MII1_TXD0
 </tr>
 <tr>
-    <td> PR1_MII0_TXD1
+    <td> PRx_MII0_TXD1
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Transmit Data1 
 </tr>
 <tr>
-    <td> PR1_MII1_TXD1
+    <td> PRx_MII1_TXD1
 </tr>
 <tr>
-    <td> PR1_MII0_TXD2
+    <td> PRx_MII0_TXD2
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Transmit Data2 
 </tr>
 <tr>
-    <td> PR1_MII1_TXD2
+    <td> PRx_MII1_TXD2
 </tr>
 <tr>
-    <td> PR1_MII0_TXD3
+    <td> PRx_MII0_TXD3
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Transmit Data3
 </tr>
 <tr>
-    <td> PR1_MII1_TXD3
+    <td> PRx_MII1_TXD3
 </tr>
 <tr>
-    <td> PR1_MII0_TXEN
+    <td> PRx_MII0_TXEN
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 TX enable 
 </tr>
 <tr>
-    <td> PR1_MII1_TXEN
+    <td> PRx_MII1_TXEN
 </tr>
 <tr>
-    <td> PR1_MII_MR0_CLK
+    <td> PRx_MII_MR0_CLK
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Receive clock
 </tr>
 <tr>
-    <td> PR1_MII_MR1_CLK
+    <td> PRx_MII_MR1_CLK
 </tr>
 <tr>
-    <td> PR1_MII_MT0_CLK
+    <td> PRx_MII_MT0_CLK
     <td rowspan=2> Mandatory
     <td rowspan=2> MII0 and MII1 Transmit clock
 </tr>
 <tr>
-    <td> PR1_MII_MT1_CLK
+    <td> PRx_MII_MT1_CLK
 </tr>
 <tr>
-    <td> PR1_MII0_RXLINK
+    <td> PRx_MII0_RXLINK
     <td rowspan=2> Mandatory for cable redundancy support
     <td rowspan=2> Enhanced link detection. Redundancy support: connect LED_LINK/LED_SPEED from PHY
 here 
 </tr>
 <tr>
-    <td> PR1_MII1_RXLINK
+    <td> PRx_MII1_RXLINK
 </tr>
+\endcond
+\cond SOC_AM263X || SOC_AM263PX
+<tr>
+    <td colspan="3">**PRU-ICSS MII Port0 (IN Port) & PRU-ICSS MII Port1 (OUT Port)**</td>
+</tr>
+<tr>
+    <td> MII0_RXD0
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data0 
+</tr>
+<tr>
+    <td> MII1_RXD0
+</tr>
+<tr>
+    <td> MII0_RXD1
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data1 
+</tr>
+<tr>
+    <td> MII1_RXD1
+</tr>
+<tr>
+    <td> MII0_RXD2
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data2 
+</tr>
+<tr>
+    <td> MII1_RXD2
+</tr>
+<tr>
+    <td> MII0_RXD3
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data3 
+</tr>
+<tr>
+    <td> MII1_RXD3
+</tr>
+<tr>
+    <td> MII0_RXDV
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 RX Data Valid 
+</tr>
+<tr>
+    <td> MII1_RXDV
+</tr>
+<tr>
+    <td> MII0_RXER
+    <td rowspan=2> Optional if PHY supports Enhanced Link detection
+    <td rowspan=2> MII0 and MII1 RXERR 
+</tr>
+<tr>
+    <td> MII1_RXER
+</tr>
+<tr>
+    <td> MII0_TXD0
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data0 
+</tr>
+<tr>
+    <td> MII1_TXD0
+</tr>
+<tr>
+    <td> MII0_TXD1
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data1 
+</tr>
+<tr>
+    <td> MII1_TXD1
+</tr>
+<tr>
+    <td> MII0_TXD2
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data2 
+</tr>
+<tr>
+    <td> MII1_TXD2
+</tr>
+<tr>
+    <td> MII0_TXD3
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data3
+</tr>
+<tr>
+    <td> MII1_TXD3
+</tr>
+<tr>
+    <td> MII0_TXEN
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 TX enable 
+</tr>
+<tr>
+    <td> MII1_TXEN
+</tr>
+<tr>
+    <td> MII0_RXCLK
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive clock
+</tr>
+<tr>
+    <td> MII1_RXCLK
+</tr>
+<tr>
+    <td> MII0_TXCLK
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit clock
+</tr>
+<tr>
+    <td> MII1_TXCLK
+</tr>
+<tr>
+    <td> MII0_RXLINK
+    <td rowspan=2> Mandatory for cable redundancy support
+    <td rowspan=2> Enhanced link detection. Redundancy support: connect LED_LINK/LED_SPEED from PHY
+here 
+</tr>
+<tr>
+    <td> MII1_RXLINK
+</tr>
+\endcond
+\cond SOC_AM261X
+<tr>
+    <td colspan="3">**PRU-ICSS MII Port0 (IN Port) & PRU-ICSS MII Port1 (OUT Port)**</td>
+</tr>
+<tr>
+    <td> MII1_RXD0
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data0 
+</tr>
+<tr>
+    <td> MII2_RXD0
+</tr>
+<tr>
+    <td> MII1_RXD1
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data1 
+</tr>
+<tr>
+    <td> MII2_RXD1
+</tr>
+<tr>
+    <td> MII1_RXD2
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data2 
+</tr>
+<tr>
+    <td> MII2_RXD2
+</tr>
+<tr>
+    <td> MII1_RXD3
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive Data3 
+</tr>
+<tr>
+    <td> MII2_RXD3
+</tr>
+<tr>
+    <td> MII1_RXDV
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 RX Data Valid 
+</tr>
+<tr>
+    <td> MII2_RXDV
+</tr>
+<tr>
+    <td> MII1_RXER
+    <td rowspan=2> Optional if PHY supports Enhanced Link detection
+    <td rowspan=2> MII0 and MII1 RXERR 
+</tr>
+<tr>
+    <td> MII2_RXER
+</tr>
+<tr>
+    <td> MII1_TXD0
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data0 
+</tr>
+<tr>
+    <td> MII2_TXD0
+</tr>
+<tr>
+    <td> MII1_TXD1
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data1 
+</tr>
+<tr>
+    <td> MII2_TXD1
+</tr>
+<tr>
+    <td> MII1_TXD2
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data2 
+</tr>
+<tr>
+    <td> MII2_TXD2
+</tr>
+<tr>
+    <td> MII1_TXD3
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit Data3
+</tr>
+<tr>
+    <td> MII2_TXD3
+</tr>
+<tr>
+    <td> MII1_TXEN
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 TX enable 
+</tr>
+<tr>
+    <td> MII2_TXEN
+</tr>
+<tr>
+    <td> MII1_RXCLK
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Receive clock
+</tr>
+<tr>
+    <td> MII2_RXCLK
+</tr>
+<tr>
+    <td> MII1_TXCLK
+    <td rowspan=2> Mandatory
+    <td rowspan=2> MII0 and MII1 Transmit clock
+</tr>
+<tr>
+    <td> MII2_TXCLK
+</tr>
+<tr>
+    <td> MII1_RXLINK
+    <td rowspan=2> Mandatory for cable redundancy support
+    <td rowspan=2> Enhanced link detection. Redundancy support: connect LED_LINK/LED_SPEED from PHY
+here 
+</tr>
+<tr>
+    <td> MII2_RXLINK
+</tr>
+\endcond
 </table>
 
 ## Interrupts
