@@ -6,25 +6,8 @@
 
 \attention For release notes of MCU+ SDK, please refer to \htmllink{@VAR_MCU_SDK_DOCS_PATH/RELEASE_NOTES_10_00_00_PAGE.html, @VAR_SOC_NAME MCU+ SDK Release Notes 10.00.00}.
 
-\note 1. The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
+\note The examples will show usage of SW modules and APIs on a specific CPU instance and OS combination. \n
       Unless noted otherwise, the SW modules would work on all supported EVMs \n
-
-
-\note 2. Following changes are needed to ensure proper functioning of EtherCAT firmware running on PRU-ICSS if using .gel file for the initialization. \n
-            - In `C:\ti\<ccs_version>\ccs\ccs_base\emulation\gel\AM261x\AM261x.gel`, uncomment `Configure_R5F0_400MHZ` call and comment out `Configure_R5F0_500MHZ`. \n
-            - In `C:\ti\<ccs_version>\ccs\ccs_base\emulation\gel\AM261x\AM261x_PLL\AM261x_Periheral_Clocks.gel`, update `Program_ICSSM0_Core_Clocks` to following: \n
-                \code
-                hotmenu Program_ICSSM0_Core_Clocks() \n
-                {
-                    Write_MMR(MSS_RCM_U_BASE+MSS_RCM_ICSSM0_CORE_CLK_DIV_VAL, 0x000);
-                    Write_MMR(MSS_RCM_U_BASE+MSS_RCM_ICSSM0_CORE_CLK_SRC_SEL, 0x222);
-                    while(Read_MMR(MSS_RCM_U_BASE + MSS_RCM_ICSSM0_CORE_CLK_STATUS) != 0x0004);
-                    GEL_TextOut("ICSSM0_CORE Clock Enabled \n");
-                }
-                \endcode
-
-\note 3. EtherCAT SubDevice Beckhoff SSC Demo has been tested for R5F at 400MHz and PRU at 200MHz. \n
-
 
 ## New in this Release
 
@@ -33,30 +16,29 @@
     <th> Feature
 </tr>
 <tr>
-    <td> EtherCAT SubDevice Beckhoff SSC Demo
+    <td> Bug Fixes
 </tr>
 </table>
 
-## Not tested in this release
 
-- R5F at 500MHz and PRU at 225MHz
+\note ICSS-EMAC driver has been migrated to MCU+ SDK for AM263x platforms. \n
 
 ## Device and Validation Information
 
 SOC    | Supported CPUs  | Boards                                                                                                      | Host PC
 -------|-----------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------
-AM261x | R5F             | AM261x LaunchPad Revision E1                         (referred to as am261x-lp in code). \n                 | Windows 10 64b or Ubuntu 18.04 64b
+AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code), \n AM263x LAUNCHPAD (referred to as am263x-lp in code)     | Windows 10 64b or Ubuntu 18.04 64b
 
 ## Tools, Compiler and Other Open Source SW Module Information
 
 Tools / SW module       | Supported CPUs | Version
 ------------------------|----------------|-----------------------
-Code Composer Studio    | R5F            | 12.8.0
-SysConfig               | R5F            | 1.21.0, build 3721
-TI ARM CLANG            | R5F            | 4.0.0.LTS
+Code Composer Studio    | R5F            | 12.7.0
+SysConfig               | R5F            | 1.20.0, build 3587
+TI ARM CLANG            | R5F            | 3.2.2.LTS
 FreeRTOS Kernel         | R5F            | 10.4.3
 LwIP                    | R5F            | STABLE-2_2_0_RELEASE
-Mbed-TLS                | R5F            | mbedtls-3.0.0
+Mbed-TLS                | R5F            | mbedtls-2.13.1
 
 ## Key Features
 
@@ -73,32 +55,39 @@ Mbed-TLS                | R5F            | mbedtls-3.0.0
     <th> Resolution/Comments
 </tr>
 <tr>
+    <th> ID
+    <th> Head Line
+    <th> Module
+    <th> Applicable Releases
+    <th> Resolution/Comments
+</tr>
+<tr>
     <td> PINDSW-47
     <td> Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice.
     <td> EtherCAT Device
     <td> 09.02.00
-    <td> 
+    <td>
 </tr>
 <tr>
     <td> PINDSW-141
     <td> LRW access to non-interleaved input and output process data of multiple SubDevices does not work.
     <td> EtherCAT Device
     <td> 09.02.00
-    <td> 
+    <td>
 </tr>
 <tr>
     <td> PINDSW-8115
     <td> Watchdog error while using LRD and LWR with same logical address.
     <td> EtherCAT Device
     <td> 09.02.00
-    <td> 
+    <td>
 </tr>
 <tr>
     <td> PINDSW-8246
     <td> Triple buffer issue - Not getting the latest data from buffer during free-run mode.
     <td> EtherCAT Device
     <td> 09.02.00
-    <td> 
+    <td>
 </tr>
 <tr>
     <td> PINDSW-8060

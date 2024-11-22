@@ -118,8 +118,10 @@ TI ESC is fully register compatible with ET1100 ASIC, for any exceptions to this
     <td> 0-7
     <td> R/-
     <td> R/-
-    <td> 59
-    <td> Size of Process Data RAM (in KB)
+    <td> 59/28
+    <td> Size of Process Data RAM (in KB) <br/>
+        AM64x, AM243x : 59 KB <br/>
+        AM263x, AM263Px, AM261x : 28 KB <br/>
 </tr>
 <tr>
     <td> Port Descriptor
@@ -3571,8 +3573,11 @@ TI ESC is fully register compatible with ET1100 ASIC, for any exceptions to this
     <td> 0-15
     <td> R/W
     <td> R/W
-    <td> 0x50
-    <td> TX_START_DELAY for port 0. Change from default values is not recommended.
+    <td> 0x48/0x50
+    <td> TX_START_DELAY for port 0. Change from default values is not recommended.<br/><br/>
+         **NOTE:** Value of 1 correponds to 5ns. So for PRU at 200MHz, 0x48 corresponds to latency of 360ns and for PRU at 333MHz, 0x50 corresponds to 400ns at  <br/>
+            - 0x48 for PRU Clock at 200MHz<br/>
+            - 0x50 for PRU Clock at 333MHz<br/>
 </tr>
 <tr>
     <td> Port1 TX Start Delay
@@ -3589,8 +3594,11 @@ TI ESC is fully register compatible with ET1100 ASIC, for any exceptions to this
     <td> 0-15
     <td> R/W
     <td> R/W
-    <td> 0x50
-    <td> TX_START_DELAY for port 1. Change from default values is not recommended.
+    <td> 0x38/0x30
+    <td> TX_START_DELAY for port 1. Change from default values is not recommended.<br/><br/>
+         **NOTE:** Value of 1 correponds to 5ns. So for PRU at 200MHz, 0x38 corresponds to latency of 280ns and for PRU at 333MHz, 0x30 corresponds to 240ns at  <br/>
+            - 0x38 for PRU Clock at 200MHz<br/>
+            - 0x30 for PRU Clock at 333MHz<br/>
 </tr>
 <tr>
     <td> ESC Reset
@@ -4129,5 +4137,8 @@ TI ESC is fully register compatible with ET1100 ASIC, for any exceptions to this
          <li>**Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice**</li>
          <li>**LRW access to non-interleaved input and output process data of multiple SubDevices**</li>
          </ul>
+         **NOTE:** Value of 1 correponds to 5ns. So for PRU at 200MHz, 0x98 corresponds to 760ns of latency. Similarly for PRU at 333MHz, 0xA0 corresponds to 800ns of latency.<br/>
+            - 0x98 for PRU Clock at 200MHz<br/>
+            - 0xA0 for PRU Clock at 333MHz<br/>
 </tr>
 </table>
