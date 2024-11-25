@@ -31,6 +31,7 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 2.00.04", "releasenotes.html#version_release20004", null ],
       [ "Release Version 2.00.03", "releasenotes.html#version_release20003", null ],
       [ "Release Version 2.00.02", "releasenotes.html#version_release20002", null ],
       [ "Release Version 2.00.01", "releasenotes.html#version_release20001", null ],
@@ -74,11 +75,7 @@ var NAVTREE =
       [ "Abbreviations and Definitions", "abbreviations.html", null ]
     ] ],
     [ "Quickstart - EtherCAT Device", "page_quickstart.html", [
-      [ "Setup", "page_quickstart_installation.html", [
-        [ "Software Installation", "page_quickstart_installation.html#qs_installation_software", null ],
-        [ "Connect the Evaluation Board", "page_quickstart_installation.html#qs_installation_connect", null ],
-        [ "Steps to Run the Example", "page_quickstart_installation.html#qs_steps_to_run_example", null ]
-      ] ],
+      [ "Setup", "page_quickstart_installation.html", null ],
       [ "EtherCAT FAQ", "ethercat_faq.html", [
         [ "Configuration of the Object Dictionary", "config_o_b_d.html", [
           [ "Enumerations in Object Dictionary", "_enum_example.html", null ]
@@ -118,7 +115,7 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Related Information", "usergroup0.html", [
-      [ "KUNBUS GmbH", "^http://www.kunbus.com", null ]
+      [ "Texas Instruments Incorporated", "^https://www.ti.com", null ]
     ] ]
   ] ]
 ];
@@ -128,8 +125,8 @@ var NAVTREEINDEX =
 "_a_p_i_changes.html",
 "group___ci_a402_ga71ff2833dda905b49ca9c39c422f150e.html#ga71ff2833dda905b49ca9c39c422f150e",
 "group___e_c___a_p_i___s_l_v___b_u_f_f_e_r.html",
-"group___sdo_types_ga74f3acd6363cc574ff232f43b5f10cb4.html#ga74f3acd6363cc574ff232f43b5f10cb4",
-"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_ae016744c3790505d4033b03f49bfdf6c.html#ae016744c3790505d4033b03f49bfdf6c"
+"group___sdo_types_ga4820258d8f272edd0a2b703424876f72.html#ga4820258d8f272edd0a2b703424876f72",
+"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a5ded16c4049f05ba2cbe63c38a38f98d.html#a5ded16c4049f05ba2cbe63c38a38f98d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
