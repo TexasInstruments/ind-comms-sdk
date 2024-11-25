@@ -7,5 +7,6 @@ var struct_a_p_p___s_adapter =
     [ "taskPrioPtpTxTimeStamp", "struct_a_p_p___s_adapter_a73c6c59233884cdb2c73ff21a005474c.html#a73c6c59233884cdb2c73ff21a005474c", null ],
     [ "taskPrioPtpNRT", "struct_a_p_p___s_adapter_a229c5dc82be730bd0653489445d836a0.html#a229c5dc82be730bd0653489445d836a0", null ],
     [ "taskPrioPtpBackground", "struct_a_p_p___s_adapter_ab1e124ff97fa48f3aeb8c755b4c21263.html#ab1e124ff97fa48f3aeb8c755b4c21263", null ],
-    [ "taskPrioLldpReceive", "struct_a_p_p___s_adapter_a43550ec96d13c397dbb5684fc9b24829.html#a43550ec96d13c397dbb5684fc9b24829", null ]
+    [ "taskPrioLldpReceive", "struct_a_p_p___s_adapter_a43550ec96d13c397dbb5684fc9b24829.html#a43550ec96d13c397dbb5684fc9b24829", null ],
+    [ "lldpMaxNeighborDevices", "struct_a_p_p___s_adapter_a5fb9ad3b27fcb87ce97db5a21bb24a92.html#a5fb9ad3b27fcb87ce97db5a21bb24a92", null ]
 ];

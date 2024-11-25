@@ -1,24 +1,26 @@
 /*
-@licstart  The following is the entire license notice for the
-JavaScript code in this file.
+ @licstart  The following is the entire license notice for the JavaScript code in this file.
 
-Copyright (C) 1997-2019 by Dimitri van Heesch
+ The MIT License (MIT)
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of version 2 of the GNU General Public License as published by
-the Free Software Foundation
+ Copyright (C) 1997-2020 by Dimitri van Heesch
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ The above copyright notice and this permission notice shall be included in all copies or
+ substantial portions of the Software.
 
-@licend  The above is the entire license notice
-for the JavaScript code in this file
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ @licend  The above is the entire license notice for the JavaScript code in this file
 */
 var NAVTREE =
 [
@@ -33,10 +35,14 @@ var NAVTREE =
     [ "Release Notes", "eip_releasenotes.html", [
       [ "Overview", "eip_releasenotes.html#eip_releasenotesoverview", null ],
       [ "Licensing", "eip_releasenotes.html#eip_releasenoteslicensing", [
-        [ "KUNBUS License", "eip_releasenotes.html#eip_releasenotes_kunbuslicensing", null ],
+        [ "Texas Instruments Incorporated License", "eip_releasenotes.html#eip_releasenotes_tilicensing", null ],
         [ "Public Licensed Packages", "eip_releasenotes.html#eip_releasenotes_opensource_license", null ]
       ] ],
       [ "Known Issues", "eip_releasenotes.html#eip_known_issues", null ],
+      [ "Current Version", "eip_releasenotes.html#eip_version_releaselatest", [
+        [ "New Features", "eip_releasenotes.html#eip_new_features_releaselatest", null ],
+        [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_releaselatest", null ]
+      ] ],
       [ "Release Version 3.07.06", "eip_releasenotes.html#eip_version_release30706", [
         [ "New Features", "eip_releasenotes.html#eip_new_features_release30706", null ],
         [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30706", null ]
@@ -203,7 +209,7 @@ var NAVTREE =
         [ "Allen-Bradley CompactLogix Controller", "eip_studio5000_example.html", null ]
       ] ]
     ] ],
-    [ "API Reference", "modules.html", "modules" ],
+    [ "API Reference", "topics.html", "topics" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -213,7 +219,7 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Related Information", "usergroup0.html", [
-      [ "KUNBUS GmbH", "^http://www.kunbus.com", null ]
+      [ "Texas Instruments Incorporated", "^http://www.ti.com", null ]
     ] ]
   ] ]
 ];
@@ -221,9 +227,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"group___e_i___a_p_i___a_d_p___t_c_p_ga125a0ea47a3176bfd760db9f4d76375c.html#ga125a0ea47a3176bfd760db9f4d76375c",
-"group___e_i___a_p_i___c_i_p___i_n_s_t_a_n_c_e_ga65de402ea1d5fee31fc407be3de21d23.html#ga65de402ea1d5fee31fc407be3de21d23",
-"struct_e_i___a_p_i___a_d_p___s_revision_ae2f416b0a34b7beb4ed3873d791ac393.html#ae2f416b0a34b7beb4ed3873d791ac393"
+"group___e_i___a_p_i___a_d_p___t_c_p_ga0e08ee9417be9a6bd59b09c27d14ad0a.html#ga0e08ee9417be9a6bd59b09c27d14ad0a",
+"group___e_i___a_p_i___c_i_p___e_r_r_o_r___c_o_d_e_s_ga02294b9fe8c2e4bfb42848eb393dafc0.html#gga02294b9fe8c2e4bfb42848eb393dafc0ae1d5111899162a3c4a620c742600a3cc",
+"struct_e_i___a_p_i___a_d_p___s_port_state_a1aab86c1fdcaed766a922d8e7e07ce3c.html#a1aab86c1fdcaed766a922d8e7e07ce3c",
+"struct_e_i_p___s_port_state_a694302771e6ac3364fa4666cefe3acad.html#a694302771e6ac3364fa4666cefe3acad"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

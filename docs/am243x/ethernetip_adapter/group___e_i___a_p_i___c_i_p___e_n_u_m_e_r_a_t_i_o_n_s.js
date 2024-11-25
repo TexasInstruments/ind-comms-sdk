@@ -77,6 +77,7 @@ var group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s =
       [ "EI_API_eERR_CB_VAL_TOO_LOW", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gaf74b4fdde31710493e949750a76e8ffe.html#ggaf74b4fdde31710493e949750a76e8ffeae5c25b75aff97bf1a855bf466ad8dcfd", null ],
       [ "EI_API_eERR_CB_INVALID_VALUE", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gaf74b4fdde31710493e949750a76e8ffe.html#ggaf74b4fdde31710493e949750a76e8ffeaf1af9c0197188ef4f08a081846f6a9eb", null ],
       [ "EI_API_eERR_CB_NOT_ENOUGH_DATA", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gaf74b4fdde31710493e949750a76e8ffe.html#ggaf74b4fdde31710493e949750a76e8ffea6dbe3e4768073d9a6957c782f1d21ab2", null ],
-      [ "EI_API_eERR_CB_TOO_MUCH_DATA", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gaf74b4fdde31710493e949750a76e8ffe.html#ggaf74b4fdde31710493e949750a76e8ffea4e4e14c5f8901f0620db898db09506eb", null ]
+      [ "EI_API_eERR_CB_TOO_MUCH_DATA", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gaf74b4fdde31710493e949750a76e8ffe.html#ggaf74b4fdde31710493e949750a76e8ffea4e4e14c5f8901f0620db898db09506eb", null ],
+      [ "EI_API_eERR_CB_CONFLICT_STATE", "group___e_i___a_p_i___c_i_p___e_n_u_m_e_r_a_t_i_o_n_s_gaf74b4fdde31710493e949750a76e8ffe.html#ggaf74b4fdde31710493e949750a76e8ffeae5c7d02658389949cd814d50884a7f37", null ]
     ] ]
 ];
