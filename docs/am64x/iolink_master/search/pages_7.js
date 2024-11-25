@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['known_20issues_20br_0',['Known Issues&lt;br/&gt;',['../known_issues.html',1,'']]]
+  ['master_0',['Quickstart - IO-Link Master',['../page_quickstart.html',1,'']]],
+  ['memory_20nvm_1',['Non-Volatile Memory (NVM)',['../persistentstorage.html',1,'']]]
 ];

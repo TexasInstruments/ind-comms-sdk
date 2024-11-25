@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.01.01</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -378,7 +378,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Process cyclic frames in IRQ context and not in Mainloop. </p>
-<p>If this value is set, the interpretation of the Rx frame is done in the function <a class="el" href="group__grp__api__port.html#ga672eff8888c365335698c7f57d1c5f8e" title="Data receive processing finished.">IOLM_API_PL_vTransferInd()</a> and the transmit frame is prepared in the function <a class="el" href="group__grp__api__port.html#ga1602161a944a9a7f5b380466011c063b" title="Port timer expired.">IOLM_API_vTimerExpired()</a>. This functions normally run in interrupt context. With this mode are short cycle times possible (400 us) but with the cost of a higher interrupt load. It ensures also that always the most recent Process Data is available in both directions.</p>
+<p>If this value is set, the interpretation of the Rx frame is done in the function IOLM_API_PL_vTransferInd() and the transmit frame is prepared in the function IOLM_API_vTimerExpired(). This functions normally run in interrupt context. With this mode are short cycle times possible (400 us) but with the cost of a higher interrupt load. It ensures also that always the most recent Process Data is available in both directions.</p>
 <p>If this value is set to zero, the frame processing and preparation is done in the Mainloop. Interrupts are only used to indicate events and trigger the start of data. This mode decreases the jitter on the line, allows more Devices, but with the cost of slower cycle times (&gt;= 1ms) and a output Process Data delay on very slow sensors (cycle time &gt; 20ms). This is because the Tx frame is prepared if the last frame is received and transfered on the next cycle interrupt. </p>
 
 </div>
@@ -397,7 +397,7 @@ Macros</h2></td></tr>
 
 <p>Mainloop time. </p>
 <p>Master processing time is the maximum time between receiving data (Rx complete interrupt) and the next Mainloop processing in microseconds.</p>
-<p>This value should be set to the maximum interval between two <a class="el" href="group__grp__api__general.html#ga2f75f69ef005ee175e28142175c94157" title="Mainloop run.">IOLM_API_vRun</a> calls.</p>
+<p>This value should be set to the maximum interval between two IOLM_API_vRun calls.</p>
 <p>If <a class="el" href="group__group__iolm__port__definition.html#gae23d2ef8bb9913cbdc8392343a0ef8a1" title="Process cyclic frames in IRQ context and not in Mainloop.">IOLM_IRQ_PROCESSING</a> is enabled, this value equals the minimum cycle time of the Master. If not, the minimum cycle time of the Master is this processing time + the message sequence time on the line. </p>
 
 </div>
@@ -415,7 +415,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Wakeup Sequence Retry Interval should be 500 to 1000ms. </p>
-<p>see table 40 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a> </p>
+<p>see table 40 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.3</a> </p>
 
 </div>
 </div>
@@ -433,9 +433,9 @@ Macros</h2></td></tr>
 
 <p>Number of Process Data buffers. </p>
 <p>Depending on the consistency requirements, different values can be selected. Valid values:</p><ul>
-<li>1: Input data is only valid during <a class="el" href="group__grp__api__pd.html#ga8d5143f08e3503fca1d5ec8a0d9f4b14" title="New input indication.">IOLM_Port_AL_vNewInput()</a> call. Output data has to be set in <a class="el" href="group__grp__api__pd.html#gaf9be96ef02ec99b72d29aba9c00d7297" title="Process Data cycle.">IOLM_Port_AL_vPDCycle()</a>.</li>
+<li>1: Input data is only valid during IOLM_Port_AL_vNewInput() call. Output data has to be set in IOLM_Port_AL_vPDCycle().</li>
 <li>2: Ping Pong Buffer. Input data can be read every time and is valid at least one IOL cycle. Output data can be set once during a cycle.</li>
-<li>3: Input data is valid until next call of <a class="el" href="group__grp__api__pd.html#ga546074f90075f69bbf5df8b0ab232e8b" title="Read input data.">IOLM_API_AL_eGetInput()</a>. Output data can be set every time. </li>
+<li>3: Input data is valid until next call of IOLM_API_AL_eGetInput(). Output data can be set every time. </li>
 </ul>
 
 </div>
@@ -453,7 +453,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>PD cycle indication as fast as possible *. </p>
-<p>If this value is set, the functions <a class="el" href="group__grp__api__pd.html#gaf9be96ef02ec99b72d29aba9c00d7297" title="Process Data cycle.">IOLM_Port_AL_vPDCycle</a> and <a class="el" href="group__grp__api__pd.html#ga8d5143f08e3503fca1d5ec8a0d9f4b14" title="New input indication.">IOLM_Port_AL_vNewInput()</a> are called in the receive functions of the stack. This can be in interrupt context. If the user application needs a lot of time, this can delay the IO-Link cycle. It should be used if the user application needs the Process Data as fast as possible.</p>
+<p>If this value is set, the functions IOLM_Port_AL_vPDCycle and IOLM_Port_AL_vNewInput() are called in the receive functions of the stack. This can be in interrupt context. If the user application needs a lot of time, this can delay the IO-Link cycle. It should be used if the user application needs the Process Data as fast as possible.</p>
 <p>If the value is set to 0, the functions are called in the following Mainloop call and not in interrupt context. It guarantees that the time critical operations are handled before the indication to the user application. </p>
 
 </div>
@@ -573,7 +573,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Interval of the SysTick timer in milliseconds. </p>
-<p>The SysTick is used for the internal software timers. The function <a class="el" href="group__grp__api__port.html#ga65eb361bc638770d50681bd9977cfedc" title="Get SysTick value.">IOLM_Port_s32SysTickVal()</a> requests a timer value. This parameter defines the tick increments of the timer. it should be between 1ms and 10ms. </p>
+<p>The SysTick is used for the internal software timers. The function IOLM_Port_s32SysTickVal() requests a timer value. This parameter defines the tick increments of the timer. it should be between 1ms and 10ms. </p>
 
 </div>
 </div>
@@ -590,7 +590,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Retry interval of wake-up sequence. </p>
-<p>See 7.3.2.2 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>. </p>
+<p>See 7.3.2.2 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.3</a>. </p>
 
 </div>
 </div>
@@ -607,7 +607,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Wake-up pulse timer length in microseconds (pulse needs to be 75-85 us). </p>
-<p>This value is used to generate the wake-up pulse by a timer. It does not include the additional hardware delays and maybe additional jitter because of other interrupts. It is recommended to use a hardware timer with output compare unit to generate this pulse if <a class="el" href="group__grp__api__port.html#ga865affd649eb1c84815ab7637370e162" title="Send wake-up pulse.">IOLM_Port_PL_eWakeUp()</a> returns <a class="el" href="group__group__iolm__types.html#gga7781adaa90a1f786ae5aebb5c938d337a12f51aa7970a1bfb9175db85478be87d" title="Wake-up need to be generated by stack.">IOLM_eWakeupMode_Stack</a>. </p>
+<p>This value is used to generate the wake-up pulse by a timer. It does not include the additional hardware delays and maybe additional jitter because of other interrupts. It is recommended to use a hardware timer with output compare unit to generate this pulse if IOLM_Port_PL_eWakeUp() returns <a class="el" href="group__group__iolm__types.html#gga7781adaa90a1f786ae5aebb5c938d337a12f51aa7970a1bfb9175db85478be87d" title="Wake-up need to be generated by stack.">IOLM_eWakeupMode_Stack</a>. </p>
 
 </div>
 </div>

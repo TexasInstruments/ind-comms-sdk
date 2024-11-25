@@ -6,8 +6,5 @@ var searchData=
   ['firmware_3',['Using customized PRU Firmware',['../page_quickstart.html#custom_pru',1,'']]],
   ['float32_4',['FLOAT32',['../group__group__iol__types.html#ga6a3da5f1db8d485c0d2f5a7ba526c4a0',1,'IOL_Port_Types.h']]],
   ['float64_5',['FLOAT64',['../group__group__iol__types.html#gaa8336782d864ba03efadb73a51260961',1,'IOL_Port_Types.h']]],
-  ['flow_6',['flow',['../page_hwport.html#sect_hwport_cycle',1,'Cycle Flow'],['../page_hwport.html#sect_hwport_wake',1,'Wake-up Flow']]],
-  ['for_20physical_20layer_7',['Example Code for Physical Layer',['../page_hwport.html#sect_hwport_example',1,'']]],
-  ['frame_20handler_20and_20or_20cycle_20timer_8',['Physical Frame Handler and/or Cycle Timer',['../page_hwport.html#sect_hwport_example_phy',1,'']]],
-  ['functionality_9',['Supported Functionality',['../iolink_datasheet.html#functionality',1,'']]]
+  ['functionality_6',['Supported Functionality',['../iolink_datasheet.html#functionality',1,'']]]
 ];

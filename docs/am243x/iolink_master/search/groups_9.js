@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['non_20smi_20api_0',['Non SMI API',['../group__grp__api__non__smi.html',1,'']]]
+  ['on_20request_20data_0',['SMI On Request Data',['../group__grp__smi__onreq.html',1,'']]]
 ];

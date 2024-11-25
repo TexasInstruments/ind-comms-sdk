@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.01.01</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -109,20 +109,20 @@ $(document).ready(function(){initNavTree('page_datastorage.html',''); initResiza
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="sect_ds_state"></a>
 State Machine</h1>
-<p>The Data Storage state machine is implemented according to 11.3 in <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>.</p>
+<p>The Data Storage state machine is implemented according to 11.3 in <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.3</a>.</p>
 <p>This module interacts especially with the application layer and the ISDU channel. During active Data Storage there are no other On-request Data requests allowed. The application layer checks the current state of the Data Storage before it accepts a request from the user application.</p>
 <h1><a class="anchor" id="sect_ds_content"></a>
 Content</h1>
 <p>The structure of the Data Storage content is defined by <a class="el" href="struct_i_o_l_m___s_d_s_content.html" title="This structure defines the Data Storage content.">IOLM_SDSContent</a>. This structure consists of a header with some Device information and the parameter content with up to 2048 bytes. This structure is held in memory for fast access if a new Device is connected.</p>
 <h1><a class="anchor" id="sect_ds_interface"></a>
 User Interface</h1>
-<p>The Data Storage is controlled by <a class="el" href="group__grp__api__ds.html#gaece6ed5b097886adfb31e94abc629473" title="Setup Data Storage mode.">IOLM_API_DS_eSet()</a>. With this function the actual mode is set. Depending on the current activation state (<a class="el" href="group__group__iolm__types.html#gad4bf1ecf463d5fbcc893173899074e56" title="this IOL_ENUM_DECL defines the Data Storage activation states.">IOLM_EDSActivationState</a>) and mode (<a class="el" href="group__group__iolm__types.html#ga5d437476ee8bf76ed7e6e85ceb63bdd5" title="This IOL_ENUM_DECL defines the Data Storage activities which have to be done if there are mismatches ...">IOLM_EDSMode</a>), the interaction between Device and Master is done.</p>
-<p>With the function <a class="el" href="group__grp__api__ds.html#ga807393ea6c9454a71fffab21de20c78c" title="Delete Data Storage content.">IOLM_API_DS_eDelete()</a> it is possible to clear the Data Storage if it is enabled. This is only possible if no upload or download is running.</p>
+<p>The Data Storage is controlled by IOLM_API_DS_eSet(). With this function the actual mode is set. Depending on the current activation state (<a class="el" href="group__group__iolm__types.html#gad4bf1ecf463d5fbcc893173899074e56" title="this IOL_ENUM_DECL defines the Data Storage activation states.">IOLM_EDSActivationState</a>) and mode (<a class="el" href="group__group__iolm__types.html#ga5d437476ee8bf76ed7e6e85ceb63bdd5" title="This IOL_ENUM_DECL defines the Data Storage activities which have to be done if there are mismatches ...">IOLM_EDSMode</a>), the interaction between Device and Master is done.</p>
+<p>With the function IOLM_API_DS_eDelete() it is possible to clear the Data Storage if it is enabled. This is only possible if no upload or download is running.</p>
 <h1><a class="anchor" id="sect_ds_nonvolatile"></a>
 Non Volatile Storage</h1>
 <p>It is possible to store the Data Storage content in a non volatile memory. The user application has to provide a non volatile memory access with enough memory for the structure <a class="el" href="struct_i_o_l_m___s_d_s_content.html" title="This structure defines the Data Storage content.">IOLM_SDSContent</a> on each port.</p>
-<p>During startup the content is loaded by <a class="el" href="group__grp__api__port.html#gac94e30c44d5d0caf171ac3868cd9425b" title="Load DS content.">IOLM_Port_DS_u16LoadData</a> and stored in the internal RAM.</p>
-<p>Every time the content has changed, the function <a class="el" href="group__grp__api__port.html#ga91522102260c71e91f91fa95e002bcd2" title="Store DS content.">IOLM_Port_DS_vStoreData</a> is called by this module. The application should not be blocked for longer times and can handle this store request out of this function. If the storage is completed, the function <a class="el" href="group__grp__api__port.html#ga9bcf960a4f98e3cf6177f9667db6a8f1" title="None volatile store completed.">IOLM_API_DS_vStoreComplete</a> with the actual written size has to be called. This module requests only one store request for all ports. If there is data on multiple ports available, the requests are queued and executed if the last store is acknowledged. </p>
+<p>During startup the content is loaded by IOLM_Port_DS_u16LoadData and stored in the internal RAM.</p>
+<p>Every time the content has changed, the function IOLM_Port_DS_vStoreData is called by this module. The application should not be blocked for longer times and can handle this store request out of this function. If the storage is completed, the function IOLM_API_DS_vStoreComplete with the actual written size has to be called. This module requests only one store request for all ports. If there is data on multiple ports available, the requests are queued and executed if the last store is acknowledged. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

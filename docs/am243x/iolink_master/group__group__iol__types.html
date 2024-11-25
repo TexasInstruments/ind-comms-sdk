@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.01.01</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -651,21 +651,22 @@ Enumerations</h2></td></tr>
 , <b>IOL_eEPortCode_OvercurrentCQ</b> = 0x1813
 , <br />
 &#160;&#160;<b>IOL_eEPortCode_EvalExpired</b> = 0x1F00
+, <b>IOL_eEPortCode_Overload</b> = 0x1F01
 , <b>IOL_eEPortCode_InvalidCycleTime</b> = 0x6000
 , <b>IOL_eEPortCode_RevisionFault</b> = 0x6001
-, <b>IOL_eEPortCode_ISDUBatchFailed</b> = 0x6002
 , <br />
-&#160;&#160;<a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a4939e8932242040c7e21debc27b161fd">IOL_eEPortCode_NEW_SLAVE</a> = 0xFF21
+&#160;&#160;<b>IOL_eEPortCode_ISDUBatchFailed</b> = 0x6002
+, <a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a4939e8932242040c7e21debc27b161fd">IOL_eEPortCode_NEW_SLAVE</a> = 0xFF21
 , <a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27ab1c84afb32d6db3bf85350378a807f06">IOL_eEPortCode_DEV_COM_LOST</a> = 0xFF22
 , <a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a73276a7dcbc3a7a9df2142ab9a71d157">IOL_eEPortCode_DS_IDENT_MISMATCH</a> = 0xFF23
-, <a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a4be923122ce94b97547ab0168d6942b1">IOL_eEPortCode_DS_BUFFER_OVERFLOW</a> = 0xFF24
 , <br />
-&#160;&#160;<a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a103753fd880e8749a92198b344007a6f">IOL_eEPortCode_DS_ACCESS_DENIED</a> = 0xFF25
+&#160;&#160;<a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a4be923122ce94b97547ab0168d6942b1">IOL_eEPortCode_DS_BUFFER_OVERFLOW</a> = 0xFF24
+, <a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a103753fd880e8749a92198b344007a6f">IOL_eEPortCode_DS_ACCESS_DENIED</a> = 0xFF25
 , <a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a6c2453fbebaa25883cf060a42a6fc508">IOL_eEPortCode_PortStatusChanged</a> = 0xFF26
 , <b>IOL_eEPortCode_DataStorageComplete</b> = 0xFF27
-, <b>IOL_eEPortCode_IncorectEventSignalling</b> = 0xFF31
 , <br />
-&#160;&#160;<a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a0b252c561accd36a270a6d1567cce917">IOL_eEPortCode_IOLW_RETRY_ERROR_L</a> = 0x3000
+&#160;&#160;<b>IOL_eEPortCode_IncorectEventSignalling</b> = 0xFF31
+, <a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a0b252c561accd36a270a6d1567cce917">IOL_eEPortCode_IOLW_RETRY_ERROR_L</a> = 0x3000
 , <a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27ad123196842d8830dd53e59219cd0cf2d">IOL_eEPortCode_IOLW_IMA_TIMEOUT</a> = 0x3001
 , <a class="el" href="group__group__iol__types.html#gga4b40c4217f36bdd56b480e47eebecb27a807393cfd5894b813b2246d3b5e0abbf">IOL_eEPortCode_IOLW_U_ID_CHANGED</a> = 0x3002
 <br />
@@ -1337,7 +1338,7 @@ Enumerations</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This enumeration contains the M-sequence types. </p>
-<p>TYPE_1_1 forces interleave mode of process and On-request Data transmission, see 7.3.4.2 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>. </p>
+<p>TYPE_1_1 forces interleave mode of process and On-request Data transmission, see 7.3.4.2 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.3</a>. </p>
 
 </div>
 </div>

@@ -31,6 +31,5 @@ var searchData=
   ['1_2009_2006_28',['Release Version 1.09.06',['../releasenotes.html#version_release10906',1,'']]],
   ['1_2009_2007_29',['Release Version 1.09.07',['../releasenotes.html#version_release10907',1,'']]],
   ['1_2009_2008_30',['Release Version 1.09.08',['../releasenotes.html#version_release10908',1,'']]],
-  ['1_202_31',['1 2',['../references.html#section_iol_spec_1_1',1,'IO-Link Specification v1.1.2'],['../references.html#section_iol_testspec_1_1',1,'IO-Link Test Specification v1.1.2']]],
-  ['1_203_32',['1 3',['../references.html#section_iol_spec_1_1_3',1,'IO-Link Specification v1.1.3'],['../references.html#section_iol_testspec_1_1_3',1,'IO-Link Test Specification v1.1.3']]]
+  ['1_203_31',['1 3',['../references.html#section_iol_spec_1_1',1,'IO-Link Specification v1.1.3'],['../references.html#section_iol_testspec_1_1',1,'IO-Link Test Specification v1.1.3']]]
 ];
