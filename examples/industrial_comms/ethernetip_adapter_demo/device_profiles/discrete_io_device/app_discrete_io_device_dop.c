@@ -5,39 +5,38 @@
  *  EtherNet/IP&trade; Discrete Output Point Object.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br><br>
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
@@ -83,566 +82,116 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
-#include <device_profiles/discrete_io_device/app_discrete_io_device_sm.h>
 
-extern PRUICSS_Handle prusshandle;
+typedef enum EI_APP_DOP_events
+{
+    EI_APP_DOP_EVENT_ReceiveData = 0,
+    EI_APP_DOP_EVENT_ReceiveIdle_Command,
+    EI_APP_DOP_EVENT_ReceiveIdle_InvalidData,
+    EI_APP_DOP_EVENT_ReceiveFault,
+    EI_APP_DOP_EVENT_ReceiveRun_Command,
+    EI_APP_DOP_EVENT_UnrecoverableFault,
+    EI_APP_DOP_EVENT_ConnDeleted,
+    EI_APP_DOP_EVENT_ConnEstablished,
+    EI_APP_DOP_EVENT_ConnTimedOut,
+    EI_APP_DOP_EVENT_NoEvent
+}EI_APP_DOP_events_t;
 
-void EI_APP_DOP_init (EI_API_CIP_NODE_T* pCipNode);
-void EI_APP_DOP_run  (EI_API_CIP_NODE_T* pCipNode);
+typedef enum EI_APP_DOP_dataContext
+{
+    EI_APP_DOP_DATA_Explicit = 0,
+    EI_APP_DOP_DATA_Implicit
+}EI_APP_DOP_dataContext_t;
 
-void EI_APP_DOP_SM_RUN_entryAction(void);
-void EI_APP_DOP_SM_RUN_doAction(void);
-void EI_APP_DOP_SM_RUN_exitAction(void);
+typedef struct EI_APP_DOP_Value
+{
+    volatile ei_api_cip_edt_usint         value;
+    volatile EI_APP_DOP_dataContext_t     context;
+}EI_APP_DOP_Value_t;
 
-void EI_APP_DOP_SM_RECOVERABLEFAULT_entryAction(void);
-void EI_APP_DOP_SM_RECOVERABLEFAULT_doAction(void);
-void EI_APP_DOP_SM_RECOVERABLEFAULT_exitAction(void);
+/**
+ *
+*/
+typedef struct EI_APP_DOP_object
+{
+    uint16_t                      instanceID;
+    EI_DOP_OBJECT_Cfg_t           userCfg;
+    volatile bool                 faultSettingChanged;
+    volatile bool                 idleSettingChanged;
+    volatile bool                 runIdleValueChanged;
+    volatile bool                 receiveDataEvent;
+    volatile bool                 receiveIdleEvent;
+    EI_APP_DOP_Value_t            valueContainer;
+    volatile ei_api_cip_edt_bool    run_idle_command;
+    volatile EI_APP_DOP_SmStates_t  current_state;
+    volatile EI_APP_DOP_SmStates_t  old_state;
+    void (*processesFnc)(struct EI_APP_DOP_object *, EI_APP_DOP_events_t);
+    struct EI_APP_DOP_object        *nextObject;
+}EI_APP_DOP_object_t;
 
-void EI_APP_DOP_SM_UNRECOVERABLEFAULT_entryAction(void);
-void EI_APP_DOP_SM_UNRECOVERABLEFAULT_doAction(void);
-void EI_APP_DOP_SM_UNRECOVERABLEFAULT_exitAction(void);
+typedef struct EI_APP_DOP_container
+{
+    bool                        isClassInitialized;
+    EI_APP_DOP_object_t         *head;
+    EI_API_CIP_NODE_T           *pCipNode;
+    void                        *mutex;
+}EI_APP_DOP_container_t;
 
-void EI_APP_DOP_SM_READY_entryAction(void);
-void EI_APP_DOP_SM_READY_doAction(void);
-void EI_APP_DOP_SM_READY_exitAction(void);
+typedef void (*dop_state_proccess_t)(EI_APP_DOP_object_t *, EI_APP_DOP_events_t);
+//--------------------------------------------------------------------
+static void dop_proc_noneExistent(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event);
+static void dop_proc_available(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event);
+static void dop_proc_idle(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event);
+static void dop_proc_ready(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event);
+static void dop_proc_run(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event);
+static void dop_proc_recoverableFault(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event);
+static void dop_proc_unrecoverableFault(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event);
+static inline EI_APP_DOP_events_t dop_get_other_evnets(EI_APP_DOP_object_t *);
+static uint32_t EI_APP_DOP_setObjValue(uint16_t instanceID, uint16_t attrID, void *pValue, EI_APP_DOP_dataContext_t context);
 
-void EI_APP_DOP_SM_IDLE_entryAction(void);
-void EI_APP_DOP_SM_IDLE_doAction(void);
-void EI_APP_DOP_SM_IDLE_exitAction(void);
 
-void EI_APP_DOP_SM_AVAILABLE_entryAction(void);
-void EI_APP_DOP_SM_AVAILABLE_doAction(void);
-void EI_APP_DOP_SM_AVAILABLE_exitAction(void);
-
-void EI_APP_DOP_SM_NONEXISTENT_entryAction(void);
-void EI_APP_DOP_SM_NONEXISTENT_doAction(void);
-void EI_APP_DOP_SM_NONEXISTENT_exitAction(void);
-
-static uint32_t EI_APP_DIO_DEVICE_connectionState_s;
-static uint32_t EI_APP_DIO_DEVICE_receiveData_s;
+static EI_APP_DOP_container_t dopContainer_s = {0};
 
 static EI_APP_DOP_ClassData_t dopClassData_s = {.revision = EI_APP_DIO_DEVICE_DOP_REVISION_NUMBER
                                                };
 
-static uint32_t EI_APP_DOP_ledStatus_s   = 0;
-
-/* An event that is internally generated and product-specific. The network does not know if a Fault has occurred. */
-static uint8_t EI_APP_DOP_receiveFault       = 0;
-/* If the fault is solved. */
-static uint8_t EI_APP_DOP_faultCleared       = 0;
-/* The setting of the Run_Idle Command attribute to the value 0. */
-static uint8_t EI_APP_DOP_receiveIdle        = 0;
-/* The setting of the Run_Idle Command attribute to the value 1.*/
-static uint8_t EI_APP_DOP_receiveReadyToRun  = 1;
-/* Fault is not recoverable. */
-static uint8_t EI_APP_DOP_unrecoverableFault = 0;
-
-typedef EI_APP_DIO_DEVICE_SM_StateMachine_t EI_APP_DOP_stateMachine_t;
-static  EI_APP_DOP_stateMachine_t dopStateMachine_s = { 0 };
-
-static const EI_APP_DIO_DEVICE_SM_State_t EI_APP_DOP_SM_StateFuncTable_s[EI_APP_DOP_SM_MAX_STATES] = {
-    {
-        .stateId     = EI_APP_DOP_SM_NONEXISTENT,
-        .entryAction = EI_APP_DOP_SM_NONEXISTENT_entryAction,
-        .doAction    = EI_APP_DOP_SM_NONEXISTENT_doAction,
-        .exitAction  = EI_APP_DOP_SM_NONEXISTENT_exitAction
-    },
-
-    {
-        .stateId     = EI_APP_DOP_SM_AVAILABLE,
-        .entryAction = EI_APP_DOP_SM_AVAILABLE_entryAction,
-        .doAction    = EI_APP_DOP_SM_AVAILABLE_doAction,
-        .exitAction  = EI_APP_DOP_SM_AVAILABLE_exitAction
-    },
-
-    {
-        .stateId     = EI_APP_DOP_SM_IDLE,
-        .entryAction = EI_APP_DOP_SM_IDLE_entryAction,
-        .doAction    = EI_APP_DOP_SM_IDLE_doAction,
-        .exitAction  = EI_APP_DOP_SM_IDLE_exitAction
-    },
-
-    {
-        .stateId     = EI_APP_DOP_SM_READY,
-        .entryAction = EI_APP_DOP_SM_READY_entryAction,
-        .doAction    = EI_APP_DOP_SM_READY_doAction,
-        .exitAction  = EI_APP_DOP_SM_READY_exitAction
-    },
-
-    {
-        .stateId     = EI_APP_DOP_SM_RUN,
-        .entryAction = EI_APP_DOP_SM_RUN_entryAction,
-        .doAction    = EI_APP_DOP_SM_RUN_doAction,
-        .exitAction  = EI_APP_DOP_SM_RUN_exitAction
-    },
-
-    {
-        .stateId     = EI_APP_DOP_SM_RECOVERABLEFAULT,
-        .entryAction = EI_APP_DOP_SM_RECOVERABLEFAULT_entryAction,
-        .doAction    = EI_APP_DOP_SM_RECOVERABLEFAULT_doAction,
-        .exitAction  = EI_APP_DOP_SM_RECOVERABLEFAULT_exitAction
-    },
-
-    {
-        .stateId     = EI_APP_DOP_SM_UNRECOVERABLEFAULT,
-        .entryAction = EI_APP_DOP_SM_UNRECOVERABLEFAULT_entryAction,
-        .doAction    = EI_APP_DOP_SM_UNRECOVERABLEFAULT_doAction,
-        .exitAction  = EI_APP_DOP_SM_UNRECOVERABLEFAULT_exitAction
-    },
-};
-
-/*!
- *  \brief
- *  EI_APP_DIP_SM_getStateFuncs return the state functions according to
- *  state
- *
- *  \details
- *  EI_APP_DOP_SM_getStateFuncs return the state functions according to
- *  state
- *
- *
- *  \param[in]  state                           state to get related state functions
- *
- *  \return     #SM_State_t*                    pointer of state functions
- *
- *  \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-static const EI_APP_DIO_DEVICE_SM_State_t *EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SmStates_t state)
+static EI_APP_DOP_object_t*  EI_APP_DOP_findObj(uint16_t instanceID)
 {
-    const EI_APP_DIO_DEVICE_SM_State_t *pStateFunc = NULL;
+    EI_APP_DOP_object_t  *pObj = NULL;
 
-    if((state >= EI_APP_DOP_SM_NONEXISTENT) && (state < EI_APP_DOP_SM_MAX_STATES))
+    if(false == dopContainer_s.isClassInitialized)
     {
-        pStateFunc = &EI_APP_DOP_SM_StateFuncTable_s[state];
-    }
-
-    return pStateFunc;
-}
-
-void EI_APP_DOP_SM_NONEXISTENT_doAction(void)
-{
-    const EI_APP_DIO_DEVICE_SM_State_t *nextState = NULL;
-
-    nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_AVAILABLE);
-
-    if(nextState != NULL)
-    {
-        EI_APP_DIO_DEVICE_SM_nextState(&dopStateMachine_s, nextState);
-    }
-}
-
-void EI_APP_DOP_SM_NONEXISTENT_entryAction(void)
-{
-    EI_API_CIP_NODE_T* pCipNode = NULL;
-    pCipNode = EI_API_CIP_NODE_new(NULL);
-
-    EI_APP_DOP_init(pCipNode);
-
-    OSAL_printf("Power Up & LED Off\n\r");
-}
-
-void EI_APP_DOP_SM_NONEXISTENT_exitAction(void)
-{
-    // Do nothing.
-}
-
-void EI_APP_DOP_SM_AVAILABLE_doAction(void)
-{
-    const EI_APP_DIO_DEVICE_SM_State_t *nextState = NULL;
-    uint8_t unrecoverableFault  = 1;
-
-    EI_APP_DIO_DEVICE_getConnectionInfo(&EI_APP_DIO_DEVICE_connectionState_s, &EI_APP_DIO_DEVICE_receiveData_s);
-
-    if(unrecoverableFault == EI_APP_DOP_unrecoverableFault)
-    {
-        nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_UNRECOVERABLEFAULT);
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return NULL;
     }
     else
     {
-        if(EI_APP_DIO_DEVICE_ConnectionEstablished == EI_APP_DIO_DEVICE_connectionState_s)
+        pObj  = dopContainer_s.head;
+        while (NULL != pObj)
         {
-            nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_READY);
+            if(instanceID == pObj->instanceID)
+            {
+                break;
+            }
+            pObj = pObj->nextObject;
         }
     }
 
-    if(nextState != NULL)
+    return pObj;
+}
+
+static void EI_APP_DOP_insertObj(EI_APP_DOP_object_t *pDopObject)
+{
+
+    if(NULL == dopContainer_s.head) //first item?
     {
-        EI_APP_DIO_DEVICE_SM_nextState(&dopStateMachine_s, nextState);
-    }
-}
-void EI_APP_DOP_SM_AVAILABLE_entryAction(void)
-{
-    // Connection deleted (from any state)
-    OSAL_printf("Outputs Off & LED Off\n\r");
-}
-
-void EI_APP_DOP_SM_AVAILABLE_exitAction(void)
-{
-    // Do nothing.
-}
-
-void EI_APP_DOP_SM_IDLE_doAction(void)
-{
-
-    const EI_APP_DIO_DEVICE_SM_State_t *nextState = NULL;
-    EI_API_CIP_NODE_T* pCipNode = NULL;
-    uint8_t faultReceived       = 1;
-    uint8_t unrecoverableFault  = 1;
-    uint8_t command             = 0;
-    uint8_t instanceId          = 0x01;
-    // uint8_t value           = 0;
-
-    pCipNode = EI_API_CIP_NODE_new(NULL);
-
-    EI_APP_DIO_DEVICE_getConnectionInfo(&EI_APP_DIO_DEVICE_connectionState_s, &EI_APP_DIO_DEVICE_receiveData_s);
-
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06, &command);
-
-    if(unrecoverableFault == EI_APP_DOP_unrecoverableFault)
-    {
-        nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_UNRECOVERABLEFAULT);
+        dopContainer_s.head = pDopObject;
+        dopContainer_s.head->nextObject = NULL;
     }
     else
     {
-        if(EI_APP_DIO_DEVICE_ConnectionTimeOut == EI_APP_DIO_DEVICE_connectionState_s)
-        {
-            // If the DOP
-            // enters the Recoverable_Fault state from the Idle state in response to the I/O connection
-            // transitioning to Timed Out, the DOP�s value should go unchanged.
-            nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_RECOVERABLEFAULT);
-        }
-
-        if(faultReceived == EI_APP_DOP_receiveFault)
-        {
-            nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_RECOVERABLEFAULT);
-        }
-        else
-        {
-            if (command == EI_APP_DOP_receiveReadyToRun)
-            {
-                nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_READY);
-            }
-
-            if(EI_APP_DIO_DEVICE_ConnectionClosed == EI_APP_DIO_DEVICE_connectionState_s)
-            {
-                nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_AVAILABLE);
-            }
-      }
-    }
-
-    if(nextState != NULL)
-    {
-        EI_APP_DIO_DEVICE_SM_nextState(&dopStateMachine_s, nextState);
-    }
-}
-void EI_APP_DOP_SM_IDLE_entryAction(void)
-{
-    EI_API_CIP_NODE_T* pCipNode = NULL;
-    pCipNode = EI_API_CIP_NODE_new(NULL);
-
-    uint8_t idleValue = 0;
-    uint8_t idleAction = 0;
-    uint8_t instanceId = 0x01;
-    uint32_t errCode = EI_API_CIP_eERR_GENERAL;
-
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09, &idleAction);
-
-    if(0 == idleAction)
-    {
-        errCode = EI_API_CIP_getAttr_bool(
-                                         pCipNode,
-                                         EI_APP_DIO_DEVICE_DOG_CLASS_ID,
-                                         instanceId,
-                                         EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_10,
-                                         &idleValue);
-
-        if (errCode != EI_API_CIP_eERR_OK)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        }
-
-        for (uint16_t i = 1; i <= EI_APP_DIO_DEVICE_DOP_NUM_OF_INST; i++)
-        {
-            errCode = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, i, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03, idleValue);
-
-            if (errCode != EI_API_CIP_eERR_OK)
-            {
-                OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            }
-        }
-    }
-
-    OSAL_printf("Outputs Idle & LED Flash Green\n\r");
-}
-
-void EI_APP_DOP_SM_IDLE_exitAction(void)
-{
-    // Do nothing
-}
-
-void EI_APP_DOP_SM_READY_doAction(void)
-{
-    const EI_APP_DIO_DEVICE_SM_State_t *nextState = NULL;
-    EI_API_CIP_NODE_T* pCipNode = NULL;
-    uint8_t dataReceived        = 1;
-    uint8_t faultReceived       = 1;
-    uint8_t unrecoverableFault  = 1;
-    uint8_t command             = 0;
-    uint8_t instanceId          = 0x01;
-
-    pCipNode = EI_API_CIP_NODE_new(NULL);
-
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06, &command);
-
-    EI_APP_DIO_DEVICE_getConnectionInfo(&EI_APP_DIO_DEVICE_connectionState_s, &EI_APP_DIO_DEVICE_receiveData_s);
-
-    if(unrecoverableFault == EI_APP_DOP_unrecoverableFault)
-    {
-        nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_UNRECOVERABLEFAULT);
-    }
-    else
-    {
-        if(EI_APP_DIO_DEVICE_ConnectionTimeOut == EI_APP_DIO_DEVICE_connectionState_s
-                        || faultReceived == EI_APP_DOP_receiveFault)
-        {
-            nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_RECOVERABLEFAULT);
-        }
-        else
-        {
-            if (command == EI_APP_DOP_receiveIdle)
-            {
-                nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_IDLE);
-            }
-            if (dataReceived == EI_APP_DIO_DEVICE_receiveData_s && command == EI_APP_DOP_receiveReadyToRun)
-            {
-                nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_RUN);
-            }
-
-            if(EI_APP_DIO_DEVICE_ConnectionClosed == EI_APP_DIO_DEVICE_connectionState_s)
-            {
-                nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_AVAILABLE);
-            }
-        }
-    }
-
-    if(nextState != NULL)
-    {
-        EI_APP_DIO_DEVICE_SM_nextState(&dopStateMachine_s, nextState);
-    }
-}
-void EI_APP_DOP_SM_READY_entryAction(void)
-{
-    // Connection transitions to established
-    // OSAL_printf("Outputs Unchanged & LEDs Unchanged\n\r");
-    // OSAL_printf("LEDs Flash Green\n\r");
-    OSAL_printf("Ready\n\r");
-}
-
-void EI_APP_DOP_SM_READY_exitAction(void)
-{
-    // Do nothing.
-}
-
-void EI_APP_DOP_SM_RUN_doAction(void)
-{
-    const EI_APP_DIO_DEVICE_SM_State_t *nextState = NULL;
-    EI_API_CIP_NODE_T* pCipNode = NULL;
-    uint8_t faultReceived       = 1;
-    uint8_t unrecoverableFault  = 1;
-    uint8_t command             = 0;
-    uint8_t instanceId          = 0x01;
-
-    pCipNode = EI_API_CIP_NODE_new(NULL);
-
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06, &command);
-
-    EI_APP_DIO_DEVICE_getConnectionInfo(&EI_APP_DIO_DEVICE_connectionState_s, &EI_APP_DIO_DEVICE_receiveData_s);
-
-    if(unrecoverableFault == EI_APP_DOP_unrecoverableFault)
-    {
-        nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_UNRECOVERABLEFAULT);
-    }
-    else
-    {
-        if (EI_APP_DIO_DEVICE_ConnectionTimeOut == EI_APP_DIO_DEVICE_connectionState_s
-                        || faultReceived == EI_APP_DOP_receiveFault)
-        {
-            nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_RECOVERABLEFAULT);
-        }
-        else
-        {
-            // - the IO connection object receives an I/O message containing no application data
-            if (command == EI_APP_DOP_receiveIdle)
-            {
-                nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_IDLE);
-            }
-
-            EI_APP_DOP_run(pCipNode);
-
-            if(EI_APP_DIO_DEVICE_ConnectionClosed == EI_APP_DIO_DEVICE_connectionState_s)
-            {
-                nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_AVAILABLE);
-            }
-            /*
-            // An event that signals the reception of I/O data and causes the object to transition to the Run state
-            if (EI_APP_DIO_DEVICE_DATA_RECEIVED == EI_APP_DIO_DEVICE_receiveData_s)
-            {
-                nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_RUN);
-            }
-            */
-        }
-    }
-
-    if(nextState != NULL)
-    {
-        EI_APP_DIO_DEVICE_SM_nextState(&dopStateMachine_s, nextState);
-    }
-}
-void EI_APP_DOP_SM_RUN_entryAction(void)
-{
-    OSAL_printf("Outputs Active & LED Solid Green\n\r");
-}
-
-void EI_APP_DOP_SM_RUN_exitAction(void)
-{
-    // Do nothing.
-}
-
-void EI_APP_DOP_SM_RECOVERABLEFAULT_doAction(void)
-{
-    const EI_APP_DIO_DEVICE_SM_State_t *nextState = NULL;
-    uint8_t unrecoverableFault  = 1;
-    uint8_t faultCleared        = 1;
-
-    EI_APP_DIO_DEVICE_getConnectionInfo(&EI_APP_DIO_DEVICE_connectionState_s, &EI_APP_DIO_DEVICE_receiveData_s);
-
-    if(unrecoverableFault == EI_APP_DOP_unrecoverableFault)
-    {
-        nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_UNRECOVERABLEFAULT);
-    }
-    else
-    {
-        if (faultCleared == EI_APP_DOP_faultCleared
-                    || EI_APP_DIO_DEVICE_ConnectionEstablished == EI_APP_DIO_DEVICE_connectionState_s)
-        {
-            nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_READY);
-        }
-
-        if(EI_APP_DIO_DEVICE_ConnectionClosed == EI_APP_DIO_DEVICE_connectionState_s)
-        {
-            nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_AVAILABLE);
-        }
-    }
-
-    if(nextState != NULL)
-    {
-        EI_APP_DIO_DEVICE_SM_nextState(&dopStateMachine_s, nextState);
-    }
-}
-void EI_APP_DOP_SM_RECOVERABLEFAULT_entryAction(void)
-{
-
-    EI_API_CIP_NODE_T* pCipNode = NULL;
-    uint32_t errCode    = EI_API_CIP_eERR_GENERAL;
-    uint8_t instanceId  = 0x01;
-    uint8_t faultValue  = 0;
-    uint8_t faultAction = 0;
-
-    pCipNode = EI_API_CIP_NODE_new(NULL);
-
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, &faultAction);
-
-    if(0 == faultAction)
-    {
-        errCode = EI_API_CIP_getAttr_bool(
-                                         pCipNode,
-                                         EI_APP_DIO_DEVICE_DOG_CLASS_ID,
-                                         instanceId,
-                                         EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_08,
-                                         &faultValue);
-
-        if (errCode != EI_API_CIP_eERR_OK)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        }
-
-        for (uint16_t i = 1; i <= EI_APP_DIO_DEVICE_DOP_NUM_OF_INST; i++)
-        {
-            errCode = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, i, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03, faultValue);
-
-            if (errCode != EI_API_CIP_eERR_OK)
-            {
-                OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            }
-        }
-    }
-
-    OSAL_printf("Recoverable Fault\n\r");
-//    OSAL_printf("Outputs Fault & LED Flash Red\n\r");
-}
-
-void EI_APP_DOP_SM_RECOVERABLEFAULT_exitAction(void)
-{
-    // Do nothing.
-}
-
-void EI_APP_DOP_SM_UNRECOVERABLEFAULT_doAction(void)
-{
-    // Do nothing.
-}
-void EI_APP_DOP_SM_UNRECOVERABLEFAULT_entryAction(void)
-{
-    OSAL_printf("Outputs Fault & LED Solid Red\n\r");
-}
-
-void EI_APP_DOP_SM_UNRECOVERABLEFAULT_exitAction(void)
-{
-    // Do nothing.
-}
-
-/*!
- *  \brief
- *  EI_APP_DOP_SM_run executes the states in a endless loop
- *
- *  \details
- *  EI_APP_DOP_SM_run executes the states in a endless loop
- *
- *
- *  \return     void
- *
- *  \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-void EI_APP_DOP_SM_run(void)
-{
-    if(dopStateMachine_s.state.doAction != NULL)
-    {
-        dopStateMachine_s.state.doAction();
-    }
-}
-
-/*!
- *  \brief
- *  EI_APP_DOP_SM_init initializes the DOP state machines
- *
- *  \details
- *  EI_APP_DOP_SM_init initializes the DOP state machines
- *
- *
- *  \return     void
- *
- *  \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-void EI_APP_DOP_SM_init(void)
-{
-    const EI_APP_DIO_DEVICE_SM_State_t *nextState = EI_APP_DOP_SM_getStateFuncs(EI_APP_DOP_SM_NONEXISTENT);
-    OSAL_MEMORY_memset(&dopStateMachine_s, 0, sizeof(EI_APP_DOP_stateMachine_t));
-
-    if (nextState != NULL)
-    {
-        EI_APP_DIO_DEVICE_SM_nextState(&dopStateMachine_s, nextState);
+        pDopObject->nextObject = dopContainer_s.head;
+        dopContainer_s.head = pDopObject;
     }
 }
 
@@ -686,7 +235,7 @@ void EI_APP_DOP_SM_init(void)
  * // Create a CIP node
  * EI_API_CIP_NODE_InitParams_t initParams;
  * initParams.maxInstanceNum = 256;
- * 
+ *
  * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * errCode = EI_APP_DOP_addClassAttribute(pEI_API_CIP_NODE, 0x0001, &revision);
@@ -725,6 +274,387 @@ static uint32_t EI_APP_DOP_addClassAttribute(EI_API_CIP_NODE_T* pCipNode, uint16
 
 laError:
     return errCode;
+}
+
+
+/**
+ *
+*/
+static inline void EI_APP_DOP_OutputFault(EI_APP_DOP_object_t  *pObj, uint8_t updateOutput)
+{
+    if(0 == pObj->userCfg.FaultAction)
+    {
+        pObj->valueContainer.value = pObj->userCfg.FaultValue;
+        if(updateOutput)
+        {
+            pObj->userCfg.fuSetOutput(pObj->instanceID, pObj->userCfg.FaultValue);
+        }
+    }
+    else
+    {
+        //nothing to do, hold the last state
+    }
+}
+/**
+ *
+*/
+static inline void EI_APP_DOP_OutputIdle(EI_APP_DOP_object_t  *pObj, uint8_t updateOutput)
+{
+    if(0 == pObj->userCfg.IdleAction)
+    {
+        pObj->valueContainer.value = pObj->userCfg.IdleValue;
+        if(updateOutput)
+        {
+            pObj->userCfg.fuSetOutput(pObj->instanceID, pObj->userCfg.IdleValue);
+        }
+    }
+    else
+    {
+        //Nothing to do, hold the last state
+    }
+}
+
+/**
+ *
+*/
+static void EI_APP_DOP_ChangeToState(EI_APP_DOP_object_t  *pObj, EI_APP_DOP_SmStates_t state)
+{
+    pObj->old_state = pObj->current_state;
+    pObj->current_state = state;
+    switch (pObj->current_state)
+    {
+    case EI_APP_DOP_SM_NONEXISTENT:
+        pObj->processesFnc = dop_proc_noneExistent;
+        break;
+    case EI_APP_DOP_SM_AVAILABLE:
+        pObj->processesFnc = dop_proc_available;
+        break;
+    case EI_APP_DOP_SM_IDLE:
+        pObj->processesFnc = dop_proc_idle;
+        break;
+    case EI_APP_DOP_SM_READY:
+        pObj->processesFnc = dop_proc_ready;
+        break;
+    case  EI_APP_DOP_SM_RUN:
+        pObj->processesFnc = dop_proc_run;
+        break;
+    case EI_APP_DOP_SM_RECOVERABLEFAULT:
+        pObj->processesFnc = dop_proc_recoverableFault;
+        break;
+    case EI_APP_DOP_SM_UNRECOVERABLEFAULT:
+        pObj->processesFnc = dop_proc_unrecoverableFault;
+        break;
+    default:
+        break;
+    }
+
+}
+
+/**
+ *
+*/
+static uint32_t EI_APP_DOP_setObjValue(uint16_t instanceID, uint16_t attrID, void *pValue, EI_APP_DOP_dataContext_t context)
+{
+    int32_t osalRetval;
+    EI_APP_DOP_object_t *pDopObj = NULL;
+    uint32_t retVal = EI_API_eERR_CB_NO_ERROR;
+    EI_APP_DOP_events_t event = EI_APP_DOP_EVENT_NoEvent;
+
+    if(NULL != pValue)
+    {
+        osalRetval = OSAL_lockNamedMutex(dopContainer_s.mutex, 5UL);
+        if(OSAL_ERR_NoError == osalRetval)
+        {
+            pDopObj = EI_APP_DOP_findObj(instanceID);
+            if(NULL != pDopObj)
+            {
+                if(EI_APP_DOP_SM_UNRECOVERABLEFAULT != pDopObj->current_state)
+                {
+                    switch (attrID)
+                    {
+                    case 3: //!< value attribute
+                        if(*(ei_api_cip_edt_usint *)pValue <= 1)
+                        {
+                            pDopObj->valueContainer.value = *(ei_api_cip_edt_usint *)pValue;
+                            pDopObj->valueContainer.context = context;
+                            if(EI_APP_DOP_DATA_Implicit == context)
+                            {
+                                pDopObj->receiveDataEvent = true;
+                            }
+                        }
+                        else
+                        {
+                            retVal = EI_API_eERR_CB_INVALID_VALUE;
+                        }
+                        break;
+                    case 5: //!< Fault Action
+                        pDopObj->userCfg.FaultAction = *(ei_api_cip_edt_bool *)pValue;
+                        pDopObj->faultSettingChanged = true;
+                        break;
+                    case 6: //!< Fault Value
+                        pDopObj->userCfg.FaultValue = *(ei_api_cip_edt_bool *)pValue;
+                        pDopObj->faultSettingChanged = true;
+                        break;
+                    case 7: //!< Idle Action
+                        pDopObj->idleSettingChanged = true;
+                        pDopObj->userCfg.IdleAction = *(ei_api_cip_edt_bool *)pValue;
+                        break;
+                    case 8: //!< Idle value
+                        pDopObj->idleSettingChanged = true;
+                        pDopObj->userCfg.IdleValue = *(ei_api_cip_edt_bool *)pValue;
+                        break;
+                    case 9: //!< Run_Idle_Command
+                        if( (EI_APP_DOP_SM_IDLE == pDopObj->current_state) ||
+                            (EI_APP_DOP_SM_READY == pDopObj->current_state) ||
+                            (EI_APP_DOP_SM_RUN == pDopObj->current_state))
+                            {
+                                pDopObj->runIdleValueChanged = true;
+                                pDopObj->run_idle_command = *(ei_api_cip_edt_bool *)pValue;
+                            }
+                            else
+                            {
+                                retVal = EI_API_eERR_CB_CONFLICT_STATE;
+                            }
+
+                        break;
+                    default:
+                        retVal = EI_API_eERR_CB_INVALID_VALUE;
+                        break;
+                    }
+
+                    event = dop_get_other_evnets(pDopObj);
+                    if((NULL != pDopObj->processesFnc) && (EI_APP_DOP_EVENT_NoEvent != event))
+                    {
+                        pDopObj->processesFnc(pDopObj, event);
+                    }
+                }
+            }
+            else
+            {
+                retVal = EI_API_eERR_CB_INVALID_VALUE;
+            }
+            OSAL_unLockNamedMutex(dopContainer_s.mutex);
+        }
+        else
+        {
+            retVal = EI_API_eERR_CB_NOT_ENOUGH_DATA;
+        }
+    }
+    else
+    {
+        retVal = EI_API_eERR_CB_INVALID_VALUE;
+    }
+
+    return retVal;
+}
+
+/**
+ * \brief reads the value of the requested Attribute from the Object
+ * \param[in]  InstanceID the instance-ID of the DIP object
+ * \param[in]  attrID the AttributeID to be readed out
+ * \param[out] pValue pointer to save the result
+ * \return     #EI_API_CIP_EError_t as uint32_t.
+*/
+uint32_t EI_APP_DOP_getObjValue(uint16_t instanceId, uint16_t attrID, void *pValue)
+{
+    int32_t osalRetval;
+    EI_APP_DOP_object_t *pDopObj = NULL;
+    uint32_t retVal = EI_API_eERR_CB_NO_ERROR;
+    if(NULL != pValue)
+    {
+        osalRetval = OSAL_lockNamedMutex(dopContainer_s.mutex, 2UL);
+        if(OSAL_ERR_NoError == osalRetval)
+        {
+            pDopObj = EI_APP_DOP_findObj(instanceId);
+            if(NULL != pDopObj)
+            {
+                switch (attrID)
+                {
+                case 3: //!< value attribute
+                    *(ei_api_cip_edt_usint *)pValue = pDopObj->valueContainer.value;
+                    break;
+                case 5: //!< Fault Action
+                    *(ei_api_cip_edt_bool *)pValue = pDopObj->userCfg.FaultAction;
+                    break;
+                case 6: //!< Fault Value
+                    *(ei_api_cip_edt_bool *)pValue = pDopObj->userCfg.FaultValue;
+                    break;
+                case 7: //!< Idle Action
+                     *(ei_api_cip_edt_bool *)pValue = pDopObj->userCfg.IdleAction;
+                    break;
+                case 8: //!< Idle value
+                    *(ei_api_cip_edt_bool *)pValue = pDopObj->userCfg.IdleValue;
+                    break;
+                case 9: //!< Run_Idle_Command
+                    *(ei_api_cip_edt_bool *)pValue = 0; //always return 0, as noted in specification
+                    break;
+                case 12: //!< object state
+                    *(ei_api_cip_edt_usint *)pValue = (ei_api_cip_edt_usint)pDopObj->current_state;
+                    break;
+                default:
+                    retVal = EI_API_eERR_CB_INVALID_VALUE;
+                    break;
+                }
+
+            }
+            else
+            {
+                retVal = EI_API_eERR_CB_INVALID_VALUE;
+            }
+            OSAL_unLockNamedMutex(dopContainer_s.mutex);
+        }
+        else
+        {
+            retVal = EI_API_eERR_CB_NOT_ENOUGH_DATA;
+        }
+    }
+    else
+    {
+       retVal = EI_API_eERR_CB_INVALID_VALUE;
+    }
+
+    return retVal;
+}
+
+
+/**
+ *
+ */
+void EI_APP_DOP_receiveConnectionEvent(uint16_t instanceID, EI_APP_DOP_ConnectionEvent_t connectionEvent)
+{
+    int32_t osalRetval;
+    EI_APP_DOP_object_t *pDopObj = NULL;
+    EI_APP_DOP_events_t event = EI_APP_DOP_EVENT_NoEvent;
+    osalRetval = OSAL_lockNamedMutex(dopContainer_s.mutex, 5UL);
+    if(OSAL_ERR_NoError == osalRetval)
+    {
+        pDopObj = EI_APP_DOP_findObj(instanceID);
+        if(NULL != pDopObj)
+        {
+            if(NULL != pDopObj->processesFnc)
+            {
+                switch (connectionEvent)
+                {
+                case EI_APP_DOP_EV_ConnDeleted:
+                    event = EI_APP_DOP_EVENT_ConnDeleted;
+                    break;
+                case EI_APP_DOP_EV_ConnEstablished:
+                    event = EI_APP_DOP_EVENT_ConnEstablished;
+                    break;
+                case EI_APP_DOP_EV_ConnTimedOut:
+                    event = EI_APP_DOP_EVENT_ConnTimedOut;
+                    break;
+                }
+                pDopObj->processesFnc(pDopObj, event);
+            }
+        }
+
+        OSAL_unLockNamedMutex(dopContainer_s.mutex);
+    }
+}
+/**
+ *
+ */
+void EI_APP_DOP_receiveIdleEvent(uint16_t instanceID)
+{
+    int32_t osalRetval;
+    EI_APP_DOP_object_t *pDopObj = NULL;
+
+    osalRetval = OSAL_lockNamedMutex(dopContainer_s.mutex, 2UL);
+    if(OSAL_ERR_NoError == osalRetval)
+    {
+        pDopObj = EI_APP_DOP_findObj(instanceID);
+        if(NULL != pDopObj)
+        {
+            if(NULL != pDopObj->processesFnc)
+            {
+                pDopObj->processesFnc(pDopObj, EI_APP_DOP_EVENT_ReceiveIdle_InvalidData);
+            }
+        }
+
+        OSAL_unLockNamedMutex(dopContainer_s.mutex);
+    }
+}
+
+/**
+ *
+ */
+uint32_t EI_APP_DOP_receiveDataEvent(uint16_t instanceID, ei_api_cip_edt_bool value)
+{
+    return EI_APP_DOP_setObjValue(instanceID, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03, (void *)&value, EI_APP_DOP_DATA_Implicit);
+}
+
+/**
+ *
+ */
+uint32_t EI_APP_DOP_setCommand(uint16_t instanceID, ei_api_cip_edt_bool idleRunCommand)
+{
+    return EI_APP_DOP_setObjValue(instanceID, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09, (void *)&idleRunCommand, EI_APP_DOP_DATA_Explicit);
+}
+/**
+ *
+ */
+uint32_t EI_APP_DOP_setFaultAction(uint16_t instanceID, ei_api_cip_edt_bool faultAction)
+{
+    return EI_APP_DOP_setObjValue(instanceID, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_05, (void *)&faultAction, EI_APP_DOP_DATA_Explicit);
+}
+/**
+ *
+ */
+uint32_t EI_APP_DOP_setFaultValue(uint16_t instanceID, ei_api_cip_edt_bool faultValue)
+{
+    return EI_APP_DOP_setObjValue(instanceID, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06, (void *)&faultValue, EI_APP_DOP_DATA_Explicit);
+}
+/**
+ *
+ */
+uint32_t EI_APP_DOP_setIdleAction(uint16_t instanceID, ei_api_cip_edt_bool idleAction)
+{
+    return EI_APP_DOP_setObjValue(instanceID, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, (void *)&idleAction, EI_APP_DOP_DATA_Explicit);
+}
+/**
+ *
+ */
+uint32_t EI_APP_DOP_setIdleValue(uint16_t instanceID, ei_api_cip_edt_bool idleValue)
+{
+    return EI_APP_DOP_setObjValue(instanceID, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_08, (void *)&idleValue, EI_APP_DOP_DATA_Explicit);
+}
+
+
+static uint32_t EI_APP_DOP_setValueCb(
+                              EI_API_CIP_NODE_T* pCipNode,
+                              uint16_t classId,
+                              uint16_t instanceId,
+                              uint16_t attrId,
+                              uint16_t len,
+                              void* pvValue)
+{
+    OSALUNREF_PARM(classId);
+    OSALUNREF_PARM(len);
+    OSALUNREF_PARM(pCipNode);
+
+    uint32_t retVal = EI_API_eERR_CB_INVALID_VALUE;
+
+    retVal = EI_APP_DOP_setObjValue(instanceId, attrId, pvValue, EI_APP_DOP_DATA_Explicit);
+
+    return retVal;
+}
+
+static uint32_t EI_APP_DOP_getAttrCb(
+                              EI_API_CIP_NODE_T* pCipNode,
+                              uint16_t classId,
+                              uint16_t instanceId,
+                              uint16_t attrId,
+                              uint16_t* len,
+                              void* pvValue)
+{
+    uint32_t retVal = EI_API_eERR_CB_INVALID_VALUE;
+    OSALUNREF_PARM(classId);
+
+    retVal = EI_APP_DOP_getObjValue(instanceId, attrId, pvValue);
+    *len = sizeof(ei_api_cip_edt_usint);
+
+    return retVal;
 }
 
 /*!
@@ -781,7 +711,7 @@ laError:
  * // Create a CIP node
  * EI_API_CIP_NODE_InitParams_t initParams;
  * initParams.maxInstanceNum = 256;
- * 
+ *
  * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * // Add attribute 3 for instance 1
@@ -857,822 +787,164 @@ laError:
     return errCode;
 }
 
-/*!
- *
- * \brief
- * Function provides set access to the attribute value of DOP object.
- *
- * \details
- * Function for the set service of the value. All instances are connected industrial
- * LEDs controlled by TPIC2810.
- *
- * \param[in]  pCipNode                                    Pointer to the CIP node.
- * \param[in]  instanceId                                  Instance identifier.
- * \param[in]  value                                       Value.
- *
- * \return     #EI_API_CIP_EError_t as uint32_t.
- *
- * \retval     #EI_API_CIP_eERR_OK                         Success.
- * \retval     #EI_API_CIP_eERR_NODE_INVALID               CIP node is invalid, possibly EI_API_CIP_NODE_new() was not called.
- * \retval     #EI_API_CIP_eERR_CLASS_DOES_NOT_EXIST       Class does not exists in CIP node dictionary.
- * \retval     #EI_API_CIP_eERR_INSTANCE_DOES_NOT_EXIST    Instance does not exist in CIP node dictionary.
- * \retval     #EI_API_CIP_eERR_ATTRIBUTE_DOES_NOT_EXIST   Attribute does not exist in class or instance.
- * \retval     #EI_API_CIP_eERR_ATTRIBUTE_INVALID_VALUE    Invalid data pointer.
- * \retval     #EI_API_CIP_eERR_ATTRIBUTE_INVALID_TYPE     Attribute type is invalid.
- * \retval     #EI_API_CIP_eERR_ATTRIBUTE_UNKNOWN_STATE    Unknown state during attribute operation reached.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t errCode = EI_API_CIP_eERR_GENERAL;
- * uint8_t value = 1;
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * errCode = EI_APP_DOP_setValue(pEI_API_CIP_NODE, 0x0001, value);
- *
- * \endcode
- *
- * \see EI_API_CIP_EError_t
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-uint32_t EI_APP_DOP_setValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId, uint8_t value)
+static uint32_t EI_APP_DOP_createInstance(EI_APP_DOP_object_t *pDopObject)
 {
-    uint32_t error = EI_API_CIP_eERR_GENERAL;
-    uint8_t instanceIndex = instanceId - 1;
+    ei_api_cip_edt_bool instanceValue = 0;
+    EI_API_CIP_SService_t service = {0};
+    EI_API_CIP_EAr_t      cipAccess = EI_API_CIP_eAR_GET_AND_SET;
+    uint32_t errCode;
 
-    if (EI_APP_DOP_LED_ON == value)
+    if(pDopObject->userCfg.isBindedToGroup)
     {
-        EI_APP_DOP_ledStatus_s |= EI_APP_DOP_LED_ON << instanceIndex;
-        EI_APP_LED_industrialSet(EI_APP_DOP_ledStatus_s);
+        cipAccess = EI_API_CIP_eAR_GET;
     }
-    else
+    // Create instances
+    errCode = EI_API_CIP_createInstance(dopContainer_s.pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, pDopObject->instanceID);
+    if (EI_API_CIP_eERR_OK != errCode)
     {
-        EI_APP_DOP_ledStatus_s &= ~(EI_APP_DOP_LED_ON << instanceIndex);
-        EI_APP_LED_industrialSet(EI_APP_DOP_ledStatus_s);
-    }
-
-    error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03, value);
-
-    return error;
-}
-
-/*!
- *
- * \brief
- * Set attribute single service callback of DOP object.
- *
- * \param[in]  pCipNode                        Pointer to the CIP node.
- * \param[in]  classId                         Class identifier.
- * \param[in]  instanceId                      Instance identifier.
- * \param[in]  attrId                          Attribute identifier.
- * \param[in]  len                             Data type length.
- * \param[in]  pvValue                         Pointer to the value.
- *
- * \return     #EI_API_CIP_CB_ERR_CODE_t as uint32_t.
- *
- * \retval     #EI_API_CIP_eERR_GENERAL        General error.
- * \retval     #EI_API_eERR_CB_VAL_TOO_HIGH    Value is too high.
- * \retval     #EI_API_eERR_CB_VAL_TOO_LOW     Value is too low.
- * \retval     #EI_API_eERR_CB_INVALID_VALUE   Value is not valid.
- * \retval     #EI_API_eERR_CB_NOT_ENOUGH_DATA Not enough data.
- * \retval     #EI_API_eERR_CB_TOO_MUCH_DATA   Too much data.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t errCode = EI_API_CIP_eERR_GENERAL;
- * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * // Add instance attribute & use set callback
- * errCode = EI_APP_DOP_addInstanceAttribute(
- *                              pEI_API_CIP_NODE,
- *                              0x0001,
- *                              0x0003,
- *                              EI_API_CIP_eEDT_BOOL,                     // Elementary data type
- *                              EI_API_CIP_eAR_GET_AND_SET,               // Available attribute access rule
- *                              NULL,                                     // No get callback
- *                              EI_APP_DOP_setValueCb, // Set callback
- *                              sizeof(ei_api_cip_edt_bool),
- *                              &instanceValue);
- *
- * \endcode
- *
- * \see EI_APP_DOP_addInstanceAttribute  EI_API_CIP_EEdt_t  EI_API_CIP_EAr_t  EI_API_CIP_CB_ERR_CODE_t
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-uint32_t EI_APP_DOP_setValueCb(
-                              EI_API_CIP_NODE_T* pCipNode,
-                              uint16_t classId,
-                              uint16_t instanceId,
-                              uint16_t attrId,
-                              uint16_t len,
-                              void* pvValue)
-{
-    OSALUNREF_PARM(classId);
-    OSALUNREF_PARM(attrId);
-
-    uint32_t error = EI_API_CIP_eERR_GENERAL;
-    uint8_t value = *(uint8_t*)pvValue;
-
-    if (sizeof(ei_api_cip_edt_bool) != len)
-    {
-        // Not necessary, already validated by the object dictionary.
-        error = len < sizeof(ei_api_cip_edt_bool) ? EI_API_eERR_CB_NOT_ENOUGH_DATA : EI_API_eERR_CB_TOO_MUCH_DATA;
         OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
         goto laError;
     }
-    error = value <= 1 ? EI_APP_DOP_setValue(pCipNode, instanceId, value) : EI_API_eERR_CB_INVALID_VALUE;
 
-laError:
-    return error;
+    // Add set & get service for instances
+    service.code = EI_API_CIP_eSC_SETATTRSINGLE;
+    errCode = EI_API_CIP_addInstanceService(dopContainer_s.pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, pDopObject->instanceID, &service);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    service.code = EI_API_CIP_eSC_GETATTRSINGLE;
+    errCode = EI_API_CIP_addInstanceService(dopContainer_s.pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, pDopObject->instanceID, &service);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 3 Value (required) for instance
+    errCode = EI_APP_DOP_addInstanceAttribute(
+                                                dopContainer_s.pCipNode,
+                                                pDopObject->instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03,
+                                                EI_API_CIP_eEDT_USINT,
+                                                EI_API_CIP_eAR_GET_AND_SET,
+                                                EI_APP_DOP_getAttrCb,
+                                                EI_APP_DOP_setValueCb,
+                                                sizeof(ei_api_cip_edt_usint),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 5 Fault Action (optional) for instance
+    errCode = EI_APP_DOP_addInstanceAttribute(
+                                                dopContainer_s.pCipNode,
+                                                pDopObject->instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_05,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                cipAccess,
+                                                EI_APP_DOP_getAttrCb,
+                                                ((pDopObject->userCfg.isBindedToGroup) ? (NULL) : (EI_APP_DOP_setValueCb)),
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 6 Fault Value (optional) for instance
+    errCode = EI_APP_DOP_addInstanceAttribute(
+                                                dopContainer_s.pCipNode,
+                                                pDopObject->instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                cipAccess,
+                                                EI_APP_DOP_getAttrCb,
+                                                ((pDopObject->userCfg.isBindedToGroup) ? (NULL) : (EI_APP_DOP_setValueCb)),
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 7 Idle Action (optional) for instance
+    errCode = EI_APP_DOP_addInstanceAttribute(
+                                                dopContainer_s.pCipNode,
+                                                pDopObject->instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                cipAccess,
+                                                EI_APP_DOP_getAttrCb,
+                                                ((pDopObject->userCfg.isBindedToGroup) ? (NULL) : (EI_APP_DOP_setValueCb)),
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 8 Idle Value (optional) for instance
+    errCode = EI_APP_DOP_addInstanceAttribute(
+                                                dopContainer_s.pCipNode,
+                                                pDopObject->instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_08,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                cipAccess,
+                                                EI_APP_DOP_getAttrCb,
+                                                ((pDopObject->userCfg.isBindedToGroup) ? (NULL) : (EI_APP_DOP_setValueCb)),
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 9 Run_Idle_Command (optional) for instance
+    errCode = EI_APP_DOP_addInstanceAttribute(
+                                                dopContainer_s.pCipNode,
+                                                pDopObject->instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                EI_API_CIP_eAR_GET_AND_SET,
+                                                EI_APP_DOP_getAttrCb,
+                                                EI_APP_DOP_setValueCb,
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 12 object state (optional) for instance
+    errCode = EI_APP_DOP_addInstanceAttribute(
+                                                dopContainer_s.pCipNode,
+                                                pDopObject->instanceID,
+                                                12,
+                                                EI_API_CIP_eEDT_USINT,
+                                                EI_API_CIP_eAR_GET,
+                                                EI_APP_DOP_getAttrCb,
+                                                NULL,
+                                                sizeof(ei_api_cip_edt_usint),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    laError:
+    return errCode;
 }
-
-/*!
- *
- * \brief
- * Function provides get access to the attribute value of DOP object.
- *
- * \details
- * Function for the get service of the value. All instances are connected industrial
- * LEDs controlled by TPIC2810.
- *
- * \param[in]  pCipNode   Pointer to the CIP node.
- * \param[in]  instanceId Instance identifier.
- *
- * \return     value as boolean.
- *
- * \retval     0         LED is turned off.
- * \retval     1         LED is turned on.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t error;
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * error = EI_APP_DOP_getValue(pEI_API_CIP_NODE, 0x0001);
- *
- * \endcode
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-bool EI_APP_DOP_getValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
-{
-    uint8_t value = 0;
-
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03, &value);
-
-    return value;
-}
-
-/*!
- *
- * \brief
- * Get attribute single service callback of DOP object.
- *
- * \param[in]   pCipNode                        Pointer to the CIP node.
- * \param[in]   classId                         Class identifier.
- * \param[in]   instanceId                      Instance identifier.
- * \param[in]   attrId                          Attribute identifier.
- * \param[out]  len                             Data type length.
- * \param[out]  pvValue                         Pointer to the value.
- *
- * \return     #EI_API_CIP_EError_t as uint32_t.
- *
- * \retval     #EI_API_eERR_CB_NO_ERROR         Success.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t errCode = EI_API_CIP_eERR_GENERAL;
- * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * // Add instance attribute & use get callback
- * errCode = EI_APP_DOP_addInstanceAttribute(
- *                              pEI_API_CIP_NODE,
- *                              0x0001,
- *                              0x0003,
- *                              EI_API_CIP_eEDT_BOOL,                     // Elementary data type
- *                              EI_API_CIP_eAR_GET_AND_SET,               // Available attribute access rule
- *                              EI_APP_DOP_getValueCb, // Get callback
- *                              NULL,                                     // No set callback
- *                              sizeof(ei_api_cip_edt_bool),
- *                              &instanceValue);
- *
- * \endcode
- *
- * \see EI_APP_DOP_addInstanceAttribute  EI_API_CIP_EEdt_t  EI_API_CIP_EAr_t  EI_API_CIP_CB_ERR_CODE_t
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-uint32_t EI_APP_DOP_getValueCb(
-                              EI_API_CIP_NODE_T* pCipNode,
-                              uint16_t classId,
-                              uint16_t instanceId,
-                              uint16_t attrId,
-                              uint16_t* len,
-                              void* pvValue)
-{
-    OSALUNREF_PARM(classId);
-    OSALUNREF_PARM(attrId);
-
-    *len = sizeof(bool);
-    *(bool*)pvValue = EI_APP_DOP_getValue(pCipNode, instanceId);
-
-    return EI_API_eERR_CB_NO_ERROR;
-}
-
-/*!
- *
- * \brief
- * Function provides get access to the attribute Fault Action of DOP object. If Discrete Output Group (DOG) Object is implemented,
- * this value will be getting from DOG's Fault Action attribute.
- *
- * \details
- * Function for the get service of action taken on output�s value in Recoverable Fault state.
- *
- * \param[in]  pCipNode   Pointer to the CIP node.
- * \param[in]  instanceId Instance identifier.
- *
- * \return     Fault Action as boolean.
- *
- * \retval     0         Fault Value attribute.
- * \retval     1         Hold last state.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t error;
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * error = EI_APP_DOP_getFaultAction(pEI_API_CIP_NODE, 0x0001);
- *
- * \endcode
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE
- *
- */
-bool EI_APP_DOP_getFaultAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
-{
-    uint8_t faultAction = 0;
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, &faultAction);
-
-    return faultAction;
-}
-
-/*!
- *
- * \brief
- * Get attribute single service callback of DOP object.
- *
- * \param[in]   pCipNode                        Pointer to the CIP node.
- * \param[in]   classId                         Class identifier.
- * \param[in]   instanceId                      Instance identifier.
- * \param[in]   attrId                          Attribute identifier.
- * \param[out]  len                             Data type length.
- * \param[out]  pvValue                         Pointer to the value.
- *
- * \return     #EI_API_CIP_EError_t as uint32_t.
- *
- * \retval     #EI_API_eERR_CB_NO_ERROR         Success.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t errCode = EI_API_CIP_eERR_GENERAL;
- * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * // Add instance attribute & use get callback
- * errCode = EI_APP_DOP_addInstanceAttribute(
- *                              pEI_API_CIP_NODE,
- *                              0x0001,
- *                              0x0003,
- *                              EI_API_CIP_eEDT_BOOL,                           // Elementary data type
- *                              EI_API_CIP_eAR_GET_AND_SET,                     // Available attribute access rule
- *                              EI_APP_DOP_getFaultActionCb, // Get callback
- *                              NULL,                                           // No set callback
- *                              sizeof(ei_api_cip_edt_bool),
- *                              &instanceValue);
- *
- * \endcode
- *
- * \see EI_APP_DOP_addInstanceAttribute  EI_API_CIP_EEdt_t  EI_API_CIP_EAr_t  EI_API_CIP_CB_ERR_CODE_t
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-uint32_t EI_APP_DOP_getFaultActionCb(
-                                    EI_API_CIP_NODE_T* pCipNode,
-                                    uint16_t classId,
-                                    uint16_t instanceId,
-                                    uint16_t attrId,
-                                    uint16_t* len,
-                                    void* pvValue)
-{
-    OSALUNREF_PARM(classId);
-    OSALUNREF_PARM(attrId);
-
-    *len = sizeof(bool);
-    *(bool*)pvValue = EI_APP_DOP_getFaultAction(pCipNode, instanceId);
-
-    return EI_API_eERR_CB_NO_ERROR;
-}
-
-/*!
- *
- * \brief
- * Function provides get access to the attribute Fault Action of DOP object. If Discrete Output Group (DOG) Object is implemented,
- * this value will be getting from DOG's Fault value attribute.
- *
- * \details
- * Function for the get service of User�defined value for use with Fault Action attribute.
- *
- * \param[in]  pCipNode   Pointer to the CIP node.
- * \param[in]  instanceId Instance identifier.
- *
- * \return     Fault Value as boolean.
- *
- * \retval     0         Off.
- * \retval     1         On.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t error;
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * error = EI_APP_DOP_getFaultValue(pEI_API_CIP_NODE, 0x0001);
- *
- * \endcode
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE
- *
- */
-bool EI_APP_DOP_getFaultValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
-{
-    uint8_t faultValue = 0;
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_08, &faultValue);
-
-    return faultValue;
-}
-
-/*!
- *
- * \brief
- * Get attribute single service callback of DOP object.
- *
- * \param[in]   pCipNode                        Pointer to the CIP node.
- * \param[in]   classId                         Class identifier.
- * \param[in]   instanceId                      Instance identifier.
- * \param[in]   attrId                          Attribute identifier.
- * \param[out]  len                             Data type length.
- * \param[out]  pvValue                         Pointer to the value.
- *
- * \return     #EI_API_CIP_EError_t as uint32_t.
- *
- * \retval     #EI_API_eERR_CB_NO_ERROR         Success.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t errCode = EI_API_CIP_eERR_GENERAL;
- * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * // Add instance attribute & use get callback
- * errCode = EI_APP_DOP_addInstanceAttribute(
- *                              pEI_API_CIP_NODE,
- *                              0x0001,
- *                              0x0003,
- *                              EI_API_CIP_eEDT_BOOL,                          // Elementary data type
- *                              EI_API_CIP_eAR_GET_AND_SET,                    // Available attribute access rule
- *                              EI_APP_DOP_getFaultValueCb, // Get callback
- *                              NULL,                                          // No set callback
- *                              sizeof(ei_api_cip_edt_bool),
- *                              &instanceValue);
- *
- * \endcode
- *
- * \see EI_APP_DOP_addInstanceAttribute  EI_API_CIP_EEdt_t  EI_API_CIP_EAr_t  EI_API_CIP_CB_ERR_CODE_t
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-uint32_t EI_APP_DOP_getFaultValueCb(
-                                   EI_API_CIP_NODE_T* pCipNode,
-                                   uint16_t classId,
-                                   uint16_t instanceId,
-                                   uint16_t attrId,
-                                   uint16_t* len,
-                                   void* pvValue)
-{
-    OSALUNREF_PARM(classId);
-    OSALUNREF_PARM(attrId);
-
-    *len = sizeof(bool);
-    *(bool*)pvValue = EI_APP_DOP_getFaultValue(pCipNode, instanceId);
-
-    return EI_API_eERR_CB_NO_ERROR;
-}
-
-/*!
- *
- * \brief
- * Function provides get access to the attribute Idle Action of DOP object. If Discrete Output Group (DOG) Object is implemented,
- * this value will be getting from DOG's Idle Action attribute.
- *
- * \details
- * Function for the get service of action taken on output�s value in Idle state.
- *
- * \param[in]  pCipNode   Pointer to the CIP node.
- * \param[in]  instanceId Instance identifier.
- *
- * \return     Idle Action as boolean.
- *
- * \retval     0         Idle Value attribute.
- * \retval     1         Hold last state.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t error;
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * error = EI_APP_DOP_getIdleAction(pEI_API_CIP_NODE, 0x0001);
- *
- * \endcode
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-bool EI_APP_DOP_getIdleAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
-{
-    uint8_t idleAction = 0;
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09, &idleAction);
-
-    return idleAction;
-}
-
-/*!
- *
- * \brief
- * Get attribute single service callback of DOP object.
- *
- * \param[in]   pCipNode                        Pointer to the CIP node.
- * \param[in]   classId                         Class identifier.
- * \param[in]   instanceId                      Instance identifier.
- * \param[in]   attrId                          Attribute identifier.
- * \param[out]  len                             Data type length.
- * \param[out]  pvValue                         Pointer to the value.
- *
- * \return     #EI_API_CIP_EError_t as uint32_t.
- *
- * \retval     #EI_API_eERR_CB_NO_ERROR         Success.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t errCode = EI_API_CIP_eERR_GENERAL;
- * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * // Add instance attribute & use get callback
- * errCode = EI_APP_DOP_addInstanceAttribute(
- *                              pEI_API_CIP_NODE,
- *                              0x0001,
- *                              0x0003,
- *                              EI_API_CIP_eEDT_BOOL,                          // Elementary data type
- *                              EI_API_CIP_eAR_GET_AND_SET,                    // Available attribute access rule
- *                              EI_APP_DOP_getIdleActionCb, // Get callback
- *                              NULL,                                          // No set callback
- *                              sizeof(ei_api_cip_edt_bool),
- *                              &instanceValue);
- *
- * \endcode
- *
- * \see EI_APP_DOP_addInstanceAttribute  EI_API_CIP_EEdt_t  EI_API_CIP_EAr_t  EI_API_CIP_CB_ERR_CODE_t
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-uint32_t EI_APP_DOP_getIdleActionCb(
-                                   EI_API_CIP_NODE_T* pCipNode,
-                                   uint16_t classId,
-                                   uint16_t instanceId,
-                                   uint16_t attrId,
-                                   uint16_t* len,
-                                   void* pvValue)
-{
-    OSALUNREF_PARM(classId);
-    OSALUNREF_PARM(attrId);
-
-    *len = sizeof(bool);
-    *(bool*)pvValue = EI_APP_DOP_getIdleAction(pCipNode, instanceId);
-
-    return EI_API_eERR_CB_NO_ERROR;
-}
-
-/*!
- *
- * \brief
- * Function provides get access to the attribute Idle Value of DOP object. If Discrete Output Group (DOG) Object is implemented,
- * this value will be getting from DOG's Idle Value attribute.
- *
- * \details
- * Function for the get service of User�defined value for use with Idle Action attribute.
- *
- * \param[in]  pCipNode   Pointer to the CIP node.
- * \param[in]  instanceId Instance identifier.
- *
- * \return     Idle Value as boolean.
- *
- * \retval     0         Off.
- * \retval     1         On.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t error;
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * error = EI_APP_DOP_getIdleValue(pEI_API_CIP_NODE, 0x0001);
- *
- * \endcode
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-bool EI_APP_DOP_getIdleValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
-{
-    uint8_t idleValue = 0;
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_10, &idleValue);
-
-    return idleValue;
-}
-
-/*!
- *
- * \brief
- * Get attribute single service callback of DOP object.
- *
- * \param[in]   pCipNode                        Pointer to the CIP node.
- * \param[in]   classId                         Class identifier.
- * \param[in]   instanceId                      Instance identifier.
- * \param[in]   attrId                          Attribute identifier.
- * \param[out]  len                             Data type length.
- * \param[out]  pvValue                         Pointer to the value.
- *
- * \return     #EI_API_CIP_EError_t as uint32_t.
- *
- * \retval     #EI_API_eERR_CB_NO_ERROR         Success.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t errCode = EI_API_CIP_eERR_GENERAL;
- * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * // Add instance attribute & use get callback
- * errCode = EI_APP_DOP_addInstanceAttribute(
- *                              pEI_API_CIP_NODE,
- *                              0x0001,
- *                              0x0003,
- *                              EI_API_CIP_eEDT_BOOL,                     // Elementary data type
- *                              EI_API_CIP_eAR_GET_AND_SET,               // Available attribute access rule
- *                              EI_APP_DOP_getFaultValueCb, // Get callback
- *                              NULL,                                     // No set callback
- *                              sizeof(ei_api_cip_edt_bool),
- *                              &instanceValue);
- *
- * \endcode
- *
- * \see EI_APP_DOP_addInstanceAttribute  EI_API_CIP_EEdt_t  EI_API_CIP_EAr_t  EI_API_CIP_CB_ERR_CODE_t
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-uint32_t EI_APP_DOP_getIdleValueCb(
-                                  EI_API_CIP_NODE_T* pCipNode,
-                                  uint16_t classId,
-                                  uint16_t instanceId,
-                                  uint16_t attrId,
-                                  uint16_t* len,
-                                  void* pvValue)
-{
-    OSALUNREF_PARM(classId);
-    OSALUNREF_PARM(attrId);
-
-    *len = sizeof(bool);
-    *(bool*)pvValue = EI_APP_DOP_getIdleValue(pCipNode, instanceId);
-
-    return EI_API_eERR_CB_NO_ERROR;
-}
-
-/*!
- *
- * \brief
- * Function provides get access to the attribute Run_Idle_Command of DOP object. If Discrete Output Group (DOG) Object is implemented,
- * this value will be getting from DOG's Command attribute.
- *
- * \details
- * Function for the get service of generating the Receive_Idle or Receive_ Ready_to_Run event.
- *
- * \param[in]  pCipNode   Pointer to the CIP node.
- * \param[in]  instanceId Instance identifier.
- *
- * \return     runIdleCommand as boolean.
- *
- * \retval     0         Receive_Idle.
- * \retval     1         Receive_Ready_to_Run.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t error;
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * error = EI_APP_DOP_getRunIdleCommand(pEI_API_CIP_NODE, 0x0001);
- *
- * \endcode
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-bool EI_APP_DOP_getRunIdleCommand(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
-{
-    uint8_t runIdleCommand = 0;
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06, &runIdleCommand);
-
-    return runIdleCommand;
-}
-
-/*!
- *
- * \brief
- * Get attribute single service callback of DOP object.
- *
- * \param[in]   pCipNode                        Pointer to the CIP node.
- * \param[in]   classId                         Class identifier.
- * \param[in]   instanceId                      Instance identifier.
- * \param[in]   attrId                          Attribute identifier.
- * \param[out]  len                             Data type length.
- * \param[out]  pvValue                         Pointer to the value.
- *
- * \return     #EI_API_CIP_EError_t as uint32_t.
- *
- * \retval     #EI_API_eERR_CB_NO_ERROR         Success.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t errCode = EI_API_CIP_eERR_GENERAL;
- * ei_api_cip_edt_bool instanceValue = 0; // Dummy value for each instance
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- * 
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * // Add instance attribute & use get callback
- * errCode = EI_APP_DOP_addInstanceAttribute(
- *                              pEI_API_CIP_NODE,
- *                              0x0001,
- *                              0x0003,
- *                              EI_API_CIP_eEDT_BOOL,                     // Elementary data type
- *                              EI_API_CIP_eAR_GET_AND_SET,               // Available attribute access rule
- *                              EI_APP_DOP_getRunIdleCommandCb, // Get callback
- *                              NULL,                                     // No set callback
- *                              sizeof(ei_api_cip_edt_bool),
- *                              &instanceValue);
- *
- * \endcode
- *
- * \see EI_APP_DOP_addInstanceAttribute  EI_API_CIP_EEdt_t  EI_API_CIP_EAr_t  EI_API_CIP_CB_ERR_CODE_t
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
- *
- */
-uint32_t EI_APP_DOP_getRunIdleCommandCb(
-                                       EI_API_CIP_NODE_T* pCipNode,
-                                       uint16_t classId,
-                                       uint16_t instanceId,
-                                       uint16_t attrId,
-                                       uint16_t* len,
-                                       void* pvValue)
-{
-    OSALUNREF_PARM(classId);
-    OSALUNREF_PARM(attrId);
-
-    *len = sizeof(bool);
-    *(bool*)pvValue = EI_APP_DOP_getRunIdleCommand(pCipNode, instanceId);
-
-    return EI_API_eERR_CB_NO_ERROR;
-}
-
 /*!
  *
  * \brief
@@ -1694,7 +966,7 @@ uint32_t EI_APP_DOP_getRunIdleCommandCb(
  * // Create a CIP node
  * EI_API_CIP_NODE_InitParams_t initParams;
  * initParams.maxInstanceNum = 256;
- * 
+ *
  * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * EI_APP_DOP_init(pEI_API_CIP_NODE);
@@ -1709,165 +981,199 @@ void EI_APP_DOP_init(EI_API_CIP_NODE_T* pCipNode)
     uint32_t errCode;
     EI_API_CIP_SService_t service;
 
-    errCode = EI_API_CIP_createClass(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID);
+    if(false == dopContainer_s.isClassInitialized)
+    {
+        errCode = EI_API_CIP_createClass(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID);
 
-    // Example how to evaluate error codes returned by API functions.
-    if (EI_API_CIP_eERR_OK != errCode)
-    {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
-
-    // set class instance
-    OSAL_MEMORY_memset(&service, 0, sizeof(service));
-    service.code = EI_API_CIP_eSC_GETATTRSINGLE;
-    errCode = EI_API_CIP_addClassService(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, &service);
-    if (EI_API_CIP_eERR_OK != errCode)
-    {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
-    errCode = EI_APP_DOP_addClassAttribute(pCipNode, 1, &dopClassData_s.revision);
-    if (EI_API_CIP_eERR_OK != errCode)
-    {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
-
-    for (uint16_t i = 1; i <= EI_APP_DIO_DEVICE_DOP_NUM_OF_INST; i++)
-    {
-        // Dummy value for each instance
-        ei_api_cip_edt_bool instanceValue = 0;
-        // Create instances
-        errCode = EI_API_CIP_createInstance(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, i);
+        // Example how to evaluate error codes returned by API functions.
         if (EI_API_CIP_eERR_OK != errCode)
         {
             OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
 
-        // Add set & get service for instances
-        service.code = EI_API_CIP_eSC_SETATTRSINGLE;
-        errCode = EI_API_CIP_addInstanceService(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, i, &service);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
-
+        // set class instance
+        OSAL_MEMORY_memset(&service, 0, sizeof(service));
         service.code = EI_API_CIP_eSC_GETATTRSINGLE;
-        errCode = EI_API_CIP_addInstanceService(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, i, &service);
+        errCode = EI_API_CIP_addClassService(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, &service);
+        if (EI_API_CIP_eERR_OK != errCode)
+        {
+            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+            goto laError;
+        }
+        errCode = EI_APP_DOP_addClassAttribute(pCipNode, 1, &dopClassData_s.revision);
         if (EI_API_CIP_eERR_OK != errCode)
         {
             OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
 
-        // Add attribute 3 Value (required) for instance
-        errCode = EI_APP_DOP_addInstanceAttribute(
-                                                  pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET_AND_SET,
-                                                  EI_APP_DOP_getValueCb,
-                                                  EI_APP_DOP_setValueCb,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
+        dopContainer_s.mutex  = OSAL_createNamedMutex("DOP_Mutex");
+        if(NULL == dopContainer_s.mutex)
         {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+            OSAL_printf("%s:%d create DOP_Mutex failed\r\n", __func__, __LINE__);
+            OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
 
-        // Add attribute 5 Fault Action (optional) for instance
-        errCode = EI_APP_DOP_addInstanceAttribute(
-                                                  pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_05,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET,
-                                                  EI_APP_DOP_getFaultActionCb,
-                                                  NULL,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
-
-        // Add attribute 6 Fault Value (optional) for instance
-        errCode = EI_APP_DOP_addInstanceAttribute(
-                                                  pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET,
-                                                  EI_APP_DOP_getFaultValueCb,
-                                                  NULL,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
-
-        // Add attribute 7 Idle Action (optional) for instance
-        errCode = EI_APP_DOP_addInstanceAttribute(
-                                                  pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET,
-                                                  EI_APP_DOP_getIdleActionCb,
-                                                  NULL,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
-
-        // Add attribute 8 Idle Value (optional) for instance
-        errCode = EI_APP_DOP_addInstanceAttribute(
-                                                  pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_08,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET,
-                                                  EI_APP_DOP_getIdleValueCb,
-                                                  NULL,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
-
-        // Add attribute 9 Run_Idle_Command (optional) for instance
-        errCode = EI_APP_DOP_addInstanceAttribute(
-                                                  pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET,
-                                                  EI_APP_DOP_getRunIdleCommandCb,
-                                                  NULL,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
+        dopContainer_s.head = NULL;
+        dopContainer_s.pCipNode = pCipNode;
+        dopContainer_s.isClassInitialized =  true;
     }
 
 laError:
     return;
+}
+
+/**
+ * \brief Create and add a DOP instance object
+ * \param[in] InstanceID the instance-ID of the DOP object to be created
+ * \param[in] pDipConfig configuration for this instance object
+ * \return true if successful, otherwise false
+*/
+bool EI_APP_DOP_addObject(uint16_t instanceID, EI_DOP_OBJECT_Cfg_t *pDopConfig)
+{
+    EI_APP_DOP_object_t  *pDopObj = NULL;
+    int32_t osalRetval;
+    uint32_t errCode;
+    bool retval = true;
+    if(false == dopContainer_s.isClassInitialized)
+    {
+        OSAL_printf("%s:%d first call the EI_APP_DOP_init before adding objects\r\n", __func__, __LINE__);
+        OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return  false;
+    }
+    if(NULL == pDopConfig->fuSetOutput) //!< set-output-value function pointer is mandatory
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return false;
+    }
+    if(NULL == pDopConfig->fuGetEvent)  //!< get-event status is mandatory in order to run the objects state-machine
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return false;
+    }
+
+    osalRetval = OSAL_lockNamedMutex(dopContainer_s.mutex, 1000UL);
+    if(OSAL_ERR_NoError == osalRetval)
+    {
+        //first search if this instance is already created, when yes, then simply return the handle of it.
+        pDopObj = EI_APP_DOP_findObj(instanceID);
+
+        if(NULL ==  pDopObj)
+        {
+            pDopObj = OSAL_MEMORY_calloc(sizeof(EI_APP_DOP_object_t), 1);
+            if(NULL != pDopObj)
+            {
+                OSAL_MEMORY_memcpy(&pDopObj->userCfg, pDopConfig, sizeof(EI_DOP_OBJECT_Cfg_t));
+                pDopObj->instanceID = instanceID;
+                pDopObj->current_state = EI_APP_DOP_SM_AVAILABLE;
+                pDopObj->old_state = EI_APP_DOP_SM_NONEXISTENT;
+                pDopObj->processesFnc = dop_proc_available;
+                pDopObj->nextObject = NULL;
+                pDopObj->valueContainer.value = 0;
+                pDopObj->valueContainer.context = 0;
+                pDopObj->run_idle_command = 0;
+                pDopObj->faultSettingChanged = false;
+                pDopObj->idleSettingChanged = false;
+                pDopObj->runIdleValueChanged = false;
+                pDopObj->receiveDataEvent = false;
+                pDopObj->receiveIdleEvent = false;
+                errCode = EI_APP_DOP_createInstance(pDopObj);
+                if (EI_API_CIP_eERR_OK == errCode)
+                {
+                    EI_APP_DOP_insertObj(pDopObj);
+                }
+                else
+                {
+                    retval = false;
+                    OSAL_MEMORY_free(pDopObj);
+                    pDopObj = NULL;
+                }
+            }
+            else
+            {
+                OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+            }
+        }
+
+        OSAL_unLockNamedMutex(dopContainer_s.mutex);
+    }
+    else
+    {
+        retval = false;
+        OSAL_printf("%s:%d mutex lock error %d\r\n", __func__, __LINE__,  osalRetval);
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+    }
+
+    if(NULL == pDopObj)
+    {
+        retval = false;
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+    }
+
+    return retval;
+}
+
+/**
+ * \brief deletes the DOP object(if exist)
+ * \param[in] instanceID the instance-ID of the object to be removed
+ * \return  true if successful, false if the object does not exist
+*/
+bool EI_APP_DOP_deleteObject(uint16_t instanceID)
+{
+    EI_APP_DOP_object_t *previous  = NULL;
+    EI_APP_DOP_object_t *temp = NULL;
+    int32_t osalRetval;
+    bool retval = false;
+
+    osalRetval = OSAL_lockNamedMutex(dopContainer_s.mutex, 1000UL);
+    if(OSAL_ERR_NoError == osalRetval)
+    {
+        if((NULL != dopContainer_s.head) && (instanceID == dopContainer_s.head->instanceID))
+        {
+            temp = dopContainer_s.head->nextObject;
+            OSAL_MEMORY_free(dopContainer_s.head);
+            dopContainer_s.head = temp;
+            retval =  true;
+        }
+        else
+        {
+            temp = dopContainer_s.head;
+            //find the node to be deleted
+            while(NULL !=  temp)
+            {
+                previous = temp;
+                temp  = temp->nextObject;
+                if((NULL !=  temp) && (instanceID == temp->instanceID))
+                {
+                    break;
+                }
+
+            }
+
+            if(NULL ==  temp)
+            {
+                retval = false; //the Node could not be found
+            }
+            else
+            {
+                previous->nextObject  = temp->nextObject;
+                OSAL_MEMORY_free(temp);
+                retval = true;
+            }
+        }
+
+        OSAL_unLockNamedMutex(dopContainer_s.mutex);
+    }
+    else
+    {
+        OSAL_printf("%s:%d mutex lock error %d\r\n", __func__, __LINE__,  osalRetval);
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        retval = false;
+    }
+
+    return retval;
 }
 
 /*!
@@ -1890,7 +1196,7 @@ laError:
  * // Create a CIP node
  * EI_API_CIP_NODE_InitParams_t initParams;
  * initParams.maxInstanceNum = 256;
- * 
+ *
  * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
  *
  * EI_APP_DOP_run(pEI_API_CIP_NODE);
@@ -1900,40 +1206,241 @@ laError:
  * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOP
  *
  */
-void EI_APP_DOP_run(EI_API_CIP_NODE_T* pCipNode)
+void EI_APP_DOP_run (void)
 {
-    uint32_t errCode = EI_API_CIP_eERR_OK;
-    uint8_t buffer[EI_APP_DIO_DEVICE_DOP_NUM_OF_INST] = { 0 };
+    static volatile EI_API_ADP_SModNetStatus_t networkStatus = {0};
+    static volatile EI_APP_DIO_DEVICE_ConnectionState_t connectionStatus = EI_APP_DIO_DEVICE_ConnectionNotEstablished ;
+    static volatile EI_APP_DOP_object_t  *pDopObj = NULL;
+    dop_state_proccess_t currentProcess = NULL;
+    volatile EI_APP_DOP_events_t event =  EI_APP_DOP_EVENT_NoEvent;
+    int32_t osalRetval;
 
-    errCode = EI_API_CIP_getAssemblyData(pCipNode, EI_APP_DIO_DEVICE_ASSEMBLY_CONSUMING, buffer, EI_APP_DIO_DEVICE_DOP_NUM_OF_INST);
-    if(errCode != EI_API_CIP_eERR_OK)
+    osalRetval = OSAL_lockNamedMutex(dopContainer_s.mutex, 2UL);
+    if(OSAL_ERR_NoError == osalRetval)
     {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
-
-    uint8_t command = 0;
-    uint8_t instanceId = 0x01;
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06, &command);
-
-    // Mirror I/O data
-    for(uint8_t instanceIndex = 0; instanceIndex < EI_APP_DIO_DEVICE_DOP_NUM_OF_INST; instanceIndex++)
-    {
-        if(command == EI_APP_DOP_receiveReadyToRun)
+        if(NULL != dopContainer_s.head)
         {
-            if (EI_APP_DOP_LED_OFF == buffer[instanceIndex])
+            if(NULL == pDopObj)
             {
-                EI_APP_DOP_ledStatus_s &= ~(EI_APP_DOP_LED_ON << instanceIndex);
-                EI_APP_LED_industrialSet(EI_APP_DOP_ledStatus_s);
+                pDopObj = (volatile EI_APP_DOP_object_t  *)dopContainer_s.head;
             }
-            else if (EI_APP_DOP_LED_ON == buffer[instanceIndex])
+
+            currentProcess = pDopObj->processesFnc;
+            pDopObj->userCfg.fuGetEvent((EI_APP_DIO_DEVICE_ConnectionState_t *)&connectionStatus, (EI_API_ADP_SModNetStatus_t *)&networkStatus);
+            if((EI_API_ADP_eSTATUS_LED_RED_ON == networkStatus.mod) || (EI_API_ADP_eSTATUS_LED_RED_ON == networkStatus.net))
             {
-                EI_APP_DOP_ledStatus_s |= (EI_APP_DOP_LED_ON << instanceIndex);
-                EI_APP_LED_industrialSet(EI_APP_DOP_ledStatus_s);
+                event = EI_APP_DOP_EVENT_UnrecoverableFault;
             }
+
+            if(NULL != currentProcess)
+            {
+                currentProcess((EI_APP_DOP_object_t  *)pDopObj, event);
+            }
+
+            pDopObj = (volatile EI_APP_DOP_object_t *)pDopObj->nextObject;
+        }
+        OSAL_unLockNamedMutex(dopContainer_s.mutex);
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+static inline EI_APP_DOP_events_t dop_get_other_evnets(EI_APP_DOP_object_t *obj)
+{
+    EI_APP_DOP_events_t event = EI_APP_DOP_EVENT_NoEvent;
+
+    if(obj->runIdleValueChanged)
+    {
+        obj->runIdleValueChanged = false;
+        if(obj->run_idle_command)
+        {
+            event = EI_APP_DOP_EVENT_ReceiveRun_Command;
+        }
+        else
+        {
+            event = EI_APP_DOP_EVENT_ReceiveIdle_Command;
         }
     }
+    else if(obj->receiveDataEvent)
+    {
+        obj->receiveDataEvent = false;
+        event = EI_APP_DOP_EVENT_ReceiveData;
+    }
 
-laError:
-    return;
+
+    return event;
 }
+//-------------------------------------------------------------------------------------------
+static void dop_proc_noneExistent(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event)
+{
+    if(EI_APP_DOP_EVENT_UnrecoverableFault == event)
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_UNRECOVERABLEFAULT);
+    }
+    else
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_AVAILABLE);
+    }
+}
+//------------------------------------------------------------------------------------------
+static void dop_proc_available(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event)
+{
+    if(EI_APP_DOP_EVENT_UnrecoverableFault == event)
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_UNRECOVERABLEFAULT);
+    }
+    else if((EI_APP_DOP_EVENT_ConnEstablished == event) ||
+            (EI_APP_DOP_EVENT_ReceiveIdle_InvalidData == event) ||
+            (EI_APP_DOP_EVENT_ReceiveData == event))
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_READY);
+    }
+    // else
+    // {
+    //     obj->valueContainer.value = 0; //output-OFF
+    // }
+}
+//-------------------------------------------------------------------------------------------
+static void dop_proc_idle(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event)
+{
+    if(EI_APP_DOP_EVENT_UnrecoverableFault == event)
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_UNRECOVERABLEFAULT);
+    }
+    else if(EI_APP_DOP_EVENT_ReceiveFault == event)
+    {
+        //output in fault state
+        EI_APP_DOP_OutputFault(obj, 1);
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_RECOVERABLEFAULT);
+    }
+    else if(EI_APP_DOP_EVENT_ConnTimedOut == event)
+    {
+        //output remain unchanged
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_RECOVERABLEFAULT);
+    }
+    else if(EI_APP_DOP_EVENT_ConnDeleted == event)
+    {
+        //output Off
+        obj->valueContainer.value = 0;
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_AVAILABLE);
+    }
+    else if(EI_APP_DOP_EVENT_ReceiveRun_Command == event)
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_READY);
+    }
+    else if(EI_APP_DOP_EVENT_ReceiveData == event)
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_RUN);
+    }
+    else if(obj->idleSettingChanged)
+    {
+        obj->idleSettingChanged = false;
+        //update Idle-output
+        EI_APP_DOP_OutputIdle(obj, 1);
+    }
+}
+//-------------------------------------------------------------------------------------------
+static void dop_proc_ready(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event)
+{
+    if(EI_APP_DOP_EVENT_UnrecoverableFault == event)
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_UNRECOVERABLEFAULT);
+    }
+    else if(EI_APP_DOP_EVENT_ReceiveFault == event)
+    {
+        //output in fault state
+        EI_APP_DOP_OutputFault(obj, 1);
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_RECOVERABLEFAULT);
+    }
+    else if(EI_APP_DOP_EVENT_ConnTimedOut == event)
+    {
+        /**
+         * The state diagram in the specification is misleading,
+         * in case of Timeout in Ready state, output should take "Fault" value.
+         */
+        EI_APP_DOP_OutputFault(obj, 1);
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_RECOVERABLEFAULT);
+    }
+    else if((EI_APP_DOP_EVENT_ReceiveIdle_Command == event) ||
+            (EI_APP_DOP_EVENT_ReceiveIdle_InvalidData == event))
+    {
+        //output in Idle state
+        EI_APP_DOP_OutputIdle(obj, 1);
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_IDLE);
+    }
+    else if(EI_APP_DOP_EVENT_ConnDeleted == event)
+    {
+        //output Off
+        obj->valueContainer.value = 0;
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_AVAILABLE);
+    }
+    else if(EI_APP_DOP_EVENT_ReceiveData == event)
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_RUN);
+    }
+}
+//---------------------------------------------------------------------------------------------
+static void dop_proc_run(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event)
+{
+    if(EI_APP_DOP_EVENT_UnrecoverableFault == event)
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_UNRECOVERABLEFAULT);
+    }
+    else if(EI_APP_DOP_EVENT_ReceiveFault == event)
+    {
+        //output in fault state
+        EI_APP_DOP_OutputFault(obj, 0);
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_RECOVERABLEFAULT);
+    }
+    else if(EI_APP_DOP_EVENT_ConnTimedOut == event)
+    {
+        //output in fault state
+        EI_APP_DOP_OutputFault(obj, 0);
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_RECOVERABLEFAULT);
+    }
+    else if((EI_APP_DOP_EVENT_ReceiveIdle_Command == event) ||
+            (EI_APP_DOP_EVENT_ReceiveIdle_InvalidData == event))
+    {
+        //output in Idle state
+        EI_APP_DOP_OutputIdle(obj, 0);
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_IDLE);
+    }
+    else if(EI_APP_DOP_EVENT_ConnDeleted == event)
+    {
+        //output Off
+        obj->valueContainer.value = 0;
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_AVAILABLE);
+    }
+
+    obj->userCfg.fuSetOutput(obj->instanceID, obj->valueContainer.value); //update output
+}
+//----------------------------------------------------------------------------------------------
+static void dop_proc_recoverableFault(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event)
+{
+    if(EI_APP_DOP_EVENT_UnrecoverableFault == event)
+    {
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_UNRECOVERABLEFAULT);
+    }
+    else if(EI_APP_DOP_EVENT_ConnDeleted == event)
+    {
+        //output Off
+        obj->valueContainer.value = 0;
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_AVAILABLE);
+    }
+    else if(obj->faultSettingChanged)
+    {
+        obj->faultSettingChanged = false;
+        //update fault-output
+        EI_APP_DOP_OutputFault(obj, 1);
+    }
+    else if((EI_APP_DOP_EVENT_ConnEstablished == event))
+    {
+        //output unchanged
+        EI_APP_DOP_ChangeToState(obj, EI_APP_DOP_SM_READY);
+    }
+}
+//----------------------------------------------------------------------------------------------
+static void dop_proc_unrecoverableFault(EI_APP_DOP_object_t *obj, EI_APP_DOP_events_t event)
+{
+    //Nothing to do, there is no coming back!
+}
+//-----------------------------------------------------------------------------------------------

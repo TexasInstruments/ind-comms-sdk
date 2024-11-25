@@ -5,39 +5,38 @@
  *  EtherNet/IP&trade; Adapter Example Application, EEPROM non-volatile memory access.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br><br>
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (C) 2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdbool.h>
@@ -61,6 +60,7 @@
 #include "appMutex.h"
 #include "appNvEeprom.h"
 
+#if (defined CONFIG_EEPROM_NUM_INSTANCES) && (CONFIG_EEPROM_NUM_INSTANCES > 0)
 #define EI_APP_NV_EEPROM_WRITE_STACK_SIZE_BYTE     1024
 #define EI_APP_NV_EEPROM_WRITE_STACK_SIZE          (EI_APP_NV_EEPROM_WRITE_STACK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
 
@@ -104,6 +104,7 @@ typedef struct EI_APP_NV_Eeprom
 static void EI_APP_NV_EEPROM_writeTask (void* pArg);
 
 static EI_APP_NV_Eeprom_t EI_APP_NV_Eeprom_s = {0};
+#endif
 
 /*!
 *
@@ -128,7 +129,7 @@ EEPROM_Handle EI_APP_NV_EEPROM_getHandle(uint32_t instanceId)
         handle = gEepromHandle[instanceId];
     }
 #else
-    OSALUNREF_PARM(instance);
+    OSALUNREF_PARM(instanceId);
 #endif
 
     return handle;
@@ -193,13 +194,13 @@ uint32_t EI_APP_NV_EEPROM_init (uint32_t taskPrio)
     error = OSAL_NO_ERROR;
 
 #else
-    EI_APP_NV_Eeprom_s.isActive = flase;
+    EI_APP_NV_Eeprom_s.isActive = false;
 
     error = OSAL_NO_ERROR;
 #endif
 
 laError:
-
+#if (defined CONFIG_EEPROM_NUM_INSTANCES) && (CONFIG_EEPROM_NUM_INSTANCES > 0)
     if (OSAL_NO_ERROR != error)
     {
         if(NULL != EI_APP_NV_Eeprom_s.write.req.start)
@@ -214,6 +215,7 @@ laError:
             EI_APP_NV_Eeprom_s.write.req.finished = NULL;
         }
     }
+#endif
 
     return error;
 }
@@ -230,6 +232,7 @@ laError:
 */
 uint32_t EI_APP_NV_EEPROM_deinit (void)
 {
+#if (defined CONFIG_EEPROM_NUM_INSTANCES) && (CONFIG_EEPROM_NUM_INSTANCES > 0)
     if (false == EI_APP_NV_Eeprom_s.isActive)
     {
         goto laError;
@@ -259,6 +262,7 @@ uint32_t EI_APP_NV_EEPROM_deinit (void)
     }
 
 laError:
+#endif
 
     return OSAL_NO_ERROR;
 }
@@ -283,9 +287,11 @@ laError:
 */
 uint32_t EI_APP_NV_EEPROM_read (EEPROM_Handle handle, uint32_t offset, const uint8_t* pBuf, uint32_t length)
 {
-    int32_t  ret    = SystemP_FAILURE;
     uint32_t err    = OSAL_GENERAL_ERROR;
     EI_APP_MUTEX_EError_t   mutexErr;
+
+#if (defined CONFIG_EEPROM_NUM_INSTANCES) && (CONFIG_EEPROM_NUM_INSTANCES > 0)
+    int32_t  ret    = SystemP_FAILURE;
 
     if (NULL == handle)
     {
@@ -314,6 +320,7 @@ uint32_t EI_APP_NV_EEPROM_read (EEPROM_Handle handle, uint32_t offset, const uin
     err = OSAL_NO_ERROR;
 
 laError:
+#endif
 
     return err;
 }
@@ -333,10 +340,15 @@ bool EI_APP_NV_EEPROM_isWritePending (void)
 {
     bool ret = true;
 
+#if (defined CONFIG_EEPROM_NUM_INSTANCES) && (CONFIG_EEPROM_NUM_INSTANCES > 0)
     if (EI_APP_NV_Eeprom_s.write.req.count == 0)
     {
         ret = false;
     }
+#else
+
+    ret = false;
+#endif
 
     return ret;
 }
@@ -390,6 +402,7 @@ uint32_t EI_APP_NV_EEPROM_write (EEPROM_Handle  handle,
         goto laError;
     }
 
+#if (defined CONFIG_EEPROM_NUM_INSTANCES) && (CONFIG_EEPROM_NUM_INSTANCES > 0)
     EI_APP_NV_Eeprom_s.write.req.count++;
 
     // Check if last write to EEPROM is pending and wait in case that yes
@@ -417,12 +430,14 @@ uint32_t EI_APP_NV_EEPROM_write (EEPROM_Handle  handle,
     }
 
     err = OSAL_NO_ERROR;
+#endif
 
 laError:
 
     return err;
 }
 
+#if (defined CONFIG_EEPROM_NUM_INSTANCES) && (CONFIG_EEPROM_NUM_INSTANCES > 0)
 /*!
 *
 *  \brief
@@ -450,7 +465,7 @@ static void EI_APP_NV_EEPROM_writeTask (void *pArg)
         {
             break;
         }
-        
+        //ToDo use mutex to protect I2C access
         mutexErr = EI_APP_Mutex_Lock(EI_APP_Mutex_I2C, 10);
         if(EI_APP_MUTEX_eERR_NOERROR == mutexErr)
         {
@@ -476,5 +491,5 @@ laError:
 
     OSAL_SCHED_exitTask(NULL);
 }
-
+#endif
 

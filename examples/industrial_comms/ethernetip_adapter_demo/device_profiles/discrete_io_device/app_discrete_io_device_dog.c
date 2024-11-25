@@ -5,39 +5,38 @@
  *  EtherNet/IP&trade; Discrete Output Group Object.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br><br>
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
@@ -79,19 +78,33 @@
 #include "device_profiles/discrete_io_device/app_discrete_io_device_cfg.h"
 #include "device_profiles/discrete_io_device/app_discrete_io_device.h"
 #include "device_profiles/discrete_io_device/app_discrete_io_device_dog.h"
+#include "device_profiles/discrete_io_device/app_discrete_io_device_dop.h"
 
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
-void EI_APP_DOG_init (EI_API_CIP_NODE_T* pCipNode);
-void EI_APP_DOG_run  (EI_API_CIP_NODE_T* pCipNode);
+typedef struct EI_APP_DOG_obj
+{
+    uint16_t                DOG_instanceID;
+    EI_DOG_OBJECT_Cfg_t     binding;
+    struct EI_APP_DOG_obj   *nextObj;
+}EI_APP_DOG_obj_t;
 
-static EI_APP_DOG_ClassData_t dogClassData_s = {.revision = EI_APP_DIO_DEVICE_DOG_REVISION_NUMBER
+typedef struct EI_APP_DOG_container
+{
+    bool                isClassInitialized;
+    EI_API_CIP_NODE_T   *pCipNode;
+    void                *mutex;
+    EI_APP_DOG_obj_t    *head;
+}EI_APP_DOG_container_t;
+
+static EI_DOG_ClassData_t dogClassData_s = {.revision = EI_APP_DIO_DEVICE_DOG_REVISION_NUMBER
                                                };
 
-static uint8_t EI_APP_DOG_faultActionConfiguration_s  = 0;
-static uint8_t EI_APP_DOG_idleActionConfiguration_s   = 0;
+static EI_APP_DOG_container_t dogContainer_s = {0};
 
+static EI_APP_DOG_obj_t *dog_findObj(uint16_t dog_instanceID);
+static uint32_t dog_addInstance(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceID);
 /*!
  * \brief
  * Add an attribute for the class instance.
@@ -352,9 +365,34 @@ laError:
 uint32_t EI_APP_DOG_setCommand(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId, uint8_t command)
 {
     uint32_t error = EI_API_CIP_eERR_GENERAL;
+    EI_APP_DOG_obj_t *obj = NULL;
+    int32_t osalRetval;
 
     error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06, command);
-    error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09, command);
+    if(EI_API_CIP_eERR_OK == error)
+    {
+        osalRetval = OSAL_lockNamedMutex(dogContainer_s.mutex, 5UL);
+        if(OSAL_ERR_NoError == osalRetval)
+        {
+            obj = dog_findObj(instanceId);
+            if(NULL != obj)
+            {
+                for(uint16_t i = 0; i < obj->binding.list_len; i++)
+                {
+                    error = EI_APP_DOP_setCommand(obj->binding.dop_instance_binding_list[i], (ei_api_cip_edt_bool)command);
+                }
+            }
+            else
+            {
+                error = EI_API_CIP_eERR_GENERAL;
+            }
+            OSAL_unLockNamedMutex(dogContainer_s.mutex);
+        }
+        else
+        {
+            error = EI_API_CIP_eERR_GENERAL;
+        }
+    }
 
     return error;
 }
@@ -600,39 +638,32 @@ uint32_t EI_APP_DOG_getCommandCb(
 uint32_t EI_APP_DOG_setFaultAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId, uint8_t faultAction)
 {
     uint32_t error = EI_API_CIP_eERR_GENERAL;
+    EI_APP_DOG_obj_t *obj = NULL;
+    int32_t osalRetval;
 
-    EI_APP_DIO_DEVICE_getConfigurationAssemblyCb(&EI_APP_DOG_faultActionConfiguration_s,  &EI_APP_DOG_idleActionConfiguration_s);
-
-    if(faultAction != EI_APP_DOG_faultActionConfiguration_s)
+    error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, faultAction);
+    if(EI_API_CIP_eERR_OK == error)
     {
-        error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, faultAction);
-
-        if (error != EI_API_CIP_eERR_OK)
+        osalRetval = OSAL_lockNamedMutex(dogContainer_s.mutex, 5UL);
+        if(OSAL_ERR_NoError == osalRetval)
         {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+            obj = dog_findObj(instanceId);
+            if(NULL != obj)
+            {
+                for(uint16_t i = 0; i < obj->binding.list_len; i++)
+                {
+                    error = EI_APP_DOP_setFaultAction(obj->binding.dop_instance_binding_list[i], faultAction);
+                }
+            }
+            else
+            {
+                error = EI_API_CIP_eERR_GENERAL;
+            }
+            OSAL_unLockNamedMutex(dogContainer_s.mutex);
         }
-
-        error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_05, faultAction);
-
-        if (error != EI_API_CIP_eERR_OK)
+        else
         {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        }
-    }
-    else
-    {
-        error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, EI_APP_DOG_faultActionConfiguration_s);
-
-        if (error != EI_API_CIP_eERR_OK)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        }
-
-        error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_05, EI_APP_DOG_faultActionConfiguration_s);
-
-        if (error != EI_API_CIP_eERR_OK)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+            error = EI_API_CIP_eERR_GENERAL;
         }
     }
 
@@ -838,7 +869,7 @@ uint32_t EI_APP_DOG_getFaultActionCb(
  * Function provides set access to the attribute fault value of DOG object.
  *
  * \details
- * User–defined value for use with Fault Action attribute 0 = off, 1 = on.
+ * Userï¿½defined value for use with Fault Action attribute 0 = off, 1 = on.
  *
  * \param[in]  pCipNode                                    Pointer to the CIP node.
  * \param[in]  instanceId                                  Instance identifier.
@@ -881,8 +912,34 @@ uint32_t EI_APP_DOG_getFaultActionCb(
 uint32_t EI_APP_DOG_setFaultValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId, uint8_t faultValue)
 {
     uint32_t error = EI_API_CIP_eERR_GENERAL;
+    EI_APP_DOG_obj_t *obj = NULL;
+    int32_t osalRetval;
 
     error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_08, faultValue);
+    if(EI_API_CIP_eERR_OK == error)
+    {
+        osalRetval = OSAL_lockNamedMutex(dogContainer_s.mutex, 5UL);
+        if(OSAL_ERR_NoError == osalRetval)
+        {
+            obj = dog_findObj(instanceId);
+            if(NULL != obj)
+            {
+                for(uint16_t i = 0; i < obj->binding.list_len; i++)
+                {
+                    error = EI_APP_DOP_setFaultValue(obj->binding.dop_instance_binding_list[i], (ei_api_cip_edt_bool)faultValue);
+                }
+            }
+            else
+            {
+                error = EI_API_CIP_eERR_GENERAL;
+            }
+            OSAL_unLockNamedMutex(dogContainer_s.mutex);
+        }
+        else
+        {
+            error = EI_API_CIP_eERR_GENERAL;
+        }
+    }
 
     return error;
 }
@@ -975,7 +1032,7 @@ laError:
  * Function provides get access to the attribute fault value of DOG object.
  *
  * \details
- * User–defined value for use with Fault Action attribute 0 = off, 1 = on.
+ * Userï¿½defined value for use with Fault Action attribute 0 = off, 1 = on.
  *
  * \param[in]  pCipNode   Pointer to the CIP node.
  * \param[in]  instanceId Instance identifier.
@@ -1128,18 +1185,33 @@ uint32_t EI_APP_DOG_getFaultValueCb(
 uint32_t EI_APP_DOG_setIdleAction(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId, uint8_t idleAction)
 {
     uint32_t error = EI_API_CIP_eERR_GENERAL;
+    EI_APP_DOG_obj_t *obj = NULL;
+    int32_t osalRetval;
 
-    EI_APP_DIO_DEVICE_getConfigurationAssemblyCb(&EI_APP_DOG_faultActionConfiguration_s,  &EI_APP_DOG_idleActionConfiguration_s);
-
-    if(idleAction != EI_APP_DOG_idleActionConfiguration_s)
+    error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09, idleAction);
+    if(EI_API_CIP_eERR_OK == error)
     {
-        error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09, idleAction);
-        error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, idleAction);
-    }
-    else
-    {
-        error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09, EI_APP_DOG_idleActionConfiguration_s);
-        error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, EI_APP_DOG_idleActionConfiguration_s);
+        osalRetval = OSAL_lockNamedMutex(dogContainer_s.mutex, 5UL);
+        if(OSAL_ERR_NoError == osalRetval)
+        {
+            obj = dog_findObj(instanceId);
+            if(NULL != obj)
+            {
+                for(uint16_t i = 0; i < obj->binding.list_len; i++)
+                {
+                    error = EI_APP_DOP_setIdleAction(obj->binding.dop_instance_binding_list[i], (ei_api_cip_edt_bool)idleAction);
+                }
+            }
+            else
+            {
+                error = EI_API_CIP_eERR_GENERAL;
+            }
+            OSAL_unLockNamedMutex(dogContainer_s.mutex);
+        }
+        else
+        {
+            error = EI_API_CIP_eERR_GENERAL;
+        }
     }
 
     return error;
@@ -1386,8 +1458,34 @@ uint32_t EI_APP_DOG_getIdleActionCb(
 uint32_t EI_APP_DOG_setIdleValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId, uint8_t idleValue)
 {
     uint32_t error = EI_API_CIP_eERR_GENERAL;
+    EI_APP_DOG_obj_t *obj = NULL;
+    int32_t osalRetval;
 
     error = EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_10, idleValue);
+    if(EI_API_CIP_eERR_OK == error)
+    {
+        osalRetval = OSAL_lockNamedMutex(dogContainer_s.mutex, 5UL);
+        if(OSAL_ERR_NoError == osalRetval)
+        {
+            obj = dog_findObj(instanceId);
+            if(NULL != obj)
+            {
+                for(uint16_t i = 0; i < obj->binding.list_len; i++)
+                {
+                    error = EI_APP_DOP_setIdleValue(obj->binding.dop_instance_binding_list[i], (ei_api_cip_edt_bool)idleValue);
+                }
+            }
+            else
+            {
+                error = EI_API_CIP_eERR_GENERAL;
+            }
+            OSAL_unLockNamedMutex(dogContainer_s.mutex);
+        }
+        else
+        {
+            error = EI_API_CIP_eERR_GENERAL;
+        }
+    }
 
     return error;
 }
@@ -1620,183 +1718,412 @@ void EI_APP_DOG_init(EI_API_CIP_NODE_T* pCipNode)
     uint32_t errCode;
     EI_API_CIP_SService_t service;
 
-    errCode = EI_API_CIP_createClass(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID);
-
-    // Example how to evaluate error codes returned by API functions.
-    if (EI_API_CIP_eERR_OK != errCode)
+    if(false == dogContainer_s.isClassInitialized)
     {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
+        errCode = EI_API_CIP_createClass(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID);
 
-    // set class instance
-    OSAL_MEMORY_memset(&service, 0, sizeof(service));
-    service.code = EI_API_CIP_eSC_GETATTRSINGLE;
-    errCode = EI_API_CIP_addClassService(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, &service);
-    if (EI_API_CIP_eERR_OK != errCode)
-    {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
-
-    errCode = EI_APP_DOG_addClassAttribute(pCipNode, 1, &dogClassData_s.revision);
-    if (EI_API_CIP_eERR_OK != errCode)
-    {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
-
-    for (uint16_t i = 1; i <= EI_APP_DIO_DEVICE_DOG_NUM_OF_INST; i++)
-    {
-        // Dummy value for each instance
-        ei_api_cip_edt_bool instanceValue = 0;
-
-        // Create instances
-        errCode = EI_API_CIP_createInstance(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, i);
+        // Example how to evaluate error codes returned by API functions.
         if (EI_API_CIP_eERR_OK != errCode)
         {
             OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
 
-        // Add set & get service for instances
+        // set class instance
+        OSAL_MEMORY_memset(&service, 0, sizeof(service));
         service.code = EI_API_CIP_eSC_GETATTRSINGLE;
-        errCode = EI_API_CIP_addInstanceService(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, i, &service);
+        errCode = EI_API_CIP_addClassService(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, &service);
         if (EI_API_CIP_eERR_OK != errCode)
         {
             OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
 
-        service.code = EI_API_CIP_eSC_SETATTRSINGLE;
-        errCode = EI_API_CIP_addInstanceService(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, i, &service);
+        errCode = EI_APP_DOG_addClassAttribute(pCipNode, 1, &dogClassData_s.revision);
         if (EI_API_CIP_eERR_OK != errCode)
         {
             OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
 
-        // Add attribute 6 Command (required) for instance
-        errCode = EI_APP_DOG_addInstanceAttribute(
-                                                  pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET_AND_SET,
-                                                  EI_APP_DOG_getCommandCb,
-                                                  EI_APP_DOG_setCommandCb,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
+        dogContainer_s.mutex  = OSAL_createNamedMutex("DOG_Mutex");
+        if(NULL == dogContainer_s.mutex)
         {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+            OSAL_printf("%s:%d create DOG_Mutex failed\r\n", __func__, __LINE__);
+            OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
 
-        // Add attribute 7 Fault Action (optional) for instance
-        errCode = EI_APP_DOG_addInstanceAttribute(pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET_AND_SET,
-                                                  EI_APP_DOG_getFaultActionCb,
-                                                  EI_APP_DOG_setFaultActionCb,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
-
-        // Add attribute 8 Fault Value (optional) for instance
-        errCode = EI_APP_DOG_addInstanceAttribute(pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_08,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET_AND_SET,
-                                                  EI_APP_DOG_getFaultValueCb,
-                                                  EI_APP_DOG_setFaultValueCb,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
-
-        // Add attribute 9 Idle Action (optional) for instance
-        errCode = EI_APP_DOG_addInstanceAttribute(pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET_AND_SET,
-                                                  EI_APP_DOG_getIdleActionCb,
-                                                  EI_APP_DOG_setIdleActionCb,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
-
-        // Add attribute 10 Idle Value (optional) for instance
-        errCode = EI_APP_DOG_addInstanceAttribute(pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_10,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET_AND_SET,
-                                                  EI_APP_DOG_getIdleValueCb,
-                                                  EI_APP_DOG_setIdleValueCb,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
-        if (EI_API_CIP_eERR_OK != errCode)
-        {
-            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-            goto laError;
-        }
+        dogContainer_s.head = NULL;
+        dogContainer_s.pCipNode = pCipNode;
+        dogContainer_s.isClassInitialized = true;
     }
 
 laError:
     return;
 }
 
-/*!
- *
- * \brief
- * Run function for class DOG.
- *
- * \details
- * It updates the value.
- *
- * \param[in]  pCipNode Pointer to the CIP node.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- *
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * EI_APP_DOG_run(pEI_API_CIP_NODE);
- *
- * \endcode
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DOG
+
+/**
  *
  */
-void EI_APP_DOG_run(EI_API_CIP_NODE_T* pCipNode)
+static EI_APP_DOG_obj_t *dog_findObj(uint16_t dog_instanceID)
 {
-    uint8_t instanceId  = 0x01;
+    EI_APP_DOG_obj_t  *pObj = NULL;
 
-    EI_APP_DIO_DEVICE_getConfigurationAssemblyCb(&EI_APP_DOG_faultActionConfiguration_s,  &EI_APP_DOG_idleActionConfiguration_s);
-    // Mirror I/O data
-    EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, EI_APP_DOG_faultActionConfiguration_s);
-    EI_API_CIP_setAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09, EI_APP_DOG_idleActionConfiguration_s);
+    if(false == dogContainer_s.isClassInitialized)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return NULL;
+    }
+    else
+    {
+        pObj  = dogContainer_s.head;
+        while (NULL != pObj)
+        {
+            if(dog_instanceID == pObj->DOG_instanceID)
+            {
+                break;
+            }
+            pObj = pObj->nextObj;
+        }
+    }
+
+    return pObj;
+}
+/**
+ *
+ */
+static uint32_t dog_addInstance(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceID)
+{
+    EI_API_CIP_SService_t service;
+    ei_api_cip_edt_bool instanceValue = 0;
+    uint32_t errCode;
+
+    OSAL_MEMORY_memset(&service, 0, sizeof(service));
+    // Create instances
+    errCode = EI_API_CIP_createInstance(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceID);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add set & get service for instances
+    service.code = EI_API_CIP_eSC_GETATTRSINGLE;
+    errCode = EI_API_CIP_addInstanceService(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceID, &service);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    service.code = EI_API_CIP_eSC_SETATTRSINGLE;
+    errCode = EI_API_CIP_addInstanceService(pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, instanceID, &service);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 6 Command (required) for instance
+    errCode = EI_APP_DOG_addInstanceAttribute(
+                                                pCipNode,
+                                                instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_06,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                EI_API_CIP_eAR_GET_AND_SET,
+                                                EI_APP_DOG_getCommandCb,
+                                                EI_APP_DOG_setCommandCb,
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 7 Fault Action (optional) for instance
+    errCode = EI_APP_DOG_addInstanceAttribute(pCipNode,
+                                                instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                EI_API_CIP_eAR_GET_AND_SET,
+                                                EI_APP_DOG_getFaultActionCb,
+                                                EI_APP_DOG_setFaultActionCb,
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 8 Fault Value (optional) for instance
+    errCode = EI_APP_DOG_addInstanceAttribute(pCipNode,
+                                                instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_08,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                EI_API_CIP_eAR_GET_AND_SET,
+                                                EI_APP_DOG_getFaultValueCb,
+                                                EI_APP_DOG_setFaultValueCb,
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 9 Idle Action (optional) for instance
+    errCode = EI_APP_DOG_addInstanceAttribute(pCipNode,
+                                                instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                EI_API_CIP_eAR_GET_AND_SET,
+                                                EI_APP_DOG_getIdleActionCb,
+                                                EI_APP_DOG_setIdleActionCb,
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 10 Idle Value (optional) for instance
+    errCode = EI_APP_DOG_addInstanceAttribute(pCipNode,
+                                                instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_10,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                EI_API_CIP_eAR_GET_AND_SET,
+                                                EI_APP_DOG_getIdleValueCb,
+                                                EI_APP_DOG_setIdleValueCb,
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    laError:
+    return errCode;
+}
+
+/**
+ *
+ */
+static void EI_APP_DOG_insertObj(EI_APP_DOG_obj_t *pDogObject)
+{
+
+    if(NULL == dogContainer_s.head) //first item?
+    {
+        dogContainer_s.head = pDogObject;
+        dogContainer_s.head->nextObj = NULL;
+    }
+    else
+    {
+        pDogObject->nextObj = dogContainer_s.head;
+        dogContainer_s.head = pDogObject;
+    }
+}
+/**
+ * \brief Create and add a DOG instance object
+ * \param[in] InstanceID the instance-ID of the DOG object to be created
+ * \param[in] pDopConfig configuration for this instance object
+ * \return true if successful, otherwise false
+*/
+bool EI_APP_DOG_addObject(uint16_t instanceID, EI_DOG_OBJECT_Cfg_t *config)
+{
+    EI_APP_DOG_obj_t *pDogObj = NULL;
+    int32_t osalRetval;
+    uint32_t errCode;
+    bool retval = true;
+
+    if(false == dogContainer_s.isClassInitialized)
+    {
+        OSAL_printf("%s:%d first call the EI_APP_DOG_init before adding objects\r\n", __func__, __LINE__);
+        OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return  false;
+    }
+
+    if(NULL == config)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return false;
+    }
+    if((NULL == config->dop_instance_binding_list) ||
+    (0 == config->list_len))
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return false;
+    }
+
+    osalRetval = OSAL_lockNamedMutex(dogContainer_s.mutex, 1000UL);
+    if(OSAL_ERR_NoError == osalRetval)
+    {
+        pDogObj = dog_findObj(instanceID);
+        if(NULL == pDogObj)
+        {
+            pDogObj = OSAL_MEMORY_calloc(sizeof(EI_APP_DOG_obj_t), 1);
+            if(NULL != pDogObj)
+            {
+                pDogObj->binding.dop_instance_binding_list = OSAL_MEMORY_calloc((config->list_len * sizeof(uint16_t)), 1);
+                if(NULL != pDogObj->binding.dop_instance_binding_list)
+                {
+                    OSAL_MEMORY_memcpy(pDogObj->binding.dop_instance_binding_list,
+                    config->dop_instance_binding_list, (config->list_len * sizeof(uint16_t)));
+
+                    pDogObj->binding.list_len = config->list_len;
+                    pDogObj->DOG_instanceID = instanceID;
+                    pDogObj->nextObj = NULL;
+
+                    errCode = dog_addInstance(dogContainer_s.pCipNode, instanceID);
+                    if (EI_API_CIP_eERR_OK == errCode)
+                    {
+                        EI_APP_DOG_insertObj(pDogObj);
+                    }
+                    else
+                    {
+                        retval = false;
+                        OSAL_MEMORY_free(pDogObj->binding.dop_instance_binding_list);
+                        OSAL_MEMORY_free(pDogObj);
+                        pDogObj = NULL;
+                    }
+                }
+                else
+                {
+                    retval = false;
+                    OSAL_MEMORY_free(pDogObj);
+                    pDogObj = NULL;
+                }
+            }
+        }
+        else
+        {
+            OSAL_printf("DOG Object already exist! \n");
+        }
+
+        OSAL_unLockNamedMutex(dogContainer_s.mutex);
+    }
+    else
+    {
+        retval = false;
+        OSAL_printf("%s:%d mutex lock error %d\r\n", __func__, __LINE__,  osalRetval);
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+    }
+
+    if(NULL == pDogObj)
+    {
+        retval = false;
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+    }
+
+    return retval;
+}
+/**
+ * \brief deletes the DOG object(if exist)
+ * \param[in] instanceID the instance-ID of the object to be removed
+ * \return  true if successful, false if the object does not exist
+*/
+bool EI_APP_DOG_deleteObject(uint16_t instanceID)
+{
+    EI_APP_DOG_obj_t *previous  = NULL;
+    EI_APP_DOG_obj_t *temp = NULL;
+    int32_t osalRetval;
+    bool retval = false;
+
+    osalRetval = OSAL_lockNamedMutex(dogContainer_s.mutex, 1000UL);
+    if(OSAL_ERR_NoError == osalRetval)
+    {
+        if((NULL != dogContainer_s.head) && (instanceID == dogContainer_s.head->DOG_instanceID))
+        {
+            temp = dogContainer_s.head->nextObj;
+            OSAL_MEMORY_free(dogContainer_s.head->binding.dop_instance_binding_list);
+            OSAL_MEMORY_free(dogContainer_s.head);
+            dogContainer_s.head = temp;
+            retval =  true;
+        }
+        else
+        {
+            temp = dogContainer_s.head;
+            //find the node to be deleted
+            while(NULL !=  temp)
+            {
+                previous = temp;
+                temp  = temp->nextObj;
+                if((NULL !=  temp) && (instanceID == temp->DOG_instanceID))
+                {
+                    break;
+                }
+
+            }
+
+            if(NULL ==  temp)
+            {
+                retval = false; //the Node could not be found
+            }
+            else
+            {
+                previous->nextObj  = temp->nextObj;
+                OSAL_MEMORY_free(temp->binding.dop_instance_binding_list);
+                OSAL_MEMORY_free(temp);
+                retval = true;
+            }
+        }
+
+        OSAL_unLockNamedMutex(dogContainer_s.mutex);
+    }
+    else
+    {
+        OSAL_printf("%s:%d mutex lock error %d\r\n", __func__, __LINE__,  osalRetval);
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        retval = false;
+    }
+
+    return retval;
+}
+
+/**
+ *
+ */
+uint32_t EI_APP_DOG_receiveASMConfig(uint16_t dog_instanceID, ei_api_cip_edt_bool faultAction, ei_api_cip_edt_bool idleAction)
+{
+    EI_APP_DOG_obj_t *obj = NULL;
+    int32_t osalRetval;
+    uint32_t error = EI_API_CIP_eERR_GENERAL;
+    error = EI_API_CIP_setAttr_bool(dogContainer_s.pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, dog_instanceID, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_07, faultAction);
+    if(EI_API_CIP_eERR_OK == error)
+    {
+        error = EI_API_CIP_setAttr_bool(dogContainer_s.pCipNode, EI_APP_DIO_DEVICE_DOG_CLASS_ID, dog_instanceID, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_09, idleAction);
+        if(EI_API_CIP_eERR_OK == error)
+        {
+            osalRetval = OSAL_lockNamedMutex(dogContainer_s.mutex, 5UL);
+            if(OSAL_ERR_NoError == osalRetval)
+            {
+                obj = dog_findObj(dog_instanceID);
+                if(NULL != obj)
+                {
+                    for(uint16_t i = 0; i < obj->binding.list_len; i++)
+                    {
+                        error = EI_APP_DOP_setFaultAction(obj->binding.dop_instance_binding_list[i], faultAction);
+                        error = EI_APP_DOP_setIdleAction(obj->binding.dop_instance_binding_list[i], idleAction);
+                    }
+                }
+                else
+                {
+                    error = EI_API_CIP_eERR_GENERAL;
+                }
+                OSAL_unLockNamedMutex(dogContainer_s.mutex);
+            }
+        }
+        else
+        {
+            error = EI_API_CIP_eERR_GENERAL;
+        }
+    }
+
+
+    return error;
 }

@@ -1,4 +1,4 @@
-$ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
+$ EZ-EDS Version 3.36.1.20241010 Generated Electronic Data Sheet
 
 [File]
         DescText = "EtherNet/IP(tm) Adapter am64x-evm freeRTOS";
@@ -15,7 +15,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         VendName = "Texas Instruments";
         ProdType = 7;
         ProdTypeStr = "General Purpose Discrete IO Device";
-        ProdCode = 06402;
+        ProdCode = 6402;
         MajRev = 3;
         MinRev = 7;
         ProdName = "TMDS64EVM Discrete I/O Device";
@@ -57,134 +57,46 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 1,                      $ data size in bytes
                 "Output1",              $ name
                 "",                     $ units
-                "Output Byte 1",        $ help string
+                "Discrete Output Points",    $ help string
                 ,,0,                    $ min, max, default data values
                 ,,,,                    $ mult, dev, base, offset scaling not used
                 ,,,,                    $ mult, dev, base, offset link not used
                 0;                      $ decimal places not used
-        Param2 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Output2",              $ name
-                "",                     $ units
-                "Output Byte 2",        $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param3 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Output3",              $ name
-                "",                     $ units
-                "Output Byte 3",        $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param4 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Output4",              $ name
-                "",                     $ units
-                "Output Byte 4",        $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param5 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Output5",              $ name
-                "",                     $ units
-                "Output Byte 5",        $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param6 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Output6",              $ name
-                "",                     $ units
-                "Parameter 6",          $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param7 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Output7",              $ name
-                "",                     $ units
-                "Parameter 7",          $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places				
-        Param8 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Output8",              $ name
-                "",                     $ units
-                "Parameter 8",          $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
+        Enum1 =
+                0,"All Off",
+                1,"0001",
+                2,"0010",
+                3,"0011",
+                4,"0100",
+                5,"0101",
+                6,"0110",
+                7,"0111",
+                8,"1000",
+                9,"1001",
+                10,"1010",
+                11,"1011",
+                12,"1100",
+                13,"1101",
+                14,"1110",
+                15,"1111";
         Param9 =
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
                 0x0000,                 $ Descriptor
-                0xC1,                   $ Data Type
+                0xC6,                   $ Data Type
                 1,                      $ Data Size in bytes
-                "FaultMode",            $ name
+                "Fault_Idle_Config",    $ name
                 "",                     $ units
-                "Parameter 9",          $ help string
-                0,1,0,                  $ min, max, default data values
+                "FaultAction and IdleAction Configuration",    $ help string
+                0,3,0,                  $ min, max, default data values
                 ,,,,                    $ mult, div, base, offset scaling
                 ,,,,                    $ mult, div, base, offset links
                 ;                       $ decimal places
-		Enum1 =
-                0,"Use Fault Value",
-                1,"Hold Last State";
-        Param10 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC1,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "IdleMode",             $ name
-                "",                     $ units
-                "Parameter 10",         $ help string
-                0,1,0,                  $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-		Enum2 =
-                0,"Use Idle Value",
-                1,"Hold Last State";
+        Enum9 =
+                0,"FaultAction=0, IdleAction=0",
+                1,"FaultAction=1, IdleAction=0",
+                2,"FaultAction=0, IdleAction=1",
+                3,"FaultAction=1, IdleAction=1";
         Param11 =
                 0,                      $ reserved, shall equal 0
                 ,,                      $ Link Path Size, Link Path
@@ -193,128 +105,28 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                 1,                      $ Data Size in bytes
                 "Input1",               $ name
                 "",                     $ units
-                "Input Byte 1",         $ help string
+                "Discrete Input Points",$ help string
                 ,,0,                    $ min, max, default data values
                 ,,,,                    $ mult, div, base, offset scaling
                 ,,,,                    $ mult, div, base, offset links
                 ;                       $ decimal places
-        Param12 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Input2",               $ name
-                "",                     $ units
-                "Input Byte 2",         $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param13 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Input3",               $ name
-                "",                     $ units
-                "Input Byte 3",         $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param14 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Input4",               $ name
-                "",                     $ units
-                "Input Byte 4",         $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param15 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Input5",               $ name
-                "",                     $ units
-                "Input Byte 5",         $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param16 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Input6",               $ name
-                "",                     $ units
-                "Parameter 16",         $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param17 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Input7",               $ name
-                "",                     $ units
-                "Parameter 17",         $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param18 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Input8",               $ name
-                "",                     $ units
-                "Parameter 18",         $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param19 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Input9",               $ name
-                "",                     $ units
-                "Parameter 19",         $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
-        Param20 =
-                0,                      $ reserved, shall equal 0
-                ,,                      $ Link Path Size, Link Path
-                0x0000,                 $ Descriptor
-                0xC6,                   $ Data Type
-                1,                      $ Data Size in bytes
-                "Input10",              $ name
-                "",                     $ units
-                "Parameter 20",         $ help string
-                ,,0,                    $ min, max, default data values
-                ,,,,                    $ mult, div, base, offset scaling
-                ,,,,                    $ mult, div, base, offset links
-                ;                       $ decimal places
+        Enum11 =
+                0,"All Off",
+                1,"0001",
+                2,"0010",
+                3,"0011",
+                4,"0100",
+                5,"0101",
+                6,"0110",
+                7,"0111",
+                8,"1000",
+                9,"1001",
+                10,"1010",
+                11,"1011",
+                12,"1100",
+                13,"1101",
+                14,"1110",
+                15,"1111";
 
 [Assembly]
         Object_Name = "Assembly Object";
@@ -325,27 +137,24 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
         Assem1 =
                 "Producing Assembly (Input Data)",
                 ,
-                2,
+                1,
                 0x0001,
                 ,,
-                8,Param11,
-                8,Param12;
+                8,Param11;
         Assem2 =
                 "Consuming Assembly (Output Data)",
                 ,
-                2,
+                1,
                 0x0001,
                 ,,
-                8,Param1,
-                8,Param2;
+                8,Param1;
         Assem3 =
                 "Configuration Assembly",
                 ,
-                2,
+                1,
                 0x0001,
                 ,,
-                8,Param9,
-                8,Param10;
+                8,Param9;
 
 
 [Connection Manager]
@@ -361,7 +170,7 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                                         $  24-27 = exclusive owner
                                         $  28-30 = reserved (must be zero)
                                         $  31 = client 0 (don't care for classes 0 and 1)
-                0x44640005,             $ point/multicast & priority & realtime format
+                0x44640405,             $ point/multicast & priority & realtime format
                                         $   0     = O=>T fixed (1 = supported)
                                         $   1     = O=>T variable (0 = not supported)
                                         $   2     = T=>O fixed (1 = supported)
@@ -375,13 +184,13 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                                         $  20-23 = T=>O multicast
                                         $  24-27 = O=>T scheduled
                                         $  28-31 = T=>O scheduled
-                ,2,Assem2,              $ O=>T RPI,Size,Format
-                ,2,Assem1,              $ T=>O RPI,Size,Format
+                ,1,Assem2,              $ O=>T RPI,Size,Format
+                ,1,Assem1,              $ T=>O RPI,Size,Format
                 ,,                      $ config part 1 (dynamic assemblies)
-                2,Assem3,               $ config part 2 (module configuration)
+                1,Assem3,               $ config part 2 (module configuration)
                 "Exclusive Owner",      $ connection name
                 "",                     $ Help string
-                "20 04 24 67 2C 65 2C 64";    $ exclusive owner path
+                "20 04 24 28 2C 21 2C 03";    $ exclusive owner path
 
         Connection2 =
                 0x02010002,             $ trigger & transport
@@ -408,12 +217,12 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                                         $  24-27 = O=>T scheduled
                                         $  28-31 = T=>O scheduled
                 ,0,,                    $ O=>T RPI,Size,Format
-                ,2,Assem1,              $ T=>O RPI,Size,Format
+                ,1,Assem1,              $ T=>O RPI,Size,Format
                 ,,                      $ config part 1 (dynamic assemblies)
-                2,Assem3,               $ config part 2 (module configuration)
+                1,Assem3,               $ config part 2 (module configuration)
                 "Input Only",           $ connection name
                 "",                     $ Help string
-                "20 04 24 67 2C FE 2C 64";    $ input only path
+                "20 04 24 28 2C FE 2C 03";    $ input only path
 
         Connection3 =
                 0x01010002,             $ trigger & transport
@@ -440,12 +249,12 @@ $ EZ-EDS Version 3.31.1.20220811 Generated Electronic Data Sheet
                                         $  24-27 = O=>T scheduled
                                         $  28-31 = T=>O scheduled
                 ,0,,                    $ O=>T RPI,Size,Format
-                ,2,Assem1,              $ T=>O RPI,Size,Format
+                ,1,Assem1,              $ T=>O RPI,Size,Format
                 ,,                      $ config part 1 (dynamic assemblies)
-                2,Assem3,               $ config part 2 (module configuration)
+                1,Assem3,               $ config part 2 (module configuration)
                 "Listen Only",          $ connection name
                 "",                     $ Help string
-                "20 04 24 67 2C FF 2C 64";    $ listen only path
+                "20 04 24 28 2C FF 2C 03";    $ listen only path
 
 [Capacity]
         MaxCIPConnections = 12;

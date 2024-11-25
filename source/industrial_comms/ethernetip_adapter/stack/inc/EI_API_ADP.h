@@ -5,16 +5,12 @@
  *  Declaration of EtherNet/IP Adapter API.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2023 None
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 /*
@@ -194,7 +190,7 @@ extern ETHIP_API uint32_t EI_API_ADP_setErrorHandlerFunc(EI_API_ADP_CBStackError
 extern uint32_t EI_API_ADP_setLldpParameter(T* pAdp_p, EI_API_ADP_SLldp_Parameter_t lldpParameter);
 extern uint32_t EI_API_ADP_getLldpParameter(T* pAdp_p, EI_API_ADP_SLldp_Parameter_t *lldpParameter);
 
-#ifdef  __cplusplus 
+#ifdef  __cplusplus
 }
 #endif
 

@@ -64,6 +64,7 @@
             -DOSAL_FREERTOS=1
             -DSOC_AM64X
             -DSOC_AM64X=1
+            -DEIP_RGMII
             -DEIP_TIME_SYNC=1
             -DEIP_QUICK_CONNECT=0
             -DCPU_LOAD_MONITOR=0

@@ -5,39 +5,38 @@
  *  EtherNet/IP&trade; Adapter Example Application, access to LED's.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2024, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 None.
+ *  Copyright (C) 2024 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdbool.h>
@@ -82,6 +81,7 @@ uint32_t EI_APP_LED_init(EI_APP_LED_SInit_t* pParams)
     uint32_t   result = (uint32_t) OSAL_GENERAL_ERROR;
     EI_APP_MUTEX_EError_t mutexErr;
 
+#if !(defined FBTLPROVIDER)
     LED_Attrs* pAttrs = NULL;
     int32_t    status = SystemP_FAILURE;
 
@@ -129,6 +129,7 @@ uint32_t EI_APP_LED_init(EI_APP_LED_SInit_t* pParams)
             }
         }
     }
+#endif
 
     result = OSAL_NO_ERROR;
     goto laError;
@@ -155,6 +156,7 @@ uint32_t EI_APP_LED_deInit(void)
     uint32_t   result = (uint32_t) OSAL_GENERAL_ERROR;
     EI_APP_MUTEX_EError_t mutexErr;
 
+#if !(defined FBTLPROVIDER)
     int32_t    status = SystemP_FAILURE;
 
     // Get LED handle from sys config
@@ -180,8 +182,9 @@ uint32_t EI_APP_LED_deInit(void)
             goto laError;
         }
 
-        
+
     }
+#endif
 
     result = OSAL_NO_ERROR;
     goto laError;
@@ -200,6 +203,7 @@ laError:
 */
 void EI_APP_LED_industrialSet (uint32_t value)
 {
+#if !(defined FBTLPROVIDER)
     LED_Attrs* pAttrs = NULL;
     int32_t    status;
     uint32_t   ledGroupMask;
@@ -224,19 +228,20 @@ void EI_APP_LED_industrialSet (uint32_t value)
 
     EI_APP_LED_industrial_s.value = value;
     ledGroupMask = (1 << pAttrs->numLedPerGroup) - 1;
-    
     mutexErr = EI_APP_Mutex_Lock(EI_APP_Mutex_I2C, 1);
     if(EI_APP_MUTEX_eERR_NOERROR == mutexErr)
     {
         status = LED_setMask(EI_APP_LED_industrial_s.handle, EI_APP_LED_industrial_s.value & ledGroupMask);
 
         EI_APP_Mutex_Unlock(EI_APP_Mutex_I2C);
-        
+
         if(SystemP_SUCCESS != status)
         {
             OSAL_printf("Can not set LED Mask.\n");
         }
     }
+
+#endif
 
     return;
 }
