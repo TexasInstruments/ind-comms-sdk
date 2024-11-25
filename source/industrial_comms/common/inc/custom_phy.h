@@ -5,20 +5,16 @@
  *  Internal PRU interface for application based custom phy(s).
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2022 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined PROTECT_CUST_PHY_H)
-#define PROTECT_CUST_PHY_H		1
+#define PROTECT_CUST_PHY_H      1
 
 #include <osal.h>
 

@@ -5,16 +5,12 @@
  *  Beckhoff EC SSC Integration interface.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __SSC_H__)
@@ -61,6 +57,7 @@ typedef uint32_t    (*cbInputMapping_t)         (void*      pCtxt_p
 typedef uint32_t    (*cbOutputMapping_t)        (void*      pCtxt_p
                                                 ,uint16_t*  pData_p);
 typedef void        (*cbApplication_t)          (void*      pCtxt_p);
+typedef uint16_t    (*cbReadDeviceId_t)         (void*      pCtxt_p);
 typedef uint16_t    (*cbGenerateMapping_t)      (void*      pCtxt_p
                                                 ,uint16_t*  pInputSize_p
                                                 ,uint16_t*  pOutputSize_p);
@@ -114,7 +111,7 @@ typedef void        (*SOE_cbSend_t)             (void*      pCtxt_p
                                                 ,void*      pSendMbx_p);
 typedef uint8_t     (*SOE_cbRecv_t)             (void*      pCtxt_p
                                                 ,void*      pRecvMbx_p);
-typedef uint16_t    (*AOE_cbRecv_t)             (void*      pCtxt_p
+typedef uint32_t    (*AOE_cbRecv_t)             (void*      pCtxt_p
                                                 ,void*      pRecvMbx_p);
 
 typedef void        (*cbSetLedOut_t)            (void*      pCtxt_p
@@ -198,6 +195,8 @@ extern BKHFSSC_API void     SSC_registerStartOutputHandlerCb    (cbStartOutputHa
 extern BKHFSSC_API void     SSC_registerStopOutputHandlerCb     (cbStopOutputHandler_t          cbStopOutputHandler_p
                                                                 ,void*                          pContext_p);
 extern BKHFSSC_API void     SSC_registerAckErrorIndCb           (cbAckErrorInd_t                cbAckErrorInd_p
+                                                                ,void*                          pContext_p);
+extern BKHFSSC_API void     SSC_registerReadDeviceIdCb          (cbReadDeviceId_t               cbReadDeviceId_p
                                                                 ,void*                          pContext_p);
 
 extern BKHFSSC_API void     SSC_EOE_registerReceiveCb           (EOE_cbReceive_t                cbEoeReceive_p
@@ -333,7 +332,7 @@ extern BKHFSSC_API void     SSC_BKHF_mainLoop                   (void);
 extern BKHFSSC_API uint32_t SSC_ECAT_TIMER_INC_P_MS             (void);
 
 extern BKHFSSC_API uint16_t SSC_AOE_AmsRes                      (AmsCmd*                        pCmd_p
-                                                                ,uint16_t                       amsErrCode_p
+                                                                ,uint32_t                       amsErrCode_p
                                                                 ,uint16_t                       dataLen_p);
 
 extern BKHFSSC_API AmsCmd*  SSC_AOE_FragmentedCmdInd            (AmsCmd*                        pCmd_p);

@@ -5,16 +5,12 @@
  *  Beckhoff EC SSC Integration: Application callback Implementation.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #include <ssc_kbStack.h>
@@ -41,7 +37,7 @@ TOBJECT OBJMEM *ApplicationObjDic = NULL;
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pData		Process data pointer.
+ *  \param[in]  pData       Process data pointer.
  *
  *  <!-- Example: -->
  *
@@ -67,7 +63,7 @@ void APPL_InputMapping(uint16_t *pData)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pData		Process data pointer.
+ *  \param[in]  pData       Process data pointer.
  *
  *  <!-- Example: -->
  *
@@ -105,6 +101,27 @@ void APPL_Application(void)
 {
     SSC_application();
 }
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  Explicit Device ID callback
+ *
+ *  <!-- References: -->
+ *
+ *  \sa APPL_InputMapping, APPL_GenerateMapping, APPL_OutputMapping, APPL_AckErrorInd, APPL_StopOutputHandler, APPL_StartOutputHandler,
+ *      APPL_StopInputHandler, APPL_StartInputHandler, APPL_StopMailboxHandler, APPL_StartMailboxHandler, APPL_ResetOutputs
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup ssc
+ *
+ * */
+uint16_t APPL_GetDeviceID(void)
+{
+    return SSC_GetDeviceID();
+}
+
 
 /*! <!-- Description: -->
  *
@@ -305,7 +322,7 @@ void APPL_AckErrorInd(uint16_t stateTrans)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  parameter		Parameter description.
+ *  \param[in]  parameter       Parameter description.
  *  \return     ErrorCode p Closer description of ErrorCode, if required.
  *
  *  <!-- Example: -->
@@ -344,7 +361,7 @@ void SOE_ContinueInd(TMBX MBXMEM * pMbx)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pReceiveMbx		Pointer to the received mailbox data from the master.
+ *  \param[in]  pReceiveMbx     Pointer to the received mailbox data from the master.
  *  \return     ErrorCode p Closer description of ErrorCode, if required.
  *
  *  <!-- Example: -->
@@ -444,7 +461,7 @@ void BL_Finish(void)
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]  pData_p     Data
- *  \param[in]  address_p	address to write
+ *  \param[in]  address_p   address to write
  *  \param[in]  length_p    data len
  *
  *  <!-- Group: -->
@@ -467,7 +484,7 @@ void SSC_ESC_writeIsr(uint8_t *pData_p, uint16_t address_p, uint16_t length_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pData_p		data.
+ *  \param[in]  pData_p     data.
  *  \param[in]  address_p   Address
  *  \param[in]  length_p    Length of data
  *
@@ -537,7 +554,7 @@ void SSC_ESC_writeByte(uint8_t byteValue_p, uint16_t address_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pData_p		Data
+ *  \param[in]  pData_p     Data
  *  \param[in]  address_p   address
  *  \param[in]  length_p    Length of Data
  *
@@ -563,7 +580,7 @@ void SSC_ESC_writeMbxMem(uint8_t *pData_p, uint16_t address_p, uint16_t length_p
  *  <!-- Parameters and return values: -->
  *
  *  \param[out] pData_p     Data
- *  \param[in]  address_p	address to read
+ *  \param[in]  address_p   address to read
  *  \param[in]  length_p    data len
  *
  *  <!-- Group: -->
@@ -587,7 +604,7 @@ void SSC_ESC_readIsr(uint8_t *pData_p, uint16_t address_p, uint16_t length_p)
  *  <!-- Parameters and return values: -->
  *
  *  \param[out] pdata_p     Data
- *  \param[in]  address_p	address to read
+ *  \param[in]  address_p   address to read
  *  \param[in]  length_p    data len
  *
  *  <!-- Group: -->
@@ -770,7 +787,7 @@ uint32_t SSC_ESC_readDword(uint16_t address_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[out] pData_p		Data
+ *  \param[out] pData_p     Data
  *  \param[in]  address_p   address
  *  \param[in]  length_p    Length of Data
  *
@@ -817,4 +834,3 @@ int32_t SSC_EEP_ESC_reload(void)
 }
 
 //*************************************************************************************************
-

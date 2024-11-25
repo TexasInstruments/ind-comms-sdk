@@ -5,20 +5,16 @@
  *  PRU Integration Interface.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __PRU_H__)
-#define __PRU_H__		1
+#define __PRU_H__       1
 
 #include <osal.h>
 #if ((defined ECATSLAVE_SO) && (ECATSLAVE_SO==1) || ((defined ETHERNETIP_SO) && (ETHERNETIP_SO==1)) || ((defined PROFINETIO_SO) && (PROFINETIO_SO==1))) // defined if ECATSLV is compiled as a DLL
@@ -33,20 +29,24 @@
 #define PRU_LOC
 #endif // ECATSLAVE_SO
 
+#if (defined SOC_AM263PX)
+#include <drivers/pruicss/m_v0/cslr_icss_m.h>
+#endif
+
 /* PDK */
 #if (defined SOC_AM335x)
 #define  CONTROL_DEV_FEATURE 0x604
 #elif (defined SOC_AM437x)
 #define  CONTROL_DEV_FEATURE 0x604
 #elif (defined SOC_AM572x) || (defined SOC_AM574x)
-#elif (defined SOC_AM65XX) || (defined SOC_AM64X) || (defined SOC_AM243X)
+#elif (defined SOC_AM65XX) || (defined SOC_AM64X) || (defined SOC_AM243X) || (defined SOC_AM263PX) || (defined SOC_AM261X)
 #if (defined OSAL_LINUX) || (defined OSAL_TIRTOS) || (defined OSAL_FREERTOS_JACINTO)
 #define CSL_ICSSM_INTC_SECR0            CSL_ICSSINTC_SECR0
 #define CSL_ICSSM_INTC_SECR1            CSL_ICSSINTC_SECR1
 #define CSL_ICSSM_INTC_HIDISR           CSL_ICSSINTC_HIDISR
 #define CSL_ICSSM_INTC_HIEISR           CSL_ICSSINTC_HIEISR
 #define CSL_ICSSM_INTC_REVID            CSL_ICSSINTC_REVID
-#elif (defined OSAL_FREERTOS)
+#elif (defined OSAL_FREERTOS) && (defined(SOC_AM64X) || (defined(SOC_AM243X)))
 #define CSL_ICSSM_INTC_SECR0            CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0
 #define CSL_ICSSM_INTC_SECR1            CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG1
 #define CSL_ICSSM_INTC_HIDISR           CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_HINT_ENABLE_CLR_INDEX_REG
@@ -58,6 +58,18 @@
 #define CSL_ICSSIEP_DIGIO_EXP_REG       CSL_ICSS_G_PR1_IEP1_SLV_DIGIO_EXP_REG
 #define CSL_ICSSIEP_GLOBAL_CFG_REG      CSL_ICSS_G_PR1_IEP1_SLV_GLOBAL_CFG_REG
 #define CSL_ICSSIEP_GLOBAL_STATUS_REG   CSL_ICSS_G_PR1_IEP1_SLV_GLOBAL_STATUS_REG
+#elif (defined OSAL_FREERTOS) && ((defined SOC_AM263PX) || (defined SOC_AM261X))
+#define CSL_ICSSM_INTC_SECR0            CSL_ICSS_M_PR1_ICSS_INTC_SLV_ENA_STATUS_REG0
+#define CSL_ICSSM_INTC_SECR1            CSL_ICSS_M_PR1_ICSS_INTC_SLV_ENA_STATUS_REG1
+#define CSL_ICSSM_INTC_HIDISR           CSL_ICSS_M_PR1_ICSS_INTC_SLV_HINT_ENABLE_CLR_INDEX_REG
+#define CSL_ICSSM_INTC_HIEISR           CSL_ICSS_M_PR1_ICSS_INTC_SLV_HINT_ENABLE_SET_INDEX_REG
+#define CSL_ICSSM_INTC_REVID            CSL_ICSS_M_PR1_ICSS_INTC_SLV_REVISION_REG
+
+#define CSL_ICSSIEP_COUNT_REG0          CSL_ICSS_M_PR1_IEP0_SLV_COUNT_REG0
+#define CSL_ICSSIEP_DIGIO_CTRL_REG      CSL_ICSS_M_PR1_IEP0_SLV_DIGIO_CTRL_REG
+#define CSL_ICSSIEP_DIGIO_EXP_REG       CSL_ICSS_M_PR1_IEP0_SLV_DIGIO_EXP_REG
+#define CSL_ICSSIEP_GLOBAL_CFG_REG      CSL_ICSS_M_PR1_IEP0_SLV_GLOBAL_CFG_REG
+#define CSL_ICSSIEP_GLOBAL_STATUS_REG   CSL_ICSS_M_PR1_IEP0_SLV_GLOBAL_STATUS_REG
 #else
 #error "Unknown OS"
 #endif

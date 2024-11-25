@@ -5,20 +5,16 @@
  *  Beckhoff SSC Integration ISR interface.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __SSC_ISR_H__)
-#define __SSC_ISR_H__		1
+#define __SSC_ISR_H__       1
 
 #include <osal.h>
 #include <ssc.h>

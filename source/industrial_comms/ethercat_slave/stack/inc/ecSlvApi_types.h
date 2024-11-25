@@ -2,23 +2,19 @@
  *  \file ecSlvApi_types.h
  *
  *  \brief
- *  EtherCAT User API  types.
+ *  EtherCAT User API types.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __ECSLVAPI_TYPES_H__)
-#define __ECSLVAPI_TYPES_H__		1
+#define __ECSLVAPI_TYPES_H__        1
 
 #if (defined ECATSLAVE_SO) && (ECATSLAVE_SO==1) // defined if ECATSLV is compiled as a DLL
  #ifdef ECSLVAPI_EXPORTS // defined if we are building the ECATSLAVE DLL (instead of using it)
@@ -184,7 +180,7 @@ typedef void (*EC_API_SLV_CBUsrApplicationMainLoop_t)(void* pAppMainLoopCtxt);
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppRunCtxt		CallBack Content for use in complex applications.
+ *  \param[in]  pAppRunCtxt     CallBack Content for use in complex applications.
  *
  *  <!-- Group: -->
  *
@@ -203,9 +199,9 @@ typedef void (*EC_API_SLV_CBUsrApplicationRun_t)(void* pAppRunCtxt);
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]  pAppRunCtxt   CallBack Content for use in complex applications.
- *  \param[in]  errorCode		Error code from DTK Stack
+ *  \param[in]  errorCode       Error code from DTK Stack
  *  \param[in]  fatal         Error type
- *  \param[in]  numOfParam	number of upcoming parameters
+ *  \param[in]  numOfParam  number of upcoming parameters
  *  \param[in]  arg           rest of parameters
  *
  *  <!-- Reference -->
@@ -422,7 +418,7 @@ typedef void (*EC_API_SLV_CBPostSeqOutputPD_t)(void* pContext, void* pData, uint
  *  Inform about PDO assignment changes.
  *
  *  <!-- Parameters and return values: -->
- *  \param[in]  pContext          Function context.
+ *  \param[in]  pContext            Function context.
  *  \param[in]  pRxPdoAssignMap_p   pointer to SM2 PDO reconfigure assignments.
  *  \param[in]  pTxPdoAssignMap_p   pointer to SM3 PDO reconfigure assignments.
  *  \return     Returns the API error code.
@@ -762,7 +758,7 @@ typedef uint32_t (*EC_API_SLV_AoE_CBWriteRequestHandler_t)(void*           pCont
  *
  *  \param[in]  pContext      call context
  *  \param[in]  pSoEService   SoE Service code
- *  \param[in]  pSoEFlags		SoE Flags
+ *  \param[in]  pSoEFlags       SoE Flags
  *  \param[in]  pData         SoE Data
  *  \param[in]  pLen          Data length
  *
@@ -786,7 +782,7 @@ typedef void (*EC_API_SLV_SoE_CBSend_t)(void* pContext, uint16_t* pSoEService, u
  *
  *  \param[in]  pContext      call context
  *  \param[in]  soEService    SoE Service code
- *  \param[in]  soEFlags		SoE Flags
+ *  \param[in]  soEFlags        SoE Flags
  *  \param[in]  pData         SoE Data
  *  \param[in]  pLen          Data length
  *
@@ -844,7 +840,7 @@ typedef bool (*EC_API_SLV_CiA402_CBUsrApplSM_t)(void* pAppRunCtxt);
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext		call context.
+ *  \param[in]  pContext        call context.
  *
  *  <!-- Group: -->
  *
@@ -861,7 +857,7 @@ typedef uint16_t (*EC_API_SLV_CiA402_CBUsrApplSetDict_t)(void* pContext);
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext		call context.
+ *  \param[in]  pContext        call context.
  *
  *  <!-- Group: -->
  *
@@ -878,7 +874,7 @@ typedef void (*EC_API_SLV_CiA402_CBUsrApplSetDictValues_t)(void* pContext);
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext		call context.
+ *  \param[in]  pContext        call context.
  *
  *  <!-- Group: -->
  *
@@ -895,7 +891,7 @@ typedef void (*EC_API_SLV_CiA402_CBUsrApplApplication_t)(void* pContext);
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pContext		Parameter description.
+ *  \param[in]  pContext        Parameter description.
  *  \param[in]  errorCode     Local Error
  *
  *  <!-- Group: -->
@@ -934,7 +930,7 @@ typedef bool(*EC_API_SLV_CBEepromRead_t)(void* pContext, void* pEeprom, uint32_t
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]  pContext      call context
- *  \param[in]  pEeprom		Eeprom Content.
+ *  \param[in]  pEeprom     Eeprom Content.
  *  \param[in]  length        Eeprom Length.
  *
  *  <!-- Group: -->

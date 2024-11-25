@@ -5,16 +5,12 @@
  *  Beckhoff SSC Integration: Callback Backend.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #include <ssc.h>
@@ -594,6 +590,33 @@ void SSC_EOE_receive(uint16_t* pData_p, uint16_t length_p)
 /*! <!-- Description: -->
  *
  *  \brief
+ *  Explicit Device ID callback
+ *
+ *  <!-- References: -->
+ *
+ *  \sa SSC_inputMapping, SSC_generateMapping, SSC_outputMapping, SSC_ackErrorInd, SSC_stopOutputHandler, SSC_startOutputHandler,
+ *      SSC_stopInputHandler, SSC_startInputHandler, SSC_stopMailboxHandler, SSC_startMailboxHandler, SSC_resetOutputs, SSC_EOE_receive
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup ssc
+ *
+ * */
+uint16_t SSC_GetDeviceID(void)
+{
+    uint16_t retVal = 0;
+
+    if (SSC_callbacks_g.cbReadDeviceId)
+    {
+        retVal = SSC_callbacks_g.cbReadDeviceId(SSC_callbacks_g.pReadDeviceIdCtxt);
+    }
+
+    return retVal;
+}
+
+/*! <!-- Description: -->
+ *
+ *  \brief
  *  EoE Settings Indicator callback
  *
  *  <!-- Parameters and return values: -->
@@ -824,7 +847,7 @@ void SSC_BL_finish(void)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  runLed_p	Run LED state
+ *  \param[in]  runLed_p    Run LED state
  *  \param[in]  errLed_p    Error LED state
  *
  *  <!-- Group: -->
@@ -1280,7 +1303,7 @@ void SSC_checkTimer(bool ecatWaitForAlControlRes_p, int16_t* pEsmTimeoutCnt_p,
 #if MAX_PD_OUTPUT_SIZE > 0
     /*The SyncManager watchdog is not supported, the local watchdog is used*/
     ECAT_CheckWatchdog();
-#endif	 //#if MAX_PD_OUTPUT_SIZE > 0
+#endif   //#if MAX_PD_OUTPUT_SIZE > 0
 #endif //#if !ESC_SM_WD_SUPPORTED
 
     if (expiredTicks)
@@ -1350,7 +1373,7 @@ UINT16  AOEAPPL_AmsInd(AmsCmd MBXMEM *pCmd)
     uint16_t retVal = (uint16_t)~0;
     if(SSC_callbacks_g.cbAoeRecvCb != NULL)
     {
-        retVal = SSC_callbacks_g.cbAoeRecvCb(SSC_callbacks_g.pAoeRecvCtxt, pCmd);
+        retVal = (uint16_t)SSC_callbacks_g.cbAoeRecvCb(SSC_callbacks_g.pAoeRecvCtxt, pCmd);
     }
     return retVal;
 }

@@ -17,13 +17,15 @@
             <Device Physics="YY">
                 <Type ProductCode="#x54490023" RevisionNo="#x10000">TI EtherCAT Toolkit Conformance for AM243X.R5F</Type>
                 <Name LcId="0">TI EtherCAT Toolkit Conformance for AM243X.R5F</Name>
-                                <Info>
+                <Info>
                     <Mailbox>
                         <Timeout>
                             <RequestTimeout>100</RequestTimeout>
                             <ResponseTimeout>1000</ResponseTimeout>
                         </Timeout>
                     </Mailbox>
+                    <IdentificationAdo>#x0134</IdentificationAdo>
+                    <IdentificationReg134>1</IdentificationReg134>
                 </Info>
                 <GroupType>EtherCAT Toolkit</GroupType>
                 <Profile>

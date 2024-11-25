@@ -5,20 +5,16 @@
  *  Beckhoff EC SSC Integration: Application callback interface
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __SSC_KBSTACK_H__)
-#define __SSC_KBSTACK_H__		1
+#define __SSC_KBSTACK_H__       1
 
 #include <osal.h>
 #include <objdef.h>
@@ -79,6 +75,7 @@ extern "C" {
 extern void     APPL_InputMapping           (uint16_t*      pData);
 extern void     APPL_OutputMapping          (uint16_t*      pData);
 extern void     APPL_Application            (void);
+extern uint16_t APPL_GetDeviceID            (void);
 extern uint16_t APPL_GenerateMapping        (uint16_t*      pi16uInputSize
                                             ,uint16_t*      pi16OutputSize);
 extern uint16_t APPL_StartMailboxHandler    (void);

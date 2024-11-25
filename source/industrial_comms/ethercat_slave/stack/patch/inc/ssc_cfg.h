@@ -5,20 +5,16 @@
  *  Beckhoff SSC Integration configuration.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __SSC_CFG_H__)
-#define __SSC_CFG_H__		1
+#define __SSC_CFG_H__       1
 
 
 /* Uncomment following to enable DC feature of system time compensation via PDI interface instead of ECAT interface

@@ -5,39 +5,38 @@
  *  CiA 402 Callbacks Example.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2020, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 KUNBUS GmbH.
+ *  Copyright (C) 2020 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <osal.h>
@@ -161,8 +160,8 @@ static EC_SLV_APP_CiA402_SAxis_t       localAxes_s[AXES_NUMBER];
  *
  *  \param[in]  pApplication_p  application Instance.
  *  \param[in]  pObject_p       CiA402 Object.
- *  \param[in]  length_p   		Object length.
- *  \param[out] pValue_p   		Object Value.
+ *  \param[in]  length_p        Object length.
+ *  \param[out] pValue_p        Object Value.
  *  \return     ErrorCode       SDK Error code.
  *
  *  <!-- Example: -->
@@ -215,10 +214,10 @@ Exit:
  *  Use OBD indexes described in ETG6010 Chapter 16. axis_p parameter calculates the axis object index.
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pApplication_p	application Instance.
+ *  \param[in]  pApplication_p  application Instance.
  *  \param[in]  pCiaObject_p    CiA402 application object descriptor.
- *  \param[in]  length_p   		Object length.
- *  \param[in]  pValue_p   		Object Value.
+ *  \param[in]  length_p        Object length.
+ *  \param[in]  pValue_p        Object Value.
  *  \return     ErrorCode       SDK Error code.
  *
  *  <!-- Example: -->
@@ -278,8 +277,8 @@ Exit:
  *
  *  \param[in]  pAppCtxt_p              Application Instance.
  *  \param[in]  pObjectEntry_p          CiA402 Object entry.
- *  \param[in]  length_p   		        Object entry length.
- *  \param[in]  pValue_p   		        Object entry value.
+ *  \param[in]  length_p                Object entry length.
+ *  \param[in]  pValue_p                Object entry value.
  *  \return     ErrorCode               SDK Error code.
  *
  *  <!-- Example: -->
@@ -335,11 +334,11 @@ Exit:
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pEcApiSlv_p		SDK Instance.
- *  \param[in]  index_p   		CiA402 Object index.
+ *  \param[in]  pEcApiSlv_p     SDK Instance.
+ *  \param[in]  index_p         CiA402 Object index.
  *  \param[in]  subIndex_p      CiA402 Object entry subIndex.
- *  \param[in]  length_p   		Object entry length.
- *  \param[in]  pValue_p   		Object entry value.
+ *  \param[in]  length_p        Object entry length.
+ *  \param[in]  pValue_p        Object entry value.
  *  \return     ErrorCode       SDK Error code.
  *
  *  <!-- Example: -->
@@ -387,7 +386,7 @@ static uint32_t EC_SLV_APP_setCiA402ObjectEntryValue(EC_API_SLV_SHandle_t* pEcAp
  *  Check ETG6010 Object Definitions for more information.
  *
  *  <!-- Parameters and return values: -->
- *  \param[in]  pApplication_p		Application Instance.
+ *  \param[in]  pApplication_p      Application Instance.
  *
  *  <!-- Example: -->
  *
@@ -440,7 +439,7 @@ static uint32_t EC_SLV_APP_setSupportedDriveModes(EC_SLV_APP_CIA_Application_t* 
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pCtxt_p		function context.
+ *  \param[in]  pCtxt_p     function context.
  *
  *  <!-- Example: -->
  *
@@ -494,8 +493,8 @@ void EC_SLV_APP_setObdValues(void* ctxt)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pCtxt_p		Callback context.
- *  \param[in]  pIntMask_p	Register 0x204 value.
+ *  \param[in]  pCtxt_p     Callback context.
+ *  \param[in]  pIntMask_p  Register 0x204 value.
  *  \return     ErrorCode   Closer description of ErrorCode, if required.
  *
  *  <!-- Example: -->
@@ -677,7 +676,7 @@ static void EC_SLV_APP_CST(
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]  pApplication_p  Application instance.
- *  \param[in]  pCiA402Axis		Servo Axis description structure.
+ *  \param[in]  pCiA402Axis     Servo Axis description structure.
  *  \param[in]  gotInOffset     got PDO in offset
  *  \param[in]  gotOutOffset    got PDO out offset
  *
@@ -727,8 +726,8 @@ static void EC_SLV_APP_CSV(
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pApplication_p	application instance.
- *  \param[in]  pCiA402Axis		Servo Axis description structure.
+ *  \param[in]  pApplication_p  application instance.
+ *  \param[in]  pCiA402Axis     Servo Axis description structure.
  *  \param[in]  gotOffsets      got PDO offsets
  *
  *  <!-- Example: -->
@@ -818,8 +817,8 @@ static void EC_SLV_APP_CSP(
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pApplication_p	application instance.
- *  \param[in]  pCiA402Axis		Servo Axis description structure.
+ *  \param[in]  pApplication_p  application instance.
+ *  \param[in]  pCiA402Axis     Servo Axis description structure.
  *  \param[in]  gotInOffset     got PDO in offsets
  *  \param[in]  gotOutOffset    got PDO out offsets
  *
@@ -960,7 +959,7 @@ Exit:
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pCtxt_p		EtherCAT slave handle.
+ *  \param[in]  pCtxt_p     EtherCAT slave handle.
  *
  *  <!-- Example: -->
  *

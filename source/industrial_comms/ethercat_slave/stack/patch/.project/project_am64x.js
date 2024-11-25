@@ -56,7 +56,7 @@ const defines = {
         "SSC_CHECKTIMER=1",
         "USE_ECAT_TIMER=1",
         "PRUICSS_ETHERCAT_SUPPORT",
-	"OSAL_FREERTOS=1",
+    "OSAL_FREERTOS=1",
     ],
 };
 

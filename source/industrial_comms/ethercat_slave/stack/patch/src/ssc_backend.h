@@ -5,20 +5,16 @@
  *  Beckhoff SSC Integration: Callback backend.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __SSC_BACKEND_H__)
-#define __SSC_BACKEND_H__		1
+#define __SSC_BACKEND_H__       1
 
 #include <osal.h>
 #include <ssc.h>
@@ -36,6 +32,9 @@ typedef struct SSC_ESC_sApplicationCallback
 
     cbApplication_t         cbApplication;
     void*                   pApplicationCtxt;
+
+    cbReadDeviceId_t        cbReadDeviceId;
+    void*                   pReadDeviceIdCtxt;
 
     cbGenerateMapping_t     cbGenerateMapping;
     void*                   pGenerateMappingCtxt;
@@ -211,6 +210,7 @@ extern void     SSC_EOE_settingInd          (uint16_t*          pMac_p
                                             ,uint16_t*          pSubNet_p
                                             ,uint16_t*          pDefaultGateway_p
                                             ,uint16_t*          pDnsIp_p);
+extern uint16_t SSC_GetDeviceID             (void);
 
 #if (defined __cplusplus)
 }

@@ -1,24 +1,20 @@
 /*!
- *  \file ecSlvApi.h
+ *  \file ecSlvApi_phy.h
  *
  *  \brief
  *  EtherCAT User API PHY interface.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __ECSLVAPI_PHY_H__)
-#define __ECSLVAPI_PHY_H__		1
+#define __ECSLVAPI_PHY_H__      1
 
 #if (defined ECATSLAVE_SO) && (ECATSLAVE_SO==1) // defined if ECATSLV is compiled as a DLL
  #ifdef ECSLVAPI_EXPORTS // defined if we are building the ECATSLAVE DLL (instead of using it)

@@ -5,39 +5,38 @@
  *  EtherCAT<sup>&reg;</sup> Slave Example Application
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 KUNBUS GmbH.
+ *  Copyright (C) 2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #define SHOW_LOOPCOUNT 0
@@ -2816,7 +2815,6 @@ void EC_SLV_APP_SS_initBoardFunctions(EC_SLV_APP_SS_Application_t *pAppInstance_
 #else
     OSALUNREF_PARM(pAppInstance_p);
 #endif
-
     /* configure LED Pin */
     ESL_BOARD_OS_initStatusLED(pAppInstance_p->gpioHandle, pAppInstance_p->selectedPruInstance);
 
@@ -2872,6 +2870,7 @@ void EC_SLV_APP_SS_registerStacklessBoardFunctions(EC_SLV_APP_SS_Application_t *
 
     CUST_PHY_CBregisterLibDetect(CUST_PHY_detect, pAppInstance_p);
     CUST_PHY_CBregisterReset(EC_SLV_APP_SS_boardPhyReset, pAppInstance_p);
+
 #endif
 Exit:
     return;
@@ -2929,7 +2928,7 @@ static uint32_t EC_SLAVE_APP_assignmentChangedHandler(
         }
     }
     OSAL_printf("**************************************\r\n");
-    
+
     if (pRxPdoAssignMap_p->pdoCount == 0u && pTxPdoAssignMap_p->pdoCount == 0u)
     {
         error = EC_API_eERR_ABORT;
@@ -2990,14 +2989,14 @@ static uint32_t EC_SLAVE_APP_mappingChangedHandler(
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]        pContext_p             The pointer to the EtherCAT API instance.
+ *  \param[in]        pContext_p              The pointer to the EtherCAT API instance.
  *  \param[in]        port_p                  AMS port.
  *  \param[in]        index_p                 16 bit index value from IndexOffset.
- *  \param[in]        subIndex_p             8 bit subIndex value from IndexOffset.
- *  \param[in]        completeAccess_p     CoE Complete Access flag.
- *  \param[in,out]  pLength_p              Request data length.
+ *  \param[in]        subIndex_p              8 bit subIndex value from IndexOffset.
+ *  \param[in]        completeAccess_p        CoE Complete Access flag.
+ *  \param[in,out]    pLength_p               Request data length.
  *  \param[in]        pData_p                 Pointer to data.
- *  \return      ADS error code
+ *  \return           ADS error code          32-bit error code
  *
  *  <!-- Group: -->
  *
@@ -3119,13 +3118,13 @@ static uint32_t EC_SLV_APP_AoE_readRequest(
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]        pContext_p             The pointer to the EtherCAT API instance.
- *  \param[in]        port_p                  AMS port.
- *  \param[in]        index_p                 16 bit index value from IndexOffset.
+ *  \param[in]        port_p                 AMS port.
+ *  \param[in]        index_p                16 bit index value from IndexOffset.
  *  \param[in]        subIndex_p             8 bit subIndex value from IndexOffset.
- *  \param[in]        completeAccess_p     CoE Complete Access flag.
- *  \param[in,out]  pLength_p                Request data length.
- *  \param[in]        pData_p                 Pointer to data.
- *  \return      ADS error code
+ *  \param[in]        completeAccess_p       CoE Complete Access flag.
+ *  \param[in,out]    pLength_p              Request data length.
+ *  \param[in]        pData_p                Pointer to data.
+ *  \return           ADS error code         32-bit error code
  *
  *  <!-- Group: -->
  *
@@ -3517,7 +3516,7 @@ static void EC_SLV_APP_escStatusAnalysis(EC_SLV_APP_SS_Application_t *pAppInstan
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pAppCtxt_p		application context
+ *  \param[in]  pAppCtxt_p      application context
  *
  *  <!-- Example: -->
  *

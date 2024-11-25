@@ -24,6 +24,8 @@
                             <ResponseTimeout>1000</ResponseTimeout>
                         </Timeout>
                     </Mailbox>
+                    <IdentificationAdo>#x0134</IdentificationAdo>
+                    <IdentificationReg134>1</IdentificationReg134>
                 </Info>
                 <GroupType>EtherCAT Toolkit</GroupType>
                 <Profile>
