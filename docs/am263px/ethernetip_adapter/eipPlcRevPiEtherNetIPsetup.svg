@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generiert durch Microsoft Visio, SVG Export eipPlcRevPiEtherNetIPsetup.svg RevPi EtherNet/IP -->
+<svg class="st13" width="5.582in" height="2.6666in" color-interpolation-filters="sRGB" version="1.1" viewBox="0 0 401.9 192" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+	<title>Setup Revolution Pi CODESYS EtherNet/IP Adapter</title>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:none;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st2 {stroke:#00b050;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st3 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st4 {fill:#000000}
+		.st5 {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st6 {fill:#000000;font-family:Calibri;font-size:0.833336em}
+		.st7 {font-size:1em}
+		.st8 {fill:#000000;font-family:Calibri;font-size:0.499992em}
+		.st9 {fill:#000000;font-family:Calibri;font-size:0.250008em}
+		.st10 {stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st11 {fill:#ffffff;stroke:none;stroke-linecap:butt;stroke-width:7.2}
+		.st12 {stroke:#0070c0;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st13 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g transform="translate(-18 -18)">
+		<title>RevPi EtherNet/IP</title>
+		<g transform="translate(18 -615.54)">
+			<title>Tabelle.52</title>
+			<g transform="translate(394.44 -102.76)">
+				<title>Rechteck.51</title>
+				<rect class="st1" y="834.8" width="7.0866" height="7.0866"/>
+			</g>
+			<g transform="translate(144.99 -16.724)">
+				<title>Rechteck.20</title>
+				<rect class="st1" y="834.8" width="7.0866" height="7.0866"/>
+			</g>
+			<g transform="translate(295.32 -97.795)">
+				<title>Dynamischer Verbinder.25</title>
+				<path class="st2" d="m0 847.56h-36.85v28.35h-104.79a2.3622 2.3622-180 1 0-4.72 0h-27.03a2.3622 2.3622-180 0 0-4.72 0h-6.85v-25.52h-10.63"/>
+			</g>
+			<g transform="translate(14.689 -63.78)">
+				<title>PC</title>
+				<g transform="translate(0 -5.6714)">
+					<title>Tabelle.2</title>
+					<path class="st3" d="m57.61 821.01v7.17h4.34l4.1 5.15h18.99v-65.14h-27.43v9.35h11.76v43.47zm11.76-43.47h-65.13v43.47h65.13zm3.51 64.35-10.93-13.71h-51.02l-10.93 13.71zm-30.71-20.88h-11.46v7.17h11.46z"/>
+				</g>
+				<g transform="translate(8.4634 -30.472)">
+					<title>Tabelle.3</title>
+					<path class="st3" d="m56.78 806.65h-56.78v35.24h56.78z"/>
+				</g>
+				<g transform="translate(9.9183 -8.5004)">
+					<title>Tabelle.4</title>
+					<path class="st4" d="m64.14 778.31h5.87v-2.28h-5.87zm0 4.08h5.87v-2.28h-5.87zm-14.37 54.18h-3.24l1.81 2.02h3.49zm-3.67-3.57h-2.79l1.95 2.17h3.06zm-1.31 3.57h-3.24l1.42 2.02h3.49zm-2.98-3.57h-2.79l1.53 2.17h3.06zm-2.01 3.57h-3.24l1.04 2.02h3.49zm-2.27-3.57h-2.79l1.11 2.21h3.07zm-2.71 3.57h-3.24l0.65 2.02h3.49zm-1.52-3.42h-2.81l0.65 2.06h3.07zm-3.46 3.42h-3.24l0.26 2.02h3.49zm-0.82-3.25h-2.83l0.25 2.02h3.09zm-4.36 0h-2.83l-0.13 2.02h3.08zm0.2 3.25h-3.24l-0.14 2.02h3.5zm-4.55-3.25h-2.83l-0.52 2.02h3.08zm-0.44 3.25h-3.23l-0.53 2.02h3.5zm17.77 3.31h-22.85l-0.59 2.01h24.43zm-21.68-6.56h-2.84l-0.91 2.02h3.09zm-1.07 3.25h-3.24l-0.91 2.02h3.49zm-3.29-3.25h-2.83l-1.3 2.02h3.08zm-1.69 3.25h-3.24l-1.3 2.02h3.49zm-2.66-3.25h-2.83l-1.69 2.02h3.08zm-2.32 3.25h-3.24l-1.69 2.02h3.49z"/>
+				</g>
+			</g>
+			<g transform="translate(0 -165.83)">
+				<title>Tabelle.5</title>
+				<desc>CODESYS Development System</desc>
+				<rect class="st5" y="799.37" width="114.42" height="42.52"/>
+				<text class="st6" x="38.68" y="812.37">CODESYS<tspan class="st7" x="13.9" dy="1.2em">Development System</tspan></text>			</g>
+			<g transform="translate(189.02 -70.866)">
+				<title>Rechteck.6</title>
+				<desc>RevPi Connect CODESYS Control for Raspberry Runtime 4.70</desc>
+				<rect class="st3" y="771.02" width="49.606" height="70.866"/>
+				<text class="st8" x="7.3099999" y="778.41998">RevPi Connect<tspan class="st7" x="3.9300001" dy="6em">CODESYS Control</tspan><tspan class="st7" x="8.25" dy="1.2em">for Raspberry</tspan><tspan class="st7" x="8.4399996" dy="1.2em">Runtime 4.70</tspan></text>			</g>
+			<g transform="translate(189.02 -106.3)">
+				<title>Tabelle.9</title>
+				<desc>A</desc>
+				<rect class="st5" y="827.72" width="14.173" height="14.173"/>
+				<text class="st8" x="2" y="835.12">A</text>			</g>
+			<g transform="translate(224.45 -106.3)">
+				<title>Tabelle.10</title>
+				<desc>B</desc>
+				<rect class="st5" y="827.72" width="14.173" height="14.173"/>
+				<text class="st8" x="8.9099998" y="835.12">B</text>			</g>
+			<g transform="translate(156.61 -158.74)">
+				<title>Tabelle.12</title>
+				<desc>CODESYS Runtime System EtherNet/IP Scanner</desc>
+				<rect class="st5" y="792.28" width="114.42" height="49.606"/>
+				<text class="st6" x="38.68" y="805.28003">CODESYS<tspan class="st7" x="24.129999" dy="1.2em">Runtime System</tspan><tspan class="st7" x="15.65" dy="1.2em">EtherNet/IP Scanner</tspan></text>			</g>
+			<g transform="translate(302.4 -158.74)">
+				<title>Tabelle.15</title>
+				<desc>EtherNet/IP Adapter</desc>
+				<rect class="st5" y="792.28" width="85.039" height="49.606"/>
+				<text class="st6" x="18.379999" y="805.28003">EtherNet/IP <tspan class="st7" x="26.07" dy="1.2em">Adapter</tspan></text>			</g>
+			<g transform="translate(231.54 -127.56)">
+				<title>Dynamischer Verbinder.17</title>
+				<path class="st2" d="m0 848.98h63.78"/>
+			</g>
+			<g transform="translate(295.32 -77.953)">
+				<title>Rechteck</title>
+				<desc>Sitara AM243x EVM</desc>
+				<rect class="st3" y="785.2" width="99.213" height="56.693"/>
+				<text class="st6" x="9.1999998" y="816.53998">Sitara AM243x EVM</text>			</g>
+			<g transform="translate(85.555 -82.205)">
+				<title>Quadrat.33</title>
+				<desc>Industrial 192.168. 1.8</desc>
+				<rect class="st3" y="827.72" width="14.173" height="14.173"/>
+				<text class="st9" x="1.3200001" y="832.09998">Industrial<tspan class="st7" x="1.77" dy="1.2em">192.168.</tspan><tspan class="st7" x="5.1900001" dy="1.2em">1.8</tspan></text>			</g>
+			<g transform="translate(312.33 -131.81)">
+				<title>Dynamischer Verbinder.37</title>
+				<desc>USB UART/JTAG</desc>
+				<path class="st10" d="m0 839.06v-20.25h-221.1v11.74"/>
+				<rect class="st11" x="-125.87" y="815.21" width="39.14" height="7.2002"/>
+				<text class="st8" x="-125.87" y="820.60999">USB UART/JTAG</text>			</g>
+			<g transform="translate(111.07)">
+				<title>Switch</title>
+				<g transform="translate(0 -23.972)">
+					<title>Tabelle.39</title>
+					<path class="st3" d="m65.4 841.89 1.42-2.83h-62.77l1.41 2.83zm-65.4-4.19h70.87v-18.73h-70.87z"/>
+				</g>
+				<g transform="translate(54.667 -31.702)">
+					<title>Tabelle.40</title>
+					<rect class="st3" y="830.36" width="12.151" height="11.532"/>
+				</g>
+				<g transform="translate(5.6183 -32.827)">
+					<title>Tabelle.41</title>
+					<path class="st4" d="m4.98 838.25h-4.98v2.39h1.3v1.25h2.39v-1.25h1.29zm8.01 0h-4.98v2.39h1.29v1.25h2.4v-1.25h1.29zm8.01 0h-4.98v2.39h1.29v1.25h2.39v-1.25h1.3zm8.01 0h-4.99v2.39h1.3v1.25h2.39v-1.25h1.3zm8.01 0h-4.99v2.39h1.3v1.25h2.39v-1.25h1.3zm0-5.77h-4.99v2.39h1.3v1.25h2.39v-1.25h1.3zm-8.01 0h-4.99v2.39h1.3v1.25h2.39v-1.25h1.3zm-8.01 0h-4.98v2.39h1.29v1.25h2.39v-1.25h1.3zm-8.01 0h-4.98v2.39h1.29v1.25h2.4v-1.25h1.29zm-8.01 0h-4.98v2.39h1.3v1.25h2.39v-1.25h1.29z"/>
+				</g>
+				<g transform="translate(55.665 -33.619)">
+					<title>Tabelle.42</title>
+					<path class="st4" d="m5.63 837.77 1.51-1.95h1.72l-0.89 0.88h1.03l1.16-1.25-1.15-1.26h-1.05l0.89 0.88h-2.24l-1.53 1.98-1.53-1.98h-2.24l0.88-0.88h-1.04l-1.15 1.26 1.15 1.25h1.04l-0.89-0.88h1.71l1.51 1.95-1.92 2.49-1.3 0.01 0.89-0.88h-1.04l-1.15 1.25 1.15 1.25h1.04l-0.88-0.87h1.83l1.94-2.52 1.94 2.52h1.83l-0.89 0.87h1.05l1.15-1.25-1.16-1.25h-1.03l0.89 0.88-1.31-0.01z"/>
+				</g>
+			</g>
+			<g transform="translate(99.728 -103.46)">
+				<title>Dynamischer Verbinder</title>
+				<path class="st12" d="m0 841.89h19.84v62.65"/>
+			</g>
+			<g transform="translate(151.32 -40.819)">
+				<title>Dynamischer Verbinder.45</title>
+				<path class="st12" d="m0 841.89v-79.65h44.79"/>
+			</g>
+			<g transform="translate(295.32 -113.39)">
+				<title>Quadrat.24</title>
+				<desc>Port 2 192.168. 1.10</desc>
+				<rect class="st3" y="827.72" width="14.173" height="14.173"/>
+				<text class="st9" x="3.4000001" y="832.09998">Port 2<tspan class="st7" x="1.77" dy="1.2em">192.168.</tspan><tspan class="st7" x="4.4299998" dy="1.2em">1.10</tspan></text>			</g>
+			<g transform="translate(295.32 -85.039)">
+				<title>Quadrat.14</title>
+				<desc>Port 1 192.168. 1.10</desc>
+				<rect class="st3" y="827.72" width="14.173" height="14.173"/>
+				<text class="st9" x="3.4000001" y="832.09998">Port 1<tspan class="st7" x="1.77" dy="1.2em">192.168.</tspan><tspan class="st7" x="4.4299998" dy="1.2em">1.10</tspan></text>			</g>
+			<g transform="translate(196.11 -113.39)">
+				<title>Quadrat</title>
+				<desc>eth0 DHCP</desc>
+				<rect class="st3" y="827.72" width="14.173" height="14.173"/>
+				<text class="st9" x="4.29" y="833.90002">eth0<tspan class="st7" x="3.6500001" dy="1.2em">DHCP</tspan></text>			</g>
+			<g transform="translate(217.37 -113.39)">
+				<title>Quadrat.8</title>
+				<desc>eth1 192.168. 1.20</desc>
+				<rect class="st3" y="827.72" width="14.173" height="14.173"/>
+				<text class="st9" x="4.29" y="832.09998">eth1<tspan class="st7" x="1.77" dy="1.2em">192.168.</tspan><tspan class="st7" x="4.4299998" dy="1.2em">1.20</tspan></text>			</g>
+			<g transform="translate(85.555 -96.378)">
+				<title>Quadrat.26</title>
+				<desc>LAN DHCP</desc>
+				<rect class="st3" y="827.72" width="14.173" height="14.173"/>
+				<text class="st9" x="4.6199999" y="833.90002">LAN<tspan class="st7" x="3.6500001" dy="1.2em">DHCP</tspan></text>			</g>
+		</g>
+	</g>
+<metadata><rdf:RDF><cc:Work rdf:about=""><dc:title>Setup Revolution Pi CODESYS EtherNet/IP Adapter</dc:title></cc:Work></rdf:RDF></metadata></svg>

@@ -9,6 +9,7 @@ var struct_e_i___a_p_i___a_d_p___s_init =
     [ "taskPrioBackground", "struct_e_i___a_p_i___a_d_p___s_init_a151e1381e5668dab5d79714c30136e35.html#a151e1381e5668dab5d79714c30136e35", null ],
     [ "ptp", "struct_e_i___a_p_i___a_d_p___s_init_aa5dc317e430200a451eb3dfdc9f8867d.html#aa5dc317e430200a451eb3dfdc9f8867d", null ],
     [ "taskPrioReceive", "struct_e_i___a_p_i___a_d_p___s_init_ad51745a34ebe0b6ec13e05fc24163f44.html#ad51745a34ebe0b6ec13e05fc24163f44", null ],
+    [ "maxNeighborDevices", "struct_e_i___a_p_i___a_d_p___s_init_a981c8f77cee904537aeecbb705ea4b42.html#a981c8f77cee904537aeecbb705ea4b42", null ],
     [ "lldp", "struct_e_i___a_p_i___a_d_p___s_init_ad1eff3cae56241a03d649bc9b0cc786f.html#ad1eff3cae56241a03d649bc9b0cc786f", null ],
     [ "dll", "struct_e_i___a_p_i___a_d_p___s_init_afc979d631f0f59cce44308d0fffe0f5f.html#afc979d631f0f59cce44308d0fffe0f5f", null ]
 ];
