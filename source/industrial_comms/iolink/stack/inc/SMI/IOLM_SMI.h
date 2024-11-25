@@ -5,16 +5,12 @@
  *  Standardized Master Interface (SMI) APIs
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2024, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2024, Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #ifndef INC_PROT__IOLM_SMI_H__
@@ -34,10 +30,10 @@ extern "C" {
 
 #ifndef IOLM_SMI_CLIENT_COUNT
 #define IOLM_SMI_CLIENT_COUNT 4 // default number of clients
-#endif 
+#endif
 
 
-/** 
+/**
 \page page_smi SMI
 
 The Standardized Master Interface (SMI) is a generic interface which is
@@ -233,11 +229,11 @@ structures are available
 */
 
 
-#ifndef IOLM_SMI_TICKINTERVAL_MS   
+#ifndef IOLM_SMI_TICKINTERVAL_MS
 #define IOLM_SMI_TICKINTERVAL_MS            (100)
 #endif
 
-#ifndef IOLM_SMI_SAVE_TICKINTERVAL_MS   
+#ifndef IOLM_SMI_SAVE_TICKINTERVAL_MS
 #define IOLM_SMI_SAVE_TICKINTERVAL_MS     (10000)
 #endif
 
@@ -277,10 +273,10 @@ typedef struct IOLM_SMI_SPortInstance
     // Port Status
     INT8U u8PortStatusInfo;
     INT8U u8PortQualityInfo;
-    // Diagnosis Unit Events 
+    // Diagnosis Unit Events
     INT8U u8DiagEntries;
     INT8U au8DiagEvents[IOLM_SMI_DIAG_ENTRY_SIZE * IOLM_SMI_MAX_DIAG_ENTRIES];
-    
+
 
     IOLM_SMI_SJobList suFastQueue; ///< For attributes without delayed response.
     IOLM_SMI_SJobList suSlowQueue; ///< For ISDU read/write with delayed response.
@@ -302,7 +298,7 @@ typedef struct IOLM_SMI_SPortInstance
     INT8U u8InputDataLength; ///< Input data length
     INT8U u8OutputDataLength; ///< Output data length
     INT8U au8PDOutCache[IOLM_SMI_PD_OUTPUT_LENGTH]; ///< Cache Process Data
-    INT8U u8PDOutIQ; ///< Latest state of IQ out 
+    INT8U u8PDOutIQ; ///< Latest state of IQ out
 
     // Kunbus regression test attributes
     TBOOL boRegTestEnabled;
@@ -518,7 +514,7 @@ typedef void (*IOLM_SMI_CBMasterIdentificationCnf)(INT8U u8ClientID_p, INT16U u1
 
 /**
 \fn IOLM_SMI_CBLoadMasterIdentification
-\brief Load Master configuration callback 
+\brief Load Master configuration callback
 
 This callback service is called by the stack and requests the Master configuration from the application.
 Since this is hardware specific, it has to be implemented in the application code.
@@ -584,7 +580,7 @@ IOLM_SMI_vMasterConfigurationReq(u8ClientID,
 \endcode
 @endif
 
-\ingroup grp_smi_config 
+\ingroup grp_smi_config
 */
 IOL_FUNC_DECL void IOLM_SMI_vMasterConfigurationReq(INT8U u8ClientID_p,
     INT16U u16ArgBlockLength_p, INT8U *pu8ArgBlock_p);
@@ -601,7 +597,7 @@ Confirmation to the #IOLM_SMI_vMasterConfigurationReq request.
 
 \see IOLM_SMI_SCallbacks, IOLM_SMI_vInit, IOLM_SMI_EArgBlockID
 
-\ingroup grp_smi_config 
+\ingroup grp_smi_config
 */
 typedef void (*IOLM_SMI_CBMasterConfigurationCnf)(INT8U u8ClientID_p, INT16U u16Error_p);
 
@@ -1085,7 +1081,7 @@ void IOLM_SMI_vDeviceReadCnf(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16Error
 \ingroup grp_smi_onreq
 
 */
-typedef void (*IOLM_SMI_CBDeviceReadCnf)(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16Error_p, 
+typedef void (*IOLM_SMI_CBDeviceReadCnf)(INT8U u8ClientID_p, INT8U u8Port_p, INT16U u16Error_p,
     INT16U u16ArgBlockLength_p, INT8U *pu8ArgBlock_p);
 
 
@@ -1138,7 +1134,7 @@ void IOLM_SMI_DeviceEventInd(INT8U u8Port_p, INT16U u16ArgBlockLength_p, INT8U *
                 u8Port_p,
                 psuEvent->u8EventQualifier,
                 psuEvent->u16EventCode);
-                
+
     // ToDo: Insert application specific code here
 }
 \endcode
@@ -1889,7 +1885,7 @@ typedef struct IOLM_SMI_SCallbacks
 #ifdef IOLM_SGI_ENABLED
     IOLM_SMI_CBGenericCnf cbSGICallbacks[IOLM_SMI_CLIENT_COUNT];
 #endif
-    
+
 }IOLM_SMI_SCallbacks;
 
 /**

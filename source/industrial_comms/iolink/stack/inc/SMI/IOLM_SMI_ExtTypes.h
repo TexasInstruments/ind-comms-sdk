@@ -5,16 +5,12 @@
  *  Standardized Master Interface (SMI) Ext Types
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2024, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2024, Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #ifndef INC_PROT__IOLM_SMI_EXT_TYPES_H__
@@ -57,12 +53,12 @@ typedef struct IOLM_FW_SFWUHeader
     INT16U      u16Reserved5;
 
     INT16U      u16Reserved6;
-    INT16U      u16SegmentSizeInBytes;  // size is given in Bytes as segment header 
+    INT16U      u16SegmentSizeInBytes;  // size is given in Bytes as segment header
                                         //(5 Bytes) + firmware data chunks
 
     INT32U      u32NumberofSegments;
 
-    INT32U      u32FWUSize;             // total size of binary in Bytes     
+    INT32U      u32FWUSize;             // total size of binary in Bytes
     INT32U      u32FWUCRC;
 
 }IOLM_FW_SFWUHeader;
@@ -107,7 +103,7 @@ typedef IOL_ENUM_DECL IOLM_ESettingsId
     IOLM_eSettingsId_DevQuality, // Quality of Device
     IOLM_eSettingsId_DownlinkRssi, // Downlink Rssi (from IMA Message)
     IOLM_eSettingsId_UplinkRssi, // Uplink Rssi
-    IOLM_eSettingsId_TestModeRX, // Start continuous RX test mode (Frequency as parameter) 
+    IOLM_eSettingsId_TestModeRX, // Start continuous RX test mode (Frequency as parameter)
     IOLM_eSettingsId_TestModeTX, // Start continuous TX test mode (Frequency, TX Power & Preamble type as Parameter)
     IOLM_eSettingsId_TestModeSingleFreq, // Start normal operation in a single frequency mode
     IOLM_eSettingsId_Reset, // Reset the master to leave of the test mode
@@ -217,7 +213,7 @@ The ArgBlockID(#IOLM_SMI_EArgBlockID) for this struct is IOLM_SMI_eArgBlockID_St
 typedef struct IOLM_SMI_SDataLog
 {
     INT16U u16ArgBlockID; /**< \brief Big endian. */
-    INT16U u16TimeStamp; 
+    INT16U u16TimeStamp;
     IOLM_DataLog suPayload;
 } IOLM_SMI_SDataLog;
 #define SMI_DATALOG_HEADLEN (sizeof(IOLM_SMI_SDataLog)-sizeof(((IOLM_SMI_SDataLog *)0)->suPayload))

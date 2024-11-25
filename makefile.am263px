@@ -52,6 +52,7 @@ help:
 	@echo  ======================
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am263px-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am263px-cc/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/iolink_master_demo/am263px-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am263px-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am263px-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am263px-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
@@ -180,6 +181,7 @@ $(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal):
 
 BUILD_COMBO_EXAMPLE_ALL =
 # Various Example Targets
+BUILD_COMBO_EXAMPLE_ALL += iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang
 BUILD_COMBO_EXAMPLE_ALL += ethercat_slave_cia402_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang
 BUILD_COMBO_EXAMPLE_ALL += ethercat_slave_ctt_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang
 BUILD_COMBO_EXAMPLE_ALL += ethercat_slave_simple_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang
@@ -203,6 +205,9 @@ examples-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_ALL)
  ethercat_slave_beckhoff_ssc_demo_am263px-cc_r5fss0-0_freertos_ti-arm-clang:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am263px-cc/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
+ iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang:
+	$(MAKE) -C examples/industrial_comms/iolink_master_demo/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
+
  ethercat_slave_cia402_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
@@ -221,6 +226,7 @@ examples-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_ALL)
 
 BUILD_COMBO_EXAMPLE_CLEAN_ALL =
 # Various Example Clean Targets
+BUILD_COMBO_EXAMPLE_CLEAN_ALL += iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_CLEAN_ALL += ethercat_slave_cia402_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_CLEAN_ALL += ethercat_slave_ctt_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_CLEAN_ALL += ethercat_slave_simple_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean
@@ -244,6 +250,9 @@ examples-private-clean: $(BUILD_COMBO_EXAMPLE_PRIVATE_CLEAN_ALL)
  ethercat_slave_beckhoff_ssc_demo_am263px-cc_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am263px-cc/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
+ iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/iolink_master_demo/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+
  ethercat_slave_cia402_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
@@ -262,6 +271,7 @@ examples-private-clean: $(BUILD_COMBO_EXAMPLE_PRIVATE_CLEAN_ALL)
 
 BUILD_COMBO_EXAMPLE_SCRUB_ALL =
 # Various Example Scrub Targets
+BUILD_COMBO_EXAMPLE_SCRUB_ALL += iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_scrub
 BUILD_COMBO_EXAMPLE_SCRUB_ALL += ethercat_slave_cia402_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_scrub
 BUILD_COMBO_EXAMPLE_SCRUB_ALL += ethercat_slave_ctt_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_scrub
 BUILD_COMBO_EXAMPLE_SCRUB_ALL += ethercat_slave_simple_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_scrub
@@ -284,6 +294,9 @@ examples-scrub-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_SCRUB_ALL)
 
  ethercat_slave_beckhoff_ssc_demo_am263px-cc_r5fss0-0_freertos_ti-arm-clang_scrub:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am263px-cc/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+
+ iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
+	$(MAKE) -C examples/industrial_comms/iolink_master_demo/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
  ethercat_slave_cia402_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub

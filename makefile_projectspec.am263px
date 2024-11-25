@@ -4,6 +4,7 @@
 
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL =
 # Various Example Projectspec Build Targets
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_build
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_generic_device_mii_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_build
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_build
 # Various System Example Projectspec Build Targets
@@ -16,6 +17,9 @@ all: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL)
 
 all-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_PRIVATE_ALL)
 
+ iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_build:
+	$(MAKE) -C examples/industrial_comms/iolink_master_demo/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
+
  ethernetip_adapter_generic_device_mii_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_build:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
 
@@ -26,6 +30,7 @@ all-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_PRIVATE_ALL)
 
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL =
 # Various Example Projectspec Clean Targets
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_generic_device_mii_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean
 # Various System Example Projectspec Clean Targets
@@ -38,6 +43,9 @@ clean: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL)
 
 clean-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_PRIVATE_ALL)
 
+ iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/iolink_master_demo/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
+
  ethernetip_adapter_generic_device_mii_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
 
@@ -48,6 +56,7 @@ clean-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_PRIVATE_ALL)
 
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL =
 # Various Example Projectspec Export Targets
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_export
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_generic_device_mii_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_export
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_export
 # Various System Example Projectspec Export Targets
@@ -59,6 +68,9 @@ BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_PRIVATE_ALL =
 export: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL)
 
 export-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_PRIVATE_ALL)
+
+ iolink_master_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_export:
+	$(MAKE) -C examples/industrial_comms/iolink_master_demo/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
 
  ethernetip_adapter_generic_device_mii_demo_am263px-lp_r5fss0-0_freertos_ti-arm-clang_export:
 	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
@@ -86,6 +98,7 @@ help:
 	@echo  .
 	@echo  Example ProjectSpec build targets,
 	@echo  ==================================
+	@echo  $(MAKE) -s -C examples/industrial_comms/iolink_master_demo/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/mii/am263px-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
 	@echo  .

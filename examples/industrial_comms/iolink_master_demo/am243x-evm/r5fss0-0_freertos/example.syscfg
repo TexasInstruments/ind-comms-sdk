@@ -1,7 +1,7 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM243x_ALV_beta" --package "ALV" --part "ALV" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM243X@09.02.00"
+ * @cliArgs --device "AM243x_ALV_beta" --package "ALV" --part "ALV" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@09.02.00"
  * @versions {"tool":"1.20.0+3587"}
  */
 
@@ -56,8 +56,10 @@ const gpio37          = gpio.addInstance();
 const gpio38          = gpio.addInstance();
 const gpio39          = gpio.addInstance();
 const gpio40          = gpio.addInstance();
+const gpio41          = gpio.addInstance();
 const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1            = i2c.addInstance();
+const i2c2            = i2c.addInstance();
 const mcspi           = scripting.addModule("/drivers/mcspi/mcspi", {}, false);
 const mcspi1          = mcspi.addInstance();
 const pruicss         = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
@@ -93,7 +95,6 @@ const section7        = section.addInstance();
 const section8        = section.addInstance();
 const section9        = section.addInstance();
 const section10       = section.addInstance();
-const dpl_cfg         = scripting.addModule("/kernel/dpl/dpl_cfg");
 
 /**
  * Write custom configuration values to the imported modules.
@@ -278,14 +279,22 @@ gpio40.pu_pd          = "pu";
 gpio40.rx             = true;
 gpio40.GPIO_n.$assign = "GPMC0_AD7";
 
-led1.peripheralDriver    = i2c1;
-led2.peripheralDriver    = i2c1;
-i2c1.$name               = "CONFIG_I2C0";
-eeprom1.peripheralDriver = i2c1;
-i2c1.I2C.$assign         = "I2C1";
-i2c1.I2C.SCL.$assign     = "I2C1_SCL";
-i2c1.I2C.SDA.$assign     = "I2C1_SDA";
-i2c1.I2C_child.$name     = "drivers_i2c_v0_i2c_v0_template1";
+gpio41.pinDir         = "OUTPUT";
+gpio41.$name          = "CONFIG_IOL_DI_NLD";
+gpio41.GPIO_n.$assign = "GPMC0_WAIT0";
+
+led1.peripheralDriver = i2c1;
+led2.peripheralDriver = i2c1;
+i2c1.$name            = "CONFIG_I2C_LED";
+i2c1.I2C.$assign      = "I2C1";
+i2c1.I2C.SCL.$assign  = "I2C1_SCL";
+i2c1.I2C.SDA.$assign  = "I2C1_SDA";
+i2c1.I2C_child.$name  = "drivers_i2c_v0_i2c_v0_template1";
+
+eeprom1.peripheralDriver = i2c2;
+i2c2.$name               = "CONFIG_I2C_EEPROM";
+i2c2.I2C.$assign         = "I2C0";
+i2c2.I2C_child.$name     = "drivers_i2c_v0_i2c_v0_template2";
 
 mcspi1.$name                       = "CONFIG_MCSPI_IOL";
 mcspi1.mode                        = "MULTI_CONTROLLER";
@@ -540,4 +549,6 @@ flash1.peripheralDriver.OSPI.D3.$suggestSolution   = "OSPI0_D3";
 flash1.peripheralDriver.OSPI.D2.$suggestSolution   = "OSPI0_D2";
 flash1.peripheralDriver.OSPI.D1.$suggestSolution   = "OSPI0_D1";
 flash1.peripheralDriver.OSPI.D0.$suggestSolution   = "OSPI0_D0";
+i2c2.I2C.SCL.$suggestSolution                      = "I2C0_SCL";
+i2c2.I2C.SDA.$suggestSolution                      = "I2C0_SDA";
 timer1.TIMER.$suggestSolution                      = "DMTIMER0";

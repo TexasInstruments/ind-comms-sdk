@@ -1,7 +1,7 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM243x_ALX_beta" --package "ALX" --part "ALX" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM243X@09.02.00"
+ * @cliArgs --device "AM243x_ALX_beta" --package "ALX" --part "ALX" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM243x@09.02.00"
  * @versions {"tool":"1.20.0+3587"}
  */
 
@@ -14,22 +14,6 @@ const flash           = scripting.addModule("/board/flash/flash", {}, false);
 const flash1          = flash.addInstance();
 const led             = scripting.addModule("/board/led/led", {}, false);
 const led1            = led.addInstance();
-const led2            = led.addInstance();
-const led3            = led.addInstance();
-const led4            = led.addInstance();
-const led5            = led.addInstance();
-const led6            = led.addInstance();
-const led7            = led.addInstance();
-const led8            = led.addInstance();
-const led9            = led.addInstance();
-const led10           = led.addInstance();
-const led11           = led.addInstance();
-const led12           = led.addInstance();
-const led13           = led.addInstance();
-const led14           = led.addInstance();
-const led15           = led.addInstance();
-const led16           = led.addInstance();
-const led17           = led.addInstance();
 const gpio            = scripting.addModule("/drivers/gpio/gpio", {}, false);
 const gpio1           = gpio.addInstance();
 const gpio2           = gpio.addInstance();
@@ -63,6 +47,7 @@ const gpio29          = gpio.addInstance();
 const gpio30          = gpio.addInstance();
 const gpio31          = gpio.addInstance();
 const gpio32          = gpio.addInstance();
+const gpio33          = gpio.addInstance();
 const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1            = i2c.addInstance();
 const i2c2            = i2c.addInstance();
@@ -100,7 +85,6 @@ const section7        = section.addInstance();
 const section8        = section.addInstance();
 const section9        = section.addInstance();
 const section10       = section.addInstance();
-const dpl_cfg         = scripting.addModule("/kernel/dpl/dpl_cfg");
 
 /**
  * Write custom configuration values to the imported modules.
@@ -111,71 +95,8 @@ flash1.$name                         = "CONFIG_FLASH0";
 flash1.peripheralDriver.$name        = "CONFIG_OSPI0";
 flash1.peripheralDriver.inputClkFreq = 200000000;
 
-led1.name  = "Ioexp";
-led1.$name = "CONFIG_LED_R_1";
-
-led2.$name   = "CONFIG_LED_G_1";
-led2.name    = "Ioexp";
-led2.ioIndex = 1;
-
-led3.name    = "Ioexp";
-led3.ioIndex = 2;
-led3.$name   = "CONFIG_LED_R_2";
-
-led4.name    = "Ioexp";
-led4.$name   = "CONFIG_LED_G_2";
-led4.ioIndex = 3;
-
-led5.name    = "Ioexp";
-led5.$name   = "CONFIG_LED_R_3";
-led5.ioIndex = 4;
-
-led6.$name   = "CONFIG_LED_G_3";
-led6.name    = "Ioexp";
-led6.ioIndex = 5;
-
-led7.$name   = "CONFIG_LED_R_4";
-led7.name    = "Ioexp";
-led7.ioIndex = 7;
-
-led8.$name   = "CONFIG_LED_G_4";
-led8.name    = "Ioexp";
-led8.ioIndex = 6;
-
-led9.$name   = "CONFIG_LED_R_5";
-led9.name    = "Ioexp";
-led9.ioIndex = 8;
-
-led10.$name   = "CONFIG_LED_G_5";
-led10.name    = "Ioexp";
-led10.ioIndex = 9;
-
-led11.$name   = "CONFIG_LED_R_6";
-led11.name    = "Ioexp";
-led11.ioIndex = 10;
-
-led12.$name   = "CONFIG_LED_G_6";
-led12.name    = "Ioexp";
-led12.ioIndex = 11;
-
-led13.$name   = "CONFIG_LED_R_7";
-led13.name    = "Ioexp";
-led13.ioIndex = 12;
-
-led14.$name   = "CONFIG_LED_G_7";
-led14.name    = "Ioexp";
-led14.ioIndex = 13;
-
-led15.$name   = "CONFIG_LED_R_8";
-led15.name    = "Ioexp";
-led15.ioIndex = 14;
-
-led16.$name   = "CONFIG_LED_G_8";
-led16.name    = "Ioexp";
-led16.ioIndex = 15;
-
-led17.$name = "CONFIG_LED_HEARTBEAT";
-led17.name  = "TPIC2810";
+led1.$name = "CONFIG_LED_HEARTBEAT";
+led1.name  = "TPIC2810";
 
 gpio1.$name          = "CONFIG_IOL_TX1";
 gpio1.pinDir         = "OUTPUT";
@@ -307,39 +228,33 @@ gpio32.$name          = "CONFIG_IOL_ENL8";
 gpio32.pinDir         = "OUTPUT";
 gpio32.GPIO_n.$assign = "PRG0_PRU1_GPO13";
 
-i2c1.$name               = "CONFIG_I2C1";
-led5.peripheralDriver    = i2c1;
-led6.peripheralDriver    = i2c1;
-led7.peripheralDriver    = i2c1;
-led8.peripheralDriver    = i2c1;
-led9.peripheralDriver    = i2c1;
-led10.peripheralDriver   = i2c1;
-led11.peripheralDriver   = i2c1;
-led12.peripheralDriver   = i2c1;
-led13.peripheralDriver   = i2c1;
-led14.peripheralDriver   = i2c1;
-led15.peripheralDriver   = i2c1;
-led16.peripheralDriver   = i2c1;
-led4.peripheralDriver    = i2c1;
-led3.peripheralDriver    = i2c1;
-led2.peripheralDriver    = i2c1;
-eeprom1.peripheralDriver = i2c1;
-led1.peripheralDriver    = i2c1;
-i2c1.I2C.$assign         = "I2C1";
-i2c1.I2C.SCL.$assign     = "I2C1_SCL";
-i2c1.I2C.SDA.$assign     = "I2C1_SDA";
-i2c1.I2C_child.$name     = "drivers_i2c_v0_i2c_v0_template1";
+gpio33.$name          = "CONFIG_IOL_DI_NLD";
+gpio33.pinDir         = "OUTPUT";
+gpio33.GPIO_n.$assign = "PRG0_PRU0_GPO8";
 
-i2c2.$name             = "CONFIG_I2C0";
-led17.peripheralDriver = i2c2;
-i2c2.I2C.$assign       = "I2C0";
-i2c2.I2C.SCL.$assign   = "I2C0_SCL";
-i2c2.I2C.SDA.$assign   = "I2C0_SDA";
-i2c2.I2C_child.$name   = "drivers_i2c_v0_i2c_v0_template2";
+i2c1.$name           = "CONFIG_I2C_IOL";
+i2c1.I2C.$assign     = "I2C1";
+i2c1.I2C.SCL.$assign = "I2C1_SCL";
+i2c1.I2C.SDA.$assign = "I2C1_SDA";
+i2c1.I2C_child.$name = "drivers_i2c_v0_i2c_v0_template1";
+
+i2c2.$name               = "CONFIG_I2C0";
+led1.peripheralDriver    = i2c2;
+eeprom1.peripheralDriver = i2c2;
+i2c2.I2C.$assign         = "I2C0";
+i2c2.I2C.SCL.$assign     = "I2C0_SCL";
+i2c2.I2C.SDA.$assign     = "I2C0_SDA";
+i2c2.I2C_child.$name     = "drivers_i2c_v0_i2c_v0_template2";
 
 mcspi1.$name                 = "CONFIG_MCSPI_IOL";
-mcspi1.mcspiChannel[0].$name = "CONFIG_MCSPI_CH0";
+mcspi1.trMode                = "RX_ONLY";
+mcspi1.intrEnable            = "POLLED";
+mcspi1.mode                  = "MULTI_CONTROLLER";
+mcspi1.SPI.CLK.$assign       = "SPI0_CLK";
+mcspi1.SPI.D0.$used          = false;
+mcspi1.SPI.D1.$assign        = "SPI0_D1";
 mcspi1.child.$name           = "drivers_mcspi_v0_mcspi_v0_template0";
+mcspi1.mcspiChannel[0].$name = "CONFIG_MCSPI_CH0";
 
 pruicss1.$name                           = "CONFIG_PRU_ICSS0";
 pruicss1.AdditionalICSSSettings[0].$name = "CONFIG_PRU_ICSS_IO0";
@@ -567,11 +482,8 @@ flash1.peripheralDriver.OSPI.D3.$suggestSolution   = "OSPI0_D3";
 flash1.peripheralDriver.OSPI.D2.$suggestSolution   = "OSPI0_D2";
 flash1.peripheralDriver.OSPI.D1.$suggestSolution   = "OSPI0_D1";
 flash1.peripheralDriver.OSPI.D0.$suggestSolution   = "OSPI0_D0";
-mcspi1.SPI.$suggestSolution                        = "SPI4";
-mcspi1.SPI.CLK.$suggestSolution                    = "UART0_CTSn";
-mcspi1.SPI.D0.$suggestSolution                     = "UART0_RTSn";
-mcspi1.SPI.D1.$suggestSolution                     = "UART1_CTSn";
-mcspi1.mcspiChannel[0].CSn.$suggestSolution        = "UART1_RTSn";
+mcspi1.SPI.$suggestSolution                        = "SPI0";
+mcspi1.mcspiChannel[0].CSn.$suggestSolution        = "SPI0_CS1";
 uart2.UART.$suggestSolution                        = "USART1";
 uart2.UART.RXD.$suggestSolution                    = "UART1_RXD";
 uart2.UART.TXD.$suggestSolution                    = "UART1_TXD";

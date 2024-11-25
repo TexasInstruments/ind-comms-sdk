@@ -5,16 +5,12 @@
  *  IO-Link Types
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2024, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2024 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #ifndef INC_PROT__IOL_TYPES_H__
@@ -33,11 +29,7 @@ extern "C" {
 #define IOL_ENUM_DECL enum
 #endif
 
-#ifndef UNIT_TESTS
 #define STATIC static
-#else 
-#define STATIC
-#endif
 
 /**
 \addtogroup group_iol_types IO-Link Types
@@ -351,8 +343,17 @@ typedef IOL_ENUM_DECL IOL_EDeviceMode
     IOL_eDeviceMode_SIO,
     /** \brief Device changed to the SM mode "SM_ComEstablish". */
     IOL_eDeviceMode_ESTABCOM,
+#if 0
+    /** \brief Device changed to the COM1 mode. */
+    IOL_eDeviceMode_COM1,
+    /** \brief Device changed to the COM2 mode. */
+    IOL_eDeviceMode_COM2,
+    /** \brief Device changed to the COM3 mode. */
+    IOL_eDeviceMode_COM3,
+#else
     /** \brief Device changed to the configured COM mode. */
     IOL_eDeviceMode_COMx,
+#endif
     /** \brief Device changed to the STARTUP mode. */
     IOL_eDeviceMode_STARTUP,
     /** \brief Device changed to the SM mode "SM_IdentStartup". */
@@ -502,19 +503,19 @@ typedef IOL_ENUM_DECL IOL_EISDUIndex
     IOL_eISDUIndex_AppSpecificTag = 24,
     IOL_eISDUIndex_FunctionTag = 25,
     IOL_eISDUIndex_LocationTag = 26,
-    
+
     IOL_eISDUIndex_ErrorCount = 32,
     IOL_eISDUIndex_DeviceStatus = 36,
     IOL_eISDUIndex_DetailedDeviceStatus = 37,
     IOL_eISDUIndex_ProcessDataInput      = 40,
     IOL_eISDUIndex_ProcessDataOutput     = 41,
-    
+
     IOL_eISDUIndex_WDeviceMode = 0x5000,
     IOL_eISDUIndex_WirelessSystemMgmnt = 0x5001,
     IOL_eISDUIndex_WirelessSystemCfg = 0x5002,
     IOL_eISDUIndex_LinkQuality = 0x5003,
     IOL_eISDUIndex_WBridgeInfo = 0x5004,
-    
+
     IOL_eISDUIndex_WirelessRadioInfo = 0x5005,
     IOL_eISDUIndex_AdaptiveHopTable = 0x5006,
     IOL_eISDUIndex_WCycleTime = 0x5007,
@@ -915,7 +916,7 @@ typedef IOL_ENUM_DECL IOL_EEMode
 typedef IOL_ENUM_DECL IOL_EDSCommand
 {
     IOL_eDSCommand_Reserved = 0,
-    IOL_eDSCommand_UploadStart, 
+    IOL_eDSCommand_UploadStart,
     IOL_eDSCommand_UploadEnd,
     IOL_eDSCommand_DownloadStart,
     IOL_eDSCommand_DownloadEnd,
@@ -939,7 +940,7 @@ typedef IOL_ENUM_DECL IOL_ESystemCommand
     // system commands for Firmware update
     IOL_eSystemCommand_BM_UNLOCK_S = 80,
     IOL_eSystemCommand_BM_UNLOCK_F = 81,
-    IOL_eSystemCommand_BM_UNLOCK_T = 82, 
+    IOL_eSystemCommand_BM_UNLOCK_T = 82,
     IOL_eSystemCommand_BM_ACTIVATE = 83,
 
     IOL_eSystemCommand_LocatorStart = 126,
