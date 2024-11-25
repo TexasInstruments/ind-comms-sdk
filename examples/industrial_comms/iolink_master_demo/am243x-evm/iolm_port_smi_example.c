@@ -5,55 +5,55 @@
  *  Example application to show how the IO-Link Master Stack can be used via the SMI.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 KUNBUS GmbH.
+ *  Copyright (C) 2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdint.h>
 #include "iolm_port_version.h"
 #include "iolm_port_smi_example.h"
+#include "nvm.h"
 #include "IOLinkPort/iolm_port_smi.h"
-#include "nvram.h"
-#include "TinyQueue.h"
-#include "iolm_work_task.h"
-#define IOLM_NVRAM_FILENAME     "iolm_000"
-#define IOLM_NVRAM_FILENAME_LEN 8
-#define IOLM_NVRAM_FILENAME_POS 7
+#include "ti_board_config.h"
+
+/** \brief Definition of SMI config size */
+#define EEPROM_CONFIG_SIZE ((sizeof(IOLM_SMI_SNVConfiguration) + EEPROM_PAGE_SIZE - 1) & ~(EEPROM_PAGE_SIZE-1))
+/** \brief Definition of single port config size */
+#define EEPROM_PORT_SIZE ((sizeof(IOLM_SDSContent) + EEPROM_PAGE_SIZE - 1) & ~(EEPROM_PAGE_SIZE-1))
+/** \brief Macro for retrieving the offset for a single port configuration */
+#define EEPROM_PORT_OFFSET(x) (EEPROM_CONFIG_SIZE + EEPROM_PORT_SIZE * (x))
 
 /*** private function declarations ***/
-static inline char IOLM_EXMPL_digitToCharacter(const uint8_t instance);
-static void        IOLM_EXMPL_mkCfgFileName(uint8_t instance, char filename[], uint8_t pos);
 static void        IOLM_EXMPL_cbLoadNvCfg(uint8_t instance, uint8_t *pData, uint32_t *pLength);
 static void        IOLM_EXMPL_cbSaveNvCfg(uint8_t instance, uint8_t *pData, uint32_t length);
 static void        IOLM_EXMPL_cbResetNvCfg(uint8_t instance, uint8_t *pData, uint16_t len);
@@ -93,64 +93,23 @@ IOLM_EXMPL_SPortDataValues_t portArray[IOLM_EXMPL_MAX_PORTS + 1];
 
 /*** private function definitions ***/
 
-/*!
- * \brief Convert single digit 0-9 to corresponding character.
- *
- * \param[in] digit
- *
- * \return character
- *
- */
-static inline char IOLM_EXMPL_digitToCharacter(const uint8_t digit)
-{
-    if (digit < 10)
-    {
-        return ('0' + digit);
-    }
-    return '?';
-}
-/*!
- * \brief Overwrite the given string from pos to pos-2 with
- *        a three digit decimal, e.g. iolm_xxx -> iolm_001.
- *
- * \param[in]     instance Instance (e.g. port) number
- * \param[out]    pFname   File name string
- * \param[in]     pos      String position of last digit (1's)
- *
- * \return void
- *
- */
-static void IOLM_EXMPL_mkCfgFileName(uint8_t instance, char filename[], uint8_t pos)
-{
-    // start last character position
-    uint8_t first = 0;
-    uint8_t instanceNumber = instance;
-    uint8_t initialPos = pos;
-    if (initialPos >= 2u)
-    {
-        first = initialPos - 2u;
-    }
-    while (initialPos >= first)
-    {
-        filename[initialPos--] = IOLM_EXMPL_digitToCharacter(instanceNumber % 10);
-        instanceNumber /= 10;
-    }
-}
-/*!
- * \brief Load non-volatile data storage
- *
- * \param[in]     instance Instance (e.g. port) number
- * \param[out]    pData    Pointer to data buffer
- * \param[in,out] pLength  Pointer to data length
- *
- * \return void
- *
- */
 static void IOLM_EXMPL_cbLoadNvCfg(uint8_t instance, uint8_t *pData, uint32_t *pLength)
 {
-    char filename[] = IOLM_NVRAM_FILENAME;
-    IOLM_EXMPL_mkCfgFileName(instance, filename, IOLM_NVRAM_FILENAME_POS);
-    NVR_read(filename, pLength, 0, pData);
+    uint32_t status;
+    uint32_t offset = IOL_APP_IOD_NVM_OFFSET;
+
+    if (instance != IOLM_SMI_CFG_INSTANCE)
+    {
+        offset += EEPROM_PORT_OFFSET(instance);
+    }
+
+    status = NVM_APP_read(IOL_APP_IOD_NVM_TYPE, IOL_APP_IOD_NVM_INSTANCE, offset, *pLength, pData);
+
+    if (status != NVM_ERR_SUCCESS)
+    {
+        // if there is no content, start with defaults
+        *pLength = 0;
+    }
 }
 /*!
  * \brief This must be called to confirm to the stack a successful write to NVRAM.
@@ -159,15 +118,9 @@ static void IOLM_EXMPL_cbLoadNvCfg(uint8_t instance, uint8_t *pData, uint32_t *p
  * \return status
  *
  */
-uint32_t IOLM_EXMPL_writeCallback(void *const pStatus)
+void IOLM_EXMPL_writeCallback(uint32_t status)
 {
-    uint32_t status = *((uint32_t *)pStatus);
-    NVR_LOG_DEBUG("status: %i", status);
-    if (status == 0)
-    {
-        IOLM_SMI_vSaveNvFinished();
-    }
-    return status;
+    IOLM_SMI_vSaveNvFinished();
 }
 /*!
  * \brief Save non-volatile data storage
@@ -181,10 +134,26 @@ uint32_t IOLM_EXMPL_writeCallback(void *const pStatus)
  */
 static void IOLM_EXMPL_cbSaveNvCfg(uint8_t instance, uint8_t *pData, uint32_t length)
 {
-    char filename[] = IOLM_NVRAM_FILENAME;
-    IOLM_EXMPL_mkCfgFileName(instance, filename, IOLM_NVRAM_FILENAME_POS);
-    // Put the write request into the work task queue and fire the callback after it was executed
-    IOLM_queueWriteNvram(filename, NVR_MODE_OVERWRITE, length, pData, IOLM_EXMPL_writeCallback);
+    uint32_t status;
+    uint32_t offset = IOL_APP_IOD_NVM_OFFSET;
+
+    if (instance != IOLM_SMI_CFG_INSTANCE)
+    {
+        offset += EEPROM_PORT_OFFSET(instance);
+    }
+    status = NVM_APP_writeAsync(
+        IOL_APP_IOD_NVM_TYPE,
+        IOL_APP_IOD_NVM_INSTANCE,
+        offset,
+        length,
+        pData);
+
+    if (status != NVM_ERR_SUCCESS)
+    {
+        // acknowledge stack, but proceed
+        IOLM_SMI_vSaveNvFinished();
+        OSAL_printf("NVM writing was failed");
+    }
 }
 /*!
  * \brief Reset non-volatile data storage
@@ -222,13 +191,26 @@ static void IOLM_EXMPL_cbResetNvCfg(uint8_t instance, uint8_t *pData, uint16_t l
  */
 void IOLM_EXMPL_updateLEDs(uint8_t portNumber)
 {
-    static IOLM_SMI_EPortStatus previousPortStatus[IOLM_EXMPL_MAX_PORTS + 1] = {
+    static IOLM_SMI_EPortStatus previousPortStatus[IOLM_EXMPL_MAX_PORTS] = {
+        IOLM_SMI_ePortStatus_NOT_AVAILABLE,
+        IOLM_SMI_ePortStatus_NOT_AVAILABLE,
+        IOLM_SMI_ePortStatus_NOT_AVAILABLE,
+        IOLM_SMI_ePortStatus_NOT_AVAILABLE,
+        IOLM_SMI_ePortStatus_NOT_AVAILABLE,
+        IOLM_SMI_ePortStatus_NOT_AVAILABLE,
+        IOLM_SMI_ePortStatus_NOT_AVAILABLE,
         IOLM_SMI_ePortStatus_NOT_AVAILABLE,
     };
 
     IOLM_SMI_EPortStatus portStatus = portArray[portNumber].currentStackPortStatus;
 
-    if (portStatus != previousPortStatus[portNumber])
+    if (portNumber == 0 || portNumber > IOLM_EXMPL_MAX_PORTS)
+    {
+        // invalid port
+        return;
+    }
+
+    if (portStatus != previousPortStatus[portNumber-1])
     {
         switch (portStatus)
         {
@@ -262,7 +244,7 @@ void IOLM_EXMPL_updateLEDs(uint8_t portNumber)
             default:
                 break;
         }
-        previousPortStatus[portNumber] = portStatus;
+        previousPortStatus[portNumber-1] = portStatus;
     }
 }
 
@@ -300,6 +282,10 @@ void IOLM_EXMPL_init(void)
             portArray[portNumber].aPDInCnfData[dataValueCounter] = 0;
         }
     }
+
+    NVM_APP_init(OSAL_TASK_Prio_IOL_NVRAM);
+    NVM_APP_registerCallback(IOLM_EXMPL_writeCallback);
+
     /* Initialize external SMI channel */
     IOLM_SMI_portInit();
     /* IO-Link Master stack init Example init */

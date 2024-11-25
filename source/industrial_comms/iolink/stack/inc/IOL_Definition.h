@@ -5,16 +5,12 @@
  *  IO-Link Definitions
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2024, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2024 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #ifndef INC_PROT__IOL_DEFINITION_H__
@@ -38,9 +34,9 @@ extern "C" {
 */
 
 /** \brief Revision ID Code for specification version 1.0 */
-#define IOL_REVISION_1_0   0x10   
+#define IOL_REVISION_1_0   0x10
 /** \brief Revision ID Code for specification version 1.1 */
-#define IOL_REVISION_1_1   0x11 
+#define IOL_REVISION_1_1   0x11
 
 /** \brief Number of bits per byte in IOL context */
 #define IOL_T_TBYTE_BIT                 11
@@ -53,9 +49,9 @@ extern "C" {
 
 
 /** \brief Seed value for checksums */
-#define IOL_CHECKSUM_SEED  0x52  
+#define IOL_CHECKSUM_SEED  0x52
 /** \brief Status bit in CKS byte */
-#define IOL_CKS_PDSTATUS_FLAG   0x40  
+#define IOL_CKS_PDSTATUS_FLAG   0x40
 /** \brief Event bit in CKS byte */
 #define IOL_CKS_EVENT_FLAG      0x80
 
@@ -64,13 +60,13 @@ extern "C" {
 
 
 /** \brief Flow control for ISDU start */
-#define IOL_ISDU_FLOW_START     0x10 
+#define IOL_ISDU_FLOW_START     0x10
 /** \brief Flow control for ISDU idle 1 */
-#define IOL_ISDU_FLOW_IDLE1     0x11  
+#define IOL_ISDU_FLOW_IDLE1     0x11
 /** \brief Flow control for ISDU idle 2 */
 #define IOL_ISDU_FLOW_IDLE2     0x12
 /** \brief Flow control for ISDU abort */
-#define IOL_ISDU_FLOW_ABORT     0x1F 
+#define IOL_ISDU_FLOW_ABORT     0x1F
 
 
 /** \brief Used for TMSeq calculation (see blow) */
@@ -87,7 +83,7 @@ extern "C" {
 
 
 /** \brief ISDU timeout in milliseconds */
-#define IOL_ISDU_TIMEOUT_MS     5500 
+#define IOL_ISDU_TIMEOUT_MS     5500
 
 /** \brief Calculate PD length IOL Code for n bits. See B.1.6 of \ref section_iol_spec_1_1 */
 #define IOL_PD_BITS(n)      ( ((n)<=16) ? (n) : (0x80 | (((n)+7)/8-1) ) )
@@ -147,7 +143,7 @@ extern "C" {
 
 /** \} */
 
-///@endcond 
+///@endcond
 
 #ifdef __cplusplus
 }

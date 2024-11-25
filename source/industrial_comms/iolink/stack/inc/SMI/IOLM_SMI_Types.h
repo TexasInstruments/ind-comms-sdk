@@ -5,16 +5,12 @@
  *  Standardized Master Interface (SMI) Types
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2024, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (c) 2024 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #ifndef INC_PROT__IOLM_SMI_TYPES_H__
@@ -225,14 +221,14 @@ typedef IOL_ENUM_DECL IOLM_SMI_EServiceID
     IOLM_SMI_V113_eServiceID_WPortPairing =                 0x24, // new SMI_WPortPairing service in V1.1.3
     IOLM_SMI_V113_eServiceID_WTrackStatus =                 0x25, // new SMI_WTrackStatus service in V1.1.3
     IOLM_SMI_V113_eServiceID_WQualityStatus =               0x26, // new SMI_WQualityStatus service in V1.1.3
-    
+
     // KUNBUS specific services
     IOLM_SMI_eServiceID_GetChipInfo =                       0x80,
     IOLM_SMI_eServiceID_ResetDefaults =                     0x81,
     IOLM_SMI_eServiceID_Settings =                          0x82,
     IOLM_SMI_eServiceID_DataLog =                           0x83,
     IOLM_SMI_eServiceID_FWUpdate =                          0x90,
-    
+
     IOLM_SMI_eServiceID_FSPDIn =                            0xA0,
     IOLM_SMI_eServiceID_FSPDOut =                           0xA1,
     IOLM_SMI_eServiceID_SCLEnabled =                        0xA2,
@@ -326,12 +322,12 @@ typedef IOL_ENUM_DECL IOLM_SMI_EArgBlockID
     IOLM_SMI_eArgBlockID_WScan =                        0x8202,     //outdated: left for compatibility
 
     // Status Information
-    IOLM_SMI_eArgBlockID_PortStatusList =               0x9000,     
+    IOLM_SMI_eArgBlockID_PortStatusList =               0x9000,
     IOLM_SMI_eArgBlockID_FSPortStatusList =             0x9100,
-    IOLM_SMI_eArgBlockID_WTrackStatusList =             0x9200,     //outdated: left for compatibility   
+    IOLM_SMI_eArgBlockID_WTrackStatusList =             0x9200,     //outdated: left for compatibility
     IOLM_SMI_eArgBlockID_ScanResult =                   0x9201,     //outdated: left for compatibility
-    IOLM_SMI_eArgBlockID_WPortStatusList =              0x9202,     //outdated: left for compatibility   
-    
+    IOLM_SMI_eArgBlockID_WPortStatusList =              0x9202,     //outdated: left for compatibility
+
     // new or changed ArgBlocks for wireless specification V1.1.3
     IOLM_SMI_V113_eArgBlockID_WPortConfigList =         0x8200,     //according to wireless specification V1.1.3
     IOLM_SMI_V113_eArgBlockID_WScanConfigList =         0x8201,     //according to wireless specification V1.1.3
@@ -356,7 +352,7 @@ typedef IOL_ENUM_DECL IOLM_SMI_EArgBlockID
     IOLM_SMI_eArgBlockID_TestCommand =                  0xE002,
     IOLM_SMI_eArgBlockID_Firmware =                     0xE003,
     IOLM_SMI_eArgBlockID_Settings =                     0xE004,
- 
+
     // SMI Management
     IOLM_SMI_eArgBlockID_GatewayManagerIdentification = 0xFF00,
     IOLM_SMI_eArgBlockID_GatewayManagerStatus =         0xFF01,
@@ -417,7 +413,7 @@ typedef IOL_ENUM_DECL IOLM_SMI_EPortMode
     IOLM_SMI_ePortMode_IOL_AUTOSTART =                  2,
     IOLM_SMI_ePortMode_DI_CQ =                          3,
     IOLM_SMI_ePortMode_DO_CQ =                          4,
-    
+
     IOLM_SMI_ePortMode_SAFETYCOM =                      49,
     IOLM_SMI_ePortMode_OSSDE =                          50,
 
@@ -1066,7 +1062,7 @@ typedef struct IOLM_SMI_SOnRequestData
 {
     INT16U u16ArgBlockID; /**< \brief Big endian. */
     INT16U u16Index; /**< \brief Big endian. */
-    INT8U u8Subindex; 
+    INT8U u8Subindex;
     INT8U au8Data[IOLM_MAX_ISDU_LENGTH];
 }IOLM_SMI_SOnRequestData;
 
@@ -1318,7 +1314,7 @@ typedef struct IOLM_SMI_SArgBlockParam
 
 #pragma pack(pop)
 
-/** 
+/**
 \}
 */
 

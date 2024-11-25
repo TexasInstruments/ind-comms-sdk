@@ -5,39 +5,38 @@
  *  IO-Link Master main/init funtions.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 KUNBUS GmbH.
+ *  Copyright (C) 2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 /* ========================================================================== */
@@ -65,8 +64,6 @@
 #include "ti_board_config.h"
 #include "ti_board_open_close.h"
 
-
-
 #include <IOLM_SMI.h>
 #include <IOLM_Sitara_Version.h>
 #include "iolm_port_utils.h"
@@ -75,31 +72,15 @@
 #include "IOLinkPort/iolm_port_ledtask.h"
 #include "iolm_port_smi_example.h"
 
-#include "KBDrv/nvram_driver.h"
-#include "nvram.h"
-#include "TinyQueue.h"
-#include "iolm_work_task.h"
-// leave lower 4 MB flash for boot loader and app immage
-// put file system above
-#define NVRAM_BASE_ADR 0x400000
-
-#if (defined IO_LINK_EVM_KUNBUS)
-#include "IOLinkPort/iolm_port_buttontask.h"
-#endif
-
-
+#include "nvm.h"
 
 #define IOLM_MAIN_TASK_SIZE_DIVIDER sizeof(configSTACK_DEPTH_TYPE)
 #define IOLM_MAIN_TASK_STACK_TYPE   StackType_t
 
-#define IOLM_MAIN_STARTUP_TASK_SIZE (0x4000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
-#define IOLM_MAIN_LOOP_TASK_SIZE (0x2000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
-#define IOLM_MAIN_LED_TASK_SIZE (0x2000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
-#if (defined IO_LINK_EVM_KUNBUS)
-#define IOLM_MAIN_BTN_TASK_SIZE (0x2000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
-#endif
-#define IOLM_EXAMPLE_TASK_SIZE (0x2000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
-#define IOLM_MAIN_WORK_TASK_SIZE (0x2000U / IOLM_MAIN_TASK_SIZE_DIVIDER)
+#define IOLM_MAIN_STARTUP_TASK_SIZE (2048 / IOLM_MAIN_TASK_SIZE_DIVIDER)
+#define IOLM_MAIN_LOOP_TASK_SIZE (4096 / IOLM_MAIN_TASK_SIZE_DIVIDER)
+#define IOLM_MAIN_LED_TASK_SIZE (1024 / IOLM_MAIN_TASK_SIZE_DIVIDER)
+#define IOLM_EXAMPLE_TASK_SIZE (2048 / IOLM_MAIN_TASK_SIZE_DIVIDER)
 
 static IOLM_MAIN_TASK_STACK_TYPE IOLM_startupTaskStack_s[IOLM_MAIN_STARTUP_TASK_SIZE]
     __attribute__((aligned(32), section(".threadstack")))
@@ -110,27 +91,13 @@ static IOLM_MAIN_TASK_STACK_TYPE IOLM_mainTaskStack_s[IOLM_MAIN_LOOP_TASK_SIZE]
 static IOLM_MAIN_TASK_STACK_TYPE IOLM_ledTaskStack_s[IOLM_MAIN_LED_TASK_SIZE]
     __attribute__((aligned(32), section(".threadstack")))
     = { 0 };
-#if (defined IO_LINK_EVM_KUNBUS)
-static IOLM_MAIN_TASK_STACK_TYPE IOLM_btnTaskStack_s[IOLM_MAIN_BTN_TASK_SIZE]
-    __attribute__((aligned(32), section(".threadstack")))
-    = { 0 };
-#endif
 static IOLM_MAIN_TASK_STACK_TYPE IOLM_exampleTaskStack_s[IOLM_EXAMPLE_TASK_SIZE]
-    __attribute__((aligned(32), section(".threadstack")))
-    = { 0 };
-
-static IOLM_MAIN_TASK_STACK_TYPE IOLM_workTaskStack_s[IOLM_MAIN_WORK_TASK_SIZE]
     __attribute__((aligned(32), section(".threadstack")))
     = { 0 };
 
 static void *IOLM_pMainTaskHandle_s;
 static void *PRU_IOL_pLedTaskHandle_s;
-#if (defined IO_LINK_EVM_KUNBUS)
-static void *PRU_IOL_pButtonTaskHandle_s;
-#endif
 static void *IOLM_pExampleTaskHandle_s;
-void                      *IOLM_pWorkTaskHandle_s;
-extern TQUEUE_ringBuffer_t sIOLM_AsyncWorkQueue_g;
 
 OSAL_SCHED_SignalHandle_t *pMainLoopRequested_g = NULL;
 
@@ -144,7 +111,6 @@ static void IOLM_MAIN_sysInit(void)
     Board_init();
 }
 
-
 static IOLM_PL_PRU_Config_t iolmPruExampleConfig =
 {
     .pruIcssInstanceNumber = CONFIG_PRU_ICSS0,
@@ -153,63 +119,6 @@ static IOLM_PL_PRU_Config_t iolmPruExampleConfig =
     .customFirmware[1].pFirmware = NULL,        //use the default PRU Firmware on core-1
     .customFirmware[1].frmLength = 0
 };
-
-
-/*!
- *  \brief
- *  Preparation of NV-RAM properties.
- */
-uint32_t IOLM_MAIN_prepareNVRam(void)
-{
-// initialize async work queue, use to run things outside calling task
-    uint32_t error = TQUEUE_init(&sIOLM_AsyncWorkQueue_g);
-    if (TQ_ERRCODE_OK != error)
-    {
-        NVR_LOG_ERROR("IOLM_AsyncWork TQUEUE_init FAILED");
-        // @cppcheck_justify{misra-c2012-15.1} use goto Exit for single point of return
-        // cppcheck-suppress misra-c2012-15.1
-        goto laReturn;
-    }
-    else
-    {
-        NVR_LOG_INFO("IOLM_AsyncWork TQUEUE_init OK");
-    }
-    // init NVRAM driver
-    // NVRAM_BASE_ADR is the lower flash memory address for the file system
-    // NVR_DRV_init returns the read/write callback functions into plfscfg
-#if (!defined IO_LINK_EVM_KUNBUS)
-    struct lfs_config *plfscfg = NVR_DRV_init(CONFIG_FLASH0, NVRAM_BASE_ADR);
-    // init NVRAM with LittleFS
-    if (NVR_ERR_OK != NVR_init(plfscfg))
-    {
-        NVR_LOG_ERROR("NVRAM init FAILED");
-    }
-    else
-    {
-        NVR_LOG_INFO("NVRAM init OK");
-    }
-#endif
-laReturn:
-    return error;
-}
-
-#if (defined IO_LINK_EVM_KUNBUS)
-/*!
- *  \brief
- *  Create a task for Button management.
- */
-void IOLM_MAIN_createButtonTask()
-{
-    PRU_IOL_pButtonTaskHandle_s = OSAL_SCHED_startTask(
-        (OSAL_SCHED_CBTask_t)IOLM_button_QueryTask,
-        NULL,
-        OSAL_TASK_Prio_IOL_LED,
-        (uint8_t *)IOLM_btnTaskStack_s,
-        sizeof(IOLM_btnTaskStack_s),
-        OSAL_OS_START_TASK_FLG_NONE,
-        "Button Task");
-}
-#endif
 
 /*!
  *  \brief
@@ -227,11 +136,7 @@ uint32_t IOLM_MAIN_boardInit(void)
     uint32_t error = OSAL_eERR_NOERROR;
 
     Drivers_open();
-#if (defined IO_LINK_EVM_KUNBUS)
-    Board_ledOpen();
-#else
     Board_driversOpen();
-#endif
 
     error = HWAL_init();
     if (error != OSAL_eERR_NOERROR)
@@ -252,7 +157,9 @@ uint32_t IOLM_MAIN_boardInit(void)
 
     IOLM_Phy_Init(pPhyStackCallbacks);
 
+#ifdef IOLM_NVRAM_SUPPORT
     error = IOLM_MAIN_prepareNVRam();
+#endif
 
 laExit:
     return error;
@@ -278,7 +185,6 @@ void IOLM_MAIN_exampleStart(void)
         OSAL_error(__FILE__, __LINE__, OSAL_eERR_INVALIDSTATE, true, 1, "Creating Example Task failed.\r\n");
     }
 }
-
 
 /*!
  *  \brief
@@ -313,9 +219,7 @@ void IOLM_MAIN_init(void)
     pMainLoopRequested_g = OSAL_createSignal("IOLM_mainLoopRequest");
 
     /* IO Link Master stack and example init */
-#if (!defined IO_LINK_EVM_KUNBUS)
     IOLM_EXMPL_init();
-#endif
 
     for (portNumber = 0; portNumber < IOLM_PORT_COUNT; portNumber++)
     {
@@ -323,9 +227,7 @@ void IOLM_MAIN_init(void)
     }
 
     /* Create a task for the IO-Link main execution */
-#if (!defined IO_LINK_EVM_KUNBUS)
     IOLM_MAIN_exampleStart();
-#endif
 }
 
 /*!
@@ -354,26 +256,9 @@ void IOLM_MAIN_startupTask(void)
         {
             OSAL_error(__FILE__, __LINE__, OSAL_eERR_INVALIDSTATE, true, 1, "Creating LED Task failed.\r\n");
         }
-#if (!defined IO_LINK_EVM_KUNBUS)
         IOLM_MAIN_init();
-#endif
-        /* Create a work task for e.g. NVRAM write */
-#if (!defined IO_LINK_EVM_KUNBUS)
-        IOLM_pWorkTaskHandle_s = OSAL_SCHED_startTask(
-            (OSAL_SCHED_CBTask_t)IOLM_workTask,
-            NULL,
-            OSAL_TASK_Prio_IOL_NVRAM,
-            (uint8_t *)IOLM_workTaskStack_s,
-            sizeof(IOLM_workTaskStack_s),
-            OSAL_OS_START_TASK_FLG_NONE,
-            "Work Task");
-        if (NULL == IOLM_pWorkTaskHandle_s)
-        {
-            OSAL_error(__FILE__, __LINE__, OSAL_eERR_INVALIDSTATE, true, 1, "Creating Work Task failed.\r\n");
-        }
-#endif
+
         /* Create a task for the IO-Link main execution */
-#if (!defined IO_LINK_EVM_KUNBUS)
         IOLM_pMainTaskHandle_s = OSAL_SCHED_startTask(
             (OSAL_SCHED_CBTask_t)IOLM_MAIN_loop,
             NULL,
@@ -386,10 +271,6 @@ void IOLM_MAIN_startupTask(void)
         {
             OSAL_error(__FILE__, __LINE__, OSAL_eERR_INVALIDSTATE, true, 1, "Creating Main Task failed.\r\n");
         }
-#endif
-#if (defined IO_LINK_EVM_KUNBUS)
-    IOLM_MAIN_createButtonTask();
-#endif
         for (;;)
         {
             OSAL_SCHED_sleep(1000);
@@ -443,7 +324,6 @@ int main(int argc, char *argv[])
     {
         OSAL_error(__FILE__, __LINE__, OSAL_eERR_INVALIDSTATE, true, 1, "Creating Startup Task failed.\r\n");
     }
-
 
     OSAL_startOs();
     OSAL_error(__FILE__, __LINE__, OSAL_eERR_INVALIDSTATE, true, 1, "OS startup failed.\r\n");

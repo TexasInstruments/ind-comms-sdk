@@ -1,7 +1,7 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM64x" --package "ALV" --part "Default" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM64X@09.02.00"
+ * @cliArgs --device "AM64x" --package "ALV" --part "Default" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@09.02.00"
  * @versions {"tool":"1.20.0+3587"}
  */
 
@@ -55,6 +55,7 @@ const gpio37          = gpio.addInstance();
 const gpio38          = gpio.addInstance();
 const gpio39          = gpio.addInstance();
 const gpio40          = gpio.addInstance();
+const gpio41          = gpio.addInstance();
 const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1            = i2c.addInstance();
 const i2c2            = i2c.addInstance();
@@ -321,15 +322,22 @@ gpio40.GPIO.$assign         = "GPIO0";
 gpio40.GPIO.gpioPin.pu_pd   = "pu";
 gpio40.GPIO.gpioPin.$assign = "GPMC0_AD7";
 
+gpio41.$name                = "CONFIG_IOL_DI_NLD";
+gpio41.pinDir               = "OUTPUT";
+gpio41.GPIO.gpioPin.$assign = "GPMC0_WAIT0";
+
 i2c1.$name               = "CONFIG_I2C0";
 eeprom1.peripheralDriver = i2c1;
+i2c1.I2C.$assign         = "I2C0";
 i2c1.I2C_child.$name     = "drivers_i2c_v0_i2c_v0_template1";
 
 i2c2.$name            = "CONFIG_I2C1";
 led1.peripheralDriver = i2c2;
+i2c2.I2C.$assign      = "I2C1";
 i2c2.I2C_child.$name  = "drivers_i2c_v0_i2c_v0_template2";
 
 i2c3.$name           = "CONFIG_I2C2";
+i2c3.I2C.$assign     = "I2C2";
 i2c3.I2C_child.$name = "drivers_i2c_v0_i2c_v0_template3";
 
 mcspi1.$name                       = "CONFIG_MCSPI_IOL";
@@ -577,15 +585,13 @@ flash1.peripheralDriver.OSPI.D3.$suggestSolution   = "OSPI0_D3";
 flash1.peripheralDriver.OSPI.D2.$suggestSolution   = "OSPI0_D2";
 flash1.peripheralDriver.OSPI.D1.$suggestSolution   = "OSPI0_D1";
 flash1.peripheralDriver.OSPI.D0.$suggestSolution   = "OSPI0_D0";
-i2c1.I2C.$suggestSolution                          = "I2C2";
-i2c1.I2C.SCL.$suggestSolution                      = "GPMC0_CSn2";
-i2c1.I2C.SDA.$suggestSolution                      = "GPMC0_CSn3";
-i2c2.I2C.$suggestSolution                          = "I2C1";
+gpio41.GPIO.$suggestSolution                       = "GPIO0";
+i2c1.I2C.SCL.$suggestSolution                      = "I2C0_SCL";
+i2c1.I2C.SDA.$suggestSolution                      = "I2C0_SDA";
 i2c2.I2C.SCL.$suggestSolution                      = "I2C1_SCL";
 i2c2.I2C.SDA.$suggestSolution                      = "I2C1_SDA";
-i2c3.I2C.$suggestSolution                          = "I2C0";
-i2c3.I2C.SCL.$suggestSolution                      = "I2C0_SCL";
-i2c3.I2C.SDA.$suggestSolution                      = "I2C0_SDA";
+i2c3.I2C.SCL.$suggestSolution                      = "GPMC0_CSn2";
+i2c3.I2C.SDA.$suggestSolution                      = "GPMC0_CSn3";
 uart1.UART.$suggestSolution                        = "USART1";
 uart1.UART.RXD.$suggestSolution                    = "UART1_RXD";
 uart1.UART.TXD.$suggestSolution                    = "UART1_TXD";

@@ -5,16 +5,12 @@
  *  IO-Link Master Types
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2024, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2024 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #ifndef INC_PROT__IOLM_TYPES_H__
@@ -99,11 +95,11 @@ extern "C" {
 
 /** Ready pulse time expectations. */
 /** Minimum wait time between power off and power on in ms. */
-#define IOLM_PORT_MIN_READY_PULSE_POWER_OFF_ON_GAP_MS    1000U 
+#define IOLM_PORT_MIN_READY_PULSE_POWER_OFF_ON_GAP_MS    1000U
 /** Maximum wait time between power off and power on in ms. */
-#define IOLM_PORT_MAX_READY_PULSE_POWER_OFF_ON_GAP_MS    10000U 
+#define IOLM_PORT_MAX_READY_PULSE_POWER_OFF_ON_GAP_MS    10000U
 
-// Checks 
+// Checks
 
 
 #if IOLM_PD_BUFFER_COUNT < 1 || IOLM_PD_BUFFER_COUNT > 3
@@ -113,12 +109,6 @@ extern "C" {
 // redefine available defines (used for unifdef)
 #undef IOLM_SMI_ENABLED
 #define IOLM_SMI_ENABLED  1
-
-#ifdef UNIT_TESTS
-#define IOLM_CRITICAL_DECL(level)
-#define IOLM_CRITICAL_START(level)
-#define IOLM_CRITICAL_END(level)
-#endif
 
 
 #ifndef IOLM_CRITICAL_DECL
@@ -133,7 +123,7 @@ extern "C" {
 #define IOLM_CRITICAL_END(level)        IOLM_Port_vCriticalEnd((level))
 #endif
 
-                                                
+
 
 
 /**
@@ -285,7 +275,7 @@ typedef IOL_ENUM_DECL IOLM_EALEventState
 /**
 \brief This enumeration indicates the requested inspection Level.
 */
-typedef IOL_ENUM_DECL IOLM_EInspectionLevel 
+typedef IOL_ENUM_DECL IOLM_EInspectionLevel
 {
    /** \brief No check on startup. */
    IOL_eInspectionLevel_NO_CHECK = 0,
@@ -308,7 +298,7 @@ typedef IOL_ENUM_DECL IOLM_ETimerState
     IOLM_eTimerState_Pulse,
 } IOLM_ETimerState;
 
-/** 
+/**
 \brief This enumeration defines acyclic events.
 
 The order of definition is also the order of execution.
@@ -484,7 +474,7 @@ typedef struct IOLM_SDSContent
     INT8U au8ArgBlockID[2];
     INT8U au8Checksum[4];
     INT8U au8VendorID[2];
-    INT8U au8DeviceID[4]; 
+    INT8U au8DeviceID[4];
     INT8U au8FunctionID[2];
 
     INT8U au8Data[IOLM_DS_MAX_SIZE]; // Multiple IOLM_SDSObject
@@ -499,13 +489,13 @@ typedef struct IOLM_SDSContent
 typedef struct IOLM_SPortConfig
 {
    /** \brief This parameter contains the requested cycle time for the OPERATE mode.
-   
+
    If set to 0, mincycletime of the Device is used.
    To set a value in milliseconds there is the macro \ref IOL_CYCLE_MS.
    See Annex B.1.3 of \ref section_iol_spec_1_1. */
    INT8U u8ConfiguredCycleTime ;
    /** \brief This parameter indicates the requested operational mode of the port.
-   
+
    COM1/COM2/COM3 as explicit mode is not allowed and only used for internal usage.
    */
    IOL_ETargetMode eTargetMode;
@@ -516,33 +506,33 @@ typedef struct IOLM_SPortConfig
    IOL_EBaudrate eConfiguredBaudrate;
 
    /** \brief Configured IO-Link revision ID.
-   
+
    If set to 0, V1.1 is used.
    See Annex B.1.5 of \ref section_iol_spec_1_1. */
    INT8U u8ConfiguredRevisionID;
    /** \brief Device check during startup.
-   
+
    Device inspection is only allowed in combination with #IOL_eTargetMode_CFGCOM.
    */
    IOLM_EInspectionLevel eInspectionLevel;
    /** \brief Configured Vendor ID.
-   
+
    Needed if inspection level is TYPE_COMP or IDENTICAL. */
    INT8U au8ConfiguredVendorID[2];
    /** \brief Configured Device ID.
-   
+
    Needed if Inspection level is TYPE_COMP or IDENTICAL.*/
    INT8U au8ConfiguredDeviceID[3];
    /** \brief Configured Function ID.
-   
+
    Not yet defined by implemented specification. */
    INT8U au8ConfiguredFunctionID[2];
    /** \brief Configured Serial Number.
-   
+
    Needed if Inspection Level is IDENTICAL. */
    INT8U au8ConfiguredSerialNumber[16];
    /** \brief Configured Serial Number length.
-   
+
    Needed if inspection level is IDENTICAL. */
    INT8U u8ConfiguredSerialNumberLen;
 } IOLM_SPortConfig;
@@ -550,7 +540,7 @@ typedef struct IOLM_SPortConfig
 /**
 \brief This structure is used for the actual used communication parameters.
 */
-typedef struct IOLM_SRealPortConfig 
+typedef struct IOLM_SRealPortConfig
 {
    /** \brief This parameter indicates the real operational mode of the port. */
    IOL_ETargetMode eTargetMode;
@@ -597,7 +587,7 @@ typedef struct IOLM_SPDBuffer
     INT8U au8Buffer[IOLM_PD_BUFFER_COUNT][IOLM_MAX_PD_SIZE];
 #if IOLM_PD_BUFFER_COUNT > 1
     IOLM_SPDBufferCtrl suCtrl;
-#endif 
+#endif
     TBOOL boNewData; /**< \brief True if new data is available. */
     TBOOL boFirstReceive;
 } IOLM_SPDBuffer;

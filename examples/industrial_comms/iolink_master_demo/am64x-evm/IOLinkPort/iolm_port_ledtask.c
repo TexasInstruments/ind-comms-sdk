@@ -5,39 +5,38 @@
  *  Interface for LED Handling on IOLink Board.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 KUNBUS GmbH.
+ *  Copyright (C) 2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 /* ========================================================================== */
@@ -49,9 +48,6 @@
 #include "iolm_port_ledtask.h"
 #include "iolm_port_spi.h"
 #define IOLM_LED_CHANNEL IOLM_SPI_LED_CHANNEL
-#if (defined IO_LINK_EVM_KUNBUS)
-#include "ti_board_open_close.h"
-#endif
 /* ========================================================================== */
 /*                                Defines                                     */
 /* ========================================================================== */
@@ -61,8 +57,6 @@
 #define IOLM_TIMER_COUNTER_SLOW      (0U)
 #define IOLM_TIMER_COUNTER_FAST      (1U)
 #define IOLM_TIMER_COUNTER_DATA      (2)
-#define IOLM_LED_RED_BOOT_STATE      IOLM_ELEDState_Off
-#define IOLM_LED_GREEN_BOOT_STATE    IOLM_ELEDState_Off
 #define IOLM_LED_BASEBOARD_HEARTBEAT (0U)
 
 /* times in ms (MUST be multiples of IOL_LED_TASK_TICKRATE) */
@@ -111,62 +105,12 @@ void OSAL_FUNC_NORETURN IOLM_LED_switchingTask(void)
 {
     uint8_t  i;
     uint16_t ledState = 0;
-#if (defined IO_LINK_EVM_KUNBUS)
-    uint32_t time=10U;
-    for(;;)
-    {
-        LED_off(gLedHandle[CONFIG_LED_IOL_LEDR], 0);
-        LED_on(gLedHandle[CONFIG_LED_IOL_LEDG], 0);
-        LED_on(gLedHandle[CONFIG_LED_IOL_LEDB], 0);
-
-        LED_on(gLedHandle[CONFIG_LED_STATUS1_LEDB], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS1_LEDG], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS1_LEDR], 0);
-
-        LED_on(gLedHandle[CONFIG_LED_STATUS2_LEDG], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS2_LEDR], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS2_LEDB], 0);
-        OSAL_SCHED_sleep(IOLM_LED_TASK_TICKRATE*time);
-
-        LED_off(gLedHandle[CONFIG_LED_IOL_LEDG], 0);
-        LED_on(gLedHandle[CONFIG_LED_IOL_LEDR], 0);
-        LED_on(gLedHandle[CONFIG_LED_IOL_LEDB], 0);
-
-        LED_on(gLedHandle[CONFIG_LED_STATUS1_LEDR], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS1_LEDG], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS1_LEDB], 0);
-
-        LED_on(gLedHandle[CONFIG_LED_STATUS2_LEDB], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS2_LEDG], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS2_LEDR], 0);
-        OSAL_SCHED_sleep(IOLM_LED_TASK_TICKRATE*time);
-
-        LED_off(gLedHandle[CONFIG_LED_IOL_LEDB], 0);
-        LED_on(gLedHandle[CONFIG_LED_IOL_LEDG], 0);
-        LED_on(gLedHandle[CONFIG_LED_IOL_LEDR], 0);
-
-        LED_on(gLedHandle[CONFIG_LED_STATUS1_LEDG], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS1_LEDR], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS1_LEDB], 0);
-
-        LED_off(gLedHandle[CONFIG_LED_STATUS2_LEDB], 0);
-        LED_off(gLedHandle[CONFIG_LED_STATUS2_LEDG], 0);
-        LED_on(gLedHandle[CONFIG_LED_STATUS2_LEDR], 0);
-        OSAL_SCHED_sleep(IOLM_LED_TASK_TICKRATE*time);
-    }
-#endif
 
     IOLM_LED_sLed_s.cbInit();
 
     IOLM_LED_aLedBlinkSyncTimerCount_s[IOLM_TIMER_COUNTER_SLOW] = 0;
     IOLM_LED_aLedBlinkSyncTimerCount_s[IOLM_TIMER_COUNTER_FAST] = 0;
     IOLM_LED_aLedBlinkSyncTimerCount_s[IOLM_TIMER_COUNTER_DATA] = 0;
-
-    for (i = 1; i <= IOLM_PORT_COUNT; i++)
-    {
-        IOLM_LED_setLedColorState(i, IOLM_ELEDColor_Green, IOLM_LED_GREEN_BOOT_STATE);
-        IOLM_LED_setLedColorState(i, IOLM_ELEDColor_Red, IOLM_LED_RED_BOOT_STATE);
-    }
 
     while (1)
     {
