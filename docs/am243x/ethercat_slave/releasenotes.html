@@ -109,11 +109,11 @@ $(document).ready(function(){initNavTree('releasenotes.html',''); initResizable(
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="releasenotesoverview"></a>
 Overview</h1>
-<p>The Software Development Kit (SDK) for EtherCAT allows you to quickly integrate EtherCAT slave functionality into your device. The SDK is supported for Sitara processors by Texas Instruments Incorporated and currently available for AM64x and AM243x series of Cortex<sup><small>&reg;</small></sup>-R5 based devices.</p>
+<p>The Software Development Kit (SDK) for EtherCAT allows you to quickly integrate EtherCAT slave functionality into your device. The SDK is supported for Sitara processors by Texas Instruments Incorporated and currently available for AM64x, AM243x, AM263Px and AM261x series of Cortex<sup><small>&reg;</small></sup>-R5 based devices.</p>
 <p>This document collection contains a Quickstart Guide, the User Manual, and the API Reference Manual for the EtherCAT Slave SDK. The API consists of the following modules: an API to access the basic EtherCAT Slave functionality, the API for the CiA 402 (Drives and Motion Control), the cyclic buffer handling API, and a board support package API. </p>
 <h1><a class="anchor" id="releasenoteslicensing"></a>
 Licensing</h1>
-<p>Copyright  &copy; 2023, KUNBUS GmbH<br  />
+<p>Copyright  &copy; 2024, Texas Instruments Incorporated<br  />
  All rights reserved.<br  />
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:<br  />
  </p><ol>
@@ -122,9 +122,61 @@ Redistributions of source code must retain the above copyright notice, this list
 <li>
 Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. </li>
 <li>
-Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
+Neither the name of the Texas Instruments Incorporated nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
 </ol>
-<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h1><a class="anchor" id="version_release20004"></a>
+Release Version 2.00.04 [TO BE RELEASED]</h1>
+<p><b>New Features:</b></p>
+<ul>
+<li>
+[ICSTACK-213] Create project for AM261x LP.<br  />
+ <ul>
+<li>
+Created new Code Composer Studio project for AM261X LP and created documentation for the new platform. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+[ICSTACK-93] Create project for AM263Px LP.<br  />
+ <ul>
+<li>
+Created new Code Composer Studio project for AM263PX LP and created documentation for the new platform. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+[ICSTACK-235] Enable explicit device ID for EtherCAT.<br  />
+ Major changes:<br  />
+ <ul>
+<li>
+New API to set the explicit device ID EC_API_SLV_setExplicitDeviceId. </li>
+<li>
+New API to get the explicit device ID EC_API_SLV_getExplicitDeviceId. </li>
+</ul>
+</li>
+</ul>
+<p><b>Bugfixes:</b></p>
+<ul>
+<li>
+[ICSTACK-197] Returning Error Code from AoE Callback functions will lead to timeout in Master.<br  />
+ <ul>
+<li>
+Return 32-bit error code to Master. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+[ICSTACK-223] Callback for mapping change is not triggered when reconfiguring PDOs with padded entries.<br  />
+ <ul>
+<li>
+Callback is triggered when PDOs with padded entries are reconfigured from Master. </li>
+</ul>
+</li>
+</ul>
 <h1><a class="anchor" id="version_release20003"></a>
 Release Version 2.00.03</h1>
 <p><b>New Features:</b> </p><ul>

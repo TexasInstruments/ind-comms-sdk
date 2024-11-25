@@ -107,21 +107,17 @@ $(document).ready(function(){initNavTree('page_quickstart_installation.html','')
   <div class="headertitle"><div class="title">Setup</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="qs_installation_software"></a>
-Software installation</h1>
-<ol type="1">
+<div class="textblock"><h1>Software installation</h1>
+<ul>
 <li>Install <a href="https://www.ti.com/tool/CCSTUDIO">Code Composer Studio for Sitara(TM) processors</a> (CCS).</li>
-<li>Install <a href="https://www.ti.com/tool/ARM-CGT">Arm® code generation tools - compiler</a> (ARM-CGT)</li>
-</ol>
-<ol type="1">
+<li>Install <a href="https://www.ti.com/tool/ARM-CGT">Arm® code generation tools - compiler</a> (ARM-CGT). </li>
 <li>Install a <a href="https://www.ti.com/tool/SYSCONFIG?keyMatch=SYSCONFIG">System Configuration Tool</a> (sysconfig).</li>
-<li>Install a <a href="https://www.ti.com/tool/MCU-PLUS-SDK-AM243X">Software Development Kit (SDK) AM243X</a> with demos and device description ESI files</li>
-</ol>
+<li>Install a <a href="https://www.ti.com/tool/MCU-PLUS-SDK-AM243X">Software Development Kit (SDK) AM243X</a> with demos and device description ESI. files</li>
+</ul>
 <p>for details see <a href="http://software-dl.ti.com/mcu-plus-sdk/esd/AM243X/08_02_00_31/exports/docs/api_guide_am243x/GETTING_STARTED.html">Getting started</a></p>
-<h1><a class="anchor" id="qs_installation_connect"></a>
-Connect the development board</h1>
+<h1>Connect the development board</h1>
 <h2>TMDS243GPEVM/TMDS64GPEVM</h2>
-<p>Board details: <a href="https://www.ti.com/tool/TMDS64GPEVM">TMDS64GPEVM</a>, <a href="https://www.ti.com/tool/TMDS243GPEVM">TMDS243GPEVM</a></p>
+<p>Board details: <a href="https://www.ti.com/tool/TMDS64EVM">TMDS64EVM</a>, <a href="https://www.ti.com/tool/TMDS243EVM">TMDS243EVM</a></p>
 <ol type="1">
 <li>Setup a dip switches on the board : 25MHz, No-boot / Dev-boot.</li>
 </ol>
@@ -159,9 +155,8 @@ EtherCAT ports</div></div>
 <div class="caption">
 No boot mode</div></div>
 <ol type="1">
-<li>Connect the evaluation board to your computer using two micro-USB cables:<ul>
-<li>J28 JTAG interface (XDS110)</li>
-<li>J26 UART console</li>
+<li>Connect the evaluation board to your computer using a micro-USB cables:<ul>
+<li>J20 JTAG interface (XDS110) and UART console</li>
 </ul>
 </li>
 </ol>
@@ -184,8 +179,7 @@ EtherCAT connectors on the AM243x LP Board</div></div>
 <img src="ethercat_slave_power_port_lp.png" alt="" width="20%" height="20%"/>
 <div class="caption">
 Board power connector on the AM243x LP</div></div>
- <h1><a class="anchor" id="qs_steps_to_run_example"></a>
-Steps to Run the Example</h1>
+<h1>Steps to Run the Example</h1>
 <ol type="1">
 <li>When using CCS projects to build, import the CCS project for the required combination and build it using the CCS project menu , see  <a href="https://software-dl.ti.com/mcu-plus-sdk/esd/AM243X/08_02_00_31/exports/docs/api_guide_am243x/CCS_PROJECTS_PAGE.html">Using SDK with CCS Projects</a> </li>
 </ol>

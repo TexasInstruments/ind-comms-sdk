@@ -113,21 +113,21 @@ $(document).ready(function(){initNavTree('proc_data_mem_access.html',''); initRe
 <tr>
 <th>Function </th><th>Description  </th></tr>
 <tr>
-<td>EC_API_SLV_cbRegisterPreSeqInputPDBuffer </td><td>Request a buffer to read input process data  </td></tr>
+<td><a class="el" href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_gad25dfa1e4b82f4543d4e541c9da57089.html#gad25dfa1e4b82f4543d4e541c9da57089">EC_API_SLV_cbRegisterPreSeqInputPDBuffer</a> </td><td>Request a buffer to read input process data  </td></tr>
 <tr>
-<td>EC_API_SLV_cbRegisterPreSeqOutputPDBuffer </td><td>Request a buffer to write output process data  </td></tr>
+<td><a class="el" href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_ga9cff77e72a7216122715074d310f48e3.html#ga9cff77e72a7216122715074d310f48e3">EC_API_SLV_cbRegisterPreSeqOutputPDBuffer</a> </td><td>Request a buffer to write output process data  </td></tr>
 <tr>
-<td>EC_API_SLV_cbRegisterPostSeqInputPDBuffer </td><td>Triggered after input process data has been read  </td></tr>
+<td><a class="el" href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_ga785dd8d680eb889a120b3fb83cd28ef1.html#ga785dd8d680eb889a120b3fb83cd28ef1">EC_API_SLV_cbRegisterPostSeqInputPDBuffer</a> </td><td>Triggered after input process data has been read  </td></tr>
 <tr>
-<td>EC_API_SLV_cbRegisterPostSeqOutputPDBuffer </td><td>Triggered after output process data has been written  </td></tr>
+<td><a class="el" href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_gad0f8e094bc453a145c542489aad85236.html#gad0f8e094bc453a145c542489aad85236">EC_API_SLV_cbRegisterPostSeqOutputPDBuffer</a> </td><td>Triggered after output process data has been written  </td></tr>
 </table>
 <p>Using these functions, the end user can register its own callbacks and handle the process data on its own will. For instance, the customer can implement a triple buffer mechanism in a Dual Port RAM and the SDK will get and set the data from it.</p>
 <div class="fragment"><div class="line"><a class="code hl_struct" href="struct_e_c___a_p_i___s_l_v___handle.html">EC_API_SLV_SHandle_t</a>*   ptSlave = pApplicationInstance_p-&gt;ptEcSlvApi;</div>
 <div class="line"> </div>
-<div class="line">EC_API_SLV_cbRegisterPreSeqInputPDBuffer    (ptSlave, ptSlave, DPR_PreSequenceInputProcessData);</div>
-<div class="line">EC_API_SLV_cbRegisterPreSeqOutputPDBuffer   (ptSlave, ptSlave, DPR_PreSequenceOutputProcessData);</div>
-<div class="line">EC_API_SLV_cbRegisterPostSeqInputPDBuffer   (ptSlave, ptSlave, DPR_PostSequenceInputProcessData);</div>
-<div class="line">EC_API_SLV_cbRegisterPostSeqOutputPDBuffer  (ptSlave, ptSlave, DPR_PostSequenceOutputProcessData);</div>
+<div class="line"><a class="code hl_function" href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_gad25dfa1e4b82f4543d4e541c9da57089.html#gad25dfa1e4b82f4543d4e541c9da57089">EC_API_SLV_cbRegisterPreSeqInputPDBuffer</a>    (ptSlave, ptSlave, DPR_PreSequenceInputProcessData);</div>
+<div class="line"><a class="code hl_function" href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_ga9cff77e72a7216122715074d310f48e3.html#ga9cff77e72a7216122715074d310f48e3">EC_API_SLV_cbRegisterPreSeqOutputPDBuffer</a>   (ptSlave, ptSlave, DPR_PreSequenceOutputProcessData);</div>
+<div class="line"><a class="code hl_function" href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_ga785dd8d680eb889a120b3fb83cd28ef1.html#ga785dd8d680eb889a120b3fb83cd28ef1">EC_API_SLV_cbRegisterPostSeqInputPDBuffer</a>   (ptSlave, ptSlave, DPR_PostSequenceInputProcessData);</div>
+<div class="line"><a class="code hl_function" href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_gad0f8e094bc453a145c542489aad85236.html#gad0f8e094bc453a145c542489aad85236">EC_API_SLV_cbRegisterPostSeqOutputPDBuffer</a>  (ptSlave, ptSlave, DPR_PostSequenceOutputProcessData);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">//Slave to Master COMM (TXPDO)</span></div>
 <div class="line"><span class="keywordtype">void</span>* DPR_PreSequenceInputProcessData(<span class="keywordtype">void</span>* pContext_p, uint32_t i32uLength_p)</div>
@@ -160,7 +160,11 @@ $(document).ready(function(){initNavTree('proc_data_mem_access.html',''); initRe
 <div class="line">    <span class="comment">//Buffer has been written. Flip the dirty buffer with the latest buffer.</span></div>
 <div class="line">    DPR_setBuffer(DPR_eService_SetOutputProcessData, pvBuffer_p, i32uLength_p);</div>
 <div class="line">}</div>
-<div class="ttc" id="astruct_e_c___a_p_i___s_l_v___handle_html"><div class="ttname"><a href="struct_e_c___a_p_i___s_l_v___handle.html">EC_API_SLV_Handle</a></div><div class="ttdef"><b>Definition</b> ecSlvApiInternal.h:329</div></div>
+<div class="ttc" id="agroup___e_c___a_p_i___s_l_v___b_u_f_f_e_r_ga785dd8d680eb889a120b3fb83cd28ef1_html_ga785dd8d680eb889a120b3fb83cd28ef1"><div class="ttname"><a href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_ga785dd8d680eb889a120b3fb83cd28ef1.html#ga785dd8d680eb889a120b3fb83cd28ef1">EC_API_SLV_cbRegisterPostSeqInputPDBuffer</a></div><div class="ttdeci">uint32_t EC_API_SLV_cbRegisterPostSeqInputPDBuffer(EC_API_SLV_SHandle_t *pHandle, EC_API_SLV_CBPostSeqInputPD_t cbFunc, void *pContext)</div><div class="ttdoc">This is the function to register a function which releases an external Process data buffer.</div><div class="ttdef"><b>Definition</b> ecSlvApi_pdo.c:2323</div></div>
+<div class="ttc" id="agroup___e_c___a_p_i___s_l_v___b_u_f_f_e_r_ga9cff77e72a7216122715074d310f48e3_html_ga9cff77e72a7216122715074d310f48e3"><div class="ttname"><a href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_ga9cff77e72a7216122715074d310f48e3.html#ga9cff77e72a7216122715074d310f48e3">EC_API_SLV_cbRegisterPreSeqOutputPDBuffer</a></div><div class="ttdeci">uint32_t EC_API_SLV_cbRegisterPreSeqOutputPDBuffer(EC_API_SLV_SHandle_t *pHandle, EC_API_SLV_CBPreSeqOutputPD_t cbFunc, void *pContext)</div><div class="ttdoc">This is the function to register a function which gets an external Process data buffer.</div><div class="ttdef"><b>Definition</b> ecSlvApi_pdo.c:2281</div></div>
+<div class="ttc" id="agroup___e_c___a_p_i___s_l_v___b_u_f_f_e_r_gad0f8e094bc453a145c542489aad85236_html_gad0f8e094bc453a145c542489aad85236"><div class="ttname"><a href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_gad0f8e094bc453a145c542489aad85236.html#gad0f8e094bc453a145c542489aad85236">EC_API_SLV_cbRegisterPostSeqOutputPDBuffer</a></div><div class="ttdeci">uint32_t EC_API_SLV_cbRegisterPostSeqOutputPDBuffer(EC_API_SLV_SHandle_t *pHandle, EC_API_SLV_CBPostSeqOutputPD_t cbFunc, void *pContext)</div><div class="ttdoc">This is the function to register a function which releases an external Process data buffer.</div><div class="ttdef"><b>Definition</b> ecSlvApi_pdo.c:2366</div></div>
+<div class="ttc" id="agroup___e_c___a_p_i___s_l_v___b_u_f_f_e_r_gad25dfa1e4b82f4543d4e541c9da57089_html_gad25dfa1e4b82f4543d4e541c9da57089"><div class="ttname"><a href="group___e_c___a_p_i___s_l_v___b_u_f_f_e_r_gad25dfa1e4b82f4543d4e541c9da57089.html#gad25dfa1e4b82f4543d4e541c9da57089">EC_API_SLV_cbRegisterPreSeqInputPDBuffer</a></div><div class="ttdeci">uint32_t EC_API_SLV_cbRegisterPreSeqInputPDBuffer(EC_API_SLV_SHandle_t *pHandle, EC_API_SLV_CBPreSeqInputPD_t cbFunc, void *pContext)</div><div class="ttdoc">This is the function to register a function which gets an external Process data buffer.</div><div class="ttdef"><b>Definition</b> ecSlvApi_pdo.c:2238</div></div>
+<div class="ttc" id="astruct_e_c___a_p_i___s_l_v___handle_html"><div class="ttname"><a href="struct_e_c___a_p_i___s_l_v___handle.html">EC_API_SLV_Handle</a></div><div class="ttdef"><b>Definition</b> ecSlvApiInternal.h:328</div></div>
 </div><!-- fragment --><p><br  />
  </p>
 </div></div><!-- contents -->
