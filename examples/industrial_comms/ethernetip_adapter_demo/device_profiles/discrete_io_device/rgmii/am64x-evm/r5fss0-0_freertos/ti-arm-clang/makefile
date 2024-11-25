@@ -68,7 +68,7 @@ FILES_common := \
 	app_discrete_io_device_dip.c \
 	app_discrete_io_device_dog.c \
 	app_discrete_io_device_dop.c \
-	app_discrete_io_device_sm.c \
+	app_discrete_io_device_asm.c \
 	ti_drivers_config.c \
 	ti_drivers_open_close.c \
 	ti_board_config.c \
@@ -118,6 +118,7 @@ DEFINES_common := \
 	-DOSAL_FREERTOS=1 \
 	-DSOC_AM64X \
 	-DSOC_AM64X=1 \
+	-DEIP_RGMII \
 	-DEIP_TIME_SYNC=1 \
 	-DCPU_LOAD_MONITOR=0 \
 

@@ -64,6 +64,7 @@
             -DOSAL_FREERTOS=1
             -DSOC_AM64X
             -DSOC_AM64X=1
+            -DEIP_RGMII
             -DEIP_TIME_SYNC=1
             -DCPU_LOAD_MONITOR=0
         "
@@ -192,7 +193,7 @@
         </file>
         <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device_dop.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device_sm.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/discrete_io_device/app_discrete_io_device_asm.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

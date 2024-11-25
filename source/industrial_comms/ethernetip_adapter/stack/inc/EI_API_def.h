@@ -5,16 +5,12 @@
  *  Basic declarations for EtherNet/IP and CIP API's.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2023 None
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 
@@ -37,27 +33,6 @@
 #define ETHIP_LOC
 #endif // ETHERNETIP_SO
 
-#if defined(SOC_AM335x)
-/*!
- *  @brief    PRUICSS Instance IDs
- */
-typedef enum EI_API_ADP_PRUICSS_MaxInstances_s
-{
-    EI_API_ADP_PRUICCSS_INSTANCE_ONE=1,
-    EI_API_ADP_PRUICCSS_INSTANCE_MAX=2
-} EI_API_ADP_PRUICSS_MaxInstances;
-#elif defined(SOC_AM65XX)
-/*!
- *  @brief    PRUICSS Instance IDs
- */
-typedef enum EI_API_ADP_PRUICSS_MaxInstances_s
-{
-    EI_API_ADP_PRUICCSS_INSTANCE_ONE=1,
-    EI_API_ADP_PRUICCSS_INSTANCE_TWO=2,
-    EI_API_ADP_PRUICCSS_INSTANCE_THREE=3,
-    EI_API_ADP_PRUICCSS_INSTANCE_MAX=4
-} EI_API_ADP_PRUICSS_MaxInstances;
-#else
 /*!
  *  @brief    PRUICSS Instance IDs
  */
@@ -67,7 +42,6 @@ typedef enum EI_API_ADP_PRUICSS_MaxInstances_s
     EI_API_ADP_PRUICCSS_INSTANCE_TWO=2,
     EI_API_ADP_PRUICCSS_INSTANCE_MAX=3
 } EI_API_ADP_PRUICSS_MaxInstances;
-#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -146,6 +120,7 @@ typedef enum EI_API_CIP_CB_ERR_CODE
     EI_API_eERR_CB_INVALID_VALUE   = 0x03,
     EI_API_eERR_CB_NOT_ENOUGH_DATA = 0x04,
     EI_API_eERR_CB_TOO_MUCH_DATA   = 0x05,
+    EI_API_eERR_CB_CONFLICT_STATE  = 0x06,
 /// @cond INTERNAL
     EI_API_eERR_CB_FORCE32BIT      = 0xffffffff        //!< Force enum to 32 bit
 /// @endcond
@@ -351,6 +326,10 @@ typedef union EI_API_ADP_UCmgrInfo
     EI_API_ADP_SCmgrForwardCloseInfo_t forwardCloseInfo;
 } EI_API_ADP_UCmgrInfo_u;
 
+/*!
+ *  \brief These are possible return values from custom-map assembly callbacks.
+ *  \ingroup EI_API_CIP_ASSEMBLY
+ */
 typedef enum EI_API_CIP_EAssemb_Return_Code
 {
     ASSEMB_SERVICE_RESPONSE_OK = 1,         //!< Send normal response back
@@ -358,6 +337,20 @@ typedef enum EI_API_CIP_EAssemb_Return_Code
     ASSEMB_SERVICE_NO_RESPONSE = 3          //!< Send no response of the message
 } EI_API_CIP_EAssemb_Return_Code_t;
 
+/*!
+ *  \brief Possible values for Assembly format.
+ *  \ingroup EI_API_CIP_ASSEMBLY
+ */
+typedef enum EI_API_CIP_EAssemb_Format
+{
+    ASSEMB_FORMAT_MODELESS = 0,
+    ASSEMB_FORMAT_32BITHEADER
+}EI_API_CIP_EAssemb_Format_t;
+
+/*!
+ *  \brief Data structure used during callback in custom-map assemblies.
+ *  \ingroup EI_API_CIP_ASSEMBLY
+ */
 typedef struct EI_API_CIP_SAssemMapData
 {
     uint16_t classId;
@@ -451,13 +444,13 @@ typedef EI_API_ADP_SEipStatus_t(*EI_API_ADP_CBCmgr)(uint32_t serviceCode_p, EI_A
  *  \brief Function prototype for CIP COBJ callback functions.
  *  \ingroup EI_API_CIP_CALLBACK
  */
-typedef EI_API_ADP_SEipStatus_t(*EI_API_ADP_CBCobjTimeOut)(uint8_t *producedConnectionPath_p, uint16_t producedConnectionPathLen_p,
+typedef void (*EI_API_ADP_CBCobjTimeOut)(uint8_t *producedConnectionPath_p, uint16_t producedConnectionPathLen_p,
                                                               uint8_t *consumedConnectionPath_p, uint16_t consumedConnectionPathLen_p);
 
 #undef T
 
-#ifdef  __cplusplus 
+#ifdef  __cplusplus
 }
-#endif 
+#endif
 
 #endif // EI_API_DEF_H_INC

@@ -5,43 +5,44 @@
  *  Configuration declarations specific to discrete IO device profile.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br><br>
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef APP_DISCRETE_IO_DEVICE_CFG_H
 #define APP_DISCRETE_IO_DEVICE_CFG_H
+
+#include "app_discrete_io_device_asm.h"
 
 #if (defined BOARD_TYPE_TMDS64EVM) && (1==BOARD_TYPE_TMDS64EVM)
 
@@ -58,6 +59,16 @@
 #define EI_APP_DIO_DEVICE_PRODUCT_CODE     0x5EF8
 #define EI_APP_DIO_DEVICE_PRODUCT_NAME     "LP-AM243 Discrete I/O Device"
 
+#elif (defined BOARD_TYPE_LP_AM263PX) && (1==BOARD_TYPE_LP_AM263PX)
+
+#define EI_APP_DIO_DEVICE_PRODUCT_CODE     0x66C8
+#define EI_APP_DIO_DEVICE_PRODUCT_NAME     "LP-AM263P Discrete I/O Device"
+
+#elif (defined BOARD_TYPE_LP_AM261X) && (1==BOARD_TYPE_LP_AM261X)
+
+#define EI_APP_DIO_DEVICE_PRODUCT_CODE     0x6600
+#define EI_APP_DIO_DEVICE_PRODUCT_NAME     "LP-AM261 Discrete I/O Device"
+
 #else
 
 #define EI_APP_DIO_DEVICE_PRODUCT_CODE     0xFFFF
@@ -69,15 +80,14 @@
 #define EI_APP_DIO_DEVICE_DEVICE_TYPE      0x0007
 #define EI_APP_DIO_DEVICE_SERIAL_NUMBER    0x00000065
 #define EI_APP_DIO_DEVICE_REVISION_MAJOR   0x03
-#define EI_APP_DIO_DEVICE_REVISION_MINOR   0x07
+#define EI_APP_DIO_DEVICE_REVISION_MINOR   0x08
 
-#define EI_APP_DIO_DEVICE_ASSEMBLY_PRODUCING     0x64 /*!< Producing Assembly Instance */
-#define EI_APP_DIO_DEVICE_ASSEMBLY_CONSUMING     0x65 /*!< Consuming Assembly Instance */
-#define EI_APP_DIO_DEVICE_ASSEMBLY_CONFIGURATION 0x67 /*!< Configuration Assembly Instance */
+#define EI_APP_DIO_DEVICE_ASSEMBLY_PRODUCING     EI_APP_DIO_DEVICE_4_Input_Point_No_Status /*!< Producing Assembly Instance */
+#define EI_APP_DIO_DEVICE_ASSEMBLY_CONSUMING     EI_APP_DIO_DEVICE_4_Output_Point /*!< Consuming Assembly Instance */
+#define EI_APP_DIO_DEVICE_ASSEMBLY_CONFIGURATION EI_APP_DIO_OUTPUT_CONFIGURATION /*!< Configuration Assembly Instance */
 
-#define EI_APP_DIO_DEVICE_DOP_NUM_OF_INST        2 /*!< Number of instances of Discrete Output Point Object */
-#define EI_APP_DIO_DEVICE_DIP_NUM_OF_INST        2 /*!< Number of instances of Discrete Input Point Object */
-#define EI_APP_DIO_DEVICE_DOG_NUM_OF_INST        1 /*!< Number of instances of Discrete Output Group Object */
+#define EI_APP_DIO_DEVICE_DOP_NUM_OF_INST        4 /*!< Number of instances of Discrete Output Point Object */
+#define EI_APP_DIO_DEVICE_DIP_NUM_OF_INST        4 /*!< Number of instances of Discrete Input Point Object */
 
 #define EI_APP_DIO_DEVICE_DIP_CLASS_ID           0x08 /*!< Class Number for DIP Objects */
 #define EI_APP_DIO_DEVICE_DOP_CLASS_ID           0x09 /*!< Class Number for DOP Objects */
@@ -87,9 +97,8 @@
 #define EI_APP_DIO_DEVICE_DOP_REVISION_NUMBER    1    /*!< Revision Number for DOP Object */
 #define EI_APP_DIO_DEVICE_DOG_REVISION_NUMBER    1    /*!< Revision Number for DOG Object */
 
-#define EI_APP_DIO_DEVICE_CONNECTION_PATH_LENGTH 9
+#define EI_APP_DIO_DEVICE_CONNECTION_PATH_LENGTH 8
 #define EI_APP_DIO_DEVICE_IO_CONNECTION          0x01 /*!< IO Connection Type */
-#define EI_APP_DIO_DEVICE_DATA_RECEIVED          1
 #define EI_APP_DIO_DEVICE_FAULT_ACTION_BIT       0
 #define EI_APP_DIO_DEVICE_IDLE_ACTION_BIT        1
 
@@ -132,14 +141,7 @@ extern void*    EI_APP_DIO_DEVICE_CFG_getRuntimeData        (void);
 extern void*    EI_APP_DIO_DEVICE_CFG_getFactoryResetData   (void);
 extern uint32_t EI_APP_DIO_DEVICE_CFG_getLength             (void);
 
-extern void EI_APP_DOG_init(EI_API_CIP_NODE_T  *pCipNode);
-extern void EI_APP_DOG_run(EI_API_CIP_NODE_T   *pCipNode);
-extern void EI_APP_DIP_init(EI_API_CIP_NODE_T  *pCipNode);
-extern void EI_APP_DIP_run(EI_API_CIP_NODE_T   *pCipNode);
-extern void EI_APP_DOP_SM_init(void);
-extern void EI_APP_DOP_SM_run(void);
 
-extern void EI_APP_DIO_DEVICE_getConnectionInfo(uint32_t *connectionState, uint32_t *receiveData);
 extern void EI_APP_DIO_DEVICE_getConfigurationAssemblyCb(uint8_t *faultAction, uint8_t *idleAction);
 
 #ifdef  __cplusplus

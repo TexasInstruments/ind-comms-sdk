@@ -5,16 +5,12 @@
  *  Declaration of CIP API.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2023 None
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 
@@ -81,6 +77,7 @@ extern ETHIP_API uint32_t EI_API_CIP_addAssemblyMemberCustomMapped (T *pCipNode_
 extern ETHIP_API uint32_t EI_API_CIP_getAssemblySize   (T *pCipNode_p, uint16_t assemblyInstanceId_p, uint16_t* pSize_p);
 extern ETHIP_API uint32_t EI_API_CIP_getAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pDestinationBuffer_p, uint16_t destinationBufferLength_p);
 extern ETHIP_API uint32_t EI_API_CIP_setAssemblyData   (T *pCipNode_p, uint16_t assemblyInstanceId_p, void *pSourceBuffer_p, uint16_t sourceBufferLength_p);
+extern ETHIP_API uint32_t EI_API_CIP_setAssemblyFormat(T* pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_EAssemb_Format_t format_p);
 extern ETHIP_API uint32_t EI_API_CIP_setAssemblyAppType(T *pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_EAPP_TYPE_t appType_p);
 extern ETHIP_API uint32_t EI_API_CIP_createCfgAssembly (T* pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_CBCfgAssembly fuCfgAssemblyAccess_p);
 extern ETHIP_API uint32_t EI_API_CIP_setCfgAssemblyCb  (T* pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_CBCfgAssemblySimple fuCfgAssemblyAccess_p);
@@ -142,9 +139,9 @@ extern ETHIP_API uint32_t EI_API_CIP_setAttr_lword       (T *pCipNode_p, uint16_
 
 extern uint32_t assignCfgAssembly(T* pCipNode_p, uint16_t assemblyInstanceId_p, EI_API_CIP_CBCfgAssemblySimple fuCfgAssemblyAccess_p);
 
-#ifdef  __cplusplus 
+#ifdef  __cplusplus
 }
-#endif 
+#endif
 
 #undef T
 

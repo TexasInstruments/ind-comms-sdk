@@ -1,8 +1,9 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM64x" --package "ALV" --part "Default" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM64X@09.02.00"
- * @versions {"tool":"1.20.0+3587"}
+ * @cliArgs --device "AM64x" --part "Default" --package "ALV" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM64x@10.00.00"
+ * @v2CliArgs --device "AM6442" --package "FCBGA (ALV)" --variant "AM6442-D" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM64x@10.00.00"
+ * @versions {"tool":"1.21.0+3721"}
  */
 
 /**
@@ -52,7 +53,6 @@ const section10       = section.addInstance();
 const section11       = section.addInstance();
 const section12       = section.addInstance();
 const section13       = section.addInstance();
-const dpl_cfg         = scripting.addModule("/kernel/dpl/dpl_cfg");
 
 /**
  * Write custom configuration values to the imported modules.
@@ -85,23 +85,22 @@ uart1.hwFlowControlThr        = "1";
 uart1.$name                   = "CONFIG_UART1";
 uart1.MCU_UART.$assign        = "MCU_USART0";
 
-ethernetip1.$name                                = "CONFIG_ETHERNETIP0";
-ethernetip1.phyToMacInterfaceMode                = "RGMII";
-ethernetip1.icss_emac[0].$name                   = "CONFIG_ICSS_EMAC0";
-ethernetip1.icss_emac[0].mode                    = scripting.forceWrite("SWITCH");
-ethernetip1.icss_emac[0].phyAddr0                = scripting.forceWrite(15);
-ethernetip1.icss_emac[0].learningEnable          = true;
-ethernetip1.icss_emac[0].linkTaskPriority        = 24;
-ethernetip1.icss_emac[0].rxTaskPriority          = 20;
-ethernetip1.icss_emac[0].txTaskPriority          = 20;
-ethernetip1.icss_emac[0].halfDuplexEnable        = true;
-ethernetip1.ethphy1[0].$name                     = "CONFIG_ETHPHY0";
-ethernetip1.ethphy1[0].name                      = "CUSTOM";
-ethernetip1.ethphy1[0].customDeviceName          = "DP83869_0";
-ethernetip1.ethphy2[0].$name                     = "CONFIG_ETHPHY1";
-ethernetip1.ethphy2[0].mdioManualModeLinkPolling = scripting.forceWrite("Polling");
-ethernetip1.ethphy2[0].name                      = "CUSTOM";
-ethernetip1.ethphy2[0].customDeviceName          = "DP83869_1";
+ethernetip1.$name                         = "CONFIG_ETHERNETIP0";
+ethernetip1.phyToMacInterfaceMode         = "RGMII";
+ethernetip1.icss_emac[0].$name            = "CONFIG_ICSS_EMAC0";
+ethernetip1.icss_emac[0].mode             = scripting.forceWrite("SWITCH");
+ethernetip1.icss_emac[0].phyAddr0         = scripting.forceWrite(15);
+ethernetip1.icss_emac[0].learningEnable   = true;
+ethernetip1.icss_emac[0].linkTaskPriority = 24;
+ethernetip1.icss_emac[0].rxTaskPriority   = 20;
+ethernetip1.icss_emac[0].txTaskPriority   = 20;
+ethernetip1.icss_emac[0].halfDuplexEnable = true;
+ethernetip1.ethphy1[0].$name              = "CONFIG_ETHPHY0";
+ethernetip1.ethphy1[0].name               = "CUSTOM";
+ethernetip1.ethphy1[0].customDeviceName   = "DP83869_0";
+ethernetip1.ethphy2[0].$name              = "CONFIG_ETHPHY1";
+ethernetip1.ethphy2[0].name               = "CUSTOM";
+ethernetip1.ethphy2[0].customDeviceName   = "DP83869_1";
 
 ethernetip1.icss                         = pruicss1;
 pruicss1.$name                           = "CONFIG_PRU_ICSS1";

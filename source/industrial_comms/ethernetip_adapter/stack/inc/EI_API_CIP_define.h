@@ -1,21 +1,17 @@
 /*!
-* \file EI_API_CIP_define.h
-*
-* \brief
-* Common EtherNet/IP CIP definitions.
-*
-* \author
-* KUNBUS GmbH
-*
-* \copyright
-* Copyright (c) 2021, KUNBUS GmbH<br /><br />
-* SPDX-License-Identifier: LicenseRef-Kunbus
-*
-* Copyright (c) 2023 None
-* All rights reserved.
-*
-*
-*/
+ *  \file EI_API_CIP_define.h
+ *
+ *  \brief
+ *  Common EtherNet/IP CIP definitions.
+ *
+ *  \author
+ *  Texas Instruments Incorporated
+ *
+ *  \copyright
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
+ *  All rights reserved.
+ */
 
 #ifndef EI_API_CIP_DEFINE_H_INC
 #define EI_API_CIP_DEFINE_H_INC
@@ -235,7 +231,7 @@ typedef struct EI_API_CIP_SCustomService
 } EI_API_CIP_SCustomService_t;
 
 /*!
- *  \brief Custom Assembly mapping structure. 
+ *  \brief Custom Assembly mapping structure.
  *
  *  \details
  *  This structure encapsulates the Assembly member customized binding.

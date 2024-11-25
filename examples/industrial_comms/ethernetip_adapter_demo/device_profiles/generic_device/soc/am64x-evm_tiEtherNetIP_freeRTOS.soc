@@ -17,7 +17,7 @@
   },
   "DUTInfo": {
     "productName": "TMDS64EVM Generic Device",
-    "productRev": "3.7",
+    "productRev": "3.8",
     "productCode": 6401,
     "devProfile": {
       "ProductType": 43,
@@ -650,7 +650,7 @@
               "IsImplemented": true,
               "IsSet": false,
               "RelationType": "IS",
-              "RelationStr": "3.7"
+              "RelationStr": "3.8"
             },
             {
               "Id": 5,

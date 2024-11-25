@@ -4,9 +4,9 @@ $ EZ-EDS Version 3.34.1.20231010 Generated Electronic Data Sheet
         DescText = "EtherNet/IP(tm) Adapter am64x-evm freeRTOS";
         CreateDate = 11-21-2019;
         CreateTime = 08:00:00;
-        ModDate = 02-29-2024;
-        ModTime = 07:00:00;
-        Revision = 3.7;
+        ModDate = 11-08-2024;
+        ModTime = 15:53:00;
+        Revision = 3.8;
         HomeURL = "www.ti.com";
 
 
@@ -17,7 +17,7 @@ $ EZ-EDS Version 3.34.1.20231010 Generated Electronic Data Sheet
         ProdTypeStr = "Generic Device";
         ProdCode = 6401;
         MajRev = 3;
-        MinRev = 7;
+        MinRev = 8;
         ProdName = "TMDS64EVM Generic Device";
         Catalog = "CatNo25601";
         Icon = "ti.ico";

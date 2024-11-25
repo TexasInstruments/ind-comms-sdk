@@ -5,39 +5,38 @@
  *  Provides initialization of custom ETHPHY's.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "ti_board_open_close.h"
@@ -49,6 +48,7 @@
 #include "drivers/CUST_drivers.h"
 #include "drivers/ethphy/CUST_ethPhy.h"
 
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
 #include "CUST_PHY_base.h"
 
 extern ETHPHY_Config  gEthPhyConfig[];
@@ -61,6 +61,7 @@ ETHPHY_Fxns gEthPhyFxns_DP83869_0 = { .openFxn    = NULL,
 ETHPHY_Fxns gEthPhyFxns_DP83869_1 = { .openFxn    = NULL,
                                       .closeFxn   = NULL,
                                       .commandFxn = NULL };
+#endif
 
 /*!
 *
@@ -80,7 +81,8 @@ uint32_t CUST_ETHPHY_init(CUST_ETHPHY_SParams_t* pParams)
     PRUICSS_Config* pPruIcssCfg                     = NULL;
     ETHPHY_Config*  pEthPhyCfg[CUST_ETHPHY_MAX_NUM] = {NULL};
     uint32_t        error                           = (uint32_t) CUST_ETHPHY_eERR_GENERALERROR;
-	
+
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
     int32_t  status          = SystemP_FAILURE;
     uint32_t mdioBaseAddress = 0;
 
@@ -150,9 +152,10 @@ uint32_t CUST_ETHPHY_init(CUST_ETHPHY_SParams_t* pParams)
     }
 
     CUST_PHY_CBregisterLibDetect(CUST_PHY_detect, NULL);
+#endif
 
     error = (uint32_t) CUST_ETHPHY_eERR_NOERROR;
-	
+
 laError:
     return error;
 }
@@ -187,10 +190,14 @@ ETHPHY_Config* CUST_ETHPHY_getConfig (uint32_t instance)
 {
     ETHPHY_Config* pEthPhyCfg = NULL;
 
+#if !(defined FBTL_REMOTE) || (0 == FBTL_REMOTE)
     if (CONFIG_ETHPHY_NUM_INSTANCES > instance)
     {
         pEthPhyCfg = &gEthPhyConfig[instance];
     }
+#else
+    OSALUNREF_PARM(instance);
+#endif
 
     return pEthPhyCfg;
 }

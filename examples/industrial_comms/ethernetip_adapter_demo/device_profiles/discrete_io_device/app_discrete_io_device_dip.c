@@ -5,39 +5,38 @@
  *  EtherNet/IP&trade; Discrete Input Point Object.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br><br>
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
@@ -83,12 +82,200 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
-void EI_APP_DIP_init (EI_API_CIP_NODE_T* pCipNode);
-void EI_APP_DIP_run  (EI_API_CIP_NODE_T* pCipNode);
+/**
+ *
+*/
+typedef struct EI_APP_DIP_object
+{
+    uint16_t                    instanceID;
+    EI_DIP_OBJECT_Cfg_t         userCallbacks;
+    EI_APP_DIP_OBJECT_STATE_t   current_state;
+    EI_APP_DIP_OBJECT_STATE_t   old_state;
+    ei_api_cip_edt_bool         value;
+    ei_api_cip_edt_bool         status;
+    struct EI_APP_DIP_object    *nextObject;
+}EI_APP_DIP_object_t;
 
-static EI_APP_DIP_ClassData_t dipClassData_s = {.revision = EI_APP_DIO_DEVICE_DIP_REVISION_NUMBER
+typedef struct EI_APP_DIP_container
+{
+    bool isClassInitialized;
+    EI_APP_DIP_object_t *head;
+    EI_API_CIP_NODE_T *pCipNode;
+    void *mutex;
+}EI_APP_DIP_container_t;
+
+static EI_APP_DIP_ClassData_t dipClassData_s = {.revision = EI_APP_DIP_CLASS_REVISION
                                                };
 
+static EI_APP_DIP_container_t dipContainer_s = {0};
+
+static uint32_t EI_APP_DIP_addInstanceAttribute (EI_API_CIP_NODE_T* pCipNode,
+                                                                    uint16_t             instanceId,
+                                                                    uint16_t             attrId,
+                                                                    EI_API_CIP_EEdt_t    edt,
+                                                                    EI_API_CIP_EAr_t     accessRule,
+                                                                    EI_API_CIP_CBGetAttr getCb,
+                                                                    EI_API_CIP_CBSetAttr setCb,
+                                                                    uint16_t             len,
+                                                                    void*                pvValue);
+static uint32_t EI_APP_DIP_getAttrCb(
+                              EI_API_CIP_NODE_T* pCipNode,
+                              uint16_t classId,
+                              uint16_t instanceId,
+                              uint16_t attrId,
+                              uint16_t* len,
+                              void* pvValue);
+
+static EI_APP_DIP_object_t*  EI_APP_DIP_findObj(uint16_t instanceID)
+{
+    EI_APP_DIP_object_t  *pDipObj = NULL;
+
+    if(false == dipContainer_s.isClassInitialized)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return NULL;
+    }
+    else
+    {
+        pDipObj  = dipContainer_s.head;
+        while (NULL != pDipObj)
+        {
+            if(instanceID == pDipObj->instanceID)
+            {
+                break;
+            }
+            pDipObj = pDipObj->nextObject;
+        }
+    }
+
+    return pDipObj;
+}
+
+static uint32_t EI_APP_DIP_createInstance(EI_APP_DIP_object_t *pDipObject)
+{
+    ei_api_cip_edt_bool instanceValue = 0;
+    EI_API_CIP_SService_t service = {0};
+    uint32_t errCode;
+    // Create instances
+    errCode = EI_API_CIP_createInstance(dipContainer_s.pCipNode, EI_APP_DIO_DEVICE_DIP_CLASS_ID, pDipObject->instanceID);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+    // Add get service for instances
+    service.code = EI_API_CIP_eSC_GETATTRSINGLE;
+    errCode = EI_API_CIP_addInstanceService(dipContainer_s.pCipNode, EI_APP_DIO_DEVICE_DIP_CLASS_ID, pDipObject->instanceID, &service);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+    // Add attribute 3 Value (required) for instance
+    errCode = EI_APP_DIP_addInstanceAttribute(dipContainer_s.pCipNode,
+                                                pDipObject->instanceID,
+                                                EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03,
+                                                EI_API_CIP_eEDT_BOOL,
+                                                EI_API_CIP_eAR_GET,
+                                                EI_APP_DIP_getAttrCb,
+                                                NULL,
+                                                sizeof(ei_api_cip_edt_bool),
+                                                &instanceValue);
+    if (EI_API_CIP_eERR_OK != errCode)
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        goto laError;
+    }
+
+    // Add attribute 4 Value (optional) for instance
+    if(NULL != pDipObject->userCallbacks.fuGetStatus)
+    {
+        errCode = EI_APP_DIP_addInstanceAttribute(dipContainer_s.pCipNode,
+                                            pDipObject->instanceID,
+                                            EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_04,
+                                            EI_API_CIP_eEDT_BOOL,
+                                            EI_API_CIP_eAR_GET,
+                                            EI_APP_DIP_getAttrCb,
+                                            NULL,
+                                            sizeof(ei_api_cip_edt_bool),
+                                            &instanceValue);
+        if (EI_API_CIP_eERR_OK != errCode)
+        {
+            OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+            goto laError;
+        }
+    }
+
+    laError:
+    return errCode;
+}
+
+static void EI_APP_DIP_insertObj(EI_APP_DIP_object_t *pDipObject)
+{
+
+    if(NULL == dipContainer_s.head) //first item?
+    {
+        dipContainer_s.head = pDipObject;
+        dipContainer_s.head->nextObject = NULL;
+    }
+    else
+    {
+        pDipObject->nextObject = dipContainer_s.head;
+        dipContainer_s.head = pDipObject;
+    }
+
+}
+
+bool EI_APP_DIP_deleteObject(uint16_t instanceID)
+{
+    EI_APP_DIP_object_t *previous  = NULL;
+    EI_APP_DIP_object_t *temp = NULL;
+    int32_t osalRetval;
+
+    osalRetval = OSAL_lockNamedMutex(dipContainer_s.mutex, 1000UL);
+    if(OSAL_ERR_NoError == osalRetval)
+    {
+        if((NULL != dipContainer_s.head) && (instanceID == dipContainer_s.head->instanceID))
+        {
+            temp = dipContainer_s.head->nextObject;
+            OSAL_MEMORY_free(dipContainer_s.head);
+            dipContainer_s.head = temp;
+            OSAL_unLockNamedMutex(dipContainer_s.mutex);
+            return  true;
+        }
+
+        temp = dipContainer_s.head;
+        //find the node to be deleted
+        while(NULL !=  temp)
+        {
+            previous = temp;
+            temp  = temp->nextObject;
+            if((NULL !=  temp) && (instanceID == temp->instanceID))
+            {
+                break;
+            }
+
+        }
+
+        if(NULL ==  temp)
+        {
+            OSAL_unLockNamedMutex(dipContainer_s.mutex);
+            return false; //the Node could not be found
+        }
+
+        previous->nextObject  = temp->nextObject;
+        OSAL_MEMORY_free(temp);
+        OSAL_unLockNamedMutex(dipContainer_s.mutex);
+        return  true;
+
+    }
+    else
+    {
+        OSAL_printf("%s:%d mutex lock error %d\r\n", __func__, __LINE__,  osalRetval);
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return false;
+    }
+}
 /*!
  *
  * \brief
@@ -301,54 +488,6 @@ laError:
 /*!
  *
  * \brief
- * Function provides get access to the attribute value of DIP object.
- *
- * \details
- * Function for the get service of the value. All instances are connected industrial
- * LEDs controlled by TPIC2810.
- *
- * \param[in]  pCipNode   Pointer to the CIP node.
- * \param[in]  instanceId Instance identifier.
- *
- * \return     value as boolean.
- *
- * \retval     0         LED is turned off.
- * \retval     1         LED is turned on.
- *
- * \par Example
- * \code{.c}
- * #include <discreteIoDevice/app_discrete_io_device.h>
- *
- * EI_API_CIP_NODE_T* pEI_API_CIP_NODE = NULL;
- * uint32_t error;
- *
- * // Create a CIP node
- * EI_API_CIP_NODE_InitParams_t initParams;
- * initParams.maxInstanceNum = 256;
- *
- * pEI_API_CIP_NODE = EI_API_CIP_NODE_new(&initParams);
- *
- * error = EI_APP_DIP_getValue(pEI_API_CIP_NODE, 0x0001);
- *
- * \endcode
- *
- * \see EI_API_CIP_CB_ERR_CODE_t
- *
- * \ingroup EI_APP_DISCRETE_IO_DEVICE_DIP
- *
- */
-bool EI_APP_DIP_getValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
-{
-    uint8_t value = 0;
-    // Using DOP object's LED output as input for the DIP object
-    EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DIP_CLASS_ID, instanceId, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03, &value);
-
-    return value;
-}
-
-/*!
- *
- * \brief
  * Get attribute single service callback of DIP object
  *
  * \param[in]   pCipNode                       Pointer to the CIP node.
@@ -395,7 +534,7 @@ bool EI_APP_DIP_getValue(EI_API_CIP_NODE_T* pCipNode, uint16_t instanceId)
  * \ingroup EI_APP_DISCRETE_IO_DEVICE_DIP
  *
  */
-uint32_t EI_APP_DIP_getValueCb(
+static uint32_t EI_APP_DIP_getAttrCb(
                               EI_API_CIP_NODE_T* pCipNode,
                               uint16_t classId,
                               uint16_t instanceId,
@@ -403,15 +542,65 @@ uint32_t EI_APP_DIP_getValueCb(
                               uint16_t* len,
                               void* pvValue)
 {
+    uint32_t retVal = EI_API_eERR_CB_INVALID_VALUE;
     OSALUNREF_PARM(classId);
-    OSALUNREF_PARM(attrId);
 
-    *len = sizeof(bool);
-    *(bool*)pvValue = EI_APP_DIP_getValue(pCipNode, instanceId);
-
-    return EI_API_eERR_CB_NO_ERROR;
+    if(EI_API_CIP_eERR_OK == EI_APP_DIP_getObjValue(instanceId, attrId, pvValue))
+    {
+        *len = sizeof(ei_api_cip_edt_bool);
+        retVal = EI_API_eERR_CB_NO_ERROR;
+    }
+    return retVal;
 }
 
+/**
+ * \brief reads the value of the requested Attribute from the Object
+ * \param[in]  InstanceID the instance-ID of the DIP object
+ * \param[in]  attrID the AttributeID to be readed out
+ * \param[out] pValue pointer to save the result
+ * \return     #EI_API_CIP_EError_t as uint32_t.
+*/
+uint32_t EI_APP_DIP_getObjValue(uint16_t instanceId, uint16_t attrId, void *pValue)
+{
+    int32_t osalRetval;
+    EI_APP_DIP_object_t *pDipObj = NULL;
+    uint32_t retVal = EI_API_CIP_eERR_OK;
+
+    if(NULL != pValue)
+    {
+        osalRetval = OSAL_lockNamedMutex(dipContainer_s.mutex, 2UL);
+        if(OSAL_ERR_NoError == osalRetval)
+        {
+            pDipObj = EI_APP_DIP_findObj(instanceId);
+            if(NULL != pDipObj)
+            {
+                if(3 == attrId)
+                {
+                    *(ei_api_cip_edt_bool *)pValue = pDipObj->value;
+                }
+                else if(4 == attrId)
+                {
+                    *(ei_api_cip_edt_bool *)pValue = pDipObj->status;
+                }
+                else
+                {
+                    retVal = EI_API_CIP_eERR_ATTRIBUTE_DOES_NOT_EXIST;
+                }
+            }
+            else
+            {
+                retVal = EI_API_CIP_eERR_INSTANCE_DOES_NOT_EXIST;
+            }
+            OSAL_unLockNamedMutex(dipContainer_s.mutex);
+        }
+    }
+    else
+    {
+       retVal = EI_API_CIP_eERR_GENERAL;
+    }
+
+    return retVal;
+}
 /*!
  *
  * \brief
@@ -450,75 +639,132 @@ void EI_APP_DIP_init(EI_API_CIP_NODE_T* pCipNode)
     uint32_t errCode;
     EI_API_CIP_SService_t service;
 
-    errCode = EI_API_CIP_createClass(pCipNode, EI_APP_DIO_DEVICE_DIP_CLASS_ID);
-
-    // Example how to evaluate error codes returned by API functions.
-    if (EI_API_CIP_eERR_OK != errCode)
+    if(false == dipContainer_s.isClassInitialized)
     {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
+        errCode = EI_API_CIP_createClass(pCipNode, EI_APP_DIO_DEVICE_DIP_CLASS_ID);
 
-    // set class instance
-    OSAL_MEMORY_memset(&service, 0, sizeof(service));
-    service.code = EI_API_CIP_eSC_GETATTRSINGLE;
-    errCode = EI_API_CIP_addClassService(pCipNode, EI_APP_DIO_DEVICE_DIP_CLASS_ID, &service);
-    if (EI_API_CIP_eERR_OK != errCode)
-    {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
-
-    errCode = EI_APP_DIP_addClassAttribute(pCipNode, 1, &dipClassData_s.revision);
-    if (EI_API_CIP_eERR_OK != errCode)
-    {
-        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
-        goto laError;
-    }
-
-
-    for (uint16_t i = 1; i <= EI_APP_DIO_DEVICE_DIP_NUM_OF_INST; i++)
-    {
-        // Dummy value for each instance
-        ei_api_cip_edt_bool instanceValue = 0;
-        // Create instances
-        errCode = EI_API_CIP_createInstance(pCipNode, EI_APP_DIO_DEVICE_DIP_CLASS_ID, i);
+        // Example how to evaluate error codes returned by API functions.
         if (EI_API_CIP_eERR_OK != errCode)
         {
             OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
 
-        // Add get service for instances
+        // set class instance
+        OSAL_MEMORY_memset(&service, 0, sizeof(service));
         service.code = EI_API_CIP_eSC_GETATTRSINGLE;
-        errCode = EI_API_CIP_addInstanceService(pCipNode, EI_APP_DIO_DEVICE_DIP_CLASS_ID, i, &service);
+        errCode = EI_API_CIP_addClassService(pCipNode, EI_APP_DIO_DEVICE_DIP_CLASS_ID, &service);
         if (EI_API_CIP_eERR_OK != errCode)
         {
             OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
 
-        // Add attribute 3 Value (required) for instance
-        errCode = EI_APP_DIP_addInstanceAttribute(pCipNode,
-                                                  i,
-                                                  EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03,
-                                                  EI_API_CIP_eEDT_BOOL,
-                                                  EI_API_CIP_eAR_GET_AND_SET,
-                                                  EI_APP_DIP_getValueCb,
-                                                  NULL,
-                                                  sizeof(ei_api_cip_edt_bool),
-                                                  &instanceValue);
+        errCode = EI_APP_DIP_addClassAttribute(pCipNode, 1, &dipClassData_s.revision);
         if (EI_API_CIP_eERR_OK != errCode)
         {
             OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
             goto laError;
         }
+        dipContainer_s.mutex  = OSAL_createNamedMutex("DIP_Mutex");
+        if(NULL == dipContainer_s.mutex)
+        {
+            OSAL_printf("%s:%d create DIP_Mutex failed\r\n", __func__, __LINE__);
+            OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+            goto laError;
+        }
+
+        dipContainer_s.head = NULL;
+        dipContainer_s.pCipNode = pCipNode;
+        dipContainer_s.isClassInitialized =  true;
+
     }
 
 laError:
     return;
 }
 
+/**
+ * \brief Create and add a DIP instance object
+ * \param[in] InstanceID the instance-ID of the DIP object to be created
+ * \param[in] pDipConfig configuration for this instance object
+ * \return true if successful, otherwise false
+*/
+bool EI_APP_DIP_addObject(uint16_t instanceID, EI_DIP_OBJECT_Cfg_t *pDipConfig)
+{
+    EI_APP_DIP_object_t  *pDipObj = NULL;
+    int32_t osalRetval;
+    uint32_t errCode;
+    bool retval = true;
+    if(false == dipContainer_s.isClassInitialized)
+    {
+        OSAL_printf("%s:%d first call the EI_APP_DIP_init before adding objects\r\n", __func__, __LINE__);
+        OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return  false;
+    }
+    if(NULL == pDipConfig->fuGetInput) //!< get-input-value function pointer is mandatory
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return false;
+    }
+    if(NULL == pDipConfig->fuGetEvent)  //!< get-event status is mandatory in order to run the objects state-machine
+    {
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+        return false;
+    }
+
+    osalRetval = OSAL_lockNamedMutex(dipContainer_s.mutex, 1000UL);
+    if(OSAL_ERR_NoError == osalRetval)
+    {
+        //first search if this instance is already created, when yes, then simply return the handle of it.
+        pDipObj = EI_APP_DIP_findObj(instanceID);
+
+        if(NULL ==  pDipObj)
+        {
+            pDipObj = OSAL_MEMORY_calloc(sizeof(EI_APP_DIP_object_t), 1);
+            if(NULL != pDipObj)
+            {
+                pDipObj->instanceID = instanceID;
+                pDipObj->current_state = EI_APP_DIP_OBJ_AVAILABLE;
+                pDipObj->userCallbacks.fuGetInput = pDipConfig->fuGetInput;
+                pDipObj->userCallbacks.fuGetStatus =  pDipConfig->fuGetStatus;
+                pDipObj->userCallbacks.fuGetEvent = pDipConfig->fuGetEvent;
+                pDipObj->nextObject = NULL;
+                errCode = EI_APP_DIP_createInstance(pDipObj);
+                if (EI_API_CIP_eERR_OK == errCode)
+                {
+                    EI_APP_DIP_insertObj(pDipObj);
+                }
+                else
+                {
+                    retval = false;
+                    OSAL_MEMORY_free(pDipObj);
+                    pDipObj = NULL;
+                }
+            }
+            else
+            {
+                OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+            }
+        }
+
+        OSAL_unLockNamedMutex(dipContainer_s.mutex);
+    }
+    else
+    {
+        retval = false;
+        OSAL_printf("%s:%d mutex lock error %d\r\n", __func__, __LINE__,  osalRetval);
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+    }
+
+    if(NULL == pDipObj)
+    {
+        retval = false;
+        OSAL_error (__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+    }
+
+    return retval;
+}
 /*!
  *
  * \brief
@@ -548,16 +794,77 @@ laError:
  * \ingroup EI_APP_DISCRETE_IO_DEVICE_DIP
  *
  */
-void EI_APP_DIP_run(EI_API_CIP_NODE_T* pCipNode)
+void EI_APP_DIP_run(void)
 {
-    uint8_t buffer[EI_APP_DIO_DEVICE_DIP_NUM_OF_INST] = { 0 };
+    static volatile EI_API_ADP_SModNetStatus_t networkStatus = {0};
+    static volatile EI_APP_DIO_DEVICE_ConnectionState_t connectionStatus = EI_APP_DIO_DEVICE_ConnectionNotEstablished ;
+    static volatile EI_APP_DIP_object_t  *pDipObj = NULL;
+    int32_t osalRetval;
 
-    // Mirror I/O data
-    // Using DOP object's LED output as input for the DIP object
-    for(uint8_t instanceId = 0; instanceId < EI_APP_DIO_DEVICE_DIP_NUM_OF_INST; instanceId++)
+    osalRetval = OSAL_lockNamedMutex(dipContainer_s.mutex, 2UL);
+    if(OSAL_ERR_NoError == osalRetval)
     {
-        EI_API_CIP_getAttr_bool(pCipNode, EI_APP_DIO_DEVICE_DOP_CLASS_ID, instanceId + 1, EI_APP_CIP_INSTANCE_ATTRIBUTE_ID_03, &buffer[instanceId]);
+        if(NULL != dipContainer_s.head) //is there any object to run at all?
+        {
+            if(NULL == pDipObj)
+            {
+                pDipObj = (volatile EI_APP_DIP_object_t  *)dipContainer_s.head;
+            }
+
+            pDipObj->userCallbacks.fuGetEvent((EI_APP_DIO_DEVICE_ConnectionState_t *)&connectionStatus, (EI_API_ADP_SModNetStatus_t *)&networkStatus);
+            if((EI_API_ADP_eSTATUS_LED_RED_ON == networkStatus.mod) || (EI_API_ADP_eSTATUS_LED_RED_ON == networkStatus.net))
+            {
+                pDipObj->current_state = EI_APP_DIP_OBJ_UNRECOVERABLE_FAULT;
+            }
+            else if((EI_API_ADP_eSTATUS_LED_RED_BLINK== networkStatus.mod) ||
+             (EI_API_ADP_eSTATUS_LED_RED_BLINK == networkStatus.net) ||
+             (EI_APP_DIO_DEVICE_ConnectionClosed == connectionStatus))
+            {
+                pDipObj->current_state = EI_APP_DIP_OBJ_RECOVERABLE_FAULT;
+            }
+
+            if(pDipObj->old_state != pDipObj->current_state)
+            {
+                pDipObj->old_state = pDipObj->current_state;
+            }
+
+            switch (pDipObj->current_state)
+            {
+            case EI_APP_DIP_OBJ_NON_EXISTENT: //should not happen!
+                pDipObj->current_state = EI_APP_DIP_OBJ_AVAILABLE;
+                break;
+            case EI_APP_DIP_OBJ_AVAILABLE:
+                if((EI_API_ADP_eSTATUS_LED_GREEN_ON == networkStatus.net) ||
+                 (EI_APP_DIO_DEVICE_ConnectionEstablished == connectionStatus))
+                {
+                    pDipObj->current_state = EI_APP_DIP_OBJ_RUN;
+                }
+                break;
+            case EI_APP_DIP_OBJ_RUN:
+                pDipObj->userCallbacks.fuGetInput(pDipObj->instanceID, (uint8_t *)&pDipObj->value);
+                if(NULL != pDipObj->userCallbacks.fuGetStatus)
+                {
+                    pDipObj->userCallbacks.fuGetStatus(pDipObj->instanceID, (uint8_t *)&pDipObj->status);
+                }
+                break;
+            case EI_APP_DIP_OBJ_RECOVERABLE_FAULT:
+                if((EI_API_ADP_eSTATUS_LED_GREEN_ON == networkStatus.net) ||
+                 (EI_APP_DIO_DEVICE_ConnectionEstablished == connectionStatus))
+                {
+                    pDipObj->current_state = EI_APP_DIP_OBJ_RUN;
+                }
+                break;
+            case EI_APP_DIP_OBJ_UNRECOVERABLE_FAULT:
+                //no recovery...
+                break;
+            default:
+                //invalid state
+                break;
+            }
+            pDipObj = (volatile EI_APP_DIP_object_t  *)pDipObj->nextObject;
+        }
+
+        OSAL_unLockNamedMutex(dipContainer_s.mutex);
     }
 
-    EI_API_CIP_setAssemblyData(pCipNode, EI_APP_DIO_DEVICE_ASSEMBLY_PRODUCING, buffer, EI_APP_DIO_DEVICE_DIP_NUM_OF_INST);
 }

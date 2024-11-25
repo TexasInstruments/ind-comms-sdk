@@ -5,41 +5,41 @@
  *  EtherNet/IP&trade; Adapter Example Application profile common functions.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br><br>
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (C) 2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if (!(defined FBTLPROVIDER) || (0 == FBTLPROVIDER)) && (!(defined FBTL_REMOTE) || (0 == FBTL_REMOTE))
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -80,7 +80,11 @@
 #include "ti_board_open_close.h"
 #include "ti_drivers_open_close.h"
 
+#if defined(SOC_AM64X) || defined(SOC_AM243X) || defined (SOC_AM263PX) || defined(SOC_AM261X)
 extern PRUICSS_Handle prusshandle;
+#else
+Board_IDInfo boardInfo;
+#endif
 
 // Static variables and pointers used in this example.
 
@@ -99,7 +103,7 @@ static bool                    EI_APP_TASK_cipCreateCallback   (EI_API_CIP_NODE_
 
 // Global variables and pointers used in this example.
 // has to stay, used in lib_eip_lwip_ip :-(
-static uint8_t EI_APP_TASK_macAddress[] = {0xc8, 0x3e, 0xa7, 0x00, 0x00, 0x59};
+static uint8_t EI_APP_TASK_macAddress[] = {0x88, 0x0C, 0xE0, 0x5C, 0x46, 0xE9};
 
 uint32_t globalError = 0;
 
@@ -288,9 +292,6 @@ static bool EI_APP_TASK_init(APP_SParams_t* pParam)
         return false;
     }
 
-    // Create callbacks for changed values.
-    EI_APP_TASK_cipCreateCallback(cipNode_s);
-
     // Create vendor specific classes.
     EI_APP_DEVICE_PROFILE_TASK_init(adapter_s, cipNode_s);
 
@@ -305,8 +306,12 @@ static bool EI_APP_TASK_init(APP_SParams_t* pParam)
     initParams.dll.ptp.taskPrioBackground  = pParam->adapter.taskPrioPtpBackground;  /* Task priority for background thread. */
 
     initParams.dll.lldp.taskPrioReceive    = pParam->adapter.taskPrioLldpReceive;    /* Task priority for receive thread. */
+    initParams.dll.lldp.maxNeighborDevices = pParam->adapter.lldpMaxNeighborDevices; /* LLDP maximum neighbor devices */
 
     EI_API_ADP_init(adapter_s, initParams);
+
+    // Create callbacks for changed values.
+    EI_APP_TASK_cipCreateCallback(cipNode_s);
 
     EI_API_ADP_setAcdDelay(adapter_s, pParam->acd.initialDelay);
 
@@ -431,7 +436,8 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
 
 laError:
     OSAL_printf("resetting device\n");
-    SOC_generateSwWarmResetMcuDomain();
+
+    CMN_OS_reset();
 }
 
 
@@ -564,21 +570,25 @@ laError:
 */
 static uint8_t* EI_APP_TASK_getMacAddr (void)
 {
-#ifndef _DEBUG_USE_KUNBUS_MAC_ADDRESS
+#ifndef _DEBUG_USE_CUSTOM_MAC_ADDRESS
     static uint8_t mac_addr[6];
-    const uint32_t mac_address_upper_16_bits = *IDK_CTRLMMR0_MAC_ID1;
-    const uint32_t mac_address_lower_32_bits = *IDK_CTRLMMR0_MAC_ID0;
+    const uint32_t mac_address_upper_16_bits = *REG_MAC_ID1;
+    const uint32_t mac_address_lower_32_bits = *REG_MAC_ID0;
+
     mac_addr[0] = (uint8_t) (mac_address_upper_16_bits >> 8);
     mac_addr[1] = (uint8_t) (mac_address_upper_16_bits);
     mac_addr[2] = (uint8_t) (mac_address_lower_32_bits >> 24);
     mac_addr[3] = (uint8_t) (mac_address_lower_32_bits >> 16);
     mac_addr[4] = (uint8_t) (mac_address_lower_32_bits >> 8);
     mac_addr[5] = (uint8_t) (mac_address_lower_32_bits);
+
     // EI_APP_aMacAddr_g is directly used in lwip
     OSAL_MEMORY_memcpy(EI_APP_TASK_macAddress, mac_addr, 6);
+
     return mac_addr;
 #else
     return EI_APP_TASK_macAddress;
 #endif
 }
 
+#endif  // (!(defined FBTLPROVIDER) || (0 == FBTLPROVIDER)) && (!(defined FBTL_REMOTE) || (0 == FBTL_REMOTE))

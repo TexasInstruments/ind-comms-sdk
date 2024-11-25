@@ -3,6 +3,8 @@ const common = require("../common.js");
 const component_file_list = [
     "source/industrial_comms/ethercat_slave/icss_fwhal/.project/project.js",
     "source/industrial_comms/ethernetip_adapter/icss_fwhal/.project/project_mii.js",
+    "source/industrial_comms/ethernetip_adapter/stack/lwip/.project/project_contrib.js",
+    "source/industrial_comms/ethernetip_adapter/stack/lwip/.project/project_stack.js",
     "source/industrial_comms/profinet_device/icss_fwhal/.project/project_irt_mii.js",
     "source/industrial_comms/profinet_device/icss_fwhal/.project/project_rt_mrp_mii.js",
     "docs_src/docs/api_guide/doxy_samples/.project/project.js",
@@ -16,6 +18,8 @@ const device_defines = {
 
 const example_file_list = [
     "examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/.project/project.js",
+    "examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/.project/project.js",
+    "examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/mii/.project/project.js",
 ];
 
 function getProjectSpecCpu(cpu) {

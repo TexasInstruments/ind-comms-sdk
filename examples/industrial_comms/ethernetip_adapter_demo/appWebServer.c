@@ -5,39 +5,38 @@
  *  Application Web Server task
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br><br>
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2023 None.
+ *  Copyright (C) 2022 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdio.h>
@@ -64,7 +63,7 @@
 /*!
  *  \brief Application Webserver task's stack.
  */
-static uint8_t 
+static uint8_t
 APP_aWebSrvTaskStack_g[APP_WEBSRV_TASK_STACK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
 
 /*!
@@ -79,7 +78,7 @@ static TaskP_Object APP_WebSrvTaskObj_g = { 0 };
 *  Helper function to map errno to a string.
 *
 *  \details
-*  Helper function to map errno to a string. Only the relevant 
+*  Helper function to map errno to a string. Only the relevant
 *  errno for sockets are mapped.
 *
 *  \param[inout]     err_p         errno set by the lwip stack.
@@ -134,13 +133,13 @@ static char *APP_WebSrvStrError(int err_p)
 *
 *  \details
 *  Helper function to check if errno is fatal.
-*  Non-Fatal are : 
+*  Non-Fatal are :
 *  EAGAIN
 *  EWOULDBLOCK
 *  ECONNABORTED
 *  EINTR
 *  ECONNRESET
-* 
+*
 *  \param[inout]     errNo_p    errno set by the lwip stack.
 *
 *  \return           result of the operation as bool
@@ -169,7 +168,7 @@ static bool APP_WebSrvIsFatalErr(int errNo_p)
 *  Helper function to initialize the http socket.
 *
 *  \details
-*  Helper function to initialize the http socket. 
+*  Helper function to initialize the http socket.
 *  If an operation fails the reason for the failure is read through errno.
 *
 *
@@ -192,7 +191,7 @@ static int APP_WebSrvInit(int *pSockFd_p)
     sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sock < 0)
     {
-        DebugP_log("Failed to open socket : %d : %s \r\n", -errno, 
+        DebugP_log("Failed to open socket : %d : %s \r\n", -errno,
                    APP_WebSrvStrError(errno));
     }
     else
@@ -210,7 +209,7 @@ static int APP_WebSrvInit(int *pSockFd_p)
 
         if (ret < 0)
         {
-            DebugP_log("Failed to bind / listen to socket : %d : %s \r\n", 
+            DebugP_log("Failed to bind / listen to socket : %d : %s \r\n",
                        -errno, APP_WebSrvStrError(errno));
         }
     }
@@ -233,7 +232,7 @@ static int APP_WebSrvInit(int *pSockFd_p)
 *  "/favicon.ico
 *  "/cpuLoad"
 *  A 404 error will be returned for any other request.
-*   
+*
 *  \param[in]        clientFd_p   Client file descriptor for sending response.
 *  \param[in]        pBuf_p       Pointer to received data (with "GET " request removed).
 *
@@ -253,7 +252,7 @@ static int APP_WebSrvProcessGetAndRespond(int clientFd_p, const char *const pBuf
     {
         // get request for main.html
         ret = send(clientFd_p, response_200_content_html, strlen(response_200_content_html), 0);
-            
+
         if (ret > 0)
         {
             ret = send(clientFd_p, main_html, strlen(main_html), 0);
@@ -386,7 +385,7 @@ static int APP_WebSrvProcessGetAndRespond(int clientFd_p, const char *const pBuf
 *  \details
 *  Webserver task function. It waits for bytes to arrive in a blocking manner.
 *  If an operation fails the reason for the failure is read through errno.
-*  If the error is other than : EAGAIN, EWOULDBLOCK, ECONNABORTED, EINTR, 
+*  If the error is other than : EAGAIN, EWOULDBLOCK, ECONNABORTED, EINTR,
 *  ECONNRESET and ENOTCONN (only for shutdown), then the task is stopped.
 *
 *  \param[in]        pArgs_p   Not used.
@@ -434,10 +433,10 @@ static void APP_WebSrvTask(void* pArgs_p)
                 DebugP_log("Connection closed ! \r\n");
             }
             else
-            {   
+            {
                 if (strncmp(&aBuf[0], "GET ", 4) == 0)
                 {
-                    // We received some bytes and it is a get request, 
+                    // We received some bytes and it is a get request,
                     // call processing function.
                     ret = APP_WebSrvProcessGetAndRespond(clientFd, &aBuf[4]);
                     if (ret <= 0)
@@ -481,7 +480,7 @@ static void APP_WebSrvTask(void* pArgs_p)
         ret = close(socketFd);
         if (ret != 0)
         {
-            DebugP_log("Failed to close socket : %d : %s \r\n", -errno, 
+            DebugP_log("Failed to close socket : %d : %s \r\n", -errno,
                        APP_WebSrvStrError(errno));
         }
     }
@@ -505,7 +504,7 @@ static void APP_WebSrvTask(void* pArgs_p)
  *  \retval        false       Operation could not be completed successfully.
  */
 bool APP_startWebServerTask(APP_WEBSRV_SParams_t* pParams_p)
-{   
+{
     bool result = true;
     int32_t taskErr = SystemP_SUCCESS;
     TaskP_Params webserverTaskParam = { 0 };
@@ -522,7 +521,7 @@ bool APP_startWebServerTask(APP_WEBSRV_SParams_t* pParams_p)
     taskErr = TaskP_construct(&APP_WebSrvTaskObj_g, &webserverTaskParam);
     if (taskErr != SystemP_SUCCESS)
     {
-        OSAL_printf("[APP] ERROR: Failed to create task %s (%ld)\r\n", 
+        OSAL_printf("[APP] ERROR: Failed to create task %s (%ld)\r\n",
                     webserverTaskParam.name, taskErr);
         TaskP_destruct(&APP_WebSrvTaskObj_g);
         result = false;

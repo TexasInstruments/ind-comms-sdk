@@ -4,9 +4,9 @@ $ EZ-EDS Version 3.34.1.20231010 Generated Electronic Data Sheet
         DescText = "EtherNet/IP(tm) Adapter am243x-evm freeRTOS";
         CreateDate = 08-19-2021;
         CreateTime = 17:51:41;
-        ModDate = 02-29-2024;
-        ModTime = 07:00:00;
-        Revision = 3.7;
+        ModDate = 11-08-2024;
+        ModTime = 15:55:00;
+        Revision = 3.8;
         HomeURL = "www.ti.com";
 
 
@@ -17,7 +17,7 @@ $ EZ-EDS Version 3.34.1.20231010 Generated Electronic Data Sheet
         ProdTypeStr = "Generic Device";
         ProdCode = 24301;
         MajRev = 3;
-        MinRev = 7;
+        MinRev = 8;
         ProdName = "TMDS243EVM Generic Device";
         Catalog = "CatNo9217";
         Icon = "ti.ico";

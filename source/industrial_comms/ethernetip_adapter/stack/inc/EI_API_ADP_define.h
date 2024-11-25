@@ -1,21 +1,17 @@
 /*!
-* \file EI_API_ADP_define.h
-*
-* \brief
-* Common EtherNet/IP Adapter definitions .
-*
-* \author
-* KUNBUS GmbH
-*
-* \copyright
-* Copyright (c) 2021, KUNBUS GmbH<br /><br />
-* SPDX-License-Identifier: LicenseRef-Kunbus
-*
-* Copyright (c) 2023 None
-* All rights reserved.
-*
-*
-*/
+ *  \file EI_API_ADP_define.h
+ *
+ *  \brief
+ *  Common EtherNet/IP Adapter definitions .
+ *
+ *  \author
+ *  Texas Instruments Incorporated
+ *
+ *  \copyright
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
+ *  All rights reserved.
+ */
 
 #ifndef EI_API_ADP_DEFINE_H_INC
 #define EI_API_ADP_DEFINE_H_INC
@@ -148,6 +144,7 @@ typedef struct EI_API_ADP_SInit
         struct                                               /* LLDP initialization parameters */
         {
             OSAL_TASK_Priority_t taskPrioReceive;            /* LLDP receive task priority */
+            uint16_t             maxNeighborDevices;         /* LLDP maximum neighbor devices */
         }lldp;
     }dll;
 

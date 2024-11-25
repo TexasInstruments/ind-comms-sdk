@@ -7,8 +7,8 @@ const files = {
         "app.c",
         "appCfg.c",
         "appNV.c",
-		"appNvEeprom.c",
-		"appNvFlash.c",
+        "appNvEeprom.c",
+        "appNvFlash.c",
         "appRst.c",
         "appTask.c",
         "appLed.c",
@@ -34,7 +34,7 @@ const files = {
         "app_discrete_io_device_dip.c",
         "app_discrete_io_device_dog.c",
         "app_discrete_io_device_dop.c",
-        "app_discrete_io_device_sm.c",
+        "app_discrete_io_device_asm.c",
     ],
 };
 
@@ -110,6 +110,7 @@ const defines_r5f = {
         "OSAL_FREERTOS=1",
         "SOC_AM64X",
         "SOC_AM64X=1",
+        "EIP_RGMII",
         "EIP_TIME_SYNC=1",
         "CPU_LOAD_MONITOR=0"
     ],
