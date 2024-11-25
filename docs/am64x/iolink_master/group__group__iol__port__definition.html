@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.01.01</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -165,7 +165,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Receive enable delay. </p>
-<p>See 5.3.3.3 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>. This delay is the wait time after the wake-up pulse, before the communication is starting. </p>
+<p>See 5.3.3.3 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.3</a>. This delay is the wait time after the wake-up pulse, before the communication is starting. </p>
 
 </div>
 </div>
@@ -182,7 +182,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>UART frame transmission delay of Master (ports). </p>
-<p>See A.3.3 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>. This is the maximum time between two Master Tx UART bytes. Depending on the hardware implementation (using of FIFO or DMA) this value can be set to 0. The value is only used to calculate the frame monitor and mincycletime.</p>
+<p>See A.3.3 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.3</a>. This is the maximum time between two Master Tx UART bytes. Depending on the hardware implementation (using of FIFO or DMA) this value can be set to 0. The value is only used to calculate the frame monitor and mincycletime.</p>
 <p>For the Device implementation this value should always be set to the maximum allowed value in the specification. </p>
 
 </div>
@@ -200,7 +200,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>UART frame transmission delay of Devices. </p>
-<p>See A.3.4 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>. This is the maximum time between two Device Tx UART bytes. Depending on the hardware implementation (using of FIFO or DMA) this value can be set to 0. The value is only used to calculate the frame monitor and mincycletime.</p>
+<p>See A.3.4 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.3</a>. This is the maximum time between two Device Tx UART bytes. Depending on the hardware implementation (using of FIFO or DMA) this value can be set to 0. The value is only used to calculate the frame monitor and mincycletime.</p>
 <p>For the Master implementation this value should always be set to the maximum allowed value in the specification. </p>
 
 </div>
@@ -218,7 +218,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Response time of Devices. </p>
-<p>See A.3.5 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>. This value is the delay after the last Master UART byte until the Device starts with the response. </p>
+<p>See A.3.5 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.3</a>. This value is the delay after the last Master UART byte until the Device starts with the response. </p>
 
 </div>
 </div>
@@ -235,7 +235,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Master Message Delay. </p>
-<p>See 7.3.2.3 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.2</a>. This is the number of bit times, the Master has to wait, before trying another baud rate. </p>
+<p>See 7.3.2.3 of <a class="el" href="references.html#section_iol_spec_1_1">IO-Link Specification v1.1.3</a>. This is the number of bit times, the Master has to wait, before trying another baud rate. </p>
 
 </div>
 </div>

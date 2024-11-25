@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.01.01</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -107,8 +107,9 @@ $(document).ready(function(){initNavTree('page_configure__i_c_s_s1.html',''); in
   <div class="headertitle"><div class="title">Configuration</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><u><b>Limitation with Pinmuxing:</b></u><br  />
- Pinmuxing cannot be made flexible in the example project as the Rx pins of the ports are hard-coded in the default PRU firmware.<br  />
+<div class="textblock"><h1><a class="anchor" id="sect_configure_ICSS1_limitation"></a>
+Limitation with Pinmuxing</h1>
+<p>Pinmuxing cannot be made flexible in the example project as the Rx pins of the ports are hard-coded in the default PRU firmware.<br  />
  Such a limitation shall only apply to 8 RX pins and not to TX and DIR GPIO. To overcome this limitation, a customized PRU firmware should be used by the user.</p>
 <h1><a class="anchor" id="sect_configure_ICSS1_start"></a>
 Steps to be done to configure ICSS1 instead of ICSS0</h1>
@@ -132,10 +133,7 @@ In the file <b>iolm_port_smi_example.h</b>, one can set the desired maximum numb
  <img src="Max_Ports.PNG" alt="" width="400px" height="auto" class="inline"/>  </li>
 <li>
 After connection is established, the maximum number of ports now seen is 4.<br  />
- <img src="Max_Ports_Connect.png" alt="" width="600px" height="auto" class="inline"/>  </li>
-<li>
-If a port number greater than the maximum is selected, the GUI reports an error <b>"IOL_eErrorType_PORT_NUM_INVALID"</b>.<br  />
- <img src="Max_Ports_Invalid.png" alt="" width="600px" height="auto" class="inline"/>  </li>
+ <img src="Max_Ports_Connect_ti.png" alt="" width="600px" height="auto" class="inline"/>  </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

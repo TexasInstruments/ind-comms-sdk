@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.01.01</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -114,7 +114,7 @@ Overview</h1>
 </p>
 <h1><a class="anchor" id="releasenoteslicensing"></a>
 Licensing</h1>
-<p>Copyright &copy; 2022, KUNBUS GmbH<br  />
+<p>Copyright &copy; 2024, Texas Instruments Incorporated<br  />
 <br  />
 All rights reserved.<br  />
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:<br  />
@@ -127,8 +127,31 @@ Redistributions in binary form must reproduce the above copyright notice, this l
 Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
 </ol>
 <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  </p>
+<h1><a class="anchor" id="version_release20200"></a>
+Release Version 2.02.00</h1>
+<p><b>New Features:</b> </p><ul>
+<li>
+[ICSTACK-7] decreased stack sizes to actual needed values and reduce memory footprint <br  />
+  </li>
+<li>
+[ICSTACK-82] Support of AM263PX Launchpad <br  />
+  </li>
+<li>
+[OSS1-3071] Replaced LittleFS by direct access of EEPROM or Flash <br  />
+  </li>
+</ul>
+<p><b>Fixed Issues:</b> </p><ul>
+<li>
+[ICSTACK-119] Latch of I/Q pin reading was missing in all example applications <br  />
+  </li>
+</ul>
 <h1><a class="anchor" id="version_release20101"></a>
 Release Version 2.01.01</h1>
+<p><b>New Features:</b> </p><ul>
+<li>
+[OSS1-3133] Migration to latest INDUSTRIAL-COMMUNICATIONS-SDK 09.02. <br  />
+  </li>
+</ul>
 <p><b>Fixed Issues:</b> </p><ul>
 <li>
 [OSS1-3265] Fix pin2/IQ reads "not supported" after port-configuration. <br  />
@@ -345,11 +368,11 @@ Release Version 1.07.00</h1>
  AM243x EVM example has been successfully tested on AM243x EVM hardware. <br  />
   </li>
 <li>
-[IOL8M-958] 400 &micro;s Cycle Time <br  />
- Adjusted the IO-Link master to support IO-Link devices with a 400 &micro;s cycle time. <br  />
- Currently, only one device with a 400 &micro;s cycle time can be guaranteed; further <br  />
+[IOL8M-958] 400 us Cycle Time <br  />
+ Adjusted the IO-Link master to support IO-Link devices with a 400 us cycle time. <br  />
+ Currently, only one device with a 400 us cycle time can be guaranteed; further <br  />
  testing will be required to verify that more than one device with a cycle time of <br  />
- 400 &micro;s can be supported. <br  />
+ 400 us can be supported. <br  />
   </li>
 <li>
 [IMS-35] Wrong error code (IoLError_ServiceTempUnavailable) <br  />

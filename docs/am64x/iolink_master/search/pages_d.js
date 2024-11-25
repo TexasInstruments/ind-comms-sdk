@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['references_0',['References',['../references.html',1,'generalinformation']]],
-  ['release_20notes_1',['Release Notes',['../releasenotes.html',1,'']]]
+  ['volatile_20memory_20nvm_0',['Non-Volatile Memory (NVM)',['../persistentstorage.html',1,'']]]
 ];
