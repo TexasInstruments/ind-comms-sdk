@@ -5,16 +5,12 @@
  *  Beckhoff SSC Integration.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #include <ssc.h>
@@ -539,7 +535,7 @@ void SSC_registerSetLedOutCb(cbSetLedOut_t cbSetLedOut_p, void* pContext_p)
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  cbSoeSend_p		Callback Function from ecSlvBackend.
+ *  \param[in]  cbSoeSend_p     Callback Function from ecSlvBackend.
  *  \param[in]  pContext_p      Callback context
  *
  *  <!-- Group: -->
@@ -875,7 +871,7 @@ void SSC_ESC_registerReadMbxMemCb(ESC_cbReadMbxMem_t cbEscReadMbxMem_p, void* pC
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  cbEscEeprom_Read_p	EEPROM Read Callback
+ *  \param[in]  cbEscEeprom_Read_p  EEPROM Read Callback
  *  \param[in]  pContext_p          EEPROM Read Callback Context
  *
  *  <!-- Group: -->
@@ -919,7 +915,7 @@ void SSC_ESC_registerEepromWriteCb(ESCEEP_cbWrite_t cbEscEeprom_Write_p, void* p
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  cbEscEeprom_Reload_p	EEPROM Reload Callback
+ *  \param[in]  cbEscEeprom_Reload_p    EEPROM Reload Callback
  *  \param[in]  pContext_p              EEPROM Reload Callback Context
  *
  *  <!-- Group: -->
@@ -975,6 +971,27 @@ void SSC_ESC_registerEepromLdRegCb(ESCEEP_cbRegLd_t cbEscEeprom_RegLd_p, void* p
 {
     SSC_callbacks_g.cbEscEepromLdReg        = cbEscEeprom_RegLd_p;
     SSC_callbacks_g.pEscEepromLdRegCtxt     = pContext_p;
+}
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  Register Explicit device ID read callback
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  cbApplication_p     Callback Function from ecSlvBackend.
+ *  \param[in]  pContext_p          Callback context
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup ssc
+ *
+ * */
+void SSC_registerReadDeviceIdCb(cbReadDeviceId_t cbReadDeviceId_p, void* pContext_p)
+{
+    SSC_callbacks_g.cbReadDeviceId       = cbReadDeviceId_p;
+    SSC_callbacks_g.pReadDeviceIdCtxt    = pContext_p;
 }
 
 /*! <!-- Description: -->
@@ -1594,7 +1611,7 @@ uint32_t SSC_ECAT_TIMER_INC_P_MS(void)
  *  \ingroup ssc
  *
  * */
-uint16_t SSC_AOE_AmsRes(AmsCmd* pCmd_p, uint16_t amsErrCode_p, uint16_t dataLen_p)
+uint16_t SSC_AOE_AmsRes(AmsCmd* pCmd_p, uint32_t amsErrCode_p, uint16_t dataLen_p)
 {
     return AOE_AmsRes(pCmd_p, amsErrCode_p, dataLen_p);
 }

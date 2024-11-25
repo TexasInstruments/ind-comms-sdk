@@ -5,39 +5,38 @@
  *  EtherCAT<sup>&reg;</sup> File Transfer over EtherCAT Example
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 KUNBUS GmbH.
+ *  Copyright (C) 2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <osal.h>
@@ -48,10 +47,13 @@
 #include "nvm.h"
 #endif
 
-// Offset at which file is written for FoE. 
+// Offset at which file is written for FoE.
 #define APP_OSPI_FLASH_OFFSET_BASE  (0x200000U)
 
 #define FOE_FRAGMENT_MAX_SIZE       1012
+
+#define FOE_PADDED_BYTE             0x00
+#define FOE_PADDED_BYTE_LENGTH      0x01
 
 /*---------------------------------------------
 -    Error Codes
@@ -81,6 +83,8 @@ typedef struct ESL_FOE_header
 {
     uint32_t    password;
     uint32_t    dataSize;
+    uint8_t     isPadded;
+    uint8_t     padByteLength;
 } ESL_FOE_header_t;
 
 // buffer used for async write
@@ -90,7 +94,7 @@ static void * foeBufferPtr = NULL;
 static void * foeBufferPtr1 = NULL;
 static void * foeBufferPtr2 = NULL;
 
-// stores the accumulated file size during a larger FoE file write 
+// stores the accumulated file size during a larger FoE file write
 static uint32_t foeFileWriteChunkSize = 0;
 
 // stores the FoE file access password for authentication check during file read/write process.
@@ -104,7 +108,7 @@ static uint32_t fileAccessPassword = 0;
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]  status          NVM async write status
- *  \return     void            
+ *  \return     void
  *
  *  <!-- Example: -->
  *
@@ -130,6 +134,12 @@ void EC_SLV_APP_FoE_fileWriteCb(uint32_t status)
         OSAL_printf("FoE - File download to flash : ok!\n\r");
 #endif
     }
+    else
+    {
+#if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+        OSAL_printf("FoE - File download to flash : Error, ID=%d\n\r",status);
+#endif
+    }
 
     foeFileWriteChunkSize = 0;
 
@@ -150,7 +160,7 @@ void EC_SLV_APP_FoE_fileWriteCb(uint32_t status)
     }
 }
 #endif
- 
+
 /*! <!-- Description: -->
  *
  *  \brief
@@ -192,6 +202,7 @@ uint32_t EC_SLV_APP_FoE_fileRead(void* pContext, uint16_t* pData, uint16_t size,
 
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
     NVM_err_t error;
+
     error = NVM_APP_read(NVM_TYPE_FLASH,
                          CONFIG_FLASH0,
                          APP_OSPI_FLASH_OFFSET_BASE,
@@ -222,7 +233,7 @@ uint32_t EC_SLV_APP_FoE_fileRead(void* pContext, uint16_t* pData, uint16_t size,
         return retVal;
     }
 
-    if ((foeHeader.dataSize - foeFileReadDoneSize) >= FOE_FRAGMENT_MAX_SIZE)
+    if ((foeHeader.dataSize - foeHeader.padByteLength - foeFileReadDoneSize) >= FOE_FRAGMENT_MAX_SIZE)
     {
         fileOffset = foeFileReadDoneSize;
         foeFileReadDoneSize += size;
@@ -231,7 +242,7 @@ uint32_t EC_SLV_APP_FoE_fileRead(void* pContext, uint16_t* pData, uint16_t size,
     else
     {
         fileOffset = foeFileReadDoneSize;
-        foeFileChunkReadSize = foeHeader.dataSize - foeFileReadDoneSize;
+        foeFileChunkReadSize = foeHeader.dataSize - foeHeader.padByteLength - foeFileReadDoneSize;
         foeFileReadDoneSize = 0;
     }
 
@@ -264,8 +275,8 @@ uint32_t EC_SLV_APP_FoE_fileRead(void* pContext, uint16_t* pData, uint16_t size,
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]  pContext        context
- *  \param[in]  pData   	Data Buffer.
- *  \param[in]  size    	write length parameter.
+ *  \param[in]  pData       Data Buffer.
+ *  \param[in]  size        write length parameter.
  *  \return     ErrorCode       FoE error code.
  *
  *  <!-- Example: -->
@@ -293,7 +304,11 @@ uint32_t EC_SLV_APP_FoE_fileWrite(void *pContext, uint16_t* pData, uint16_t size
 
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
     NVM_err_t error;
-    
+
+    uint8_t isFilePadded = false;
+    uint8_t filePadLength = 0;
+    uint8_t filePadBytes[FOE_PADDED_BYTE_LENGTH] = {0};
+
     if (size >= FOE_FRAGMENT_MAX_SIZE)
     {
         foeFileWriteChunkSize += size;
@@ -330,38 +345,66 @@ uint32_t EC_SLV_APP_FoE_fileWrite(void *pContext, uint16_t* pData, uint16_t size
             }
         }
         retVal = size;
-        return retVal; 
+        return retVal;
     }
 
     foeFileWriteChunkSize += size;
+    if(foeFileWriteChunkSize % 2)
+    {
+        isFilePadded = true;
+        filePadLength = FOE_PADDED_BYTE_LENGTH;
+        foeFileWriteChunkSize += filePadLength;
+    }
+    else
+    {
+        isFilePadded = false;
+        filePadLength = 0;
+    }
 
     ESL_FOE_header_t foeHeader = {  .dataSize = foeFileWriteChunkSize,
-                                    .password = fileAccessPassword
+                                    .password = fileAccessPassword,
+                                    .isPadded = isFilePadded,
+                                    .padByteLength = filePadLength
                                  };
 
     foeBufferPtr = OSAL_MEMORY_calloc((sizeof(ESL_FOE_header_t) + foeFileWriteChunkSize),sizeof(uint8_t));
     OSAL_MEMORY_memcpy(foeBufferPtr,&foeHeader,sizeof(ESL_FOE_header_t));
     if(foeBufferPtr1 != NULL)
     {
-        OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t)),foeBufferPtr1,(foeFileWriteChunkSize - size));
+        OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t)),foeBufferPtr1,(foeFileWriteChunkSize - size - filePadLength));
         if (size != 0)
         {
-            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize - size)),pData,size);
+            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize - size - filePadLength)),pData,size);
+        }
+        if (filePadLength != 0)
+        {
+            OSAL_MEMORY_memset(filePadBytes,FOE_PADDED_BYTE,filePadLength);
+            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize + size - filePadLength)),filePadBytes,filePadLength);
         }
     }
     else if(foeBufferPtr2 != NULL)
     {
-        OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t)),foeBufferPtr2,(foeFileWriteChunkSize - size));
+        OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t)),foeBufferPtr2,(foeFileWriteChunkSize - size - filePadLength));
         if (size != 0)
         {
-            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize - size)),pData,size);
+            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize - size - filePadLength)),pData,size);
+        }
+        if (filePadLength != 0)
+        {
+            OSAL_MEMORY_memset(filePadBytes,FOE_PADDED_BYTE,filePadLength);
+            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize + size - filePadLength)),filePadBytes,filePadLength);
         }
     }
     else
     {
-        OSAL_MEMORY_memcpy(foeBufferPtr + sizeof(ESL_FOE_header_t),pData,foeFileWriteChunkSize);
+        OSAL_MEMORY_memcpy(foeBufferPtr + sizeof(ESL_FOE_header_t),pData,(foeFileWriteChunkSize - filePadLength));
+        if (filePadLength != 0)
+        {
+            OSAL_MEMORY_memset(filePadBytes,FOE_PADDED_BYTE,filePadLength);
+            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + foeFileWriteChunkSize - filePadLength),filePadBytes,filePadLength);
+        }
     }
-    
+
     #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
         OSAL_printf("FoE - Downloaded file size : %d\n\r",foeFileWriteChunkSize);
     #endif
@@ -371,7 +414,7 @@ uint32_t EC_SLV_APP_FoE_fileWrite(void *pContext, uint16_t* pData, uint16_t size
                                 APP_OSPI_FLASH_OFFSET_BASE,
                                 (uint32_t)(sizeof(ESL_FOE_header_t) + foeFileWriteChunkSize),
                                 (uint8_t*)foeBufferPtr);
-    
+
     if (error != NVM_ERR_SUCCESS)
     {
         retVal = ECAT_FOE_ERRCODE_ACCESS;

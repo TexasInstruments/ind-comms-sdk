@@ -5,42 +5,41 @@
  *  EtherCAT<sup>&reg;</sup> Slave Example Application with CiA402 Profile.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2021, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 KUNBUS GmbH.
+ *  Copyright (C) 2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#define TIESC_HW	0
+#define TIESC_HW    0
 #define PRU_200MHZ  1
 
 /* this one shall the only one to be using it ! */
@@ -80,10 +79,38 @@
 #include <industrial_comms/ethercat_slave/icss_fwhal/firmware/g_v1.3/mdio_fw_bin.h>
 #endif
 
-#define TIESC_HW	0
+#define TIESC_HW    0
 #define PRU_200MHZ  1
 
 #define THREAD_IDLE_TIMEOUT   (100U)     /* 100msec idle timeout */
+
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Pinmux configuration.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  <!-- Example: -->
+ *
+ *  \par Example
+ *  \code{.c}
+ *
+ *  // the Call
+ *  EC_SLV_APP_Pinmux_config();
+ *  \endcode
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup EC_SLV_APP
+ *
+ * */
+static void EC_SLV_APP_Pinmux_config(void)
+{
+#if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
+#endif
+}
 
 static uint32_t EC_SLV_APP_CIA_remoteInit(EC_SLV_APP_CIA_Application_t *applicationInstance);
 
@@ -172,6 +199,14 @@ static void EC_SLV_APP_CIA_loopTask(void *pArg_p)
     error = EC_API_SLV_getProductName(pApplicationInstance->ptEcSlvApi, &pProductName);
     OSAL_printf("%s - %xh / %xh\r\n", pProductName, vendorId, productCode);
 
+    // Read ID from the DIP switches and set as an Explicit Device ID (In CTT test case TF-1201, 0x0005 is used as an Explicit Device ID)
+    EC_API_SLV_setExplicitDeviceId(pApplicationInstance->ptEcSlvApi,0x0005);
+
+    uint16_t explicitDeviceID = 0;
+    EC_API_SLV_getExplicitDeviceId(pApplicationInstance->ptEcSlvApi,&explicitDeviceID);
+
+    OSAL_printf("Explicit Device ID : 0x%4x\r\n",explicitDeviceID);
+
     /* spit out versions */
     ESL_dumpVersions(pApplicationInstance->ptEcSlvApi);
 
@@ -225,7 +260,7 @@ Exit:
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  pArg_p		Application instance.
+ *  \param[in]  pArg_p      Application instance.
  *
  *  <!-- Example: -->
  *
@@ -284,6 +319,8 @@ static void EC_SLV_APP_CIA_mainTask(void *pArg_p)
         /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
     }
+
+    EC_SLV_APP_Pinmux_config();
 
     retVal = EC_API_SLV_load(NULL /* &applErrHandler*/, applicationInstance->selectedPruInstance);
 

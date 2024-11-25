@@ -8,36 +8,36 @@
 /**
  * Import the modules used in this configuration.
  */
-const eeprom          = scripting.addModule("/board/eeprom/eeprom", {}, false);
-const eeprom1         = eeprom.addInstance();
-const flash           = scripting.addModule("/board/flash/flash", {}, false);
-const flash1          = flash.addInstance();
-const led             = scripting.addModule("/board/led/led", {}, false);
-const led1            = led.addInstance();
-const led2            = led.addInstance();
-const led3            = led.addInstance();
-const led4            = led.addInstance();
-const led5            = led.addInstance();
-const gpio            = scripting.addModule("/drivers/gpio/gpio", {}, false);
-const gpio1           = gpio.addInstance();
-const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
-const i2c1            = i2c.addInstance();
-const i2c2            = i2c.addInstance();
-const pruicss         = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
-const pruicss1        = pruicss.addInstance();
-const uart            = scripting.addModule("/drivers/uart/uart", {}, false);
-const uart1           = uart.addInstance();
-const ethercat        = scripting.addModule("/industrial_comms/ethercat/ethercat", {}, false);
-const ethercat1       = ethercat.addInstance();
-const clock           = scripting.addModule("/kernel/dpl/clock");
-const debug_log       = scripting.addModule("/kernel/dpl/debug_log");
-const mpu_armv7       = scripting.addModule("/kernel/dpl/mpu_armv7", {}, false);
-const mpu_armv71      = mpu_armv7.addInstance();
-const mpu_armv72      = mpu_armv7.addInstance();
-const mpu_armv73      = mpu_armv7.addInstance();
-const mpu_armv74      = mpu_armv7.addInstance();
-const timer           = scripting.addModule("/kernel/dpl/timer", {}, false);
-const timer1          = timer.addInstance();
+const eeprom     = scripting.addModule("/board/eeprom/eeprom", {}, false);
+const eeprom1    = eeprom.addInstance();
+const flash      = scripting.addModule("/board/flash/flash", {}, false);
+const flash1     = flash.addInstance();
+const led        = scripting.addModule("/board/led/led", {}, false);
+const led1       = led.addInstance();
+const led2       = led.addInstance();
+const led3       = led.addInstance();
+const led4       = led.addInstance();
+const led5       = led.addInstance();
+const gpio       = scripting.addModule("/drivers/gpio/gpio", {}, false);
+const gpio1      = gpio.addInstance();
+const i2c        = scripting.addModule("/drivers/i2c/i2c", {}, false);
+const i2c1       = i2c.addInstance();
+const i2c2       = i2c.addInstance();
+const pruicss    = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
+const pruicss1   = pruicss.addInstance();
+const uart       = scripting.addModule("/drivers/uart/uart", {}, false);
+const uart1      = uart.addInstance();
+const ethercat   = scripting.addModule("/industrial_comms/ethercat/ethercat", {}, false);
+const ethercat1  = ethercat.addInstance();
+const clock      = scripting.addModule("/kernel/dpl/clock");
+const debug_log  = scripting.addModule("/kernel/dpl/debug_log");
+const mpu_armv7  = scripting.addModule("/kernel/dpl/mpu_armv7", {}, false);
+const mpu_armv71 = mpu_armv7.addInstance();
+const mpu_armv72 = mpu_armv7.addInstance();
+const mpu_armv73 = mpu_armv7.addInstance();
+const mpu_armv74 = mpu_armv7.addInstance();
+const timer      = scripting.addModule("/kernel/dpl/timer", {}, false);
+const timer1     = timer.addInstance();
 const default_linker  = scripting.addModule("/memory_configurator/default_linker", {}, false);
 const default_linker1 = default_linker.addInstance();
 const general         = scripting.addModule("/memory_configurator/general", {}, false);
@@ -56,7 +56,6 @@ const section8        = section.addInstance();
 const section9        = section.addInstance();
 const section10       = section.addInstance();
 const section11       = section.addInstance();
-const dpl_cfg         = scripting.addModule("/kernel/dpl/dpl_cfg");
 
 /**
  * Write custom configuration values to the imported modules.

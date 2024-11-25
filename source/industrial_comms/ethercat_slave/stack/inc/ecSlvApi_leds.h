@@ -1,24 +1,20 @@
 /*!
- *  \file ecSlvApi.h
+ *  \file ecSlvApi_leds.h
  *
  *  \brief
  *  EtherCAT User API LED interface.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __ECSLVAPI_LED_H__)
-#define __ECSLVAPI_LED_H__		1
+#define __ECSLVAPI_LED_H__      1
 
 #if (defined ECATSLAVE_SO) && (ECATSLAVE_SO==1) // defined if ECATSLV is compiled as a DLL
  #ifdef ECSLVAPI_EXPORTS // defined if we are building the ECATSLAVE DLL (instead of using it)
@@ -44,6 +40,7 @@ extern ECATSLV_API  uint32_t EC_API_SLV_cbRegisterBoardStatusLed(
     EC_API_SLV_SHandle_t* pHandle,
     EC_API_SLV_CBBoardStatusLed_t  cbFunc,
     void* pContext);
+
 #if (defined __cplusplus)
 }
 #endif

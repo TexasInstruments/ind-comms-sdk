@@ -5,20 +5,16 @@
  *  CiA402 defines.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __ECSLVAPIDEF402_H__)
-#define __ECSLVAPIDEF402_H__		1
+#define __ECSLVAPIDEF402_H__        1
 
 
 

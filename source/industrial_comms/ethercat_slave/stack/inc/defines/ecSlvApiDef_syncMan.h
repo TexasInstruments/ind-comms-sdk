@@ -5,20 +5,16 @@
  *  EtherCAT Slave SyncManager configuration.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2023, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined __ECSYNCMAN_H__)
-#define __ECSYNCMAN_H__		1
+#define __ECSYNCMAN_H__     1
 
 #if (defined __cplusplus)
 extern "C" {
@@ -38,4 +34,3 @@ typedef struct EC_SLV_API_SSyncManDesc {
 #endif
 
 #endif /* __ECSYNCMAN_H__ */
-
