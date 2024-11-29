@@ -120,6 +120,47 @@ void ESL_OS_init(void)
     return;
 }
 
+#if (defined SOC_AM263PX) || (defined SOC_AM261X)
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Does a reset of the flash
+ *
+ *  \details
+ *  Required as workaround to not hang after second time call of Board_flashOpen function.
+ *
+ *  <!-- Example: -->
+ *
+ *  \par Example
+ *  \code{.c}
+ *  #include <ESL_OS_os.h>
+ *
+ *  ESL_OS_flashReset();
+ *  \endcode
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup ESL_OS
+ *
+ */
+void ESL_OS_flashReset(void)
+{
+#if (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+    uint32_t    gpioBaseAddr;
+
+    /* Get address after translation translate */
+    gpioBaseAddr = (uint32_t) AddrTranslateP_getLocalAddr(GPIO_OSPI_RST_BASE_ADDR);
+
+    GPIO_setDirMode(gpioBaseAddr, GPIO_OSPI_RST_PIN, GPIO_OSPI_RST_DIR);
+    GPIO_pinWriteLow(gpioBaseAddr, GPIO_OSPI_RST_PIN);
+    GPIO_pinWriteHigh(gpioBaseAddr, GPIO_OSPI_RST_PIN);
+#endif
+
+    return;
+}
+#endif
+
 /*!
  *  <!-- Description: -->
  *
@@ -155,6 +196,9 @@ uint32_t ESL_OS_boardInit(uint32_t pruInstance_p)
     OSAL_TIMER_set100usecTickSupport(CONFIG_TIMER0_USEC_PER_TICK == 100u);
 
     Board_init();
+#if (defined SOC_AM263PX) || (defined SOC_AM261X)
+    ESL_OS_flashReset();
+#endif
     Drivers_open();
 
     if(SystemP_SUCCESS != Board_driversOpen())

@@ -63,10 +63,21 @@
 #include <ESL_BOARD_OS_config.h>
 #include <ESL_cia402Obd.h>
 #include <ESL_version.h>
+#if (defined SOC_AM263PX)
+#include <ESL_BOARD_pinmux.h>
+#endif //SOC_AM263PX
 
 /* stack */
 #include <ecSlvApi.h>
 
+#if (defined SOC_AM263PX) || (defined SOC_AM261X)
+#define FrameProc   ECAT_FrameProcAPP
+// FREERTOS contained FW #include <source/networking/ethercat_slave/icss_fwhal/ecat_frame_handler_bin.h>
+#include <industrial_comms/ethercat_slave/icss_fwhal/firmware/m_v2.3/ecat_frame_handler_bin.h>
+#define HostProc   ECAT_HostProcAPP
+// FREERTOS contained FW #include <source/networking/ethercat_slave/icss_fwhal/ecat_host_interface_bin.h>
+#include <industrial_comms/ethercat_slave/icss_fwhal/firmware/m_v2.3/ecat_host_interface_bin.h>
+#else
 #define FrameProc   ECAT_FrameProcAPP
 // FREERTOS contained FW #include <source/networking/ethercat_slave/icss_fwhal/ecat_frame_handler_bin.h>
 #include <industrial_comms/ethercat_slave/icss_fwhal/firmware/g_v1.3/ecat_frame_handler_bin.h>
@@ -77,6 +88,7 @@
 #if (defined INCLUDE_MDIO_MANUAL_MODE_WORKAROUND) && (!defined SOC_AM263X)
 #define PRUFirmware   PRUMDIOFirmwareECATAPP
 #include <industrial_comms/ethercat_slave/icss_fwhal/firmware/g_v1.3/mdio_fw_bin.h>
+#endif
 #endif
 
 #define TIESC_HW    0
@@ -109,6 +121,32 @@
 static void EC_SLV_APP_Pinmux_config(void)
 {
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
+#if (defined SOC_AM263PX)
+    //TODO: Put this into a function
+    Pinmux_config(gPruicssPinMuxCfg, PINMUX_DOMAIN_ID_MAIN);
+
+    #define MSS_CTRL_ICSSM_PRU_GPIO_OUT_CTRL_VALUE  (0x0001077F)
+    #define MSS_CTRL_ICSSM_PRU1_GPIO_OUT_CTRL_VALUE (0x0001037F)
+
+    // Set bits for input pins in ICSSM_PRU0_GPIO_OUT_CTRL and ICSSM_PRU1_GPIO_OUT_CTRL registers
+    HW_WR_REG32(CSL_MSS_CTRL_U_BASE + CSL_MSS_CTRL_ICSSM_PRU0_GPIO_OUT_CTRL, MSS_CTRL_ICSSM_PRU_GPIO_OUT_CTRL_VALUE);
+    HW_WR_REG32(CSL_MSS_CTRL_U_BASE + CSL_MSS_CTRL_ICSSM_PRU1_GPIO_OUT_CTRL, MSS_CTRL_ICSSM_PRU1_GPIO_OUT_CTRL_VALUE);
+
+    uint32_t pinNum[CONFIG_GPIO_NUM_INSTANCES] = {CONFIG_ICSSM_MUX_SEL_PIN, CONFIG_ICSSM_MUX_EN_PIN, CONFIG_MUX_ENABLE_PIN, CONFIG_USER_LED_PIN};
+    uint32_t pinDir[CONFIG_GPIO_NUM_INSTANCES] = {CONFIG_ICSSM_MUX_SEL_DIR, CONFIG_ICSSM_MUX_EN_DIR, CONFIG_MUX_ENABLE_DIR, CONFIG_USER_LED_DIR};
+
+    for(uint32_t index = 0; index < CONFIG_GPIO_NUM_INSTANCES-1; index++)
+    {
+        /* Address translate */
+        uint32_t gGpioBaseAddr = (uint32_t) AddrTranslateP_getLocalAddr(CONFIG_ICSSM_MUX_SEL_BASE_ADDR);
+
+        /* Setup GPIO for ICSSM MDIO Mux selection */
+        GPIO_setDirMode(gGpioBaseAddr, pinNum[index], pinDir[index]);
+        GPIO_pinWriteHigh(gGpioBaseAddr, pinNum[index]);
+    }
+
+    OSAL_SCHED_sleep(300);
+#endif //SOC_AM263PX
 #endif
 }
 

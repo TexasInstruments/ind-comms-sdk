@@ -44,6 +44,9 @@
 
 #include <project.h>
 #include <string.h>
+#if !(defined SOC_AM65XX) && !(defined SOC_AM64X) && !(defined SOC_AM243X) && !(defined SOC_AM263PX) && !(defined SOC_AM261X)
+#include <unistd.h>
+#endif
 
 /*!
  *  <!-- Description: -->

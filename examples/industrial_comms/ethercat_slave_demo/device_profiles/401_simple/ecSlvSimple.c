@@ -2810,13 +2810,17 @@ void EC_SLV_APP_SS_initBoardFunctions(EC_SLV_APP_SS_Application_t *pAppInstance_
      */
     ESL_OS_manualMdioConfig(pAppInstance_p->ptEcSlvApi);
 
+ #if !(defined SOC_AM263PX)
     /* configure Phy Reset Pin */
     ESL_BOARD_OS_configureResets(pAppInstance_p->gpioHandle, pAppInstance_p->selectedPruInstance);
+#endif //SOC_AM263PX
 #else
     OSALUNREF_PARM(pAppInstance_p);
 #endif
+#if !(defined SOC_AM263PX)
     /* configure LED Pin */
     ESL_BOARD_OS_initStatusLED(pAppInstance_p->gpioHandle, pAppInstance_p->selectedPruInstance);
+#endif //SOC_AM263PX
 
     ESL_GPIO_apply(pAppInstance_p->gpioHandle);
 

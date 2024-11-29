@@ -46,7 +46,14 @@
 #include <ESL_BOARD_OS_config.h>
 
 #include <drivers/gpio.h>
+#if (defined SOC_AM263PX)
+#include <drivers/hw_include/am263px/cslr_soc_baseaddress.h>
+#include <drivers/pinmux.h>
+#elif (defined SOC_AM261X)
+#include <drivers/hw_include/am261x/cslr_soc_baseaddress.h>
+#else
 #include <drivers/hw_include/am64x_am243x/cslr_soc_baseaddress.h>
+#endif
 #include <board/led.h>
 
 typedef struct ESL_GPIO_SHandle
@@ -168,7 +175,11 @@ bool ESL_GPIO_setConfigMode(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, 
 
     switch (moduleId_p)
     {
+#if (defined SOC_AM263PX) || (defined SOC_AM261X)
+    case ESL_GPIO_enMODULE_0:   baseAddr = CSL_GPIO0_U_BASE; break;
+#else
     case ESL_GPIO_enMODULE_0:   baseAddr = CSL_MCU_GPIO0_BASE; break;
+#endif
     default:
         /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
         /* cppcheck-suppress misra-c2012-15.1 */
@@ -253,7 +264,11 @@ bool ESL_GPIO_read(void* pGpioHandle_p, ESL_GPIO_EModule_t  moduleId_p, ESL_GPIO
 
     switch (moduleId_p)
     {
+#if (defined SOC_AM263PX) || (defined SOC_AM261X)
+    case ESL_GPIO_enMODULE_0:   baseAddr = CSL_GPIO0_U_BASE; break;
+#else
     case ESL_GPIO_enMODULE_0:   baseAddr = CSL_MCU_GPIO0_BASE; break;
+#endif
     default:
         /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
         /* cppcheck-suppress misra-c2012-15.1 */
@@ -313,6 +328,16 @@ bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO
 
     switch (moduleId_p)
     {
+#if (defined SOC_AM263PX) || (defined SOC_AM261X)
+    case ESL_GPIO_enMODULE_0:       baseAddr = CSL_GPIO0_U_BASE; break;
+    case ESL_GPIO_enMODULE_1:       baseAddr = CSL_GPIO1_U_BASE; break;
+    case ESL_GPIO_enMODULE_2:       baseAddr = CSL_GPIO2_U_BASE; break;
+    case ESL_GPIO_enMODULE_LED: break;
+    default:
+        /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
+        /* cppcheck-suppress misra-c2012-15.1 */
+        goto Exit;
+#else
     case ESL_GPIO_enMODULE_0:       baseAddr = CSL_GPIO0_BASE; break;
     case ESL_GPIO_enMODULE_1:       baseAddr = CSL_GPIO1_BASE; break;
     case ESL_GPIO_enMODULE_2:       baseAddr = CSL_MCU_GPIO0_BASE; break;
@@ -321,6 +346,7 @@ bool ESL_GPIO_write(void* pGpioHandle_p, ESL_GPIO_EModule_t moduleId_p, ESL_GPIO
         /* @cppcheck_justify{misra-c2012-15.1} goto is used to assure single point of exit */
         /* cppcheck-suppress misra-c2012-15.1 */
         goto Exit;
+#endif
     }
 
     if (ESL_GPIO_enMODULE_LED == moduleId_p)
