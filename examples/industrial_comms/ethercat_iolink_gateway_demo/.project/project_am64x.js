@@ -91,7 +91,7 @@ const libs_freertos_r5f = {
         "ethercat_iolink_gateway.am64x.r5f.ti-arm-clang.release.lib",
         "iolink_master.am64x.r5f.ti-arm-clang.release.lib",
         "littlefs.am64x.r5f.ti-arm-clang.release.lib",
-        
+
     
     ],
 };

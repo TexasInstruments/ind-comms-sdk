@@ -5,16 +5,12 @@
  *  Configuration handling
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2022 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined PROTECT_GWLCONFIGURATION_H)
@@ -24,7 +20,7 @@
 #include <stdbool.h>
 
 #include "gw_errorhandling.h"
-#include "GWL_interface.h"        
+#include "GWL_interface.h"
 #include "IIL_interface.h"        // used for IIL_SPortConfigList_t, IIL_SPortStatusList_t
 #include "EIL_interface.h"        // used for EIL_EState_t
 
@@ -112,10 +108,10 @@ typedef struct GWL_SConfiguration
     GWL_SIdentification_t identification;
     /**! \brief Gateway configuration */
     GWL_SControl_t config;
-    /**! \brief IOLink stati */             
+    /**! \brief IOLink stati */
     GWL_SStatus_t status;
     /**! \brief Configuration for all IOLink Device ports */
-    GWL_SConfIOLPort_t iolPort[IIL_MAX_PORTNR]; 
+    GWL_SConfIOLPort_t iolPort[IIL_MAX_PORTNR];
 } GWL_SConfiguration_t;
 
 extern GWL_SConfiguration_t GWL_sConfigData_g;

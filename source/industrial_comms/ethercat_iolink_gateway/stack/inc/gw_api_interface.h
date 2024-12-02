@@ -5,16 +5,12 @@
  *  Gateway API functions
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2022 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined PROTECT_GW_API_INTERFACE_H)
@@ -48,14 +44,14 @@ typedef enum GW_API_EErrorcode {
     GW_API_ePERMISSION,       /** \brief no permission */
     GW_API_eSTARTED,          /** \brief Gateway is running */
     GW_API_eNOTSTARTED,       /** \brief Gateway is not running */
-    GW_API_ePRUINCON,         /** \brief PRU instances inconsistent */  
-    GW_API_eNOCLIENTID,       /** \brief no free client id for SMIdirect */  
-    GW_API_eNVRAM,            /** \brief NVRAM store */  
-    GW_API_eNOTSUPPORTED,     /** \brief function not supported yet */  
-    GW_API_eSMIDIRECT_NOMBX,  /** \brief SMIdirect mailbox error */  
-    GW_API_eSMIDIRECT_NOEVT,  /** \brief SMIdirect event error */  
-    GW_API_eSMIDIRECT_NOUART, /** \brief SMIdirect UART handle error */  
-    GW_API_eSMIDIRECT_TASK,   /** \brief SMIdirect task create error */  
+    GW_API_ePRUINCON,         /** \brief PRU instances inconsistent */
+    GW_API_eNOCLIENTID,       /** \brief no free client id for SMIdirect */
+    GW_API_eNVRAM,            /** \brief NVRAM store */
+    GW_API_eNOTSUPPORTED,     /** \brief function not supported yet */
+    GW_API_eSMIDIRECT_NOMBX,  /** \brief SMIdirect mailbox error */
+    GW_API_eSMIDIRECT_NOEVT,  /** \brief SMIdirect event error */
+    GW_API_eSMIDIRECT_NOUART, /** \brief SMIdirect UART handle error */
+    GW_API_eSMIDIRECT_TASK,   /** \brief SMIdirect task create error */
 } GW_API_EErrorcode_t;
 
 #define GW_API_SERIALNR_LEN   16U
@@ -79,7 +75,7 @@ typedef struct GW_API_SPortExpConfig
     uint8_t  validationType;   /**! \brief type 0=no check, 1=VID+DID, 2=VID+DID+SN */
     uint8_t  masterControl;    /**! \brief type 0=inactive, 1=DI, 2=DO, 3=protocol, 4=comstop */
 } GW_API_SPortExpConfig_t;
-#define GW_API_VALIDATION_TYPE_NONE        0U   /* no validation */  
+#define GW_API_VALIDATION_TYPE_NONE        0U   /* no validation */
 #define GW_API_VALIDATION_TYPE_ID          1U   /* validate with IO-Link VendorId and DeviceId */
 #define GW_API_VALIDATION_TYPE_SERIAL      2U   /* validate with IO-Link VendorId, DeviceId and Serial Number */
 
@@ -116,7 +112,7 @@ typedef struct GW_API_SPortStatus
     uint8_t  serialNumber[GW_API_SERIALNR_LEN];  /**! \brief serialnumber */
     uint8_t  portQualityInfo;   /**! \brief quality of port */
     uint8_t  connectionQuality; /**! \brief quality of connection */
-    uint8_t  mseqCapability;    /**! \brief IODD 0x00:4 */                     
+    uint8_t  mseqCapability;    /**! \brief IODD 0x00:4 */
     uint8_t  portStatusInfo;    /**! \brief mode of port, described in enum IOLM_SMI_EPortStatus */
     uint8_t  masterCycleTime;   /**! \brief master cycle time of port */
 } GW_API_SPortStatus_t;
@@ -172,28 +168,28 @@ extern GW_API_EErrorcode_t GW_API_setEcatPRUInstance(const uint8_t pruInstance_p
 #define GW_API_FIRST_CLIENTID    2
 
 extern GW_API_EErrorcode_t GW_API_registerSMIClient(
-    const uint8_t priority_p, 
-    const uint8_t accessRights_p, 
-    uint8_t* const pClientId_p, 
+    const uint8_t priority_p,
+    const uint8_t accessRights_p,
+    uint8_t* const pClientId_p,
     IOLM_SMI_CBGenericCnf cbClientCallBack_p);
 extern GW_API_EErrorcode_t GW_API_deregisterSMIClient(const uint8_t clientId_p);
 extern GW_API_EErrorcode_t GW_API_smiGenericCommand(
-    const uint8_t clientId_p, 
-    IOLM_SMI_SHeader* pHeader_p, 
+    const uint8_t clientId_p,
+    IOLM_SMI_SHeader* pHeader_p,
     uint8_t* pArgBlock_p);
 
 extern GW_API_EErrorcode_t GW_API_getExpPortConfiguration(
-    const uint8_t portNr_p, 
+    const uint8_t portNr_p,
     GW_API_SPortExpConfig_t* const  psExpPortConfig_p);
 extern GW_API_EErrorcode_t GW_API_setExpPortConfiguration(
-    const uint8_t portNr_p, 
+    const uint8_t portNr_p,
     const GW_API_SPortExpConfig_t* const  psExpPortConfig_p);
-extern GW_API_EErrorcode_t GW_API_getPortStatus(       
-    const uint8_t portNr_p, 
+extern GW_API_EErrorcode_t GW_API_getPortStatus(
+    const uint8_t portNr_p,
     GW_API_SPortStatus_t* const  psCurPortStatus_p);
 
 extern void GW_API_smiGenericCB(
-    IOLM_SMI_SHeader* pHeader_p, 
+    IOLM_SMI_SHeader* pHeader_p,
     uint8_t* pArgBlock_p);
 
 #if (defined __cplusplus)
