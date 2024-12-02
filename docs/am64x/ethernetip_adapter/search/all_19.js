@@ -43,5 +43,5 @@ var searchData=
   ['version_203_2007_2004_40',['Release Version 3.07.04',['../eip_releasenotes.html#eip_version_release30704',1,'']]],
   ['version_203_2007_2005_41',['Release Version 3.07.05',['../eip_releasenotes.html#eip_version_release30705',1,'']]],
   ['version_203_2007_2006_42',['Release Version 3.07.06',['../eip_releasenotes.html#eip_version_release30706',1,'']]],
-  ['version_203_2008_2000_43',['Release Version 3.08.00',['../eip_releasenotes.html#eip_version_release30800',1,'']]]
+  ['version_203_2007_2007_43',['Release Version 3.07.07',['../eip_releasenotes.html#eip_version_releaselatest',1,'']]]
 ];

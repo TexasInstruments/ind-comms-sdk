@@ -40,7 +40,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> EtherNet/IP™ Adapter<span id="projectnumber">3.07.06</span></div></td>
+         <td id="projectalign"><div id="projectname"> EtherNet/IP™ Adapter<span id="projectnumber">3.08.00</span></div></td>
          <td id="projectbrief" align="right"><img src=EtherNetIP.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -136,11 +136,13 @@ Known Issues</h1>
 <dt>[DTKEIPA-1921] </dt>
 <dd>EtherNet/IP CIP API functions (EI_API_CIP_getAttr_xxx) do not support access of Attributes within statically created Classes (Identity Object, TCP/IP Interface Object, Ethernet Link Object, &hellip;). </dd>
 <dt>[DTKEIPA-1334] </dt>
-<dd>Attribute 28 SystemTimeAndOffset is unstable. </dd>
+<dd>Attribute 28 SystemTimeAndOffset is unstable.  </dd>
+<dt>[ICSTACK-301] </dt>
+<dd>AM263Px-LP (E2) hardware limitation on Half-Duplex.   </dd>
 </dl>
-<h1><a class="anchor" id="eip_version_release30800"></a>
+<h1><a class="anchor" id="eip_version_releaselatest"></a>
 Release Version 3.08.00</h1>
-<h2><a class="anchor" id="eip_new_features_release30800"></a>
+<h2><a class="anchor" id="eip_new_features_releaselatest"></a>
 New Features</h2>
 <ul>
 <li>
@@ -149,18 +151,22 @@ New Features</h2>
 [ICSTACK-210] The maximum number of LLDP neighbor device should be configurable from application. </li>
 <li>
 [ICSTACK-24] Refactor the Discrete I/O Device Profile implementation. </li>
+<li>
+[ICSTACK-305] Add new API to set assembly Format, see <a class="el" href="group___e_i___a_p_i___c_i_p___a_s_s_e_m_b_l_y_gaff4bfe7263a33e5badda1a720d1b2cfc.html#gaff4bfe7263a33e5badda1a720d1b2cfc" title="Set assembly format.">EI_API_CIP_setAssemblyFormat</a>. </li>
 </ul>
-<h2><a class="anchor" id="eip_fixed_issues_release30800"></a>
+<h2><a class="anchor" id="eip_fixed_issues_releaselatest"></a>
 Fixed Issues</h2>
-<dl class="issue">
-<dt>[DTKEIPA-1919] </dt>
-<dd>For the General Purpose Discrete I/O Device example the CT20 conformance test reports errors in the Discrete Output Point Object Test: <pre>
-1&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0
-2&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0
-3&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0
-4&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0
-        </pre> </dd>
-</dl>
+<ul>
+<li>
+[ICSTACK-192] Use source-port 2222 on Cyclic I/O data. </li>
+<li>
+[DTKEIPA-1919] For the General Purpose Discrete I/O Device example the CT20 conformance test reports errors in the Discrete Output Point Object Test: <dl class="section user"><dt></dt><dd>1&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0<br  />
+ 2&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0<br  />
+ 3&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0<br  />
+ 4&gt; *** Attribute data value incorrect attr 3 = 1, Expected 0<br  />
+  </dd></dl>
+</li>
+</ul>
 <h1><a class="anchor" id="eip_version_release30706"></a>
 Release Version 3.07.06</h1>
 <h2><a class="anchor" id="eip_new_features_release30706"></a>

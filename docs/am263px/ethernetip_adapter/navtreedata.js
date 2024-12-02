@@ -39,9 +39,9 @@ var NAVTREE =
         [ "Public Licensed Packages", "eip_releasenotes.html#eip_releasenotes_opensource_license", null ]
       ] ],
       [ "Known Issues", "eip_releasenotes.html#eip_known_issues", null ],
-      [ "Release Version 3.08.00", "eip_releasenotes.html#eip_version_release30800", [
-        [ "New Features", "eip_releasenotes.html#eip_new_features_release30800", null ],
-        [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_release30800", null ]
+      [ "Current Version", "eip_releasenotes.html#eip_version_releaselatest", [
+        [ "New Features", "eip_releasenotes.html#eip_new_features_releaselatest", null ],
+        [ "Fixed Issues", "eip_releasenotes.html#eip_fixed_issues_releaselatest", null ]
       ] ],
       [ "Release Version 3.07.06", "eip_releasenotes.html#eip_version_release30706", [
         [ "New Features", "eip_releasenotes.html#eip_new_features_release30706", null ],
