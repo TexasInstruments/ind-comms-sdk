@@ -94,11 +94,13 @@ uint32_t CUST_DRIVERS_init(CUST_DRIVERS_SInit_t* pParams_p)
         goto initErr;
     }
 
+#ifndef ENABLE_INTERCORE_TUNNELING
     if (CUST_LED_eERR_NOERROR != CUST_LED_init())
     {
         error = (uint32_t) CUST_DRIVERS_eERR_LED;
         goto initErr;
     }
+#endif
 
     if (CUST_FLASH_eERR_NOERROR != CUST_FLASH_init())
     {

@@ -739,10 +739,9 @@ static uint32_t EI_APP_GENERIC_DEVICE_CFG_applyTimeSync (EI_API_ADP_T *pAdapter)
     uint32_t errCode = EI_API_ADP_eERR_GENERAL;
 
     const char timeSyncProductDescription[] = TIMESYNC_PRODUCT_DESCRIPTION_OF_CONFIGURATION;
-    const char timeSyncManufactureID[]      = TIMESYNC_MANUFACTURE_ID_OF_CONFIGURATION;
     const char timeSyncRevisionData[]       = TIMESYNC_REVISION_DATA_OF_CONFIGURATION;
 
-    errCode = EI_API_ADP_setTimeSyncManufactureID(pAdapter, timeSyncManufactureID);
+    errCode = EI_API_ADP_setTimeSyncManufactureID(pAdapter, (const char *)EI_APP_CFG_getOUI());
 
     if (EI_API_ADP_eERR_OK != errCode)
     {

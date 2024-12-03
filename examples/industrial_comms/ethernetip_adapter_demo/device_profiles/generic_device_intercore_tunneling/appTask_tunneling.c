@@ -626,8 +626,8 @@ static uint8_t* EI_APP_TASK_getMacAddr (void)
 {
 #ifndef _DEBUG_USE_KUNBUS_MAC_ADDRESS
     static uint8_t mac_addr[6];
-    const uint32_t mac_address_upper_16_bits = *IDK_CTRLMMR0_MAC_ID1;
-    const uint32_t mac_address_lower_32_bits = *IDK_CTRLMMR0_MAC_ID0;
+    const uint32_t mac_address_upper_16_bits = *REG_MAC_ID0;
+    const uint32_t mac_address_lower_32_bits = *REG_MAC_ID1;
     mac_addr[0] = (uint8_t) (mac_address_upper_16_bits >> 8);
     mac_addr[1] = (uint8_t) (mac_address_upper_16_bits);
     mac_addr[2] = (uint8_t) (mac_address_lower_32_bits >> 24);
@@ -834,4 +834,3 @@ bool App_IsLinuxPresent()
 {
     return 1;
 }
-
