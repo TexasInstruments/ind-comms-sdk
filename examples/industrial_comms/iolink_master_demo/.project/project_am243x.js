@@ -46,7 +46,6 @@ const filedirs_evm = {
         "..",       /* core_os_combo base */
         "../..", /* Example base */
         "../../IOLinkPort",
-        "../../../KBDrv",
         "../../../../nvm/app/src",
         "../../../../nvm/drv/src",
     
@@ -59,7 +58,6 @@ const filedirs_lp = {
         "..",       /* core_os_combo base */
         "../..", /* Example base */
         "../../IOLinkPort",
-        "../../../KBDrv",
         "../../../../nvm/app/src",
         "../../../../nvm/drv/src",
     
@@ -87,7 +85,6 @@ const includes_freertos_r5f_evm = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-evm",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-evm/IOLinkPort",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
@@ -107,7 +104,6 @@ const includes_freertos_r5f_lp = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-lp",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am243x-lp/IOLinkPort",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",

@@ -825,6 +825,7 @@ typedef IOL_ENUM_DECL IOL_EEPortCode
     /* 0x1814 - 0x1EFF: Reserved. */
     /* 0x1F00 - 0x1FFF: VendorSpecific. */
     IOL_eEPortCode_EvalExpired = 0x1F00,
+    IOL_eEPortCode_Overload = 0x1F01,
     /* 0x2000 - 0x2FFF: Safety Extension. */
     /* 0x3000 - 0x2FFF: Wireless Extension. */
     /* 0x4000 - 0x5FFF: Reserved. */

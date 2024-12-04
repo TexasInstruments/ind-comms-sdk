@@ -170,10 +170,10 @@ a generic API for all services, or an API for each single service.
 @if IOL_SAFETY
 - #IOLM_SMI_CBSPDUInCnf
 - #IOLM_SMI_CBSPDUOutCnf
+- #IOLM_SMI_CBFSPDInOutCnf
 @endif
 - #IOLM_SMI_CBPDInIQCnf
 - #IOLM_SMI_CBPDOutIQCnf
-- #IOLM_SMI_CBFSPDInOutCnf
 @endif
 - #IOLM_SMI_CBLoadNVCfg
 - #IOLM_SMI_CBSaveNVCfg

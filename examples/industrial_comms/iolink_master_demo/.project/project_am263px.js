@@ -31,7 +31,6 @@ const filedirs_lp = {
         "..",       /* core_os_combo base */
         "../..", /* Example base */
         "../../IOLinkPort",
-        "../../../KBDrv",
         "../../../../nvm/app/src",
         "../../../../nvm/drv/src",
         "/mcu_plus_sdk/source/board/ioexp"
@@ -60,7 +59,6 @@ const includes_freertos_r5f_lp = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am263px-lp",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am263px-lp/IOLinkPort",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",

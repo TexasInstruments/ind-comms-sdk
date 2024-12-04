@@ -66,7 +66,6 @@ FILES_PATH_common = \
 	.. \
 	../.. \
 	../../IOLinkPort \
-	../../../KBDrv \
 	../../../../nvm/app/src \
 	../../../../nvm/drv/src \
 	/mcu_plus_sdk/source/board/ioexp \
@@ -82,7 +81,6 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am263px-lp \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/am263px-lp/IOLinkPort \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/iolink_master_demo/KBDrv \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc \
