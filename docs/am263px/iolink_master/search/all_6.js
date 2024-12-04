@@ -34,11 +34,10 @@ var searchData=
   ['compile_20run_20and_20debug_20project_31',['Compile, Run and Debug Project',['../page_quickstart.html#qs_example_debug',1,'']]],
   ['config_32',['SMI Config',['../group__grp__smi__config.html',1,'']]],
   ['configuration_33',['configuration',['../page_configure__i_c_s_s1.html',1,'Configuration'],['../page_quickstart.html#qs_gui_ports',1,'Port Configuration']]],
-  ['configure_20icss1_20instead_20of_20icss0_34',['Steps to be done to configure ICSS1 instead of ICSS0',['../page_configure__i_c_s_s1.html#sect_configure_ICSS1_start',1,'']]],
-  ['configure_20maximum_20number_20of_20ports_35',['Configure Maximum number of ports',['../page_configure__i_c_s_s1.html#sect_configure_MaxNoOfPorts',1,'']]],
-  ['connect_20the_20evaluation_20board_20lp_20am243_36',['Connect the Evaluation Board LP-AM243',['../page_quickstart.html#connect_eval_board_am243x_lp',1,'']]],
-  ['connect_20to_20the_20master_37',['Connect to the Master',['../page_quickstart.html#qs_gui_connect',1,'']]],
-  ['content_38',['content',['../page_datastorage.html#sect_ds_content',1,'Content'],['../deliverycontent.html',1,'Delivery Content']]],
-  ['customer_20service_39',['Customer Service',['../customerservice.html',1,'generalinformation']]],
-  ['customized_20pru_20firmware_40',['Using customized PRU Firmware',['../page_quickstart.html#custom_pru',1,'']]]
+  ['configure_20maximum_20number_20of_20ports_34',['Configure Maximum number of ports',['../page_configure__i_c_s_s1.html#sect_configure_MaxNoOfPorts',1,'']]],
+  ['connect_20the_20evaluation_20board_20lp_20am243_35',['Connect the Evaluation Board LP-AM243',['../page_quickstart.html#connect_eval_board_am243x_lp',1,'']]],
+  ['connect_20to_20the_20master_36',['Connect to the Master',['../page_quickstart.html#qs_gui_connect',1,'']]],
+  ['content_37',['content',['../page_datastorage.html#sect_ds_content',1,'Content'],['../deliverycontent.html',1,'Delivery Content']]],
+  ['customer_20service_38',['Customer Service',['../customerservice.html',1,'generalinformation']]],
+  ['customized_20pru_20firmware_39',['Using customized PRU Firmware',['../page_quickstart.html#custom_pru',1,'']]]
 ];

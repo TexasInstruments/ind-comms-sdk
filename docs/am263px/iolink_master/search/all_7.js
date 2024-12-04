@@ -10,6 +10,5 @@ var searchData=
   ['details_7',['Implementation Details',['../persistentstorage.html#sectionNVM2',1,'']]],
   ['direct_20services_8',['Direct Services',['../page_smi.html#sect_smi_directservice',1,'']]],
   ['disclaimer_9',['Disclaimer',['../disclaimer.html',1,'generalinformation']]],
-  ['done_20to_20configure_20icss1_20instead_20of_20icss0_10',['Steps to be done to configure ICSS1 instead of ICSS0',['../page_configure__i_c_s_s1.html#sect_configure_ICSS1_start',1,'']]],
-  ['driver_11',['Modify Non-volatile Storage Hardware Driver',['../page_quickstart.html#example_nvram',1,'']]]
+  ['driver_10',['Modify Non-volatile Storage Hardware Driver',['../page_quickstart.html#example_nvram',1,'']]]
 ];

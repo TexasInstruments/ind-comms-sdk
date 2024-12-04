@@ -100,9 +100,6 @@ var NAVTREE =
         [ "All", "functions.html", "functions_dup" ],
         [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
-    ] ],
-    [ "Related Information", "usergroup0.html", [
-      [ "KUNBUS GmbH", "^https://www.kunbus.com", null ]
     ] ]
   ] ]
 ];

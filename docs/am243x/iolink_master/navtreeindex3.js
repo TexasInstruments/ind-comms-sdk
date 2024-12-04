@@ -8,6 +8,5 @@ var NAVTREEINDEX3 =
 "struct_i_o_l_m___s_real_port_config.html#af9ec42f8cb12dfbbe03ff14f0ab8c244":[7,1,3,4,10],
 "struct_i_o_l_m___settings___r_f.html":[8,0,9],
 "targetaudience.html":[3,1],
-"topics.html":[7],
-"usergroup0.html":[9]
+"topics.html":[7]
 };

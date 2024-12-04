@@ -24,12 +24,11 @@ var searchData=
   ['sportdecs_21',['sPortDecs',['../struct_i_o_l_m___s_g_i___s_client.html#aaa365fad5021e41f73102997ddbbd7cc',1,'IOLM_SGI_SClient']]],
   ['stack_20parameters_22',['General Stack Parameters',['../iolink_datasheet.html#non_fb_parameters',1,'']]],
   ['state_20machine_23',['State Machine',['../page_datastorage.html#sect_ds_state',1,'']]],
-  ['steps_20to_20be_20done_20to_20configure_20icss1_20instead_20of_20icss0_24',['Steps to be done to configure ICSS1 instead of ICSS0',['../page_configure__i_c_s_s1.html#sect_configure_ICSS1_start',1,'']]],
-  ['steps_20to_20run_20the_20example_25',['Steps to Run the Example',['../page_quickstart.html#qs_example_run',1,'']]],
-  ['storage_26',['storage',['../page_datastorage.html',1,'Data Storage'],['../page_datastorage.html#sect_ds_nonvolatile',1,'Non Volatile Storage']]],
-  ['storage_20hardware_20driver_27',['Modify Non-volatile Storage Hardware Driver',['../page_quickstart.html#example_nvram',1,'']]],
-  ['sufastqueue_28',['suFastQueue',['../struct_i_o_l_m___s_m_i___s_port_instance.html#a623778738c3ef595e21ab07debef29ef',1,'IOLM_SMI_SPortInstance']]],
-  ['suheader_29',['suHeader',['../struct_i_o_l_m___s_m_i___s_job.html#a8a61888d2b843c5df696dedba107ae83',1,'IOLM_SMI_SJob']]],
-  ['supported_20functionality_30',['Supported Functionality',['../iolink_datasheet.html#functionality',1,'']]],
-  ['suslowqueue_31',['suSlowQueue',['../struct_i_o_l_m___s_m_i___s_port_instance.html#a6d45dbef90e3d7a101ef73fa69b79457',1,'IOLM_SMI_SPortInstance']]]
+  ['steps_20to_20run_20the_20example_24',['Steps to Run the Example',['../page_quickstart.html#qs_example_run',1,'']]],
+  ['storage_25',['storage',['../page_datastorage.html',1,'Data Storage'],['../page_datastorage.html#sect_ds_nonvolatile',1,'Non Volatile Storage']]],
+  ['storage_20hardware_20driver_26',['Modify Non-volatile Storage Hardware Driver',['../page_quickstart.html#example_nvram',1,'']]],
+  ['sufastqueue_27',['suFastQueue',['../struct_i_o_l_m___s_m_i___s_port_instance.html#a623778738c3ef595e21ab07debef29ef',1,'IOLM_SMI_SPortInstance']]],
+  ['suheader_28',['suHeader',['../struct_i_o_l_m___s_m_i___s_job.html#a8a61888d2b843c5df696dedba107ae83',1,'IOLM_SMI_SJob']]],
+  ['supported_20functionality_29',['Supported Functionality',['../iolink_datasheet.html#functionality',1,'']]],
+  ['suslowqueue_30',['suSlowQueue',['../struct_i_o_l_m___s_m_i___s_port_instance.html#a6d45dbef90e3d7a101ef73fa69b79457',1,'IOLM_SMI_SPortInstance']]]
 ];

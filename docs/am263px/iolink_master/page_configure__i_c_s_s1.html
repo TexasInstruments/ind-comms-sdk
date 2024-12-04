@@ -111,20 +111,6 @@ $(document).ready(function(){initNavTree('page_configure__i_c_s_s1.html',''); in
 Limitation with Pinmuxing</h1>
 <p>Pinmuxing cannot be made flexible in the example project as the Rx pins of the ports are hard-coded in the default PRU firmware.<br  />
  Such a limitation shall only apply to 8 RX pins and not to TX and DIR GPIO. To overcome this limitation, a customized PRU firmware should be used by the user.</p>
-<h1><a class="anchor" id="sect_configure_ICSS1_start"></a>
-Steps to be done to configure ICSS1 instead of ICSS0</h1>
-<p>IO-Link Master can use either of ICSS instances, however the current example is configured to work with TI's Board, hence it uses ICSS0. If a hardware is developed to use ICSS1 instead of ICSS0, the changes that must be done in Software are all in the application layer, that means no changes in the Stack or PRU are needed. The Stack/PRU are agnostic to ICSS instance.</p>
-<p>Here are the steps to be done to change the ICSS0 instance to ICSS1: </p><ul>
-<li>
-<p class="startli">In main.c change the instance to ICSS1:<br  />
- <img src="Configure_ICSS1.PNG" alt="" width="400px" height="auto" class="inline"/> </p>
-<p class="endli"></p>
-</li>
-<li>
-In iolm_port_sitara_soc.c adapt the pin-setup configuration according to ICSS1 signal routing:<br  />
- <img src="iol_pinSetup.png" alt="" width="400px" height="auto" class="inline"/>  </li>
-</ul>
-<p><u><b>Note:</b></u> Although the Porting to ICSS1 should work, it is not yet tested.</p>
 <h1><a class="anchor" id="sect_configure_MaxNoOfPorts"></a>
 Configure Maximum number of ports</h1>
 <ul>
