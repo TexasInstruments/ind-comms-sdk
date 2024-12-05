@@ -24,17 +24,17 @@ endif
 PROFILE?=release
 ConfigName:=$(PROFILE)
 
-OUTNAME:=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).out
+OUTNAME:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).out
 
 BOOTIMAGE_PATH=$(abspath .)
-BOOTIMAGE_NAME:=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).appimage
-BOOTIMAGE_NAME_XIP:=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).appimage_xip
-BOOTIMAGE_NAME_SIGNED:=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).appimage.signed
-BOOTIMAGE_RPRC_NAME:=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).rprc
-BOOTIMAGE_RPRC_NAME_XIP:=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).rprc_xip
-BOOTIMAGE_RPRC_NAME_TMP:=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).rprc_tmp
-BOOTIMAGE_NAME_HS:=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).appimage.hs
-BOOTIMAGE_NAME_HS_FS:=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).appimage.hs_fs
+BOOTIMAGE_NAME:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).appimage
+BOOTIMAGE_NAME_XIP:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).appimage_xip
+BOOTIMAGE_NAME_SIGNED:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).appimage.signed
+BOOTIMAGE_RPRC_NAME:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).rprc
+BOOTIMAGE_RPRC_NAME_XIP:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).rprc_xip
+BOOTIMAGE_RPRC_NAME_TMP:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).rprc_tmp
+BOOTIMAGE_NAME_HS:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).appimage.hs
+BOOTIMAGE_NAME_HS_FS:=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).appimage.hs_fs
 TARGETS := $(BOOTIMAGE_NAME)
 
 FILES_common := \
@@ -85,7 +85,7 @@ FILES_PATH_common = \
 	../../../../../../board/am64x-evm/freertos/drivers/flash \
 	../../../../../../board/am64x-evm/freertos/drivers/pru_icss \
 	../../../../../../device_profiles \
-	../../../../../../device_profiles/generic_device_intercore_tunneling \
+	../../../../../../device_profiles/intercore_tunneling \
 	../../../../../../../custom_phy/src \
 	../../../../../../os/freertos \
 	generated \
@@ -101,7 +101,7 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device_intercore_tunneling \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles/intercore_tunneling \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/os/freertos \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack \
@@ -181,11 +181,11 @@ LIBS_common = \
 	-llwip-contrib-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-licss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-licss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	-lethernetip_adapter_rgmii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethernetip_adapter_lwip-ic-contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethernetip_adapter_lwip-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	-lethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib \
+	-lethernetipadapter_rgmii.am64x.r5f.ti-arm-clang.release.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -204,11 +204,11 @@ LIBS_NAME = \
 	lwip-contrib-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	icss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	icss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	ethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
+	ethernetip_adapter_rgmii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethernetip_adapter_lwip-ic-contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethernetip_adapter_lwip-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib \
-	ethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib \
+	ethernetipadapter_rgmii.am64x.r5f.ti-arm-clang.release.lib \
 	libc.a \
 	libsysbm.a \
 
@@ -296,7 +296,7 @@ clean:
 	$(RMDIR) generated/
 
 scrub:
-	@echo  Scrubing: am64x:r5fss0-0:freertos:ti-arm-clang ethernetip_adapter_generic_device_mii_tunneling_demo ...
+	@echo  Scrubing: am64x:r5fss0-0:freertos:ti-arm-clang ethernetip_adapter_generic_device_rgmii_tunneling_demo ...
 	$(RMDIR) obj
 ifeq ($(OS),Windows_NT)
 	$(RM) \*.out
@@ -409,12 +409,12 @@ else
 endif
 .PHONY: coverage
 coverage:
-	@echo Creating Coverage Report for ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE) ...
+	@echo Creating Coverage Report for ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE) ...
 	$(MKDIR) coverage
-	$(PROFDATA) merge -sparse -obj-file=$(OUTNAME) $(OUTNAME).cnt -o ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).profdata
-	$(COV) show --format=html --show-expansions --show-instantiations --show-branches=count --object=$(OUTNAME) -instr-profile=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).profdata --output-dir=$(COVERAGE_PATH)/coverage --ignore-filename-regex=build_jenkins
-	$(COV) export --format=text --object=$(OUTNAME) --instr-profile=ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).profdata > coverage/ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).profdata.json
-	node $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/smart_placement/clang_coverage_analyse.js --input=coverage/ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).profdata.json --output-json=coverage/ethernetip_adapter_generic_device_mii_tunneling_demo.$(PROFILE).analysis.json --output=../ethernetip_adapter_generic_device_mii_tunneling_demo.annotations.$(PROFILE).S --top-function-count=500
+	$(PROFDATA) merge -sparse -obj-file=$(OUTNAME) $(OUTNAME).cnt -o ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).profdata
+	$(COV) show --format=html --show-expansions --show-instantiations --show-branches=count --object=$(OUTNAME) -instr-profile=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).profdata --output-dir=$(COVERAGE_PATH)/coverage --ignore-filename-regex=build_jenkins
+	$(COV) export --format=text --object=$(OUTNAME) --instr-profile=ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).profdata > coverage/ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).profdata.json
+	node $(INDUSTRIAL_COMMUNICATIONS_SDK_PATH)/mcu_plus_sdk/tools/smart_placement/clang_coverage_analyse.js --input=coverage/ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).profdata.json --output-json=coverage/ethernetip_adapter_generic_device_rgmii_tunneling_demo.$(PROFILE).analysis.json --output=../ethernetip_adapter_generic_device_rgmii_tunneling_demo.annotations.$(PROFILE).S --top-function-count=500
 	@echo Coverage Report Generated at $(COVERAGE_PATH)/coverage folder !!!
 
 -include $(addprefix $(OBJDIR)/, $(DEPS))

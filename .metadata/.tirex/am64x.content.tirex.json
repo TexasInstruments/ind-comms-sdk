@@ -347,7 +347,7 @@
         ],
         "description": "A Ethernetip Adapter Generic Device Mii Tunneling Demo Example. CPU is R5FSS0-0 running FREERTOS.",
         "name": "ethernetip_adapter_generic_device_mii_tunneling_demo",
-        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device_intercore_tunneling/mii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/intercore_tunneling/mii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -361,7 +361,7 @@
             "industrial_comms",
             "ethernetip_adapter_demo",
             "device_profiles",
-            "generic_device_intercore_tunneling",
+            "intercore_tunneling",
             "mii",
             "r5fss0-0_freertos"
         ],
@@ -382,7 +382,7 @@
         ],
         "description": "A Ethernetip Adapter Generic Device Rgmii Tunneling Demo Example. CPU is R5FSS0-0 running FREERTOS.",
         "name": "ethernetip_adapter_generic_device_rgmii_tunneling_demo",
-        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device_intercore_tunneling/rgmii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/intercore_tunneling/rgmii/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "AM64x_GP_EVM"
         ],
@@ -396,7 +396,7 @@
             "industrial_comms",
             "ethernetip_adapter_demo",
             "device_profiles",
-            "generic_device_intercore_tunneling",
+            "intercore_tunneling",
             "rgmii",
             "r5fss0-0_freertos"
         ],
