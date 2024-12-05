@@ -1,8 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"group___sdo_types_ga3d9d1d266636ff24b16d6191b14f3d43.html#ga3d9d1d266636ff24b16d6191b14f3d43":[9,9,45],
-"group___sdo_types_ga40e6b17d24d48ecd70f4416754c3abc1.html#ga40e6b17d24d48ecd70f4416754c3abc1":[9,9,10],
-"group___sdo_types_ga4101b940a35486d978f40dadaf6b363d.html#ga4101b940a35486d978f40dadaf6b363d":[9,9,36],
 "group___sdo_types_ga4820258d8f272edd0a2b703424876f72.html#ga4820258d8f272edd0a2b703424876f72":[9,9,6],
 "group___sdo_types_ga57c20bb89359a28b652792c245d9ea30.html#ga57c20bb89359a28b652792c245d9ea30":[9,9,23],
 "group___sdo_types_ga57e1c475df595c09530bdabc874cbb25.html#ga57e1c475df595c09530bdabc874cbb25":[9,9,13],
@@ -52,8 +49,8 @@ var NAVTREEINDEX3 =
 "group___so_e_gadb03d861f2b2c54d68094270ff40b3b2.html#gadb03d861f2b2c54d68094270ff40b3b2":[9,15,14],
 "group___so_e_gae62c1b19781d13fef84a2baa1f6e59fb.html#gae62c1b19781d13fef84a2baa1f6e59fb":[9,15,11],
 "group___so_e_gae7c69b24d3047aae1a0b3869bec21642.html#gae7c69b24d3047aae1a0b3869bec21642":[9,15,3],
-"index.html":[],
 "index.html":[0],
+"index.html":[],
 "known_issues.html":[2,0],
 "page_quickstart.html":[4],
 "page_quickstart_installation.html":[4,0],
@@ -249,5 +246,8 @@ var NAVTREEINDEX3 =
 "struct_e_c___a_p_i___s_l_v___s_eeprom_aec3a5fc10ade8c4edc19cee686db79f4.html#aec3a5fc10ade8c4edc19cee686db79f4":[10,0,12,7],
 "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal.html":[10,0,13],
 "struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a103827457708cad8b53a2cecf3168a67.html#a103827457708cad8b53a2cecf3168a67":[10,0,13,10],
-"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a1d26e8bdc36cfec13ffd13522979dd37.html#a1d26e8bdc36cfec13ffd13522979dd37":[10,0,13,13]
+"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a1d26e8bdc36cfec13ffd13522979dd37.html#a1d26e8bdc36cfec13ffd13522979dd37":[10,0,13,13],
+"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a2200f0b7b0aa49a9365ec9b8d3570cb4.html#a2200f0b7b0aa49a9365ec9b8d3570cb4":[10,0,13,8],
+"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a5b9aec53721ab65257b3b3ddbfa80744.html#a5b9aec53721ab65257b3b3ddbfa80744":[10,0,13,9],
+"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a5d75710cdf9d57e811d21b58f9f3b6a4.html#a5d75710cdf9d57e811d21b58f9f3b6a4":[10,0,13,3]
 };

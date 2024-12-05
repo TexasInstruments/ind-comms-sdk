@@ -75,11 +75,7 @@ var NAVTREE =
       [ "Abbreviations and Definitions", "abbreviations.html", null ]
     ] ],
     [ "Quickstart - EtherCAT Device", "page_quickstart.html", [
-      [ "Setup", "page_quickstart_installation.html", [
-        [ "Software Installation", "@ref qs_installation_software", null ],
-        [ "Connect the Evaluation Board", "@ref qs_installation_connect", null ],
-        [ "Steps to Run the Example", "@ref qs_steps_to_run_example", null ]
-      ] ],
+      [ "Setup", "page_quickstart_installation.html", null ],
       [ "EtherCAT FAQ", "ethercat_faq.html", [
         [ "Configuration of the Object Dictionary", "config_o_b_d.html", [
           [ "Enumerations in Object Dictionary", "_enum_example.html", null ]
@@ -126,12 +122,11 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"@ref qs_installation_connect",
-"group___ci_a402_ga6e471ac147fb7f23df3a5cb5afcf9e0c.html#ga6e471ac147fb7f23df3a5cb5afcf9e0c",
-"group___e_c___a_p_i___s_l_v___b_a_s_i_c_ga90cddddab2f5b8e1268327f5a59e8534.html#ga90cddddab2f5b8e1268327f5a59e8534",
-"group___sdo_types_ga3d9d1d266636ff24b16d6191b14f3d43.html#ga3d9d1d266636ff24b16d6191b14f3d43",
-"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a2200f0b7b0aa49a9365ec9b8d3570cb4.html#a2200f0b7b0aa49a9365ec9b8d3570cb4",
-"usergroup0.html"
+"_a_p_i_changes.html",
+"group___ci_a402_ga71ff2833dda905b49ca9c39c422f150e.html#ga71ff2833dda905b49ca9c39c422f150e",
+"group___e_c___a_p_i___s_l_v___b_u_f_f_e_r.html",
+"group___sdo_types_ga4820258d8f272edd0a2b703424876f72.html#ga4820258d8f272edd0a2b703424876f72",
+"struct_e_c___s_l_v___a_p_i___b_a_c_k_e_n_d___s_internal_a5ded16c4049f05ba2cbe63c38a38f98d.html#a5ded16c4049f05ba2cbe63c38a38f98d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
