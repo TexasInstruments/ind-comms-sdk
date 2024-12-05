@@ -32,7 +32,7 @@
     "Rate10": true,
     "Rate100": true,
     "Rate1000": false,
-    "DuplexHalf": true,
+    "DuplexHalf": false,
     "DuplexFull": true,
     "RateSetSwitch": false,
     "RateSetSoftware": true,

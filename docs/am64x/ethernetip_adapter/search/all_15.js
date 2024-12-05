@@ -42,7 +42,7 @@ var searchData=
   ['release_20version_203_2007_2004_39',['Release Version 3.07.04',['../eip_releasenotes.html#eip_version_release30704',1,'']]],
   ['release_20version_203_2007_2005_40',['Release Version 3.07.05',['../eip_releasenotes.html#eip_version_release30705',1,'']]],
   ['release_20version_203_2007_2006_41',['Release Version 3.07.06',['../eip_releasenotes.html#eip_version_release30706',1,'']]],
-  ['release_20version_203_2008_2000_42',['Release Version 3.08.00',['../eip_releasenotes.html#eip_version_release30800',1,'']]],
+  ['release_20version_203_2007_2007_42',['Release Version 3.07.07',['../eip_releasenotes.html#eip_version_releaselatest',1,'']]],
   ['remotehandle_43',['remoteHandle',['../struct_a_p_p___s_instance_acd09382f8c208182642ad8e55915387c.html#acd09382f8c208182642ad8e55915387c',1,'APP_SInstance']]],
   ['reserved_44',['reserved',['../struct_e_i___a_p_i___a_d_p___s_mcast_config_acb7bc06bed6f6408d719334fc41698c7.html#acb7bc06bed6f6408d719334fc41698c7',1,'EI_API_ADP_SMcastConfig::reserved'],['../struct_e_i_p___s_configuration_control__t_aa43c4c21b173ada1b6b7568956f0d650.html#aa43c4c21b173ada1b6b7568956f0d650',1,'EIP_SConfigurationControl_t::reserved']]],
   ['results_45',['EtherNet/IP QuickConnect Measurement Results',['../eip_datasheet.html#eip_quickconnect_results',1,'']]],

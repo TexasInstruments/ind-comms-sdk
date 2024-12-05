@@ -3,7 +3,7 @@
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
  * @cliArgs --device "AM263Px" --part "AM263P4" --package "ZCZ_C" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM263Px@10.00.00"
  * @v2CliArgs --device "AM263P4-Q1" --package "NFBGA (ZCZ-C)" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM263Px@10.00.00"
- * @versions {"tool":"1.21.999+180"}
+ * @versions {"tool":"1.21.0+3721"}
  */
 
 /**
@@ -110,7 +110,6 @@ ethernetip1.icss_emac[0].$name                 = "CONFIG_ICSS_EMAC0";
 ethernetip1.icss_emac[0].instance              = scripting.forceWrite("ICSSM0");
 ethernetip1.icss_emac[0].mode                  = scripting.forceWrite("SWITCH");
 ethernetip1.icss_emac[0].phyToMacInterfaceMode = scripting.forceWrite("MII");
-ethernetip1.icss_emac[0].halfDuplexEnable      = true;
 ethernetip1.icss_emac[0].learningEnable        = true;
 ethernetip1.ethphy1[0].$name                   = "CONFIG_ETHPHY0";
 ethernetip1.ethphy1[0].mdioInstance            = scripting.forceWrite("ICSSM0");

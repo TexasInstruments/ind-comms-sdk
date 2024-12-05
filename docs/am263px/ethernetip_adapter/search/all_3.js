@@ -15,5 +15,5 @@ var searchData=
   ['3_2007_2004_12',['Release Version 3.07.04',['../eip_releasenotes.html#eip_version_release30704',1,'']]],
   ['3_2007_2005_13',['Release Version 3.07.05',['../eip_releasenotes.html#eip_version_release30705',1,'']]],
   ['3_2007_2006_14',['Release Version 3.07.06',['../eip_releasenotes.html#eip_version_release30706',1,'']]],
-  ['3_2008_2000_15',['Release Version 3.08.00',['../eip_releasenotes.html#eip_version_release30800',1,'']]]
+  ['3_2008_2000_15',['Release Version 3.08.00',['../eip_releasenotes.html#eip_version_releaselatest',1,'']]]
 ];
