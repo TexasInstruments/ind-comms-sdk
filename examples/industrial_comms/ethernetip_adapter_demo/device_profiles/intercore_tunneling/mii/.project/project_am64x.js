@@ -50,7 +50,7 @@ const filedirs = {
         "../../../../../../board/am64x-evm/freertos/drivers/flash",
         "../../../../../../board/am64x-evm/freertos/drivers/pru_icss",
         "../../../../../../device_profiles",
-        "../../../../../../device_profiles/generic_device_intercore_tunneling",
+        "../../../../../../device_profiles/intercore_tunneling",
         "../../../../../../../custom_phy/src",
         "../../../../../../os/freertos",
     ],
@@ -79,7 +79,7 @@ const includes_freertos_r5f = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device_intercore_tunneling",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles/intercore_tunneling",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/os/freertos",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack",
@@ -103,11 +103,11 @@ const libs_freertos_r5f = {
         "lwip-contrib-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "icss_emac.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "icss_timesync.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "ethernetip_adapter_rgmii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
+        "ethernetip_adapter_mii_icss_fwhal.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "ethernetip_adapter_lwip-ic-contrib.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "ethernetip_adapter_lwip-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
         "ethernetip_adapter_lwipif-ic-freertos.am64x.r5f.ti-arm-clang.${ConfigName}.lib",
-        "ethernetipadapter_rgmii.am64x.r5f.ti-arm-clang.release.lib",
+        "ethernetipadapter_mii.am64x.r5f.ti-arm-clang.release.lib",
     ],
 };
 
@@ -160,7 +160,7 @@ function getComponentProperty() {
 
     property.dirPath = path.resolve(__dirname, "..");
     property.type = "executable";
-    property.name = "ethernetip_adapter_generic_device_rgmii_tunneling_demo";
+    property.name = "ethernetip_adapter_generic_device_mii_tunneling_demo";
     property.isInternal = false;
     property.buildOptionCombos = buildOptionCombos;
 

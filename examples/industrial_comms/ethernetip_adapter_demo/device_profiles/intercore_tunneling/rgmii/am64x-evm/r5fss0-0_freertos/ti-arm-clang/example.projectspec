@@ -39,7 +39,7 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device_intercore_tunneling
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/device_profiles/intercore_tunneling
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethernetip_adapter_demo/os/freertos
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethernetip_adapter/stack
@@ -143,7 +143,7 @@
             "
         ></configuration>
         <pathVariable name="INDUSTRIAL_COMMUNICATIONS_SDK_PATH" path="${COM_TI_INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/app_tunneling.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/app_tunneling.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../appNV.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
@@ -153,7 +153,7 @@
         </file>
         <file path="../../../../../../appRst.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/appTask_tunneling.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/appTask_tunneling.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../appUart.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
@@ -189,21 +189,21 @@
         </file>
         <file path="../../../../../../device_profiles/app_device_profile.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/app_generic_device.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/app_generic_device.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/app_generic_device_cfg.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/app_generic_device_cfg.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/app_control.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/app_control.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/ti_ic_open_close.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/ti_ic_open_close.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/netif_common.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/netif_common.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/app_netif.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/app_netif.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/app_tcpserver.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/app_tcpserver.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../../device_profiles/generic_device_intercore_tunneling/udp_iperf.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../../device_profiles/intercore_tunneling/udp_iperf.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../example.syscfg" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

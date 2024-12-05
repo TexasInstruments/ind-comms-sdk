@@ -24,6 +24,6 @@ This example is an \subpage EXAMPLES_INDUSTRIAL_COMMS_ETHERNETIP_ADAPTER_TUNNELI
  ICSSG          | ICSSG1
  Toolchain      | ti-arm-clang
  Board          | @VAR_BOARD_NAME_LOWER
- Example folder | examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device_intercore_tunneling
+ Example folder | examples/industrial_comms/ethernetip_adapter_demo/device_profiles/intercore_tunneling
 
 \endcond
