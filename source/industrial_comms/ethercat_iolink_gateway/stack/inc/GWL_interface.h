@@ -5,16 +5,12 @@
  *  service functions of Gateway-Layer for EcSlaveIntegration-Layer and IOLMIntegration-Layer
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2022 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined PROTECT_GWLINTERFACE_H)
@@ -127,9 +123,9 @@ typedef struct GWL_SEcatSlaveIdent
     /**! \brief product string of EtherCAT slave */
     char     nameStr[EIL_CONFIG_MAX_ECAT_PNAME];
     /**! \brief HW version string of EtherCAT slave */
-    char     hwVersion[EIL_CONFIG_MAX_ECAT_VERSION];     
+    char     hwVersion[EIL_CONFIG_MAX_ECAT_VERSION];
     /**! \brief SW version string of EtherCAT slave */
-    char     swVersion[EIL_CONFIG_MAX_ECAT_VERSION];      
+    char     swVersion[EIL_CONFIG_MAX_ECAT_VERSION];
 } GWL_SEcatSlaveIdent_t;
 
 extern GW_ECIOL_ERRORCODE GWL_getEcatIdentification(GWL_SEcatSlaveIdent_t* const psEcatIdent_p);
@@ -147,11 +143,11 @@ typedef struct GWL_SIolmIdent
     /**< \brief see IOL-Interface-Spec_10002_V113_Jun19.pdf E.2 MasterIdent */
     uint16_t vendorID;    /**< \brief Big endian. */
     uint32_t masterID;    /**< \brief Big endian. */
-    uint8_t  masterType;                  
-    uint8_t  features_1;                  
-    uint8_t  features_2;                  
-    uint8_t  maxNumberOfPorts;            
-    uint8_t  portTypes[GW_MAX_IOLPORTS];  
+    uint8_t  masterType;
+    uint8_t  features_1;
+    uint8_t  features_2;
+    uint8_t  maxNumberOfPorts;
+    uint8_t  portTypes[GW_MAX_IOLPORTS];
 } GWL_SIolmIdent_t;
 
 extern GW_ECIOL_ERRORCODE GWL_getExpIolmIdentification( GWL_SIolmIdent_t* const psExpectedData_p);
@@ -163,7 +159,7 @@ extern GW_ECIOL_ERRORCODE GWL_getCurIolmIdentification( GWL_SIolmIdent_t* const 
  *
  *  \brief
  *  typedef struct of current configuration data
- * 
+ *
  * */
 typedef struct GWL_sCurPortConfig
 {
@@ -174,7 +170,7 @@ typedef struct GWL_sCurPortConfig
     uint8_t  masterCycleTime;   /**! \brief 0x9nn0:34 8Bit,   CPC Data - SMI_PortConfiguration */
     uint8_t  offsetTime;        /**! \brief 0x9nn0:35 8Bit,   0==not supported */
     uint8_t  inputDataLength;   /**! \brief 0x9nn0:36 8 Bit,  CPC Data - for check */
-    uint8_t  outputDataLength;  /**! \brief 0x9nn0:37 8Bit,   CPC Data - for check */                                      
+    uint8_t  outputDataLength;  /**! \brief 0x9nn0:37 8Bit,   CPC Data - for check */
     bool     validPDout;        /**! \brief for EtherCAT Operational state true, otherwise false */
     uint8_t  lostFrames;        /**! \brief 0xAnn0:02 8Bit,   0==not supported */
     uint8_t  portStatusInfo;    /**! \brief mode of port, described in enum IOLM_SMI_EPortStatus */
@@ -191,7 +187,7 @@ extern GW_ECIOL_ERRORCODE GWL_getCurPortStatus(const uint8_t portNr_p, GWL_sCurP
  *
  *  \brief
  *  typedef struct of expected configuration data
- * 
+ *
  * */
 typedef struct GWL_sExpPortConfig
 {
@@ -239,7 +235,7 @@ extern GW_ECIOL_ERRORCODE GWL_getExpPortConfiguration(
  *
  *  \brief
  *  typedef struct of access data Pin2 (IQ) and Pin4 (CQ)
- * 
+ *
  * */
 typedef struct GWL_sPinAccess
 {
@@ -323,7 +319,7 @@ typedef struct GWL_SControl
     /**! \brief highest gateway task priority */
     uint8_t      highestPriority;
     /**! \brief EtherCAT PRU instance */
-    uint8_t      ecatPRUInstance;                        
+    uint8_t      ecatPRUInstance;
     /**! \brief IOLink Master PRU instance */
     uint8_t      iolmPRUInstance;
 } GWL_SControl_t;

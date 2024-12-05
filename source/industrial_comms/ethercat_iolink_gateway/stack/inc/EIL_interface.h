@@ -4,22 +4,19 @@
  *  \brief
  *  EtherCAT integration layer (EIL) public interface.
  *
- *  \details
- *
- *  State may change several times per one cycle of upper layer. Hence the event
- *  concept is recommended to catch the important state changes.
- *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
+ */
+
+/*!
+ *  \details
+ *  State may change several times per one cycle of upper layer. Hence the event
+ *  concept is recommended to catch the important state changes.
  */
 
 #if !(defined PROTECT_EILINTERFACE_H)
@@ -122,13 +119,13 @@ typedef enum EIL_EErrorcode {
  *
  * */
 typedef void(* EIL_CBNotify_t)(
-    const uint8_t eventSource_p,    
-    const uint8_t eventQualifier_p, 
-    const uint16_t eventCode_p);   
+    const uint8_t eventSource_p,
+    const uint8_t eventQualifier_p,
+    const uint16_t eventCode_p);
 
 // max length of EtherCAT product name
 #define EIL_CONFIG_MAX_ECAT_PNAME    64U
-// max length of EtherCAT version 
+// max length of EtherCAT version
 #define EIL_CONFIG_MAX_ECAT_VERSION  10U
 
 /*! EtherCAT identification data */

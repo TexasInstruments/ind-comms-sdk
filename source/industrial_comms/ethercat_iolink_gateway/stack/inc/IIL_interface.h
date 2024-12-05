@@ -5,16 +5,12 @@
  *  service functions to abstract IOLink Master communication
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: LicenseRef-Kunbus
- *
- *  Copyright (c) 2024 KUNBUS GmbH
+ *  Copyright (C) 2022 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
  *  All rights reserved.
- *
- *
  */
 
 #if !(defined PROTECT_IILINTERFACE_H)
@@ -99,52 +95,52 @@ extern GW_ECIOL_ERRORCODE IIL_getMasterIdent(
     const IIL_CALLBACK_t      cbSMICallback_p);
 
 extern GW_ECIOL_ERRORCODE IIL_getStatus(
-    const uint8_t                portNr_p, 
-    IIL_SPortStatusList_t* const psStatusList_p, 
+    const uint8_t                portNr_p,
+    IIL_SPortStatusList_t* const psStatusList_p,
     const IIL_CALLBACK_t         cbSMICallback_p);
 
 extern GW_ECIOL_ERRORCODE IIL_readIODD(
-    const uint8_t        portNr_p, 
-    const uint16_t       index_p, 
-    const uint8_t        subindex_p, 
+    const uint8_t        portNr_p,
+    const uint16_t       index_p,
+    const uint8_t        subindex_p,
     uint8_t*       const pResultBuffer_p,
-    uint16_t*      const pLength_p, 
+    uint16_t*      const pLength_p,
     const IIL_CALLBACK_t cbSMICallback_p);
 
 extern GW_ECIOL_ERRORCODE IIL_writeIODD(
-    const uint8_t        portNr_p, 
+    const uint8_t        portNr_p,
     const uint16_t       index_p,
-    const uint8_t        subindex_p, 
+    const uint8_t        subindex_p,
     const uint8_t* const pResultBuffer_p,
-    const uint8_t        length_p, 
+    const uint8_t        length_p,
     const IIL_CALLBACK_t cbSMICallback_p);
 
 extern GW_ECIOL_ERRORCODE IIL_readCyclic(
-    const uint8_t        portNr_p, 
-    uint8_t*       const pResultBuffer_p, 
-    uint16_t*      const pLength_p, 
+    const uint8_t        portNr_p,
+    uint8_t*       const pResultBuffer_p,
+    uint16_t*      const pLength_p,
     const IIL_CALLBACK_t cbSMICallback_p);
 
 extern GW_ECIOL_ERRORCODE IIL_writeCyclic(
-    const uint8_t        portNr_p, 
-    const uint8_t        valid_p, 
-    const uint8_t* const pResultBuffer_p, 
-    const uint16_t       length_p, 
+    const uint8_t        portNr_p,
+    const uint8_t        valid_p,
+    const uint8_t* const pResultBuffer_p,
+    const uint16_t       length_p,
     const IIL_CALLBACK_t cbSMICallback_p);
 
 extern GW_ECIOL_ERRORCODE IIL_readIQ(
-    const uint8_t        portNr_p, 
-    uint8_t*       const pResultBuffer_p, 
-    uint16_t*      const pLength_p, 
+    const uint8_t        portNr_p,
+    uint8_t*       const pResultBuffer_p,
+    uint16_t*      const pLength_p,
     const IIL_CALLBACK_t cbSMICallback_p);
 
 extern GW_ECIOL_ERRORCODE IIL_setPortConfiguration(
-    const uint8_t                      portNr_p, 
+    const uint8_t                      portNr_p,
     const IIL_SPortConfigList_t* const psConfigList_p,
     const IIL_CALLBACK_t               cbSMICallback_p);
 
 extern GW_ECIOL_ERRORCODE IIL_getPortConfiguration(
-    const uint8_t                portNr_p, 
+    const uint8_t                portNr_p,
     IIL_SPortConfigList_t* const psConfigList_p,
     const IIL_CALLBACK_t         cbSMICallback_p);
 

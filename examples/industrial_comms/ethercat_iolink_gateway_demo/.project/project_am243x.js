@@ -136,7 +136,7 @@ const libs_freertos_r5f_evm = {
         "ethercat_iolink_gateway.am243x_evm.r5f.ti-arm-clang.release.lib",
         "iolink_master.am243x_evm.r5f.ti-arm-clang.release.lib",
         "littlefs.am243x_evm.r5f.ti-arm-clang.release.lib",
-        
+
     
     ],
 };

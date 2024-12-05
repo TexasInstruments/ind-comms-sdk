@@ -1,7 +1,7 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM243x_ALX_beta" --package "ALX" --part "ALX" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@09.02.00"
+ * @cliArgs --device "AM243x_ALX_beta" --package "ALX" --part "ALX" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM243x@09.02.00"
  * @versions {"tool":"1.20.0+3587"}
  */
 
@@ -71,6 +71,7 @@ const gpio33          = gpio.addInstance();
 const gpio34          = gpio.addInstance();
 const gpio35          = gpio.addInstance();
 const gpio36          = gpio.addInstance();
+const gpio37          = gpio.addInstance();
 const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1            = i2c.addInstance();
 const i2c2            = i2c.addInstance();
@@ -346,6 +347,10 @@ gpio36.pinDir          = "OUTPUT";
 led21.peripheralDriver = gpio36;
 gpio36.GPIO_n.$assign  = "PRG1_PRU1_GPO18";
 
+gpio37.$name          = "CONFIG_IOL_DI_NLD";
+gpio37.pinDir         = "OUTPUT";
+gpio37.GPIO_n.$assign = "PRG0_PRU0_GPO8";
+
 i2c1.$name               = "CONFIG_I2C0";
 led17.peripheralDriver   = i2c1;
 eeprom1.peripheralDriver = i2c1;
@@ -376,10 +381,15 @@ i2c2.I2C.SCL.$assign   = "I2C1_SCL";
 i2c2.I2C.SDA.$assign   = "I2C1_SDA";
 i2c2.I2C_child.$name   = "drivers_i2c_v0_i2c_v0_template2";
 
-mcspi1.$name                 = "CONFIG_MCSPI_IOL";
-mcspi1.intrEnable            = "POLLED";
-mcspi1.mcspiChannel[0].$name = "CONFIG_MCSPI_CH0";
-mcspi1.child.$name           = "drivers_mcspi_v0_mcspi_v0_template0";
+mcspi1.$name                       = "CONFIG_MCSPI_IOL";
+mcspi1.intrEnable                  = "POLLED";
+mcspi1.mode                        = "MULTI_CONTROLLER";
+mcspi1.SPI.CLK.$assign             = "SPI0_CLK";
+mcspi1.SPI.D0.$used                = false;
+mcspi1.SPI.D1.$assign              = "SPI0_D1";
+mcspi1.child.$name                 = "drivers_mcspi_v0_mcspi_v0_template0";
+mcspi1.mcspiChannel[0].$name       = "CONFIG_MCSPI_CH0";
+mcspi1.mcspiChannel[0].CSn.$assign = "SPI0_CS1";
 
 pruicss1.$name                           = "CONFIG_PRU_ICSS0";
 pruicss1.AdditionalICSSSettings[0].$name = "CONFIG_PRU_ICSS_IO0";
@@ -393,7 +403,9 @@ uart1.UART.$assign     = "USART0";
 uart1.UART.RXD.$assign = "UART0_RXD";
 uart1.UART.TXD.$assign = "UART0_TXD";
 
-uart2.$name = "CONFIG_UART_CONSOLE";
+uart2.$name            = "CONFIG_UART_CONSOLE";
+uart2.UART.RXD.$assign = "UART1_RXD";
+uart2.UART.TXD.$assign = "UART1_TXD";
 
 const uart_v0_template  = scripting.addModule("/drivers/uart/v0/uart_v0_template", {}, false);
 const uart_v0_template1 = uart_v0_template.addInstance({}, false);
@@ -624,14 +636,8 @@ flash1.peripheralDriver.OSPI.D3.$suggestSolution             = "OSPI0_D3";
 flash1.peripheralDriver.OSPI.D2.$suggestSolution             = "OSPI0_D2";
 flash1.peripheralDriver.OSPI.D1.$suggestSolution             = "OSPI0_D1";
 flash1.peripheralDriver.OSPI.D0.$suggestSolution             = "OSPI0_D0";
-mcspi1.SPI.$suggestSolution                                  = "SPI4";
-mcspi1.SPI.CLK.$suggestSolution                              = "UART0_CTSn";
-mcspi1.SPI.D0.$suggestSolution                               = "UART0_RTSn";
-mcspi1.SPI.D1.$suggestSolution                               = "UART1_CTSn";
-mcspi1.mcspiChannel[0].CSn.$suggestSolution                  = "UART1_RTSn";
+mcspi1.SPI.$suggestSolution                                  = "SPI0";
 uart2.UART.$suggestSolution                                  = "USART1";
-uart2.UART.RXD.$suggestSolution                              = "UART1_RXD";
-uart2.UART.TXD.$suggestSolution                              = "UART1_TXD";
 ethercat1.PRU_ICSSG1_MDIO.$suggestSolution                   = "PRU_ICSSG1_MDIO0";
 ethercat1.PRU_ICSSG1_MDIO.MDC.$suggestSolution               = "PRG1_MDIO0_MDC";
 ethercat1.PRU_ICSSG1_MDIO.MDIO.$suggestSolution              = "PRG1_MDIO0_MDIO";

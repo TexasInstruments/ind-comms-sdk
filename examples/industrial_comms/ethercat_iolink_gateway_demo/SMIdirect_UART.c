@@ -5,39 +5,38 @@
  *  interface to a IOLink SMI GUI connected with UART
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 KUNBUS GmbH.
+ *  Copyright (C) 2022 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdint.h>
@@ -48,7 +47,7 @@
 #include <ti_drivers_open_close.h>
 
 #include <IOL_Serial.h>
-#include <gw_api_interface.h>  
+#include <gw_api_interface.h>
 
 #include "SMIdirect_UART.h"
 
@@ -78,7 +77,7 @@ static StackType_t smiDirectUartTaskStack_s[SMIDIRECT_UART_TASK_STACKSIZE] __att
  *  <!-- Parameters and return values: -->
  *
  *  \param[in]  handle          Handle for UART instance (not used)
- *  \param[in]  transaction     Pointer to UART transaction 
+ *  \param[in]  transaction     Pointer to UART transaction
  *
  * */
 void vUartRxCallback(UART_Handle handle, UART_Transaction *transaction)
@@ -184,7 +183,7 @@ void OSAL_FUNC_NORETURN SMIdirect_UARTtask(void* pArg_p)
             // prepare receiving next message (next header or command data expected)
             if (SMIdirect_UART_sTransData_g.headerActive && (SMIdirect_UART_sTransData_g.currentRxCount >= sizeof(IOLM_SMI_SHeader)))
             {
-                // a header is completely received ==> next receive are the command data 
+                // a header is completely received ==> next receive are the command data
                 IOLM_SMI_SHeader* pHead = (IOLM_SMI_SHeader*)SMIdirect_UART_sTransData_g.aSerialDataRx;
                 SMIdirect_UART_sTransData_g.headerActive = false;
                 SMIdirect_UART_sTransData_g.expectRxCount = pHead->u16ArgBlockLength;
@@ -208,9 +207,7 @@ void OSAL_FUNC_NORETURN SMIdirect_UARTtask(void* pArg_p)
             UART_read(SMIdirect_UART_sTransData_g.uartHandle, &SMIdirect_UART_sTransData_g.rxTransaction);
 
             // trigger IOL_Serial to process received data
-            OSAL_MTX_get(SMIdirect_UART_pMutexHandle_g, OSAL_WAIT_INFINITE, NULL);
             IOL_Serial_vRxProcessing(&SMIdirect_UART_sTransData_g.iolSerial);
-            OSAL_MTX_release(SMIdirect_UART_pMutexHandle_g);
         }
 
         // wait for a new receive or transmit signal, or a timeout
@@ -232,7 +229,7 @@ void OSAL_FUNC_NORETURN SMIdirect_UARTtask(void* pArg_p)
  * */
 void SMIdirect_UART_RecvCB(IOLM_SMI_SHeader* pGenericHeader_p, uint8_t* pGenericData_p)
 {
-    // change clientId from assigned one to command expected clientId 
+    // change clientId from assigned one to command expected clientId
     pGenericHeader_p->u8ClientId = SMIdirect_UART_saveCommandClientId_g;
 
     // a generic SMI resonse from IOLink Master is received
@@ -276,9 +273,9 @@ void SMIdirect_UART_SendCB(IOLM_SMI_SHeader* pHeader_p, INT8U* pArgBlock_p)
  *
  *  \return  OSAL_MTXCTRLBLK_alloc     mutex create error
  *           GW_API_eSMIDIRECT_NOEVT   event create error
- *           GW_API_eSMIDIRECT_NOUART  no UART driver found   
- *           GW_API_eSMIDIRECT_TASK    task create error   
- *           GW_API_eNOCLIENTID        no clientId assigned        
+ *           GW_API_eSMIDIRECT_NOUART  no UART driver found
+ *           GW_API_eSMIDIRECT_TASK    task create error
+ *           GW_API_eNOCLIENTID        no clientId assigned
  *
  * */
 GW_API_EErrorcode_t SMIdirect_UART_stop(void)
@@ -300,9 +297,9 @@ GW_API_EErrorcode_t SMIdirect_UART_stop(void)
  *
  *  \return  OSAL_MTXCTRLBLK_alloc     mutex create error
  *           GW_API_eSMIDIRECT_NOEVT   event create error
- *           GW_API_eSMIDIRECT_NOUART  no UART driver found   
- *           GW_API_eSMIDIRECT_TASK    task create error   
- *           GW_API_eNOCLIENTID        no clientId assigned        
+ *           GW_API_eSMIDIRECT_NOUART  no UART driver found
+ *           GW_API_eSMIDIRECT_TASK    task create error
+ *           GW_API_eNOCLIENTID        no clientId assigned
  *
  * */
 GW_API_EErrorcode_t SMIdirect_UART_start(void)
@@ -340,7 +337,7 @@ GW_API_EErrorcode_t SMIdirect_UART_start(void)
 
     // store driver handle for used UART (defined in sysconfig)
     SMIdirect_UART_sTransData_g.uartHandle = gUartHandle[CONFIG_UART_SMI];
-    if (NULL == SMIdirect_UART_sTransData_g.uartHandle) 
+    if (NULL == SMIdirect_UART_sTransData_g.uartHandle)
     {
         errorCode = GW_API_eSMIDIRECT_NOUART;
         // @cppcheck_justify{misra-c2012-15.1} use goto Exit for single point of return
@@ -383,4 +380,3 @@ GW_API_EErrorcode_t SMIdirect_UART_start(void)
 laError:
     return errorCode;
 }
-

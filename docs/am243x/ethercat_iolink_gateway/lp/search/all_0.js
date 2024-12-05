@@ -12,5 +12,7 @@ var searchData=
   ['02_2001_9',['Release Version 3.02.01',['../releasenotes.html#version_release_030201',1,'']]],
   ['02_2002_10',['Release Version 3.02.02',['../releasenotes.html#version_release_030202',1,'']]],
   ['02_2003_11',['Release Version 3.02.03',['../releasenotes.html#version_release_030203',1,'']]],
-  ['03_12',['Release Version 3.02.03',['../releasenotes.html#version_release_030203',1,'']]]
+  ['02_2004_12',['Release Version 3.02.04',['../releasenotes.html#version_release_030204',1,'']]],
+  ['03_13',['Release Version 3.02.03',['../releasenotes.html#version_release_030203',1,'']]],
+  ['04_14',['Release Version 3.02.04',['../releasenotes.html#version_release_030204',1,'']]]
 ];

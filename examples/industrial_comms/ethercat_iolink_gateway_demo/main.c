@@ -5,39 +5,38 @@
  *  Main function of the Gateway Application.
  *
  *  \author
- *  KUNBUS GmbH
+ *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (c) 2022, KUNBUS GmbH<br /><br />
- *  SPDX-License-Identifier: BSD-3-Clause
- *
- *  Copyright (c) 2024 KUNBUS GmbH.
+ *  Copyright (C) 2022 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- *  <ol>
- *  <li>Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer./<li>
- *  <li>Redistributions in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.</li>
- *  <li>Neither the name of the copyright holder nor the names of its contributors
- *  may be used to endorse or promote products derived from this software without
- *  specific prior written permission.</li>
- *  </ol>
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- *  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- *  SUCH DAMAGE.
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <osal.h>              /* Operating system layer */
@@ -62,7 +61,7 @@
 #define MAIN_TASK_STACKSIZE             (0x2000U / sizeof(configSTACK_DEPTH_TYPE))
 static StackType_t mainTaskStack_s[MAIN_TASK_STACKSIZE] __attribute__((aligned(32), section (".threadstack"))) = {0};
 
-/* Use a proper memory offest in accordance with memory pages for a given flash memory 
+/* Use a proper memory offest in accordance with memory pages for a given flash memory
  * Don't use the same offset and the memory area for the EtherCAT slave EEPROM.
  */
 #define NVRAM_BASE_ADR 0x400000U
@@ -85,59 +84,59 @@ static StackType_t mainTaskStack_s[MAIN_TASK_STACKSIZE] __attribute__((aligned(3
 #define IOL_REVISIONID_UNDEF        0x00
 #define IOL_CYCLE_TIME_UNDEF        0x00
 
-// vendorID, deviceID, revisionID, inputDataLength, outputDataLength, serialNumber, portCycleTime, 
+// vendorID, deviceID, revisionID, inputDataLength, outputDataLength, serialNumber, portCycleTime,
 // iqBehavior, validation, masterControl
 const GW_API_SPortExpConfig_t IOL_sFixedConfiguration_g[IOLM_USEDPORTS] = {
 // Port 1
-[0] = { IOL_VENDOR_BALLUFF, IOL_DEVICE_BALLUFFSMARTLED, IOL_REVISIONID_UNDEF, 
+[0] = { IOL_VENDOR_BALLUFF, IOL_DEVICE_BALLUFFSMARTLED, IOL_REVISIONID_UNDEF,
     0, 1, "", IOL_CYCLE_TIME_UNDEF,
-    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
     GW_API_MASTERCONTROL_IOLINKPROT | GW_API_MASTERCONTROL_ACTIVE},
-// Port 2  
-[1] = { IOL_VENDOR_AUTOSEN, IOL_DEVICE_AUTOSENAI402, IOL_REVISIONID_UNDEF, 
-    2, 0, "000010593315", IOL_CYCLE_TIME_UNDEF, 
-    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+// Port 2
+[1] = { IOL_VENDOR_AUTOSEN, IOL_DEVICE_AUTOSENAI402, IOL_REVISIONID_UNDEF,
+    2, 0, "000010593315", IOL_CYCLE_TIME_UNDEF,
+    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
     GW_API_MASTERCONTROL_IOLINKPROT | GW_API_MASTERCONTROL_ACTIVE},
 // Port 3
-[2] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF, 
+[2] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF,
     0, 0, "", IOL_CYCLE_TIME_UNDEF,
-    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
     GW_API_MASTERCONTROL_IOLINKPROT | GW_API_MASTERCONTROL_ACTIVE},
 // Port 4
-[3] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF, 
+[3] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF,
     0, 0, "", IOL_CYCLE_TIME_UNDEF,
-    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
     GW_API_MASTERCONTROL_IOLINKPROT | GW_API_MASTERCONTROL_ACTIVE},
 // Port 5
-[4] = { IOL_VENDOR_AUTOSEN, IOL_DEVICE_AUTOSENAI402, IOL_REVISIONID_UNDEF, 
+[4] = { IOL_VENDOR_AUTOSEN, IOL_DEVICE_AUTOSENAI402, IOL_REVISIONID_UNDEF,
     2, 0, "000010593533", IOL_CYCLE_TIME_UNDEF,
-    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
     GW_API_MASTERCONTROL_IOLINKPROT | GW_API_MASTERCONTROL_ACTIVE},
 // Port 6
-[5] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF, 
+[5] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF,
     0, 0, "", IOL_CYCLE_TIME_UNDEF,
-    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
     GW_API_MASTERCONTROL_IOLINKPROT | GW_API_MASTERCONTROL_ACTIVE},
 // Port 7
-[6] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF, 
+[6] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF,
     0, 0, "", IOL_CYCLE_TIME_UNDEF,
-    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
     GW_API_MASTERCONTROL_IOLINKPROT | GW_API_MASTERCONTROL_ACTIVE},
 // Port 8
-[7] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF, 
+[7] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF,
     0, 0, "", IOL_CYCLE_TIME_UNDEF,
-    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
     GW_API_MASTERCONTROL_IOLINKPROT | GW_API_MASTERCONTROL_ACTIVE},
 
 // example for DI
-//[x] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF, 
-//    1, 0, "", IOL_CYCLE_TIME_UNDEF, 
-//    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+//[x] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF,
+//    1, 0, "", IOL_CYCLE_TIME_UNDEF,
+//    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
 //    GW_API_MASTERCONTROL_DI | GW_API_MASTERCONTROL_ACTIVE},
 // example for DO
-//[x] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF, 
+//[x] = { IOL_VENDOR_UNDEF, IOL_DEVICE_UNDEF, IOL_REVISIONID_UNDEF,
 //    0, 1, "", IOL_CYCLE_TIME_UNDEF,
-//    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE, 
+//    GW_API_IQBEHAVIOR_NOTSUPPORTED, GW_API_VALIDATION_TYPE_NONE,
 //    GW_API_MASTERCONTROL_DO | GW_API_MASTERCONTROL_ACTIVE},
 
 };
@@ -181,7 +180,7 @@ static void OSAL_FUNC_NORETURN MainTask(void* pArg_p)
         //cppcheck-suppress misra-c2012-15.1
         goto laExit;
     }
-    
+
     uint32_t retVal = OSAL_ERR_NoMemory;
     retVal = ESL_OS_printfMutexInit();
     if (OSAL_ERR_NoError != retVal)
@@ -194,7 +193,7 @@ static void OSAL_FUNC_NORETURN MainTask(void* pArg_p)
     OSAL_registerPrintOut(NULL, ESL_OS_printf);
 
     uint32_t version = GW_API_getVersion();
-    OSAL_printf("Application %s version: %d.%d.%d.%d\r\n", "Gateway_EC_IOL API", 
+    OSAL_printf("Application %s version: %d.%d.%d.%d\r\n", "Gateway_EC_IOL API",
                         (version >> 24U) & 0xFFU, (version >> 16U) & 0xFFU,
                         (version >> 8U) & 0xFFU, version & 0xFFU);
 
