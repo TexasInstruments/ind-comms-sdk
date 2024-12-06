@@ -111,10 +111,10 @@ function getSysCfgPart(board) {
 function getDevToolTirex(board) {
     switch (board) {
         case "am64x-sk":
-            return "AM64x_SK_EVM";
+            return "SK-AM64B";
         default:
         case "am64x-evm":
-            return "AM64x_GP_EVM";
+            return "TMDS64EVM";
     }
 }
 
@@ -151,6 +151,11 @@ function getFlashAddr() {
     return 0x60000000;
 }
 
+function getEnableGccBuild() {
+    const IsGccBuildEnabled = 0;
+    return IsGccBuildEnabled;
+}
+
 module.exports = {
     getComponentList,
     getExampleList,
@@ -165,4 +170,5 @@ module.exports = {
     getLinuxFwName,
     getProductNameProjectSpec,
     getFlashAddr,
+    getEnableGccBuild,
 };

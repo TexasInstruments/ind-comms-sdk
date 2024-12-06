@@ -13,11 +13,12 @@
     "name": "INDUSTRIAL_COMMUNICATIONS_SDK_`deviceName`",
     "displayName": "INDUSTRIAL COMMUNICATIONS SDK for `deviceName`",
 % }
-    "version": "10.00.00",
+    "version": "10.00.01",
     "documentationPath": "../docs",
     "includePaths": [
         "../source",
         "../mcu_plus_sdk/source/sysconfig",
+        "../mcu_plus_sdk/source/networking/enet/core/sysconfig",
     ],
     "components": [
 % if((args.device == "am64x") || (args.device == "am243x")) {
@@ -63,6 +64,7 @@
     "/fs/fs",
     "/networking/networking",
     "/security/security",
+        "/usb/usb",
     "/xbar/xbar",
     "/memory_configurator/components",
     "/optiflash/optiflash"
@@ -130,6 +132,9 @@
         }, {
             "name": "a53ss0-0",
             "targetdbId": "a53ss0-0"
+        },{
+            "name": "a53ss0-1",
+            "targetdbId": "a53ss0-1"
         },{
             "name": "icss_g0_pru0",
             "targetdbId": "icss_g0_pru0"

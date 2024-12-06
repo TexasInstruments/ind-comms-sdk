@@ -57,6 +57,7 @@ function getProjectSpecCpu(cpu) {
         "r5fss1-0": "MAIN_PULSAR_Cortex_R5_1_0",
         "r5fss1-1": "MAIN_PULSAR_Cortex_R5_1_1",
         "m4fss0-0": "Cortex_M4F_0",
+        "a53ss0-0": "CortexA53_0",
         "icss_g0_pru0": "ICSS_G0_PRU_0",
         "icss_g0_pru1": "ICSS_G0_PRU_1",
         "icss_g0_rtu_pru0": "ICSS_G0_RTU_PRU_0",
@@ -131,10 +132,10 @@ function getSysCfgPart(board) {
 function getDevToolTirex(board) {
     switch (board) {
         case "am243x-lp":
-            return "AM243x_LAUNCHPAD";
+            return "LP-AM243";
         default:
         case "am243x-evm":
-            return "AM243x_GP_EVM";
+            return "TMDS243EVM";
     }
 }
 
@@ -171,6 +172,11 @@ function getFlashAddr() {
     return 0x60000000;
 }
 
+function getEnableGccBuild() {
+    const IsGccBuildEnabled = 0;
+    return IsGccBuildEnabled;
+}
+
 module.exports = {
     getComponentList,
     getExampleList,
@@ -185,4 +191,5 @@ module.exports = {
     getLinuxFwName,
     getProductNameProjectSpec,
     getFlashAddr,
+    getEnableGccBuild,
 };

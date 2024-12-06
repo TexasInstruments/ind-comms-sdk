@@ -7,7 +7,7 @@
 
 %%}
 /*
- *  Copyright (C) 2018-2021 Texas Instruments Incorporated
+ *  Copyright (C) 2022-23 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -48,7 +48,7 @@
  */
 % if ( exampleType == "input_interrupt" ) {
 /* This is based on DMSC board config and core */
-%if(args.project.board == "am261x-lp") {
+%if((args.project.board == "am261x-lp") || (args.project.board == "am261x-lp")){
 #define BOARD_BUTTON_GPIO_INTR_NUM      (CSLR_R5FSS0_CORE0_INTR_GPIO_INTRXBAR_OUT_14)
 #define BOARD_BUTTON_GPIO_SWITCH_NUM    (4)
 %}
