@@ -142,6 +142,17 @@ New API to get the explicit device ID EC_API_SLV_getExplicitDeviceId. </li>
 <p><b>Bugfixes:</b></p>
 <ul>
 <li>
+[ICSTACK-307] Fix to Cycle Time Too Short Counter increment and Sync Error set at all DC cycle times.<br  />
+ <ul>
+<li>
+Cycle Time Too Short Counter is incremented based on the PDI ISR period. </li>
+<li>
+Macro SUPPORT_TI_ESC_CYCLE_EXCEEDED_COUNTER enables the PDI ISR period measurement. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
 [ICSTACK-197] Returning Error Code from AoE Callback functions will lead to timeout in Master.<br  />
  <ul>
 <li>
