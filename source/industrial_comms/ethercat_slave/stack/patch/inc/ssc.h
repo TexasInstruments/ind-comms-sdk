@@ -343,6 +343,8 @@ extern BKHFSSC_API uint8_t  SSC_DIAG_newMessage                 (uint32_t       
                                                                 ,uint8_t                        numParam_p
                                                                 ,TDIAGMSGPARAMINFO              *pParam_p);
 
+extern BKHFSSC_API void SSC_getLocalSysTime                     (uint32_t*                      pSystimeLow_p
+                                                                ,uint32_t*                      pSystimeHigh_p);
 #if (defined __cplusplus)
 }
 #endif

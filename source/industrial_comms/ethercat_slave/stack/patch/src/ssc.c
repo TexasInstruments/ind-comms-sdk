@@ -15,6 +15,7 @@
 
 #include <ssc.h>
 #include "ssc_backend.h"
+#include <pru.h>
 
 /* Beckhoff */
 #include <applInterface.h>
@@ -1691,6 +1692,27 @@ uint8_t  SSC_DIAG_newMessage(uint32_t                       diagCode_p
                             ,TDIAGMSGPARAMINFO              *pParam_p)
 {
     return Diag_CreateNewMessage(diagCode_p,type_p, textID_p, numParam_p, pParam_p);
+}
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  Get local system time
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  pSystimeLow_p         pointer to System Time low varaible.
+ *  \param[in]  pSystimeHigh_p        pointer to System Time high varaible.
+ *  \return
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup ssc
+ *
+ * */
+void SSC_getLocalSysTime(uint32_t* pSystimeLow_p, uint32_t* pSystimeHigh_p)
+{
+    PRU_LOCSYS_getTime(pSystimeLow_p, pSystimeHigh_p);
 }
 
 //*************************************************************************************************
