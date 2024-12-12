@@ -48,6 +48,8 @@ TaskHandle_t gMainTask;
 
 void ethercat_slave_beckhoff_ssc_demo_main(void *args);
 
+void board_flash_reset(void);
+
 void freertos_main(void *args)
 {
     Drivers_i2cOpen();

@@ -45,6 +45,7 @@
 #include "tiesc_eeprom.h" /* header equivalent of ESI bin file */
 #include <drivers/hw_include/cslr_soc.h>
 #include <board/ioexp/ioexp_tca6424.h>
+#include <board/ioexp/ioexp_tca6416.h>
 /* ========================================================================== */
 /*                           Macros & Typedefs                                */
 /* ========================================================================== */
@@ -73,6 +74,13 @@
 #define IO_EXP_I2C_INSTANCE                     (0x01)
 
 #define MDIO_MDC_MUX_SEL1                       (0x12)
+
+/*Defines for flash reset*/
+#define IO_MUX_OSPI_RST_SEL_PORT_LINE           (0U)      /* PORT 0, PIN 0    -> ioIndex : 0*8 + 0 = 0 */
+
+#define EEPROM_OFFSET_READ_PCB_REV              (0x0022U)
+
+#define EEPROM_READ_PCB_REV_DATA_LEN            (0x2U)
 
 /* ========================================================================== */
 /*                            Global Variables                                */
@@ -392,4 +400,95 @@ void tiesc_ethphyDisablePowerDown()
     /* Disable IEEE Power Down mode so that PHY does not establish any link */
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY0], ETHPHY_CMD_DISABLE_IEEE_POWER_DOWN, NULL, 0);
     ETHPHY_command(gEthPhyHandle[CONFIG_ETHPHY1], ETHPHY_CMD_DISABLE_IEEE_POWER_DOWN, NULL, 0);
+}
+
+int32_t TCA6424_Flash_reset()
+{
+    static TCA6424_Config  gTCA6424_Config;
+    int32_t             status = SystemP_SUCCESS;
+    TCA6424_Params      TCA6424Params;
+    TCA6424_Params_init(&TCA6424Params);
+
+    TCA6424Params.i2cInstance = IO_EXP_I2C_INSTANCE;
+    status = TCA6424_open(&gTCA6424_Config, &TCA6424Params);
+
+    /* Configure as output  */
+    status += TCA6424_config(&gTCA6424_Config,
+                    IO_MUX_OSPI_RST_SEL_PORT_LINE,
+                    TCA6424_MODE_OUTPUT);
+
+    status = TCA6424_setOutput(&gTCA6424_Config,IO_MUX_OSPI_RST_SEL_PORT_LINE,TCA6424_OUT_STATE_LOW);
+
+    status = TCA6424_setOutput(&gTCA6424_Config,IO_MUX_OSPI_RST_SEL_PORT_LINE,TCA6424_OUT_STATE_HIGH);
+
+    if(status != SystemP_SUCCESS)
+    {
+        DebugP_log("Failure to reset the Flash!! %d\r\n");
+        TCA6424_close(&gTCA6424_Config);
+    }
+
+    TCA6424_close(&gTCA6424_Config);
+
+    return status;
+}
+
+
+int32_t TCA6416_Flash_reset()
+{
+    static TCA6416_Config  gTCA6416_Config;
+    int32_t             status = SystemP_SUCCESS;
+    TCA6416_Params      tca6416Params;
+    TCA6416_Params_init(&tca6416Params);
+
+    tca6416Params.i2cInstance = IO_EXP_I2C_INSTANCE;
+    status = TCA6416_open(&gTCA6416_Config, &tca6416Params);
+
+    /* Configure as output  */
+    status += TCA6416_config(&gTCA6416_Config,
+                    IO_MUX_OSPI_RST_SEL_PORT_LINE,
+                    TCA6416_MODE_OUTPUT);
+
+    status = TCA6416_setOutput(&gTCA6416_Config,IO_MUX_OSPI_RST_SEL_PORT_LINE,TCA6416_OUT_STATE_LOW);
+
+    status = TCA6416_setOutput(&gTCA6416_Config,IO_MUX_OSPI_RST_SEL_PORT_LINE,TCA6416_OUT_STATE_HIGH);
+
+    if(status != SystemP_SUCCESS)
+    {
+        DebugP_log("Failure to reset the Flash!! %d\r\n");
+        TCA6416_close(&gTCA6416_Config);
+    }
+
+    TCA6416_close(&gTCA6416_Config);
+
+    return status;
+}
+
+void i2c_flash_reset(void)
+{
+    int32_t status = SystemP_SUCCESS;
+    uint8_t boardVer[2] = "";
+
+    Board_eepromOpen();
+
+    status = EEPROM_read(gEepromHandle[CONFIG_EEPROM0], EEPROM_OFFSET_READ_PCB_REV, boardVer, EEPROM_READ_PCB_REV_DATA_LEN);
+    if(status == SystemP_SUCCESS)
+    {
+        if(boardVer[1] == '2')
+        {
+            /* boardVer is E2 */
+            status = TCA6424_Flash_reset();
+        }
+        else if(boardVer[1] == '1')
+        {
+            /* boardVer is E1 */
+            status = TCA6416_Flash_reset();
+        }
+        else
+        {
+            status = TCA6416_Flash_reset();
+        }
+    }
+
+    DebugP_assert(status == SystemP_SUCCESS);
+    Board_eepromClose();
 }
