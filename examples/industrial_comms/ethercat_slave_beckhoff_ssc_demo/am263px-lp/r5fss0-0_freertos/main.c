@@ -34,6 +34,7 @@
 #include <kernel/dpl/DebugP.h>
 #include "ti_drivers_config.h"
 #include "ti_board_config.h"
+#include "ti_drivers_open_close.h"
 #include "FreeRTOS.h"
 #include "task.h"
 
@@ -49,6 +50,9 @@ void ethercat_slave_beckhoff_ssc_demo_main(void *args);
 
 void freertos_main(void *args)
 {
+    Drivers_i2cOpen();
+    board_flash_reset();
+    Drivers_i2cClose();
     ethercat_slave_beckhoff_ssc_demo_main(NULL);
 
     vTaskDelete(NULL);

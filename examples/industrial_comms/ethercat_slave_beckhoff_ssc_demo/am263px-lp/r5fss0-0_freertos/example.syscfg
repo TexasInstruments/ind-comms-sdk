@@ -1,8 +1,9 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM263Px" --package "ZCZ_C" --part "AM263P4" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM263PX@09.02.00"
- * @versions {"tool":"1.20.0+3587"}
+ * @cliArgs --device "AM263Px" --part "AM263P4" --package "ZCZ_C" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM263Px@10.00.00"
+ * @v2CliArgs --device "AM263P4-Q1" --package "NFBGA (ZCZ-C)" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK_AM263Px@10.00.00"
+ * @versions {"tool":"1.21.1+3772"}
  */
 
 /**
@@ -22,11 +23,13 @@ const gpio1           = gpio.addInstance();
 const gpio2           = gpio.addInstance();
 const gpio3           = gpio.addInstance();
 const gpio4           = gpio.addInstance();
+const gpio5           = gpio.addInstance();
 const i2c             = scripting.addModule("/drivers/i2c/i2c", {}, false);
 const i2c1            = i2c.addInstance();
 const ethercat        = scripting.addModule("/industrial_comms/ethercat/ethercat", {}, false);
 const ethercat1       = ethercat.addInstance();
 const debug_log       = scripting.addModule("/kernel/dpl/debug_log");
+const dpl_cfg         = scripting.addModule("/kernel/dpl/dpl_cfg");
 const mpu_armv7       = scripting.addModule("/kernel/dpl/mpu_armv7", {}, false);
 const mpu_armv71      = mpu_armv7.addInstance();
 const mpu_armv72      = mpu_armv7.addInstance();
@@ -53,7 +56,6 @@ const section9        = section.addInstance();
 const section10       = section.addInstance();
 const section11       = section.addInstance();
 const section12       = section.addInstance();
-const dpl_cfg         = scripting.addModule("/kernel/dpl/dpl_cfg");
 
 /**
  * Write custom configuration values to the imported modules.
@@ -95,29 +97,34 @@ edma1.edmaRmQdmaCh[0].$name = "CONFIG_EDMA_RM1";
 edma1.edmaRmTcc[0].$name    = "CONFIG_EDMA_RM2";
 edma1.edmaRmParam[0].$name  = "CONFIG_EDMA_RM3";
 
-gpio1.$name                = "CONFIG_GPIO0";
-gpio1.pinDir               = "OUTPUT";
-gpio1.GPIO.$assign         = "GPIO";
-gpio1.GPIO.gpioPin.$assign = "PR0_PRU1_GPIO10";
+gpio1.$name          = "CONFIG_GPIO0";
+gpio1.pinDir         = "OUTPUT";
+gpio1.rx             = true;
+gpio1.GPIO_n.$assign = "PR0_PRU1_GPIO10";
 
-gpio2.$name                = "CONFIG_GPIO1";
-gpio2.pinDir               = "OUTPUT";
-gpio2.GPIO.$assign         = "GPIO";
-gpio2.GPIO.gpioPin.$assign = "OSPI0_CSn1";
+gpio2.$name          = "CONFIG_GPIO1";
+gpio2.pinDir         = "OUTPUT";
+gpio2.rx             = true;
+gpio2.GPIO_n.$assign = "OSPI0_CSn1";
 
-gpio3.$name                = "CONFIG_GPIO2";
-gpio3.GPIO.$assign         = "GPIO";
-gpio3.GPIO.gpioPin.$assign = "EPWM7_B";
+gpio3.$name          = "CONFIG_GPIO2";
+gpio3.rx             = true;
+gpio3.GPIO_n.$assign = "EPWM7_B";
 
-gpio4.$name                = "CONFIG_GPIO3";
-led2.peripheralDriver      = gpio4;
-gpio4.GPIO.$assign         = "GPIO";
-gpio4.GPIO.gpioPin.$assign = "UART0_CTSn";
+gpio4.$name           = "CONFIG_GPIO3";
+led2.peripheralDriver = gpio4;
+gpio4.rx              = true;
+gpio4.GPIO_n.$assign  = "UART0_CTSn";
+
+gpio5.$name          = "GPIO_OSPI_RST";
+gpio5.pinDir         = "OUTPUT";
+gpio5.GPIO_n.$assign = "EPWM11_B";
 
 i2c1.$name               = "CONFIG_I2C1";
 eeprom1.peripheralDriver = i2c1;
 led1.peripheralDriver    = i2c1;
 i2c1.I2C.$assign         = "I2C1";
+i2c1.I2C_child.$name     = "drivers_i2c_v1_i2c_v1_template1";
 
 ethercat1.$name                             = "CONFIG_ETHERCAT0";
 ethercat1["PRU-ICSS"].PR0_PRU1_GPIO10.$used = false;
@@ -126,10 +133,11 @@ ethercat1.ethphy[0].mdioPort                = 3;
 ethercat1.ethphy[1].$name                   = "CONFIG_ETHPHY1";
 ethercat1.ethphy[1].mdioPort                = 12;
 
-const pruicss  = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
-const pruicss1 = pruicss.addInstance({}, false);
-pruicss1.$name = "CONFIG_PRU_ICSS0";
-ethercat1.icss = pruicss1;
+const pruicss                            = scripting.addModule("/drivers/pruicss/pruicss", {}, false);
+const pruicss1                           = pruicss.addInstance({}, false);
+pruicss1.$name                           = "CONFIG_PRU_ICSS0";
+ethercat1.icss                           = pruicss1;
+pruicss1.AdditionalICSSSettings[0].$name = "CONFIG_PRU_ICSS_IO1";
 
 debug_log.enableCssLog             = false;
 debug_log.enableUartLog            = true;

@@ -368,3 +368,19 @@ void tiesc_icssmMuxSelection(void)
         GPIO_pinWriteHigh(gGpioBaseAddr, pinNum[index]);
     }
 }
+
+void gpio_flash_reset(void)
+{
+    uint32_t    gpioBaseAddr, pinNum;
+    /* Get address after translation translate */
+    gpioBaseAddr = (uint32_t) AddrTranslateP_getLocalAddr(GPIO_OSPI_RST_BASE_ADDR);
+    pinNum       = GPIO_OSPI_RST_PIN;
+    GPIO_setDirMode(gpioBaseAddr, pinNum, GPIO_OSPI_RST_DIR);
+    GPIO_pinWriteLow(gpioBaseAddr, pinNum);
+    GPIO_pinWriteHigh(gpioBaseAddr, pinNum);
+}
+
+void board_flash_reset(void)
+{
+    gpio_flash_reset();
+}
