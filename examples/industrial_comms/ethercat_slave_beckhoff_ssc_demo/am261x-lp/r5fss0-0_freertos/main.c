@@ -51,6 +51,9 @@ void board_flash_reset(void);
 
 void freertos_main(void *args)
 {
+    Drivers_i2cOpen();
+    board_flash_reset();
+    Drivers_i2cClose();
     ethercat_slave_beckhoff_ssc_demo_main(NULL);
 
     vTaskDelete(NULL);
@@ -62,8 +65,6 @@ int main(void)
     /* init SOC specific modules */
     System_init();
     Board_init();
-
-    board_flash_reset();
 
     /* This task is created at highest priority, it should create more tasks and then delete itself */
     gMainTask = xTaskCreateStatic( freertos_main,   /* Pointer to the function that implements the task. */

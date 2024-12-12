@@ -175,7 +175,7 @@ void tiesc_socParamsInit(bsp_params *bspInitParams)
     bspInitParams->ethphy_init = tiesc_ethphyInit;
     /* For EtherCAT, Fast link detection using MLINK mode is required to support complete functionality */
     /* Check example documentation for more details */
-    bspInitParams->enhancedlink_enable = TIESC_MDIO_RX_LINK_DISABLE;
+    bspInitParams->enhancedlink_enable = TIESC_MDIO_RX_LINK_ENABLE;
     bspInitParams->link0_polarity = TIESC_LINK0_POL;
     bspInitParams->link1_polarity = TIESC_LINK1_POL;
     bspInitParams->phy0_address = ((const ETHPHY_Attrs *)ETHPHY_getAttrs(CONFIG_ETHPHY0))->phyAddress;
@@ -362,6 +362,7 @@ int32_t enableLevelTranslator()
     TCA6408_Params      TCA6408Params;
     TCA6408_Params_init(&TCA6408Params);
     TCA6408Params.i2cAddress  = 0x20U;
+    TCA6408Params.i2cInstance = CONFIG_I2C0;
 
     status = TCA6408_open(&gTCA6408_Config, &TCA6408Params);
 

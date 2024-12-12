@@ -661,31 +661,25 @@ Index: ecat_def.h
  #endif
  
  /** 
-@@ -352,7 +364,11 @@ STATIC_ETHERNET_BUFFER: If this switch is set a static buffer is used to store e
+@@ -352,7 +364,7 @@ STATIC_ETHERNET_BUFFER: If this switch is set a static buffer is used to store e
  /** 
  FOE_SUPPORTED: If the FoE services should be supported, then this switch shall be set.  */
  #ifndef FOE_SUPPORTED
-+#if defined(SOC_AM261X)
- #define FOE_SUPPORTED                             0
-+#else
+-#define FOE_SUPPORTED                             0
 +#define FOE_SUPPORTED                             1
-+#endif
  #endif
  
  /** 
-@@ -369,7 +385,11 @@ MAILBOX_SUPPORTED: This switch is set automatically if at least one mailbox prot
+@@ -369,7 +381,7 @@ MAILBOX_SUPPORTED: This switch is set automatically if at least one mailbox prot
  BOOTSTRAPMODE_SUPPORTED: If the firmware update over FoE services should be supported, then this switch shall be set.<br>
  If this switch is set, then also "FOE_SUPPORTED" shall be set.  */
  #ifndef BOOTSTRAPMODE_SUPPORTED
-+#if defined(SOC_AM261X)
- #define BOOTSTRAPMODE_SUPPORTED                   0
-+#else
+-#define BOOTSTRAPMODE_SUPPORTED                   0
 +#define BOOTSTRAPMODE_SUPPORTED                   1
-+#endif
  #endif
  
  /** 
-@@ -445,25 +465,25 @@ TRUE: Will be used for variables from type BOOL  */
+@@ -445,25 +457,25 @@ TRUE: Will be used for variables from type BOOL  */
  /** 
  BOOL: Should be adapted to the boolean type of the microcontroller */
  #ifndef BOOL
@@ -715,7 +709,7 @@ Index: ecat_def.h
  #endif
  
  /** 
-@@ -475,25 +495,25 @@ UINT64: Should be adapted to the unsigned64 type of the microcontroller  */
+@@ -475,25 +487,25 @@ UINT64: Should be adapted to the unsigned64 type of the microcontroller  */
  /** 
  USHORT: Should be adapted to the unsigned16 type of the microcontroller */
  #ifndef USHORT
@@ -745,7 +739,7 @@ Index: ecat_def.h
  #endif
  
  /** 
-@@ -827,7 +847,7 @@ STRUCT_PACKED_START: Is defined before the typedef struct construct to pack the
+@@ -827,7 +839,7 @@ STRUCT_PACKED_START: Is defined before the typedef struct construct to pack the
  /** 
  STRUCT_PACKED_END: Is defined after the typedef struct {} construct to pack the generic structures if necessary */
  #ifndef STRUCT_PACKED_END
@@ -754,7 +748,7 @@ Index: ecat_def.h
  #endif
  
  /** 
-@@ -839,7 +859,7 @@ MBX_STRUCT_PACKED_START: Is defined before the typedef struct construct to pack
+@@ -839,7 +851,7 @@ MBX_STRUCT_PACKED_START: Is defined before the typedef struct construct to pack
  /** 
  MBX_STRUCT_PACKED_END: Is defined after the typedef struct {} construct to pack the MAILBOX structures if necessary */
  #ifndef MBX_STRUCT_PACKED_END
@@ -763,7 +757,7 @@ Index: ecat_def.h
  #endif
  
  /** 
-@@ -851,7 +871,7 @@ OBJ_STRUCT_PACKED_START: Is defined before the typedef struct construct to pack
+@@ -851,7 +863,7 @@ OBJ_STRUCT_PACKED_START: Is defined before the typedef struct construct to pack
  /** 
  OBJ_STRUCT_PACKED_END: Is defined after the typedef struct {} construct to pack the OBJECT structures if necessary */
  #ifndef OBJ_STRUCT_PACKED_END
@@ -772,7 +766,7 @@ Index: ecat_def.h
  #endif
  
  /** 
-@@ -934,20 +954,46 @@ VENDOR_ID: Object 0x1018 SI1 (Vendor ID)	 <br>
+@@ -934,19 +946,45 @@ VENDOR_ID: Object 0x1018 SI1 (Vendor ID)	 <br>
  An unique EtherCAT Vendor ID is required. Please find all valid Vendor IDs listed at www.ethercat.org/en/vendor_id_list.html.<br>
  If your company is not listed, please assign an ID for free at www.ethercat.org/memberarea/vendor_id.asp */
  #ifndef VENDOR_ID
@@ -809,17 +803,16 @@ Index: ecat_def.h
  REVISION_NUMBER: Object 0x1018 SI3 (EtherCAT product revision number) */
  #ifndef REVISION_NUMBER
 +#if SAMPLE_APPLICATION_INTERFACE && TIESC_HW
-+#define REVISION_NUMBER                           0x00000001
+ #define REVISION_NUMBER                           0x00000001
 +#elif TIESC_APPLICATION
 +#define REVISION_NUMBER                           0x00000011
 +#else
- #define REVISION_NUMBER                           0x00000001
- #endif
++#define REVISION_NUMBER                           0x00000001
 +#endif
+ #endif
  
  /** 
- SERIAL_NUMBER: Object 0x1018 SI4 (EtherCAT product serial number) */
-@@ -1077,7 +1123,7 @@ MAX_PD_OUTPUT_SIZE: Maximum size of the process output data (Sync Manager 2) for
+@@ -1077,7 +1115,7 @@ MAX_PD_OUTPUT_SIZE: Maximum size of the process output data (Sync Manager 2) for
  MIN_PD_CYCLE_TIME: Minimum cycle time in ns the slave is supporting (entry 0x1C3x:05).<br>
  In case that the value is set to 0 the value of 0x1C3x:5 is calculated if 0x1C3x.8 is 1 */
  #ifndef MIN_PD_CYCLE_TIME
@@ -828,7 +821,7 @@ Index: ecat_def.h
  #endif
  
  /** 
-@@ -1164,11 +1210,11 @@ PD_INPUT_DELAY_TIME: Input delay time in ns the slave is supporting (entry 0x1C3
+@@ -1164,11 +1202,11 @@ PD_INPUT_DELAY_TIME: Input delay time in ns the slave is supporting (entry 0x1C3
  #error The PIC18 configuration does not support segmented SDO
  #endif
  
