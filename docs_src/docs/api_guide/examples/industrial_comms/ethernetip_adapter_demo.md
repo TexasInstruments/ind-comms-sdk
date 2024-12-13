@@ -26,6 +26,16 @@ These examples are EtherNet/IP Adapter applications based on evaluation stacks p
 
 \endcond
 
+\cond SOC_AM263PX
+
+- <a href="../am263px/ethernetip_adapter/index.html" target="_blank"> Home Page </a>
+- <a href="../am263px/ethernetip_adapter/eip_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am263px/ethernetip_adapter/eip_releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am263px/ethernetip_adapter/eip_quickstart.html" target="_blank"> Example Quick Start </a>
+- <a href="../am263px/ethernetip_adapter/modules.html" target="_blank"> API Documentation </a>
+
+\endcond
+
 \attention If you need to reload and run the example again, EVM power-cycle is MUST.
 
 # Supported Combinations
@@ -50,6 +60,17 @@ These examples are EtherNet/IP Adapter applications based on evaluation stacks p
  ICSSG          | ICSSG1
  Toolchain      | ti-arm-clang
  Boards         | @VAR_BOARD_NAME_LOWER, @VAR_LP_BOARD_NAME_LOWER (E1/E2 Revision)
+ Example folder | examples/industrial_comms/ethernetip_adapter_demo
+
+\endcond
+
+\cond SOC_AM263PX
+
+ Parameter      | Value
+ ---------------|-----------
+ CPU + OS       | r5fss0-0 freertos
+ Toolchain      | ti-arm-clang
+ Boards         | @VAR_LP_BOARD_NAME_LOWER
  Example folder | examples/industrial_comms/ethernetip_adapter_demo
 
 \endcond

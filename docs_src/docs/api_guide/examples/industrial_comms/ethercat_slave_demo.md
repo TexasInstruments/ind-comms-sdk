@@ -22,6 +22,14 @@ These examples are EtherCAT SubDevice applications based on evaluation stacks pr
 
 \endcond
 
+\cond SOC_AM263PX
+
+- <a href="../am263px/ethercat_slave/example1.html" target="_blank"> EtherCAT SubDevice Simple Demo </a>
+- <a href="../am263px/ethercat_slave/example2.html" target="_blank"> EtherCAT SubDevice CiA402 Demo </a>
+- <a href="../am263px/ethercat_slave/index.html" target="_blank"> EtherCAT SubDevice CTT Demo </a>
+
+\endcond
+
 \note SDK examples use evaluation version of stack. They will run for 1 hour only. If you want an unlimited version, you need to rebuild the Beckhoff SSC Library used by the examples. Please check "${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave/stack/patch/SlaveFiles/src/readme.md" for more details on how to rebuild the library.
 
 Links to important sections in the detailed documentation are provided below:
@@ -45,6 +53,17 @@ Links to important sections in the detailed documentation are provided below:
 - <a href="../am243x/ethercat_slave/releasenotes.html" target="_blank"> Release Notes </a>
 - <a href="../am243x/ethercat_slave/page_quickstart.html" target="_blank"> Example Quick Start </a>
 - <a href="../am243x/ethercat_slave/topics.html" target="_blank"> API Documentation </a>
+
+\endcond
+
+\cond SOC_AM263PX
+
+- <a href="../am263px/ethercat_slave/index.html" target="_blank"> Home Page </a>
+- <a href="../am263px/ethercat_slave/ethercat_datasheet.html" target="_blank"> Data Sheet </a>
+- <a href="../am263px/ethercat_slave/ethercat_certificate.pdf" target="_blank"> Certificate </a>
+- <a href="../am263px/ethercat_slave/releasenotes.html" target="_blank"> Release Notes </a>
+- <a href="../am263px/ethercat_slave/page_quickstart.html" target="_blank"> Example Quick Start </a>
+- <a href="../am263px/ethercat_slave/topics.html" target="_blank"> API Documentation </a>
 
 \endcond
 
@@ -106,3 +125,13 @@ As mentioned above, SDK example does not enable cable redundancy yet, but will w
 
 \endcond
 
+\cond SOC_AM263PX
+
+ Parameter      | Value
+ ---------------|-----------
+ CPU + OS       | r5fss0-0 freertos
+ Toolchain      | ti-arm-clang
+ Board          | @VAR_LP_BOARD_NAME_LOWER
+ Example folder | examples/industrial_comms/ethercat_slave_demo
+
+\endcond
