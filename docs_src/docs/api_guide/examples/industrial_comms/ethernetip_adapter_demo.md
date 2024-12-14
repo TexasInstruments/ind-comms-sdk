@@ -12,7 +12,7 @@ These examples are EtherNet/IP Adapter applications based on evaluation stacks p
 - <a href="../am64x/ethernetip_adapter/eip_datasheet.html" target="_blank"> Data Sheet </a>
 - <a href="../am64x/ethernetip_adapter/eip_releasenotes.html" target="_blank"> Release Notes </a>
 - <a href="../am64x/ethernetip_adapter/eip_quickstart.html" target="_blank"> Example Quick Start </a>
-- <a href="../am64x/ethernetip_adapter/modules.html" target="_blank"> API Documentation </a>
+- <a href="../am64x/ethernetip_adapter/topics.html" target="_blank"> API Documentation </a>
 
 \endcond
 
@@ -22,7 +22,7 @@ These examples are EtherNet/IP Adapter applications based on evaluation stacks p
 - <a href="../am243x/ethernetip_adapter/eip_datasheet.html" target="_blank"> Data Sheet </a>
 - <a href="../am243x/ethernetip_adapter/eip_releasenotes.html" target="_blank"> Release Notes </a>
 - <a href="../am243x/ethernetip_adapter/eip_quickstart.html" target="_blank"> Example Quick Start </a>
-- <a href="../am243x/ethernetip_adapter/modules.html" target="_blank"> API Documentation </a>
+- <a href="../am243x/ethernetip_adapter/topics.html" target="_blank"> API Documentation </a>
 
 \endcond
 
@@ -32,7 +32,7 @@ These examples are EtherNet/IP Adapter applications based on evaluation stacks p
 - <a href="../am263px/ethernetip_adapter/eip_datasheet.html" target="_blank"> Data Sheet </a>
 - <a href="../am263px/ethernetip_adapter/eip_releasenotes.html" target="_blank"> Release Notes </a>
 - <a href="../am263px/ethernetip_adapter/eip_quickstart.html" target="_blank"> Example Quick Start </a>
-- <a href="../am263px/ethernetip_adapter/modules.html" target="_blank"> API Documentation </a>
+- <a href="../am263px/ethernetip_adapter/topics.html" target="_blank"> API Documentation </a>
 
 \endcond
 
