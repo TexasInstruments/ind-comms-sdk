@@ -23,14 +23,18 @@ Following is the list of all the examples related to industrial communication pr
     - \subpage EXAMPLES_INDUSTRIAL_COMMS_PROFINET_DEVICE_DEMO : Evaluation example of pre-integrated stack.
 \endcond
 
-\cond SOC_AM263X || SOC_AM263PX || SOC_AM261X
+\cond SOC_AM263X || SOC_AM261X
+- EtherCAT SubDevice
+    - \subpage EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_BECKHOFF_SSC_DEMO : Example based on Beckhoff SSC. The stack sources should be added manually and patched to build this example.
+\endcond
+
+\cond SOC_AM263PX
 - EtherCAT SubDevice
     - \subpage EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_DEMOS : Evaluation example of pre-integrated stack.
     - \subpage EXAMPLES_INDUSTRIAL_COMMS_ETHERCAT_SLAVE_BECKHOFF_SSC_DEMO : Example based on Beckhoff SSC. The stack sources should be added manually and patched to build this example.
 - EtherNet/IP Adapter
     - \subpage EXAMPLES_INDUSTRIAL_COMMS_ETHERNETIP_ADAPTER_DEMOS : Evaluation example of pre-integrated stack.
-\cond SOC_AM263X || SOC_AM263PX
 - IO-Link Controller
     - \subpage EXAMPLES_INDUSTRIAL_COMMS_IOLINK_MASTER_DEMO : Evaluation example of pre-integrated stack.
-\endcond
+
 \endcond
