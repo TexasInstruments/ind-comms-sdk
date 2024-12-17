@@ -20,25 +20,23 @@
 </tr>
 </table>
 
-
-\note ICSS-EMAC driver has been migrated to MCU+ SDK for AM263x platforms. \n
-
 ## Device and Validation Information
 
-SOC    | Supported CPUs  | Boards                                                                                                      | Host PC
--------|-----------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------
-AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code), \n AM263x LAUNCHPAD (referred to as am263x-lp in code)     | Windows 10 64b or Ubuntu 18.04 64b
+SOC    | Supported CPUs  | Boards                                                               | Host PC
+-------|-----------------|----------------------------------------------------------------------|-----------------------------------
+AM263x | R5F             | AM263x GP CC (referred to as am263x-cc in code)                      | Windows 10 64b or Ubuntu 18.04 64b
+AM263x | R5F             | AM263x LAUNCHPAD (referred to as am263x-lp in code)                  | Windows 10 64b or Ubuntu 18.04 64b
 
 ## Tools, Compiler and Other Open Source SW Module Information
 
 Tools / SW module       | Supported CPUs | Version
 ------------------------|----------------|-----------------------
-Code Composer Studio    | R5F            | 12.7.0
-SysConfig               | R5F            | 1.20.0, build 3587
-TI ARM CLANG            | R5F            | 3.2.2.LTS
+Code Composer Studio    | R5F            | 12.8.0
+SysConfig               | R5F            | 1.21.0 build, build 3721
+TI ARM CLANG            | R5F            | 4.0.0.LTS
 FreeRTOS Kernel         | R5F            | 10.4.3
 LwIP                    | R5F            | STABLE-2_2_0_RELEASE
-Mbed-TLS                | R5F            | mbedtls-2.13.1
+Mbed-TLS                | R5F            | mbedtls-3.0.0
 
 ## Key Features
 
@@ -47,13 +45,6 @@ Mbed-TLS                | R5F            | mbedtls-2.13.1
 ## Fixed Issues
 
 <table>
-<tr>
-    <th> ID
-    <th> Head Line
-    <th> Module
-    <th> Applicable Releases
-    <th> Resolution/Comments
-</tr>
 <tr>
     <th> ID
     <th> Head Line
@@ -95,6 +86,13 @@ Mbed-TLS                | R5F            | mbedtls-2.13.1
     <td> EtherCAT Device
     <td> 09.02.00
     <td> Optimization in latency.
+</tr>
+<tr>
+    <td> -
+    <td> -
+    <td> -
+    <td> -
+    <td> -
 </tr>
 </table>
 
@@ -164,10 +162,10 @@ earlier SDKs.
     <th> Additional Remarks
 </tr>
 <tr>
-    <td> 
-    <td> 
-    <td> 
-    <td> 
+    <td> -
+    <td> -
+    <td> -
+    <td> -
 </tr>
 </table>
 
@@ -181,10 +179,10 @@ earlier SDKs.
     <th> Additional Remarks
 </tr>
 <tr>
-    <td> 
-    <td> 
-    <td> 
-    <td> 
+    <td> -
+    <td> -
+    <td> -
+    <td> -
 </tr>
 </table>
 
