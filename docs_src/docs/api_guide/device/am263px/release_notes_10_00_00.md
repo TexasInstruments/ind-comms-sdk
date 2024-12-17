@@ -16,7 +16,13 @@
     <th> Feature
 </tr>
 <tr>
-    <td> EtherCAT SubDevice Beckhoff SSC Demo
+    <td> EtherNet/IP Adapter Demos
+</tr>
+<tr>
+    <td> EtherCAT SubDevice Demos
+</tr>
+<tr>
+    <td> IO-Link Controller Demo
 </tr>
 </table>
 
@@ -31,12 +37,12 @@ AM263Px| R5F             | AM263Px LaunchPad                               (refe
 
 Tools / SW module       | Supported CPUs | Version
 ------------------------|----------------|-----------------------
-Code Composer Studio    | R5F            | 12.7.0
-SysConfig               | R5F            | 1.20.0, build 3587
-TI ARM CLANG            | R5F            | 3.2.2.LTS
+Code Composer Studio    | R5F            | 12.8.0
+SysConfig               | R5F            | 1.21.0 build, build 3721
+TI ARM CLANG            | R5F            | 4.0.0.LTS
 FreeRTOS Kernel         | R5F            | 10.4.3
 LwIP                    | R5F            | STABLE-2_2_0_RELEASE
-Mbed-TLS                | R5F            | mbedtls-2.13.1
+Mbed-TLS                | R5F            | mbedtls-3.0.0
 
 ## Key Features
 
@@ -86,6 +92,13 @@ Mbed-TLS                | R5F            | mbedtls-2.13.1
     <td> EtherCAT Device
     <td> 09.02.00
     <td> Optimization in latency.
+</tr>
+<tr>
+    <td> -
+    <td> -
+    <td> -
+    <td> -
+    <td> -
 </tr>
 </table>
 
@@ -155,10 +168,10 @@ earlier SDKs.
     <th> Additional Remarks
 </tr>
 <tr>
-    <td> 
-    <td> 
-    <td> 
-    <td> 
+    <td> -
+    <td> -
+    <td> -
+    <td> -
 </tr>
 </table>
 
@@ -172,10 +185,10 @@ earlier SDKs.
     <th> Additional Remarks
 </tr>
 <tr>
-    <td> 
-    <td> 
-    <td> 
-    <td> 
+    <td> -
+    <td> -
+    <td> -
+    <td> -
 </tr>
 </table>
 
