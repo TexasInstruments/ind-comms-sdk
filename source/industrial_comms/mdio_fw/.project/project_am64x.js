@@ -40,7 +40,7 @@ const templates_pru =
 ];
 
 const buildOptionCombos = [
-    { device: device, cpu: "icssg0-txpru0", cgt: "ti-pru-cgt", board: "am64x-evm", os: "fw"},
+    { device: device, cpu: "icss_g0_tx_pru0", cgt: "ti-pru-cgt", board: "am64x-evm", os: "fw"},
 ];
 
 
