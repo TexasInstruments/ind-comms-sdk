@@ -71,7 +71,7 @@ EtherNet/IP firmware for PRU-ICSS is a black box product maintained by TI. Ether
 <tr><td colspan="2" bgcolor=#F0F0F0> ${SDK_INSTALL_PATH}/source/industrial_comms/ethernetip_adapter</td></tr>
 <tr>
     <td>icss_fwhal/firmware</td>
-    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 5.2.9** </td>
+    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 5.5.6** </td>
 </tr>
 <tr>
     <td>icss_fwhal/lib/</td>

@@ -36,11 +36,13 @@ Sitara Processors](https://www.ti.com/lit/pdf/sprach6)
     <td>[EtherCAT on Sitara Processors](https://www.ti.com/lit/pdf/spry187)
     <td>Application note by TI on the EtherCAT SubDevice implementation on Sitara Processors.
 </tr>
-\cond SOC_AM243X || SOC_AM273X || SOC_AM64X || SOC_AWR294X
+\cond SOC_AM243X || SOC_AM273X || SOC_AM64X || SOC_AWR294X || SOC_AM263PX
 <tr>
     <td>[EtherNet/IP on TI's Sitara processors](https://www.ti.com/lit/pdf/spry249)
     <td>Application note by TI on the EtherNet/IP Adapter implementation on TI's Sitara Processors.
 </tr>
+\endcond
+\cond SOC_AM243X || SOC_AM273X || SOC_AM64X || SOC_AWR294X
 <tr>
     <td>[PROFINET on TI's Sitara processors](https://www.ti.com/lit/pdf/spry252)
     <td>Application note by TI on the Profinet implementation on TI's Sitara Processors.

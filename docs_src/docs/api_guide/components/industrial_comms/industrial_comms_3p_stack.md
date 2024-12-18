@@ -12,8 +12,10 @@ FWHAL(Firmware and Hardware Abstraction Layer) implements the key interface betw
 FWHAL for following industrial communication protocols are present:
 
 - \subpage ETHERCAT_SUBDEVICE_FWHAL
-\cond SOC_AM64X || SOC_AM243X
+\cond SOC_AM64X || SOC_AM243X || SOC_AM263PX 
 - \subpage ETHERNETIP_ADAPTER_FWHAL
+\endcond
+\cond SOC_AM64X || SOC_AM243X
 - \subpage PROFINET_DEVICE_FWHAL
 - \subpage HSR_PRP_FWHAL
 \endcond

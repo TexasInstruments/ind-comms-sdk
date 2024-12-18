@@ -37,13 +37,13 @@ The main software components in the block diagram are described below
 <tr>
     <td>Industrial Protocol Firmware (FW) HAL
     <td> \ref INDUSTRIAL_COMMS_FWHAL
-    <td>Hardware abstraction layer APIs to higher level industrial protocol stacks. Example, EtherCAT FW HAL
+    <td>Hardware abstraction layer APIs to higher level industrial protocol stacks. For example, the EtherCAT and EtherNet/IP FW-HALs.
 </tr>
 <tr><td colspan="3" bgcolor=#F0F0F0>**Protocol Stacks and Middleware**</td></tr>
 <tr>
     <td>Industrial Protocol Stacks
     <td> \ref INDUSTRIAL_COMMS
-    <td>Industrial protocol stacks for protocols like EtherCAT
+    <td>Industrial protocol stacks for protocols like EtherCAT, EtherNet/IP, IO-Link
 </tr>
 <tr><td colspan="3" bgcolor=#F0F0F0>**Examples and Demos**</td></tr>
 <tr>

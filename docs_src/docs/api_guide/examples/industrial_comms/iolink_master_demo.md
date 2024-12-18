@@ -11,7 +11,7 @@ This example is an IO-Link controller application based on evaluation stack prov
 - <a href="../am64x/iolink_master/index.html" target="_blank"> Home Page </a>
 - <a href="../am64x/iolink_master/iolink_datasheet.html" target="_blank"> Data Sheet </a>
 - <a href="../am64x/iolink_master/releasenotes.html" target="_blank"> Release Notes </a>
-- <a href="../am64x/iolink_master/usergroup0.html" target="_blank"> Example Quick Start </a>
+- <a href="../am64x/iolink_master/page_quickstart.html" target="_blank"> Example Quick Start </a>
 - <a href="../am64x/iolink_master/topics.html" target="_blank"> API Documentation </a>
 
 \endcond
@@ -21,7 +21,7 @@ This example is an IO-Link controller application based on evaluation stack prov
 - <a href="../am243x/iolink_master/index.html" target="_blank"> Home Page </a>
 - <a href="../am243x/iolink_master/iolink_datasheet.html" target="_blank"> Data Sheet </a>
 - <a href="../am243x/iolink_master/releasenotes.html" target="_blank"> Release Notes </a>
-- <a href="../am243x/iolink_master/usergroup0.html" target="_blank"> Example Quick Start </a>
+- <a href="../am243x/iolink_master/page_quickstart.html" target="_blank"> Example Quick Start </a>
 - <a href="../am243x/iolink_master/topics.html" target="_blank"> API Documentation </a>
 
 \endcond
@@ -31,7 +31,7 @@ This example is an IO-Link controller application based on evaluation stack prov
 - <a href="../am263px/iolink_master/index.html" target="_blank"> Home Page </a>
 - <a href="../am263px/iolink_master/iolink_datasheet.html" target="_blank"> Data Sheet </a>
 - <a href="../am263px/iolink_master/releasenotes.html" target="_blank"> Release Notes </a>
-- <a href="../am263px/iolink_master/usergroup0.html" target="_blank"> Example Quick Start </a>
+- <a href="../am263px/iolink_master/page_quickstart.html" target="_blank"> Example Quick Start </a>
 - <a href="../am263px/iolink_master/topics.html" target="_blank"> API Documentation </a>
 
 \endcond

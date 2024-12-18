@@ -7,9 +7,9 @@
 \attention Full Protocol Stacks from TI is under development and not available in this release.
 \endcond
 
-\cond SOC_AM64X || SOC_AM243X
+\cond SOC_AM64X || SOC_AM243X || SOC_AM263PX
 
-Industrial protocol stacks and examples included in this SDK are supported directly by TI powered by Kunbus technology.
+Industrial protocol stacks and examples included in this SDK are supported directly by TI.
 
 Following industrial communication protocols are supported:
 
@@ -32,6 +32,12 @@ For information about supported features and key performance parameters, see \ht
 
 \endcond
 
+\cond SOC_AM263PX
+
+For information about supported features and key performance parameters, see \htmllink{../am263px/ethercat_slave/ethercat_datasheet.html, EtherCAT SubDevice Data Sheet}
+
+\endcond
+
 ### Certificate
 
 \cond SOC_AM64X
@@ -44,6 +50,13 @@ For information about the certificate, see \htmllink{../am64x/ethercat_slave/eth
 
 For information about the certificate, see \htmllink{../am243x/ethercat_slave/ethercat_certificate.pdf, EtherCAT Certificate}
 
+\endcond
+
+\cond SOC_AM263PX
+
+For information about the certificate, see \htmllink{../am263px/ethercat_slave/ethercat_certificate.pdf, EtherCAT Certificate}
+
+**NOTE**: The certification was done on a similar device - AM243x-Launchpad (LP).
 \endcond
 
 ### Examples
@@ -68,6 +81,12 @@ For information about supported features and key performance parameters, see \ht
 
 \endcond
 
+\cond SOC_AM263PX
+
+For information about supported features and key performance parameters, see \htmllink{../am263px/ethernetip_adapter/eip_datasheet.html, EtherNet/IP Adapter Data Sheet}
+
+\endcond
+
 ### Certificate
 
 \cond SOC_AM64X
@@ -79,6 +98,14 @@ For information about the certificate, see \htmllink{../am64x/ethernetip_adapter
 \cond SOC_AM243X
 
 For information about the certificate, see \htmllink{../am243x/ethernetip_adapter/ethernetip_certificate.pdf, EtherNet/IP Certificate}
+
+\endcond
+
+\cond SOC_AM263PX
+
+For information about the certificate, see \htmllink{https://software-dl.ti.com/processor-industrial-sw/esd/ind_comms_sdk/am243x/09_02_00_15/docs/am243x/ethernetip_adapter/ethernetip_certificate.pdf, EtherNet/IP Certificate}
+
+**NOTE**: The certification was done on a similar device - AM243x-Launchpad (LP).
 
 \endcond
 
@@ -104,6 +131,12 @@ For information about supported features and key performance parameters, see \ht
 
 \endcond
 
+\cond SOC_AM263PX
+
+For information about supported features and key performance parameters, see \htmllink{../am263px/iolink_master/iolink_datasheet.html, IO-Link Controller Data Sheet}
+
+\endcond
+
 ### Test Report
 
 \cond SOC_AM64X
@@ -118,10 +151,19 @@ For information about Test Report, see \htmllink{../am243x/iolink_master/iolink_
 
 \endcond
 
+\cond SOC_AM263PX
+
+For information about Test Report, see \htmllink{https://software-dl.ti.com/processor-industrial-sw/esd/ind_comms_sdk/am243x/09_02_00_15/docs/am243x/iolink_master/iolink_test_report.pdf, IO-Link Controller Test Report}
+
+**NOTE**: The testing was done on a similar device - AM243x-Launchpad (LP).
+
+\endcond
+
 ### Examples
 
 For more details regarding the pre-integrated stack and example applications, see \ref EXAMPLES_INDUSTRIAL_COMMS_IOLINK_MASTER_DEMO.
 
+\cond SOC_AM64X || SOC_AM243X
 ## EtherCAT-IOLink Gateway
 
 EtherCAT-IOLink gateway solution which combines EtherCAT industrial Ethernet fieldbus technology and IO-Link intelligent communication technology.
@@ -179,5 +221,7 @@ For information about ART Test report, see \htmllink{../am243x/profinet_device/a
 ### Examples
 
 For more details regarding the pre-integrated stack and example applications, see \ref EXAMPLES_INDUSTRIAL_COMMS_PROFINET_DEVICE_DEMO.
+
+\endcond
 
 \endcond

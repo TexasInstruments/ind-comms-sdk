@@ -60,7 +60,7 @@ Links to important sections in the detailed documentation are provided below:
 
 - <a href="../am263px/ethercat_slave/index.html" target="_blank"> Home Page </a>
 - <a href="../am263px/ethercat_slave/ethercat_datasheet.html" target="_blank"> Data Sheet </a>
-- <a href="../am263px/ethercat_slave/ethercat_certificate.pdf" target="_blank"> Certificate </a>
+- <a href="../am263px/ethercat_slave/ethercat_certificate.pdf" target="_blank"> Certificate </a> (**NOTE**: The certification was done on a similar device - AM243x-Launchpad (LP))
 - <a href="../am263px/ethercat_slave/releasenotes.html" target="_blank"> Release Notes </a>
 - <a href="../am263px/ethercat_slave/page_quickstart.html" target="_blank"> Example Quick Start </a>
 - <a href="../am263px/ethercat_slave/topics.html" target="_blank"> API Documentation </a>
