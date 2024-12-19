@@ -108,6 +108,13 @@ Mbed-TLS                | R5F            | mbedtls-2.13.1
     <td> 
 </tr>
 <tr>
+    <td> PINDSW-5122
+    <td> DLR does not work in RGMII mode
+    <td> EtherNet/IP Adapter
+    <td> 08.04.00
+    <td> 
+</tr>
+<tr>
     <td> PINDSW-7712
     <td> DLR : Active Supervisor IP Address gets updated regardless of Supervisor change
     <td> EtherNet/IP Adapter
@@ -146,13 +153,6 @@ Mbed-TLS                | R5F            | mbedtls-2.13.1
     <th> Module
     <th> Applicable Releases
     <th> Workaround
-</tr>
-<tr>
-    <td> PINDSW-5122
-    <td> DLR does not work in RGMII mode
-    <td> EtherNet/IP Adapter
-    <td> 08.04.00
-    <td> 
 </tr>
 <tr>
     <td> PINDSW-5508
