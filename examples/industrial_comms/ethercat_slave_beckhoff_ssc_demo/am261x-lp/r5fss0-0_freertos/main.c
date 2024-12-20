@@ -34,6 +34,7 @@
 #include <kernel/dpl/DebugP.h>
 #include "ti_drivers_config.h"
 #include "ti_board_config.h"
+#include "ti_drivers_open_close.h"
 #include "FreeRTOS.h"
 #include "task.h"
 
