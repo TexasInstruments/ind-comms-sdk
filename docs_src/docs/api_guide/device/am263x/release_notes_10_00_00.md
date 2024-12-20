@@ -87,13 +87,6 @@ Mbed-TLS                | R5F            | mbedtls-3.0.0
     <td> 09.02.00
     <td> Optimization in latency.
 </tr>
-<tr>
-    <td> -
-    <td> -
-    <td> -
-    <td> -
-    <td> -
-</tr>
 </table>
 
 ## Known Issues

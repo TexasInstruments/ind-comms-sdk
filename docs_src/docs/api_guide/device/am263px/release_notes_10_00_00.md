@@ -46,7 +46,17 @@ Mbed-TLS                | R5F            | mbedtls-3.0.0
 
 ## Key Features
 
-<!-- ### Features not supported in release -->
+### Features not tested/supported in this release
+<table>
+<tr>
+    <th> Feature
+    <th> Module
+</tr>
+<tr>
+    <td> QuickConnect (QC)
+    <td> EtherNet/IP 
+</tr>
+</table>
 
 ## Fixed Issues
 
@@ -92,13 +102,6 @@ Mbed-TLS                | R5F            | mbedtls-3.0.0
     <td> EtherCAT Device
     <td> 09.02.00
     <td> Optimization in latency.
-</tr>
-<tr>
-    <td> -
-    <td> -
-    <td> -
-    <td> -
-    <td> -
 </tr>
 </table>
 
