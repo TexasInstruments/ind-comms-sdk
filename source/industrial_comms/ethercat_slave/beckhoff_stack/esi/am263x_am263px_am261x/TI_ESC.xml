@@ -16,7 +16,7 @@
 		<Devices>
 			<Device Physics="YY">
 				<Type ProductCode="#x54490004" RevisionNo="#x00000011">TIESC-004</Type>
-				<Name LcId="1033">AM263x/AM243x/AM64x (PRU-ICSS)</Name>
+				<Name LcId="1033">AM26x/AM243x/AM64x (PRU-ICSS)</Name>
 				<Info>
 					<StateMachine>
 						<Timeout>
@@ -33,6 +33,7 @@
 						</Timeout>
 					</Mailbox>
 					<EtherCATController>
+						<!-- To use this XML file for AM64x/AM243x platforms, change DPRAMSize to 60416. Refer to README for more details -->
 						<DpramSize>28672</DpramSize>
 						<SmCount>8</SmCount>
 						<FmmuCount>8</FmmuCount>
