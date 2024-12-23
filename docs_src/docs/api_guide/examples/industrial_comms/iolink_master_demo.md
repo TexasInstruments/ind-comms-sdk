@@ -36,7 +36,7 @@ This example is an IO-Link controller application based on evaluation stack prov
 
 \endcond
 
-IO-Link Controller GUI Tool can be downloaded from \htmllink{http://software-dl.ti.com/mcu-plus-sdk/esd/common/IOL_Master_GUI.zip, here}.
+IO-Link Controller GUI Tool can be downloaded from \htmllink{http://software-dl.ti.com/mcu-plus-sdk/esd/common/IOL_Master_GUI1.zip , here}.
 
 \attention If you need to reload and run the example again, EVM power-cycle is MUST.
 
