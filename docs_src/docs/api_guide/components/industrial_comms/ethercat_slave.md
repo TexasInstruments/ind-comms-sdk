@@ -100,16 +100,44 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
 </table>
 \endcond
 
+\cond SOC_AM263X || SOC_AM263PX
+#### Key Performance Parameters
+
+Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff PLC) for PRU core running at 200MHz.
+
+<table>
+    <tr>
+        <th style="width: 40%">Feature</th>
+        <th style="width: 30%">Detail</th>
+        <th style="width: 30%">Value</th>
+    </tr>
+    <tr>
+        <td>Distributed Clock</td>
+        <td>Sync Jitter</td>
+        <td>15.5ns (at 50μs cycle time running for 12 hours)</td>
+    </tr>
+    <tr>
+        <td rowspan=2>Latency</td>
+        <td>Process Path</td>
+        <td>Average = 420ns, Max = 440ns</td>
+    </tr>
+    <tr>
+        <td>Auto Forward Path (Reverse Path)</td>
+        <td>Average = 320ns, Max = 340ns</td>
+    </tr>
+</table>
+\endcond
+
 #### Release Notes
 \cond SOC_AM64X || SOC_AM243X
 ##### Industrial Communications SDK Version 09.02 (Not available in 09.02.00.15)
 \endcond
 
 \cond SOC_AM263X || SOC_AM263PX || SOC_AM261X
-##### Industrial Communications SDK Version 10.00.00
+##### Industrial Communications SDK Version 10.00
 \endcond
 
-- Firmware Version : x.5.43
+- Firmware Version : x.5.46
 - Fix for PINDSW-47   : Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice.
     - Do note that if this feature is enabled, then the Process Path latency will be dynamically increased to take care of the timing constraints. Please refer to Register 0xED0 of Vendor Specific Register in \ref ETHERCAT_SUBDEVICE_CONTROLLER_REGISTER_LIST
 - Fix for PINDSW-141  : LRW access to non-interleaved input and output process data of multiple SubDevices does not work. 
@@ -255,7 +283,7 @@ For more details, please see the \htmllink{../EtherCAT_Slave_Errata.pdf, EtherCA
 <tr><td colspan="2" bgcolor=#F0F0F0> ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave</td></tr>
 <tr>
     <td>icss_fwhal/firmware/g_v1.3</td>
-    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 6.5.43** </td>
+    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 6.5.46** </td>
 </tr>
 <tr>
     <td>icss_fwhal/lib/</td>
@@ -311,7 +339,7 @@ For more details, please see the \htmllink{../EtherCAT_Slave_Errata.pdf, EtherCA
 <tr><td colspan="2" bgcolor=#F0F0F0> ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave</td></tr>
 <tr>
     <td>icss_fwhal/firmware/m_v2.3</td>
-    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 5.5.43** </td>
+    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 5.5.46** </td>
 </tr>
 <tr>
     <td>icss_fwhal/lib/</td>
