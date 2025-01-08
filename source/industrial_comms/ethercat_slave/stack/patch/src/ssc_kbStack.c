@@ -16,7 +16,6 @@
 #include <ssc_kbStack.h>
 
 #include "ssc_backend.h"
-#include <pru_syncManager.h>
 
 #if EXPLICITWARN
 #warning this object dictionary here has to be filled with life by API !!!!!
