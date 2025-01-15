@@ -43,6 +43,7 @@
 #include "FreeRTOS.h"
 #include "nvm_drv_eeprom.h"
 #include "nvm_drv_flash.h"
+#include "kernel/dpl/SemaphoreP.h"
 
 #define WRITE_STACK_SIZE_BYTE     1024
 #define WRITE_FLASH_STACK_SIZE    (WRITE_STACK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
@@ -63,9 +64,11 @@ typedef struct NVM_APP_handle
     void* semaphore;
     NVM_APP_writeParam_t data;
     NVM_err_t status;
+    uint32_t forceErase;
 }NVM_APP_handle_t;
 
 static NVM_APP_handle_t NVM_handle = {0};
+SemaphoreP_Object *pNvmLock = NULL;
 
 OSAL_FUNC_NORETURN static void NVM_APP_writeTask(void *pArg);
 
@@ -142,6 +145,28 @@ uint32_t NVM_APP_close(void)
     return error;
 }
 
+
+/*!
+ * \brief
+ * Set handle for lock object
+ *
+ * \details
+ * This object is used to lock periphery during the nvm access
+ *
+ * \param[in]     handle                    native lock handle
+ *
+ * \return        NVM_err_t as uint32_t.
+ * \retval        NVM_ERR_SUCCESS           Success.
+ *
+ * \ingroup NVM_APP
+ *
+ */
+uint32_t NVM_APP_setLockHandle(void *handle)
+{
+    pNvmLock = (SemaphoreP_Object *)handle;
+    return NVM_ERR_SUCCESS;
+}
+
 /*!
  * \brief
  * Register write callback.
@@ -202,6 +227,10 @@ uint32_t NVM_APP_read(
     void * const pData)
 {
     uint32_t error = NVM_ERR_SUCCESS;
+    if (pNvmLock)
+    {
+        SemaphoreP_pend(pNvmLock, SystemP_WAIT_FOREVER);
+    }
     switch (type)
     {
         case NVM_TYPE_EEPROM:
@@ -216,6 +245,10 @@ uint32_t NVM_APP_read(
         }
         default:
             error = NVM_ERR_INVALID;
+    }
+    if (pNvmLock)
+    {
+        SemaphoreP_post(pNvmLock);
     }
     return error;
 }
@@ -232,6 +265,7 @@ uint32_t NVM_APP_read(
  * \param[in]     offset                    Offset on storage device.
  * \param[in]     length                    Data length in bytes.
  * \param[in]     pData                     Data buffer.
+ * \param[in]     forceErase                Block force erase flag.
  *
  * \return        NVM_err_t as uint32_t.
  * \retval        NVM_ERR_SUCCESS           Success.
@@ -247,9 +281,16 @@ uint32_t NVM_APP_write(
     const uint32_t id,
     const uint32_t offset,
     const uint32_t length,
-    const void * const pData)
+    const void * const pData,
+    const uint32_t forceErase)
 {
     uint32_t error = NVM_ERR_SUCCESS;
+
+    if (pNvmLock)
+    {
+        SemaphoreP_pend(pNvmLock, SystemP_WAIT_FOREVER);
+    }
+
     switch (type)
     {
         case NVM_TYPE_EEPROM:
@@ -259,13 +300,17 @@ uint32_t NVM_APP_write(
         }
         case NVM_TYPE_FLASH:
         {
-            error = NVM_DRV_FLASH_write(id, offset, length, pData);
+            error = NVM_DRV_FLASH_write(id, offset, length, pData, forceErase);
             break;
         }
         default:
         {
             error = NVM_ERR_INVALID;
         }
+    }
+    if (pNvmLock)
+    {
+        SemaphoreP_post(pNvmLock);
     }
     return error;
 }
@@ -303,7 +348,8 @@ OSAL_FUNC_NORETURN static void NVM_APP_writeTask(void *pArg)
                                    NVM_handle.data.id,
                                    NVM_handle.data.offset,
                                    NVM_handle.data.length,
-                                   NVM_handle.data.pData);
+                                   NVM_handle.data.pData,
+                                   NVM_handle.forceErase);
             //Allow NVM_APP_writeAsync calls
             NVM_handle.status = NVM_ERR_SUCCESS;
 
@@ -336,6 +382,7 @@ OSAL_FUNC_NORETURN static void NVM_APP_writeTask(void *pArg)
  * \param[in]     offset                    Offset on storage device.
  * \param[in]     length                    Data length in bytes.
  * \param[in]     pData                     Data buffer.
+ * \param[in]     forceErase                Block force erase flag.
  *
  * \return        NVM_err_t as uint32_t.
  * \retval        NVM_ERR_SUCCESS           Success.
@@ -351,7 +398,8 @@ uint32_t NVM_APP_writeAsync(
     const uint32_t id,
     const uint32_t offset,
     const uint32_t length,
-    const void * const pData)
+    const void * const pData,
+    const uint32_t forceErase)
 {
     uint32_t error = NVM_ERR_BUSY;
 
@@ -364,6 +412,7 @@ uint32_t NVM_APP_writeAsync(
         NVM_handle.data.offset = offset;
         NVM_handle.data.length = length;
         NVM_handle.data.pData = pData;
+        NVM_handle.forceErase = forceErase;
 
         //push to queue and send signal to write thread
         OSAL_postSignal(NVM_handle.semaphore);

@@ -144,17 +144,8 @@ See table 40  of \ref section_iol_spec_1_1 */
  */
 #define IOLM_WAKEUP_PULSE_TIMER_US  80
 
-
-#define IOLM_THREAD_PRIO_MAIN       5
-#define IOLM_THREAD_PRIO_HIGH       6
-
 #define IOLM_SMI_MAX_DIAG_ENTRIES   10
 #define IOLM_SMIEXT_ENABLED         1
-
-#define IOLM_SMI_CLIENT_APP         1
-
-
-#define IOLM_SMI_MASTER_ID      0x00, 0x00, 0x00, 0x05
 
 /** \} */
 

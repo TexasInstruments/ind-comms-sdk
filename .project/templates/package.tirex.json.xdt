@@ -9,11 +9,25 @@
     if(args.device == "am273x")
         deviceName = "AM273x"
     if(args.device == "am62x")
+    {
         deviceName = "AM62x"
         deviceNameID = "AM62X"
+    }
+    if(args.device == "am263px")
+    {
+        deviceName = "AM263PX"
+        deviceNameID = "AM263PX"
+    }
+    if(args.device == "am261x")
+    {
+        deviceName = "AM261X"
+        deviceNameID = "AM261X"
+    }
     if(isDevelopmentMode)
+    {
         deviceName = "AMXXX";
         deviceNameID = "AMXXX";
+    }
 %%}
 [
     {

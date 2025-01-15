@@ -604,6 +604,10 @@ typedef struct IOLM_SMI_SMasterident
     // PortTypes
 }IOLM_SMI_SMasterident;
 
+#define IOLM_SMI_FEATURE_PARBATCHWRITE      (1<<0)
+#define IOLM_SMI_FEATURE_PARBATCHREAD       (1<<1)
+#define IOLM_SMI_FEATURE_POWEROFFON         (1<<2)
+
 /**
 \brief This structure is used to get FS Master access.
 

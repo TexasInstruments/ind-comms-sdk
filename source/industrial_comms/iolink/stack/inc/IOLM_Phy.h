@@ -40,6 +40,9 @@ typedef IOL_EBaudrate       (*IOLM_PFU_PL_eSetFHCfg)                (INT8U u8Por
                                                                      INT8U u8ODLen_p, INT8U u8IOLCycle_p);
 typedef void                (*IOLM_PFU_PL_vSetPhyCycleTimer)        (INT8U port_p, INT32U timeUs_p);
 
+typedef void (*IOLM_PFU_PL_PL_vStopReadyPulseScan)(INT8U u8Port_p);
+typedef void (*IOLM_PFU_PL_PL_vStartReadyPulseScan)(INT8U u8Port_p);
+
 typedef enum
 {
     IOLM_Phy_eType_Generic = 0,
@@ -67,6 +70,8 @@ typedef struct IOLM_SPhyGeneric
     IOLM_PFU_PL_boGetIQ             pfuGetIQ;
     IOLM_PFU_PL_eSetFHCfg           pfuSetFHCfg;
     IOLM_PFU_PL_vSetPhyCycleTimer   pfuSetPhyCycleTimer;
+    IOLM_PFU_PL_PL_vStopReadyPulseScan  pfuStopReadyPulseScan;
+    IOLM_PFU_PL_PL_vStartReadyPulseScan pfuStartReadyPulseScan;
 } IOLM_SPhyGeneric;
 
 /* phy init functions */

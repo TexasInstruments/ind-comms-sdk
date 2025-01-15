@@ -315,6 +315,7 @@ typedef struct IOLM_SMI_SNVConfiguration
 {
     INT32U u32NVCrc;
     IOLM_SMI_SPortConfigList asuPortConfig[IOLM_PORT_COUNT];
+    INT8U au8PortPowerOff[IOLM_PORT_COUNT];
     IOLM_SMI_SGeneralArgBlock suMasterConfig;
     IOLM_SMI_SStackInformation suStackVersion;
 
@@ -1963,6 +1964,32 @@ while (1)
 
 */
 IOL_FUNC_DECL void IOLM_SMI_vInit(IOLM_SMI_SCallbacks *psuCallbacks_p);
+
+
+/**
+\brief Get Internal configuration
+
+ This functions returns a pointer to internal configuration structure. Values
+ should be modified before first communication. Some of the values are also changeable
+ during runtime.
+
+
+\par Example
+
+\code{.c}
+
+IOLM_SMasterCfg *pCfg = IOLM_SMI_psuGetInternalConfig();
+
+pCfg->u32ProcessingTimeUs = 500; // ensure enough time for stable communication
+
+IOLM_SMI_vInit(&suSMICallbacks_g);
+
+...
+\endcode
+
+\ingroup grp_smi_general
+*/
+IOL_FUNC_DECL IOLM_SMasterCfg * IOLM_SMI_psuGetInternalConfig(void);
 
 #ifdef IOLM_SGI_ENABLED
 IOL_FUNC_DECL void IOLM_SMI_ClientManagerInit(void);

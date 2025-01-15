@@ -54,6 +54,7 @@ extern uint32_t NVM_DRV_FLASH_write(
     const uint32_t id,
     const uint32_t offset,
     const uint32_t length,
-    const void * const pData);
+    const void * const pData,
+    const uint32_t forceErase);
 
 #endif // NVM_DRV_FLASH_H

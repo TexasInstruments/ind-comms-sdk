@@ -87,6 +87,8 @@ extern uint32_t NVM_APP_init(
 
 extern uint32_t NVM_APP_close(void);
 
+extern uint32_t NVM_APP_setLockHandle(void *handle);
+
 extern uint32_t NVM_APP_read(
     const NVM_type_t type,
     const uint32_t id,
@@ -99,13 +101,15 @@ extern uint32_t NVM_APP_write(
     const uint32_t id,
     const uint32_t offset,
     const uint32_t length,
-    const void * const pData);
+    const void * const pData,
+    const uint32_t forceErase);
 
 extern uint32_t NVM_APP_writeAsync(
     const NVM_type_t type,
     const uint32_t id,
     const uint32_t offset,
     const uint32_t length,
-    const void * const pData);
+    const void * const pData,
+    const uint32_t forceErase);
 
 #endif // NVM_H

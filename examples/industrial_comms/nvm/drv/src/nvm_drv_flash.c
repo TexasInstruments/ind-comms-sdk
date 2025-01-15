@@ -98,12 +98,14 @@ uint32_t NVM_DRV_FLASH_read(
 
 /*!
  * \brief
- * Write data to Flash.
+ * Write data to Flash by automatically managing the flash block erase.
+ * Used to write multiple pages at once.
  *
  * \param[in]     id                        Device ID from sysconfig.
  * \param[in]     offset                    Offset on storage device.
  * \param[in]     length                    Data length in bytes.
  * \param[in]     pData                     Data buffer.
+ * \param[in]     forceErase                Block force erase flag. True will erase the blocks everytime this function is called.
  *
  * \return        NVM_err_t as uint32_t.
  * \retval        NVM_ERR_SUCCESS           Success.
@@ -119,34 +121,42 @@ uint32_t NVM_DRV_FLASH_write(
     const uint32_t id,
     const uint32_t offset,
     const uint32_t length,
-    const void * const pData)
+    const void * const pData,
+    const uint32_t forceErase)
 {
-    uint32_t error = NVM_ERR_SUCCESS;
+    uint32_t error  = NVM_ERR_SUCCESS;
 #if defined(CONFIG_FLASH_NUM_INSTANCES) && CONFIG_FLASH_NUM_INSTANCES > 0
-    uint32_t pageCount = 0;
-    uint32_t block = 0;
-    uint32_t page = 0;
-    int32_t status = SystemP_SUCCESS;
-    Flash_Attrs* flashAttribute = NULL;
+    int32_t  status = SystemP_SUCCESS;
+    static int32_t  erasedBlockIdx  = -1;
+    static int32_t  blockSize       = 0;
+           int32_t  startBlockIdx   = 0;
+           int32_t  endBlockIdx     = 0;
 
     if(id < CONFIG_FLASH_NUM_INSTANCES)
     {
-        flashAttribute = Flash_getAttrs(id);
-        pageCount = (length + flashAttribute->blockSize - 1) / flashAttribute->blockSize;
-        for (uint32_t i = 0; i < pageCount; i++)
+        if(blockSize == 0)
         {
-            status = Flash_offsetToBlkPage(gFlashHandle[id],
-                                          offset+(i* flashAttribute->blockSize),
-                                          &block,
-                                          &page);
-            if(status == SystemP_SUCCESS)
+            Flash_Attrs* flashAttribute = Flash_getAttrs(id);
+            blockSize = flashAttribute->blockSize;
+        }
+        startBlockIdx = offset/blockSize;
+        endBlockIdx = (offset + length)/blockSize;
+        if(true == forceErase || (((startBlockIdx != erasedBlockIdx) || (endBlockIdx != erasedBlockIdx)) && (endBlockIdx > erasedBlockIdx)))
+        {
+            for (int32_t blkId = startBlockIdx;blkId <= endBlockIdx;blkId++)
             {
-                status = Flash_eraseBlk(gFlashHandle[id], block);
-            }
-            if(status != SystemP_SUCCESS)
-            {
-                error = NVM_ERR_FAIL;
-                break;
+                if (true == forceErase || blkId != erasedBlockIdx)
+                {
+                    status = Flash_eraseBlk(gFlashHandle[id],blkId);
+                    if(status == SystemP_SUCCESS)
+                    {
+                        erasedBlockIdx = blkId;
+                    }
+                    else
+                    {
+                        error = NVM_ERR_FAIL;
+                    }
+                }
             }
         }
         if(error == NVM_ERR_SUCCESS)
@@ -167,8 +177,8 @@ uint32_t NVM_DRV_FLASH_write(
     (void)offset;
     (void)length;
     (void)pData;
+    (void)forceErase;
     error = NVM_ERR_REJECT;
 #endif
-
     return error;
 }
