@@ -42,8 +42,6 @@ EtherCAT example on AM263Px ControlCard is configured to use the second state (m
 \endcond
 
 \cond SOC_AM261X
-## Following features are not tested or implemented in this release :
-- Flash not enabled
 
 ## PHY Connection
 AM261x-LP does not have On-board PHY. Two Ethernet Add-on Connector needs to be connected at ETHERNET CONNECTOR 0 and ETHERNET CONNECTOR 1 respectively. Once connected, PHY on ETHERNET CONNECTOR 0 will be EtherCAT Port0 and PHY on ETHERNET CONNECTOR 1 will be EtherCAT Port1. For the Ethernet Add-on Connector, refer to \htmllink{https://www.ti.com/tool/DP83826-EVM-AM2, DP83826-EVM-AM2} for more details.
@@ -54,12 +52,6 @@ AM261x-LP does not have On-board PHY. Two Ethernet Add-on Connector needs to be 
 \imageStyle{AM261x_EtherCAT_HW_SETUP.jpeg,width:30%}
 \image html AM261x_EtherCAT_HW_SETUP.jpeg "AM261x-LP Hardware Setup"
 
-\note
-In AM261x-LP, for the second PHY, PRU-ICSS1 MDIO is connected instead of PRU-ICSS0 MDIO. To fix this mismatch, blue wire and connect:
-- R167 Pin 1 to R137 Pin 1
-- R180 Pin 1 to R135 Pin 1
-\imageStyle{am261x_lp_blue_wire.png,width:20%}
-\image html am261x_lp_blue_wire.png "AM261x-LP Blue Wire"
 \endcond
 
 \cond SOC_AM263X || SOC_AM263PX
@@ -275,8 +267,8 @@ SYNC1 task started
 \code
 EtherCAT Device
 EtherCAT Sample application
-Revision/Type : x0590 Build : x0514
-Firmware Version : 5.5.20
+Revision/Type : x0590 Build : x052B
+Firmware Version : 5.5.43
 SYNC0 task started
 SYNC1 task started
 \endcode
@@ -293,14 +285,14 @@ SYNC1 task started
 <tr>
     <td>\code    EtherCAT Device
     EtherCAT Sample application 
-    Revision/Type : x0590 Build : x0514
-    Firmware Version : 5.5.20
+    Revision/Type : x0590 Build : x052B
+    Firmware Version : 5.5.43
     SYNC0 task started
     SYNC1 task started \endcode
     <td>\code    Non-EtherCAT Device 
     EtherCAT Sample application
-    Revision/Type : x0590 Build : x0514
-    Firmware Version : 5.5.20
+    Revision/Type : x0590 Build : x052B
+    Firmware Version : 5.5.43
     SYNC0 task started
     SYNC1 task started \endcode
 </tr>
