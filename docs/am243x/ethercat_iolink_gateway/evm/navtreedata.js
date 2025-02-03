@@ -31,6 +31,7 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 3.02.05", "@ref version_release_030205", null ],
       [ "Release Version 3.02.04", "releasenotes.html#version_release_030204", null ],
       [ "Release Version 3.02.03", "releasenotes.html#version_release_030203", null ],
       [ "Release Version 3.02.02", "releasenotes.html#version_release_030202", null ],

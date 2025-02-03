@@ -6,7 +6,6 @@ var group___g_a_t_e_w_a_y___a_p_i =
     [ "GW_API_restoreIolmIdent", "group___g_a_t_e_w_a_y___a_p_i_gaf6cf14d6f4504bcf173b5494e90aa866.html#gaf6cf14d6f4504bcf173b5494e90aa866", null ],
     [ "GW_API_storeEcatIdent", "group___g_a_t_e_w_a_y___a_p_i_ga60c28c92c6906260a3a6ab8955a62a30.html#ga60c28c92c6906260a3a6ab8955a62a30", null ],
     [ "GW_API_restoreEcatIdent", "group___g_a_t_e_w_a_y___a_p_i_ga9515738aacda8417dee8d750897ff0f7.html#ga9515738aacda8417dee8d750897ff0f7", null ],
-    [ "GW_API_formatNVRAM", "group___g_a_t_e_w_a_y___a_p_i_ga1cd6addb3e9380a366f45f14160fea9e.html#ga1cd6addb3e9380a366f45f14160fea9e", null ],
     [ "GW_API_getVersion", "group___g_a_t_e_w_a_y___a_p_i_ga08850c0a74216f0657888cafa5949de1.html#ga08850c0a74216f0657888cafa5949de1", null ],
     [ "GW_API_setIOLVendorId", "group___g_a_t_e_w_a_y___a_p_i_ga0833e98d54f2ed03b54b0c7d3ff36210.html#ga0833e98d54f2ed03b54b0c7d3ff36210", null ],
     [ "GW_API_setIOLMasterId", "group___g_a_t_e_w_a_y___a_p_i_gae2ed610992052cb1a9c40a82955b6914.html#gae2ed610992052cb1a9c40a82955b6914", null ],

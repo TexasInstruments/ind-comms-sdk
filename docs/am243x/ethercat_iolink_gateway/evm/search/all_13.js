@@ -17,7 +17,7 @@ var searchData=
   ['release_20version_203_2002_2001_14',['Release Version 3.02.01',['../releasenotes.html#version_release_030201',1,'']]],
   ['release_20version_203_2002_2002_15',['Release Version 3.02.02',['../releasenotes.html#version_release_030202',1,'']]],
   ['release_20version_203_2002_2003_16',['Release Version 3.02.03',['../releasenotes.html#version_release_030203',1,'']]],
-  ['release_20version_203_2002_2004_17',['Release Version 3.02.04',['../releasenotes.html#version_release_030204',1,'']]],
+  ['release_20version_203_2002_2005_17',['Release Version 3.02.05',['../releasenotes.html#version_release_030204',1,'']]],
   ['requirements_18',['requirements',['../example.html#software-requirements-user-basicExPage',1,'Software Requirements'],['../example_extended.html#software-requirements-user',1,'Software Requirements']]],
   ['revisionid_19',['revisionid',['../struct_g_w___a_p_i___s_port_status_afa63f8a44f1879debf52d3e0ca10f0be.html#afa63f8a44f1879debf52d3e0ca10f0be',1,'GW_API_SPortStatus::revisionID'],['../struct_g_w___a_p_i___s_port_exp_config_afa63f8a44f1879debf52d3e0ca10f0be.html#afa63f8a44f1879debf52d3e0ca10f0be',1,'GW_API_SPortExpConfig::revisionID']]],
   ['run_20and_20debug_20the_20examples_20with_20ccs_20',['run and debug the examples with ccs',['../example.html#run-code-composer-user-basicExPage',1,'Run and debug the examples with CCS'],['../example_extended.html#run-code-composer-user',1,'Run and debug the examples with CCS']]],
