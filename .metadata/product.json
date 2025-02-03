@@ -1,7 +1,7 @@
 {
     "name": "INDUSTRIAL_COMMUNICATIONS_SDK",
     "displayName": "INDUSTRIAL COMMUNICATIONS SDK",
-    "version": "10.00.01",
+    "version": "10.01.00",
     "documentationPath": "../docs",
     "includePaths": [
         "../source",
