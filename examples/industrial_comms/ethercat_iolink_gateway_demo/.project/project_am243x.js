@@ -8,7 +8,6 @@ const files = {
         "ESL_eeprom.c",
         "ESL_OS_os.c",
         "main.c",
-        "nvram_driver.c",
         "SMIdirect_UART.c",
         "nvm.c",
         "nvm_drv_eeprom.c",
@@ -85,8 +84,6 @@ const includes_freertos_r5f_evm = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/littlefs",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/drivers",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/stack/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink",
@@ -113,8 +110,6 @@ const includes_freertos_r5f_lp = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/littlefs",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/drivers",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/stack/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink",
@@ -135,7 +130,6 @@ const libs_freertos_r5f_evm = {
         "ethercat_slave_bkhf_ssc.am243x_evm.r5f.ti-arm-clang.release.lib",
         "ethercat_iolink_gateway.am243x_evm.r5f.ti-arm-clang.release.lib",
         "iolink_master.am243x_evm.r5f.ti-arm-clang.release.lib",
-        "littlefs.am243x_evm.r5f.ti-arm-clang.release.lib",
 
     
     ],
@@ -151,7 +145,6 @@ const libs_freertos_r5f_lp = {
         "ethercat_slave_bkhf_ssc.am243x_lp.r5f.ti-arm-clang.release.lib",
         "ethercat_iolink_gateway.am243x_lp.r5f.ti-arm-clang.release.lib",
         "iolink_master.am243x_lp.r5f.ti-arm-clang.release.lib",
-        "littlefs.am243x_lp.r5f.ti-arm-clang.release.lib",
     
     ],
 };
@@ -233,6 +226,12 @@ const cflags_r5f = {
         "-Og",
     
     ],
+    release: [
+        
+        "-Oz",
+        "-flto",
+    
+    ],
 };
 
 const lflags_r5f = {
@@ -241,6 +240,15 @@ const lflags_r5f = {
         "--use_memcpy=fast",
         "--use_memset=fast",
     
+    ],
+};
+
+const loptflags_r5f = {
+    common: [        
+        
+        "-Oz",
+        "-flto",
+        
     ],
 };
 
@@ -288,6 +296,7 @@ function getComponentBuildProperty(buildOption) {
             build_property.libdirs = libdirs_freertos;
             build_property.cflags = cflags_r5f;
             build_property.lflags = lflags_r5f;
+            build_property.loptflags = loptflags_r5f;
 
             if(buildOption.board.match(/am243x-evm*/) )
             {

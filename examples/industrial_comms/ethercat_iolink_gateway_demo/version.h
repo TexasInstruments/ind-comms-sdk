@@ -46,13 +46,13 @@
 #define NAME                    "gateway_ec_iol_project"
 
 /** Project version */
-#define VERSION                 "3.02.04"
+#define VERSION                 "3.02.05"
 #define VERSION_MAJOR           3
 #define VERSION_MINOR           02
-#define VERSION_PATCH           04
+#define VERSION_PATCH           05
 //#define VERSION_TWEAK           0
 #define VERSION_TWEAK           0
 
-#define VERSION_GIT_HASH        "44c27402"
+#define VERSION_GIT_HASH        "50267ba4"
 
 #endif /* VERSION_H */

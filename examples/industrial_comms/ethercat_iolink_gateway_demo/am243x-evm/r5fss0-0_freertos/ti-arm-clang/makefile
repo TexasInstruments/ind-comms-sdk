@@ -41,7 +41,6 @@ FILES_common := \
 	ESL_eeprom.c \
 	ESL_OS_os.c \
 	main.c \
-	nvram_driver.c \
 	SMIdirect_UART.c \
 	nvm.c \
 	nvm_drv_eeprom.c \
@@ -86,8 +85,6 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/littlefs \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/common/inc/drivers \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_slave/stack/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/ethercat_iolink_gateway/stack/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/source/industrial_comms/iolink \
@@ -141,6 +138,11 @@ CFLAGS_debug := \
 	-D_DEBUG_=1 \
 	-Og \
 
+CFLAGS_release := \
+	-Os \
+	-Oz \
+	-flto \
+
 CFLAGS_cpp_common := \
 	-Wno-c99-designator \
 	-Wno-extern-c-compat \
@@ -152,9 +154,6 @@ CFLAGS_cpp_common := \
 	-Wno-reserved-user-defined-literal \
 	-Wno-unused-const-variable \
 	-x c++ \
-
-CFLAGS_release := \
-	-Os \
 
 LNK_FILES_common = \
 	generated/linker.cmd \
@@ -176,7 +175,6 @@ LIBS_common = \
 	-lethercat_slave_bkhf_ssc.am243x_evm.r5f.ti-arm-clang.release.lib \
 	-lethercat_iolink_gateway.am243x_evm.r5f.ti-arm-clang.release.lib \
 	-liolink_master.am243x_evm.r5f.ti-arm-clang.release.lib \
-	-llittlefs.am243x_evm.r5f.ti-arm-clang.release.lib \
 	-llibc.a \
 	-llibsysbm.a \
 
@@ -187,6 +185,9 @@ LFLAGS_common = \
 	-Wl,--use_memcpy=fast \
 	-Wl,--use_memset=fast \
 
+LNKOPTFLAGS_common = \
+		   -Oz \
+		   -flto \
 
 LIBS_NAME = \
 	freertos.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
@@ -196,7 +197,6 @@ LIBS_NAME = \
 	ethercat_slave_bkhf_ssc.am243x_evm.r5f.ti-arm-clang.release.lib \
 	ethercat_iolink_gateway.am243x_evm.r5f.ti-arm-clang.release.lib \
 	iolink_master.am243x_evm.r5f.ti-arm-clang.release.lib \
-	littlefs.am243x_evm.r5f.ti-arm-clang.release.lib \
 	libc.a \
 	libsysbm.a \
 

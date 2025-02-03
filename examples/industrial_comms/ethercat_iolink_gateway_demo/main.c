@@ -50,9 +50,7 @@
 #include <task.h>              /* FreeRTOS task API */
 #include "SMIdirect_UART.h"    /* SMIdirect over UART API */
 
-#include "nvram_driver.h"      /* application specific NVRAM driver */
-#include "nvram.h"             /* hardware-agnostic NVRAM module */
-
+#include "nvm.h"
 #include "version.h"           /* version file */
 #include "config.h"            /* configuration for a given board*/
 
@@ -206,18 +204,13 @@ static void OSAL_FUNC_NORETURN MainTask(void* pArg_p)
         goto laExit;
     }
 
-    // init NVRAM
-    // lower flash memory limit for the file system
-    struct lfs_config* plfscfg = NVR_DRV_init(CONFIG_FLASH0, NVRAM_BASE_ADR);
-    if(NVR_ERR_OK != NVR_init(plfscfg))
+    // init NVM
+    error = NVM_APP_init(OSAL_TASK_Prio_IOL_NVRAM);
+    if (error != NVM_ERR_SUCCESS)
     {
-        OSAL_printf("init NVRAM: FAIL\r\n");
-    } else
-    {
-        OSAL_printf("init NVRAM: success\r\n");
+        OSAL_printf("Error NVM_APP_init:  0x%08x\r\n", error);
+        goto laExit;
     }
-    unsigned int bootcount = 0;
-    NVR_bootcount("bcount.bin", &bootcount);
 
     // examples for gateway configuration, not needed if defaults ok
     GW_API_EErrorcode_t apiError;

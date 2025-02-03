@@ -35,6 +35,8 @@ extern "C" {
 #define GWL_EVENTSRC_IOLDEVICE       0x40U    // + portNr
 #define GWL_EVENTSRC_ETHERCAT        0x50U    // + portNr
 
+#define GWL_CRC_MAGIC_KEY   0xA5CCDD32
+
 // event codes for GWL_EVENTSRC_INTERNAL source
 #define GW_INTERNALEVT_ECATSTARTED  0x100U
 #define GW_INTERNALEVT_IOLMSTARTED  0x200U
@@ -112,6 +114,8 @@ extern GW_ECIOL_ERRORCODE GWL_writePortIODD(
  * */
 typedef struct GWL_SEcatSlaveIdent
 {
+    /**! \brief NVM checksum */
+    uint32_t checksum;
     /**! \brief vendorId of EtherCAT slave */
     uint32_t vendorID;
     /**! \brief product code of EtherCAT slave */
@@ -140,6 +144,7 @@ extern GW_ECIOL_ERRORCODE GWL_setEcatIdentification(const GWL_SEcatSlaveIdent_t*
  * */
 typedef struct GWL_SIolmIdent
 {
+    uint32_t checksum; /**! \brief NVM checksum */
     /**< \brief see IOL-Interface-Spec_10002_V113_Jun19.pdf E.2 MasterIdent */
     uint16_t vendorID;    /**< \brief Big endian. */
     uint32_t masterID;    /**< \brief Big endian. */
@@ -191,6 +196,7 @@ extern GW_ECIOL_ERRORCODE GWL_getCurPortStatus(const uint8_t portNr_p, GWL_sCurP
  * */
 typedef struct GWL_sExpPortConfig
 {
+    uint32_t checksum;          /**! \brief NVM checksum */
     uint32_t deviceID;          /**! \brief 0x8nn0:04 32Bit.  CPC Data - SMI_PortConfiguration */
     uint32_t vendorID;          /**! \brief 0x8nn0:05 32Bit,  CPC Data - SMI_PortConfiguration */
     uint8_t  revisionID;        /**! \brief 0x8nn0:32 8Bit,   CPC Data - for check */
