@@ -37,7 +37,8 @@ var searchData=
   ['version_202_2001_2000_34',['Release Version 2.01.00',['../releasenotes.html#version_release20100',1,'']]],
   ['version_202_2001_2001_35',['Release Version 2.01.01',['../releasenotes.html#version_release20101',1,'']]],
   ['version_202_2002_2000_36',['Release Version 2.02.00',['../releasenotes.html#version_release20200',1,'']]],
-  ['volatile_20memory_20nvm_37',['Non-Volatile Memory (NVM)',['../persistentstorage.html',1,'']]],
-  ['volatile_20storage_38',['Non Volatile Storage',['../page_datastorage.html#sect_ds_nonvolatile',1,'']]],
-  ['volatile_20storage_20hardware_20driver_39',['Modify Non-volatile Storage Hardware Driver',['../page_quickstart.html#example_nvram',1,'']]]
+  ['version_202_2002_2001_37',['Release Version 2.02.01',['../releasenotes.html#version_release20201',1,'']]],
+  ['volatile_20memory_20nvm_38',['Non-Volatile Memory (NVM)',['../persistentstorage.html',1,'']]],
+  ['volatile_20storage_39',['Non Volatile Storage',['../page_datastorage.html#sect_ds_nonvolatile',1,'']]],
+  ['volatile_20storage_20hardware_20driver_40',['Modify Non-volatile Storage Hardware Driver',['../page_quickstart.html#example_nvram',1,'']]]
 ];

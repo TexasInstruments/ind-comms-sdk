@@ -15,6 +15,7 @@ var annotated_dup =
     [ "IOLM_SGI_SClientManager", "struct_i_o_l_m___s_g_i___s_client_manager.html", null ],
     [ "IOLM_SGI_SPortDescriptor", "struct_i_o_l_m___s_g_i___s_port_descriptor.html", "struct_i_o_l_m___s_g_i___s_port_descriptor" ],
     [ "IOLM_SGI_STimerEventDesc", "struct_i_o_l_m___s_g_i___s_timer_event_desc.html", null ],
+    [ "IOLM_SMasterCfg", "struct_i_o_l_m___s_master_cfg.html", null ],
     [ "IOLM_SMI_SArgBlockParam", "struct_i_o_l_m___s_m_i___s_arg_block_param.html", "struct_i_o_l_m___s_m_i___s_arg_block_param" ],
     [ "IOLM_SMI_SCallbacks", "struct_i_o_l_m___s_m_i___s_callbacks.html", "struct_i_o_l_m___s_m_i___s_callbacks" ],
     [ "IOLM_SMI_SDataLog", "struct_i_o_l_m___s_m_i___s_data_log.html", "struct_i_o_l_m___s_m_i___s_data_log" ],

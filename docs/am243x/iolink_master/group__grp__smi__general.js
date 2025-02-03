@@ -1,5 +1,6 @@
 var group__grp__smi__general =
 [
+    [ "IOLM_SMI_psuGetInternalConfig", "group__grp__smi__general.html#gad3e4e8dd339a39b38f80173b160425fb", null ],
     [ "IOLM_SMI_vExtRsp", "group__grp__smi__general.html#ga07958fb7e078baf4be65522e96a51d63", null ],
     [ "IOLM_SMI_vGenericReq", "group__grp__smi__general.html#ga4e121b26ae7ea3de26d96da004ece66b", null ],
     [ "IOLM_SMI_vInit", "group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb", null ],

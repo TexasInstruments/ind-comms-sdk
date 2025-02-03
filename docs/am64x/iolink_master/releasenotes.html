@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.01</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -127,6 +127,32 @@ Redistributions in binary form must reproduce the above copyright notice, this l
 Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. </li>
 </ol>
 <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  </p>
+<h1><a class="anchor" id="version_release20201"></a>
+Release Version 2.02.01</h1>
+<p><b>New Features:</b> </p><ul>
+<li>
+[ICSTACK-228] Stack takes care for inital port power state. Last state is stored in non volatile memory. <br  />
+ NVM structure has changed. In case of reading data from older versions, it will be reset to defaults. <br  />
+  </li>
+<li>
+[ICSTACK-208] Add support for AM261. <br  />
+ The structure #IOLM_PL_sPortConfig_t has been extended for all targets to reflect PRU pin numbers for tx and rx. <br  />
+ Added option to switch the PRU0/1 function. By this it is also possible to use the GPIOs of PRU1 for rx/tx. <br  />
+  </li>
+<li>
+[ICSTACK-190] Added monitoring between R5 and PRU for cases where R5 misses frames. Detection may lead <br  />
+ to com errors, but no comlost. They are indicated by event 0x1F01 which could also be disabled. <br  />
+ Added API <a class="el" href="group__grp__smi__general.html#gad3e4e8dd339a39b38f80173b160425fb" title="Get Internal configuration.">IOLM_SMI_psuGetInternalConfig</a> for setting internal configuration. For details refer <a class="el" href="struct_i_o_l_m___s_master_cfg.html" title="This structure is used for the stack configuration.">IOLM_SMasterCfg</a>. <br  />
+ Stack Assertion are redirected to Error callback. See OSAL_registerErrorHandler. Critical error leads to sleep of <br  />
+ affected thread. Other threads can still do error handling. <br  />
+  </li>
+</ul>
+<p><b>Fixed Issues:</b> </p><ul>
+<li>
+[ICSTACK-227] fixed hanging in case of PowerOffOn service during communication. <br  />
+ Added periphery mutex to prevent concurent access of different LEDs and EEPROM. <br  />
+  </li>
+</ul>
 <h1><a class="anchor" id="version_release20200"></a>
 Release Version 2.02.00</h1>
 <p><b>New Features:</b> </p><ul>

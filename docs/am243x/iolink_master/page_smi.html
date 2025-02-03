@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.01</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -137,10 +137,10 @@ Initialization and Run</h1>
 <div class="line">    <a class="code hl_function" href="group__grp__smi__general.html#ga47992e75303cccf9216ca6f86d038360">IOLM_SMI_vRun</a>();    <span class="comment">// SMI Mainloop (at least once per ms)</span></div>
 <div class="line">    User_Application(); <span class="comment">// ToDo: Insert application specific code here</span></div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__grp__smi__general_html_ga47992e75303cccf9216ca6f86d038360"><div class="ttname"><a href="group__grp__smi__general.html#ga47992e75303cccf9216ca6f86d038360">IOLM_SMI_vRun</a></div><div class="ttdeci">void IOLM_SMI_vRun(void)</div><div class="ttdoc">SMI Mainloop.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:5001</div></div>
-<div class="ttc" id="agroup__grp__smi__general_html_gacdc879b1b293d2964eddfa009a7d48bb"><div class="ttname"><a href="group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb">IOLM_SMI_vInit</a></div><div class="ttdeci">void IOLM_SMI_vInit(IOLM_SMI_SCallbacks *psuCallbacks_p)</div><div class="ttdoc">Initialize SMI interface.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:393</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html">IOLM_SMI_SCallbacks</a></div><div class="ttdoc">SMI Callbacks. Must be initialized via IOLM_SMI_vInit.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.h:2928</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html_a10e26b753342a25acaf6f1ac496605c8"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html#a10e26b753342a25acaf6f1ac496605c8">IOLM_SMI_SCallbacks::cbGenericCnf</a></div><div class="ttdeci">IOLM_SMI_CBGenericCnf cbGenericCnf</div><div class="ttdoc">Callback for IOLM_SMI_vGenericReq.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.h:2932</div></div>
+<div class="ttc" id="agroup__grp__smi__general_html_ga47992e75303cccf9216ca6f86d038360"><div class="ttname"><a href="group__grp__smi__general.html#ga47992e75303cccf9216ca6f86d038360">IOLM_SMI_vRun</a></div><div class="ttdeci">void IOLM_SMI_vRun(void)</div><div class="ttdoc">SMI Mainloop.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:5030</div></div>
+<div class="ttc" id="agroup__grp__smi__general_html_gacdc879b1b293d2964eddfa009a7d48bb"><div class="ttname"><a href="group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb">IOLM_SMI_vInit</a></div><div class="ttdeci">void IOLM_SMI_vInit(IOLM_SMI_SCallbacks *psuCallbacks_p)</div><div class="ttdoc">Initialize SMI interface.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:397</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html">IOLM_SMI_SCallbacks</a></div><div class="ttdoc">SMI Callbacks. Must be initialized via IOLM_SMI_vInit.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.h:2929</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html_a10e26b753342a25acaf6f1ac496605c8"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html#a10e26b753342a25acaf6f1ac496605c8">IOLM_SMI_SCallbacks::cbGenericCnf</a></div><div class="ttdeci">IOLM_SMI_CBGenericCnf cbGenericCnf</div><div class="ttdoc">Callback for IOLM_SMI_vGenericReq.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.h:2933</div></div>
 </div><!-- fragment --><p>It is only required to provide the desired callbacks. There is a generic API for all services, or an API for each single service.</p>
 <h1><a class="anchor" id="sect_smi_services"></a>
 Services</h1>
@@ -182,8 +182,7 @@ Callbacks</h1>
 <li>IOLM_SMI_CBPDOutCnf</li>
 <li>IOLM_SMI_CBPDInOutCnf  </li>
 <li>IOLM_SMI_CBPDInIQCnf</li>
-<li>IOLM_SMI_CBPDOutIQCnf</li>
-<li>#IOLM_SMI_CBFSPDInOutCnf </li>
+<li>IOLM_SMI_CBPDOutIQCnf </li>
 <li>IOLM_SMI_CBLoadNVCfg</li>
 <li>IOLM_SMI_CBSaveNVCfg</li>
 </ul>

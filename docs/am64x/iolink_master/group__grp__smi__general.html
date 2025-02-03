@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.01</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -129,8 +129,43 @@ Functions</h2></td></tr>
 <tr class="memitem:gacdc879b1b293d2964eddfa009a7d48bb" id="r_gacdc879b1b293d2964eddfa009a7d48bb"><td class="memItemLeft" align="right" valign="top">IOL_FUNC_DECL void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb">IOLM_SMI_vInit</a> (<a class="el" href="struct_i_o_l_m___s_m_i___s_callbacks.html">IOLM_SMI_SCallbacks</a> *psuCallbacks_p)</td></tr>
 <tr class="memdesc:gacdc879b1b293d2964eddfa009a7d48bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize SMI interface.  <br /></td></tr>
 <tr class="separator:gacdc879b1b293d2964eddfa009a7d48bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad3e4e8dd339a39b38f80173b160425fb" id="r_gad3e4e8dd339a39b38f80173b160425fb"><td class="memItemLeft" align="right" valign="top">IOL_FUNC_DECL <a class="el" href="struct_i_o_l_m___s_master_cfg.html">IOLM_SMasterCfg</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__grp__smi__general.html#gad3e4e8dd339a39b38f80173b160425fb">IOLM_SMI_psuGetInternalConfig</a> (void)</td></tr>
+<tr class="memdesc:gad3e4e8dd339a39b38f80173b160425fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get Internal configuration.  <br /></td></tr>
+<tr class="separator:gad3e4e8dd339a39b38f80173b160425fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="gad3e4e8dd339a39b38f80173b160425fb" name="gad3e4e8dd339a39b38f80173b160425fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad3e4e8dd339a39b38f80173b160425fb">&#9670;&#160;</a></span>IOLM_SMI_psuGetInternalConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IOL_FUNC_DECL <a class="el" href="struct_i_o_l_m___s_master_cfg.html">IOLM_SMasterCfg</a> * IOLM_SMI_psuGetInternalConfig </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get Internal configuration. </p>
+<p>This functions returns a pointer to internal configuration structure. Values should be modified before first communication. Some of the values are also changeable during runtime.</p>
+<dl class="section user"><dt>Example</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><a class="code hl_struct" href="struct_i_o_l_m___s_master_cfg.html">IOLM_SMasterCfg</a> *pCfg = <a class="code hl_function" href="group__grp__smi__general.html#gad3e4e8dd339a39b38f80173b160425fb">IOLM_SMI_psuGetInternalConfig</a>();</div>
+<div class="line"> </div>
+<div class="line">pCfg-&gt;u32ProcessingTimeUs = 500; <span class="comment">// ensure enough time for stable communication</span></div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_function" href="group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb">IOLM_SMI_vInit</a>(&amp;suSMICallbacks_g);</div>
+<div class="line"> </div>
+<div class="line">...</div>
+<div class="ttc" id="agroup__grp__smi__general_html_gacdc879b1b293d2964eddfa009a7d48bb"><div class="ttname"><a href="group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb">IOLM_SMI_vInit</a></div><div class="ttdeci">void IOLM_SMI_vInit(IOLM_SMI_SCallbacks *psuCallbacks_p)</div><div class="ttdoc">Initialize SMI interface.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:397</div></div>
+<div class="ttc" id="agroup__grp__smi__general_html_gad3e4e8dd339a39b38f80173b160425fb"><div class="ttname"><a href="group__grp__smi__general.html#gad3e4e8dd339a39b38f80173b160425fb">IOLM_SMI_psuGetInternalConfig</a></div><div class="ttdeci">IOL_FUNC_DECL IOLM_SMasterCfg * IOLM_SMI_psuGetInternalConfig(void)</div><div class="ttdoc">Get Internal configuration.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:392</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_master_cfg_html"><div class="ttname"><a href="struct_i_o_l_m___s_master_cfg.html">IOLM_SMasterCfg</a></div><div class="ttdoc">This structure is used for the stack configuration.</div><div class="ttdef"><b>Definition</b> IOLM_Types.h:1068</div></div>
+</div><!-- fragment --> 
+</div>
+</div>
 <a id="ga07958fb7e078baf4be65522e96a51d63" name="ga07958fb7e078baf4be65522e96a51d63"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga07958fb7e078baf4be65522e96a51d63">&#9670;&#160;</a></span>IOLM_SMI_vExtRsp()</h2>
 
@@ -187,7 +222,7 @@ Functions</h2></td></tr>
 <div class="ttc" id="agroup__group__iol__types_html_ga687635072155b67395446ba399c5fec1"><div class="ttname"><a href="group__group__iol__types.html#ga687635072155b67395446ba399c5fec1">IOL_EErrorType</a></div><div class="ttdeci">IOL_EErrorType</div><div class="ttdoc">This enumeration indicates the permissible ISDU ErrorTypes resulting from the Device application.</div><div class="ttdef"><b>Definition</b> IOL_Types.h:554</div></div>
 <div class="ttc" id="agroup__group__iol__types_html_ga78652f3b63fcce62df6251974e3816f5"><div class="ttname"><a href="group__group__iol__types.html#ga78652f3b63fcce62df6251974e3816f5">INT16U</a></div><div class="ttdeci">uint16_t INT16U</div><div class="ttdoc">16 bit unsigned integer</div><div class="ttdef"><b>Definition</b> IOL_Port_Types.h:54</div></div>
 <div class="ttc" id="agroup__group__iol__types_html_gaae113da6bf0dff8b771a8f485228b09b"><div class="ttname"><a href="group__group__iol__types.html#gaae113da6bf0dff8b771a8f485228b09b">INT8U</a></div><div class="ttdeci">uint8_t INT8U</div><div class="ttdoc">8 bit unsigned integer</div><div class="ttdef"><b>Definition</b> IOL_Port_Types.h:52</div></div>
-<div class="ttc" id="agroup__grp__smi__general_html_ga07958fb7e078baf4be65522e96a51d63"><div class="ttname"><a href="group__grp__smi__general.html#ga07958fb7e078baf4be65522e96a51d63">IOLM_SMI_vExtRsp</a></div><div class="ttdeci">void IOLM_SMI_vExtRsp(IOL_EErrorType eError_p, INT8U *pu8Data_p, INT16U u16Length_p)</div><div class="ttdoc">SMI extension response.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:3189</div></div>
+<div class="ttc" id="agroup__grp__smi__general_html_ga07958fb7e078baf4be65522e96a51d63"><div class="ttname"><a href="group__grp__smi__general.html#ga07958fb7e078baf4be65522e96a51d63">IOLM_SMI_vExtRsp</a></div><div class="ttdeci">void IOLM_SMI_vExtRsp(IOL_EErrorType eError_p, INT8U *pu8Data_p, INT16U u16Length_p)</div><div class="ttdoc">SMI extension response.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:3218</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd>IOLM_SMI_CBSMIExt </dd></dl>
 
 </div>
@@ -256,7 +291,7 @@ Functions</h2></td></tr>
 <div class="line"> </div>
 <div class="line"><span class="comment">// wait for IOLM_SMI_CBGenericCnf</span></div>
 <div class="ttc" id="agroup__grp__smi__general_html_ga4e121b26ae7ea3de26d96da004ece66b"><div class="ttname"><a href="group__grp__smi__general.html#ga4e121b26ae7ea3de26d96da004ece66b">IOLM_SMI_vGenericReq</a></div><div class="ttdeci">IOL_FUNC_DECL void IOLM_SMI_vGenericReq(IOLM_SMI_SHeader *psuHeader_p, INT8U *pu8ArgBlock_p)</div><div class="ttdoc">SMI generic request.</div><div class="ttdef"><b>Definition</b> IOLM_SMI_API.c:635</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_header_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_header.html">IOLM_SMI_SHeader</a></div><div class="ttdoc">SGI dependent types.</div><div class="ttdef"><b>Definition</b> IOLM_SMI_Types.h:1348</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_header_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_header.html">IOLM_SMI_SHeader</a></div><div class="ttdoc">SGI dependent types.</div><div class="ttdef"><b>Definition</b> IOLM_SMI_Types.h:1352</div></div>
 <div class="ttc" id="astruct_i_o_l_m___s_m_i___s_void_arg_block_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_void_arg_block.html">IOLM_SMI_SVoidArgBlock</a></div><div class="ttdoc">This structure is used as general and void ArgBlock.</div><div class="ttdef"><b>Definition</b> IOLM_SMI_Types.h:573</div></div>
 <div class="ttc" id="astruct_i_o_l_m___s_m_i___s_void_arg_block_html_adfa9fac3f8f69cc764f6a6bec2e6f0b5"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_void_arg_block.html#adfa9fac3f8f69cc764f6a6bec2e6f0b5">IOLM_SMI_SVoidArgBlock::u16ArgBlockID</a></div><div class="ttdeci">INT16U u16ArgBlockID</div><div class="ttdoc">Big endian.</div><div class="ttdef"><b>Definition</b> IOLM_SMI_Types.h:574</div></div>
 </div><!-- fragment --> 
@@ -306,10 +341,9 @@ Functions</h2></td></tr>
 <div class="line">    <a class="code hl_function" href="group__grp__smi__general.html#ga47992e75303cccf9216ca6f86d038360">IOLM_SMI_vRun</a>();    <span class="comment">// SMI Mainloop (at least once per ms)</span></div>
 <div class="line">    User_Application(); <span class="comment">// ToDo: Insert application specific code here</span></div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__grp__smi__general_html_ga47992e75303cccf9216ca6f86d038360"><div class="ttname"><a href="group__grp__smi__general.html#ga47992e75303cccf9216ca6f86d038360">IOLM_SMI_vRun</a></div><div class="ttdeci">void IOLM_SMI_vRun(void)</div><div class="ttdoc">SMI Mainloop.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:5001</div></div>
-<div class="ttc" id="agroup__grp__smi__general_html_gacdc879b1b293d2964eddfa009a7d48bb"><div class="ttname"><a href="group__grp__smi__general.html#gacdc879b1b293d2964eddfa009a7d48bb">IOLM_SMI_vInit</a></div><div class="ttdeci">void IOLM_SMI_vInit(IOLM_SMI_SCallbacks *psuCallbacks_p)</div><div class="ttdoc">Initialize SMI interface.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:393</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html">IOLM_SMI_SCallbacks</a></div><div class="ttdoc">SMI Callbacks. Must be initialized via IOLM_SMI_vInit.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.h:2928</div></div>
-<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html_a10e26b753342a25acaf6f1ac496605c8"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html#a10e26b753342a25acaf6f1ac496605c8">IOLM_SMI_SCallbacks::cbGenericCnf</a></div><div class="ttdeci">IOLM_SMI_CBGenericCnf cbGenericCnf</div><div class="ttdoc">Callback for IOLM_SMI_vGenericReq.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.h:2932</div></div>
+<div class="ttc" id="agroup__grp__smi__general_html_ga47992e75303cccf9216ca6f86d038360"><div class="ttname"><a href="group__grp__smi__general.html#ga47992e75303cccf9216ca6f86d038360">IOLM_SMI_vRun</a></div><div class="ttdeci">void IOLM_SMI_vRun(void)</div><div class="ttdoc">SMI Mainloop.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:5030</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html">IOLM_SMI_SCallbacks</a></div><div class="ttdoc">SMI Callbacks. Must be initialized via IOLM_SMI_vInit.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.h:2929</div></div>
+<div class="ttc" id="astruct_i_o_l_m___s_m_i___s_callbacks_html_a10e26b753342a25acaf6f1ac496605c8"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_callbacks.html#a10e26b753342a25acaf6f1ac496605c8">IOLM_SMI_SCallbacks::cbGenericCnf</a></div><div class="ttdeci">IOLM_SMI_CBGenericCnf cbGenericCnf</div><div class="ttdoc">Callback for IOLM_SMI_vGenericReq.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.h:2933</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="struct_i_o_l_m___s_m_i___s_callbacks.html" title="SMI Callbacks. Must be initialized via IOLM_SMI_vInit.">IOLM_SMI_SCallbacks</a> </dd></dl>
 
 </div>
@@ -385,7 +419,7 @@ Functions</h2></td></tr>
 <div class="line">    <a class="code hl_function" href="group__grp__smi__general.html#ga46a4d87ac6e6309c234d3834aeec9ca9">IOLM_SMI_vSaveNvFinished</a>();</div>
 <div class="line">}</div>
 <div class="ttc" id="agroup__group__iol__types_html_ga457b26d31d5c098466eed5f056fe1979"><div class="ttname"><a href="group__group__iol__types.html#ga457b26d31d5c098466eed5f056fe1979">INT32U</a></div><div class="ttdeci">uint32_t INT32U</div><div class="ttdoc">32 bit unsigned integer</div><div class="ttdef"><b>Definition</b> IOL_Port_Types.h:56</div></div>
-<div class="ttc" id="agroup__grp__smi__general_html_ga46a4d87ac6e6309c234d3834aeec9ca9"><div class="ttname"><a href="group__grp__smi__general.html#ga46a4d87ac6e6309c234d3834aeec9ca9">IOLM_SMI_vSaveNvFinished</a></div><div class="ttdeci">void IOLM_SMI_vSaveNvFinished(void)</div><div class="ttdoc">Save configuration finished.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:597</div></div>
+<div class="ttc" id="agroup__grp__smi__general_html_ga46a4d87ac6e6309c234d3834aeec9ca9"><div class="ttname"><a href="group__grp__smi__general.html#ga46a4d87ac6e6309c234d3834aeec9ca9">IOLM_SMI_vSaveNvFinished</a></div><div class="ttdeci">void IOLM_SMI_vSaveNvFinished(void)</div><div class="ttdoc">Save configuration finished.</div><div class="ttdef"><b>Definition</b> IOLM_SMI.c:617</div></div>
 <div class="ttc" id="astruct_i_o_l_m___s_m_i___s_n_v_configuration_html"><div class="ttname"><a href="struct_i_o_l_m___s_m_i___s_n_v_configuration.html">IOLM_SMI_SNVConfiguration</a></div><div class="ttdef"><b>Definition</b> IOLM_SMI.h:351</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd>IOLM_SMI_CBSaveNVCfg </dd></dl>
 

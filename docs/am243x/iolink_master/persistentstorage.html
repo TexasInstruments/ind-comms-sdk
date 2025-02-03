@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.00</span></div></td>
+         <td id="projectalign"><div id="projectname"> IO-Link Master<span id="projectnumber">v2.02.01</span></div></td>
          <td id="projectbrief" align="right"><img src=IOLinkLogoIcon.PNG /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -153,20 +153,23 @@ The non blocking API <b> NVM_APP_writeAsync </b> shall be used which triggers th
 <div class="line">    NVM_ERR_END_ENUM</div>
 <div class="line">} NVM_err_t;</div>
 </div><!-- fragment --><p>As a contradictory, the API <b> NVM_APP_close </b> kills the write task <b>NVM_APP_writeTask</b> and the semaphore which were being created by the API <b> NVM_APP_init </b> </p><div class="fragment"><div class="line">uint32_t NVM_APP_close(<span class="keywordtype">void</span>);</div>
-</div><!-- fragment --><p>The APIs <b>NVM_APP_write</b> and <b>NVM_APP_writeAsync</b> shall have same set of parameters.</p>
+</div><!-- fragment --><p>The APIs <b>NVM_APP_write</b> and <b>NVM_APP_writeAsync</b> have same set of parameters. The <b>forceErase</b> flag will decide the flash block erase frequency. A 'true' will always erase the flash block before writing data to the flash. A 'false' shall make the API to decide whether the flash block needs to be erased or not. Consecutive data write cycles to same flash block must set <b>forceErase</b> to 'false'. <br  />
+</p>
 <div class="fragment"><div class="line">uint32_t NVM_APP_write(</div>
 <div class="line">    <span class="keyword">const</span> NVM_type_t type,</div>
 <div class="line">    <span class="keyword">const</span> uint32_t <span class="keywordtype">id</span>,</div>
 <div class="line">    <span class="keyword">const</span> uint32_t offset,</div>
 <div class="line">    <span class="keyword">const</span> uint32_t length,</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">void</span> * <span class="keyword">const</span> pData);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">void</span> * <span class="keyword">const</span> pData,</div>
+<div class="line">    <span class="keyword">const</span> uint32_t forceErase);</div>
 <div class="line"> </div>
 <div class="line">uint32_t NVM_APP_writeAsync(</div>
 <div class="line">    <span class="keyword">const</span> NVM_type_t type,</div>
 <div class="line">    <span class="keyword">const</span> uint32_t <span class="keywordtype">id</span>,</div>
 <div class="line">    <span class="keyword">const</span> uint32_t offset,</div>
 <div class="line">    <span class="keyword">const</span> uint32_t length,</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">void</span> * <span class="keyword">const</span> pData);</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">void</span> * <span class="keyword">const</span> pData,</div>
+<div class="line">    <span class="keyword">const</span> uint32_t forceErase);</div>
 </div><!-- fragment --><p>The parameter <b>type</b> can be <em><b>NVM_TYPE_EEPROM</b></em> or <em><b>NVM_TYPE_FLASH</b></em> depending on the implementation. <br  />
  The parameter <b>id</b> can be <em><b>CONFIG_EEPROM0</b></em> or <em><b>CONFIG_FLASH0</b></em> or similar depending on the sysconfig adaptations.</p>
 <div class="image">
@@ -198,7 +201,8 @@ AM64x/AM243x EVM User's Guide</div></div>
 <div class="line">            CONFIG_EEPROM0,</div>
 <div class="line">            EEPROM_DATA_OFFSET,</div>
 <div class="line">            buffer_length,</div>
-<div class="line">            buffer);</div>
+<div class="line">            buffer,</div>
+<div class="line">            <span class="keyword">true</span>);</div>
 </div><!-- fragment --><p>Below is the sample implementation of the API <b>NVM_APP_read</b> in a application.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#define EEPROM_DATA_OFFSET  (0x200U)</span></div>
 <div class="line"> </div>
@@ -251,7 +255,8 @@ AM64x/AM243x EVM User's Guide</div></div>
 <div class="line">            CONFIG_EEPROM0,</div>
 <div class="line">            EEPROM_DATA_OFFSET,</div>
 <div class="line">            buffer_length,</div>
-<div class="line">            buffer);</div>
+<div class="line">            buffer,</div>
+<div class="line">            <span class="keyword">true</span>);</div>
 <div class="line"><span class="keywordflow">if</span> (error != NVM_ERR_SUCCESS)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// handle the busy or error state</span></div>

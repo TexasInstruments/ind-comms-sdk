@@ -31,7 +31,9 @@ var NAVTREE =
       [ "Known Issues", "known_issues.html", null ],
       [ "Overview", "releasenotes.html#releasenotesoverview", null ],
       [ "Licensing", "releasenotes.html#releasenoteslicensing", null ],
+      [ "Release Version 2.02.01", "releasenotes.html#version_release20200", null ],
       [ "Release Version 2.02.00", "releasenotes.html#version_release20200", null ],
+      [ "Release Version 2.01.01", "releasenotes.html#version_release20101", null ],
       [ "Release Version 2.01.00", "releasenotes.html#version_release20100", null ],
       [ "Release Version 2.00.00", "releasenotes.html#version_release20000", null ],
       [ "Release Version 1.09.08", "releasenotes.html#version_release10908", null ],
@@ -100,9 +102,6 @@ var NAVTREE =
         [ "All", "functions.html", "functions_dup" ],
         [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
-    ] ],
-    [ "Related Information", "usergroup0.html", [
-      [ "KUNBUS GmbH", "^https://www.kunbus.com", null ]
     ] ]
   ] ]
 ];
@@ -111,8 +110,8 @@ var NAVTREEINDEX =
 [
 "_implementation.html",
 "group__group__iol__types.html#ggad0ca49c3bb7c13c80fd6a22eea40bccfa21737088b071d7c393731d280260a98a",
-"struct_i_o_l_m___s_m_i___s_callbacks.html#a7dec2eedb73d43657add88a5af04cef7",
-"struct_i_o_l_m___s_real_port_config.html#a319eaa68a173bc85535186dc9b5a30bb"
+"struct_i_o_l_m___s_m_i___s_callbacks.html#a73e17118379d8ac6865b9cfaabeee3fb",
+"struct_i_o_l_m___s_real_port_config.html#a05dbc68f0483521aa9ecfe8eefa46463"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

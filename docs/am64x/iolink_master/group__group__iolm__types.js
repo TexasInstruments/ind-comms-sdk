@@ -41,6 +41,7 @@ var group__group__iolm__types =
     [ "IOLM_SPageRequest", "struct_i_o_l_m___s_page_request.html", [
       [ "u8PageRequest", "struct_i_o_l_m___s_page_request.html#a7cc8f44e92ef54cc676e4a97054162d4", null ]
     ] ],
+    [ "IOLM_SMasterCfg", "struct_i_o_l_m___s_master_cfg.html", null ],
     [ "IOLM_DS_EMPTY", "group__group__iolm__types.html#gad5a367d60fa239450891de32dfba808b", null ],
     [ "IOLM_DS_MAX_SIZE", "group__group__iolm__types.html#ga456ca255c5502d6855de21322e98c728", null ],
     [ "IOLM_MAX_EVENT_ENTRIES", "group__group__iolm__types.html#ga8f1f04d4be912473e82b8ad4b9b9c0b7", null ],
