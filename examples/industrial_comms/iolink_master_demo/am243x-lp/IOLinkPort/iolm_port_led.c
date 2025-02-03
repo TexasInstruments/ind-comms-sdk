@@ -41,6 +41,7 @@
 
 #include <osal.h>
 #include <board/led.h>
+#include "iolm_port_sitara_soc.h"
 #include "iolm_port_led.h"
 #include "ti_board_open_close.h"
 #include <board/ioexp/ioexp_tca6424.h>
@@ -93,6 +94,7 @@ int32_t IOLM_LED_IOEXP_transfer(uint16_t bitmask)
     uint32_t shiftedBitmask = bitmask;
     uint32_t currentLedNumber;
 
+    SemaphoreP_pend(&mutexIolPeriphery, SystemP_WAIT_FOREVER);
     for (currentLedNumber = 0; currentLedNumber < 16;
          currentLedNumber++) /* walk though bitmask */
     {
@@ -106,6 +108,7 @@ int32_t IOLM_LED_IOEXP_transfer(uint16_t bitmask)
         }
         shiftedBitmask >>= 1;
     }
+    SemaphoreP_post(&mutexIolPeriphery);
     return error;
 }
 
@@ -123,8 +126,9 @@ int32_t IOLM_LED_IOEXP_transfer(uint16_t bitmask)
 int32_t IOLM_LED_IOEXP_baseBoardLED(uint32_t ledNumber, bool ledState)
 {
     int32_t  error    = SystemP_SUCCESS;
-    uint32_t instance = IOLM_LED_IOEXP_LED_NUM_IOL + ledNumber;
+    uint32_t instance = ledNumber;
 
+    SemaphoreP_pend(&mutexIolPeriphery, SystemP_WAIT_FOREVER);
     if (ledState == true)
     {
         error = LED_on(gLedHandle[instance], ledNumber);
@@ -133,6 +137,7 @@ int32_t IOLM_LED_IOEXP_baseBoardLED(uint32_t ledNumber, bool ledState)
     {
         error = LED_off(gLedHandle[instance], ledNumber);
     }
+    SemaphoreP_post(&mutexIolPeriphery);
 
     return error;
 }

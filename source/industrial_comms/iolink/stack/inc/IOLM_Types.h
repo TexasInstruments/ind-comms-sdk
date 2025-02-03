@@ -604,6 +604,49 @@ typedef struct IOLM_SPageRequest
     INT8U u8PageRequest; /**< \brief 1 if a page request is ready / 2 if pending / 0 if idle. */
 }IOLM_SPageRequest;
 
+/**
+\brief This structure is used for the stack configuration.
+*/
+typedef struct IOLM_SMasterCfg
+{
+    /* \brief defines the number of available ports
+    *
+    *   This can only be changed before Stack initalization
+    */
+    INT8U u8NumberOfPorts;
+
+    /* \brief time reservation for data processing
+    *
+    *   Sets the reserved time between Rx of frame and preparation of next Tx frame. In case of
+    *   communication errors on high load situations this value should be increased. The value has
+    *   only effect if it is set before IO-Link Port communication has started.
+    */
+    INT32U u32ProcessingTimeUs;
+
+    /* \brief disable overload event
+    *
+    *   In case the master stack detects frames out of order it is considered as overload.
+    *   by default this reported by IOL_eEPortCode_Overload. If this should not be the case it can
+    *   be disabled by setting this to TRUE.
+    */
+    TBOOL boDisableOverloadEvent;
+
+    /* \brief time between two wakeup sequences
+    *
+    *   This sets the time between two wakeup sequence. This need to be between 500 and 1000ms.
+    *   See also TSD in specification.
+    */
+    INT32U u32DeviceDetectionTime;
+
+#if IOLM_PHY_FRAMEHANDLER == 0
+    /* \brief time between two establish sequences
+    *
+    *   This sets the delay between two communication establishment sequences. This needs to be
+    *   between 30 and 50ms. See also TDWU in specification
+    */
+    INT32U u32WakeRetryDelay;
+#endif
+} IOLM_SMasterCfg;
 
 /** \} */
 #ifndef IOL_ONLY_TYPE_INCLUDE

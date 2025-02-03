@@ -45,15 +45,16 @@
 
 #define IOLM_SOC_PORT_COUNT (uint8_t)(sizeof(iolPinSetup_g) / sizeof(iolPinSetup_g[0]))
 
+SemaphoreP_Object mutexIolPeriphery;
 IOLM_SOC_ECqMode_t iolEqMode_g[IOLM_EXMPL_MAX_PORTS];
 
 const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
 {
     { // Port 0
         .rx = {
-            .ctlRegOffset = PIN_PRG0_PRU0_GPO0,
-            .gpioBase = CONFIG_IOL_RX1_BASE_ADDR,
-            .gpioPin = CONFIG_IOL_RX1_PIN
+            .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO0,
+            .gpio.gpioBase = CONFIG_IOL_RX1_BASE_ADDR,
+            .gpio.gpioPin = CONFIG_IOL_RX1_PIN
         },
             .tx = {
             .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO11,
@@ -76,9 +77,9 @@ const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
     },
     { // Port 1
         .rx = {
-            .ctlRegOffset = PIN_PRG0_PRU0_GPO1,
-            .gpioBase = CONFIG_IOL_RX2_BASE_ADDR,
-            .gpioPin = CONFIG_IOL_RX2_PIN
+            .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO1,
+            .gpio.gpioBase = CONFIG_IOL_RX2_BASE_ADDR,
+            .gpio.gpioPin = CONFIG_IOL_RX2_PIN
          },
         .tx = {
             .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO12,
@@ -101,9 +102,9 @@ const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
     },
     { // Port 2
         .rx = {
-            .ctlRegOffset = PIN_PRG0_PRU0_GPO2,
-            .gpioBase = CONFIG_IOL_RX3_BASE_ADDR,
-            .gpioPin = CONFIG_IOL_RX3_PIN
+            .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO2,
+            .gpio.gpioBase = CONFIG_IOL_RX3_BASE_ADDR,
+            .gpio.gpioPin = CONFIG_IOL_RX3_PIN
         },
         .tx = {
             .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO13,
@@ -126,9 +127,9 @@ const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
     },
     { // Port 3
         .rx = {
-            .ctlRegOffset = PIN_PRG0_PRU0_GPO3,
-            .gpioBase = CONFIG_IOL_RX4_BASE_ADDR,
-            .gpioPin = CONFIG_IOL_RX4_PIN
+            .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO3,
+            .gpio.gpioBase = CONFIG_IOL_RX4_BASE_ADDR,
+            .gpio.gpioPin = CONFIG_IOL_RX4_PIN
         },
         .tx = {
             .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO14,
@@ -151,9 +152,9 @@ const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
     },
     { // Port 4
         .rx = {
-            .ctlRegOffset = PIN_PRG0_PRU0_GPO4,
-            .gpioBase = CONFIG_IOL_RX5_BASE_ADDR,
-            .gpioPin = CONFIG_IOL_RX5_PIN
+            .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO4,
+            .gpio.gpioBase = CONFIG_IOL_RX5_BASE_ADDR,
+            .gpio.gpioPin = CONFIG_IOL_RX5_PIN
         },
         .tx = {
             .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO15,
@@ -176,9 +177,9 @@ const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
     },
     { // Port 5
         .rx = {
-            .ctlRegOffset = PIN_PRG0_PRU0_GPO5,
-            .gpioBase = CONFIG_IOL_RX6_BASE_ADDR,
-            .gpioPin = CONFIG_IOL_RX6_PIN
+            .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO5,
+            .gpio.gpioBase = CONFIG_IOL_RX6_BASE_ADDR,
+            .gpio.gpioPin = CONFIG_IOL_RX6_PIN
         },
         .tx = {
             .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO16,
@@ -201,9 +202,9 @@ const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
     },
     { // Port 6
         .rx = {
-            .ctlRegOffset = PIN_PRG0_PRU0_GPO6,
-            .gpioBase = CONFIG_IOL_RX7_BASE_ADDR,
-            .gpioPin = CONFIG_IOL_RX7_PIN
+            .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO6,
+            .gpio.gpioBase = CONFIG_IOL_RX7_BASE_ADDR,
+            .gpio.gpioPin = CONFIG_IOL_RX7_PIN
         },
         .tx = {
             .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO17,
@@ -226,9 +227,9 @@ const IOLM_PL_sPortConfig_t iolPinSetup_g[] =
     },
     { // Port 7
         .rx = {
-            .ctlRegOffset = PIN_PRG0_PRU0_GPO7,
-            .gpioBase = CONFIG_IOL_RX8_BASE_ADDR,
-            .gpioPin = CONFIG_IOL_RX8_PIN
+            .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO7,
+            .gpio.gpioBase = CONFIG_IOL_RX8_BASE_ADDR,
+            .gpio.gpioPin = CONFIG_IOL_RX8_PIN
         },
         .tx = {
             .gpio.ctlRegOffset = PIN_PRG0_PRU0_GPO18,
@@ -315,6 +316,8 @@ void IOLM_SOC_init(void)
 
     OSAL_MEMORY_memset(iolEqMode_g, 0, sizeof(iolEqMode_g));
 
+    SemaphoreP_constructMutex(&mutexIolPeriphery);
+
     PRU_IOLM_registerSetModeCallback(IOLM_SOC_setMode);
     PRU_IOLM_registerGetPortCfgCallback(IOLM_SOC_getPortCfg);
     PRU_IOLM_registerSetDoCallback(IOLM_SOC_setDO);
@@ -329,15 +332,15 @@ void IOLM_SOC_init(void)
 
     for (portNum = 0; portNum < IOLM_SOC_PORT_COUNT; portNum++)
     {
-        IOLM_SOC_setPinMux(iolPinSetup_g[portNum].rx.ctlRegOffset, IOL_MUX_PRU_RX, true);
+        IOLM_SOC_setPinMux(iolPinSetup_g[portNum].rx.gpio.ctlRegOffset, IOL_MUX_PRU_RX, true);
         IOLM_SOC_setPinMux(iolPinSetup_g[portNum].tx.gpio.ctlRegOffset, IOL_MUX_PRU_TX, false);
         IOLM_SOC_setPinMux(iolPinSetup_g[portNum].txEn.gpio.ctlRegOffset, IOL_MUX_GPIO_TX, false);
         IOLM_SOC_setPinMux(iolPinSetup_g[portNum].pwrEn.ctlRegOffset, IOL_MUX_GPIO_TX, false);
 
         // setup the GPIO direction
         GPIO_setDirMode(
-            iolPinSetup_g[portNum].rx.gpioBase,
-            iolPinSetup_g[portNum].rx.gpioPin,
+            iolPinSetup_g[portNum].rx.gpio.gpioBase,
+            iolPinSetup_g[portNum].rx.gpio.gpioPin,
             GPIO_DIRECTION_INPUT);
         GPIO_setDirMode(
             iolPinSetup_g[portNum].txEn.gpio.gpioBase,
@@ -355,7 +358,6 @@ void IOLM_SOC_init(void)
         IOLM_SOC_gpioWrite(&iolPinSetup_g[portNum].tx.gpio, 0);
         IOLM_SOC_gpioWrite(&iolPinSetup_g[portNum].txEn.gpio, 0);
         IOLM_SOC_gpioWrite(&iolPinSetup_g[portNum].pwrEn, 0);
-        IOLM_SOC_gpioWrite(&iolPinSetup_g[portNum].pwrEn, 1);
     }
 }
 
@@ -376,18 +378,18 @@ void IOLM_SOC_setMode(uint8_t instance, uint8_t portNum, IOLM_PL_ePortMode_t mod
     {
         case IOLM_PL_eModeSioInactive:
         case IOLM_PL_eModeSioDI:
-            IOLM_SOC_setPinMux(iolPinSetup_g[portNum].rx.ctlRegOffset, IOL_MUX_GPIO_RX, true);
+            IOLM_SOC_setPinMux(iolPinSetup_g[portNum].rx.gpio.ctlRegOffset, IOL_MUX_GPIO_RX, true);
             IOLM_SOC_setPinMux(iolPinSetup_g[portNum].tx.gpio.ctlRegOffset, IOL_MUX_GPIO_TX, false);
             break;
         case IOLM_PL_eModeSioDO:
             IOLM_SOC_setCqMode(instance * 8 + portNum, cqMode);
-            IOLM_SOC_setPinMux(iolPinSetup_g[portNum].rx.ctlRegOffset, IOL_MUX_GPIO_RX, true);
+            IOLM_SOC_setPinMux(iolPinSetup_g[portNum].rx.gpio.ctlRegOffset, IOL_MUX_GPIO_RX, true);
             IOLM_SOC_setPinMux(iolPinSetup_g[portNum].tx.gpio.ctlRegOffset, IOL_MUX_GPIO_TX, false);
             IOLM_SOC_gpioWrite(&iolPinSetup_g[portNum].txEn.gpio, 1);
             break;
         case IOLM_PL_eModeSdci:
             IOLM_SOC_gpioWrite(&iolPinSetup_g[portNum].txEn.gpio, 0);
-            IOLM_SOC_setPinMux(iolPinSetup_g[portNum].rx.ctlRegOffset, IOL_MUX_PRU_RX, true);
+            IOLM_SOC_setPinMux(iolPinSetup_g[portNum].rx.gpio.ctlRegOffset, IOL_MUX_PRU_RX, true);
             IOLM_SOC_setPinMux(iolPinSetup_g[portNum].tx.gpio.ctlRegOffset, IOL_MUX_PRU_TX, false);
             break;
         default:
@@ -486,7 +488,7 @@ bool IOLM_SOC_getDI(uint8_t instance, uint8_t portNum)
     if (IOLM_SOC_checkInstPortValid(instance, portNum) == OSAL_eERR_NOERROR)
     {
         IOLM_SOC_gpioWrite(&iolPinSetup_g[portNum].txEn.gpio, 0);
-        boDInputValue = IOLM_SOC_gpioRead(&iolPinSetup_g[portNum].rx);
+        boDInputValue = IOLM_SOC_gpioRead(&iolPinSetup_g[portNum].rx.gpio);
     }
 
     return !boDInputValue;

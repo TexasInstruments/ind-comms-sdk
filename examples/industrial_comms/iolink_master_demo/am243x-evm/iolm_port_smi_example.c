@@ -45,6 +45,7 @@
 #include "nvm.h"
 #include "IOLinkPort/iolm_port_smi.h"
 #include "ti_board_config.h"
+#include "iolm_port_sitara_soc.h"
 
 /** \brief Definition of SMI config size */
 #define EEPROM_CONFIG_SIZE ((sizeof(IOLM_SMI_SNVConfiguration) + EEPROM_PAGE_SIZE - 1) & ~(EEPROM_PAGE_SIZE-1))
@@ -284,6 +285,7 @@ void IOLM_EXMPL_init(void)
     }
 
     NVM_APP_init(OSAL_TASK_Prio_IOL_NVRAM);
+    NVM_APP_setLockHandle(&mutexIolPeriphery);
     NVM_APP_registerCallback(IOLM_EXMPL_writeCallback);
 
     /* Initialize external SMI channel */
@@ -965,6 +967,7 @@ void IOLM_EXMPL_vLoadMasterIdentification(uint16_t *u16ArgBlockLength_p, uint8_t
     IOLM_SMI_SMasterident *psuMasterIdent = (IOLM_SMI_SMasterident *)pu8ArgBlock_p;
     psuMasterIdent->u16ArgBlockID         = IOLM_SMI_ENDIAN_16(IOLM_SMI_eArgBlockID_MasterIdent);
     psuMasterIdent->u8MaxNumberOfPorts    = IOLM_EXMPL_MAX_PORTS;
+    psuMasterIdent->u8Features_1 = IOLM_SMI_FEATURE_POWEROFFON;
 
     // set portType for all ports
     for (INT8U i = 0; i < IOLM_EXMPL_MAX_PORTS; i++)

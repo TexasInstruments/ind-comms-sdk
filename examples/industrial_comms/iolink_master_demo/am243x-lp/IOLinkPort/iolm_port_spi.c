@@ -46,6 +46,7 @@
 #include <osal.h>
 #include "iolm_port_spi.h"
 #include "IOL_Port_Types.h"
+#include "iolm_port_sitara_soc.h"
 
 /* ========================================================================== */
 /*                          Setup SPI Instances                               */
@@ -126,7 +127,9 @@ int32_t IOLM_SPI_mcspiTransfer(
     pTransaction->count     = lengthInWords;
     pTransaction->csDisable = TRUE;
 
+    SemaphoreP_pend(&mutexIolPeriphery, SystemP_WAIT_FOREVER);
     error = MCSPI_transfer(gMcspiConfig[mcspiInstance].object->handle, pTransaction);
+    SemaphoreP_post(&mutexIolPeriphery);
 laExit:
     return error;
 }

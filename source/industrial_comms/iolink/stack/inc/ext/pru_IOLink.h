@@ -40,11 +40,11 @@ typedef struct IOLM_PL_sGpioConfig
     int16_t     ctlRegOffset;
 } IOLM_PL_sGpioConfig_t;
 
-typedef struct IOLM_PL_sGpioTxConfig
+typedef struct IOLM_PL_sGpioPruConfig
 {
     IOLM_PL_sGpioConfig_t   gpio;
     uint32_t                pruPin; // pru pin number
-} IOLM_PL_sGpioTxConfig_t;
+} IOLM_PL_sGpioPruConfig_t;
 
 typedef struct IOLM_PL_sGpioEnConfig
 {
@@ -55,8 +55,8 @@ typedef struct IOLM_PL_sGpioEnConfig
 
 typedef struct IOLM_PL_sPortConfig
 {
-    IOLM_PL_sGpioConfig_t       rx;
-    IOLM_PL_sGpioTxConfig_t     tx;
+    IOLM_PL_sGpioPruConfig_t    rx;
+    IOLM_PL_sGpioPruConfig_t    tx;
     IOLM_PL_sGpioEnConfig_t     txEn;
     IOLM_PL_sGpioConfig_t       pwrEn;
 } IOLM_PL_sPortConfig_t;
@@ -65,7 +65,8 @@ typedef struct IOLM_PL_sPortConfig
 typedef struct IOLM_PL_PRU_Config
 {
     uint32_t pruIcssInstanceNumber;
-    PRU_PruFirmware_t customFirmware[2];
+    PRU_PruFirmware_t customFirmware[2]; // firmware 0 = frame handler, firmware 1 = cycletimer
+    bool isPru1FrameHandler; // if false ...PRU0_x pins are used, if true ...PRU1_x pins are used
 }IOLM_PL_PRU_Config_t;
 
 typedef void (*IOLM_PL_cbPRUsetMode_t)        (uint8_t instance_p, uint8_t portNum_p, IOLM_PL_ePortMode_t mode_p);

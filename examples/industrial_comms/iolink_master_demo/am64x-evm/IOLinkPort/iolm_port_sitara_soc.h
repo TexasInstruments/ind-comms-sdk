@@ -45,12 +45,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <osal.h>
-#include <pru.h>
 #include <IOLM_Phy.h>
 
 #include "ti_drivers_config.h"
 #include <drivers/gpio.h>
 #include <drivers/pinmux.h>
+#include <kernel/dpl/SemaphoreP.h>
 #include "pru_IOLink.h"
 #include "iolm_port_spi.h"
 #include "iolm_port_smi_example.h"
@@ -111,6 +111,7 @@ typedef enum IOLM_SOC_EPowerState
 } IOLM_SOC_EPowerState_t;
 
 extern const IOLM_SPhyGeneric IOLM_SOC_phyPortCfgPru_g[IOLM_EXMPL_MAX_PORTS];
+extern SemaphoreP_Object mutexIolPeriphery;
 
 void IOLM_SOC_init(void);
 void IOLM_SOC_setMode(uint8_t instance, uint8_t portNum, IOLM_PL_ePortMode_t mode);

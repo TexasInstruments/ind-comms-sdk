@@ -43,6 +43,7 @@
 #include "FreeRTOS.h"
 #include "nvm_drv_eeprom.h"
 #include "nvm_drv_flash.h"
+#include "kernel/dpl/SemaphoreP.h"
 
 #define WRITE_STACK_SIZE_BYTE     1024
 #define WRITE_FLASH_STACK_SIZE    (WRITE_STACK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
@@ -66,6 +67,7 @@ typedef struct NVM_APP_handle
 }NVM_APP_handle_t;
 
 static NVM_APP_handle_t NVM_handle = {0};
+SemaphoreP_Object *pNvmLock = NULL;
 
 OSAL_FUNC_NORETURN static void NVM_APP_writeTask(void *pArg);
 
@@ -142,6 +144,28 @@ uint32_t NVM_APP_close(void)
     return error;
 }
 
+
+/*!
+ * \brief
+ * Set handle for lock object
+ *
+ * \details
+ * This object is used to lock periphery during the nvm access
+ *
+ * \param[in]     handle                    native lock handle
+ *
+ * \return        NVM_err_t as uint32_t.
+ * \retval        NVM_ERR_SUCCESS           Success.
+ *
+ * \ingroup NVM_APP
+ *
+ */
+uint32_t NVM_APP_setLockHandle(void *handle)
+{
+    pNvmLock = (SemaphoreP_Object *)handle;
+    return NVM_ERR_SUCCESS;
+}
+
 /*!
  * \brief
  * Register write callback.
@@ -202,6 +226,10 @@ uint32_t NVM_APP_read(
     void * const pData)
 {
     uint32_t error = NVM_ERR_SUCCESS;
+    if (pNvmLock)
+    {
+        SemaphoreP_pend(pNvmLock, SystemP_WAIT_FOREVER);
+    }
     switch (type)
     {
         case NVM_TYPE_EEPROM:
@@ -216,6 +244,10 @@ uint32_t NVM_APP_read(
         }
         default:
             error = NVM_ERR_INVALID;
+    }
+    if (pNvmLock)
+    {
+        SemaphoreP_post(pNvmLock);
     }
     return error;
 }
@@ -250,6 +282,11 @@ uint32_t NVM_APP_write(
     const void * const pData)
 {
     uint32_t error = NVM_ERR_SUCCESS;
+
+    if (pNvmLock)
+    {
+        SemaphoreP_pend(pNvmLock, SystemP_WAIT_FOREVER);
+    }
     switch (type)
     {
         case NVM_TYPE_EEPROM:
@@ -266,6 +303,10 @@ uint32_t NVM_APP_write(
         {
             error = NVM_ERR_INVALID;
         }
+    }
+    if (pNvmLock)
+    {
+        SemaphoreP_post(pNvmLock);
     }
     return error;
 }

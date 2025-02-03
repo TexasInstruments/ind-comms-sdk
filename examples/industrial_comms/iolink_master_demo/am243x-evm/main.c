@@ -114,6 +114,7 @@ static void IOLM_MAIN_sysInit(void)
 static IOLM_PL_PRU_Config_t iolmPruExampleConfig =
 {
     .pruIcssInstanceNumber = CONFIG_PRU_ICSS0,
+    .isPru1FrameHandler = false,
     .customFirmware[0].pFirmware = NULL,        //use the default PRU Firmware on core-0
     .customFirmware[0].frmLength = 0,
     .customFirmware[1].pFirmware = NULL,        //use the default PRU Firmware on core-1
@@ -215,16 +216,10 @@ void OSAL_FUNC_NORETURN IOLM_MAIN_loop(void)
  */
 void IOLM_MAIN_init(void)
 {
-    uint8_t portNumber;
     pMainLoopRequested_g = OSAL_createSignal("IOLM_mainLoopRequest");
 
     /* IO Link Master stack and example init */
     IOLM_EXMPL_init();
-
-    for (portNumber = 0; portNumber < IOLM_PORT_COUNT; portNumber++)
-    {
-        IOLM_SOC_setPower((uint8_t)iolmPruExampleConfig.pruIcssInstanceNumber, portNumber, true);
-    }
 
     /* Create a task for the IO-Link main execution */
     IOLM_MAIN_exampleStart();

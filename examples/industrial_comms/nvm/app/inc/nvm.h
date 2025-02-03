@@ -87,6 +87,8 @@ extern uint32_t NVM_APP_init(
 
 extern uint32_t NVM_APP_close(void);
 
+extern uint32_t NVM_APP_setLockHandle(void *handle);
+
 extern uint32_t NVM_APP_read(
     const NVM_type_t type,
     const uint32_t id,

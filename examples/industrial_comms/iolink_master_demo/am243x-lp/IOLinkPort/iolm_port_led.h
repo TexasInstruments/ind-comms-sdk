@@ -45,9 +45,6 @@
 #include <stdint.h>
 #include "iolm_port_ledtask.h"
 
-#define IOLM_LED_IOEXP_LED_NUM_BASEBOARD (1U)
-#define IOLM_LED_IOEXP_LED_NUM_IOL (CONFIG_LED_NUM_INSTANCES - IOLM_LED_IOEXP_LED_NUM_BASEBOARD)
-
 void IOLM_LED_IOEXP_init(void);
 void IOLM_LED_IOEXP_close(void);
 
