@@ -1,11 +1,12 @@
 {
     "name": "INDUSTRIAL_COMMUNICATIONS_SDK",
     "displayName": "INDUSTRIAL COMMUNICATIONS SDK",
-    "version": "10.00.00",
+    "version": "10.00.01",
     "documentationPath": "../docs",
     "includePaths": [
         "../source",
         "../mcu_plus_sdk/source/sysconfig",
+        "../mcu_plus_sdk/source/networking/enet/core/sysconfig",
     ],
     "components": [
         "/industrial_comms/industrial_comms",
@@ -49,6 +50,9 @@
         }, {
             "name": "a53ss0-0",
             "targetdbId": "a53ss0-0"
+        },{
+            "name": "a53ss0-1",
+            "targetdbId": "a53ss0-1"
         },{
             "name": "icss_g0_pru0",
             "targetdbId": "icss_g0_pru0"
@@ -312,5 +316,5 @@
         "showSignals": true,
         "showUsed": true
     },
-    "minToolVersion" : "1.21.0"
+    "minToolVersion" : "1.21.2"
 }

@@ -11,7 +11,7 @@
         "name": "ethercat_iolink_gateway_demo",
         "location": "../../examples/industrial_comms/ethercat_iolink_gateway_demo/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -43,7 +43,7 @@
         "name": "ethercat_iolink_gateway_demo",
         "location": "../../examples/industrial_comms/ethercat_iolink_gateway_demo/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -71,107 +71,11 @@
         "resourceSubClass": [
             "example.general"
         ],
-        "description": "A Ethercat Slave Beckhoff Ssc Demo Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "ethercat_slave_beckhoff_ssc_demo",
-        "location": "../../examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
-        "devtools": [
-            "AM243x_GP_EVM"
-        ],
-        "kernel": [
-            "freertos"
-        ],
-        "compiler": [
-            "ticlang"
-        ],
-        "subCategories": [
-            "industrial_comms",
-            "ethercat_slave_beckhoff_ssc_demo",
-            "r5fss0-0_freertos"
-        ],
-        "mainCategories": [
-            [
-                "Examples",
-                "Development Tools"
-            ]
-        ]
-    },
-    {
-        "resourceType": "project.ccs",
-        "resourceClass": [
-            "example"
-        ],
-        "resourceSubClass": [
-            "example.general"
-        ],
-        "description": "A Ethercat Slave Beckhoff Ssc Demo Example. CPU is R5FSS1-0 running FREERTOS.",
-        "name": "ethercat_slave_beckhoff_ssc_demo",
-        "location": "../../examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am243x-evm/r5fss1-0_freertos/ti-arm-clang/example.projectspec",
-        "devtools": [
-            "AM243x_GP_EVM"
-        ],
-        "kernel": [
-            "freertos"
-        ],
-        "compiler": [
-            "ticlang"
-        ],
-        "subCategories": [
-            "industrial_comms",
-            "ethercat_slave_beckhoff_ssc_demo",
-            "r5fss1-0_freertos"
-        ],
-        "mainCategories": [
-            [
-                "Examples",
-                "Development Tools"
-            ]
-        ]
-    },
-    {
-        "resourceType": "project.ccs",
-        "resourceClass": [
-            "example"
-        ],
-        "resourceSubClass": [
-            "example.general"
-        ],
-        "description": "A Ethercat Slave Beckhoff Ssc Demo Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "ethercat_slave_beckhoff_ssc_demo",
-        "location": "../../examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
-        "devtools": [
-            "AM243x_LAUNCHPAD"
-        ],
-        "kernel": [
-            "freertos"
-        ],
-        "compiler": [
-            "ticlang"
-        ],
-        "subCategories": [
-            "industrial_comms",
-            "ethercat_slave_beckhoff_ssc_demo",
-            "r5fss0-0_freertos"
-        ],
-        "mainCategories": [
-            [
-                "Examples",
-                "Development Tools"
-            ]
-        ]
-    },
-    {
-        "resourceType": "project.ccs",
-        "resourceClass": [
-            "example"
-        ],
-        "resourceSubClass": [
-            "example.general"
-        ],
         "description": "A Ethercat Slave Cia402 Demo Example. CPU is R5FSS0-0 running FREERTOS.",
         "name": "ethercat_slave_cia402_demo",
         "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -205,7 +109,7 @@
         "name": "ethercat_slave_cia402_demo",
         "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -239,7 +143,7 @@
         "name": "ethercat_slave_ctt_demo",
         "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -273,7 +177,7 @@
         "name": "ethercat_slave_ctt_demo",
         "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -307,7 +211,7 @@
         "name": "ethercat_slave_simple_demo",
         "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -341,7 +245,7 @@
         "name": "ethercat_slave_simple_demo",
         "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -375,7 +279,7 @@
         "name": "ethernetip_adapter_generic_device_mii_demo",
         "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -410,7 +314,7 @@
         "name": "ethernetip_adapter_generic_device_mii_demo",
         "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/mii/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -445,7 +349,7 @@
         "name": "ethernetip_adapter_generic_device_rgmii_demo",
         "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/rgmii/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -480,7 +384,7 @@
         "name": "ethernetip_adapter_generic_device_rgmii_demo",
         "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/rgmii/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -515,7 +419,7 @@
         "name": "ethernetip_adapter_discrete_io_device_mii_demo",
         "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -550,7 +454,7 @@
         "name": "ethernetip_adapter_discrete_io_device_mii_demo",
         "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/mii/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -585,7 +489,7 @@
         "name": "ethernetip_adapter_discrete_io_device_rgmii_demo",
         "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/rgmii/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -620,7 +524,7 @@
         "name": "ethernetip_adapter_discrete_io_device_rgmii_demo",
         "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/rgmii/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -655,7 +559,7 @@
         "name": "hsr_mii_demo",
         "location": "../../examples/industrial_comms/hsr_prp_demo/hsr_mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -688,7 +592,7 @@
         "name": "hsr_mii_demo",
         "location": "../../examples/industrial_comms/hsr_prp_demo/hsr_mii/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -721,7 +625,7 @@
         "name": "hsr_rgmii_demo",
         "location": "../../examples/industrial_comms/hsr_prp_demo/hsr_rgmii/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -754,7 +658,7 @@
         "name": "hsr_rgmii_demo",
         "location": "../../examples/industrial_comms/hsr_prp_demo/hsr_rgmii/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -787,7 +691,7 @@
         "name": "prp_mii_demo",
         "location": "../../examples/industrial_comms/hsr_prp_demo/prp_mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -820,7 +724,7 @@
         "name": "prp_mii_demo",
         "location": "../../examples/industrial_comms/hsr_prp_demo/prp_mii/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -853,7 +757,7 @@
         "name": "prp_rgmii_demo",
         "location": "../../examples/industrial_comms/hsr_prp_demo/prp_rgmii/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -886,7 +790,7 @@
         "name": "prp_rgmii_demo",
         "location": "../../examples/industrial_comms/hsr_prp_demo/prp_rgmii/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -919,7 +823,7 @@
         "name": "iolink_master_demo",
         "location": "../../examples/industrial_comms/iolink_master_demo/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -951,7 +855,7 @@
         "name": "iolink_master_demo",
         "location": "../../examples/industrial_comms/iolink_master_demo/am243x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_LAUNCHPAD"
+            "LP-AM243"
         ],
         "kernel": [
             "freertos"
@@ -983,7 +887,7 @@
         "name": "profinet_device_demo",
         "location": "../../examples/industrial_comms/profinet_device_demo/rt_mii/am243x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
-            "AM243x_GP_EVM"
+            "TMDS243EVM"
         ],
         "kernel": [
             "freertos"
@@ -1012,8 +916,8 @@
         "name": "User Guide",
         "location": "../../docs/api_guide_am243x/index.html",
         "devtools": [
-            "AM243x_GP_EVM",
-            "AM243x_LAUNCHPAD"
+            "TMDS243EVM",
+            "LP-AM243"
         ],
         "mainCategories": [
             [
