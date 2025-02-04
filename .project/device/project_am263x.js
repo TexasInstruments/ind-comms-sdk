@@ -2,6 +2,7 @@ const common = require("../common.js");
 
 const component_file_list = [
     "source/industrial_comms/ethercat_slave/icss_fwhal/.project/project.js",
+    "source/industrial_comms/ethercat_slave/stack/patch/.project/project.js",
     "docs_src/docs/api_guide/doxy_samples/.project/project.js",
 ];
 
@@ -13,6 +14,9 @@ const device_defines = {
 
 const example_file_list = [
     "examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/.project/project.js",
+    "examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/.project/project.js",
+    "examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/.project/project.js",
+    "examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/.project/project.js",
 ];
 
 function getProjectSpecCpu(cpu) {

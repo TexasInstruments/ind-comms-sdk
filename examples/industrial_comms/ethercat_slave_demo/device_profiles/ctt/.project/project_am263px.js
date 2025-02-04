@@ -33,8 +33,8 @@ const filedirs_lp = {
         "..",         /* core_os_combo base */
         "../../..",   /* Example base */
         "../../../../../common",
-        "../../../../../common/board/am263pxlp",
-        "../../../../../common/board/am263pxlp/freertos",
+        "../../../../../common/board/am263px-lp",
+        "../../../../../common/board/am263px-lp/freertos",
         "../../../../../common/os",
         "../../../../../common/os/freertos",
         "../../../../../../nvm",
@@ -69,8 +69,8 @@ const includes_freertos_r5f_lp = {
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/os",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/os/freertos",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am263pxlp",
-        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am263pxlp/freertos",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am263px-lp",
+        "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am263px-lp/freertos",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc",
         "${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc",

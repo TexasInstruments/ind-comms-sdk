@@ -9,14 +9,14 @@
         <Groups>
             <Group SortOrder="-1">
                 <Type>EtherCAT Toolkit</Type>
-                <Name LcId="0">EtherCAT Toolkit</Name>
+                <Name LcId="1033">EtherCAT Toolkit</Name>
                 <ImageData16x14>424de6000000000000007600000028000000100000000e000000010004000000000070000000130b0000130b000010000000100000000707ff003434fc004e4efd007474f3009f9fde008a8af000b1b1d400b8b8fc00ccccd700d0d0ef00f9f9fc000000000000000000000000000000000000000000aaaaaaaaa628aaaaaaaaaaaa6126aaaaaaaaaa941014aaaaaaaa8841053148aaaaa533014a84138aaa81000295562038a8200002a229200262000003a22a300255531016a32a6218aaaa2014a879415aaaaa20015a9577aaaaaa20002a12aaaaaaaa20014aa9aaaaaaaa2002aaaaaaaa</ImageData16x14>
             </Group>
         </Groups>
         <Devices>
             <Device Physics="YY">
                 <Type ProductCode="#x54490023" RevisionNo="#x10000">TI EtherCAT Toolkit Conformance for AM243X.R5F</Type>
-                <Name LcId="0">TI EtherCAT Toolkit Conformance for AM243X.R5F</Name>
+                <Name LcId="1033">TI EtherCAT Toolkit Conformance for AM243X.R5F</Name>
                 <Info>
                     <Mailbox>
                         <Timeout>

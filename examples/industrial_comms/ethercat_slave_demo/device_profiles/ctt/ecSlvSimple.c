@@ -1710,6 +1710,8 @@ void EC_SLV_APP_CTT_applicationInit(EC_SLV_APP_CTT_Application_t* pAppInstance_p
     EC_API_SLV_FoE_cbRegisterReadFileHandler    (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileRead, pAppInstance_p->ptEcSlvApi);
     EC_API_SLV_FoE_cbRegisterWriteFileHandler   (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileWrite, pAppInstance_p->ptEcSlvApi);
     EC_API_SLV_FoE_cbRegisterCloseFileHandler   (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_fileClose, pAppInstance_p->ptEcSlvApi);
+    EC_API_SLV_FoE_cbRegisterStartBLHandler     (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_startBL, pAppInstance_p->ptEcSlvApi);
+    EC_API_SLV_FoE_cbRegisterStopBLHandler      (pAppInstance_p->ptEcSlvApi, EC_SLV_APP_FoE_stopBL, pAppInstance_p->ptEcSlvApi);
 
 #if !(defined DPRAM_REMOTE) && !(defined FBTL_REMOTE)
     EC_API_SLV_EEPROM_cbRegisterInit(pAppInstance_p->ptEcSlvApi, EC_SLV_APP_EEP_init, pAppInstance_p);

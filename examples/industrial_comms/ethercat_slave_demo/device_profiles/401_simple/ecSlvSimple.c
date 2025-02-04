@@ -3401,6 +3401,15 @@ void EC_SLV_APP_SS_applicationInit(EC_SLV_APP_SS_Application_t *pAppInstance_p)
         EC_SLV_APP_FoE_fileClose,
         pAppInstance_p->ptEcSlvApi);
 
+    EC_API_SLV_FoE_cbRegisterStartBLHandler(
+        pAppInstance_p->ptEcSlvApi,
+        EC_SLV_APP_FoE_startBL,
+        pAppInstance_p->ptEcSlvApi);
+    EC_API_SLV_FoE_cbRegisterStopBLHandler(
+        pAppInstance_p->ptEcSlvApi,
+        EC_SLV_APP_FoE_stopBL,
+        pAppInstance_p->ptEcSlvApi);
+
     /*Diagnosis support */
     EC_API_SLV_DIAG_enable(pAppInstance_p->ptEcSlvApi);
 

@@ -1,4 +1,13 @@
-/*
+/*!
+ *  \file ESL_BOARD_pinmux.h
+ *
+ *  \brief
+ *  PinMux configuration for AM263PX LP.
+ *
+ *  \author
+ *  Texas Instruments Incorporated
+ *
+ *  \copyright
  *  Copyright (C) 2021 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -31,7 +40,7 @@
  */
 
 #if !(defined __ESL_BOARD_PINMUX_H__)
-#define __ESL_BOARD_PINMUX_H__		1
+#define __ESL_BOARD_PINMUX_H__      1
 
 #include <drivers/pinmux.h>
 

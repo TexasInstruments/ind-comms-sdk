@@ -73,6 +73,9 @@ extern uint32_t EC_SLV_APP_FoE_fileWrite    (void*          pContext
                                             ,uint16_t*      pData
                                             ,uint16_t       size);
 
+extern void     EC_SLV_APP_FoE_startBL      (void* pContext);
+extern void     EC_SLV_APP_FoE_stopBL       (void* pContext);
+
 #if (defined __cplusplus)
 }
 #endif

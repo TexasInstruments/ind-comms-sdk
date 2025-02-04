@@ -2,6 +2,7 @@ const common = require("../common.js");
 
 const component_file_list = [
     "source/industrial_comms/ethercat_slave/icss_fwhal/.project/project.js",
+    "source/industrial_comms/ethercat_slave/stack/patch/.project/project.js",
     "source/industrial_comms/ethernetip_adapter/icss_fwhal/.project/project_mii.js",
     "source/industrial_comms/ethernetip_adapter/stack/lwip/.project/project_contrib.js",
     "source/industrial_comms/ethernetip_adapter/stack/lwip/.project/project_stack.js",

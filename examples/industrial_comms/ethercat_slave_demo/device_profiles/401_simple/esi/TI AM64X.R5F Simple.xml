@@ -9,14 +9,14 @@
         <Groups>
             <Group SortOrder="-1">
                 <Type>EtherCAT Toolkit</Type>
-                <Name LcId="0">EtherCAT Toolkit</Name>
+                <Name LcId="1033">EtherCAT Toolkit</Name>
                 <ImageData16x14>424de6000000000000007600000028000000100000000e000000010004000000000070000000130b0000130b000010000000100000000707ff003434fc004e4efd007474f3009f9fde008a8af000b1b1d400b8b8fc00ccccd700d0d0ef00f9f9fc000000000000000000000000000000000000000000aaaaaaaaa628aaaaaaaaaaaa6126aaaaaaaaaa941014aaaaaaaa8841053148aaaaa533014a84138aaa81000295562038a8200002a229200262000003a22a300255531016a32a6218aaaa2014a879415aaaaa20015a9577aaaaaa20002a12aaaaaaaa20014aa9aaaaaaaa2002aaaaaaaa</ImageData16x14>
             </Group>
         </Groups>
         <Devices>
             <Device Physics="YY">
                 <Type ProductCode="#x54490022" RevisionNo="#x10000">TI EtherCAT Toolkit for AM64X.R5F</Type>
-                <Name LcId="0">TI EtherCAT Toolkit for AM64X.R5F</Name>
+                <Name LcId="1033">TI EtherCAT Toolkit for AM64X.R5F</Name>
                 <Info>
                     <Mailbox>
                         <Timeout>
@@ -3851,6 +3851,78 @@
                 <Sm DefaultSize="1024" StartAddress="#x1400" ControlByte="#x22" Enable="1">MBoxIn</Sm>
                 <Sm StartAddress="#x1800" ControlByte="#x64" Enable="1">Outputs</Sm>
                 <Sm StartAddress="#x2400" ControlByte="#x20" Enable="1">Inputs</Sm>
+                <RxPdo Mandatory="true" Sm="2">
+                    <Index>#x1600</Index>
+                    <Name>RxPDO</Name>
+                    <Entry>
+                        <Index>#x2000</Index>
+                        <SubIndex>2</SubIndex>
+                        <BitLen>8</BitLen>
+                        <Name>i2c-leds</Name>
+                        <DataType>USINT</DataType>
+                    </Entry>
+                    <Entry>
+                        <Index>#x2000</Index>
+                        <SubIndex>3</SubIndex>
+                        <BitLen>8</BitLen>
+                        <Name>SubIndex 3</Name>
+                        <DataType>USINT</DataType>
+                    </Entry>
+                    <Entry>
+                        <Index>#x2000</Index>
+                        <SubIndex>4</SubIndex>
+                        <BitLen>16</BitLen>
+                        <Name>SubIndex 4</Name>
+                        <DataType>UINT</DataType>
+                    </Entry>
+                </RxPDO>
+                <RxPdo Mandatory="true" Sm="2">
+                    <Index>#x1601</Index>
+                    <Name>RxPDO2</Name>
+                    <Entry>
+                        <Index>#x2000</Index>
+                        <SubIndex>1</SubIndex>
+                        <BitLen>32</BitLen>
+                        <Name>SubIndex 1</Name>
+                        <DataType>UDINT</DataType>
+                    </Entry>
+                </RxPDO>
+                <TxPdo Mandatory="true" Sm="3">
+                    <Index>#x1A00</Index>
+                    <Name>TxPDO</Name>
+                    <Entry>
+                        <Index>#x2002</Index>
+                        <SubIndex>2</SubIndex>
+                        <BitLen>8</BitLen>
+                        <Name>SubIndex 2</Name>
+                        <DataType>USINT</DataType>
+                    </Entry>
+                    <Entry>
+                        <Index>#x2002</Index>
+                        <SubIndex>4</SubIndex>
+                        <BitLen>16</BitLen>
+                        <Name>SubIndex 4</Name>
+                        <DataType>UINT</DataType>
+                    </Entry>
+                    <Entry>
+			            <Index>#x2002</Index>
+                        <SubIndex>3</SubIndex>
+                        <BitLen>8</BitLen>
+                        <Name>SubIndex 3</Name>
+                        <DataType>USINT</DataType>
+                    </Entry>
+                </TxPDO>
+                <TxPdo Mandatory="true" Sm="3">
+                    <Index>#x1A01</Index>
+                    <Name>TxPDO2</Name>
+                    <Entry>
+                        <Index>#x2002</Index>
+                        <SubIndex>1</SubIndex>
+                        <BitLen>32</BitLen>
+                        <Name>SubIndex 1</Name>
+                        <DataType>UDINT</DataType>
+                    </Entry>
+                </TxPDO>
                 <Mailbox DataLinkLayer="true">
                     <AoE AdsRouter="1" GenerateOwnNetId="1" InitializeOwnNetId="1"/>
                     <EoE/>

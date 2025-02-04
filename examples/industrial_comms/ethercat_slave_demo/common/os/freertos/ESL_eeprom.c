@@ -179,7 +179,8 @@ void EC_SLV_APP_EEP_write(void *pContext, void*pEeprom, uint32_t length)
                           CONFIG_EEPROM0,
                           EEPROM_DATA_OFFSET,
                           sizeof(ESL_EEP_header_t) + length,
-                          pageHead);
+                          pageHead,
+                          false);
         }
 
         OSAL_MEMORY_free(pageHead);

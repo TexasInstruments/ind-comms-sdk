@@ -47,13 +47,39 @@
 #include "nvm.h"
 #endif
 
-// Offset at which file is written for FoE.
-#define APP_OSPI_FLASH_OFFSET_BASE  (0x200000U)
+// Offset at which file information and content is written for FoE.
+#define APP_OSPI_FLASH_OFFSET_BASE          (0x200000U)
 
-#define FOE_FRAGMENT_MAX_SIZE       1012
+#if (defined SOC_AM263PX)
+    // Offset at which appimage binary file is written for FoE. Applicable for AM263px LP.
+    #define APP_OSPI_FLASH_OFFSET_APPIMAGE      (0x81000U)
+#else
+    // Offset at which appimage binary file is written for FoE. Applicable for AM243x LP/EVM,AM64x EVM and AM261x LP.
+    #define APP_OSPI_FLASH_OFFSET_APPIMAGE      (0x80000U)
+#endif
 
-#define FOE_PADDED_BYTE             0x00
-#define FOE_PADDED_BYTE_LENGTH      0x01
+// OSPI flash page size in bytes
+#define OSPI_FLASH_PAGE_SIZE                (0x100)
+
+// Max number of flash pages written in one write cycle.
+#define MAX_PAGES_WRITTEN_IN_CYCLE          4
+
+// Offset at which file contents are written for FoE.
+#define APP_OSPI_FLASH_OFFSET_FILE_DATA     (APP_OSPI_FLASH_OFFSET_BASE + OSPI_FLASH_PAGE_SIZE)
+
+// FoE file name max length stored in a header
+#define FOE_FILE_NAME_MAX_LEN               30
+
+// Max file data bytes received in a mailbox message.
+#define FOE_FRAGMENT_MAX_SIZE               1012
+
+#define FOE_PADDED_BYTE                     0x00
+#define FOE_PADDED_BYTE_LENGTH              0x01
+
+// circular buffer length in bytes.
+#define FOE_CIRCULAR_BUFFER_LEN             2048
+
+#define FIRMWARE_FILE_NAME                  "ECATFW__"
 
 /*---------------------------------------------
 -    Error Codes
@@ -85,81 +111,142 @@ typedef struct ESL_FOE_header
     uint32_t    dataSize;
     uint8_t     isPadded;
     uint8_t     padByteLength;
+    uint8_t     fileNameLength;
+    uint8_t     fileName[FOE_FILE_NAME_MAX_LEN];
 } ESL_FOE_header_t;
 
-// buffer used for async write
-static void * foeBufferPtr = NULL;
-
-// Used when FoE file size is larger.
-static void * foeBufferPtr1 = NULL;
-static void * foeBufferPtr2 = NULL;
-
-// stores the accumulated file size during a larger FoE file write
-static uint32_t foeFileWriteChunkSize = 0;
+// store the FoE downloaded file information as a file header.
+static ESL_FOE_header_t foeFileHeader = { 0 };
 
 // stores the FoE file access password for authentication check during file read/write process.
-static uint32_t fileAccessPassword = 0;
+static uint32_t foeFileAccessPassword = 0;
+
+// offset in flash at which a chunk of file content is written.
+static uint32_t foeFileWriteOffset = 0;
+
+static uint32_t flashForceErase = 0;
+
+static uint8_t isBinaryFile = false;
+static uint8_t firmwareUpgradeEnabled = false;
+static uint8_t firmwareUpdateComplete = false;
+
+// Circular buffer handling variables.
+volatile static uint16_t CircBuffWriteIndex = 0;
+volatile static uint16_t CircBuffReadIndex  = 0;
+volatile static uint8_t  foeCircularBuffer[FOE_CIRCULAR_BUFFER_LEN];
 
 /*! <!-- Description: -->
  *
  *  \brief
- *  Callback function registered for FoE file write in async mode.
+ *  Increment circular buffer index.
  *
  *  <!-- Parameters and return values: -->
  *
- *  \param[in]  status          NVM async write status
- *  \return     void
- *
- *  <!-- Example: -->
- *
- *  \par Example
- *  \code{.c}
- *  uint32_t    status;
- *
- *  // the Call
- *  EC_SLV_APP_FoE_fileWriteCb(status);
- *  \endcode
+ *  \param[in]  pBufIndex   circular buffer index
+ *  \return
  *
  *  <!-- Group: -->
  *
- *  \ingroup EC_SLV_APP
+ *  \ingroup FoE
  *
  * */
-#if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
-void EC_SLV_APP_FoE_fileWriteCb(uint32_t status)
+static void foe_circular_buffer_index_incr(uint16_t* pBufIndex)
 {
-    if (status == NVM_ERR_SUCCESS)
+    (*pBufIndex)++;
+
+    if(*pBufIndex == FOE_CIRCULAR_BUFFER_LEN)
     {
-#if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
-        OSAL_printf("FoE - File download to flash : ok!\n\r");
-#endif
+        *pBufIndex = 0;
+    }
+}
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  Write data to circular buffer at write index.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  dataByte    data to be written to circular buffer
+ *  \return
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup FoE
+ *
+ * */
+static void foe_circular_buffer_write(uint8_t dataByte)
+{
+    foeCircularBuffer[CircBuffWriteIndex] = dataByte;
+    foe_circular_buffer_index_incr((uint16_t*)&CircBuffWriteIndex);
+
+    if(CircBuffWriteIndex == CircBuffReadIndex)
+    {
+        foe_circular_buffer_index_incr((uint16_t*)&CircBuffReadIndex);
+    }
+}
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  Get the available byte count to be read.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \return uint16_t    available byte count
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup FoE
+ *
+ * */
+static uint16_t foe_circular_buffer_get_avail_bytes(void)
+{
+    if(CircBuffWriteIndex >= CircBuffReadIndex)
+    {
+        return CircBuffWriteIndex - CircBuffReadIndex;
     }
     else
     {
-#if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
-        OSAL_printf("FoE - File download to flash : Error, ID=%d\n\r",status);
-#endif
-    }
-
-    foeFileWriteChunkSize = 0;
-
-    if(foeBufferPtr != NULL)
-    {
-        OSAL_MEMORY_free(foeBufferPtr);
-        foeBufferPtr = NULL;
-    }
-    if(foeBufferPtr1 != NULL)
-    {
-        OSAL_MEMORY_free(foeBufferPtr1);
-        foeBufferPtr1 = NULL;
-    }
-    if(foeBufferPtr2 != NULL)
-    {
-        OSAL_MEMORY_free(foeBufferPtr2);
-        foeBufferPtr2 = NULL;
+        return ((FOE_CIRCULAR_BUFFER_LEN - CircBuffReadIndex) + CircBuffWriteIndex);
     }
 }
-#endif
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  Read data from the circular buffer at read index.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  pData    ptr to the mem location where read data is stored.
+ *  \param[in]  size     number of bytes to be read from the circular buffer.
+ *  \return     uint16_t bytes copied to mem location
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup FoE
+ *
+ * */
+static uint16_t foe_circular_buffer_read(uint8_t *pData, uint16_t size)
+{
+    uint16_t available_bytes = foe_circular_buffer_get_avail_bytes();
+
+    if(available_bytes == 0)
+    {
+        return 0;
+    }
+    for(uint16_t idx = 0 ; (idx < available_bytes) && (idx < size) ; idx++)
+    {
+        pData[idx] = foeCircularBuffer[CircBuffReadIndex];
+        foe_circular_buffer_index_incr((uint16_t*)&CircBuffReadIndex);
+    }
+    if(available_bytes < size)
+    {
+        return available_bytes;
+    }
+    return size;
+}
 
 /*! <!-- Description: -->
  *
@@ -196,44 +283,13 @@ uint32_t EC_SLV_APP_FoE_fileRead(void* pContext, uint16_t* pData, uint16_t size,
     uint32_t            retVal;
     static uint32_t     foeFileReadDoneSize = 0;
     uint32_t            foeFileChunkReadSize = 0;
-    ESL_FOE_header_t    foeHeader = {0};
 
     retVal = ECAT_FOE_ERRCODE_ILLEGAL;
 
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
     NVM_err_t error;
 
-    error = NVM_APP_read(NVM_TYPE_FLASH,
-                         CONFIG_FLASH0,
-                         APP_OSPI_FLASH_OFFSET_BASE,
-                         (uint32_t)sizeof(ESL_FOE_header_t),
-                         (uint8_t*)&foeHeader);
-
-    if (error != NVM_ERR_SUCCESS)
-    {
-        retVal = ECAT_FOE_ERRCODE_FLASH_ERROR;
-        return retVal;
-    }
-
-    if (foeHeader.password != fileAccessPassword)
-    {
-        #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
-            OSAL_printf("FoE - File access password incorrect!\n\r");
-        #endif
-        retVal = ECAT_FOE_ERRCODE_ACCESS;
-        return retVal;
-    }
-
-    if (foeHeader.dataSize == 0)
-    {
-        #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
-            OSAL_printf("FoE - File not found or empty!\n\r");
-        #endif
-        retVal = ECAT_FOE_ERRCODE_NOTFOUND;
-        return retVal;
-    }
-
-    if ((foeHeader.dataSize - foeHeader.padByteLength - foeFileReadDoneSize) >= FOE_FRAGMENT_MAX_SIZE)
+    if ((foeFileHeader.dataSize - foeFileHeader.padByteLength - foeFileReadDoneSize) >= FOE_FRAGMENT_MAX_SIZE)
     {
         fileOffset = foeFileReadDoneSize;
         foeFileReadDoneSize += size;
@@ -242,13 +298,13 @@ uint32_t EC_SLV_APP_FoE_fileRead(void* pContext, uint16_t* pData, uint16_t size,
     else
     {
         fileOffset = foeFileReadDoneSize;
-        foeFileChunkReadSize = foeHeader.dataSize - foeHeader.padByteLength - foeFileReadDoneSize;
+        foeFileChunkReadSize = foeFileHeader.dataSize - foeFileHeader.padByteLength - foeFileReadDoneSize;
         foeFileReadDoneSize = 0;
     }
 
     error = NVM_APP_read(NVM_TYPE_FLASH,
                          CONFIG_FLASH0,
-                         APP_OSPI_FLASH_OFFSET_BASE + sizeof(ESL_FOE_header_t) + fileOffset,
+                         APP_OSPI_FLASH_OFFSET_FILE_DATA + fileOffset,
                          (uint32_t)foeFileChunkReadSize,
                          (uint8_t*)pData);
 
@@ -299,126 +355,44 @@ uint32_t EC_SLV_APP_FoE_fileRead(void* pContext, uint16_t* pData, uint16_t size,
 uint32_t EC_SLV_APP_FoE_fileWrite(void *pContext, uint16_t* pData, uint16_t size)
 {
     uint32_t    retVal;
-
     retVal = ECAT_FOE_ERRCODE_DISKFULL;
 
 #if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
     NVM_err_t error;
+    uint8_t *temp_ptr = (uint8_t *)pData;
+    uint8_t data_buff[MAX_PAGES_WRITTEN_IN_CYCLE*OSPI_FLASH_PAGE_SIZE];
 
-    uint8_t isFilePadded = false;
-    uint8_t filePadLength = 0;
-    uint8_t filePadBytes[FOE_PADDED_BYTE_LENGTH] = {0};
+    foeFileHeader.dataSize += size;
 
-    if (size >= FOE_FRAGMENT_MAX_SIZE)
+    for(uint16_t idx=0;idx<size;idx++)
     {
-        foeFileWriteChunkSize += size;
-        if (foeBufferPtr1 == NULL)
+        foe_circular_buffer_write(temp_ptr[idx]);
+    }
+
+    while(foe_circular_buffer_get_avail_bytes() >= OSPI_FLASH_PAGE_SIZE)
+    {
+        uint8_t pagesToWrite = (uint8_t)(foe_circular_buffer_get_avail_bytes()/OSPI_FLASH_PAGE_SIZE);
+        if (pagesToWrite > MAX_PAGES_WRITTEN_IN_CYCLE)
         {
-            if(foeBufferPtr2 == NULL)
+            pagesToWrite = MAX_PAGES_WRITTEN_IN_CYCLE;
+        }
+        if(foe_circular_buffer_read(data_buff, (pagesToWrite*OSPI_FLASH_PAGE_SIZE)) >= OSPI_FLASH_PAGE_SIZE)
+        {
+            error = NVM_APP_write(  NVM_TYPE_FLASH,
+                                    CONFIG_FLASH0,
+                                    foeFileWriteOffset,
+                                    (uint32_t)(pagesToWrite*OSPI_FLASH_PAGE_SIZE),
+                                    (uint8_t*)data_buff,
+                                    flashForceErase);
+
+            if (error != NVM_ERR_SUCCESS)
             {
-                foeBufferPtr1 = OSAL_MEMORY_calloc(foeFileWriteChunkSize,sizeof(uint8_t));
-                OSAL_MEMORY_memcpy(foeBufferPtr1,pData,foeFileWriteChunkSize);
+                retVal = ECAT_FOE_ERRCODE_ACCESS;
+                return retVal;
             }
-            else
-            {
-                foeBufferPtr1 = OSAL_MEMORY_calloc(foeFileWriteChunkSize,sizeof(uint8_t));
-                OSAL_MEMORY_memcpy(foeBufferPtr1,foeBufferPtr2,(foeFileWriteChunkSize-size));
-                OSAL_MEMORY_memcpy((foeBufferPtr1 + (foeFileWriteChunkSize-size)),pData,size);
-                OSAL_MEMORY_free(foeBufferPtr2);
-                foeBufferPtr2 = NULL;
-            }
+            flashForceErase = false;
+            foeFileWriteOffset += (pagesToWrite*OSPI_FLASH_PAGE_SIZE);
         }
-        else if (foeBufferPtr2 == NULL)
-        {
-            if(foeBufferPtr1 == NULL)
-            {
-                foeBufferPtr2 = OSAL_MEMORY_calloc(foeFileWriteChunkSize,sizeof(uint8_t));
-                OSAL_MEMORY_memcpy(foeBufferPtr2,pData,foeFileWriteChunkSize);
-            }
-            else
-            {
-                foeBufferPtr2 = OSAL_MEMORY_calloc(foeFileWriteChunkSize,sizeof(uint8_t));
-                OSAL_MEMORY_memcpy(foeBufferPtr2,foeBufferPtr1,(foeFileWriteChunkSize-size));
-                OSAL_MEMORY_memcpy((foeBufferPtr2 + (foeFileWriteChunkSize-size)),pData,size);
-                OSAL_MEMORY_free(foeBufferPtr1);
-                foeBufferPtr1 = NULL;
-            }
-        }
-        retVal = size;
-        return retVal;
-    }
-
-    foeFileWriteChunkSize += size;
-    if(foeFileWriteChunkSize % 2)
-    {
-        isFilePadded = true;
-        filePadLength = FOE_PADDED_BYTE_LENGTH;
-        foeFileWriteChunkSize += filePadLength;
-    }
-    else
-    {
-        isFilePadded = false;
-        filePadLength = 0;
-    }
-
-    ESL_FOE_header_t foeHeader = {  .dataSize = foeFileWriteChunkSize,
-                                    .password = fileAccessPassword,
-                                    .isPadded = isFilePadded,
-                                    .padByteLength = filePadLength
-                                 };
-
-    foeBufferPtr = OSAL_MEMORY_calloc((sizeof(ESL_FOE_header_t) + foeFileWriteChunkSize),sizeof(uint8_t));
-    OSAL_MEMORY_memcpy(foeBufferPtr,&foeHeader,sizeof(ESL_FOE_header_t));
-    if(foeBufferPtr1 != NULL)
-    {
-        OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t)),foeBufferPtr1,(foeFileWriteChunkSize - size - filePadLength));
-        if (size != 0)
-        {
-            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize - size - filePadLength)),pData,size);
-        }
-        if (filePadLength != 0)
-        {
-            OSAL_MEMORY_memset(filePadBytes,FOE_PADDED_BYTE,filePadLength);
-            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize + size - filePadLength)),filePadBytes,filePadLength);
-        }
-    }
-    else if(foeBufferPtr2 != NULL)
-    {
-        OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t)),foeBufferPtr2,(foeFileWriteChunkSize - size - filePadLength));
-        if (size != 0)
-        {
-            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize - size - filePadLength)),pData,size);
-        }
-        if (filePadLength != 0)
-        {
-            OSAL_MEMORY_memset(filePadBytes,FOE_PADDED_BYTE,filePadLength);
-            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + (foeFileWriteChunkSize + size - filePadLength)),filePadBytes,filePadLength);
-        }
-    }
-    else
-    {
-        OSAL_MEMORY_memcpy(foeBufferPtr + sizeof(ESL_FOE_header_t),pData,(foeFileWriteChunkSize - filePadLength));
-        if (filePadLength != 0)
-        {
-            OSAL_MEMORY_memset(filePadBytes,FOE_PADDED_BYTE,filePadLength);
-            OSAL_MEMORY_memcpy((foeBufferPtr + sizeof(ESL_FOE_header_t) + foeFileWriteChunkSize - filePadLength),filePadBytes,filePadLength);
-        }
-    }
-
-    #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
-        OSAL_printf("FoE - Downloaded file size : %d\n\r",foeFileWriteChunkSize);
-    #endif
-
-    error = NVM_APP_writeAsync( NVM_TYPE_FLASH,
-                                CONFIG_FLASH0,
-                                APP_OSPI_FLASH_OFFSET_BASE,
-                                (uint32_t)(sizeof(ESL_FOE_header_t) + foeFileWriteChunkSize),
-                                (uint8_t*)foeBufferPtr);
-
-    if (error != NVM_ERR_SUCCESS)
-    {
-        retVal = ECAT_FOE_ERRCODE_ACCESS;
-        return retVal;
     }
 
     retVal = size;
@@ -449,9 +423,75 @@ uint32_t EC_SLV_APP_FoE_fileWrite(void *pContext, uint16_t* pData, uint16_t size
  *  \ingroup EC_SLV_APP
  *
  * */
+
 uint32_t EC_SLV_APP_FoE_fileClose(void* pContext, uint32_t errorCode)
 {
     uint32_t    retVal  = 0;
+    NVM_err_t error;
+    uint8_t data_buff[OSPI_FLASH_PAGE_SIZE];
+
+    while(foe_circular_buffer_get_avail_bytes() > 0)
+    {
+        uint16_t availbytes = foe_circular_buffer_get_avail_bytes();
+        if ((availbytes < OSPI_FLASH_PAGE_SIZE) && (availbytes % 2))
+        {
+            foeFileHeader.isPadded = true;
+            foeFileHeader.padByteLength = FOE_PADDED_BYTE_LENGTH;
+            foeFileHeader.dataSize +=  FOE_PADDED_BYTE_LENGTH;
+            for(uint16_t idx=0;idx<FOE_PADDED_BYTE_LENGTH;idx++)
+            {
+                foe_circular_buffer_write((uint8_t)FOE_PADDED_BYTE);
+                availbytes ++;
+            }
+        }
+        if(foe_circular_buffer_read(data_buff, availbytes) == availbytes)
+        {
+            error = NVM_APP_write(  NVM_TYPE_FLASH,
+                                    CONFIG_FLASH0,
+                                    foeFileWriteOffset,
+                                    (uint32_t)(availbytes),
+                                    (uint8_t*)data_buff,
+                                    flashForceErase);
+            if (error != NVM_ERR_SUCCESS)
+            {
+                retVal = ECAT_FOE_ERRCODE_ACCESS;
+                return retVal;
+            }
+            foeFileWriteOffset += availbytes;
+        }
+    }
+
+    if (false == firmwareUpgradeEnabled || (true == firmwareUpgradeEnabled && false == isBinaryFile))
+    {
+        foeFileWriteOffset = APP_OSPI_FLASH_OFFSET_BASE;
+        error = NVM_APP_write(  NVM_TYPE_FLASH,
+                                CONFIG_FLASH0,
+                                foeFileWriteOffset,
+                                (uint32_t)(sizeof(ESL_FOE_header_t)),
+                                (uint8_t*)&foeFileHeader,
+                                flashForceErase);
+        if (error != NVM_ERR_SUCCESS)
+        {
+            retVal = ECAT_FOE_ERRCODE_ACCESS;
+            return retVal;
+        }
+#if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+        OSAL_printf("Name  : %s\n\r",foeFileHeader.fileName);
+        OSAL_printf("NameL : %d\n\r",foeFileHeader.fileNameLength);
+        OSAL_printf("Size  : %d\n\r",foeFileHeader.dataSize);
+        OSAL_printf("Passwd: %d\n\r",foeFileHeader.password);
+        OSAL_printf("IsPadd: %d\n\r",foeFileHeader.isPadded);
+        OSAL_printf("PadLen: %d\n\r",foeFileHeader.padByteLength);
+#endif
+    }
+    else
+    {
+        #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+            OSAL_printf("FoE - Firmware download completed!\n\r");
+            OSAL_printf("Reboot or Leave Bootstrap state\n\r");
+        #endif
+        firmwareUpdateComplete = true;
+    }
     retVal = EC_API_eERR_NONE;
     return retVal;
 }
@@ -493,18 +533,146 @@ uint32_t EC_SLV_APP_FoE_fileOpen(void* pContext, const char* pName, uint16_t nam
 {
     uint32_t    retVal;
     retVal = EC_API_eERR_NONE;
-#if !(defined FBTLPROVIDER) || (FBTLPROVIDER==0)
-    NVM_err_t error;
-    error = NVM_APP_registerCallback(EC_SLV_APP_FoE_fileWriteCb);
+    foeFileWriteOffset = 0;
+    foeFileAccessPassword = password;
 
-    if (error != NVM_ERR_SUCCESS)
+    if (false == isRead)
     {
-        retVal = ECAT_FOE_ERRCODE_NOTDEFINED;
-        return retVal;
+        foeFileHeader.fileNameLength = nameLen;
+        memset(foeFileHeader.fileName,'\0',FOE_FILE_NAME_MAX_LEN);
+        memcpy(foeFileHeader.fileName,pName,nameLen);
+        foeFileHeader.password = foeFileAccessPassword;
+        foeFileHeader.dataSize = 0;
+        foeFileHeader.isPadded = false;
+        foeFileHeader.padByteLength = 0;
+        flashForceErase = true;
+        firmwareUpdateComplete = false;
+
+        int result = strncmp((const char*)foeFileHeader.fileName,FIRMWARE_FILE_NAME,8);
+        if(result == 0)
+        {
+            isBinaryFile = true;
+            if (true == firmwareUpgradeEnabled)
+            {
+                foeFileWriteOffset = APP_OSPI_FLASH_OFFSET_APPIMAGE;
+            }
+            else
+            {
+                foeFileWriteOffset = APP_OSPI_FLASH_OFFSET_FILE_DATA;
+            }
+        }
+        else
+        {
+            isBinaryFile = false;
+            foeFileWriteOffset = APP_OSPI_FLASH_OFFSET_FILE_DATA;
+        }
     }
-#endif
-    fileAccessPassword = password;
+    else
+    {
+        NVM_err_t error = NVM_APP_read( NVM_TYPE_FLASH,
+                                        CONFIG_FLASH0,
+                                        APP_OSPI_FLASH_OFFSET_BASE,
+                                        (uint32_t)sizeof(ESL_FOE_header_t),
+                                        (uint8_t*)&foeFileHeader);
+
+        if (error != NVM_ERR_SUCCESS)
+        {
+            retVal = ECAT_FOE_ERRCODE_FLASH_ERROR;
+            return retVal;
+        }
+
+        if (foeFileHeader.password != foeFileAccessPassword)
+        {
+            #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+                OSAL_printf("FoE - File access password incorrect!\n\r");
+            #endif
+            retVal = ECAT_FOE_ERRCODE_ACCESS;
+            return retVal;
+        }
+
+        if (foeFileHeader.dataSize == 0)
+        {
+            #if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+                OSAL_printf("FoE - File not found or empty!\n\r");
+            #endif
+            retVal = ECAT_FOE_ERRCODE_NOTFOUND;
+            return retVal;
+        }
+    }
     return retVal;
+}
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  FoE Bootloader start.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  pContext  context
+ *  \return
+ *
+ *  <!-- Example: -->
+ *  // required variables
+ *  void*    pCtxt;
+ *
+ *  EC_SLV_APP_FoE_startBL(pCtxt);
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup EC_SLV_APP
+ *
+ * */
+
+void EC_SLV_APP_FoE_startBL(void* pContext)
+{
+#if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+    OSAL_printf("SM change - Init to Bootstrap\n\r");
+#endif
+    firmwareUpgradeEnabled = true;
+    return;
+}
+
+/*! <!-- Description: -->
+ *
+ *  \brief
+ *  FoE Bootloader stop.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  \param[in]  pContext  context
+ *  \return
+ *
+ *  <!-- Example: -->
+ *  // required variables
+ *  void*    pCtxt;
+ *
+ *  EC_SLV_APP_FoE_stopBL(pCtxt);
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup EC_SLV_APP
+ *
+ * */
+
+void EC_SLV_APP_FoE_stopBL(void* pContext)
+{
+#if (defined DEBUGTRACING) && (DEBUGTRACING == 1)
+    OSAL_printf("SM change - Bootstrap to Init\n\r");
+#endif
+    if ((true == firmwareUpgradeEnabled) && (true == firmwareUpdateComplete))
+    {
+        firmwareUpgradeEnabled = false;
+        firmwareUpdateComplete = false;
+        OSAL_printf("Rebooting Now....\n\r");
+#if ((defined SOC_AM263PX) || (defined SOC_AM261X))
+            SOC_generateSwWarmReset();
+#else
+            SOC_generateSwWarmResetMcuDomain();
+#endif // SOC_AM263PX
+    }
+    firmwareUpgradeEnabled = false;
+    return;
 }
 
 //*************************************************************************************************
