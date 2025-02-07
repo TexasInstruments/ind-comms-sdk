@@ -37,11 +37,11 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am243x/r5f
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/am243x-evm/inc
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/os
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/os/freertos
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am243evm
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am243evm/freertos
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/os
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/os/freertos
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/board/am243evm
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/board/am243evm/freertos
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc
@@ -126,7 +126,7 @@
                 -ldrivers.am243x.r5f.ti-arm-clang.release.lib
                 -lboard.am243x.r5f.ti-arm-clang.release.lib
                 -lethercat_slave.am243x_evm.r5f.ti-arm-clang.release.lib
-                -lethercat_slave_bkhf_ssc.am243x_evm.r5f.ti-arm-clang.release.lib
+                -lethercat_subdevice_bkhf_ssc.am243x_evm.r5f.ti-arm-clang.release.lib
                 -lethercat_iolink_gateway.am243x_evm.r5f.ti-arm-clang.release.lib
                 -liolink_master.am243x_evm.r5f.ti-arm-clang.release.lib
                 -llittlefs.am243x_evm.r5f.ti-arm-clang.release.lib
@@ -144,7 +144,7 @@
                 -ldrivers.am243x.r5f.ti-arm-clang.debug.lib
                 -lboard.am243x.r5f.ti-arm-clang.debug.lib
                 -lethercat_slave.am243x_evm.r5f.ti-arm-clang.release.lib
-                -lethercat_slave_bkhf_ssc.am243x_evm.r5f.ti-arm-clang.release.lib
+                -lethercat_subdevice_bkhf_ssc.am243x_evm.r5f.ti-arm-clang.release.lib
                 -lethercat_iolink_gateway.am243x_evm.r5f.ti-arm-clang.release.lib
                 -liolink_master.am243x_evm.r5f.ti-arm-clang.release.lib
                 -llittlefs.am243x_evm.r5f.ti-arm-clang.release.lib
@@ -153,9 +153,9 @@
             "
         ></configuration>
         <pathVariable name="INDUSTRIAL_COMMUNICATIONS_SDK_PATH" path="${COM_TI_INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX_INSTALL_DIR}" scope="project" />
-        <file path="../../../../ethercat_slave_demo/common/os/freertos/ESL_eeprom.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../ethercat_subdevice_demo/common/os/freertos/ESL_eeprom.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../ethercat_slave_demo/common/os/freertos/ESL_OS_os.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../ethercat_subdevice_demo/common/os/freertos/ESL_OS_os.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../main.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>

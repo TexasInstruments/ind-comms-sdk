@@ -103,9 +103,9 @@
         "resourceSubClass": [
             "example.general"
         ],
-        "description": "A Ethercat Slave Cia402 Demo Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "ethercat_slave_cia402_demo",
-        "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/402_cia/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "description": "A Ethercat SubDevice Cia402 Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethercat_subdevice_cia402_demo",
+        "location": "../../examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "TMDS64EVM"
         ],
@@ -117,7 +117,7 @@
         ],
         "subCategories": [
             "industrial_comms",
-            "ethercat_slave_demo",
+            "ethercat_subdevice_demo",
             "device_profiles",
             "402_cia",
             "r5fss0-0_freertos"
@@ -137,9 +137,9 @@
         "resourceSubClass": [
             "example.general"
         ],
-        "description": "A Ethercat Slave Ctt Demo Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "ethercat_slave_ctt_demo",
-        "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/ctt/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "description": "A Ethercat SubDevice Ctt Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethercat_subdevice_ctt_demo",
+        "location": "../../examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "TMDS64EVM"
         ],
@@ -151,7 +151,7 @@
         ],
         "subCategories": [
             "industrial_comms",
-            "ethercat_slave_demo",
+            "ethercat_subdevice_demo",
             "device_profiles",
             "ctt",
             "r5fss0-0_freertos"
@@ -171,9 +171,9 @@
         "resourceSubClass": [
             "example.general"
         ],
-        "description": "A Ethercat Slave Simple Demo Example. CPU is R5FSS0-0 running FREERTOS.",
-        "name": "ethercat_slave_simple_demo",
-        "location": "../../examples/industrial_comms/ethercat_slave_demo/device_profiles/401_simple/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "description": "A Ethercat SubDevice Simple Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethercat_subdevice_simple_demo",
+        "location": "../../examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am64x-evm/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
         "devtools": [
             "TMDS64EVM"
         ],
@@ -185,7 +185,7 @@
         ],
         "subCategories": [
             "industrial_comms",
-            "ethercat_slave_demo",
+            "ethercat_subdevice_demo",
             "device_profiles",
             "401_simple",
             "r5fss0-0_freertos"

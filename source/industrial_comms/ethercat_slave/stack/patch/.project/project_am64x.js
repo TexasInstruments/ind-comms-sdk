@@ -80,7 +80,7 @@ function getComponentProperty() {
 
     property.dirPath = path.resolve(__dirname, "..");
     property.type = "library";
-    property.name = "ethercat_slave_bkhf_ssc";
+    property.name = "ethercat_subdevice_bkhf_ssc";
     property.isInternal = false;
     property.isSkipTopLevelBuild = true;
     property.buildOptionCombos = buildOptionCombos;

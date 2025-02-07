@@ -63,8 +63,8 @@ FILES_PATH_common = \
 	../../../../../common \
 	../../../../../common/board/am243lp \
 	../../../../../common/board/am243lp/freertos \
-	../../../../ethercat_slave_demo/common/os \
-	../../../../ethercat_slave_demo/common/os/freertos \
+	../../../../ethercat_subdevice_demo/common/os \
+	../../../../ethercat_subdevice_demo/common/os/freertos \
 	../../../../nvm/app/src \
 	../../../../nvm/drv/src \
 	../../../../custom_phy/src \
@@ -79,11 +79,11 @@ INCLUDES_common := \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/config/am243x/r5f \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_iolink_gateway_demo/am243x-lp/inc \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/os \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/os/freertos \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am243lp \
-	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_slave_demo/common/board/am243lp/freertos \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/os \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/os/freertos \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/board/am243lp \
+	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/board/am243lp/freertos \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc \
 	-I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc \
@@ -175,7 +175,7 @@ LIBS_common = \
 	-ldrivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lboard.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	-lethercat_slave.am243x_lp.r5f.ti-arm-clang.release.lib \
-	-lethercat_slave_bkhf_ssc.am243x_lp.r5f.ti-arm-clang.release.lib \
+	-lethercat_subdevice_bkhf_ssc.am243x_lp.r5f.ti-arm-clang.release.lib \
 	-lethercat_iolink_gateway.am243x_lp.r5f.ti-arm-clang.release.lib \
 	-liolink_master.am243x_lp.r5f.ti-arm-clang.release.lib \
 	-llittlefs.am243x_lp.r5f.ti-arm-clang.release.lib \
@@ -196,7 +196,7 @@ LIBS_NAME = \
 	drivers.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	board.am243x.r5f.ti-arm-clang.${ConfigName}.lib \
 	ethercat_slave.am243x_lp.r5f.ti-arm-clang.release.lib \
-	ethercat_slave_bkhf_ssc.am243x_lp.r5f.ti-arm-clang.release.lib \
+	ethercat_subdevice_bkhf_ssc.am243x_lp.r5f.ti-arm-clang.release.lib \
 	ethercat_iolink_gateway.am243x_lp.r5f.ti-arm-clang.release.lib \
 	iolink_master.am243x_lp.r5f.ti-arm-clang.release.lib \
 	littlefs.am243x_lp.r5f.ti-arm-clang.release.lib \

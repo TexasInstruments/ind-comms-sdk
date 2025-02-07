@@ -13,7 +13,7 @@ AR=$(CGT_TI_ARM_CLANG_PATH)/bin/tiarmar
 PROFILE?=release
 ConfigName:=$(PROFILE)
 
-LIBNAME:=ethercat_slave_bkhf_ssc.am243x.r5f.ti-arm-clang.$(PROFILE).lib
+LIBNAME:=ethercat_subdevice_bkhf_ssc.am243x.r5f.ti-arm-clang.$(PROFILE).lib
 
 FILES_common := \
     ssc.c \
@@ -119,7 +119,7 @@ INCLUDES := $(INCLUDES_common) $(INCLUDE_$(PROFILE))
 ARFLAGS := $(ARFLAGS_common) $(ARFLAGS_$(PROFILE))
 
 LIBDIR := lib
-OBJDIR := obj/am243x/ti-arm-clang/$(PROFILE)/r5f/ethercat_slave_bkhf_ssc/
+OBJDIR := obj/am243x/ti-arm-clang/$(PROFILE)/r5f/ethercat_subdevice_bkhf_ssc/
 OBJS := $(FILES:%.c=%.obj)
 OBJS += $(ASMFILES:%.S=%.obj)
 DEPS := $(FILES:%.c=%.d)
