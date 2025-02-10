@@ -1,43 +1,42 @@
 /*!
- * \file pn_app_iod_mod_cfg.h
+ *  \file pn_app_iod_mod_cfg.h
  *
- * \brief
- * Helper functions to provide a default configuration and module compatibility verification for the IO device.
+ *  \brief
+ *  Helper functions to provide a default configuration and module compatibility verification for the IO device.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: BSD-3-Clause
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
- * Copyright (c) 2024 KUNBUS GmbH.
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
- * <ol>
- * <li>Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer./<li>
- * <li>Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.</li>
- * <li>Neither the name of the copyright holder nor the names of its contributors
- * may be used to endorse or promote products derived from this software without
- * specific prior written permission.</li>
- * </ol>
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
  *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef PN_APP_IOD_MOD_CFG_H
@@ -71,21 +70,21 @@ extern "C" {
 #define PN_CFG_IDS_IN_T1_ID       0x31010001    /*!< ID of input module telegram 1: 1-byte input data */
 #define PN_CFG_IDS_IN_T2_ID       0x31010002    /*!< ID of input module telegram 2: 2-byte input data */
 #define PN_CFG_IDS_IN_T4_ID       0x31010004    /*!< ID of input module telegram 4: 4-byte input data */
-#define PN_CFG_IDS_IN_T64_ID      0x31010064    /*!< ID of input module telegram 64: 64-byte input data */
+#define PN_CFG_IDS_IN_T64_ID      0x31010040    /*!< ID of input module telegram 64: 64-byte input data */
 
 #define PN_CFG_IDS_OUT_IF_ID      0x03010201    /*!< ID of output module virtual submodule interface for
                                                      record data/diagnosis (acyclically) */
 #define PN_CFG_IDS_OUT_T1_ID      0x31020001    /*!< ID of output module telegram 1: 1-byte output data */
 #define PN_CFG_IDS_OUT_T2_ID      0x31020002    /*!< ID of output module telegram 2: 2-byte output data */
 #define PN_CFG_IDS_OUT_T4_ID      0x31020004    /*!< ID of output module telegram 4: 4-byte output data */
-#define PN_CFG_IDS_OUT_T64_ID     0x31020064    /*!< ID of output module telegram 64: 64-byte output data */
+#define PN_CFG_IDS_OUT_T64_ID     0x31020040    /*!< ID of output module telegram 64: 64-byte output data */
 
 #define PN_CFG_IDS_IO_IF_ID       0x03010301    /*!< ID of input output module virtual submodule interface
                                                      for record data/diagnosis (acyclically) */
 #define PN_CFG_IDS_IO_T1_ID       0x31030001    /*!< ID of IO module telegram 1: 1-byte I/O data */
 #define PN_CFG_IDS_IO_T2_ID       0x31030002    /*!< ID of IO module telegram 2: 2-byte I/O data */
 #define PN_CFG_IDS_IO_T4_ID       0x31030004    /*!< ID of IO module telegram 4: 4-byte I/O data */
-#define PN_CFG_IDS_IO_T64_ID      0x31030064    /*!< ID of IO module telegram 64: 64-byte I/O data */
+#define PN_CFG_IDS_IO_T64_ID      0x31030040    /*!< ID of IO module telegram 64: 64-byte I/O data */
 /*! @}*/
 
 /*!
@@ -187,22 +186,24 @@ void PN_APP_IOD_getOwnershipHandle(PN_APP_IOD_OwnershipHandle_t **expOwnershipHa
  * Update the global ownership handle.
  *
  * \details
- * This function adds a new element to the global ownership handle (ownershipHandle).
+ * This function updates the global ownership handle (ownershipHandle)
+ * with the recent real submodule list.
  *
  * \param[in]      pnHandle            Profinet API Handle.
- * \param[in]      expSubmod           Expected submodule.
+ * \param[in]      realSubmodList      Real submodule list.
+ * \param[in]      realSubmodListSize  Size of realSubmodList.
  *
  * \return         result of the operation as uint32_t.
  * \retval         #PN_API_OK                      Operation succeeded.
  * \retval         #PN_API_NOT_OK                  Something went wrong.
  * \retval         #PN_API_ERR_PARAM               Invalid parameter.
- * \retval         #PN_API_ERR_IOD_NO_RESOURCES    No available resources.
  *
  * \ingroup PN_APP_IOD_MOD_CFG_DOXY_GROUP
  */
 uint32_t PN_APP_IOD_updateOwnershipHandle(
-    PN_API_IOD_Handle_t *const pnHandle,
-    PN_API_IOD_ExpSubmod_t *const expSubmod);
+        PN_API_IOD_Handle_t *const pnHandle,
+        PN_API_IOD_RealSubmod_t *realSubmodList,
+        uint32_t realSubmodListSize);
 
 /*!
  * \brief

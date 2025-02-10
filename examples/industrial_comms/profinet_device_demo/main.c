@@ -1,43 +1,42 @@
 /*!
- * \file main.c
+ *  \file main.c
  *
- * \brief
- * Demo application
+ *  \brief
+ *  Demo application
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: BSD-3-Clause
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
- * Copyright (c) 2024 KUNBUS GmbH.
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
- * <ol>
- * <li>Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer./<li>
- * <li>Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.</li>
- * <li>Neither the name of the copyright holder nor the names of its contributors
- * may be used to endorse or promote products derived from this software without
- * specific prior written permission.</li>
- * </ol>
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
  *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <stdarg.h>
@@ -67,15 +66,11 @@
 #include "pn_app_iod_settings.h"
 #include "pn_app_iod_utils.h"
 
-#include <drivers/hw_include/cslr_soc.h>
-
 #define PN_APP_MAIN_TASK_PRIO                   22 /* TASK_PRIO_MAIN */
-#define PN_APP_MAIN_TASK_STACK_SIZE             2048
+#define PN_APP_UART_TASK_PRIO                   2
+#define PN_APP_MAIN_TASK_STACK_SIZE             (2048+256)
+#define PN_APP_UART_TASK_STACK_SIZE             1024
 #define ASYNC_REC_RSP_WAITING_COUNTER           5000 /* Number of counts before sending a response */
-
-/* Sync Events*/
-#define SYNC_OUT0                               0
-#define SYNC_OUT1                               1
 
 /*!
  * \ingroup PN_APP_IOD_TYPES_DOXY_GROUP
@@ -86,29 +81,19 @@ typedef struct
     uint32_t asyncRecWriteTimer;    /*!< For asynchronous record write responses  */
 } PN_APP_IOD_asyncRecRspTimer_t;
 
-
-/* 
- * PAD configuration for Ball.D18
- * Required to configure SYNC0_OUT as pin out
- */
-static Pinmux_PerCfg_t gTsrPinMuxMainDomainCfg[] = {
-    {
-    PIN_ECAP0_IN_APWM_OUT,
-    ( PIN_MODE(1) | PIN_PULL_DISABLE ) /* PIN_MODE 1 is SYNC0_OUT */
-    },  
-
-    {PINMUX_END, PINMUX_END}      
-};
-
-void TSR_config(uint8_t syncSignal);
-
-static char aOutStream_s[0x200] = { 0 };
+static char aOutStream_s[1024] = { 0 };
+static uint32_t uartWritePos = 0;
+static uint32_t uartReadPos = 0;
+void *uartSignal;
+void *uartMutex;
 static void* PN_APP_mainHandle;
+static void* PN_APP_uartTaskHandle;
 uint8_t PN_APP_mainTaskStack[PN_APP_MAIN_TASK_STACK_SIZE]__attribute__((aligned(32), section(".threadstack")));
 
 /* Handles of asynchronous record read/write request */
 extern void *asyncRecReadHandle;
 extern void *asyncRecWriteHandle;
+
 
 /*!
  * \brief
@@ -219,8 +204,8 @@ static void PN_APP_IOD_buildDevAnnotation(
 #endif
     PN_API_IOD_setDeviceOrderId(pnHandle, "TI-Sitara EVM");
     PN_API_IOD_setDeviceSerialNumber(pnHandle, "1234567890");
-    PN_API_IOD_setDeviceHWRevision(pnHandle, 200U);
-    PN_API_IOD_setDeviceVersionNumber(pnHandle, "V", 4, 0, 3, 0);
+    PN_API_IOD_setDeviceHWRevision(pnHandle, 0x101C);
+    PN_API_IOD_setDeviceVersionNumber(pnHandle, "V", 4, 1, 0, 0);
 
     /* Set IO-device annotation info according to the user configuration found in pn_app_iod_cfg.h */
     OSAL_MEMORY_memset(devAnnotation, ' ', sizeof(PN_API_IOD_DevAnnotation_t));
@@ -337,11 +322,15 @@ static void PN_APP_IOD_startup(void)
     asyncRecRspTimer.asyncRecReadTimer = 0;
     asyncRecRspTimer.asyncRecWriteTimer = 0;
 
-    // init rema storage
+    /* Initialize remanent storage */
     PN_APP_IOD_remaInit();
 
-    // led handling init
+    /* Initialize LED handling */
     PN_APP_IOD_ledInit();
+
+
+    /* Initialize output hardware signal */
+    PN_APP_IOD_outHwSignalInit();
 
     /* Initialize PNIO user application */
     PN_APP_IOD_init();
@@ -427,23 +416,53 @@ static void PN_APP_IOD_startup(void)
  */
 void PN_APP_IOD_printf(void *pContext, const char *__restrict pFormat, va_list arg)
 {
-    int32_t transferOK;
-    static UART_Transaction transaction; // in Interrupt mode this needs to be static
+    int lengthWritten;
+    char tmpString[256];
+    char *tmpStringPos = tmpString;
 
     OSALUNREF_PARM(pContext);
 
-    UART_flushTxFifo(gUartHandle[CONFIG_UART_CONSOLE]);
-    UART_Transaction_init(&transaction);
+    lengthWritten = vsnprintf(tmpString, sizeof(tmpString), pFormat, arg);
 
-    memset(aOutStream_s, 0, sizeof(aOutStream_s));
-    (void)vsnprintf(aOutStream_s, sizeof(aOutStream_s), pFormat, arg);
+    OSAL_lockNamedMutex(uartMutex, OSAL_WAIT_INFINITE);
+    while (lengthWritten > 0)
+    {
+        uint32_t lengthAvailable;
+        uint32_t lengthWrite = lengthWritten;
 
-    transaction.count = strlen(aOutStream_s);
-    transaction.buf = (void *)aOutStream_s;
-    transaction.args = NULL;
-    transferOK = UART_write(gUartHandle[CONFIG_UART_CONSOLE], &transaction);
+        if (uartReadPos > uartWritePos)
+        {
+            lengthAvailable = uartReadPos - uartWritePos - 1;
+        }
+        else
+        {
+            lengthAvailable = sizeof(aOutStream_s) - uartWritePos;
+            if (uartReadPos == 0)
+                lengthAvailable -= 1;
+        }
 
-    (void)transferOK;
+        if (lengthAvailable == 0)
+        {
+            break;
+        }
+
+        if (lengthWrite > lengthAvailable)
+        {
+            lengthWrite = lengthAvailable;
+        }
+
+        memcpy(&aOutStream_s[uartWritePos], tmpStringPos, lengthWrite);
+
+        uartWritePos += lengthWrite;
+        tmpStringPos += lengthWrite;
+        lengthWritten -= lengthWrite;
+        if (uartWritePos >= sizeof(aOutStream_s))
+        {
+            uartWritePos -= sizeof(aOutStream_s);
+        }
+    }
+    OSAL_unLockNamedMutex(uartMutex);
+    OSAL_postSignal(uartSignal);
 }
 
 /*!
@@ -469,27 +488,65 @@ static void PN_APP_IOD_mainTask(void *pvTaskArg)
     systemRetVal = Board_driversOpen();
     DebugP_assert(systemRetVal == SystemP_SUCCESS);
 
+
     PN_APP_IOD_startup();
 
     OSAL_SCHED_exitTask(NULL);
 }
 
+
 /*!
  * \brief
- *  Configuration for TSR. 
+ *  uart print task
  *
  * \details
- * This function configures pinmux required for TSR to route the sync signals to SYNC0_OUT pin
- *
- *  \param[in]      syncSignal      Sync0/Sync1 signal to be routed to SYNC0_OUT pin
+ * This function, is used to do printf on a low prio thread
  *
  */
-void TSR_config(uint8_t syncSignal) {
+static void PN_APP_IOD_uartTask(void *pvTaskArg)
+{
+    (void)pvTaskArg;
 
-    Pinmux_config(gTsrPinMuxMainDomainCfg, PINMUX_DOMAIN_ID_MAIN);
-    /* PRU IEP Enable SYNC MODE */
-    CSL_REG32_WR(CSL_PRU_ICSSG1_PR1_CFG_SLV_BASE + CSL_ICSSCFG_IEPCLK, 1);
-    CSL_REG32_WR(CSL_TIMESYNC_EVENT_INTROUTER0_CFG_BASE + 0x64, 0x0001001D + syncSignal);
+    while(1)
+    {
+        uint32_t bytesToWrite;
+
+        static UART_Transaction transaction; // in Interrupt mode this needs to be static
+
+        while (uartReadPos == uartWritePos)
+        {
+            OSAL_waitSignal(uartSignal, 2);
+        }
+
+        UART_flushTxFifo(gUartHandle[CONFIG_UART_CONSOLE]);
+        UART_Transaction_init(&transaction);
+
+        bytesToWrite = uartWritePos; // read uartWrite only once to prevent changes due to higher prio
+        if (bytesToWrite > uartReadPos)
+        {
+            transaction.count = bytesToWrite - uartReadPos;
+        }
+        else
+        {
+            transaction.count = sizeof(aOutStream_s) - uartReadPos;
+        }
+
+        transaction.buf = (void *)&aOutStream_s[uartReadPos];
+        transaction.args = NULL;
+
+        OSAL_lockNamedMutex(uartMutex, OSAL_WAIT_INFINITE);
+        uartReadPos += transaction.count;
+        if (uartReadPos == sizeof(aOutStream_s))
+        {
+            uartReadPos = 0;
+        }
+        OSAL_unLockNamedMutex(uartMutex);
+
+        (void)UART_write(gUartHandle[CONFIG_UART_CONSOLE], &transaction);
+
+    }
+
+    OSAL_SCHED_exitTask(NULL);
 }
 
 /*!
@@ -513,8 +570,9 @@ int main(void)
 
     /* Initialize SoC specific modules. */
     System_init();
+
     /* Additional configuration to route the sync0 or sync1 signal to SYNC0_OUT PIN */
-    TSR_config(syncEvent);
+    PN_APP_IOD_tsrConfig(syncEvent);
 
     Board_init();
     /*
@@ -552,6 +610,17 @@ int main(void)
     {
         status = PN_API_NOT_OK;
     }
+
+    uartSignal = OSAL_createSignal("uartSignal");
+    uartMutex = OSAL_createNamedMutex("uartMutex");
+    PN_APP_uartTaskHandle = OSAL_SCHED_startTask(
+        PN_APP_IOD_uartTask,
+        NULL,
+        PN_APP_UART_TASK_PRIO,
+        NULL,
+        PN_APP_UART_TASK_STACK_SIZE,
+        OSAL_OS_START_TASK_FLG_NONE,
+        "uart_task");
 
     OSAL_startOs();
 

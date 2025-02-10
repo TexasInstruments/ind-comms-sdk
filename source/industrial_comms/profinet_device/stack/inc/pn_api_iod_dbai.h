@@ -1,25 +1,16 @@
 /*!
- * \file pn_api_iod_dbai.h
+ *  \file pn_api_iod_dbai.h
  *
- * \brief
- * DBAI   (Direct Buffer Access Interface)
- * The DBAI provides a direct buffer access to the IOCR-data.
- * This provides a performance benefit compared to the Standard
- * Interface (SI) in the following use case:
- *   - device has a lot of submodules with few bytes in
- *     every submodule
+ *  \brief
+ *  The Direct Buffer Access Interface provides a direct buffer access to the IOCR-data.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: LicenseRef-Kunbus
- *
- * Copyright (c) 2024 KUNBUS GmbH
- * All rights reserved.
- *
- *
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
+ *  All rights reserved.
  */
 
 #ifndef PN_API_IOD_DBAI_H

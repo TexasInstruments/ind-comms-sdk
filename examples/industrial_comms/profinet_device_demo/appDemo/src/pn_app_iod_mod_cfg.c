@@ -1,43 +1,42 @@
 /*!
- * \file pn_app_iod_mod_cfg.c
+ *  \file pn_app_iod_mod_cfg.c
  *
- * \brief
- * Helper functions used by Kunbus demo app to configure the IO device.
+ *  \brief
+ *  Helper functions used by demo app to configure the IO device.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: BSD-3-Clause
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
- * Copyright (c) 2024 KUNBUS GmbH.
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
- * <ol>
- * <li>Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer./<li>
- * <li>Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.</li>
- * <li>Neither the name of the copyright holder nor the names of its contributors
- * may be used to endorse or promote products derived from this software without
- * specific prior written permission.</li>
- * </ol>
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
  *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "pn_app_iod_mod_cfg.h"
@@ -93,7 +92,8 @@ PN_API_IOD_SubmodListEntry_t defaultIoSubmodList[]
     #endif
     {0,     1,      1,          PN_CFG_IDM_MOD_IO_ID,   PN_CFG_IDS_IO_IF_ID,    0,      0,          (PN_API_IOD_Im0Submodule | //IO subslot interface
                                                                                                     PN_API_IOD_Im0Module)},
-    {0,     1,      2,          PN_CFG_IDM_MOD_IO_ID,   PN_CFG_IDS_IO_T4_ID,    4,      4,          PN_API_IOD_Im0Submodule} //IO subslot
+    {0,     1,      2,          PN_CFG_IDM_MOD_IO_ID,   PN_CFG_IDS_IO_T4_ID,    4,      4,          PN_API_IOD_Im0Submodule}, //IO subslot
+    {0,     1,      3,          PN_CFG_IDM_MOD_IO_ID,   PN_CFG_IDS_IO_T2_ID,    2,      2,          PN_API_IOD_Im0Submodule}  //IO subslot
 };
 
 /* List of the user modules and on which slots/subslots they are allowed to exist */
@@ -144,37 +144,50 @@ void PN_APP_IOD_getOwnershipHandle(PN_APP_IOD_OwnershipHandle_t **expOwnershipHa
 }
 
 uint32_t PN_APP_IOD_updateOwnershipHandle(
-    PN_API_IOD_Handle_t *const pnHandle,
-    PN_API_IOD_ExpSubmod_t *const expSubmod)
+        PN_API_IOD_Handle_t *const pnHandle,
+        PN_API_IOD_RealSubmod_t *realSubmodList,
+        uint32_t realSubmodListSize)
 {
     uint32_t status = PN_API_ERR_PARAM;
     PN_APP_IOD_OwnershipHandle_t *tmpOwnershipHandle = NULL;
 
-    if (PN_API_IOD_isHandleValid(pnHandle) && (NULL != expSubmod))
+    if (PN_API_IOD_isHandleValid(pnHandle) && (NULL != realSubmodList))
     {
         PN_APP_IOD_getOwnershipHandle(&tmpOwnershipHandle);
 
-        if (NULL != tmpOwnershipHandle)
+        if ((NULL != tmpOwnershipHandle) && (PN_API_IOD_MAX_NUM_OF_SUBSLOTS >= realSubmodListSize))
         {
-            if (PN_API_IOD_MAX_NUM_OF_SUBSLOTS > tmpOwnershipHandle->cnt)
+            for (uint32_t i = 0 ; i < realSubmodListSize ; i++)
             {
-                tmpOwnershipHandle->submodList[tmpOwnershipHandle->cnt].api = expSubmod->api;
-                tmpOwnershipHandle->submodList[tmpOwnershipHandle->cnt].slot = expSubmod->slot;
-                tmpOwnershipHandle->submodList[tmpOwnershipHandle->cnt].subslot = expSubmod->subslot;
-                tmpOwnershipHandle->submodList[tmpOwnershipHandle->cnt].modId = expSubmod->modId;
-                tmpOwnershipHandle->submodList[tmpOwnershipHandle->cnt].submodId = expSubmod->submodId;
-                tmpOwnershipHandle->submodList[tmpOwnershipHandle->cnt].inDataLen
-                    = expSubmod->in.dataLen;
-                tmpOwnershipHandle->submodList[tmpOwnershipHandle->cnt].outDataLen
-                    = expSubmod->out.dataLen;
-                tmpOwnershipHandle->cnt++;
+                tmpOwnershipHandle->submodList[i].api = realSubmodList[i].api;
+                tmpOwnershipHandle->submodList[i].slot = realSubmodList[i].slot;
+                tmpOwnershipHandle->submodList[i].subslot = realSubmodList[i].subslot;
+                tmpOwnershipHandle->submodList[i].modId = realSubmodList[i].modId;
+                tmpOwnershipHandle->submodList[i].submodId = realSubmodList[i].submodId;
 
-                status = PN_API_OK;
+                switch(realSubmodList[i].dataDirection)
+                {
+                case PN_API_IOD_SubmodPropIn:
+                    tmpOwnershipHandle->submodList[i].inDataLen = (realSubmodList[i].submodId & 0xFF);
+                    tmpOwnershipHandle->submodList[i].outDataLen = 0;
+                    break;
+                case PN_API_IOD_SubmodPropOut:
+                    tmpOwnershipHandle->submodList[i].inDataLen = 0;
+                    tmpOwnershipHandle->submodList[i].outDataLen = (realSubmodList[i].submodId & 0xFF);
+                    break;
+                case PN_API_IOD_SubmodPropIO:
+                    tmpOwnershipHandle->submodList[i].inDataLen = (realSubmodList[i].submodId & 0xFF);
+                    tmpOwnershipHandle->submodList[i].outDataLen = (realSubmodList[i].submodId & 0xFF);
+                    break;
+                default:
+                    tmpOwnershipHandle->submodList[i].inDataLen = 0;
+                    tmpOwnershipHandle->submodList[i].outDataLen = 0;
+                }
             }
-            else
-            {
-                status = PN_API_ERR_IOD_NO_RESOURCES;
-            }
+
+            tmpOwnershipHandle->cnt = realSubmodListSize;
+
+            status = PN_API_OK;
         }
         else
         {

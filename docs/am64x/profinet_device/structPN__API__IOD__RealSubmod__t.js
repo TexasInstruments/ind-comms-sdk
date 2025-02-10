@@ -7,7 +7,7 @@ var structPN__API__IOD__RealSubmod__t =
     [ "submodId", "structPN__API__IOD__RealSubmod__t_adbb9ef14ac9733ea8a4a97a49046cab3.html#adbb9ef14ac9733ea8a4a97a49046cab3", null ],
     [ "dataDirection", "structPN__API__IOD__RealSubmod__t_a87c3e6cd307a5ee7d853ec7254fcd010.html#a87c3e6cd307a5ee7d853ec7254fcd010", null ],
     [ "index", "structPN__API__IOD__RealSubmod__t_aafd95f8c7a99b9189ede7cdf0871ebe8.html#aafd95f8c7a99b9189ede7cdf0871ebe8", null ],
-    [ "isPlugged", "structPN__API__IOD__RealSubmod__t_a6a9aba47dd599ab7a508480bafee2449.html#a6a9aba47dd599ab7a508480bafee2449", null ],
-    [ "submodStatus", "structPN__API__IOD__RealSubmod__t_a156631d1a5940309df10783346cb9aaf.html#a156631d1a5940309df10783346cb9aaf", null ],
+    [ "isPlugged", "structPN__API__IOD__RealSubmod__t_a9de57be3dbee3b97abbaadb036c8066c.html#a9de57be3dbee3b97abbaadb036c8066c", null ],
+    [ "submodStatus", "structPN__API__IOD__RealSubmod__t_adc7ce4cd34a761cecd783f3037670088.html#adc7ce4cd34a761cecd783f3037670088", null ],
     [ "inIops", "structPN__API__IOD__RealSubmod__t_a5c94f2876cd9cd9a095d3153c0681dd6.html#a5c94f2876cd9cd9a095d3153c0681dd6", null ]
 ];

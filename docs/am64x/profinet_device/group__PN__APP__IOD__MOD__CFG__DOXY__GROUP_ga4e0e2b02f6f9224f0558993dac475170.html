@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
-<title>PROFINET Device: PN_API_IOD_RealSubmod_t::submodStatus</title>
+<title>PROFINET Device: PN_APP_IOD_updateOwnershipHandle</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.0.3</span></div></td>
+         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.1.0</span></div></td>
          <td id="projectbrief" align="right"><img src=PROFINETLogoIcon.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -78,7 +78,7 @@ var searchBox = new SearchBox("searchBox", "search/",'.html');
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('structPN__API__IOD__RealSubmod__t_a156631d1a5940309df10783346cb9aaf.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('group__PN__APP__IOD__MOD__CFG__DOXY__GROUP_ga4e0e2b02f6f9224f0558993dac475170.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -104,18 +104,57 @@ $(document).ready(function(){initNavTree('structPN__API__IOD__RealSubmod__t_a156
 </div>
 
 <div class="contents">
-<a id="a156631d1a5940309df10783346cb9aaf" name="a156631d1a5940309df10783346cb9aaf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a156631d1a5940309df10783346cb9aaf">&#9670;&#160;</a></span>submodStatus</h2>
+<a id="ga4e0e2b02f6f9224f0558993dac475170" name="ga4e0e2b02f6f9224f0558993dac475170"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4e0e2b02f6f9224f0558993dac475170">&#9670;&#160;</a></span>PN_APP_IOD_updateOwnershipHandle()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__PN__API__IOD__TYPES__DOXY__GROUP_gaa338aa797272e895e9bb31b2af8d813e.html#gaa338aa797272e895e9bb31b2af8d813e">PN_API_IOD_SubmodStatus_t</a> submodStatus</td>
+          <td class="memname">uint32_t PN_APP_IOD_updateOwnershipHandle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__PN__API__IOD__TYPES__DOXY__GROUP_ga8c1b84cb058f2349a6de48f753adf12e.html#ga8c1b84cb058f2349a6de48f753adf12e">PN_API_IOD_Handle_t</a> *const&#160;</td>
+          <td class="paramname"><em>pnHandle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPN__API__IOD__RealSubmod__t.html">PN_API_IOD_RealSubmod_t</a> *&#160;</td>
+          <td class="paramname"><em>realSubmodList</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>realSubmodListSize</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Status of the submodule </p>
+
+<p>Update the global ownership handle. </p>
+<p>This function updates the global ownership handle (ownershipHandle) with the recent real submodule list.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pnHandle</td><td>Profinet API Handle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">realSubmodList</td><td>Real submodule list. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">realSubmodListSize</td><td>Size of realSubmodList.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>result of the operation as uint32_t. </dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname"><a class="el" href="group__PN__API__IOD__ERROR__DOXY__GROUP_ga0362644f5127d79b7ba9243cce58a40f.html#ga0362644f5127d79b7ba9243cce58a40f">PN_API_OK</a></td><td>Operation succeeded. </td></tr>
+    <tr><td class="paramname"><a class="el" href="group__PN__API__IOD__ERROR__DOXY__GROUP_gaa7fcc88b0869a85132ed2c80eedef414.html#gaa7fcc88b0869a85132ed2c80eedef414">PN_API_NOT_OK</a></td><td>Something went wrong. </td></tr>
+    <tr><td class="paramname"><a class="el" href="group__PN__API__IOD__ERROR__DOXY__GROUP_ga84997188737371037ac4ef59f53cd495.html#ga84997188737371037ac4ef59f53cd495">PN_API_ERR_PARAM</a></td><td>Invalid parameter. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -125,7 +164,7 @@ $(document).ready(function(){initNavTree('structPN__API__IOD__RealSubmod__t_a156
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structPN__API__IOD__RealSubmod__t.html">PN_API_IOD_RealSubmod_t</a></li>
+    <li class="navelem"><a class="el" href="group__PN__APP__IOD__MOD__CFG__DOXY__GROUP.html">Module Configuration</a></li>
     <li class="footer">generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.9.8 </li>

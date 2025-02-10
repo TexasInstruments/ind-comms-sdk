@@ -56,6 +56,11 @@ PNISOM_Handle PN_ISO_initGPIOEvent(PN_Handle pnHandle, uint8_t isoMode, uint32_t
     HwiP_Params hwiParams;
     uint32_t status = SystemP_FAILURE;
 
+    /*TODO: Review the changes in ISOM Handle*/
+    // if(!(handle= (uint32_t*)malloc(sizeof(uint32_t))))
+    // {
+    //     return NULL;
+    // }
     if(isomConfig->isoMNumEvents >= PNISO_MAX_NUM_EVENTS)
     {
         return NULL;
@@ -72,6 +77,10 @@ PNISOM_Handle PN_ISO_initGPIOEvent(PN_Handle pnHandle, uint8_t isoMode, uint32_t
             regVal = HW_RD_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET);
             regVal &= ~enableMask;
             HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET, regVal);
+
+            /*TODO: Review this*/
+            // isomConfig->event1Handle = (uint32_t)(handle);
+            // *handle = ISOM_TIO_TIMEVAL1;
 
             pnHandle->pnIsoMObject = &(isomConfig->event1Handle);
             isomConfig->event1Handle = ISOM_TIO_TIMEVAL1;
@@ -91,6 +100,10 @@ PNISOM_Handle PN_ISO_initGPIOEvent(PN_Handle pnHandle, uint8_t isoMode, uint32_t
 
                 enableMask &= ~((uint8_t)0x2);
                 HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET, enableMask); /*Disable mode*/
+
+                /*TODO: Review this*/
+                // isomConfig->event2Handle = (uint32_t)handle;
+                // *handle = ISOM_TIO_TIMEVAL2;
 
                 pnHandle->pnIsoMObject = &(isomConfig->event2Handle);
                 isomConfig->event2Handle = ISOM_TIO_TIMEVAL2;
@@ -115,6 +128,10 @@ PNISOM_Handle PN_ISO_initGPIOEvent(PN_Handle pnHandle, uint8_t isoMode, uint32_t
 
                 tempHandle = (PNISOM_Handle)isomConfig->event2Handle;
                 *(tempHandle) = ISOM_TIO_TIMEVAL2;
+
+                /*TODO: Review this*/
+                // isomConfig->event1Handle = (uint32_t)handle;
+                // *handle = ISOM_TIO_TIMEVAL1;
 
                 pnHandle->pnIsoMObject = &(isomConfig->event1Handle);
                 isomConfig->event1Handle = ISOM_TIO_TIMEVAL1;
@@ -150,6 +167,7 @@ PNISOM_Handle PN_ISO_initGPIOEvent(PN_Handle pnHandle, uint8_t isoMode, uint32_t
         HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_SYNC_PWIDTH_REG, duration/5);
 
         isomConfig->isoMNumEvents++;
+        /* TODO: Review this*/
         return (pnHandle->pnIsoMObject);
     }
 }
@@ -199,24 +217,26 @@ void PN_ISO_deInitGPIOEvent(PN_Handle pnHandle)
 
     /* Disable both handles */ 
     /* Event 1 disable */ 
-    HW_WR_REG32(pruicssHwAttrs->pru0DramBase + ISOM_TIO_TIMEVAL1, PNISO_MODE_DISABLE);
-    HW_WR_REG32(pruicssHwAttrs->pru0DramBase + ISOM_TIO_DURATION1, PNISO_MODE_DISABLE);
-    HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_TYPE1, PNISO_MODE_DISABLE); /*Disable mode*/
-    regVal = HW_RD_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET);
+            HW_WR_REG32(pruicssHwAttrs->pru0DramBase + ISOM_TIO_TIMEVAL1, PNISO_MODE_DISABLE);
+            HW_WR_REG32(pruicssHwAttrs->pru0DramBase + ISOM_TIO_DURATION1, PNISO_MODE_DISABLE);
+            HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_TYPE1, PNISO_MODE_DISABLE); /*Disable mode*/
+            regVal = HW_RD_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET);
     regVal &= ~((uint8_t)0x1);
-    HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET, regVal); /*Disable ISOM*/
-    isomConfig->event1Handle = 0;
+            HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET, regVal); /*Disable ISOM*/
+            isomConfig->event1Handle = 0;
 
     /* Event 2 disable */ 
-    HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET, 0); /*Disable all signals*/
-    HW_WR_REG32(pruicssHwAttrs->pru0DramBase + ISOM_TIO_TIMEVAL2, PNISO_MODE_DISABLE);
-    HW_WR_REG32(pruicssHwAttrs->pru0DramBase + ISOM_TIO_DURATION2, PNISO_MODE_DISABLE);
-    HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_TYPE2, PNISO_MODE_DISABLE); /*Disable mode*/
-    enableMask &= ~((uint8_t)0x2);
-    HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET, enableMask); /*Disable ISOM*/
-    isomConfig->event2Handle = 0;
+        HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET, 0); /*Disable all signals*/
+        HW_WR_REG32(pruicssHwAttrs->pru0DramBase + ISOM_TIO_TIMEVAL2, PNISO_MODE_DISABLE);
+        HW_WR_REG32(pruicssHwAttrs->pru0DramBase + ISOM_TIO_DURATION2, PNISO_MODE_DISABLE);
+        HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_TYPE2, PNISO_MODE_DISABLE); /*Disable mode*/
+        enableMask &= ~((uint8_t)0x2);
+        HW_WR_REG8(pruicssHwAttrs->pru0DramBase + ISOM_TIO_ENABLE_OFFSET, enableMask); /*Disable ISOM*/
+        isomConfig->event2Handle = 0;
 
 
     isomConfig->isoMNumEvents = 0;
+    /*TODO: Review this*/
+    // free(isoHandle);
     pnHandle->pnIsoMObject = NULL;
 }

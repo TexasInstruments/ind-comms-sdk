@@ -161,20 +161,6 @@ extern "C"
  */
 #define FORWARDING                  2
 
-/**
- * @internal
- * @def fsoCompensation
- *  150 ns compensation value to accomodate for Tx delays inside ICSS
- */
-#define fsoCompensation 150
-
-/**
- * @internal
- * @def CpmOffloadFlag
- *  Flag to indicate to FW, CPM to be stored in Queue0 instead of CPM buffers
- */
-#define CpmOffloadFlag 0xFF
-
 #ifdef WATCHDOG_SUPPORT
 /**
  * \def watchDogExpireDuration
@@ -517,14 +503,6 @@ void PN_dhtIsrHandler(void* arg);
  *  \param[in]  arg
  */
 void PN_PTCP_isrHandler(void* arg);
-
-/**
-* \ingroup PN_CPM_PPM_MANAGEMENT
-* \brief API to configure the FW to store RTC1 CPM frames in Queue0 instead of CPM buffers.
-*           To be called by stack before the firmware load.
-* \param[in] pruicssHwAttrs PRUICSS HW Attributes for base addresses
-*/
-void PN_CPMOffloadBypass(PRUICSS_HwAttrs const *pruicssHwAttrs);
 
 #ifdef __cplusplus
 }

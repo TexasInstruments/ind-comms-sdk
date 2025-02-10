@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.0.3</span></div></td>
+         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.1.0</span></div></td>
          <td id="projectbrief" align="right"><img src=PROFINETLogoIcon.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -114,13 +114,63 @@ Overview</h1>
 <dl class="section note"><dt>Note</dt><dd>This is a new development of the PROFINET stack. The API is not backward compatible with the PROFINET API from the previous version dropped with the release of MCU+ SDK version 08.04.00.</dd></dl>
 <h1><a class="anchor" id="releasenotes_lic"></a>
 Licensing</h1>
-<p>Copyright &copy; 2024, KUNBUS GmbH All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+<p>Copyright &copy; 2025, KUNBUS GmbH All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
 <ol type="1">
 <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
 <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
 <li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
 </ol>
 <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h1><a class="anchor" id="version_release_4_1_0"></a>
+Release Version 4.1.0</h1>
+<ul>
+<li>
+<b>Fixed Issues:</b><br  />
+ <ul>
+<li>
+Optimize flash write access </li>
+<li>
+Fix line delay measurement </li>
+<li>
+Fix different access ways test cases </li>
+<li>
+Fix submodule configuration in case of system redunduncy </li>
+<li>
+Fix powerOnToCommReady value in gsd file </li>
+<li>
+Fix 64 bytes submodules' ids in the demo App  </li>
+<li>
+Enable storm prevention for BC/MC NRT traffic </li>
+</ul>
+</li>
+<li>
+<b>CiR Feature Support Enabled:</b><br  />
+ <ul>
+<li>
+Configuration in Run (CiR), also known as dynamic reconfiguration (DR) is now supported </li>
+</ul>
+</li>
+<li>
+<b>New in Demo App</b><br  />
+ <ul>
+<li>
+Add Return of Submodule Alarm </li>
+<li>
+Enable usage of substitute values </li>
+<li>
+Enable Sync jitter measurement for IRT </li>
+</ul>
+</li>
+<li>
+<b>Upgrade gsd and pnio version</b><br  />
+ <ul>
+<li>
+Upgrade gsd file to version 2.44 </li>
+<li>
+Upgrade pnio version to 2.44 </li>
+</ul>
+</li>
+</ul>
 <h1><a class="anchor" id="version_release_4_0_3"></a>
 Release Version 4.0.3</h1>
 <ul>

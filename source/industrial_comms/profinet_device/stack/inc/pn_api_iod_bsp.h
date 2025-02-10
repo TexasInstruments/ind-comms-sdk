@@ -1,20 +1,16 @@
 /*!
- * \file pn_api_iod_bsp.h
+ *  \file pn_api_iod_bsp.h
  *
- * \brief
- * Functions and callback-prototypes needed for the board support package like memory and LED control.
+ *  \brief
+ *  Functions and callback-prototypes needed for the board support package like memory and LED control.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: LicenseRef-Kunbus
- *
- * Copyright (c) 2024 KUNBUS GmbH
- * All rights reserved.
- *
- *
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
+ *  All rights reserved.
  */
 
 #ifndef PN_API_IOD_BSP_H
@@ -22,10 +18,9 @@
 
 #include "pn_api_iod_types.h"
 
-#if(defined __cplusplus)
+#if (defined __cplusplus)
 extern "C" {
 #endif
-
 
 /*!
  * \brief
@@ -82,11 +77,12 @@ extern "C" {
  *
  * \ingroup PN_API_IOD_BSP_DOXY_GROUP
  */
-typedef uint32_t (*PN_API_IOD_storeRemaMemCbf)(PN_API_IOD_Handle_t *const pnHandle,
-                                               PN_API_IOD_RemaDataType_t type,
-                                               const uint32_t             instance,
-                                               const uint32_t             memSize,
-                                               uint8_t *const             srcMem);
+typedef uint32_t (*PN_API_IOD_storeRemaMemCbf)(
+    PN_API_IOD_Handle_t *const pnHandle,
+    PN_API_IOD_RemaDataType_t  type,
+    const uint32_t             instance,
+    const uint32_t             memSize,
+    uint8_t *const             srcMem);
 
 /*!
  * \brief
@@ -193,8 +189,8 @@ typedef uint32_t (*PN_API_IOD_restoreRemaMemCbf)(
  *
  * \ingroup PN_API_IOD_BSP_DOXY_GROUP
  */
-typedef uint32_t (*PN_API_IOD_freeRemaMemCbf)(PN_API_IOD_Handle_t *const pnHandle, uint8_t *const destMem);
-
+typedef uint32_t (
+    *PN_API_IOD_freeRemaMemCbf)(PN_API_IOD_Handle_t *const pnHandle, uint8_t *const destMem);
 
 /*!
  * \brief
@@ -257,7 +253,8 @@ void PN_API_IOD_dataStoreComplete(PN_API_IOD_Handle_t *pnHandle, uint32_t lenWri
  *
  * \ingroup PN_API_IOD_BSP_DOXY_GROUP
  */
-typedef uint32_t (*PN_API_IOD_setLedCbf)(PN_API_IOD_Handle_t *pnHandle, PN_API_IOD_Led_t led, bool state);
+typedef uint32_t (
+    *PN_API_IOD_setLedCbf)(PN_API_IOD_Handle_t *pnHandle, PN_API_IOD_Led_t led, bool state);
 
 /*!
  * \brief
@@ -309,9 +306,10 @@ typedef uint32_t (*PN_API_IOD_setLedCbf)(PN_API_IOD_Handle_t *pnHandle, PN_API_I
  *
  * \ingroup PN_API_IOD_BSP_DOXY_GROUP
  */
-typedef uint32_t (*PN_API_IOD_startLedBlinkCbf)(PN_API_IOD_Handle_t *const pnHandle,
-                                                const uint32_t             portNum,
-                                                const uint32_t             frequency);
+typedef uint32_t (*PN_API_IOD_startLedBlinkCbf)(
+    PN_API_IOD_Handle_t *const pnHandle,
+    const uint32_t             portNum,
+    const uint32_t             frequency);
 
 /*!
  * \brief
@@ -362,8 +360,8 @@ typedef uint32_t (*PN_API_IOD_startLedBlinkCbf)(PN_API_IOD_Handle_t *const pnHan
  *
  * \ingroup PN_API_IOD_BSP_DOXY_GROUP
  */
-typedef uint32_t (*PN_API_IOD_stopLedBlinkCbf)(PN_API_IOD_Handle_t *const pnHandle, const uint32_t portNum);
-
+typedef uint32_t (
+    *PN_API_IOD_stopLedBlinkCbf)(PN_API_IOD_Handle_t *const pnHandle, const uint32_t portNum);
 
 /*!
  * \brief
@@ -382,9 +380,10 @@ typedef uint32_t (*PN_API_IOD_stopLedBlinkCbf)(PN_API_IOD_Handle_t *const pnHand
  *
  * \ingroup PN_API_IOD_BSP_DOXY_GROUP
  */
-typedef uint32_t (*PN_API_IOD_updateAppCycleTimerCbf)(PN_API_IOD_Handle_t *const pnHandle, const uint32_t timeNs);
+typedef uint32_t (
+    *PN_API_IOD_updateAppCycleTimerCbf)(PN_API_IOD_Handle_t *const pnHandle, const uint32_t timeNs);
 
-#if(defined __cplusplus)
+#if (defined __cplusplus)
 }
 #endif
 

@@ -175,7 +175,9 @@ static inline int32_t ICSS_EMAC_handleSpecialUnicastMACAddress(ICSS_EMAC_Handle 
 
 extern ICSS_EMAC_Config gIcssEmacConfig[];
 extern uint32_t gIcssEmacConfigNum;
-
+uint32_t    countDrop = 0;
+uint8_t    RRInd = 0;
+uint16_t    ReadReqId[100];
 /* ========================================================================== */
 /*                          Function Definitions                              */
 /* ========================================================================== */
@@ -980,17 +982,45 @@ int32_t ICSS_EMAC_rxPktGet(ICSS_EMAC_RxArgument *rxArg, void *userArg)
         }
         else
         {
-            ICSS_EMAC_memcpyLocal((int32_t*)destAddress, (int32_t*)rd_buffer_l3_addr, (size_t)rd_packet_length);
-            /*Copy and append the timestamp to packet if it's a PTP frame*/
-            if(ptp_pkt)
-            {
-                aligned_length = (rd_packet_length & 0xFFE0) + 32;
-                ICSS_EMAC_memcpyLocal((int32_t*)(destAddress + rd_packet_length), (int32_t*)(rd_buffer_l3_addr + aligned_length), (size_t)10);
-            }
-            typeProt = (uint16_t*)destAddress + 6;
-            typeProt1 = ((uint16_t)((*typeProt) << 8U));
-            typeProt2 = ((uint16_t)((*typeProt) >> 8U));
-            typeProt1 = typeProt1 | typeProt2;
+            /*PN Debug*/
+            // uint8_t multicastCheck = ((uint32_t*)rd_buffer_l3_addr)[0] & 0x1;
+            // uint16_t EtherTypeVlanId = (((uint32_t*)rd_buffer_l3_addr)[3] & 0xFFFF);
+            // uint32_t srcIpAddr = (((uint32_t*)rd_buffer_l3_addr)[6] >> 16) | (((uint32_t*)rd_buffer_l3_addr)[7] << 16);
+
+            // if(multicastCheck == 0)
+            // {
+            //     if(EtherTypeVlanId != 0x9288)
+            //     {
+            //         if((EtherTypeVlanId == 0x0008 && srcIpAddr != 0x6400a8c0))
+            //         {
+            //             countDrop++;
+            //             ret_val = SystemP_FAILURE;
+            //         }
+            //         else {
+            //             ReadReqId[RRInd] = ((uint32_t*)rd_buffer_l3_addr)[37] & 0xFFFF;
+            //             ReadReqId[RRInd] = ((ReadReqId[RRInd] & 0xFF) << 8) | ((ReadReqId[RRInd] & 0xFF00) >> 8);
+            //             if(RRInd == 100) {
+            //                 RRInd=0;
+            //             }
+            //             else
+            //                 RRInd++;
+            //         }
+            //     }
+            // }
+            // if(ret_val == SystemP_SUCCESS)
+            // {
+                ICSS_EMAC_memcpyLocal((int32_t*)destAddress, (int32_t*)rd_buffer_l3_addr, (size_t)rd_packet_length);
+                /*Copy and append the timestamp to packet if it's a PTP frame*/
+                if(ptp_pkt)
+                {
+                    aligned_length = (rd_packet_length & 0xFFE0) + 32;
+                    ICSS_EMAC_memcpyLocal((int32_t*)(destAddress + rd_packet_length), (int32_t*)(rd_buffer_l3_addr + aligned_length), (size_t)10);
+                }
+                typeProt = (uint16_t*)destAddress + 6;
+                typeProt1 = ((uint16_t)((*typeProt) << 8U));
+                typeProt2 = ((uint16_t)((*typeProt) >> 8U));
+                typeProt1 = typeProt1 | typeProt2;
+            // }
         }
     }
     else  /* wrong packet size (exceeds ICSS_EMAC_MAXMTU)*/

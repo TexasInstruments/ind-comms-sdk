@@ -1,20 +1,16 @@
 /*!
- * \file pn_api_iod_alarm.h
+ *  \file pn_api_iod_alarm.h
  *
- * \brief
- * Functions and callback-prototypes needed for handling the Profinet alarms.
+ *  \brief
+ *  Functions and callback-prototypes needed for handling the Profinet alarms.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: LicenseRef-Kunbus
- *
- * Copyright (c) 2024 KUNBUS GmbH
- * All rights reserved.
- *
- *
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
+ *  All rights reserved.
  */
 
 #ifndef PN_API_IOD_ALARM_H

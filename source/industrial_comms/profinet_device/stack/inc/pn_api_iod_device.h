@@ -1,20 +1,16 @@
 /*!
- * \file pn_api_iod_device.h
+ *  \file pn_api_iod_device.h
  *
- * \brief
- * Functions and callback-prototypes to control the configuration and operational state of the IO device.
+ *  \brief
+ *  Functions and callback-prototypes to control the configuration and operational state of the IO device.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: LicenseRef-Kunbus
- *
- * Copyright (c) 2024 KUNBUS GmbH
- * All rights reserved.
- *
- *
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
+ *  All rights reserved.
  */
 
 #ifndef PN_API_IOD_DEVICE_H
@@ -500,10 +496,54 @@ uint32_t PN_API_IOD_pullSubmod(PN_API_IOD_Handle_t *const pnHandle, uint32_t api
  */
 uint32_t PN_API_IOD_getRealSubmod(
     PN_API_IOD_Handle_t *const pnHandle,
-    PN_API_IOD_RealSubmod_t   *realSubmod,
+    PN_API_IOD_RealSubmod_t  **realSubmod,
     uint32_t                   api,
     uint32_t                   slot,
     uint32_t                   subslot);
+
+/*!
+ * \brief
+ * Gets information about real submodule list.
+ *
+ * \details
+ * This function gets real submodule list information from the
+ * stack and returns a pointer to it to the user application.
+ *
+ * \param[in]      pnHandle            Profinet API Handle.
+ * \param[out]     realSubmodList      Submodule list to be returned.
+ * \param[in]      realSubmodListSize  Size of realSubmodList.
+ *
+ * \return         result of the operation as uint32_t.
+ * \retval         #PN_API_OK          Success.
+ * \retval         #PN_API_NOT_OK      Something went wrong.
+ * \retval         #PN_API_ERR_PARAM   Invalid parameter.
+ *
+ * \par Example
+ * \code{.c}
+ * #include "pn_api_iod_device.h"
+ * #include "pn_api_iod_startup.h"
+ *
+ * PN_API_IOD_Handle_t* pnHandle = NULL;
+ * uint32_t status;
+ *
+ * pnHandle = PN_API_IOD_new();
+ *
+ * //Prepare and call PN_API_IOD_startup()
+ * ...
+ *
+ * uint32_t realSubmodListSize = 0;
+ * PN_API_IOD_RealSubmod_t *realSubmodList;
+ *
+ * status = PN_API_IOD_getRealSubmodList(pnHandle, &realSubmodList, &realSubmodListSize);
+ *
+ * \endcode
+ *
+ * \ingroup PN_API_IOD_DEVICE_DOXY_GROUP
+ */
+uint32_t PN_API_IOD_getRealSubmodList(
+    PN_API_IOD_Handle_t *const pnHandle,
+    PN_API_IOD_RealSubmod_t  **realSubmodList,
+    uint32_t *realSubmodListSize);
 
 /*!
  * \brief
@@ -550,7 +590,7 @@ uint32_t PN_API_IOD_getRealSubmod(
 uint32_t PN_API_IOD_setRealSubmodStatus(
     PN_API_IOD_Handle_t *const pnHandle,
     PN_API_IOD_RealSubmod_t   *realSubmod,
-    PN_API_IOD_SubmodStatus_t  submodStatus);
+    PN_API_IOD_RealSubmodStatus_t  submodStatus);
 
 /*!
  * \brief

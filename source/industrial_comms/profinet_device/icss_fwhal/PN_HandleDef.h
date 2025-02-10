@@ -105,6 +105,7 @@ typedef struct PN_PtcpTimerAttrs_s
     void *ptcpTimerHandle;
 } PN_PtcpTimerAttrs;
 
+/*TODO: Review this*/
 /*
 *  \brief     PN_PtcpConfig
 *             Structure storing the PTCP info
@@ -197,7 +198,7 @@ typedef struct PN_PtcpConfig_s
     /*! Callback to update sync status            */
     ptcpCallBack_t ptcpSyncStatusCall;
     /*! Callback to update delay                  */
-    ptcpCallBack_t ptcpDelayUpdateCall;   
+    ptcpCallBack_t ptcpDelayUpdateCall;
     /*TODO: Check if this should be always included*/
     /* Debug                                      */
     /*! Debug information                         */
@@ -209,16 +210,6 @@ typedef struct PN_PtcpConfig_s
     uint8_t ptcpEnableSlowCompensation;
     /* Timer for PTCP */
     PN_PtcpTimerAttrs ptcpTimer;
-    /*! Previous PTCP Cycle Period        */
-    uint32_t prevPnCyclePeriod;
-    /*! Callback to sync timeout monitor                  */
-    ptcpSyncCallBack_t ptcpSyncMonitorCall; 
-    /*! Set flag if custom sync timeout monitor handling is present*/
-    uint8_t enableCustomSyncMonitorFlag; 
-    /* Port at which sync frame is received. To be used by application if required */
-    uint8_t SyncCtrlPort;
-    /* Flag set if received sync frame is followup frame. To be used by application if required */
-    uint8_t SyncCtrlFup;
 } PN_PtcpConfig;
 
 
@@ -239,6 +230,7 @@ typedef struct PN_IsoMConfig_s
 
 }PN_IsoMConfig;
 
+/*TODO: Review the changes here*/
 /*
 *  \brief     PN_Config
 *             Profinet handle - stores the Profinet configuration
@@ -276,6 +268,7 @@ typedef struct PN_Config_s
     int32_t icssWatchDogEnabled;
     /*! ICSSEMAC Handle                   */
     ICSS_EMAC_Handle emacHandle;
+    /*TODO: Review this*/
     /*! PRUICSS LLD Handle                   */
     PRUICSS_Handle pruicssHandle;
     /*! Profinet Interrupt configuration      */
@@ -287,12 +280,16 @@ typedef struct PN_Config_s
     TaskP_Object PTCPTaskObject;
     /*! PTCP Sync monitor task handle         */
     TaskP_Object SyncMonitorTaskObject;
+#ifdef STORM_PREV_SUPPORT
+    TaskP_Object StormPrevTaskObject;
+#endif
     /*! Legacy mode task handle               */
     TaskP_Object LegModeTaskObject;
     /*! MRP Task handle                       */
     TaskP_Object MrpMachineTaskObject;
     /*! Watchdog timer Task handle            */
     TaskP_Object WatchDogTimerTaskObject;
+    /*TODO: Review this change*/
     /*! ISOM handle                           */
     uint32_t* pnIsoMObject;
     /*! ISOM config                           */
@@ -309,16 +306,16 @@ typedef struct PN_Config_s
 #ifdef IRT_LEGACY_STARTUP_SUPPORT
     uint32_t IRT_legacyTaskStack[PN_TASK_STACK_SIZE/sizeof(uint32_t)]       __attribute__((aligned(32)));
 #endif /*IRT_LEGACY_STARTUP_SUPPORT*/
+#ifdef STORM_PREV_SUPPORT
+    uint32_t stormPreventionTaskStack[PN_TASK_STACK_SIZE/sizeof(uint32_t)] __attribute__((aligned(32)));
+#endif
 #ifdef MRP_SUPPORT
     uint32_t MRP_CPMTaskStack[PN_TASK_STACK_SIZE/sizeof(uint32_t)]          __attribute__((aligned(32)));
 #endif /*MRP_SUPPORT*/
 #ifdef WATCHDOG_SUPPORT
     uint32_t tapWatchDog_taskStack[PN_TASK_STACK_SIZE/sizeof(uint32_t)]     __attribute__((aligned(32)));
 #endif /*WATCHDOG_SUPPORT*/
-    /* Callback for thread safety entry. Enter critical section*/
-    pnDrvThreadSafe_t lockSynchronizedEntry;
-    /* Callback for thread safety exit. Exit critical section*/
-    pnDrvThreadSafe_t lockSynchronizedExit;
+
 } PN_Config;
 
 

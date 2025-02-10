@@ -1,49 +1,52 @@
 /*!
- * \file pn_app_iod_bsp.h
+ *  \file pn_app_iod_bsp.h
  *
- * \brief
- * Functions and callbacks for handling the board support package like memory and LED control.
+ *  \brief
+ *  Functions and callbacks for handling the board support package like memory and LED control.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: BSD-3-Clause
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
- * Copyright (c) 2024 KUNBUS GmbH.
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
- * <ol>
- * <li>Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer./<li>
- * <li>Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.</li>
- * <li>Neither the name of the copyright holder nor the names of its contributors
- * may be used to endorse or promote products derived from this software without
- * specific prior written permission.</li>
- * </ol>
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
  *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef PN_APP_IOD_BSP_H
 #define PN_APP_IOD_BSP_H
 
 #include "pn_api_iod_types.h"
+
+/* Enable Sync jitter measurement; Sync Events*/
+#define SYNC_OUT0                               0
+#define SYNC_OUT1                               1
 
 #if(defined __cplusplus)
 extern "C" {
@@ -106,6 +109,18 @@ typedef struct PN_APP_IOD_Nvdata
     PN_API_IOD_RemaDataSubmodCfgInfo_t subCfgList[PN_API_IOD_MAX_NUM_OF_SUBSLOTS]; /*!< List of
                                                                                 Submodule Config. */
 } PN_APP_IOD_Nvdata_t;
+
+/*!
+ * \brief
+ *  Configuration for TSR.
+ *
+ * \details
+ * This function configures pinmux required for TSR to route the sync signals to SYNC0_OUT pin
+ *
+ *  \param[in]      syncSignal      Sync0/Sync1 signal to be routed to SYNC0_OUT pin
+ *
+ */
+void PN_APP_IOD_tsrConfig(uint8_t syncSignal);
 
 /*!
  * \brief
@@ -318,6 +333,44 @@ uint32_t PN_APP_IOD_remaInit(void);
  *
  */
 uint32_t PN_APP_IOD_ledInit(void);
+
+/*!
+ * \brief
+ * Initialize input user GPIO button and configures its interrupt.
+ *
+ * \return        result of the operation as uint32_t.
+ * \retval        #PN_API_OK           Success.
+ *
+ * \ingroup PN_APP_IOD_BSP_DOXY_GROUP
+ *
+ */
+uint32_t PN_APP_IOD_btnInit(void);
+
+/*!
+ * \brief
+ * Initialize output hardware GPIO signal on PIN 5 of the safety connector (J1).
+ *
+ * \return        result of the operation as uint32_t.
+ * \retval        #PN_API_OK           Success.
+ *
+ * \ingroup PN_APP_IOD_BSP_DOXY_GROUP
+ *
+ */
+uint32_t PN_APP_IOD_outHwSignalInit(void);
+
+/*!
+ * \brief
+ * Set output hardware GPIO signal on PIN 5 of the safety connector (J1) to "high" or "low".
+ *
+ * \param[in]     value              1 for "high", 0 for "low"
+ *
+ * \return        result of the operation as uint32_t.
+ * \retval        #PN_API_OK           Success.
+ *
+ * \ingroup PN_APP_IOD_BSP_DOXY_GROUP
+ *
+ */
+uint32_t PN_APP_IOD_setOutHwSignal(uint8_t value);
 
 #if(defined __cplusplus)
 }

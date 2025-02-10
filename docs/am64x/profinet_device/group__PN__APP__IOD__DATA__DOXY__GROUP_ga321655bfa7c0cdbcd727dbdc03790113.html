@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.0.3</span></div></td>
+         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.1.0</span></div></td>
          <td id="projectbrief" align="right"><img src=PROFINETLogoIcon.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -149,7 +149,7 @@ $(document).ready(function(){initNavTree('group__PN__APP__IOD__DATA__DOXY__GROUP
 </div><div class="memdoc">
 
 <p>Callback function to write input data from the physical input of a submodule to the IO controller. </p>
-<p>This function writes data from the global input data array to the buffer provided by the stack. It also increases this value by 1 upon each call so the data sent to the IO controller is continuously increased. IOCS of the corresponding submodule, is also updated while IOPS is sent back as a return value.</p>
+<p>This function writes data from the global input data array to the buffer provided by the stack. IOCS of the corresponding submodule is also updated while IOPS is sent back as a return value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">pnHandle</td><td>Profinet API Handle. </td></tr>

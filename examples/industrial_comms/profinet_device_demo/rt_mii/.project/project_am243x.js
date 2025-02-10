@@ -139,6 +139,7 @@ const defines_r5f_lp = {
     common: [
         "OSAL_FREERTOS",
         "INCLUDE_MDIO_MANUAL_MODE_WORKAROUND",
+        "CUST_PHY_DP83869=1"
     ],
 };
 

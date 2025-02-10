@@ -1,20 +1,16 @@
 /*!
- * \file pru_Profinet.h
+ *  \file pru_Profinet.h
  *
- * \brief
- * PRU Integration: Profinet specific interface.
+ *  \brief
+ *  PRU Integration: Profinet specific interface.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2021, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: LicenseRef-Kunbus
- *
- * Copyright (c) 2024 KUNBUS GmbH
- * All rights reserved.
- *
- *
+ *  \copyright
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
+ *  All rights reserved.
  */
 
 #if !(defined PRU_PROFINET_H)

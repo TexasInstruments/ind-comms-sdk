@@ -601,7 +601,7 @@ int32_t FAST_CODE_HWAL PN_setCpmDHT(PRUICSS_HwAttrs const *pruicssHwAttrs,
     }
 
     HW_WR_REG16(pruicssHwAttrs->pru0DramBase + RTC_DHT_TIMEOUT_OFFSET +
-           pos * 2, dht);
+           pos * 2, dht - 1);
 
     return 0;
 }

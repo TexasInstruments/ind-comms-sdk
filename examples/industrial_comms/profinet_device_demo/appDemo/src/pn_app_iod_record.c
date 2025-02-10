@@ -1,43 +1,42 @@
 /*!
- * \file pn_app_iod_record.c
+ *  \file pn_app_iod_record.c
  *
- * \brief
- * Functions and callback for handling record data read and write.
+ *  \brief
+ *  Functions and callback for handling record data read and write.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: BSD-3-Clause
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
- * Copyright (c) 2024 KUNBUS GmbH.
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
- * <ol>
- * <li>Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer./<li>
- * <li>Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.</li>
- * <li>Neither the name of the copyright holder nor the names of its contributors
- * may be used to endorse or promote products derived from this software without
- * specific prior written permission.</li>
- * </ol>
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
  *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 
@@ -205,7 +204,7 @@ static uint32_t PN_APP_IOD_isoRecordReadHandler(
     PN_API_IOD_ErrState_t *errState)
 {
     uint32_t status = PN_API_ERR_PARAM;
-    PN_API_IOD_RealSubmod_t realSubmod;
+    PN_API_IOD_RealSubmod_t *realSubmod;
     PN_APP_IOD_userRec_t *userRec = NULL;
 
     if (PN_API_IOD_isHandleValid(pnHandle) &&
@@ -214,14 +213,12 @@ static uint32_t PN_APP_IOD_isoRecordReadHandler(
         (NULL != buffer) &&
         (NULL != errState))
     {
-        OSAL_MEMORY_memset(&realSubmod, 0, sizeof(realSubmod));
-
         uint32_t slotIndex = addr->address.geo.slot;
         uint32_t subslotIndex = addr->address.geo.subslot;
 
         status = PN_API_IOD_getRealSubmod(pnHandle, &realSubmod, api, slotIndex, subslotIndex);
 
-        if ((PN_API_OK != status) || ((PN_API_IOD_MAX_NUM_OF_SUBSLOTS + 1U) < realSubmod.index))
+        if ((PN_API_OK != status) || ((PN_API_IOD_MAX_NUM_OF_SUBSLOTS + 1U) < realSubmod->index))
         {
             OSAL_MEMORY_memset(buffer, 0, sizeof(PN_APP_IOD_isoDataBlock_t));
             *bufLen = 0;
@@ -240,7 +237,7 @@ static uint32_t PN_APP_IOD_isoRecordReadHandler(
         }
         else
         {
-            userRec = &userRecList[realSubmod.index];
+            userRec = &userRecList[realSubmod->index];
 
             if ((0 < userRec->dataSize) && (REC_INDEX_ISO_DATA == userRec->index))
             {
@@ -359,7 +356,7 @@ static uint32_t PN_APP_IOD_isoRecordWriteHandler(
     PN_API_IOD_ErrState_t *errState)
 {
     uint32_t status = PN_API_ERR_PARAM;
-    PN_API_IOD_RealSubmod_t realSubmod;
+    PN_API_IOD_RealSubmod_t *realSubmod;
     PN_APP_IOD_userRec_t *userRec = NULL;
     PN_APP_IOD_isoDataBlock_t *isoRecReceived;
     PN_APP_IOD_isoDataBlock_t isoRecLocal;
@@ -378,13 +375,11 @@ static uint32_t PN_APP_IOD_isoRecordWriteHandler(
         isoRecLocal.blockHeader.len = (uint16_t)OsNtohs(isoRecReceived->blockHeader.len);
         isoRecLocal.blockHeader.version = (uint16_t)OsNtohs(isoRecReceived->blockHeader.version);
 
-        OSAL_MEMORY_memset(&realSubmod, 0, sizeof(realSubmod));
-
         uint32_t slotIndex = addr->address.geo.slot;
         uint32_t subslotIndex = addr->address.geo.subslot;
 
         status = PN_API_IOD_getRealSubmod(pnHandle, &realSubmod, api, slotIndex, subslotIndex);
-        if ((PN_API_OK != status) || ((PN_API_IOD_MAX_NUM_OF_SUBSLOTS + 1U) < realSubmod.index))
+        if ((PN_API_OK != status) || ((PN_API_IOD_MAX_NUM_OF_SUBSLOTS + 1U) < realSubmod->index))
         {
             errState->errCode1 = ERR_CODE1_RESOURCE_UNAVAILBALE;
         }
@@ -429,10 +424,10 @@ static uint32_t PN_APP_IOD_isoRecordWriteHandler(
 
         if (ERR_CODE1_NO_ERROR == errState->errCode1)
         {
-            userRec = &userRecList[realSubmod.index];
+            userRec = &userRecList[realSubmod->index];
 
             OSAL_MEMORY_memset(userRec, 0, sizeof(PN_APP_IOD_userRec_t));
-            userRec->periphRealCfgInd = realSubmod.index;
+            userRec->periphRealCfgInd = realSubmod->index;
             userRec->index = REC_INDEX_ISO_DATA;
             userRec->dataSize = sizeof(PN_APP_IOD_isoDataBlock_t);
 
@@ -687,7 +682,7 @@ static uint32_t PN_APP_IOD_userRecordReadHandler1000(
     PN_API_IOD_ErrState_t *errState)
 {
     uint32_t status = PN_API_ERR_PARAM;
-    PN_API_IOD_RealSubmod_t realSubmod;
+    PN_API_IOD_RealSubmod_t *realSubmod;
     const PN_APP_IOD_userRec_t *userRec = NULL;
 
     if (PN_API_IOD_isHandleValid(pnHandle) &&
@@ -696,14 +691,12 @@ static uint32_t PN_APP_IOD_userRecordReadHandler1000(
         (NULL != buffer) &&
         (NULL != errState))
     {
-        OSAL_MEMORY_memset(&realSubmod, 0, sizeof(realSubmod));
-
         uint32_t slotIndex = addr->address.geo.slot;
         uint32_t subslotIndex = addr->address.geo.subslot;
 
         status = PN_API_IOD_getRealSubmod(pnHandle, &realSubmod, api, slotIndex, subslotIndex);
 
-        if ((PN_API_OK != status) || ((PN_API_IOD_MAX_NUM_OF_SUBSLOTS + 1U) < realSubmod.index))
+        if ((PN_API_OK != status) || ((PN_API_IOD_MAX_NUM_OF_SUBSLOTS + 1U) < realSubmod->index))
         {
             OSAL_MEMORY_memset(buffer, 0, USER_MOD_REC_LEN);
             *bufLen = 0;
@@ -722,7 +715,7 @@ static uint32_t PN_APP_IOD_userRecordReadHandler1000(
         }
         else
         {
-            userRec = &userRecList[realSubmod.index];
+            userRec = &userRecList[realSubmod->index];
 
             if ((0 < userRec->dataSize) && (REC_INDEX_USER_1000 == userRec->index))
             {
@@ -787,7 +780,7 @@ static uint32_t PN_APP_IOD_userRecordWriteHandler1000(
     PN_API_IOD_ErrState_t *errState)
 {
     uint32_t status = PN_API_ERR_PARAM;
-    PN_API_IOD_RealSubmod_t realSubmod;
+    PN_API_IOD_RealSubmod_t *realSubmod;
     PN_APP_IOD_userRec_t *userRec = NULL;
 
     if (PN_API_IOD_isHandleValid(pnHandle) &&
@@ -796,13 +789,11 @@ static uint32_t PN_APP_IOD_userRecordWriteHandler1000(
         (NULL != buffer) &&
         (NULL != errState))
     {
-        OSAL_MEMORY_memset(&realSubmod, 0, sizeof(realSubmod));
-
         uint32_t slotIndex = addr->address.geo.slot;
         uint32_t subslotIndex = addr->address.geo.subslot;
 
         status = PN_API_IOD_getRealSubmod(pnHandle, &realSubmod, api, slotIndex, subslotIndex);
-        if ((PN_API_OK != status) || ((PN_API_IOD_MAX_NUM_OF_SUBSLOTS + 1U) < realSubmod.index))
+        if ((PN_API_OK != status) || ((PN_API_IOD_MAX_NUM_OF_SUBSLOTS + 1U) < realSubmod->index))
         {
             errState->errCode1 = ERR_CODE1_RESOURCE_UNAVAILBALE;
         }
@@ -818,10 +809,10 @@ static uint32_t PN_APP_IOD_userRecordWriteHandler1000(
         }
         else
         {
-            userRec = &userRecList[realSubmod.index];
+            userRec = &userRecList[realSubmod->index];
 
             OSAL_MEMORY_memset(userRec, 0, sizeof(PN_APP_IOD_userRec_t));
-            userRec->periphRealCfgInd = realSubmod.index;
+            userRec->periphRealCfgInd = realSubmod->index;
             userRec->index = recordIndex;
             userRec->dataSize = *bufLen;
             OSAL_MEMORY_memcpy(&userRec->dataByteArray[0], buffer, *bufLen);

@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.0.3</span></div></td>
+         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.1.0</span></div></td>
          <td id="projectbrief" align="right"><img src=PROFINETLogoIcon.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -119,9 +119,9 @@ $(document).ready(function(){initNavTree('known_issues.html',''); initResizable(
 <tr>
 <td>PNE-62 </td><td>React to failing if-statememts in "void" callback function implementations </td><td>Some of the callback functions have a signature with “void” return. When our API functions receive the callback from stack, they do further checks. In case of failures, the demo callback functions are “silently” not triggered and no further notice is given back to the stack. This might be dangerous in some cases and needs to be handled.  </td></tr>
 <tr>
-<td>ARTTest-128 </td><td>SysRed S2 Part 2 - Scenario 3 </td><td>Test step 15: Failed to establish the first System Redundancy AR. Issue is under check   </td></tr>
+<td>ARTTest-128 </td><td>SysRed S2 Part 2 - Scenario 3 </td><td>Bug in test bundle V2.44 and earlier. Fixed in test bundle V2.45  </td></tr>
 <tr>
-<td>ARTTest-129 </td><td>SysRed S2 Part 2 - Scenario 4 </td><td>Test step 15: Failed to establish the second System Redundancy AR. Issue is under check  </td></tr>
+<td>ARTTest-129 </td><td>SysRed S2 Part 2 - Scenario 4 </td><td>Bug in test bundle V2.44 and earlier. Fixed in test bundle V2.45  </td></tr>
 <tr>
 <td>ARTTest-147 </td><td>MRP Interop - Client (CLRPC) </td><td>PLC program provided with the test bundle (version 2.44.4.2) is wrong. In order to pass this test, topology and MRP domain need to be changed.  </td></tr>
 <tr>
@@ -130,6 +130,12 @@ $(document).ready(function(){initNavTree('known_issues.html',''); initResizable(
 <td>ARTTest-228 to 233 </td><td>FSU - scenario 2 (CLRPC) </td><td>Complete scenario is pass with hint: Bug reported to pn-tester community <a href="https://pn-tester.oth-aw.de/issues/9111">https://pn-tester.oth-aw.de/issues/9111</a>  </td></tr>
 <tr>
 <td>ARTTest-240 to 245 </td><td>FSU - scenario 4 (CLRPC) </td><td>Complete scenario is pass with hint: Bug reported to pn-tester community <a href="https://pn-tester.oth-aw.de/issues/9111">https://pn-tester.oth-aw.de/issues/9111</a>  </td></tr>
+<tr>
+<td>ARTTest-316 </td><td>Manual DHT </td><td>With DHT factor of 3 and a cycle time of 500 us, the connection with PLC times out with a slightly higher delay than the acceptable toleration limit (200-400 us extra) - This is under check  </td></tr>
+<tr>
+<td>ARTTest-317 </td><td>FSU-Scenario Manual (CLRPC) </td><td>Measured FSU time is at 500ms (tested with App Authentication disabled in bootloader). This value sporadically exceeds the 500ms by ~40ms - This is under check  </td></tr>
+<tr>
+<td>CPU Load </td><td>Average CPU-Load on R5F core </td><td>Average CPU-Load measured on R5f core is showing sporadic spikes - This is under check  </td></tr>
 </table>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

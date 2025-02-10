@@ -50,7 +50,7 @@ extern "C"
 /** @def PTCP_SUPPORT
  *       Enable PTPCP support - required for IRT device
  */
-//#define PTCP_SUPPORT
+#define PTCP_SUPPORT
 
 /** @def IRT_LEGACY_STARTUP_SUPPORT
  *       Enable IRT legacy startup mode support in driver
@@ -65,7 +65,7 @@ extern "C"
 /** @def APP_NAME
  *       Used in UART logs/LCD etc..
  */
-#define APP_NAME "Profinet Device RT/MRP"
+#define APP_NAME "Profinet Slave RT/MRP"
 
 /** application version */
 #define APP_VERSION "3.0.0.0"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<ISO15745Profile xmlns="http://www.profibus.com/GSDML/2003/11/DeviceProfile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.profibus.com/GSDML/2003/11/DeviceProfile ..\xsd\GSDML-DeviceProfile-V2.43.xsd">
+<ISO15745Profile xmlns="http://www.profibus.com/GSDML/2003/11/DeviceProfile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.profibus.com/GSDML/2003/11/DeviceProfile ..\xsd\GSDML-DeviceProfile-V2.44.xsd">
 	<!-- ProfileHeader Definition as defined in ISO15745-1. Please do not change the content. -->
 	<ProfileHeader>
 		<ProfileIdentification>PROFINET Device Profile</ProfileIdentification>
@@ -23,7 +23,7 @@
 		</DeviceFunction>
 		<ApplicationProcess>
 			<DeviceAccessPointList>
-				<DeviceAccessPointItem ID="DAP_IOD_V1" PhysicalSlots="0..3" ModuleIdentNumber="0x64020000" MinDeviceInterval="8" ImplementationType="sitara" DNS_CompatibleName="TI-DevKit" FixedInSlots="0" ObjectUUID_LocalIndex="1" MultipleWriteSupported="true" SharedDeviceSupported="true" DeviceAccessSupported="true" NumberOfDeviceAccessAR="1" MaxSupportedRecordSize="8192" NameOfStationNotTransferable="true" ParameterizationSpeedupSupported="true" LLDP_NoD_Supported="true" ResetToFactoryModes="2" CheckDeviceID_Allowed="true" PowerOnToCommReady="5000" IOXS_Required="false" RequiredSchemaVersion="V2.2" PNIO_Version="V2.42" AddressAssignment="LOCAL;DCP" AdaptsRealIdentification="true" IO_SupervisorSupported="false" CIR_Supported="false" PrmBeginPrmEndSequenceSupported="true">
+				<DeviceAccessPointItem ID="DAP_IOD_V1" PhysicalSlots="0..3" ModuleIdentNumber="0x64020000" MinDeviceInterval="16" ImplementationType="sitara" DNS_CompatibleName="TI-DevKit" FixedInSlots="0" ObjectUUID_LocalIndex="1" MultipleWriteSupported="true" SharedDeviceSupported="true" DeviceAccessSupported="true" NumberOfDeviceAccessAR="1" MaxSupportedRecordSize="8192" NameOfStationNotTransferable="true" ParameterizationSpeedupSupported="true" LLDP_NoD_Supported="true" ResetToFactoryModes="2" CheckDeviceID_Allowed="true" PowerOnToCommReady="400" IOXS_Required="false" RequiredSchemaVersion="V2.2" PNIO_Version="V2.44" AddressAssignment="LOCAL;DCP" AdaptsRealIdentification="true" IO_SupervisorSupported="false" CIR_Supported="true" PrmBeginPrmEndSequenceSupported="true">
 					<ModuleInfo CategoryRef="CAT_IOD">
 						<Name TextId="T_DAP_Name_IOD_V1"/>
 						<InfoText TextId="T_DAP_Info_IOD_V1"/>
@@ -268,7 +268,7 @@
 						<SubmoduleItemRef SubmoduleItemTarget="IDS_TO2"  AllowedInSubslots="2..10"/>
 						<SubmoduleItemRef SubmoduleItemTarget="IDS_TO4"  AllowedInSubslots="2..10"/>
 						<SubmoduleItemRef SubmoduleItemTarget="IDS_TIO1" AllowedInSubslots="2..10"/>
-						<SubmoduleItemRef SubmoduleItemTarget="IDS_TIO2" AllowedInSubslots="2..10"/>
+						<SubmoduleItemRef SubmoduleItemTarget="IDS_TIO2" AllowedInSubslots="2..10" UsedInSubslots="3"/>
 						<SubmoduleItemRef SubmoduleItemTarget="IDS_TIO4" AllowedInSubslots="2..10" UsedInSubslots="2"/>
 						<SubmoduleItemRef SubmoduleItemTarget="IDS_TUI"  AllowedInSubslots="2..10"/>
 						<SubmoduleItemRef SubmoduleItemTarget="IDS_TUO"  AllowedInSubslots="2..10"/>
@@ -507,7 +507,7 @@
 					<!-- Text TextId="IDT_CAT_SUB" Value=""/ -->
 
 					<!--DAP-->
-					<Text TextId="T_DAP_Name_IOD_V1" Value="IO-Device V2.0"/>
+					<Text TextId="T_DAP_Name_IOD_V1" Value="IO-Device V4.0"/>
 					<Text TextId="T_DAP_Info_IOD_V1" Value="Texas Instruments TMDS64EVM / TMDS243EVM Evaluation Board as I/O Device with PROFINET-IO-functionality (RT, cyclic and acyclic communication)."/>
 
 					<Text TextId="IDT_Info_Device" Value="Decentralized standalone Multi-channel I/O Device based on PROFINET-IO Fieldbus system."/>
