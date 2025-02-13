@@ -8,7 +8,7 @@
  *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (C) 2022 Texas Instruments Incorporated
+ *  Copyright (C) 2022-2025 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -46,9 +46,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#define EI_APP_STACK_MAIN_TASK_STACK_SIZE_BYTE    0x1000
-#define EI_APP_STACK_MAIN_TASK_STACK_SIZE         (EI_APP_STACK_MAIN_TASK_STACK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
 
 #define APP_SCip_t EI_API_CIP_NODE_InitParams_t
 
@@ -90,21 +87,19 @@ typedef struct APP_SAcd
 
 typedef struct APP_SParams
 {
-    APP_SApplication_t      application;
-    APP_SHwal_t             hwal;
-    APP_SLwip_t             lwip;
-    APP_SCip_t              cip;
-    APP_SAdapter_t          adapter;
-    EI_APP_NV_SInit_t       nv;                     /* Initialization parameters of non-volatile memory */
-    EI_APP_UART_SInit_t     uart;                   /* Initialization parameters of UART */
-    EI_APP_LED_SInit_t      led;                    /* Initialization parameters of LED's */
-    EI_APP_CFG_SInit_t      config;                 /* Initialization parameters of non-volatile configuration data */
-    CUST_DRIVERS_SInit_t    customDrivers;
-    APP_SAcd_t              acd;
+    APP_SApplication_t         application;
+    APP_SHwal_t                hwal;
+    APP_SLwip_t                lwip;
+    APP_SCip_t                 cip;
+    APP_SAdapter_t             adapter;
+    DEVICE_PROFILE_NVM_SInit_t nv;                     /* Initialization parameters of non-volatile memory */
+    DEVICE_PROFILE_CFG_SInit_t config;                 /* Initialization parameters of non-volatile configuration data */
+    DRIVERS_SInit_t            drivers;
+    APP_SAcd_t                 acd;
 
 #if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)
     CMN_CPU_API_SParams_t   cpuLoad;
-    APP_WEBSRV_SParams_t    webServer;
+    WEB_SERVER_SParams_t    webServer;
 #endif
 }APP_SParams_t;
 

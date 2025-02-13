@@ -8,7 +8,7 @@
  *  Texas Instruments Incorporated
  *
  *  \copyright
- *  Copyright (C) 2021 Texas Instruments Incorporated
+ *  Copyright (C) 2021-2025 Texas Instruments Incorporated
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -46,29 +46,32 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include "ti_drivers_config.h"
+#include "ti_board_config.h"
+
+#include "osal.h"
+#include "osal_error.h"
+#include "hwal.h"
+
 #include "EI_API.h"
 #include "EI_API_def.h"
 
-#include <osal.h>
-#include <osal_error.h>
-#include <hwal.h>
+#include "cfg_example.h"
 
-#include <ti_drivers_config.h>
-#include <ti_board_config.h>
-#include <board.h>
+#include "cust_drivers.h"
 
-#include <CMN_os.h>
-#include <CMN_app.h>
-#include <CMN_CPU_api.h>
+#include "drivers/drivers.h"
 
-#include <drivers/CUST_drivers.h>
+#include "cmn_os.h"
+#include "cmn_app.h"
+#include "cmn_cpu_api.h"
 
-#include <appWebServer.h>
-#include "appUart.h"
-#include "appLed.h"
-#include "appNV.h"
-#include "appCfg.h"
-#include "appTask.h"
+#include "device_profiles/common/device_profile_nvm.h"
+#include "device_profiles/common/device_profile_cfg.h"
+
+#include "web_server.h"
+
+#include "app_task.h"
 #include "app.h"
 
 static APP_SInstance_t appInstance_s = {0};
@@ -95,61 +98,76 @@ int main(
     APP_SParams_t* pCfg = &appInstance_s.config;
 
     /* Application configuration. */
-    pCfg->application.taskPrio = OSAL_TASK_Prio_EIP_MAIN;
+    pCfg->application.taskPrio = CFG_APP_MAIN_TASK_PRIO;
 
     /* HWAL configuration. */
-    pCfg->hwal.taskPrioWatchDog = OSAL_TASK_Prio_HWAL_WATCHDOG;    // Value change will have no impact.
-    pCfg->hwal.taskPrioLicense  = OSAL_TASK_Prio_HWAL_LICENSE;     // Value change will have no impact.
+    pCfg->hwal.taskPrioWatchDog = CFG_STACK_HWAL_WATCHDOG_TASK_PRIO;    // Value change will have no impact.
+    pCfg->hwal.taskPrioLicense  = CFG_STACK_HWAL_LICENSE_TASK_PRIO;     // Value change will have no impact.
 
     /* LWIP configuration */
-    pCfg->lwip.taskPrio = OSAL_TASK_Prio_EIP_LWIP_TCPIP;  // Value change will have no impact.
+    pCfg->lwip.taskPrio = CFG_STACK_LWIP_TCPIP_TASK_PRIO;  // Value change will have no impact.
 
     /* CIP configuration */
-    pCfg->cip.maxInstanceNum = 256; // Maximum number of instances defined as CIP object. Set not lower as 70.
+    pCfg->cip.maxInstanceNum = CFG_STACK_CIP_INSTANCES_MAX; // Maximum number of instances defined as CIP object. Set not lower as 70.
 
     /* EtherNet/IP Adapter configuration */
-    pCfg->adapter.taskPrioCyclicIo  = OSAL_TASK_Prio_EIP_CYCLICIO;
-    pCfg->adapter.taskPrioPacket    = OSAL_TASK_Prio_EIP_PACKET;
-    pCfg->adapter.taskPrioStatistic = OSAL_TASK_Prio_EIP_STATISTIC;
+    pCfg->adapter.taskPrioCyclicIo  = CFG_STACK_CYCLIC_IO_TASK_PRIO;
+    pCfg->adapter.taskPrioPacket    = CFG_STACK_PACKET_TASK_PRIO;
+    pCfg->adapter.taskPrioStatistic = CFG_STACK_STATISTIC_TASK_PRIO;
 
-    pCfg->adapter.taskPrioPtpDelayRqTx   = OSAL_TASK_Prio_EIP_TIMESYNC_DEL;
-    pCfg->adapter.taskPrioPtpTxTimeStamp = OSAL_TASK_Prio_EIP_TIMESYNC_TS;
-    pCfg->adapter.taskPrioPtpNRT         = OSAL_TASK_Prio_EIP_TIMESYNC_NRT;
-    pCfg->adapter.taskPrioPtpBackground  = OSAL_TASK_Prio_EIP_TIMESYNC_BAC;
+    pCfg->adapter.taskPrioPtpDelayRqTx   = CFG_STACK_TIMESYNC_DEL_TASK_PRIO;
+    pCfg->adapter.taskPrioPtpTxTimeStamp = CFG_STACK_TIMESYNC_TS_TASK_PRIO;
+    pCfg->adapter.taskPrioPtpNRT         = CFG_STACK_TIMESYNC_NRT_TASK_PRIO;
+    pCfg->adapter.taskPrioPtpBackground  = CFG_STACK_TIMESYNC_BACKGROUND_TASK_PRIO;
 
-    pCfg->adapter.taskPrioLldpReceive     = OSAL_TASK_Prio_Normal;
-    pCfg->adapter.lldpMaxNeighborDevices  = 16;
+    pCfg->adapter.taskPrioLldpReceive     = CFG_STACK_LLDP_RX_TASK_PRIO;
+    pCfg->adapter.lldpMaxNeighborDevices  = CFG_STACK_LLDP_NEIGHBOR_DEVICES_MAX;
 
-    /* Custom drivers configuration - PRU-ICSS. */
-    pCfg->customDrivers.pruIcss.instance                       = PRU_ICSS_BLOCK_INSTANCE;
-    pCfg->customDrivers.pruIcss.ethPhy.instance_0              = PRU_ICSS_ETHPHY_0_INSTANCE;
-    pCfg->customDrivers.pruIcss.ethPhy.instance_1              = PRU_ICSS_ETHPHY_1_INSTANCE;
-    pCfg->customDrivers.pruIcss.ethPhy.taskPrioPhyMdixTask     = OSAL_TASK_Prio_EIP_PHYMDIX;
+    /* Drivers configuration. */
 
-    /* UART configuration */
-    pCfg->uart.uartInst = APP_UART_INSTANCE;
+    /* ETHPHY driver configuration */
+    pCfg->drivers.custom.ethPhy.instance_0          = CFG_BOARD_PRU_ICSS_ETHPHY_0_INSTANCE;
+    pCfg->drivers.custom.ethPhy.instance_1          = CFG_BOARD_PRU_ICSS_ETHPHY_1_INSTANCE;
+    pCfg->drivers.custom.ethPhy.taskPrioPhyMdixTask = CFG_STACK_DRIVERS_ETHPHY_MDIX_TASK_PRIO;
 
-    /* LED's configuration */
-    pCfg->led.industrialLedsInst = APP_LED_INSTANCE;
+    /* Application drivers configuration. */
+
+    /* Application PRUICSS driver */
+    pCfg->drivers.app.pruicss.instance           = CFG_BOARD_PRU_ICSS_BLOCK_INSTANCE;
+    pCfg->drivers.app.pruicss.ethPhy0Id          = CFG_BOARD_PRU_ICSS_ETHPHY_0_INSTANCE;
+    pCfg->drivers.app.pruicss.ethPhy1Id          = CFG_BOARD_PRU_ICSS_ETHPHY_1_INSTANCE;
+
+    /* Application UART driver configuration. */
+    pCfg->drivers.app.uart.instance = CFG_BOARD_UART_INSTANCE;
+
+    /* Application LED's driver configuration */
+#ifndef ENABLE_INTERCORE_TUNNELING
+    pCfg->drivers.app.led.instance = CFG_BOARD_LED_INSTANCE;
+#endif
+
+    /* Application EEPROM driver configuration */
+    pCfg->drivers.app.eeprom.taskPrio = CFG_APP_EEPROM_TASK_PRIO;
+
+    /* Application FLASH driver configuration */
+    pCfg->drivers.app.flash.taskPrio = CFG_APP_FLASH_TASK_PRIO;
 
     /* Non-volatile memory */
-    pCfg->nv.taskPrio = OSAL_TASK_Prio_EIP_EEPROM;              // FLASH equivalent: OSAL_TASK_Prio_EIP_FLASH
 
     /* Non-volatile memory configuration data */
-    pCfg->config.type     = APP_NVM_CONFIG_TYPE;
-    pCfg->config.address  = APP_NVM_CONFIG_OFFSET;
-    pCfg->config.instance = APP_NVM_CONFIG_INSTANCE;
+    pCfg->config.type     = CFG_APP_NVM_CONFIG_TYPE;
+    pCfg->config.address  = CFG_APP_NVM_CONFIG_OFFSET;
+    pCfg->config.instance = CFG_APP_NVM_CONFIG_INSTANCE;
 
     /* Adress conflict detection */
-    pCfg->acd.initialDelay = 200;
+    pCfg->acd.initialDelay = CFG_STACK_ACD_INTIAL_DELAY;
 
 #if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)
     /* Web Server configuration. */
-    pCfg->webServer.taskPrio = OSAL_TASK_Prio_EIP_WEBSERVER;
+    pCfg->webServer.taskPrio = CFG_APP_WEBSERVER_TASK_PRIO;
 
     /* CPU load configuration. */
-    pCfg->cpuLoad.taskPrio   = OSAL_TASK_Prio_EIP_CPULOAD;
-    pCfg->cpuLoad.output     = CMN_CPU_API_eOUT_NONE;
+    pCfg->cpuLoad.taskPrio   = CFG_APP_WEBSERVER_CPULOAD_TASK_PRIO;
+    pCfg->cpuLoad.output     = CFG_APP_WEBSERVER_OUTPUT;
 #endif
 
     CMN_OS_init ();

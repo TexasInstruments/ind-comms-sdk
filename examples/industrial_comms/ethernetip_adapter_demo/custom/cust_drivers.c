@@ -1,0 +1,157 @@
+/*!
+ *  \file cust_drivers.c
+ *
+ *  \brief
+ *  Provides initialization of custom drivers.
+ *
+ *  \author
+ *  Texas Instruments Incorporated
+ *
+ *  \copyright
+ *  Copyright (C) 2022 Texas Instruments Incorporated
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include "ti_board_open_close.h"
+#include "ti_drivers_open_close.h"
+
+#include "osal.h"
+
+#include "cust_drivers.h"
+
+/*!
+* <!-- Description: -->
+*
+* \brief
+* Custom drivers initialization.
+*
+*  \return     uint32_t                      Error code.
+*
+*  \retval     CUST_DRIVERS_eERR_NOERROR     Success.
+*  \retval     CUST_DRIVERS_eERR_PHY         PHY driver initialization failed.
+*  \retval     CUST_DRIVERS_eERR_UART        UART driver initialization failed.
+*  \retval     CUST_DRIVERS_eERR_LED         LED driver initialization failed.
+*  \retval     CUST_DRIVERS_eERR_FLASH       FLASH driver initialization failed.
+*
+*/
+uint32_t CUST_DRIVERS_init(CUST_DRIVERS_SInit_t* pParams_p)
+{
+    CUST_ETHPHY_SParams_t        ethPhyParams;
+
+    uint32_t                     error = (uint32_t) CUST_DRIVERS_eERR_NOERROR;
+
+    CUST_FLASH_reset();
+
+    Drivers_open();
+
+    ethPhyParams.pruIcssSysConfigId  = pParams_p->pruIcssId;
+    ethPhyParams.ethPhySysConfigId_0 = pParams_p->ethPhy.instance_0;
+    ethPhyParams.ethPhySysConfigId_1 = pParams_p->ethPhy.instance_1;
+
+#if (defined CONFIG_ETHPHY_NUM_INSTANCES) && (CONFIG_ETHPHY_NUM_INSTANCES > 1)
+    if (CUST_ETHPHY_eERR_NOERROR != CUST_ETHPHY_init(&ethPhyParams))
+    {
+        error = (uint32_t) CUST_DRIVERS_eERR_ETHPHY;
+        goto initErr;
+    }
+#endif
+
+    if (SystemP_SUCCESS != Board_driversOpen())
+    {
+        error = (uint32_t) CUST_DRIVERS_eERR_GENERALERROR;
+        goto initErr;
+    }
+
+    if (CUST_LED_eERR_NOERROR != CUST_LED_init())
+    {
+        error = (uint32_t) CUST_DRIVERS_eERR_LED;
+        goto initErr;
+    }
+
+    if (CUST_FLASH_eERR_NOERROR != CUST_FLASH_init())
+    {
+        error = (uint32_t) CUST_DRIVERS_eERR_FLASH;
+        goto initErr;
+    }
+
+    if (CUST_EEPROM_eERR_NOERROR != CUST_EEPROM_init())
+    {
+        error = (uint32_t) CUST_DRIVERS_eERR_EEPROM;
+        goto initErr;
+    }
+
+initErr:
+    return error;
+}
+
+/*!
+* <!-- Description: -->
+*
+* \brief
+* Custom drivers deinitialization.
+*
+*  \return     uint32_t                        Error code.
+*
+*  \retval     CUST_DRIVERS_eERR_NOERROR       Success.
+*  \retval     CUST_DRIVERS_eERR_PHY           PHY driver deinitialization failed.
+*  \retval     CUST_DRIVERS_eERR_UART          UART driver deinitialization failed.
+*  \retval     CUST_DRIVERS_eERR_LED           LED driver deinitialization failed.
+*  \retval     CUST_DRIVERS_eERR_FLASH         FLASH driver deinitialization failed.
+*
+*/
+uint32_t CUST_DRIVERS_deinit(void)
+{
+    uint32_t error = (uint32_t) CUST_DRIVERS_eERR_NOERROR;
+
+    if (CUST_LED_eERR_NOERROR != CUST_LED_deInit())
+    {
+        error = (uint32_t) CUST_DRIVERS_eERR_LED;
+        goto deinitErr;
+    }
+
+    if (CUST_FLASH_eERR_NOERROR != CUST_FLASH_deInit())
+    {
+        error = (uint32_t) CUST_DRIVERS_eERR_FLASH;
+        goto deinitErr;
+    }
+
+    if (CUST_ETHPHY_eERR_NOERROR != CUST_ETHPHY_deInit())
+    {
+        error = (uint32_t) CUST_DRIVERS_eERR_ETHPHY;
+        goto deinitErr;
+    }
+
+    Board_driversClose();
+
+    Drivers_close();
+
+deinitErr:
+    return error;
+}

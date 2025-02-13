@@ -1,0 +1,241 @@
+/*!
+ *  \file device_profile_reset.c
+ *
+ *  \brief
+ *  Implementation of device profile reset feature.
+ *
+ *  \author
+ *  Texas Instruments Incorporated
+ *
+ *  \copyright
+ *  Copyright (C) 2025 Texas Instruments Incorporated
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include <stdbool.h>
+#include <stdint.h>
+
+#if defined (SOC_AM243X) || defined (SOC_AM64X)
+#include "drivers/pruicss/g_v0/pruicss.h"
+#elif defined (SOC_AM263PX) || defined (SOC_AM261X)
+#include "drivers/pruicss/m_v0/pruicss.h"
+#else
+#error "Undefined SOC"
+#endif
+
+#include "osal.h"
+
+#include "EI_API.h"
+#include "EI_API_def.h"
+
+#include "cust_drivers.h"
+
+#include "drivers/drivers.h"
+
+#include "device_profiles/common/device_profile_cip_codes.h"
+#include "device_profiles/common/device_profile_nvm.h"
+#include "device_profiles/common/device_profile_cfg.h"
+#include "device_profiles/common/device_profile_reset.h"
+
+#include "device_profiles/device_profile_intf.h"
+
+
+const DEVICE_PROFILE_CFG_AdapterData_t  DEVICE_PROFILE_RESET_adapterFactoryDefaultValues =
+{
+        .ipAddr =       0xc0a8010a,
+        .ipNwMask =     0xffffff00,
+        .ipGateway =    0xc0a80101,
+        .nameServer1 =  0x00000000,
+        .nameServer2 =  0x00000000,
+        .aDomainName = "",
+        .aHostName = "",
+        .configurationMethod = EIP_eCFGMETHOD_STATIC,
+        .ttlValue = 1,
+        .acdActive = true,
+        .aAcdAddr = { 0,0,0,0,0,0 },
+        .aAcdHdr = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+        .intfConfig[0].bit.ETHIntfActive = 1,
+        .intfConfig[0].bit.ETHIntfAutoNeg = 1,
+        .intfConfig[0].bit.ETHIntfFDuplex = 0,
+        .intfConfig[0].bit.ETHIntf100MB = 0,
+        .intfConfig[1].bit.ETHIntfActive = 1,
+        .intfConfig[1].bit.ETHIntfAutoNeg = 1,
+        .intfConfig[1].bit.ETHIntfFDuplex = 0,
+        .intfConfig[1].bit.ETHIntf100MB = 0,
+        .qosParameter.Q_Tag_Enable = EI_API_ADP_DEFAULT_8021Q,
+        .qosParameter.DSCP_PTP_Event = EI_API_ADP_DEFAULT_DSCP_PTP_EVENT,
+        .qosParameter.DSCP_PTP_General = EI_API_ADP_DEFAULT_DSCP_PTP_GENERAL,
+        .qosParameter.DSCP_Urgent = EI_API_ADP_DEFAULT_DSCP_URGENT,
+        .qosParameter.DSCP_Scheduled = EI_API_ADP_DEFAULT_DSCP_SCHEDULED,
+        .qosParameter.DSCP_High = EI_API_ADP_DEFAULT_DSCP_HIGH,
+        .qosParameter.DSCP_Low = EI_API_ADP_DEFAULT_DSCP_LOW,
+        .qosParameter.DSCP_Explicit = EI_API_ADP_DEFAULT_DSCP_EXPLICIT,
+
+        .encapInactTimeout = 120,
+        .mcastConfig.allocControl = 0,
+
+#if defined(EIP_TIME_SYNC) && (EIP_TIME_SYNC == 1)
+        .ptpEnable                  = 1,
+        .portEnable                 = 1,
+        .portLogAnnounceInterval    = 1,
+        .portLogSyncInterval        = 0,
+        .domainNumber               = 0,
+        .aUserDescription           = {"Kunbus;EthernetIP Adapter;"},
+#else
+        .ptpEnable                  = 0,
+        .portEnable                 = 1,
+        .portLogAnnounceInterval    = 1,
+        .portLogSyncInterval        = 0,
+        .domainNumber               = 0,
+        .aUserDescription           = {"Kunbus;EthernetIP Adapter;"},
+#endif
+
+#if defined(EIP_QUICK_CONNECT) && (EIP_QUICK_CONNECT == 1)
+        .quickConnectEnabled       = true,
+#else
+        .quickConnectEnabled       = false,
+#endif
+        .lldpParameter.enableArrayLength   = 3,
+        .lldpParameter.enableArray.allBits = 7,
+        .lldpParameter.msgTxInterval       = 30,
+        .lldpParameter.msgTxHold           = 4,
+};
+
+static int16_t  DEVICE_PROFILE_RESET_serviceFlag_s;
+
+static bool     DEVICE_PROFILE_RESET_isRequired_s = false;
+static uint32_t DEVICE_PROFILE_RESET_time_s       = 0;
+
+bool DEVICE_PROFILE_RESET_init (EI_API_ADP_T *pAdapter)
+{
+    bool ret = true;
+
+    return ret;
+}
+
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Performs a factory reset.
+ *
+ *  \details
+ *  Performs a factory reset
+ *  - With serviceFlag == 1: restore default data
+ *  - With serviceFlag == 2: restore default data, except communication link attributes.
+ *  - Other values:          do nothing
+ *
+ */
+bool DEVICE_PROFILE_RESET_execute(int16_t serviceFlag)
+{
+
+    bool ret = false;
+
+    switch (serviceFlag)
+    {
+        case 1:
+        {
+            // Restore default data.
+            DEVICE_PROFILE_CFG_setDefault();
+            break;
+        }
+        case 2:
+        {
+            // Restore default data except communication link attributes
+            DEVICE_PROFILE_CFG_setDefaultWithoutComm();
+            break;
+        }
+        default:
+        {
+            return ret;
+        }
+    }
+
+    return DEVICE_PROFILE_CFG_write(true);
+}
+
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Callback for reset service of class 0x01.
+ *
+ *  \details
+ *  Callback for reset service of class 0x01. Sets the timestamp for a delayed reset.
+ */
+void DEVICE_PROFILE_RESET_service (EI_API_CIP_NODE_T *pCipNode, uint16_t classId, uint16_t instanceId, uint16_t attrId, EI_API_CIP_ESc_t serviceCode, int16_t serviceFlag)
+{
+    if (serviceFlag == 1 || serviceFlag == 2)
+    {
+        // Reset with parameter 1 or 2 means factory reset.
+        DEVICE_PROFILE_RESET_execute(serviceFlag);
+    }
+
+    DEVICE_PROFILE_RESET_time_s        = OSAL_getMsTick();
+    DEVICE_PROFILE_RESET_isRequired_s  = true;
+    DEVICE_PROFILE_RESET_serviceFlag_s = serviceFlag;
+}
+
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Checks if a reset is required.
+ *
+ *  \details
+ *  Checks if a reset is required and 2 seconds are expired.
+ +
+ */
+int16_t DEVICE_PROFILE_RESET_getServiceFlag(void)
+{
+    uint32_t actTime = OSAL_getMsTick();
+    uint32_t difTime = 0;
+
+    if (DEVICE_PROFILE_RESET_isRequired_s)
+    {
+        // Wait 2 seconds for reset:
+        if (actTime < DEVICE_PROFILE_RESET_time_s)
+        {
+            difTime = (0xFFFFFFFF - DEVICE_PROFILE_RESET_time_s) + actTime;
+        }
+        else
+        {
+            difTime = actTime - DEVICE_PROFILE_RESET_time_s;
+        }
+
+        if ( (difTime > 2000) &&
+             (false  == DEVICE_PROFILE_NVM_isWritePending()) )
+        {
+            DEVICE_PROFILE_RESET_isRequired_s = false;
+            return DEVICE_PROFILE_RESET_serviceFlag_s;
+        }
+    }
+    return -1;
+}

@@ -1,0 +1,116 @@
+/*!
+ *  \file cmn_app.c
+ *
+ *  \brief
+ *  Common application FreeRTOS support.
+ *
+ *  \author
+ *  Texas Instruments Incorporated
+ *
+ *  \copyright
+ *  Copyright (C) 2021 Texas Instruments Incorporated
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+#include "cfg_example.h"
+
+#include "cmn_app.h"
+
+static TaskP_Object CMN_APP_mainHandle_s;
+static TaskP_Params CMN_APP_mainParam_s;
+
+static StackType_t CMN_APP_aMainStack_s[CMN_APP_MAIN_STACK_SIZE] __attribute__((aligned(32), section(".threadstack"))) = {0};
+
+#if ((defined FBTLPROVIDER) && (1==FBTLPROVIDER)) || ((defined FBTL_REMOTE) && (1==FBTL_REMOTE))
+StackType_t SYSLIB_fbtlCyclicTaskStack_g[FBTLCYCLIC_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
+StackType_t SYSLIB_fbtlSendAcycTaskStack_g[FBTLSENDACYC_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
+StackType_t SYSLIB_fbtlAcycISTTaskStack_g[FBTLACYCIST_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
+StackType_t SYSLIB_fbtlSyncExecTaskStack_g[FBTLSYNCEXEC_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
+StackType_t SYSLIB_fbtlReceiverTaskStack_g[FBTLRECEIVER_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
+StackType_t SYSLIB_fbtlServiceTaskStack_g[FBTLSERVICE_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
+StackType_t SYSLIB_fbtlSlowServiceTaskStack_g[FBTLSLOWSERVICE_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
+#endif
+
+#if (defined FBTL_REMOTE) && (1==FBTL_REMOTE)
+StackType_t SYSLIB_fbtlSyncIstTaskStack_g[FBTLSYNCIST_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
+StackType_t SYSLIB_fbtlLedIstTaskStack_g[FBTLLEDIST_TASK_SIZE] __attribute__((aligned(32), section(".fbtlthreadstack"))) = {0};
+#endif
+
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Creates main application thread.
+ *
+ *  <!-- Parameters and return values: -->
+ *  \param[in]  cbTask_p     Function pointer to main task function of application.
+ *  \param[in]  pArg_p       Pointer to main task arguments.
+ *  \param[in]  prio_p       Specifies priority level of application main task.
+ *
+ *
+ */
+void CMN_APP_mainCreate (CMN_APP_CBTask_t               cbTask_p
+                        ,void*                          pArg_p
+                        ,uint32_t                       prio_p)
+{
+    OSAL_TASK_Priority_t prio = (OSAL_TASK_Priority_t) prio_p;
+    uint32_t err;
+
+    TaskP_Params_init(&CMN_APP_mainParam_s);
+
+    CMN_APP_mainParam_s.name      = "cmn_app_task";
+    CMN_APP_mainParam_s.stackSize = CMN_APP_MAIN_STACK_SIZE_IN_BYTES;
+    CMN_APP_mainParam_s.stack     = (uint8_t*)CMN_APP_aMainStack_s;
+    CMN_APP_mainParam_s.priority  = TaskP_PRIORITY_LOWEST + prio;
+    CMN_APP_mainParam_s.taskMain  = (TaskP_FxnMain) cbTask_p;
+    CMN_APP_mainParam_s.args      = pArg_p;
+
+    err = TaskP_construct(&CMN_APP_mainHandle_s, &CMN_APP_mainParam_s);
+
+    if (SystemP_SUCCESS != err)
+    {
+        OSAL_printf("Error setting create thread of %s (%ld)\r\n", CMN_APP_mainParam_s.name, err);
+        OSAL_error(__func__, __LINE__, OSAL_STACK_INIT_ERROR, true, 0);
+    }
+}
+
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *  Frees memory allocated by task in time of creation.
+ *
+ *  \detail
+ *  Needs to be called at the end of each created task.
+ *
+ */
+void CMN_APP_mainExit (void)
+{
+    TaskP_destruct(NULL);
+}
