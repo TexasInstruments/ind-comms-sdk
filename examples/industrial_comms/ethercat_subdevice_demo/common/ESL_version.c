@@ -128,8 +128,8 @@ EC_API_EError_t ESL_setSWVersion(EC_API_SLV_SHandle_t* pEcSubDevice)
         goto Exit;
     }
 
-#if (defined KUNBUS_EC_STACK_REVISION)
-    version = KUNBUS_EC_STACK_REVISION;
+#if (defined TI_EC_STACK_REVISION)
+    version = TI_EC_STACK_REVISION;
 #else
     EC_API_SLV_getVersion(pEcSubDevice, &version);
 #endif
