@@ -1,8 +1,9 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "AM243x_ALV_beta" --package "ALV" --part "ALV" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@09.02.00"
- * @versions {"tool":"1.20.0+3587"}
+ * @cliArgs --device "AM243x_ALV_beta" --part "ALV" --package "ALV" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@10.01.00"
+ * @v2CliArgs --device "AM2434" --package "FCBGA (ALV)" --context "r5fss0-0" --product "INDUSTRIAL_COMMUNICATIONS_SDK@10.01.00"
+ * @versions {"tool":"1.21.2+3837"}
  */
 
 /**
@@ -71,6 +72,7 @@ flash1.$name                         = "CONFIG_FLASH0";
 flash1.peripheralDriver.$name        = "CONFIG_OSPI0";
 flash1.peripheralDriver.inputClkFreq = 166666666;
 flash1.peripheralDriver.OSPI.$assign = "OSPI0";
+flash1.peripheralDriver.child.$name  = "drivers_ospi_v0_ospi_v0_template0";
 
 led1.$name = "CONFIG_CYCLIC_LEDS";
 led1.name  = "TPIC2810";
