@@ -41,6 +41,7 @@
 
 #include <osal.h>
 #include <ESL_os.h>
+#include <ESL_BOARD_config.h>
 #include <stdio.h>
 #include <ti_dpl_config.h>
 #include <drivers/pinmux.h>
@@ -120,47 +121,6 @@ void ESL_OS_init(void)
     return;
 }
 
-#if (defined SOC_AM263PX) || (defined SOC_AM261X)
-/*!
- *  <!-- Description: -->
- *
- *  \brief
- *  Does a reset of the flash
- *
- *  \details
- *  Required as workaround to not hang after second time call of Board_flashOpen function.
- *
- *  <!-- Example: -->
- *
- *  \par Example
- *  \code{.c}
- *  #include <ESL_OS_os.h>
- *
- *  ESL_OS_flashReset();
- *  \endcode
- *
- *  <!-- Group: -->
- *
- *  \ingroup ESL_OS
- *
- */
-void ESL_OS_flashReset(void)
-{
-#if (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
-    uint32_t    gpioBaseAddr;
-
-    /* Get address after translation translate */
-    gpioBaseAddr = (uint32_t) AddrTranslateP_getLocalAddr(GPIO_OSPI_RST_BASE_ADDR);
-
-    GPIO_setDirMode(gpioBaseAddr, GPIO_OSPI_RST_PIN, GPIO_OSPI_RST_DIR);
-    GPIO_pinWriteLow(gpioBaseAddr, GPIO_OSPI_RST_PIN);
-    GPIO_pinWriteHigh(gpioBaseAddr, GPIO_OSPI_RST_PIN);
-#endif
-
-    return;
-}
-#endif
-
 /*!
  *  <!-- Description: -->
  *
@@ -197,7 +157,7 @@ uint32_t ESL_OS_boardInit(uint32_t pruInstance_p)
 
     Board_init();
 #if (defined SOC_AM263PX) || (defined SOC_AM261X)
-    ESL_OS_flashReset();
+    ESL_BOARD_OS_flashReset();
 #endif
     Drivers_open();
 

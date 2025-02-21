@@ -83,6 +83,7 @@ extern void ESL_BOARD_OS_phyReset           (void *pGpioHandle
                                             ,bool reset);
 extern void ESL_BOARD_OS_registerPhys       (EC_API_SLV_SHandle_t *pHandle
                                             ,uint32_t selectedPru);
+extern void ESL_BOARD_OS_flashReset         ();
 
 #if (defined __cplusplus)
 }

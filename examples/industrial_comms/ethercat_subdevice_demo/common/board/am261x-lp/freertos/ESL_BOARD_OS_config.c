@@ -343,4 +343,96 @@ void ESL_BOARD_OS_setPRUCoreClock()
     CSL_REG32_WR(kickAddr, KICK_LOCK_VAL);      /* KICK 1 */
 }
 
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *
+ *  Makes reset of the flash.
+ *
+ *  \details
+ *
+ *  Required as workaround to not hang after second time call of Board_flashOpen function.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  <!-- Example: -->
+ *
+ *  \par Example
+ *  \code{.c}
+ *  #include <ESL_BOARD_config.h>
+ *
+ *  // the call
+ *  ESL_BOARD_OS_flashReset();
+ *  \endcode
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup ESL_OS
+ *
+ * */
+void ESL_BOARD_OS_flashReset()
+{
+    #if (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+    uint32_t    gpioBaseAddr;
+
+    Drivers_i2cOpen();
+
+    ESL_BOARD_OS_IO_EXP_enableLevelTranslator();
+
+    /* Get address after translation translate */
+    gpioBaseAddr = (uint32_t) AddrTranslateP_getLocalAddr(GPIO_OSPI_RST_BASE_ADDR);
+
+    GPIO_setDirMode(gpioBaseAddr, GPIO_OSPI_RST_PIN, GPIO_OSPI_RST_DIR);
+    GPIO_pinWriteLow(gpioBaseAddr, GPIO_OSPI_RST_PIN);
+    GPIO_pinWriteHigh(gpioBaseAddr, GPIO_OSPI_RST_PIN);
+
+    Drivers_i2cClose();
+    #endif // (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+
+    return;
+}
+
+#if (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+int32_t ESL_BOARD_OS_IO_EXP_enableLevelTranslator()
+{
+    int32_t  status = SystemP_SUCCESS;
+    static TCA6408_Config  gTCA6408_Config;
+    TCA6408_Params      TCA6408Params;
+    TCA6408_Params_init(&TCA6408Params);
+
+    TCA6408Params.i2cInstance = CONFIG_I2C0;
+    TCA6408Params.i2cAddress  = 0x20U;
+
+    status = TCA6408_open(&gTCA6408_Config, &TCA6408Params);
+
+    /* Configure as output  */
+    status += TCA6408_config(
+                    &gTCA6408_Config,
+                    IO_EXP_BP_BO_MUX_EN_LINE,
+                    TCA6408_MODE_OUTPUT);
+
+    /* Configure State */
+    status = TCA6408_setOutput(
+                    &gTCA6408_Config,
+                    IO_EXP_BP_BO_MUX_EN_LINE,
+                    TCA6408_OUT_STATE_HIGH);
+
+
+
+    if(status != SystemP_SUCCESS)
+    {
+        DebugP_log("Failed to enable OSPI Reset Signal\r\n");
+        TCA6408_close(&gTCA6408_Config);
+    }
+
+    if(SystemP_FAILURE == status)
+    {
+        /* Exit gracefully */
+    }
+
+    return status;
+}
+#endif // (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+
 //*************************************************************************************************

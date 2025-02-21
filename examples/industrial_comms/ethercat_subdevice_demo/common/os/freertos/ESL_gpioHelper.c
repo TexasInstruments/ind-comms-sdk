@@ -46,14 +46,12 @@
 #include <ESL_BOARD_OS_config.h>
 
 #include <drivers/gpio.h>
+#include <drivers/hw_include/cslr_soc.h>
+
 #if (defined SOC_AM263PX)
-#include <drivers/hw_include/am263px/cslr_soc_baseaddress.h>
 #include <drivers/pinmux.h>
-#elif (defined SOC_AM261X)
-#include <drivers/hw_include/am261x/cslr_soc_baseaddress.h>
-#else
-#include <drivers/hw_include/am64x_am243x/cslr_soc_baseaddress.h>
-#endif
+#endif //SOC_AM263PX
+
 #include <board/led.h>
 
 typedef struct ESL_GPIO_SHandle

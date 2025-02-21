@@ -85,6 +85,12 @@ extern void ESL_BOARD_OS_registerPhys       (EC_API_SLV_SHandle_t *pHandle
                                             ,uint32_t selectedPru);
 extern void ESL_BOARD_OS_setPRUCoreClock    ();
 
+extern void ESL_BOARD_OS_flashReset         ();
+
+#if (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+extern int32_t ESL_BOARD_OS_IO_EXP_enableLevelTranslator    ();
+#endif // (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+
 #if (defined __cplusplus)
 }
 #endif

@@ -294,4 +294,48 @@ void ESL_BOARD_OS_registerPhys(EC_API_SLV_SHandle_t *pHandle, uint32_t selectedP
 #endif
 }
 
+/*!
+ *  <!-- Description: -->
+ *
+ *  \brief
+ *
+ *  Makes reset of the flash.
+ *
+ *  \details
+ *
+ *  Required as workaround to not hang after second time call of Board_flashOpen function.
+ *
+ *  <!-- Parameters and return values: -->
+ *
+ *  <!-- Example: -->
+ *
+ *  \par Example
+ *  \code{.c}
+ *  #include <ESL_BOARD_config.h>
+ *
+ *  // the call
+ *  ESL_BOARD_OS_flashReset();
+ *  \endcode
+ *
+ *  <!-- Group: -->
+ *
+ *  \ingroup ESL_OS
+ *
+ * */
+void ESL_BOARD_OS_flashReset()
+{
+    #if (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+    uint32_t    gpioBaseAddr;
+
+    /* Get address after translation translate */
+    gpioBaseAddr = (uint32_t) AddrTranslateP_getLocalAddr(GPIO_OSPI_RST_BASE_ADDR);
+
+    GPIO_setDirMode(gpioBaseAddr, GPIO_OSPI_RST_PIN, GPIO_OSPI_RST_DIR);
+    GPIO_pinWriteLow(gpioBaseAddr, GPIO_OSPI_RST_PIN);
+    GPIO_pinWriteHigh(gpioBaseAddr, GPIO_OSPI_RST_PIN);
+    #endif // (defined CONFIG_FLASH_NUM_INSTANCES) && (CONFIG_FLASH_NUM_INSTANCES > 0)
+
+    return;
+}
+
 //*************************************************************************************************
