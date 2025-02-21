@@ -3875,7 +3875,7 @@
                         <Name>SubIndex 4</Name>
                         <DataType>UINT</DataType>
                     </Entry>
-                </RxPDO>
+                </RxPdo>
                 <RxPdo Mandatory="true" Sm="2">
                     <Index>#x1601</Index>
                     <Name>RxPDO2</Name>
@@ -3886,7 +3886,7 @@
                         <Name>SubIndex 1</Name>
                         <DataType>UDINT</DataType>
                     </Entry>
-                </RxPDO>
+                </RxPdo>
                 <TxPdo Mandatory="true" Sm="3">
                     <Index>#x1A00</Index>
                     <Name>TxPDO</Name>
@@ -3911,7 +3911,7 @@
                         <Name>SubIndex 3</Name>
                         <DataType>USINT</DataType>
                     </Entry>
-                </TxPDO>
+                </TxPdo>
                 <TxPdo Mandatory="true" Sm="3">
                     <Index>#x1A01</Index>
                     <Name>TxPDO2</Name>
@@ -3922,7 +3922,7 @@
                         <Name>SubIndex 1</Name>
                         <DataType>UDINT</DataType>
                     </Entry>
-                </TxPDO>
+                </TxPdo>
                 <Mailbox DataLinkLayer="true">
                     <AoE AdsRouter="1" GenerateOwnNetId="1" InitializeOwnNetId="1"/>
                     <EoE/>
