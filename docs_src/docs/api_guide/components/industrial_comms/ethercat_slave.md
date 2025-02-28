@@ -99,8 +99,9 @@ Sync Jitter measurement done using TwinCAT 3.1 along with C6015-0020 (Beckhoff P
 
 ##### Industrial Communications SDK Version 10.00.00
 
-- Firmware Version : x.5.43
-- Fix for PINDSW-47   : Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice
+- Firmware Version : x.5.50
+- Fix for PINDSW-47   : Single datagram accessing multiple FMMU mapped areas using LRD/LWR commands from a single SubDevice.
+    - Do note that if this feature is enabled, then the Process Path latency will be dynamically increased to take care of the timing constraints. Please refer to Register 0xED0 of Vendor Specific Register in \ref ETHERCAT_SUBDEVICE_CONTROLLER_REGISTER_LIST
 - Fix for PINDSW-141  : LRW access to non-interleaved input and output process data of multiple SubDevices does not work. 
     - This will make EtherCAT SubDevice compatibile with default mode of few open source EtherCAT MainDevice like [SOEM](https://github.com/OpenEtherCATsociety/SOEM) and [IgH](https://gitlab.com/etherlab.org/ethercat).
 - Bug-fix for PINDSW-8246 : Triple buffer issue - Not getting the latest data from buffer during free-run mode.
@@ -238,7 +239,7 @@ For more details, please see the \htmllink{../EtherCAT_Slave_Errata.pdf, EtherCA
 <tr><td colspan="2" bgcolor=#F0F0F0> ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave</td></tr>
 <tr>
     <td>icss_fwhal/firmware/g_v1.3</td>
-    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 6.5.12** </td>
+    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 6.5.50** </td>
 </tr>
 <tr>
     <td>icss_fwhal/lib/</td>
@@ -294,7 +295,7 @@ For more details, please see the \htmllink{../EtherCAT_Slave_Errata.pdf, EtherCA
 <tr><td colspan="2" bgcolor=#F0F0F0> ${SDK_INSTALL_PATH}/source/industrial_comms/ethercat_slave</td></tr>
 <tr>
     <td>icss_fwhal/firmware/m_v2.3</td>
-    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 5.5.12** </td>
+    <td>Firmware for the PRU cores in PRU-ICSS. **Firmware Version : 5.5.50** </td>
 </tr>
 <tr>
     <td>icss_fwhal/lib/</td>
