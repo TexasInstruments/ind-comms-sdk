@@ -64,7 +64,7 @@ TI ESC is fully register compatible with ET1100 ASIC, for any exceptions to this
     <td> 0-15
     <td> R/-
     <td> R/-
-    <td> 0x52E
+    <td> 0x532
     <td> Firmware build version <br/>
 </tr>
 <tr>
