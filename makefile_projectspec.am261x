@@ -4,6 +4,11 @@
 
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL =
 # Various Example Projectspec Build Targets
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_ALL += iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build
 # Various System Example Projectspec Build Targets
 
@@ -18,6 +23,22 @@ all-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_PRIVATE_ALL)
 
  ethercat_slave_beckhoff_ssc_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
+
+ ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
+
+ ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
+
+ ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
+
+ ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
+
+ ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
+
  iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_build:
 	$(MAKE) -C examples/industrial_comms/iolink_master_demo/example/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec all
 
@@ -25,6 +46,11 @@ all-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_BUILD_PRIVATE_ALL)
 
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL =
 # Various Example Projectspec Clean Targets
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_ALL += iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
 # Various System Example Projectspec Clean Targets
 
@@ -39,6 +65,22 @@ clean-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_PRIVATE_ALL)
 
  ethercat_slave_beckhoff_ssc_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
+
+ ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
+
+ ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
+
+ ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
+
+ ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
+
+ ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
+
  iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/iolink_master_demo/example/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec clean
 
@@ -46,6 +88,11 @@ clean-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_CLEAN_PRIVATE_ALL)
 
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL =
 # Various Example Projectspec Export Targets
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export
+BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export
 BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_ALL += iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export
 # Various System Example Projectspec Export Targets
 
@@ -60,6 +107,22 @@ export-private: $(BUILD_COMBO_EXAMPLE_PROJECTSPEC_EXPORT_PRIVATE_ALL)
 
  ethercat_slave_beckhoff_ssc_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
+
+ ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
+
+ ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
+
+ ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
+
+ ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
+
+ ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
+
  iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_export:
 	$(MAKE) -C examples/industrial_comms/iolink_master_demo/example/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec export
 
@@ -84,6 +147,12 @@ help:
 	@echo  Example ProjectSpec build targets,
 	@echo  ==================================
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
+	@echo  $(MAKE) -s -C examples/industrial_comms/iolink_master_demo/example/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile_projectspec [export all clean]
 	@echo  .
 	@echo  System Example ProjectSpec build targets,
 	@echo  =========================================

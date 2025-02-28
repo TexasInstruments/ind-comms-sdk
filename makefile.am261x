@@ -33,20 +33,31 @@ help:
 	@echo  Library build targets,
 	@echo  ======================
 	@echo  $(MAKE) -s -f makefile.am261x ethercat_slave_icss_fwhal_r5f.ti-arm-clang
+	@echo  $(MAKE) -s -f makefile.am261x ethercat_subdevice_bkhf_ssc_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am261x ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang
+	@echo  $(MAKE) -s -f makefile.am261x ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang
+	@echo  $(MAKE) -s -f makefile.am261x ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am261x profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang
 	@echo  $(MAKE) -s -f makefile.am261x profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang
 	@echo  .
 	@echo  Library clean targets,
 	@echo  ======================
 	@echo  $(MAKE) -s -f makefile.am261x ethercat_slave_icss_fwhal_r5f.ti-arm-clang_clean
+	@echo  $(MAKE) -s -f makefile.am261x ethercat_subdevice_bkhf_ssc_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am261x ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang_clean
+	@echo  $(MAKE) -s -f makefile.am261x ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang_clean
+	@echo  $(MAKE) -s -f makefile.am261x ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am261x profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang_clean
 	@echo  $(MAKE) -s -f makefile.am261x profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang_clean
 	@echo  .
 	@echo  Example build targets,
 	@echo  ======================
 	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am261x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am261x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am261x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am261x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
+	@echo  $(MAKE) -s -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  $(MAKE) -s -C examples/industrial_comms/iolink_master_demo/example/am261x-lp/r5fss0-0_freertos/ti-arm-clang [all clean syscfg-gui syscfg]
 	@echo  .
 	@echo  System Example build targets,
@@ -55,18 +66,21 @@ help:
 
 # Various Component Targets
 BUILD_COMBO_ethercat_slave_icss_fwhal = ethercat_slave_icss_fwhal_r5f.ti-arm-clang
+BUILD_COMBO_ethercat_subdevice_bkhf_ssc = ethercat_subdevice_bkhf_ssc_r5f.ti-arm-clang
 BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal = ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang
+BUILD_COMBO_ethernetip_adapter_lwip_contrib = ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang
+BUILD_COMBO_ethernetip_adapter_lwip_freertos = ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang
 BUILD_COMBO_profinet_device_irt_mii_icss_fwhal = profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang
 BUILD_COMBO_profinet_device_rt_mrp_mii_icss_fwhal = profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang
 
 # Combine all Components
-BUILD_COMBO_ALL = $(BUILD_COMBO_ethercat_slave_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_profinet_device_rt_mrp_mii_icss_fwhal)
+BUILD_COMBO_ALL = $(BUILD_COMBO_ethercat_slave_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_ethernetip_adapter_lwip_contrib) $(BUILD_COMBO_ethernetip_adapter_lwip_freertos) $(BUILD_COMBO_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_profinet_device_rt_mrp_mii_icss_fwhal)
 
 # Combine all Pre-built Components
 BUILD_COMBO_PREBUILT_ALL =
 
 # Combine all Private Components
-BUILD_COMBO_PRIVATE_ALL =
+BUILD_COMBO_PRIVATE_ALL = $(BUILD_COMBO_ethercat_subdevice_bkhf_ssc)
 
 libs: $(BUILD_COMBO_ALL)
 
@@ -77,8 +91,17 @@ libs-private: $(BUILD_COMBO_PRIVATE_ALL)
 $(BUILD_COMBO_ethercat_slave_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/ethercat_slave/icss_fwhal -f makefile.am261x.$(subst ethercat_slave_icss_fwhal_,,$@) all
 
+$(BUILD_COMBO_ethercat_subdevice_bkhf_ssc):
+	$(MAKE) -C source/industrial_comms/ethercat_slave/stack/patch -f makefile.am261x.$(subst ethercat_subdevice_bkhf_ssc_,,$@) all
+
 $(BUILD_COMBO_ethernetip_adapter_mii_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/ethernetip_adapter/icss_fwhal -f makefile.mii.am261x.$(subst ethernetip_adapter_mii_icss_fwhal_,,$@) all
+
+$(BUILD_COMBO_ethernetip_adapter_lwip_contrib):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.contrib.am261x.$(subst ethernetip_adapter_lwip_contrib_,,$@) all
+
+$(BUILD_COMBO_ethernetip_adapter_lwip_freertos):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.stack.am261x.$(subst ethernetip_adapter_lwip_freertos_,,$@) all
 
 $(BUILD_COMBO_profinet_device_irt_mii_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/profinet_device/icss_fwhal -f makefile.irt_mii.am261x.$(subst profinet_device_irt_mii_icss_fwhal_,,$@) all
@@ -89,12 +112,15 @@ $(BUILD_COMBO_profinet_device_rt_mrp_mii_icss_fwhal):
 
 # Various Component Clean Targets
 BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal = ethercat_slave_icss_fwhal_r5f.ti-arm-clang_clean
+BUILD_COMBO_CLEAN_ethercat_subdevice_bkhf_ssc = ethercat_subdevice_bkhf_ssc_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal = ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang_clean
+BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_contrib = ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang_clean
+BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_freertos = ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_profinet_device_irt_mii_icss_fwhal = profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang_clean
 BUILD_COMBO_CLEAN_profinet_device_rt_mrp_mii_icss_fwhal = profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang_clean
 
 # Combine all Components Clean
-BUILD_COMBO_CLEAN_ALL = $(BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal) $(BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_rt_mrp_mii_icss_fwhal)
+BUILD_COMBO_CLEAN_ALL = $(BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal) $(BUILD_COMBO_CLEAN_ethercat_subdevice_bkhf_ssc) $(BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_contrib) $(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_freertos) $(BUILD_COMBO_CLEAN_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_CLEAN_profinet_device_rt_mrp_mii_icss_fwhal)
 
 # Combine all Pre-built Components Clean
 BUILD_COMBO_PREBUILT_CLEAN_ALL =
@@ -106,8 +132,17 @@ libs-prebuilt-clean: $(BUILD_COMBO_PREBUILT_CLEAN_ALL)
 $(BUILD_COMBO_CLEAN_ethercat_slave_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/ethercat_slave/icss_fwhal -f makefile.am261x.$(subst ethercat_slave_icss_fwhal_,,$(subst _clean,,$@)) clean
 
+$(BUILD_COMBO_CLEAN_ethercat_subdevice_bkhf_ssc):
+	$(MAKE) -C source/industrial_comms/ethercat_slave/stack/patch -f makefile.am261x.$(subst ethercat_subdevice_bkhf_ssc_,,$(subst _clean,,$@)) clean
+
 $(BUILD_COMBO_CLEAN_ethernetip_adapter_mii_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/ethernetip_adapter/icss_fwhal -f makefile.mii.am261x.$(subst ethernetip_adapter_mii_icss_fwhal_,,$(subst _clean,,$@)) clean
+
+$(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_contrib):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.contrib.am261x.$(subst ethernetip_adapter_lwip_contrib_,,$(subst _clean,,$@)) clean
+
+$(BUILD_COMBO_CLEAN_ethernetip_adapter_lwip_freertos):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.stack.am261x.$(subst ethernetip_adapter_lwip_freertos_,,$(subst _clean,,$@)) clean
 
 $(BUILD_COMBO_CLEAN_profinet_device_irt_mii_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/profinet_device/icss_fwhal -f makefile.irt_mii.am261x.$(subst profinet_device_irt_mii_icss_fwhal_,,$(subst _clean,,$@)) clean
@@ -118,12 +153,15 @@ $(BUILD_COMBO_CLEAN_profinet_device_rt_mrp_mii_icss_fwhal):
 
 # Various Component Scrub Targets
 BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal = ethercat_slave_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
+BUILD_COMBO_SCRUB_ethercat_subdevice_bkhf_ssc = ethercat_subdevice_bkhf_ssc_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal = ethernetip_adapter_mii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
+BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_contrib = ethernetip_adapter_lwip_contrib_r5f.ti-arm-clang_scrub_scrub
+BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_freertos = ethernetip_adapter_lwip_freertos_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_profinet_device_irt_mii_icss_fwhal = profinet_device_irt_mii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
 BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal = profinet_device_rt_mrp_mii_icss_fwhal_r5f.ti-arm-clang_scrub_scrub
 
 # Combine all Components Scrub Targets
-BUILD_COMBO_SCRUB_ALL = $(BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal) $(BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal)
+BUILD_COMBO_SCRUB_ALL = $(BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal) $(BUILD_COMBO_SCRUB_ethercat_subdevice_bkhf_ssc) $(BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_contrib) $(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_freertos) $(BUILD_COMBO_SCRUB_profinet_device_irt_mii_icss_fwhal) $(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal)
 
 # Combine all Pre-built Components Scrub Targets
 BUILD_COMBO_PREBUILT_SCRUB_ALL =
@@ -135,8 +173,17 @@ libs-prebuilt-scrub: $(BUILD_COMBO_PREBUILT_SCRUB_ALL)
 $(BUILD_COMBO_SCRUB_ethercat_slave_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/ethercat_slave/icss_fwhal -f makefile.am261x.$(subst ethercat_slave_icss_fwhal_,,$(subst _scrub,,$@)) scrub
 
+$(BUILD_COMBO_SCRUB_ethercat_subdevice_bkhf_ssc):
+	$(MAKE) -C source/industrial_comms/ethercat_slave/stack/patch -f makefile.am261x.$(subst ethercat_subdevice_bkhf_ssc_,,$(subst _scrub,,$@)) scrub
+
 $(BUILD_COMBO_SCRUB_ethernetip_adapter_mii_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/ethernetip_adapter/icss_fwhal -f makefile.mii.am261x.$(subst ethernetip_adapter_mii_icss_fwhal_,,$(subst _scrub,,$@)) scrub
+
+$(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_contrib):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.contrib.am261x.$(subst ethernetip_adapter_lwip_contrib_,,$(subst _scrub,,$@)) scrub
+
+$(BUILD_COMBO_SCRUB_ethernetip_adapter_lwip_freertos):
+	$(MAKE) -C source/industrial_comms/ethernetip_adapter/stack/lwip -f makefile.stack.am261x.$(subst ethernetip_adapter_lwip_freertos_,,$(subst _scrub,,$@)) scrub
 
 $(BUILD_COMBO_SCRUB_profinet_device_irt_mii_icss_fwhal):
 	$(MAKE) -C source/industrial_comms/profinet_device/icss_fwhal -f makefile.irt_mii.am261x.$(subst profinet_device_irt_mii_icss_fwhal_,,$(subst _scrub,,$@)) scrub
@@ -147,6 +194,11 @@ $(BUILD_COMBO_SCRUB_profinet_device_rt_mrp_mii_icss_fwhal):
 
 BUILD_COMBO_EXAMPLE_ALL =
 # Various Example Targets
+BUILD_COMBO_EXAMPLE_ALL += ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang
+BUILD_COMBO_EXAMPLE_ALL += ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang
+BUILD_COMBO_EXAMPLE_ALL += ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang
+BUILD_COMBO_EXAMPLE_ALL += ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang
+BUILD_COMBO_EXAMPLE_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang
 BUILD_COMBO_EXAMPLE_ALL += iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang
 # Various System Example Targets
 
@@ -162,12 +214,32 @@ examples-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_ALL)
  ethercat_slave_beckhoff_ssc_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
+ ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
+
+ ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
+
+ ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
+
+ ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
+
+ ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
+
  iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang:
 	$(MAKE) -C examples/industrial_comms/iolink_master_demo/example/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile all
 
 
 BUILD_COMBO_EXAMPLE_CLEAN_ALL =
 # Various Example Clean Targets
+BUILD_COMBO_EXAMPLE_CLEAN_ALL += ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_CLEAN_ALL += ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_CLEAN_ALL += ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_CLEAN_ALL += ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
+BUILD_COMBO_EXAMPLE_CLEAN_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
 BUILD_COMBO_EXAMPLE_CLEAN_ALL += iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean
 # Various System Example Clean Targets
 
@@ -183,12 +255,32 @@ examples-private-clean: $(BUILD_COMBO_EXAMPLE_PRIVATE_CLEAN_ALL)
  ethercat_slave_beckhoff_ssc_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
+ ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+
+ ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+
+ ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+
+ ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+
+ ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
+
  iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_clean:
 	$(MAKE) -C examples/industrial_comms/iolink_master_demo/example/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile clean
 
 
 BUILD_COMBO_EXAMPLE_SCRUB_ALL =
 # Various Example Scrub Targets
+BUILD_COMBO_EXAMPLE_SCRUB_ALL += ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub
+BUILD_COMBO_EXAMPLE_SCRUB_ALL += ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub
+BUILD_COMBO_EXAMPLE_SCRUB_ALL += ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub
+BUILD_COMBO_EXAMPLE_SCRUB_ALL += ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub
+BUILD_COMBO_EXAMPLE_SCRUB_ALL += ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub
 BUILD_COMBO_EXAMPLE_SCRUB_ALL += iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub
 # Various System Example Scrub Targets
 
@@ -203,6 +295,21 @@ examples-scrub-private: $(BUILD_COMBO_EXAMPLE_PRIVATE_SCRUB_ALL)
 
  ethercat_slave_beckhoff_ssc_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
 	$(MAKE) -C examples/industrial_comms/ethercat_slave_beckhoff_ssc_demo/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+
+ ethercat_subdevice_cia402_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+
+ ethercat_subdevice_ctt_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+
+ ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
+	$(MAKE) -C examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+
+ ethernetip_adapter_generic_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
+
+ ethernetip_adapter_discrete_io_device_mii_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
+	$(MAKE) -C examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub
 
  iolink_master_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang_scrub:
 	$(MAKE) -C examples/industrial_comms/iolink_master_demo/example/am261x-lp/r5fss0-0_freertos/ti-arm-clang -f makefile scrub

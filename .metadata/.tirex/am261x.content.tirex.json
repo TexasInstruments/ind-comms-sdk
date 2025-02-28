@@ -32,6 +32,213 @@
         ]
     },
     {
+        "resourceType": "project.ccs",
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "description": "A Ethercat Subdevice Cia402 Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethercat_subdevice_cia402_demo",
+        "location": "../../examples/industrial_comms/ethercat_subdevice_demo/device_profiles/402_cia/am261x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "devtools": [
+            "LP-AM263P"
+        ],
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "subCategories": [
+            "industrial_comms",
+            "ethercat_subdevice_demo",
+            "device_profiles",
+            "402_cia",
+            "r5fss0-0_freertos"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "description": "A Ethercat Subdevice Ctt Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethercat_subdevice_ctt_demo",
+        "location": "../../examples/industrial_comms/ethercat_subdevice_demo/device_profiles/ctt/am261x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "devtools": [
+            "LP-AM263P"
+        ],
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "subCategories": [
+            "industrial_comms",
+            "ethercat_subdevice_demo",
+            "device_profiles",
+            "ctt",
+            "r5fss0-0_freertos"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "description": "A Ethercat Subdevice Simple Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethercat_subdevice_simple_demo",
+        "location": "../../examples/industrial_comms/ethercat_subdevice_demo/device_profiles/401_simple/am261x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "devtools": [
+            "LP-AM263P"
+        ],
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "subCategories": [
+            "industrial_comms",
+            "ethercat_subdevice_demo",
+            "device_profiles",
+            "401_simple",
+            "r5fss0-0_freertos"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "description": "A Ethernetip Adapter Generic Device Mii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethernetip_adapter_generic_device_mii_demo",
+        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/generic_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "devtools": [
+            "LP-AM263P"
+        ],
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "subCategories": [
+            "industrial_comms",
+            "ethernetip_adapter_demo",
+            "device_profiles",
+            "generic_device",
+            "standard",
+            "mii",
+            "r5fss0-0_freertos"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "description": "A Ethernetip Adapter Discrete Io Device Mii Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "ethernetip_adapter_discrete_io_device_mii_demo",
+        "location": "../../examples/industrial_comms/ethernetip_adapter_demo/device_profiles/discrete_io_device/standard/mii/am261x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "devtools": [
+            "LP-AM263P"
+        ],
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "subCategories": [
+            "industrial_comms",
+            "ethernetip_adapter_demo",
+            "device_profiles",
+            "discrete_io_device",
+            "standard",
+            "mii",
+            "r5fss0-0_freertos"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "description": "A Iolink Master Demo Example. CPU is R5FSS0-0 running FREERTOS.",
+        "name": "iolink_master_demo",
+        "location": "../../examples/industrial_comms/iolink_master_demo/example/am261x-lp/r5fss0-0_freertos/ti-arm-clang/example.projectspec",
+        "devtools": [
+            "LP-AM263P"
+        ],
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "subCategories": [
+            "industrial_comms",
+            "iolink_master_demo",
+            "example",
+            "r5fss0-0_freertos"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ]
+    },
+    {
         "resourceType": "web.page",
         "resourceClass": [
             "document"

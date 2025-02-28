@@ -10,12 +10,12 @@
     </applicability>
 
     <project
-        title="Ethercat SubDevice Simple Demo"
+        title="Ethercat Subdevice Simple Demo"
         name = "ethercat_subdevice_simple_demo_am261x-lp_r5fss0-0_freertos_ti-arm-clang"
         products="sysconfig;com.ti.INDUSTRIAL_COMMUNICATIONS_SDK_AMXXX;"
         configurations="
-            Debug,
             Release,
+            Debug,
         "
         connection="TIXDS110_Connection.xml"
         toolChain="TICLANG"
@@ -39,8 +39,8 @@
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/os
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/os/freertos
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/board/am261xlp
-            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/board/am261xlp/freertos
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/board/am261x-lp
+            -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/ethercat_subdevice_demo/common/board/am261x-lp/freertos
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/custom_phy/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/app/inc
             -I${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/examples/industrial_comms/nvm/drv/inc
@@ -67,7 +67,6 @@
             -Dam261x_lp
             -DSSC_CHECKTIMER=1
             -DUSE_ECAT_TIMER=1
-            -DCUST_PHY_DP83826=1
         "
         linkerBuildOptions="
             -i${INDUSTRIAL_COMMUNICATIONS_SDK_PATH}/mcu_plus_sdk/source/kernel/freertos/lib
@@ -91,7 +90,7 @@
             --context r5fss0-0 --part AM2612 --package ZFG
         "
 
-        description="A Ethercat SubDevice Simple Demo FREERTOS project">
+        description="A Ethercat Subdevice Simple Demo FREERTOS project">
 
         <configuration name="Release"
             compilerBuildOptions="
@@ -139,7 +138,7 @@
         </file>
         <file path="../../../../../common/os/freertos/ESL_gpioHelper.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
-        <file path="../../../../../common/board/am261xlp/freertos/ESL_BOARD_OS_config.c" openOnCreation="false" excludeFromBuild="false" action="link">
+        <file path="../../../../../common/board/am261x-lp/freertos/ESL_BOARD_OS_config.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
         <file path="../../../../../../custom_phy/src/CUST_PHY_base.c" openOnCreation="false" excludeFromBuild="false" action="link">
         </file>
