@@ -268,7 +268,7 @@ void DRV_UART_printf(void* pContext, const char* pFormat, va_list arg)
         while (lengthWritten > 0)
         {
             uint32_t lengthAvailable;
-            uint32_t lengthWrite = DRV_uart_s.lengthWritten;
+            uint32_t lengthWrite = lengthWritten;
 
             if (DRV_uart_s.uartReadPos > DRV_uart_s.uartWritePos)
             {
