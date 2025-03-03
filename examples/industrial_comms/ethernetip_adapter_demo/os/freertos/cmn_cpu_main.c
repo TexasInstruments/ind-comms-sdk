@@ -56,7 +56,11 @@
 
 #define CMN_CPU_OUTPUT_MAX_LINE_SIZE   100
 
-#if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)
+#if ((defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)) && ((defined UART_CPU_LOAD_MONITOR) && (1==UART_CPU_LOAD_MONITOR))
+#error "Only one of CPU_LOAD_MONITOR and UART_CPU_LOAD_MONITOR can be enabled."
+#endif
+
+#if ((defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)) || ((defined UART_CPU_LOAD_MONITOR) && (1==UART_CPU_LOAD_MONITOR))
 
 #include "cmn_cpu_intern.h"
 
@@ -70,6 +74,8 @@ static CMN_CPU_API_SData_t  data_s;
 
 static void          CMN_CPU_loadTask       (void *pArg_p);
 
+#endif  // CPU_LOAD_MONITOR == 1 or UART_CPU_LOAD_MONITOR == 1
+#if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)
 static TaskP_Object* CMN_CPU_mcuAddTask     (TaskHandle_t pTaskHandle_p);
 static TaskP_Object* CMN_CPU_mcuFindTask    (TaskHandle_t pTaskHandle_p);
 
@@ -96,7 +102,7 @@ static void          CMN_CPU_output         (CMN_CPU_API_EOutput_t out_p, const 
  */
 void CMN_CPU_API_startMonitor (CMN_CPU_API_SParams_t* pParams_p)
 {
-#if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)
+#if ((defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)) || ((defined UART_CPU_LOAD_MONITOR) && (1==UART_CPU_LOAD_MONITOR))
 
     OSAL_MEMORY_memset(&data_s, 0, sizeof(CMN_CPU_API_SData_t));
 
@@ -523,6 +529,19 @@ static void CMN_CPU_loadTask (void *pArg_p)
         }
 
         CMN_CPU_API_generateReport(pParams->output);
+    }
+}
+
+#elif (defined UART_CPU_LOAD_MONITOR) && (1==UART_CPU_LOAD_MONITOR)
+static void CMN_CPU_loadTask (void *pArg_p)
+{
+    uint32_t cpuLoad;
+    while(1)
+    {
+        TaskP_loadResetAll();
+        OSAL_SCHED_sleep(1000);
+        cpuLoad = TaskP_loadGetTotalCpuLoad();
+        OSAL_printf("[CPU load]: %2d.%2d%% \r\n", cpuLoad / 100, cpuLoad % 100);
     }
 }
 

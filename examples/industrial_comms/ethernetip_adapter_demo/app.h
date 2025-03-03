@@ -47,6 +47,9 @@
 extern "C" {
 #endif
 
+#define EI_APP_STACK_MAIN_TASK_STACK_SIZE_BYTE    0x1000
+#define EI_APP_STACK_MAIN_TASK_STACK_SIZE         (EI_APP_STACK_MAIN_TASK_STACK_SIZE_BYTE/sizeof(configSTACK_DEPTH_TYPE))
+
 #define APP_SCip_t EI_API_CIP_NODE_InitParams_t
 
 typedef struct APP_SApplication
@@ -97,9 +100,11 @@ typedef struct APP_SParams
     DRIVERS_SInit_t            drivers;
     APP_SAcd_t                 acd;
 
-#if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)
+#if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR) || ((defined UART_CPU_LOAD_MONITOR) && (UART_CPU_LOAD_MONITOR==1))
     CMN_CPU_API_SParams_t   cpuLoad;
-    WEB_SERVER_SParams_t    webServer;
+#endif
+#if (defined CPU_LOAD_MONITOR) && (1==CPU_LOAD_MONITOR)
+    APP_WEBSRV_SParams_t    webServer;
 #endif
 }APP_SParams_t;
 

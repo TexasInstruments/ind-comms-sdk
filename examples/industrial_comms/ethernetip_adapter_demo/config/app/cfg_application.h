@@ -49,6 +49,7 @@
 // Application drivers configuration
 #define CFG_APP_EEPROM_TASK_PRIO    OSAL_TASK_Prio_EIP_EEPROM
 #define CFG_APP_FLASH_TASK_PRIO     OSAL_TASK_Prio_EIP_FLASH
+#define CFG_APP_UART_TASK_PRIO      OSAL_TASK_Prio_2
 
 // Non-volatile data configuration
 #if !(defined FBTLPROVIDER)

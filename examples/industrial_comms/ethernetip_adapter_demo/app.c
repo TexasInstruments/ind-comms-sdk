@@ -151,6 +151,9 @@ int main(
     /* Application FLASH driver configuration */
     pCfg->drivers.app.flash.taskPrio = CFG_APP_FLASH_TASK_PRIO;
 
+    /* Application UART driver configuration */
+    pCfg->drivers.app.uart.taskPrio = CFG_APP_UART_TASK_PRIO;
+
     /* Non-volatile memory */
 
     /* Non-volatile memory configuration data */
@@ -167,6 +170,10 @@ int main(
 
     /* CPU load configuration. */
     pCfg->cpuLoad.taskPrio   = CFG_APP_WEBSERVER_CPULOAD_TASK_PRIO;
+    pCfg->cpuLoad.output     = CFG_APP_WEBSERVER_OUTPUT;
+#elif (defined UART_CPU_LOAD_MONITOR) && (1==UART_CPU_LOAD_MONITOR)
+    /* CPU load configuration. */
+    pCfg->cpuLoad.taskPrio   = CFG_APP_WEBSERVER_TASK_PRIO;
     pCfg->cpuLoad.output     = CFG_APP_WEBSERVER_OUTPUT;
 #endif
 

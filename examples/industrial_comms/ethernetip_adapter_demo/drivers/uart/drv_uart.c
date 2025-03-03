@@ -50,15 +50,25 @@
 #include "drivers/common/drv_common.h"
 #include "drivers/uart/drv_uart.h"
 
+#define DRV_UART_TASK_STACK_SIZE             1024
+
 typedef struct DRV_Uart
 {
     UART_Handle                        handle;
     uint32_t                           instance;
+    void*                              uartTaskHandle;
     char                               aOutStream[0x200];
     UART_Transaction                   transaction;
+    void*                              uartSignal;
+    uint32_t                           uartWritePos;
+    uint32_t                           uartReadPos;
+    bool                               isInitialized;
 }DRV_Uart_t;
 
 static DRV_Uart_t DRV_uart_s = {0};
+
+
+static void DRV_UART_task(void *pvTaskArg);
 
 /*!
 *
@@ -105,18 +115,35 @@ uint32_t DRV_UART_init(const DRV_UART_SInit_t* pParams)
 {
     uint32_t result = OSAL_GENERAL_ERROR;
 
-    DRV_uart_s.instance = pParams->instance;
-    DRV_uart_s.handle   = DRV_UART_getHandle(DRV_uart_s.instance);
-
-    if(NULL == DRV_uart_s.handle)
+    if(FALSE == DRV_uart_s.isInitialized)
     {
-        result = OSAL_UART_DRV_HANDLE_INVALID;
-        goto laError;
+        DRV_uart_s.instance = pParams->instance;
+        DRV_uart_s.handle   = DRV_UART_getHandle(DRV_uart_s.instance);
+        DRV_uart_s.uartSignal = OSAL_createSignal("uartSignal");
+        if((NULL == DRV_uart_s.handle) || (NULL == DRV_uart_s.uartSignal))
+        {
+            result = OSAL_UART_DRV_HANDLE_INVALID;
+            goto laError;
+        }
+    
+        DRV_uart_s.uartTaskHandle = OSAL_SCHED_startTask(
+            DRV_UART_task,
+            (void *)&DRV_uart_s,
+            pParams->taskPrio,
+            NULL,
+            DRV_UART_TASK_STACK_SIZE,
+            OSAL_OS_START_TASK_FLG_NONE,
+            "uart_task");
+    
+        if(NULL == DRV_uart_s.uartTaskHandle)
+        {
+            result = OSAL_GENERAL_ERROR;
+            goto laError;
+        }
+        
+        DRV_uart_s.isInitialized = TRUE;
+        result = OSAL_NO_ERROR;
     }
-
-    result = OSAL_NO_ERROR;
-    goto laError;
-
 laError:
   return result;
 }
@@ -148,6 +175,62 @@ uint32_t DRV_UART_deInit(void)
 }
 
 /*!
+ * \brief
+ *  uart print task
+ *
+ * \details
+ * This function, is used to do printf on a low prio thread
+ *
+ */
+static void DRV_UART_task(void *pvTaskArg)
+{
+    DRV_Uart_t *pDrvUart = (DRV_Uart_t *)pvTaskArg;
+    DRV_COMMON_Mutex_EError_t mutexRetVal;
+
+    while(1)
+    {
+        uint32_t bytesToWrite;
+
+        while (pDrvUart->uartReadPos == pDrvUart->uartWritePos)
+        {
+            OSAL_waitSignal(pDrvUart->uartSignal, 2);
+        }
+
+        UART_flushTxFifo(pDrvUart->handle);
+        UART_Transaction_init(&pDrvUart->transaction);
+
+        bytesToWrite = pDrvUart->uartWritePos; // read uartWrite only once to prevent changes due to higher prio
+        if (bytesToWrite > pDrvUart->uartReadPos)
+        {
+            pDrvUart->transaction.count = bytesToWrite - pDrvUart->uartReadPos;
+        }
+        else
+        {
+            pDrvUart->transaction.count = sizeof(pDrvUart->aOutStream) - pDrvUart->uartReadPos;
+        }
+
+        mutexRetVal = DRV_COMMON_Mutex_Lock(DRV_COMMON_MUTEX_UART, OSAL_WAIT_INFINITE);
+
+        if(DRV_COMMON_MUTEX_eERR_NOERROR == mutexRetVal)
+        {
+            pDrvUart->transaction.buf = (void *)&pDrvUart->aOutStream[pDrvUart->uartReadPos];
+            pDrvUart->transaction.args = NULL;
+
+            pDrvUart->uartReadPos += pDrvUart->transaction.count;
+            if (pDrvUart->uartReadPos == sizeof(pDrvUart->aOutStream))
+            {
+                pDrvUart->uartReadPos = 0;
+            }
+
+            (void)UART_write(pDrvUart->handle, &pDrvUart->transaction);
+
+            DRV_COMMON_Mutex_Unlock(DRV_COMMON_MUTEX_UART);
+        }
+    }
+
+    OSAL_SCHED_exitTask(NULL);
+}
+/*!
 *
 *  \brief
 *  UART printf output function.
@@ -161,7 +244,7 @@ uint32_t DRV_UART_deInit(void)
 *
 *
 */
-void DRV_UART_printf(void* pContext, const char* pFormat, va_list argptr)
+void DRV_UART_printf(void* pContext, const char* pFormat, va_list arg)
 {
     /* @cppcheck_justify{unusedVariable} false-positive: variable is used */
     //cppcheck-suppress unusedVariable
@@ -169,28 +252,57 @@ void DRV_UART_printf(void* pContext, const char* pFormat, va_list argptr)
     /* @cppcheck_justify{unusedVariable} false-positive: variable is used */
     //cppcheck-suppress unusedVariable
     DRV_COMMON_Mutex_EError_t mutexRetVal;
+    int lengthWritten;
+    char tmpString[256];
+    char *tmpStringPos = tmpString;
 
     OSALUNREF_PARM(pContext);
 
+    lengthWritten = vsnprintf(tmpString, sizeof(tmpString), pFormat, arg);
 
 
     mutexRetVal = DRV_COMMON_Mutex_Lock(DRV_COMMON_MUTEX_UART, OSAL_WAIT_INFINITE);
 
     if(DRV_COMMON_MUTEX_eERR_NOERROR == mutexRetVal)
     {
-        UART_flushTxFifo(DRV_uart_s.handle);
-        UART_Transaction_init(&DRV_uart_s.transaction);
+        while (lengthWritten > 0)
+        {
+            uint32_t lengthAvailable;
+            uint32_t lengthWrite = DRV_uart_s.lengthWritten;
 
-        OSAL_MEMORY_memset(DRV_uart_s.aOutStream, 0, sizeof(DRV_uart_s.aOutStream));
-        (void)vsnprintf(DRV_uart_s.aOutStream, sizeof(DRV_uart_s.aOutStream), pFormat, argptr);
+            if (DRV_uart_s.uartReadPos > DRV_uart_s.uartWritePos)
+            {
+                lengthAvailable = DRV_uart_s.uartReadPos - DRV_uart_s.uartWritePos - 1;
+            }
+            else
+            {
+                lengthAvailable = sizeof(DRV_uart_s.aOutStream) - DRV_uart_s.uartWritePos;
+                if (DRV_uart_s.uartReadPos == 0)
+                    lengthAvailable -= 1;
+            }
 
-        DRV_uart_s.transaction.count = strlen(DRV_uart_s.aOutStream);
-        DRV_uart_s.transaction.buf = (void *) DRV_uart_s.aOutStream;
-        DRV_uart_s.transaction.args = NULL;
+            if (lengthAvailable == 0)
+            {
+                break;
+            }
 
-        transferOK = UART_write(DRV_uart_s.handle, &DRV_uart_s.transaction);
+            if (lengthWrite > lengthAvailable)
+            {
+                lengthWrite = lengthAvailable;
+            }
 
+            memcpy(&DRV_uart_s.aOutStream[DRV_uart_s.uartWritePos], tmpStringPos, lengthWrite);
+
+            DRV_uart_s.uartWritePos += lengthWrite;
+            tmpStringPos += lengthWrite;
+            lengthWritten -= lengthWrite;
+            if (DRV_uart_s.uartWritePos >= sizeof(DRV_uart_s.aOutStream))
+            {
+                DRV_uart_s.uartWritePos -= sizeof(DRV_uart_s.aOutStream);
+            }
+        }
         DRV_COMMON_Mutex_Unlock(DRV_COMMON_MUTEX_UART);
+        OSAL_postSignal(DRV_uart_s.uartSignal);
     }
     else
     {

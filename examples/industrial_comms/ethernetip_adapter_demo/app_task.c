@@ -433,6 +433,8 @@ void EI_APP_TASK_main(void* pvTaskArg_p)
     }
 
     CMN_CPU_API_startMonitor(&pAppInstance->config.cpuLoad);
+#elif  (defined UART_CPU_LOAD_MONITOR) && (1==UART_CPU_LOAD_MONITOR)
+    CMN_CPU_API_startMonitor(&pAppInstance->config.cpuLoad);
 #endif
 
 #ifdef ENABLE_INTERCORE_TUNNELING

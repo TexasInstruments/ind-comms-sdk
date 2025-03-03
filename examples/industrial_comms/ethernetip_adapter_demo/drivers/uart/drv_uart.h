@@ -52,7 +52,8 @@
  */
 typedef struct DRV_UART_SInit
 {
-    uint32_t   instance;         /* UART instance */
+    uint32_t             instance;         /* UART instance */
+    OSAL_TASK_Priority_t taskPrio;     /* Task priority */
 }DRV_UART_SInit_t;
 
 #ifdef __cplusplus
