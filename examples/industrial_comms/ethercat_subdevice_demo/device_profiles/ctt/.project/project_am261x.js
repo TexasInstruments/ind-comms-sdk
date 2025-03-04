@@ -106,6 +106,7 @@ const defines_r5f_lp = {
         "am261x_lp",
         "SSC_CHECKTIMER=1",
         "USE_ECAT_TIMER=1",
+        "CUST_PHY_DP83826=1",
 
     ],
 };
