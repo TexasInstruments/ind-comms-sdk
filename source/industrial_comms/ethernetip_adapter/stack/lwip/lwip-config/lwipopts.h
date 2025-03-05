@@ -130,21 +130,7 @@
 #include<string.h>
 extern void * pvPortMalloc( size_t xWantedSize );
 extern void vPortFree( void * pv );
-#if defined(SOC_AM261X) || defined(SOC_AM263PX)
-// introduced in SDK 10.0.1
 extern void * pvPortCalloc(size_t count, size_t size);
-#else
-static inline void * pvPortCalloc(size_t count, size_t size)
-{
-    size_t len = count * size;
-    void * data = pvPortMalloc(len);
-    if (data)
-    {
-        memset(data, 0, len);
-    }
-    return data;
-}
-#endif
 
 #define mem_clib_malloc(x) pvPortMalloc(x)
 #define mem_clib_calloc(c, s) pvPortCalloc(c, s)

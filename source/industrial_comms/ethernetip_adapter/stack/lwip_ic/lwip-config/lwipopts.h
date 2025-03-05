@@ -161,8 +161,6 @@
 #include<string.h>
 extern void * pvPortMalloc( size_t xWantedSize );
 extern void vPortFree( void * pv );
-
-// introduced in SDK 10.0.1
 extern void * pvPortCalloc(size_t count, size_t size);
 
 #define mem_clib_malloc(x) pvPortMalloc(x)
