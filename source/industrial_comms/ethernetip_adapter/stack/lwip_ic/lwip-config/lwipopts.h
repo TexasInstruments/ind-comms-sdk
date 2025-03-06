@@ -159,13 +159,6 @@
 
 #include<stdio.h>
 #include<string.h>
-extern void * pvPortMalloc( size_t xWantedSize );
-extern void vPortFree( void * pv );
-extern void * pvPortCalloc(size_t count, size_t size);
-
-#define mem_clib_malloc(x) pvPortMalloc(x)
-#define mem_clib_calloc(c, s) pvPortCalloc(c, s)
-#define mem_clib_free(x) vPortFree(x)
 
 /* ---------- Memory options ---------- */
 /* MEM_ALIGNMENT: should be set to the alignment of the CPU for which

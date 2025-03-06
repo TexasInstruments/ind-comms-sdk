@@ -127,7 +127,6 @@ const defines_r5f = {
         "SOC_AM64X",
         "SOC_AM64X=1",
         "CUST_PHY_DP83869=1",
-        "EIP_RGMII",
         "EIP_TIME_SYNC=1",
         "EIP_QUICK_CONNECT=0",
         "CPU_LOAD_MONITOR=0"
