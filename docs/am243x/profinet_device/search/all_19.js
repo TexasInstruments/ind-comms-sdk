@@ -8,7 +8,8 @@ var searchData=
   ['version_204_200_201_5',['Release Version 4.0.1',['../releasenotes.html#version_release_4_0_1',1,'']]],
   ['version_204_200_202_6',['Release Version 4.0.2',['../releasenotes.html#version_release_4_0_2',1,'']]],
   ['version_204_200_203_7',['Release Version 4.0.3',['../releasenotes.html#version_release_4_0_3',1,'']]],
-  ['versionmajor_8',['versionMajor',['../structPN__API__IOD__Im0Data__t_a0eaad29a67c89bdd2ca4ca45d716f6a4.html#a0eaad29a67c89bdd2ca4ca45d716f6a4',1,'PN_API_IOD_Im0Data_t']]],
-  ['versionminor_9',['versionMinor',['../structPN__API__IOD__Im0Data__t_aa71535da9dba395ea5095204f1271e77.html#aa71535da9dba395ea5095204f1271e77',1,'PN_API_IOD_Im0Data_t']]],
-  ['volatile_20memory_20nvm_10',['Non-Volatile Memory (NVM)',['../persistentstorage.html',1,'']]]
+  ['version_204_201_200_8',['Release Version 4.1.0',['../releasenotes.html#version_release_4_1_0',1,'']]],
+  ['versionmajor_9',['versionMajor',['../structPN__API__IOD__Im0Data__t_a0eaad29a67c89bdd2ca4ca45d716f6a4.html#a0eaad29a67c89bdd2ca4ca45d716f6a4',1,'PN_API_IOD_Im0Data_t']]],
+  ['versionminor_10',['versionMinor',['../structPN__API__IOD__Im0Data__t_aa71535da9dba395ea5095204f1271e77.html#aa71535da9dba395ea5095204f1271e77',1,'PN_API_IOD_Im0Data_t']]],
+  ['volatile_20memory_20nvm_11',['Non-Volatile Memory (NVM)',['../persistentstorage.html',1,'']]]
 ];

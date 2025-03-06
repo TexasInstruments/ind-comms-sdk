@@ -46,6 +46,9 @@ extern "C"
 /* ===================  ======================================================= */
 /*                      Driver feature definitions                            */
 /* ========================================================================== */
+#ifndef PNIO_DEVKIT_EDDP
+ #define PNIO_DEVKIT_EDDP
+#endif
 /** @def PTCP_SUPPORT
  *       Enable PTPCP support - required for IRT device
  */
@@ -61,7 +64,7 @@ extern "C"
  */
 #define MRP_SUPPORT
 
-#define APP_NAME "Profinet Device IRT"
+#define APP_NAME "Profinet Slave IRT"
 
 /** application version */
 #define APP_VERSION "3.0.0.0"
@@ -69,14 +72,14 @@ extern "C"
 /* @def RTC_DEBUG
  *      Enable debugging in driver
  */
-#define WATCHDOG_SUPPORT
+//#define WATCHDOG_SUPPORT
 
 
 /* @def ISOM_SUPPORT
  *      Enable ISOM mode in driver
  */
 #define ENABLE_ISOM_SUPPORT
-
+#define STORM_PREV_SUPPORT
 #ifdef ENABLE_ISOM_SUPPORT
 #undef ENABLE_LATCH_SUPPORT
 #else

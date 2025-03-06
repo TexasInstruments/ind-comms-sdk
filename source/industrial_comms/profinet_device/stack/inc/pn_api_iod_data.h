@@ -1,20 +1,16 @@
 /*!
- * \file pn_api_iod_data.h
+ *  \file pn_api_iod_data.h
  *
- * \brief
- * Functions and callback-prototypes needed for the handling of Profinet cyclic data.
+ *  \brief
+ *  Functions and callback-prototypes needed for the handling of Profinet cyclic data.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: LicenseRef-Kunbus
- *
- * Copyright (c) 2024 KUNBUS GmbH
- * All rights reserved.
- *
- *
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
+ *  All rights reserved.
  */
 
 #ifndef PN_API_IOD_DATA_H
@@ -233,7 +229,7 @@ uint32_t PN_API_IOD_setIops(
  * This means, the cyclic exchange will continue but the values of input/output data
  * won't be up to date.<br>
  * -# Before calling this function, the user application needs to have a mechanism to
- * handle the event coming from Profinet stack. In Kunbus demo app, this mechanism is
+ * handle the event coming from Profinet stack. In demo app, this mechanism is
  * implemented as a separate thread (see PN_APP_IOD_initCyclicDataExchange()) which blocks
  * while waiting for the event, and once it arrives, an IO data read/write process is initiated.
  *

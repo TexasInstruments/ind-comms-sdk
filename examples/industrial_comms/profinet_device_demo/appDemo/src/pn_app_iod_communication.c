@@ -1,43 +1,42 @@
 /*!
- * \file pn_app_iod_communication.c
+ *  \file pn_app_iod_communication.c
  *
- * \brief
- * Functions and callbacks for the handling of ARs (Application Relations).
+ *  \brief
+ *  Functions and callbacks for the handling of ARs (Application Relations).
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: BSD-3-Clause
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
- * Copyright (c) 2024 KUNBUS GmbH.
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
- * <ol>
- * <li>Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer./<li>
- * <li>Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.</li>
- * <li>Neither the name of the copyright holder nor the names of its contributors
- * may be used to endorse or promote products derived from this software without
- * specific prior written permission.</li>
- * </ol>
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
  *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "pn_app_iod_communication.h"
@@ -63,7 +62,6 @@
 #define SEND_CLOCK(x) ((x * 31250) / 1000000) // sendClock = sendClockFactor * 31,25 us
 #define AR_INFO_LIST_LEN PN_API_IOD_NUM_OF_IO_AR + PN_API_IOD_NUM_OF_DEV_ACCESS_AR
 
-extern uint8_t inDataCounter;
 extern OSAL_SCHED_EventHandle_t *dataExchangeEvent;
 
 PN_API_IOD_ArInfo_t arInfoList[AR_INFO_LIST_LEN];
@@ -105,16 +103,15 @@ PN_API_IOD_SubmodStatus_t PN_APP_IOD_cbParamEnd(
 {
     uint32_t status = PN_API_NOT_OK;
     PN_API_IOD_SubmodStatus_t submodStatus = PN_API_IOD_SubmodStatusUnknown;
-    PN_API_IOD_RealSubmod_t realSubmod;
+    PN_API_IOD_RealSubmod_t *realSubmod;
 
     OSALUNREF_PARM(moreFollows);
 
-    OSAL_MEMORY_memset(&realSubmod, 0, sizeof(PN_API_IOD_RealSubmod_t));
     status = PN_API_IOD_getRealSubmod(pnHandle, &realSubmod, api, slot, subslot);
 
     if (PN_API_OK == status)
     {
-        status = PN_API_IOD_setRealSubmodStatus(pnHandle, &realSubmod, PN_API_IOD_SubmodStatusRun);
+        status = PN_API_IOD_setRealSubmodStatus(pnHandle, realSubmod, PN_API_IOD_RealSubmodStatusRun);
     }
 
     if (PN_API_OK == status)
@@ -434,7 +431,7 @@ static uint32_t PN_APP_IOD_pullAllSlotSubmods(
     uint32_t slot)
 {
     uint32_t status = PN_API_ERR_PARAM;
-    PN_API_IOD_RealSubmod_t tmpRealSubmod;
+    PN_API_IOD_RealSubmod_t *tmpRealSubmod;
     PN_API_IOD_DevAddr_t addr;
 
     if (PN_API_IOD_isHandleValid(pnHandle))
@@ -447,14 +444,14 @@ static uint32_t PN_APP_IOD_pullAllSlotSubmods(
 
             if (PN_API_OK == status)
             {
-                addr.address.geo.slot    = tmpRealSubmod.slot;
-                addr.address.geo.subslot = tmpRealSubmod.subslot;
+                addr.address.geo.slot    = tmpRealSubmod->slot;
+                addr.address.geo.subslot = tmpRealSubmod->subslot;
 
                 /* Clear the record handle */
-                PN_APP_IOD_clearRecordListElement(tmpRealSubmod.index);
+                PN_APP_IOD_clearRecordListElement(tmpRealSubmod->index);
 
                 /* Pull submodule */
-                PN_API_IOD_pullSubmod(pnHandle, tmpRealSubmod.api, &addr);
+                PN_API_IOD_pullSubmod(pnHandle, tmpRealSubmod->api, &addr);
             }
         }
 
@@ -493,7 +490,7 @@ static uint32_t PN_APP_IOD_updateSubmodLocation(
 {
     uint32_t status = PN_API_ERR_PARAM;
     uint32_t submodStatus = PN_API_ERR_PARAM;
-    PN_API_IOD_RealSubmod_t realSubmod;
+    PN_API_IOD_RealSubmod_t *realSubmod;
     PN_API_IOD_DevAddr_t addr;
     PN_API_IOD_Im0Data_t im0Data;
     uint8_t im0Support;
@@ -501,7 +498,6 @@ static uint32_t PN_APP_IOD_updateSubmodLocation(
     if (PN_API_IOD_isHandleValid(pnHandle) && (NULL != expSubmod))
     {
         status = PN_API_OK;
-        OSAL_MEMORY_memset(&realSubmod, 0, sizeof(PN_API_IOD_RealSubmod_t));
         submodStatus = PN_API_IOD_getRealSubmod(
             pnHandle,
             &realSubmod,
@@ -513,18 +509,18 @@ static uint32_t PN_APP_IOD_updateSubmodLocation(
     if ((PN_API_OK == status) && (PN_API_OK == submodStatus)) /* A submodule is plugged. Verify if
                                                                  it's the expected one */
     {
-        addr.address.geo.slot = realSubmod.slot;
-        addr.address.geo.subslot = realSubmod.subslot;
+        addr.address.geo.slot = realSubmod->slot;
+        addr.address.geo.subslot = realSubmod->subslot;
 
-        if (realSubmod.modId == expSubmod->modId) /* Module ID is as expected */
+        if (realSubmod->modId == expSubmod->modId) /* Module ID is as expected */
         {
-            if (realSubmod.submodId != expSubmod->submodId) /* Wrong submodule! */
+            if (realSubmod->submodId != expSubmod->submodId) /* Wrong submodule! */
             {
                 /* Clear the record handle */
-                PN_APP_IOD_clearRecordListElement(realSubmod.index);
+                PN_APP_IOD_clearRecordListElement(realSubmod->index);
 
                 /* Pull submodule */
-                PN_API_IOD_pullSubmod(pnHandle, realSubmod.api, &addr);
+                PN_API_IOD_pullSubmod(pnHandle, realSubmod->api, &addr);
             }
         }
         else if ((1 <= expSubmod->slot) && (1 == expSubmod->subslot)) /* Module ID is not as
@@ -598,6 +594,7 @@ static uint32_t PN_APP_IOD_updateSubmodLocation(
     return status;
 }
 
+#if (0 == PN_API_IOD_INCLUDE_S2_REDUNDANCY)
 /*!
  * \brief
  * Pull remaining submodules of an API starting from a specific slot/subslot.
@@ -624,7 +621,7 @@ static uint32_t PN_APP_IOD_pullRemainingSubmods(
     uint32_t subslot)
 {
     uint32_t status = PN_API_ERR_PARAM;
-    PN_API_IOD_RealSubmod_t tmpRealSubmod;
+    PN_API_IOD_RealSubmod_t *tmpRealSubmod;
     PN_API_IOD_DevAddr_t addr;
 
     if (PN_API_IOD_isHandleValid(pnHandle))
@@ -635,19 +632,18 @@ static uint32_t PN_APP_IOD_pullRemainingSubmods(
                  subslotIndex < PN_API_IOD_MAX_NUM_OF_SUBSLOTS_PER_SLOT;
                  subslotIndex++)
             {
-                OSAL_MEMORY_memset(&tmpRealSubmod, 0, sizeof(PN_API_IOD_RealSubmod_t));
                 status = PN_API_IOD_getRealSubmod(pnHandle, &tmpRealSubmod, api, slotIndex, subslotIndex);
 
                 if (PN_API_OK == status)
                 {
-                    addr.address.geo.slot = tmpRealSubmod.slot;
-                    addr.address.geo.subslot = tmpRealSubmod.subslot;
+                    addr.address.geo.slot = tmpRealSubmod->slot;
+                    addr.address.geo.subslot = tmpRealSubmod->subslot;
 
                     /* Clear the record handle */
-                    PN_APP_IOD_clearRecordListElement(tmpRealSubmod.index);
+                    PN_APP_IOD_clearRecordListElement(tmpRealSubmod->index);
 
                     /* Pull submodule */
-                    PN_API_IOD_pullSubmod(pnHandle, tmpRealSubmod.api, &addr);
+                    PN_API_IOD_pullSubmod(pnHandle, tmpRealSubmod->api, &addr);
                 }
             }
         }
@@ -657,6 +653,7 @@ static uint32_t PN_APP_IOD_pullRemainingSubmods(
 
     return status;
 }
+#endif
 
 void PN_APP_IOD_cbArOwnershipInd(
     PN_API_IOD_Handle_t *const pnHandle,
@@ -665,7 +662,9 @@ void PN_APP_IOD_cbArOwnershipInd(
 {
     uint32_t status = PN_API_ERR_PARAM;
     PN_API_IOD_ExpSubmod_t *expSubmod = NULL;
+    PN_API_IOD_RealSubmod_t *realSubmodList = NULL;
     PN_APP_IOD_OwnershipHandle_t *tmpOwnershipHandle = NULL;
+    uint32_t realSubmodListSize = 0;
 
     if (PN_API_IOD_isHandleValid(pnHandle) && (NULL != expSubmodsCfg) && (0 < arNum))
     {
@@ -722,11 +721,9 @@ void PN_APP_IOD_cbArOwnershipInd(
                     expSubmod->slot,
                     expSubmod->subslot,
                     PN_API_IOD_STATUS_GOOD);
-
-                status = PN_APP_IOD_updateOwnershipHandle(pnHandle, expSubmod);
             }
         }
-
+#if (0 == PN_API_IOD_INCLUDE_S2_REDUNDANCY)
         if (NULL != expSubmod)
         {
             /* Pull the already existing submodules that are not expected by the controller (if any) */
@@ -736,12 +733,23 @@ void PN_APP_IOD_cbArOwnershipInd(
                 expSubmod->slot,
                 expSubmod->subslot);
         }
+#endif
 
-        /* Store submodule configuration as remanent data */
-        PN_APP_IOD_getOwnershipHandle(&tmpOwnershipHandle);
+        /* Store real submodule configuration as remanent data */
+        status = PN_API_IOD_getRealSubmodList(pnHandle, &realSubmodList, &realSubmodListSize);
 
-        if ((NULL != tmpOwnershipHandle) && (PN_API_IOD_MAX_NUM_OF_SUBSLOTS >= tmpOwnershipHandle->cnt)
-            && ((2U + PN_API_IOD_PDEV_NUM_OF_PORTS) <= tmpOwnershipHandle->cnt))
+        if(PN_API_OK == status)
+        {
+            status = PN_APP_IOD_updateOwnershipHandle(pnHandle, realSubmodList, realSubmodListSize);
+        }
+
+        if(PN_API_OK == status)
+        {
+            PN_APP_IOD_getOwnershipHandle(&tmpOwnershipHandle);
+        }
+
+        if ((PN_API_OK == status) && (NULL != tmpOwnershipHandle) && (PN_API_IOD_MAX_NUM_OF_SUBSLOTS
+            >= tmpOwnershipHandle->cnt) && ((2U + PN_API_IOD_PDEV_NUM_OF_PORTS) <= tmpOwnershipHandle->cnt))
         {
             uint32_t memSize = tmpOwnershipHandle->cnt * sizeof(PN_API_IOD_RemaDataSubmodCfgInfo_t);
             PN_APP_IOD_cbStoreRemaMem(

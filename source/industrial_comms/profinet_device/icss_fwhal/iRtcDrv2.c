@@ -546,9 +546,6 @@ int32_t PN_insCpmList(PN_Handle pnHandle, t_rtcPacket *cpmPkt)
         pList->redFID = cpmPkt->frameId;        /* store the red packet FID*/
     }
 
-    /* Clear the Cycle Counter Initialization flag. For any new AR established, sync with the master and align the phase and cycle counter values*/ 
-    (pnHandle->pnPtcpConfig).initPmCycleCtrDone = 0;
-
     for(i = 0; i < (pnHandle->currPN).cfgAR; i++)
     {
         int res = PN_readCpmDesc(pnHandle, tmpDesc, i);     /* read from active list*/
@@ -935,15 +932,6 @@ void FAST_CODE_HWAL PN_clearPruIRQ(PRUICSS_HwAttrs const *pruicssHwAttrs,
     HW_WR_REG32((pruicssHwAttrs->intcRegBase + CSL_ICSS_G_PR1_ICSS_INTC_INTC_SLV_ENA_STATUS_REG0), 1 << irq_num);
 }
 
-void PN_setFSODeviationComp(PRUICSS_HwAttrs const *pruicssHwAttrs, uint16_t fso_comp_val) 
-{
-    HW_WR_REG32((pruicssHwAttrs->pru0DramBase + FSO_DEVIATION_COMP), fso_comp_val);
-}
-
-void PN_registerThreadsafeFunc(PN_Handle pnHandle, pnDrvThreadSafe_t callBackEnt, pnDrvThreadSafe_t callBackExt) {
-    pnHandle->lockSynchronizedEntry = callBackEnt;
-    pnHandle->lockSynchronizedExit = callBackExt;
-}
 #ifdef IRT_LEGACY_STARTUP_SUPPORT
 void PN_registerSetState(PN_Handle pnHandle, pnLegCallBack_t callBack)
 {

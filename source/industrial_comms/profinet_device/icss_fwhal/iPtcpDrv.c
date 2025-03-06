@@ -57,6 +57,8 @@
 /* ========================================================================== */
 
 #ifdef PTCP_SUPPORT
+/*enable RED sync LED on ICE*/
+#define PTCP_SYNC_SIGNAL
 
 #define DEBUG_SYNC_EVENTS
 #ifdef DEBUG_SYNC_EVENTS
@@ -101,10 +103,6 @@ uint32_t syncmissCounter = 0;
 
 #define TLV_DELAY 0x060c
 
-#define DELAY_CALC_ADJ 0xFF
-
-#define PULSE_WIDTH 0xC7 /* Sync pulse width set to 1us (200 cycles)*/
-
 /* ========================================================================== */
 /*                             Static variables                               */
 /* ========================================================================== */
@@ -148,13 +146,6 @@ void PN_PTCP_registerDelayUpdateCall(PN_Handle pnHandle,
     (pnHandle->pnPtcpConfig).ptcpDelayUpdateCall = callBack;
 }
 
-void PN_PTCP_registerSyncMonitorCall(PN_Handle pnHandle,
-                                     ptcpSyncCallBack_t callBack)
-{
-    (pnHandle->pnPtcpConfig).ptcpSyncMonitorCall = callBack;
-    (pnHandle->pnPtcpConfig).enableCustomSyncMonitorFlag = 1;
-}
-
 void PN_PTCP_start(PN_Handle pnHandle)
 {
     SemaphoreP_post(&((pnHandle->pnPtcpConfig).ptcpStartSem));
@@ -171,8 +162,7 @@ void PN_PTCP_ClockChange(PN_Handle pnHandle, uint32_t cycleTime)
     {
         return;
     }
-    /* Log previous clock value to handle T1 and T4 timestamp taken in different cycles when clock change occurs */
-    (pnHandle->pnPtcpConfig).prevPnCyclePeriod = (pnHandle->pnPtcpConfig).pnCyclePeriod;
+
     (pnHandle->pnPtcpConfig).pnCyclePeriod = cycleTime;
     (pnHandle->pnPtcpConfig).clkChangeNotifyDelay = 1;
 
@@ -494,6 +484,10 @@ void PN_PTCP_init(PN_Handle pnHandle)
     pnPtcpDebugAttrs->debugSyncIndex    = 1;
 #endif
 
+/*TODO: Review this*/
+// #ifdef PTCP_SYNC_SIGNAL
+//     GPIO_write(0, 0);
+// #endif
 
     memset((void *)((ptcpConfig->deviceSyncInfo).masterSA), 0, 6);
     memset((void *)((ptcpConfig->deviceSyncInfo).subdomainUUID), 0, 16);
@@ -562,12 +556,23 @@ void PN_PTCP_reset(PN_Handle pnHandle)
 
     HW_WR_REG8(pruicssHwAttrs->pru0DramBase
            + RTC_DEVICE_SYNC_STATUS_OFFSET, 0);
-
+#ifdef PNIO_DEVKIT_EDDP
+    /*ESYSE: SYNC_RESET added to identify SYNC-Reset state  */
     if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
     {
         (pnHandle->pnPtcpConfig).ptcpSyncStatusCall(SYNC_RESET, (uint32_t)NULL);
     }
-
+#else
+    if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
+    {
+        (pnHandle->pnPtcpConfig).ptcpSyncStatusCall((
+                    pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)NULL);
+    }
+#endif /* PNIO_DEVKIT_EDDP */
+/*TODO: Review this*/
+// #ifdef PTCP_SYNC_SIGNAL
+//     GPIO_write(0, 0);
+// #endif
 #ifdef SYNC_ANALYSIS
     nResets++;
     nSyncTrans = 0;
@@ -612,12 +617,12 @@ void FAST_CODE_HWAL PN_PTCP_delayMeasurement(PN_Handle pnHandle)
 
         /* fill queue1 with delay req*/
         if((pnHandle->pnPtcpConfig).currentPtcpStatus.cDelayEnable[0] == enable)
-            PN_OS_txPacket(pnHandle,
+            PN_OS_txPacket(pnHandle->emacHandle,
                            (pnHandle->pnPtcpConfig).devicePortOffsets[0].pDelayReqPacket,
                            ICSS_EMAC_PORT_1, ICSS_EMAC_QUEUE1, PTCP_DELAY_REQ_LEN);
 
         if((pnHandle->pnPtcpConfig).currentPtcpStatus.cDelayEnable[1] == enable)
-            PN_OS_txPacket(pnHandle,
+            PN_OS_txPacket(pnHandle->emacHandle,
                            (pnHandle->pnPtcpConfig).devicePortOffsets[1].pDelayReqPacket,
                            ICSS_EMAC_PORT_2, ICSS_EMAC_QUEUE1, PTCP_DELAY_REQ_LEN);
 
@@ -891,7 +896,6 @@ void FAST_CODE_HWAL PN_PTCP_portDelaySmaCalc(PN_Handle pnHandle, uint8_t portNum
 int32_t FAST_CODE_HWAL PN_PTCP_lineDelayCalc(PN_Handle pnHandle,
                               ptcp_iDelayResp_struct_t *ptcp_port_desc)
 {
-    PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)((pnHandle->pruicssHandle)->hwAttrs);
     int32_t ctr_diff;
     ctr_diff = (ptcp_port_desc->T4_cycle_ctr) - (ptcp_port_desc->T1_cycle_ctr);
 
@@ -900,14 +904,7 @@ int32_t FAST_CODE_HWAL PN_PTCP_lineDelayCalc(PN_Handle pnHandle,
         ctr_diff = ctr_diff + 512;
     }
 
-    /* Check to ensure T1 and T4 timestamp are taken */
-    if(HW_RD_REG16(pruicssHwAttrs->pru0DramBase + DELAY_ADJ_CALC_OFFSET) == DELAY_CALC_ADJ) {
-        ptcp_port_desc->reqDelay = ctr_diff * (pnHandle->pnPtcpConfig).prevPnCyclePeriod;
-        HW_WR_REG32((pruicssHwAttrs->pru0DramBase + CLOCK_CHANGE_OFFSET), 0);
-    }
-    else {
-        ptcp_port_desc->reqDelay = ctr_diff * (pnHandle->pnPtcpConfig).pnCyclePeriod;
-    }
+    ptcp_port_desc->reqDelay = ctr_diff * (pnHandle->pnPtcpConfig).pnCyclePeriod;
     ptcp_port_desc->reqDelay = (int32_t)(ptcp_port_desc->reqDelay) + (int32_t)(
                                    ptcp_port_desc->T4TimeStamp - ptcp_port_desc->T1TimeStamp);
 
@@ -1394,16 +1391,17 @@ void FAST_CODE_HWAL PN_PTCP_timerHandler(void* arg)
     PN_Handle pnHandle = (PN_Handle)arg;
     PN_PTCP_syncHandling(pnHandle);
 }
+uint8_t g_SyncCtrlFup = 0U;
+uint8_t g_SyncCtrlPort = 0U;
 void FAST_CODE_HWAL PN_PTCP_isrHandler(void* arg)
 {
     PN_Handle pnHandle = (PN_Handle)arg;
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
 
     PN_IntAttrs *ptcpIntConfig = &((pnHandle->pnIntConfig).ptcpIntConfig);
-    /* Avoid processing the sync packet if clock change has not occurred. */
-    if(HW_RD_REG8(pruicssHwAttrs->pru0DramBase + RTC_BASE_CLK_CHANGED_OFFSET) == 0) {
-        PN_PTCP_syncHandling(pnHandle);
-    }
+    //g_SyncCtrlPort = *((uint8_t*)(pruicssHwAttrs->sharedDramBase + SYNC_CTRL_BYTE_OFFSET));
+    PN_PTCP_syncHandling(pnHandle);
+
     if((pnHandle->pnPtcpConfig).cycleCtrInitPending == 0)      /*clear only if cycle initialization is done*/
     {
         PN_clearPruIRQ(pruicssHwAttrs, ptcpIntConfig->pruIntNum);
@@ -1473,9 +1471,12 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
 
     uint8_t ctrlByte = *temp;
 
+   // if(ctrlByte != 0)
     if((ctrlByte == 1) || (ctrlByte == 2))
     {
-        (pnHandle->pnPtcpConfig).SyncCtrlPort = ctrlByte;
+#ifdef PNIO_DEVKIT_EDDP
+        g_SyncCtrlPort = ctrlByte;
+#endif
         PN_PTCP_syncPreprocess(pnHandle, ctrlByte);
         *temp = 0;
     }
@@ -1486,7 +1487,9 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
         *((pnHandle->pnPtcpConfig).pSyncInDelayPlusLD) = (*((
                     pnHandle->pnPtcpConfig).pSyncInDelayPlusLD))
                 + PN_PTCP_rotUint((uint32_t *)pFupDelay);
-        (pnHandle->pnPtcpConfig).SyncCtrlFup = 1;
+#ifdef PNIO_DEVKIT_EDDP
+        g_SyncCtrlFup = 1U;
+#endif
     }
 
     int32_t send_clock_factor = HW_RD_REG16(pruicssHwAttrs->pru0DramBase +
@@ -1545,8 +1548,10 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
                        sizeof(syncSysLogFrame));
 #endif
         }
-        (pnHandle->pnPtcpConfig).SyncCtrlPort = 0;
-        (pnHandle->pnPtcpConfig).SyncCtrlFup = 0;
+#ifdef PNIO_DEVKIT_EDDP
+        g_SyncCtrlPort = 0U;
+        g_SyncCtrlFup = 0U;
+#endif
         return;
     }
 
@@ -1554,8 +1559,8 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
                             (uint8_t *)(pruicssHwAttrs->sharedDramBase + SYNC_SBLOCK_OFFSET));
 
 
-    if((pnHandle->pnPtcpConfig).currentPtcpStatus.firstSyncRcv == 1
-            && (pnHandle->pnPtcpConfig).initPmCycleCtrDone == 0)
+    if( (pnHandle->pnPtcpConfig.currentPtcpStatus.firstSyncRcv == 1)
+            && (pnHandle->pnPtcpConfig.initPmCycleCtrDone == 0) )
     {
         /*cycle counter => 31.25*/
         /*cycle         => 31.25 * scf*/
@@ -1850,62 +1855,62 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
 #endif
 
     }
-    if( (PN_PTCP_absVal(deltaT) > (pnHandle->pnPtcpConfig).currentPtcpStatus.syncPllWnd) ||
-        ((pnHandle->pnPtcpConfig).currentPtcpStatus.firstSyncRcv == 0) ||
-        ((pnHandle->pnPtcpConfig).numInSync <= (smaFactor + 2)) ) /*outside PLL window ; let filter get stabilized*/
+
+    if( (PN_PTCP_absVal(deltaT) > pnHandle->pnPtcpConfig.currentPtcpStatus.syncPllWnd) ||
+#ifndef PNIO_DEVKIT_EDDP
+        (pnHandle->pnPtcpConfig.currentPtcpStatus.firstSyncRcv == 0) ||
+#endif
+        (pnHandle->pnPtcpConfig.numInSync <= (smaFactor + 2)) ) /*outside PLL window ; let filter get stabilized*/
     {
         (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState = OUT_OF_SYNC;
     }
 
     else
     {
-        (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState = IN_SYNC;
+        pnHandle->pnPtcpConfig.deviceSyncInfo.syncState = IN_SYNC;
     }
 
 
     /*update the flags*/
-    (pnHandle->pnPtcpConfig).currentPtcpStatus.syncRcv = 1;
-    (pnHandle->pnPtcpConfig).currentPtcpStatus.firstSyncRcv = 1;
-
-    if((pnHandle->pnPtcpConfig).enableCustomSyncMonitorFlag == 0) {
-        if( ((pnHandle->pnPtcpConfig).currentPtcpStatus.syncState !=
+    pnHandle->pnPtcpConfig.currentPtcpStatus.syncRcv = 1;
+    pnHandle->pnPtcpConfig.currentPtcpStatus.firstSyncRcv = 1;
+#ifndef PNIO_DEVKIT_EDDP
+    /* masterChange=1, indication will done by sync-monitoring-task!!*/
+    if( ((pnHandle->pnPtcpConfig).currentPtcpStatus.syncState !=
             (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState) ||
             ( (pnHandle->pnPtcpConfig).masterChange == 1) )
+#endif
+    {
+/*TODO: Review this*/
+// #ifdef PTCP_SYNC_SIGNAL
+//         GPIO_write(0, (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState & 0x1);
+// #endif
+        if(pnHandle->pnPtcpConfig.currentPtcpStatus.syncState !=
+           pnHandle->pnPtcpConfig.deviceSyncInfo.syncState)
         {
+        HW_WR_REG8(pruicssHwAttrs->pru0DramBase + RTC_DEVICE_SYNC_STATUS_OFFSET,
+            (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState);
 
-            HW_WR_REG8(pruicssHwAttrs->pru0DramBase + RTC_DEVICE_SYNC_STATUS_OFFSET,
-                (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState);
-
-            (pnHandle->pnPtcpConfig).currentPtcpStatus.syncState =
-                (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState;
-
-            if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
-            {
-                (pnHandle->pnPtcpConfig).ptcpSyncStatusCall((
-                            pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)&deltaT);
-            }   
+        (pnHandle->pnPtcpConfig).currentPtcpStatus.syncState =
+            (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState;
         }
-    }
-    else if((pnHandle->pnPtcpConfig).enableCustomSyncMonitorFlag == 1){
-        if( ((pnHandle->pnPtcpConfig).currentPtcpStatus.syncState !=
-            (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState) )
-        {
-            HW_WR_REG8(pruicssHwAttrs->pru0DramBase + RTC_DEVICE_SYNC_STATUS_OFFSET,
-                (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState);
 
-            (pnHandle->pnPtcpConfig).currentPtcpStatus.syncState =
-                (pnHandle->pnPtcpConfig).deviceSyncInfo.syncState;
-        }
-    
+#ifdef PNIO_DEVKIT_EDDP
         if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
         {
             (pnHandle->pnPtcpConfig).ptcpSyncStatusCall((
                         pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)&deltaT);
-        }    
-    }
-    // Reset the sync port and Fup flag values after using in the application.
-    (pnHandle->pnPtcpConfig).SyncCtrlPort = 0;
-    (pnHandle->pnPtcpConfig).SyncCtrlFup = 0;
+        }
+
+        g_SyncCtrlPort = 0U;
+        g_SyncCtrlFup = 0U;
+#else
+        if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
+        {
+            (pnHandle->pnPtcpConfig).ptcpSyncStatusCall((
+                        pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)NULL);
+        }
+#endif
 
 #ifdef SYNC_SYS_LOG
 
@@ -1926,12 +1931,12 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
 
         TxPacket(syncSysLogFrame, ICSS_EMAC_PORT_1, QUEPRIO1, sizeof(syncSysLogFrame));
 #endif
-
+#ifndef PNIO_DEVKIT_EDDP
         if((pnHandle->pnPtcpConfig).masterChange == 1)
         {
             (pnHandle->pnPtcpConfig).masterChange = 0;
         }
-
+#endif
 #ifdef  SYNC_ANALYSIS
 
         if(nResets < SYNC_ANALYSIS_N_RESETS - 1)
@@ -1946,7 +1951,7 @@ void FAST_CODE_HWAL PN_PTCP_syncHandling(PN_Handle pnHandle)
         }
 
 #endif
-    
+    }
 }
 
 void FAST_CODE_HWAL PN_PTCP_syncIepAdjustment(PN_Handle pnHandle, int32_t ecapPeriod,
@@ -2112,16 +2117,25 @@ void PN_PTCP_setTakeoverTimeoutFactor(PN_Handle pnHandle,
     (pnHandle->pnPtcpConfig).currentPtcpStatus.takeoverTimeoutFactor =
         takeoverTimeoutFactor;
 }
-
+#ifndef PNIO_DEVKIT_EDDP
 void FAST_CODE_HWAL PN_PTCP_syncTimeoutMonitor(PN_Handle pnHandle)
 {
     uint8_t syncInitFlag;
-
+    /*ESYSE: ptcpIntConfig->coreIntNum needed to disable SYNC interrupt while task running!!!*/
+  //  PN_PtcpConfig *ptcpConfig = &(pnHandle->pnPtcpConfig);
+#ifdef PNIO_DEVKIT_EDDP
+    PN_IntAttrs *ptcpIntConfig = &((pnHandle->pnIntConfig).ptcpIntConfig);
+#endif
     while(1)
     {
         syncInitFlag = *((pnHandle->pnPtcpConfig).pSyncInitFlag);
 
         PN_PTCP_taskSleep(30 + 1);
+
+#ifdef PNIO_DEVKIT_EDDP
+        /*ESYSE: disable SYNC interrupt to ensure data consistency which could be modified by ISR PN_PTCP_syncHandling !!!*/
+        uint32_t isEnable = HwiP_disableInt(ptcpIntConfig->coreIntNum);
+#endif
 
         /*put some kind of data synchronization mechanism or lock to avoid corruption
         check whether first sync has been received or not*/
@@ -2158,20 +2172,36 @@ void FAST_CODE_HWAL PN_PTCP_syncTimeoutMonitor(PN_Handle pnHandle)
                 if((pnHandle->pnPtcpConfig).currentPtcpStatus.nSyncMissed >=
                         (pnHandle->pnPtcpConfig).currentPtcpStatus.syncTimeoutFactor)
                 {
-                     PN_PTCP_reset(pnHandle);
-                     (pnHandle->pnPtcpConfig).masterChange = 0;
-
+                    /* ESYSE: Move to end of callback notification:
+                     *        it should first SYNC_TIMEOUT event notified to Stack to trigger Diag. and then
+                     *        issue SYNC_RESET to reset the SYNC state machine  */
+#ifndef PNIO_DEVKIT_EDDP
+                    PN_PTCP_reset(pnHandle);
+                    (pnHandle->pnPtcpConfig).masterChange = 0;
+#endif
 
                     if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
                     {
                         (pnHandle->pnPtcpConfig).ptcpSyncStatusCall(SYNC_TIMEOUT, (uint32_t)NULL);
                     }
+
+#ifdef PNIO_DEVKIT_EDDP
+                    /* ESYSE: Perform SYNC Reset, to reset the SYNC state machine */
+                    PN_PTCP_reset(pnHandle);
+#endif
                 }
             }
         }
+#ifdef PNIO_DEVKIT_EDDP
+        /*ESYSE: enable SYNC interrupt again. */
+        if(0U < isEnable)
+        {
+            HwiP_enableInt(ptcpIntConfig->coreIntNum);
+        }
+#endif
     }
 }
-
+#endif
 void PN_PTCP_setSyncUUID(PN_Handle pnHandle, uint8_t *subdomainUUID)
 {
     uint8_t syncInitFlag = *((pnHandle->pnPtcpConfig).pSyncInitFlag);
@@ -2187,13 +2217,14 @@ void PN_PTCP_setSyncUUID(PN_Handle pnHandle, uint8_t *subdomainUUID)
            (void *)subdomainUUID, 16);
 
     *((pnHandle->pnPtcpConfig).pSyncInitFlag) = syncInitFlag | 1;
-
+#ifndef PNIO_DEVKIT_EDDP
     /*Notify the stack about current sync status*/
     if((pnHandle->pnPtcpConfig).ptcpSyncStatusCall != NULL)
     {
         (pnHandle->pnPtcpConfig).ptcpSyncStatusCall((
                     pnHandle->pnPtcpConfig).currentPtcpStatus.syncState, (uint32_t)NULL);
     }
+#endif
 }
 
 
@@ -2210,8 +2241,10 @@ void PN_PTCP_configureSync0Pin(PN_Handle pnHandle)
 {
     uint32_t iepCmpCfg = 0;
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pnHandle->pruicssHandle->hwAttrs);
+    /* Sync pulse width = 199 + 1 cycles = 1us*/
+    uint32_t pulseWidth = 199;
     /* Sync start time = pnCyclePeriod - pulsewidth*/
-    uint32_t syncStart = (pnHandle->pnPtcpConfig).pnCyclePeriod - (PULSE_WIDTH*5);
+    uint32_t syncStart = (pnHandle->pnPtcpConfig).pnCyclePeriod - (pulseWidth*5);
     /*enable cmp1 : t2 bit of cfg registers*/
 
     iepCmpCfg = HW_RD_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_CMP_CFG_REG);
@@ -2222,7 +2255,7 @@ void PN_PTCP_configureSync0Pin(PN_Handle pnHandle)
         syncStart);
     /*configure the pulse width for sync0: 199+1 cycles i.e. 1us*/
     HW_WR_REG32(pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_SYNC_PWIDTH_REG,
-        PULSE_WIDTH);
+        pulseWidth);
 }
 
 void PN_PTCP_configureDelayMeasurement(PN_Handle pnHandle, uint8_t portNum,

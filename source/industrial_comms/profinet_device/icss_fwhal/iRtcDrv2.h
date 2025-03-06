@@ -554,9 +554,6 @@ typedef enum
  */
 typedef void (*pnLegCallBack_t)(void *arg, void *arg2);
 
-typedef void (*pnDrvThreadSafe_t)(void);
-
-
 /**
  * \brief Registers callback function for legacy state
  * This callback is used to change the Legacy state machine
@@ -583,15 +580,6 @@ void PN_registerSetPkt(PN_Handle pnHandle, pnLegCallBack_t callBack);
 @}
 */
 
-/**
- * \brief Registers callback function for thread safety functionality.
- * This callback is used in a critical section to protect re-entry of TX function in PN_OS_txPacket.
- * \param pnHandle Profinet Handle
- * \param[in] callBackEnt Callback function for entering the critical section
- * \param[in] callBackExt Callback function for exiting the critical section
- */
-void PN_registerThreadsafeFunc(PN_Handle pnHandle, pnDrvThreadSafe_t callBackEnt, pnDrvThreadSafe_t callBackExt);
-
 
 /**
  * \internal
@@ -616,14 +604,6 @@ void PN_clearPruIRQ(PRUICSS_HwAttrs const *pruicssHwAttrs,
 int32_t PN_setBaseClock(PN_Handle pnHandle, uint16_t factor);
 
 /** @} */
-
-
-/**
- * \brief Sets FSO deviation compensation value for propogation delays inside ICSS. 
- * \param[in]   pruicssHwAttrs  PRUICSS HW Attributes for base addresses
- * \param       fso_comp_val    FSO compensation value: Default value 150ns
- */
-void PN_setFSODeviationComp(PRUICSS_HwAttrs const *pruicssHwAttrs, uint16_t fso_comp_val);
 
 
 #ifdef __cplusplus

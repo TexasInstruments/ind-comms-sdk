@@ -44,13 +44,13 @@ LINKER_CMD_VAL_END_OF_HEAP_MEM =   END(HEAP_MEM);
 SECTIONS
 {
     .vectors  : {
-    } > R5F_VECS   , palign(8) 
+    } > R5F_VECS   , palign(8)
 
     .text.hwi  : {
-    } > R5F_TCMA   , palign(8) 
+    } > R5F_TCMA   , palign(8)
 
     .text_tcm  : {
-    } > R5F_TCMA   , palign(8) 
+    } > R5F_TCMA   , palign(8)
 
 
     GROUP  :   {
@@ -60,7 +60,7 @@ SECTIONS
     } palign(8)
     .fini_array : {
     } palign(8)
-    } > MSRAM  
+    } > MSRAM
 
 
     GROUP  :   {
@@ -70,7 +70,7 @@ SECTIONS
     } palign(8)
     .text.boot : {
     } palign(8)
-    } > MSRAM  
+    } > MSRAM
 
 
     GROUP  :   {
@@ -78,7 +78,7 @@ SECTIONS
     } palign(8)
     .rodata : {
     } palign(8)
-    } > CODE_MEM  
+    } > CODE_MEM
 
 
     GROUP  :   {
@@ -88,7 +88,7 @@ SECTIONS
     } palign(8)
     .stack : {
     } palign(8)
-    } > MSRAM  
+    } > MSRAM
 
 
     GROUP  :   {
@@ -96,7 +96,7 @@ SECTIONS
     } palign(8)
     RUN_START(__BSS_START)
     RUN_END(__BSS_END)
-    } > DATA_MEM  
+    } > DATA_MEM
 
 
     GROUP  :   {
@@ -125,25 +125,25 @@ SECTIONS
     } align(8)
     RUN_START(__UNDEFINED_STACK_START)
     RUN_END(__UNDEFINED_STACK_END)
-    } > MSRAM  
+    } > MSRAM
 
     .bss.icss_emac_pktbuf_mem (NOLOAD) : {
-    } > ICSS_PKT_BUF_MEM    
+    } > ICSS_PKT_BUF_MEM
 
     .bss.user_shared_mem (NOLOAD) : {
-    } > USER_SHM_MEM    
+    } > USER_SHM_MEM
 
     .bss.log_shared_mem (NOLOAD) : {
-    } > LOG_SHM_MEM    
+    } > LOG_SHM_MEM
 
     .bss.ipc_vring_mem  : {
-    } > RTOS_NORTOS_IPC_SHM_MEM    
+    } > RTOS_NORTOS_IPC_SHM_MEM
 
     .sysmem  : {
-    } > HEAP_MEM    
+    } > HEAP_MEM
 
     .boot_pkt_mem (NOLOAD) : {
-    } > BOOT_PKT_MEM    
+    } > BOOT_PKT_MEM
 
 
 }
@@ -151,18 +151,18 @@ SECTIONS
 
 MEMORY
 {
-    R5F_VECS   : ORIGIN = 0x0 , LENGTH = 0x40 
-    R5F_TCMA   : ORIGIN = 0x40 , LENGTH = 0x7FC0 
-    R5F_TCMB0   : ORIGIN = 0x41010000 , LENGTH = 0x8000 
-    ICSS_PKT_BUF_MEM   : ORIGIN = 0x70000000 , LENGTH = 0x10000 
-    HEAP_MEM   : ORIGIN = 0x70010000 , LENGTH = 0x80000 
-    MSRAM   : ORIGIN = 0x70090000 , LENGTH = 0x144000 
-    USER_SHM_MEM   : ORIGIN = 0x701D4000 , LENGTH = 0x4000 
-    LOG_SHM_MEM   : ORIGIN = 0x701D8000 , LENGTH = 0x4000 
-    RTOS_NORTOS_IPC_SHM_MEM   : ORIGIN = 0x701DC000 , LENGTH = 0x4000 
-    CODE_MEM   : ORIGIN = 0x80000000 , LENGTH = 0x1D0000 
-    BOOT_PKT_MEM   : ORIGIN = 0x80200000 , LENGTH = 0x200000 
-    DATA_MEM   : ORIGIN = 0x80400000 , LENGTH = 0x200000 
+    R5F_VECS   : ORIGIN = 0x0 , LENGTH = 0x40
+    R5F_TCMA   : ORIGIN = 0x40 , LENGTH = 0x7FC0
+    R5F_TCMB0   : ORIGIN = 0x41010000 , LENGTH = 0x8000
+    ICSS_PKT_BUF_MEM   : ORIGIN = 0x70000000 , LENGTH = 0x10000
+    HEAP_MEM   : ORIGIN = 0x70010000 , LENGTH = 0x80000
+    MSRAM   : ORIGIN = 0x70090000 , LENGTH = 0x144000
+    USER_SHM_MEM   : ORIGIN = 0x701D4000 , LENGTH = 0x4000
+    LOG_SHM_MEM   : ORIGIN = 0x701D8000 , LENGTH = 0x4000
+    RTOS_NORTOS_IPC_SHM_MEM   : ORIGIN = 0x701DC000 , LENGTH = 0x4000
+    CODE_MEM   : ORIGIN = 0x80000000 , LENGTH = 0x1D0000
+    BOOT_PKT_MEM   : ORIGIN = 0x80200000 , LENGTH = 0x200000
+    DATA_MEM   : ORIGIN = 0x80400000 , LENGTH = 0x200000
 
     /* For memory Regions not defined in this core but shared by other cores with the current core */
 

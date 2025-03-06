@@ -46,11 +46,17 @@
 #ifdef PTCP_SUPPORT
 #include "iPtcpDrv.h"
 #include "iPtcpUtils.h"
+#ifdef PNIO_DEVKIT_EDDP
+ extern void PND_EDDP_IRT_SyncCtrlTask(PN_Handle pnHandle);
+#endif
 #endif
 #include <drivers/hw_include/hw_types.h>
 #include <drivers/mdio.h>
 #include <kernel/dpl/ClockP.h>
 #include <string.h>
+
+extern void llEnter(void);
+extern void llExit(void);
 
 /* TODO: Review this*/
 // extern SemaphoreP_Handle &(pnHandle->switchReady);
@@ -90,7 +96,9 @@ void PN_MRP_CPMTask(uintptr_t arg0, uintptr_t arg1);
 #ifdef WATCHDOG_SUPPORT
 void PN_tapWatchDog_task(uintptr_t arg0, uintptr_t arg1);
 #endif
-
+#ifdef STORM_PREV_SUPPORT
+void PN_stormPrevention_task(uintptr_t arg0, uintptr_t arg1);
+#endif
 /* ========================================================================== */
 /*                          Function Declarations                             */
 /* ========================================================================== */
@@ -152,7 +160,11 @@ int32_t PN_initOs(PN_Handle pnHandle)
     taskParams.name = "PTCPTask";
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->PTCP_taskStack));
-    taskParams.priority = PTCP_TASK_PRIORITY;
+#ifndef PNIO_DEVKIT_EDDP
+    taskParams.priority = 11;
+#else
+    taskParams.priority = 26;
+#endif
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_PTCP_task;
     status = TaskP_construct(&(pnHandle->PTCPTaskObject), &taskParams);
@@ -167,8 +179,11 @@ int32_t PN_initOs(PN_Handle pnHandle)
     taskParams.name = "SyncMonitorTask";
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->PTCP_syncMonitorTaskStack));
-
-    taskParams.priority = SYNC_MONITOR_TASK_PRIORITY;
+#ifndef PNIO_DEVKIT_EDDP
+    taskParams.priority = 11;
+#else
+    taskParams.priority = 23;
+#endif
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_PTCP_syncMonitorTask;
     status = TaskP_construct(&(pnHandle->SyncMonitorTaskObject), &taskParams);
@@ -180,13 +195,30 @@ int32_t PN_initOs(PN_Handle pnHandle)
 
 #endif /*PTCP_SUPPORT*/
 
+#ifdef STORM_PREV_SUPPORT
+    TaskP_Params_init(&taskParams);
+
+    taskParams.name = "StormPrevTask";
+    taskParams.stackSize = PN_TASK_STACK_SIZE;
+    taskParams.stack = (uint8_t *)(&(pnHandle->stormPreventionTaskStack));
+    taskParams.priority = 10;
+    taskParams.args = (void *)pnHandle;
+    taskParams.taskMain = (TaskP_FxnMain)PN_stormPrevention_task;
+    status = TaskP_construct(&(pnHandle->StormPrevTaskObject), &taskParams);
+
+    if(status == SystemP_FAILURE)
+    {
+        return -6;
+    }
+#endif
+
 #ifdef IRT_LEGACY_STARTUP_SUPPORT
     TaskP_Params_init(&taskParams);
 
     taskParams.name = "LegacyModeTask";
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->IRT_legacyTaskStack));
-    taskParams.priority = LEGACY_MODE_TASK_PRIOROTY;
+    taskParams.priority = 3;
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_IRT_legacyTask;
     status = TaskP_construct(&(pnHandle->LegModeTaskObject), &taskParams);
@@ -206,8 +238,11 @@ int32_t PN_initOs(PN_Handle pnHandle)
 
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->MRP_CPMTaskStack));
-
-    taskParams.priority = MRP_TASK_PRIORITY;        /* FW low prio ok?*/
+#ifndef PNIO_DEVKIT_EDDP
+    taskParams.priority = 3;        /* FW low prio ok?*/
+#else
+    taskParams.priority = 23;        /* FW low prio ok?*/
+#endif
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_MRP_CPMTask;
     status = TaskP_construct(&(pnHandle->MrpMachineTaskObject), &taskParams);
@@ -222,7 +257,7 @@ int32_t PN_initOs(PN_Handle pnHandle)
     taskParams.name = "WatchDogTimer";
     taskParams.stackSize = PN_TASK_STACK_SIZE;
     taskParams.stack = (uint8_t *)(&(pnHandle->tapWatchDog_taskStack));
-    taskParams.priority = WATCHDOG_TASK_PRIORITY;
+    taskParams.priority = 11;
     taskParams.args = (void *)pnHandle;
     taskParams.taskMain = (TaskP_FxnMain)PN_tapWatchDog_task;
     status = TaskP_construct(&(pnHandle->WatchDogTimerTaskObject), &taskParams);
@@ -540,13 +575,16 @@ void PN_IRT_legacyTask(uintptr_t arg0, uintptr_t arg1)
                         HW_WR_REG16(((pnHandle->pLegPkt)->pBuffer->addr[(pnHandle->pLegPkt)->proc] +
                                (pnHandle->pLegPkt)->length - 4),
                                    (fCycleCount >> 8 | (fCycleCount & 0xFF) << 8));
-                        PN_OS_txPacket(pnHandle,
+                        PN_OS_txPacket(pnHandle->emacHandle,
                                        (pnHandle->pLegPkt)->pBuffer->addr[(pnHandle->pLegPkt)->proc],
                                        (pnHandle->pLegPkt)->port, ICSS_EMAC_QUEUE2,
                                        (pnHandle->pLegPkt)->length);      /* send high prio*/
                         fCycleCount += (sClk * 128);   /* RR=128*/
 
-                       ClockP_usleep(ClockP_ticksToUsec(sClk * 4));         /* base clock * 128  period*/
+                        /* TODO: Review this*/
+                        // TaskP_sleep(sClk * 4 * 1000 /
+                        //            ClockP_getTickPeriod());         /* base clock * 128  period*/
+                        ClockP_usleep(ClockP_ticksToUsec(sClk * 4));         /* base clock * 128  period*/
                     }
 
                     else
@@ -695,27 +733,27 @@ void FAST_CODE_HWAL PN_PTCP_task(uintptr_t arg0, uintptr_t arg1)
 void FAST_CODE_HWAL PN_PTCP_syncMonitorTask(uintptr_t arg0, uintptr_t arg1)
 {
     PN_Handle pnHandle = (PN_Handle)arg0;
+#ifndef PNIO_DEVKIT_EDDP
     PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)((pnHandle->pruicssHandle)->hwAttrs);
-
+#endif
     SemaphoreP_pend(&(pnHandle->switchReady), SystemP_WAIT_FOREVER); /* wait for init*/
     SemaphoreP_post(&(pnHandle->switchReady));
-
+#ifndef PNIO_DEVKIT_EDDP
     /*TODO: Review this*/
     // while(!(((ICSS_EmacObject *)(pnHandle->emacHandle)->object)->linkStatus[0] ||
     //         ((ICSS_EmacObject *)(
     //              pnHandle->emacHandle)->object)->linkStatus[1]))             /* wait for link up*/
-    if((pnHandle->pnPtcpConfig).ptcpSyncMonitorCall == NULL) {
-        while(!((MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase, ((ICSS_EMAC_Attrs *)((pnHandle->emacHandle)->attrs))->phyAddr[0]) == SystemP_SUCCESS) ||
-            (MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase, ((ICSS_EMAC_Attrs *)((pnHandle->emacHandle)->attrs))->phyAddr[1]) == SystemP_SUCCESS)))   /* wait for link up*/
-        {
-            /*TODO: Review this*/
-            // TaskP_sleep(1);                              /* needs link down management later*/
-            ClockP_usleep(ClockP_ticksToUsec(1));           /* needs link down management later*/
-        }        
-        PN_PTCP_syncTimeoutMonitor(pnHandle);       /* endless loop*/
+    while(!((MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase, ((ICSS_EMAC_Attrs *)((pnHandle->emacHandle)->attrs))->phyAddr[0]) == SystemP_SUCCESS) ||
+          (MDIO_phyLinkStatus(pruicssHwAttrs->miiMdioRegBase, ((ICSS_EMAC_Attrs *)((pnHandle->emacHandle)->attrs))->phyAddr[1]) == SystemP_SUCCESS)))   /* wait for link up*/
+    {
+        /*TODO: Review this*/
+        // TaskP_sleep(1);                              /* needs link down management later*/
+        ClockP_usleep(ClockP_ticksToUsec(1));           /* needs link down management later*/
     }
-    else 
-        (pnHandle->pnPtcpConfig).ptcpSyncMonitorCall(pnHandle); /* endless loop*/
+    PN_PTCP_syncTimeoutMonitor(pnHandle);       /* endless loop*/
+#else
+    PND_EDDP_IRT_SyncCtrlTask(pnHandle); /* endless loop*/
+#endif /* #ifndef PNIO_DEVKIT_EDDP */
 }
 
 #endif /*PTCP_SUPPORT*/
@@ -723,18 +761,17 @@ void FAST_CODE_HWAL PN_PTCP_syncMonitorTask(uintptr_t arg0, uintptr_t arg1)
 /*-----------------------------------------------------
  *
  *-----------------------------------------------------*/
-int32_t PN_OS_txPacket(PN_Handle pnHandle,
+int32_t PN_OS_txPacket(ICSS_EMAC_Handle icssEmacHandle,
                        const uint8_t *srcAddress, int32_t portNumber, int32_t queuePriority,
                        int32_t lengthOfPacket)
 {
     int32_t ret=0;
     ICSS_EMAC_TxArgument txArgs;
 
-    if(pnHandle->lockSynchronizedEntry != NULL) 
-        pnHandle->lockSynchronizedEntry();
-
+    /*TODO: Find appropriate replacement*/
+     llEnter();
     memset(&txArgs, 0, sizeof(ICSS_EMAC_TxArgument));
-    txArgs.icssEmacHandle = pnHandle->emacHandle;
+    txArgs.icssEmacHandle = icssEmacHandle;
     txArgs.lengthOfPacket = lengthOfPacket;
     txArgs.portNumber = portNumber;
     txArgs.queuePriority = queuePriority;
@@ -742,8 +779,8 @@ int32_t PN_OS_txPacket(PN_Handle pnHandle,
 
     ret= ICSS_EMAC_txPacket(&txArgs, NULL);
 
-    if(pnHandle->lockSynchronizedExit != NULL)
-        pnHandle->lockSynchronizedExit();
+    /*TODO: Find appropriate replacement*/
+     llExit();
 
     return ret;
 }
@@ -775,4 +812,79 @@ void PN_tapWatchDog_task(uintptr_t arg0, uintptr_t arg1)
     }
 
 }
+#endif
+#ifdef STORM_PREV_SUPPORT
+void PN_stormPrevention_task(uintptr_t arg0, uintptr_t arg1) 
+{
+    PN_Handle pnHandle = (PN_Handle)arg0;
+    ICSS_EMAC_Handle icsshandle = pnHandle->emacHandle;
+    ICSS_EMAC_IoctlCmd ioctlParams;
+    PRUICSS_Handle pruHandle = pnHandle->pruicssHandle;
+    PRUICSS_HwAttrs const *pruicssHwAttrs = (PRUICSS_HwAttrs const *)(pruHandle->hwAttrs);
+    uint32_t counter;
+    while(1)
+    {
+        ICSS_EMAC_StormPrevention* strmPreventionEnable1=NULL;
+        ICSS_EMAC_StormPrevention* strmPreventionEnable2=NULL;
+
+        // if(ICSS_EMAC_MODE_SWITCH == ((ICSS_EMAC_Attrs*)icsshandle->attrs)->portMask)
+        // {
+        //     if(((ICSS_EMAC_Attrs*)icsshandle->attrs)->learningEnable)
+        //     {
+        //         /*Increment counter in learning for ageing*/
+        //         ioctlParams.command = ICSS_EMAC_LEARN_CTRL_INC_COUNTER;
+        //         ICSS_EMAC_ioctl(icsshandle, ICSS_EMAC_IOCTL_LEARNING_CTRL, 0, (void*)&ioctlParams);
+
+        //         if( (0u != hLwip2Emac->aleTimerActive) && (0 != hLwip2Emac->aleTicks))
+        //         {
+        //             /* Ageoutnow. aleTickCount can become greater if timeout period is changed in between */
+        //             aleTickCount = aleTickCount + 1U;
+        //             if( (aleTickCount) >=  (hLwip2Emac->aleTicks))
+        //             {
+        //                 ioctlParams.command = ICSS_EMAC_LEARN_CTRL_AGEING;
+        //                 ICSS_EMAC_ioctl(icsshandle, ICSS_EMAC_IOCTL_LEARNING_CTRL, ICSS_EMAC_PORT_1, (void*)&ioctlParams);
+        //                 ICSS_EMAC_ioctl(icsshandle, ICSS_EMAC_IOCTL_LEARNING_CTRL, ICSS_EMAC_PORT_2, (void*)&ioctlParams);
+        //                 aleTickCount = 0;
+        //             }
+        //         }
+        //     }
+        // }
+        // counter = HW_RD_REG32(pruicssHwAttrs->pru0DramBase + 0x1f90);
+        // counter = (2000 - (counter >> 8));
+        // DebugP_log("SP Counter: %zd \n", counter);
+        /*Reset the credit values used for Storm prevention*/
+        if(ICSS_EMAC_MODE_SWITCH == ((ICSS_EMAC_Attrs*)icsshandle->attrs)->portMask)
+        {
+            strmPreventionEnable1 = (ICSS_EMAC_StormPrevention*)(((ICSS_EMAC_Object*)(icsshandle)->object)->stormPrev);
+            strmPreventionEnable2 = ((ICSS_EMAC_StormPrevention*)(((ICSS_EMAC_Object*)(icsshandle)->object)->stormPrev)) + 1;
+            if((strmPreventionEnable1->suppressionEnabledBC) | (strmPreventionEnable2->suppressionEnabledBC))
+            {
+                ioctlParams.command = ICSS_EMAC_STORM_PREV_CTRL_RESET_BC;
+                ICSS_EMAC_ioctl(icsshandle, ICSS_EMAC_IOCTL_STORM_PREV_CTRL, 0, (void*)&ioctlParams);
+                counter = HW_RD_REG32(pruicssHwAttrs->pru0DramBase + 0x1f90);
+                counter = counter >> 8;
+                counter = 100;
+                counter = (counter << 8) +1;
+                HW_WR_REG32(pruicssHwAttrs->pru0DramBase + 0x1f90, counter);
+                counter = HW_RD_REG32(pruicssHwAttrs->pru1DramBase + 0x1f90);
+                counter = counter >> 8;
+                counter = 100;
+                counter = (counter << 8) +1;
+                HW_WR_REG32(pruicssHwAttrs->pru1DramBase + 0x1f90, counter);
+            }
+            if((strmPreventionEnable1->suppressionEnabledMC) | (strmPreventionEnable2->suppressionEnabledMC))
+            {
+                ioctlParams.command = ICSS_EMAC_STORM_PREV_CTRL_RESET_MC;
+                ICSS_EMAC_ioctl(icsshandle, ICSS_EMAC_IOCTL_STORM_PREV_CTRL, 0, (void*)&ioctlParams);
+            }
+            if((strmPreventionEnable1->suppressionEnabledUC) | (strmPreventionEnable2->suppressionEnabledUC))
+            {
+                ioctlParams.command = ICSS_EMAC_STORM_PREV_CTRL_RESET_UC;
+                ICSS_EMAC_ioctl(icsshandle, ICSS_EMAC_IOCTL_STORM_PREV_CTRL, 0, (void*)&ioctlParams);
+            }
+        }
+        ClockP_usleep(100*1000);
+    }
+}
+
 #endif

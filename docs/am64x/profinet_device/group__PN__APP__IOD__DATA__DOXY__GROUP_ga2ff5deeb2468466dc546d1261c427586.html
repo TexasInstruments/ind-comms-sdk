@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.0.3</span></div></td>
+         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.1.0</span></div></td>
          <td id="projectbrief" align="right"><img src=PROFINETLogoIcon.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -148,8 +148,8 @@ $(document).ready(function(){initNavTree('group__PN__APP__IOD__DATA__DOXY__GROUP
       </table>
 </div><div class="memdoc">
 
-<p>Callback function to read output data from the IO controller to the physical output of a submodule. </p>
-<p>This function reads data from the buffer provided by the stack to the global output data array. It also blinks the LED based on the value received. IOPS of the corresponding submodule is also updated while IOCS is sent back as a return value.</p>
+<p>Callback function to read output data from the IO controller to the physical output of a submodule. If output data is invalid, replacement substitute value is used. </p>
+<p>This function reads data from the buffer provided by the stack to the global output data array if data is valid, else replacement substitute value is copied and used instead. It also turns ON/OFF some LEDs based on the value received. IOPS of the corresponding submodule is also updated while IOCS is sent back as a return value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">pnHandle</td><td>Profinet API Handle. </td></tr>

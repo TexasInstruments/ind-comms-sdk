@@ -1,49 +1,52 @@
 /*!
- * \file pn_app_iod_bsp.c
+ *  \file pn_app_iod_bsp.c
  *
- * \brief
- * Functions and callbacks for handling the board support package like memory and LED control.
+ *  \brief
+ *  Functions and callbacks for handling the board support package like memory and LED control.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: BSD-3-Clause
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
- * Copyright (c) 2024 KUNBUS GmbH.
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
- * <ol>
- * <li>Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer./<li>
- * <li>Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.</li>
- * <li>Neither the name of the copyright holder nor the names of its contributors
- * may be used to endorse or promote products derived from this software without
- * specific prior written permission.</li>
- * </ol>
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
  *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "pn_app_iod_bsp.h"
 
 #include <string.h>
 #include <ti_board_open_close.h>
+/* Enable Sync jitter measurement */
+#include "drivers/pinmux.h"
+#include <drivers/hw_include/cslr_soc.h>
+/**/
 #include <nvm.h>
 
 #include "osal.h"
@@ -107,6 +110,33 @@ PN_APP_IOD_Nvdata_t ramNvData;
 
 /*!< Profinet application LED context instance */
 PN_APP_IOD_LedContext_t ledContext;
+
+/*
+ * PAD configuration for Ball.D18
+ * Required to configure SYNC0_OUT as pin out
+ */
+static Pinmux_PerCfg_t gTsrPinMuxMainDomainCfg[] = {
+    {
+        PIN_ECAP0_IN_APWM_OUT,
+        ( PIN_MODE(1) | PIN_PULL_DISABLE ) /* PIN_MODE 1 is SYNC0_OUT */
+    },
+    {PINMUX_END, PINMUX_END}
+};
+
+void PN_APP_IOD_tsrConfig(uint8_t syncSignal)
+{
+    Pinmux_config(gTsrPinMuxMainDomainCfg, PINMUX_DOMAIN_ID_MAIN);
+    /* PRU IEP Enable SYNC MODE */
+    CSL_REG32_WR(CSL_PRU_ICSSG1_PR1_CFG_SLV_BASE + CSL_ICSSCFG_IEPCLK, 1);
+    CSL_REG32_WR(CSL_TIMESYNC_EVENT_INTROUTER0_CFG_BASE + 0x64, 0x0001001D + syncSignal);
+}
+
+
+uint32_t gpioOutHwBaseAddr = GPIO_OUT_HW_SIGNAL_BASE_ADDR;
+uint32_t gpioOutHwPinNum = GPIO_OUT_HW_SIGNAL_PIN;
+
+extern uint8_t inDataCounter;
+extern bool inDataChanged;
 
 /*!
  * \brief
@@ -212,6 +242,7 @@ static void PN_APP_IOD_updateLed(PN_API_IOD_Led_t led)
     }
 }
 
+
 /*!
  * \brief
  * Led task.
@@ -313,6 +344,33 @@ uint32_t PN_APP_IOD_cbStopLedBlink(PN_API_IOD_Handle_t *const pnHandle, const ui
     ledContext.led[PN_API_IOD_LedRun].actualState = ledContext.led[PN_API_IOD_LedBlink].actualState;
 
     return PN_API_OK;
+}
+
+
+uint32_t PN_APP_IOD_outHwSignalInit(void)
+{
+    uint32_t status = PN_API_OK;
+
+    gpioOutHwBaseAddr = (uint32_t) AddrTranslateP_getLocalAddr(gpioOutHwBaseAddr);
+    GPIO_setDirMode(gpioOutHwBaseAddr, gpioOutHwPinNum, GPIO_OUT_HW_SIGNAL_DIR);
+
+    return status;
+}
+
+uint32_t PN_APP_IOD_setOutHwSignal(uint8_t value)
+{
+    uint32_t status = PN_API_OK;
+
+    if(0 == value)
+    {
+        GPIO_pinWriteLow(gpioOutHwBaseAddr, gpioOutHwPinNum);
+    }
+    else
+    {
+        GPIO_pinWriteHigh(gpioOutHwBaseAddr, gpioOutHwPinNum);
+    }
+
+    return status;
 }
 
 uint32_t PN_APP_IOD_cbFreeRemaMem(PN_API_IOD_Handle_t *const pnHandle, uint8_t *const destMem)
@@ -479,26 +537,38 @@ static uint32_t PN_APP_IOD_remaTriggerStore(void)
 {
     uint32_t status = PN_API_OK;
     uint32_t nvmstatus;
+    uint32_t checksum;
 
-    ramNvData.checkSum = PN_APP_IOD_remaChecksum();
+    checksum = PN_APP_IOD_remaChecksum();
 
-    nvmstatus = NVM_APP_writeAsync(
+    if(ramNvData.checkSum != checksum)
+    {
+        /* Update checksum*/
+        ramNvData.checkSum = checksum;
+
+        /* Trigger store */
+        nvmstatus = NVM_APP_writeAsync(
         PN_APP_IOD_NVM_TYPE,
         PN_APP_IOD_NVM_INSTANCE,
         PN_APP_IOD_NVM_OFFSET,
         sizeof(ramNvData),
         (uint8_t *)&ramNvData);
 
-    if (nvmstatus == NVM_ERR_BUSY)
-    {
-        //OSAL_printf("Multiple fast store requests detected.\r\n");
-        remaContext.retriggerAfterComplete = true;
-    }
-    else if (nvmstatus != NVM_ERR_SUCCESS)
-    {
-        status = PN_API_NOT_OK;
-    }
+        if (nvmstatus == NVM_ERR_BUSY)
+        {
+            //OSAL_printf("Multiple fast store requests detected.\r\n");
+            remaContext.retriggerAfterComplete = true;
+        }
+        else if (nvmstatus != NVM_ERR_SUCCESS)
+        {
+            status = PN_API_NOT_OK;
+        }
 
+    }
+    else
+    {
+        PN_API_IOD_dataStoreComplete(remaContext.handle, remaContext.bytesToWrite);
+    }
     return status;
 }
 
@@ -522,6 +592,7 @@ void PN_APP_IOD_remaNvmCallback(uint32_t status)
     if (remaContext.retriggerAfterComplete)
     {
         remaContext.retriggerAfterComplete = false;
+        ramNvData.checkSum =~ ramNvData.checkSum;
         PN_APP_IOD_remaTriggerStore();
     }
 }
@@ -564,6 +635,7 @@ uint32_t PN_APP_IOD_remaInit(void)
         memset(&ramNvData.im1, ' ', (uint32_t)&ramNvData.snmpSysNameLen - (uint32_t)&ramNvData.im1);
 
         ramNvData.version = PN_APP_IOD_NV_STRUCT_VERSION;
+        ramNvData.checkSum = PN_APP_IOD_remaChecksum();
     }
 
     return status;
@@ -579,7 +651,7 @@ uint32_t PN_APP_IOD_cbStoreRemaMem(
     uint32_t           status = PN_API_OK;
     PN_APP_IOD_RemaEntry_t entry;
 
-    //OSAL_printf("Save remanent memory indicated (%u, %u).\r\n", type, instance);
+    OSAL_printf("Save remanent memory indicated (%u, %u).\r\n", type, instance);
 
     PN_APP_IOD_getRemaEntry(&entry, type, instance);
 

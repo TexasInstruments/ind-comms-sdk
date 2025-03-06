@@ -1,20 +1,16 @@
 /*!
- * \file pn_api_iod_types.h
+ *  \file pn_api_iod_types.h
  *
- * \brief
- * Common defines, enums and structs.
+ *  \brief
+ *  Common defines, enums and structs.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: LicenseRef-Kunbus
- *
- * Copyright (c) 2024 KUNBUS GmbH
- * All rights reserved.
- *
- *
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
+ *  SPDX-License-Identifier: LicenseRef-Texas Instruments Incorporated
+ *  All rights reserved.
  */
 
 #ifndef PN_API_IOD_TYPES_H
@@ -212,6 +208,17 @@ typedef enum
     PN_API_IOD_SubmodStatusRun             = 2, /*!< Submodule is in "run" state */
     PN_API_IOD_SubmodStatusAppReadyFollows = 3  /*!< "Application ready" follows later */
 } PN_API_IOD_SubmodStatus_t;
+
+/*!
+ * \brief Real Submodule status.
+ *
+ * \ingroup PN_API_IOD_TYPES_DOXY_GROUP
+ */
+typedef enum
+{
+    PN_API_IOD_RealSubmodStatusStop            = 0, /*!< Submodule is in "stop" state */
+    PN_API_IOD_RealSubmodStatusRun             = 1, /*!< Submodule is in "run" state */
+} PN_API_IOD_RealSubmodStatus_t;
 
 /*!
  * \brief Submodule data direction.
@@ -783,6 +790,12 @@ typedef struct
 } PN_API_IOD_ioBlockHeader_t;
 #pragma pack(pop)
 
+typedef enum
+{
+    PN_API_IOD_NotPlugged  = 0,
+    PN_API_IOD_Plugged      = 1
+} PN_API_IOD_PlugState_t;
+
 /*!
  * \brief Submodule information.
  *
@@ -797,10 +810,10 @@ typedef struct
     uint32_t                    submodId;         /*!< Submodule identifier (1 to 0xFFFFFFFF) */
     uint32_t                    dataDirection;    /*!< Data direction, see PN_API_IOD_SubmodProp_t */
     uint32_t                    index;            /*!< Real index of the entity */
-    uint8_t                     isPlugged;        /*!< Submodule is plugged (or not) */
-    PN_API_IOD_SubmodStatus_t   submodStatus;     /*!< Status of the submodule */
+    PN_API_IOD_PlugState_t      isPlugged;        /*!< Submodule is plugged (or not) */
+    PN_API_IOD_RealSubmodStatus_t submodStatus;     /*!< Status of the submodule */
 #if PN_API_IOD_INCLUDE_IM0_4
-    PN_API_IOD_Im0Support_t     im0Support;       /*!< Type of IM0 support */
+    uint8_t                     im0Support;       /*!< Type of IM0 support */
     PN_API_IOD_Im0Data_t        im0Data;          /*!< IM0 data */
 #endif
     uint8_t                     inIops;           /*!< IOPS of input data (if submodule has input data) */

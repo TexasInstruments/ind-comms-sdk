@@ -64,17 +64,28 @@ extern "C"
 
 #include "PN_Handle.h"
 #include "iRtcDrv2.h"
-
+#include <networking/icss_emac/source/icss_emac_stormControl.h>
+#include <networking/icss_emac/source/icss_emac_local.h>
 
 /* ========================================================================== */
 /*                                 Macros                                     */
 /* ========================================================================== */
-
-#define PTCP_TASK_PRIORITY           26
-#define SYNC_MONITOR_TASK_PRIORITY   23
-#define LEGACY_MODE_TASK_PRIOROTY    3
-#define MRP_TASK_PRIORITY            23
-#define WATCHDOG_TASK_PRIORITY       11
+#ifdef PTCP_SUPPORT
+    #define PTCP_TASK_PRIORITY           26
+    #define SYNC_MONITOR_TASK_PRIORITY   23
+#endif
+#ifdef STORM_PREV_SUPPORT
+    #define STORM_PREV_TASK_PRIORITY     10
+#endif
+#ifdef IRT_LEGACY_STARTUP_SUPPORT
+    #define LEGACY_MODE_TASK_PRIOROTY    3
+#endif
+#ifdef MRP_SUPPORT
+    #define MRP_TASK_PRIORITY            23
+#endif
+#ifdef WATCHDOG_SUPPORT
+    #define WATCHDOG_TASK_PRIORITY       11
+#endif
 
 /* ========================================================================== */
 /*                          Function Declarations                             */
@@ -256,14 +267,14 @@ int32_t PN_RTC_disableISR(PN_Handle pnHandle);
  * The protection scheme is borrowed from NDK and we use their code too.
  * This requires to adhere to NDK priority scheme
  *
- * \param[in] pnHandle      Profinet Handle
+ * \param[in] icssEmacHandle ICSS Emac LLD handle
  * \param srcAddress        pointer to TX packet
  * \param portNumber        output port number
  * \param queuePriority     output queue priority
  * \param lengthOfPacket    TX packet length (without CRC)
  * \callgraph
  */
-int32_t PN_OS_txPacket(PN_Handle pnHandle,
+int32_t PN_OS_txPacket(ICSS_EMAC_Handle icssEmacHandle,
                        const uint8_t *srcAddress, int32_t portNumber, int32_t queuePriority,
                        int32_t lengthOfPacket);
 

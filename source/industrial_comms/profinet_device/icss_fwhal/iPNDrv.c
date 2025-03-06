@@ -47,6 +47,7 @@
 #include "iPNLegacy.h"
 #include "iPtcpDrv.h"
 #include "iPtcpUtils.h"
+#include "iPNIsoMDrv.h"
 #include "PN_ForwardDecisionTable.h"
 #include "PN_ReceiveDecisionTable.h"
 
@@ -55,13 +56,13 @@
 #include <drivers/hw_include/hw_types.h>
 
 #if defined PROFINET_RGMII_MODE
-#include "firmware/rgmii/profinet_irt_pru0_bin.h"
-#include "firmware/rgmii/profinet_irt_pru1_bin.h"
-#include "firmware/rgmii/firmware_version.h"
+#include "./firmware/rgmii/profinet_irt_pru0_bin.h"
+#include "./firmware/rgmii/profinet_irt_pru1_bin.h"
+#include "./firmware/rgmii/firmware_version.h"
 #elif defined PROFINET_MII_MODE
-#include "firmware/mii/profinet_irt_pru0_bin.h"
-#include "firmware/mii/profinet_irt_pru1_bin.h"
-#include "firmware/mii/firmware_version.h"
+#include "./firmware/mii/profinet_irt_pru0_bin.h"
+#include "./firmware/mii/profinet_irt_pru1_bin.h"
+#include "./firmware/mii/firmware_version.h"
 #endif
 
 /* ========================================================================== */
@@ -92,7 +93,7 @@
 #define FILTER_MAC_ID_TYPE1_OCTET3 0x00
 #define FILTER_MAC_ID_TYPE1_OCTET4 0x05
 #define FILTER_MAC_ID_TYPE1_OCTET5 0xFF
-
+#define HELLO 1
 /**
 * @internal
 * @def FILTER_MAC_ID_TYPE2_OCTET0
@@ -142,7 +143,7 @@
  */
 int32_t PN_writeFilterTable(const uint8_t *macAddr, uint32_t filterTableAddr,
                             int32_t enable);
-
+int32_t PN_rxPktGet(ICSS_EMAC_RxArgument *rxArg);
 /* ========================================================================== */
 /*                          Function Definitions                              */
 /* ========================================================================== */
@@ -182,7 +183,6 @@ int32_t PN_initDrv(PN_Handle pnHandle)
 
     /* remaining (internal) phase management code*/
     PN_setCompensationValue(pruicssHwAttrs, 75); /*  75ns default*/
-    PN_setFSODeviationComp(pruicssHwAttrs, fsoCompensation);
 
     /* init RTC driver*/
     if(PN_initRtcDrv(pnHandle) != 0)
@@ -266,7 +266,14 @@ int32_t PN_initDrv(PN_Handle pnHandle)
             return ERR_FIRMWARE_VERSION_BAD;
         }
     }
-
+#ifdef STORM_PREV_SUPPORT
+    ICSS_EMAC_IoctlCmd ioctlParams;
+    ioctlParams.command = ICSS_EMAC_STORM_PREV_CTRL_INIT_BC;
+    ICSS_EMAC_ioctl(pnHandle->emacHandle, ICSS_EMAC_IOCTL_STORM_PREV_CTRL, ICSS_EMAC_PORT_1,
+                   (void *)&ioctlParams);
+    ICSS_EMAC_ioctl(pnHandle->emacHandle, ICSS_EMAC_IOCTL_STORM_PREV_CTRL, ICSS_EMAC_PORT_2,
+                   (void *)&ioctlParams);
+#endif
     /*By default MRP Ports are in FORWARDING Mode*/
     PN_MRP_setPortState(pruicssHwAttrs, ICSS_EMAC_PORT_1, FORWARDING);
     PN_MRP_setPortState(pruicssHwAttrs, ICSS_EMAC_PORT_2, FORWARDING);
@@ -715,10 +722,10 @@ int32_t PN_setWatchDogTimer(PN_Handle pnHandle
         return -1;    /* out of range*/
     }
 
-    HW_WR_REG32((pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_PD_WD_TIM_REG), 20 * timerPeriod);
+    HW_WR_REG32((pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_PD_WD_TIM_REG), 10 * timerPeriod);
     HW_WR_REG32((pruicssHwAttrs->iep0RegBase + CSL_ICSS_G_PR1_IEP0_SLV_WD_CTRL_REG), 1);
 
-    pnHandle->icssWachDogTimerPeriod = 20 * timerPeriod;
+    pnHandle->icssWachDogTimerPeriod = 10 * timerPeriod;
     pnHandle->icssWatchDogEnabled = 1;
 
     return 0;
@@ -792,7 +799,45 @@ int32_t PN_loadStaticTable(PRUICSS_HwAttrs const *pruicssHwAttrs,
     return ret_val;
 }
 
-void PN_CPMOffloadBypass(PRUICSS_HwAttrs const *pruicssHwAttrs) {
-    /* Set flag to indicate no CPM buffers to be used for RTC1 frames. */
-    HW_WR_REG8((pruicssHwAttrs->pru0DramBase + CPM_OFFLOAD_OFFSET), CpmOffloadFlag);
+int32_t PN_rxPktGet(ICSS_EMAC_RxArgument *rxArg) {
+    uint32_t    stackDestAddr;
+    uint32_t    tempDest[380]; /* Max Byte size = 1518 bytes*/
+    int32_t     pktLen = 0;
+    uint32_t    srcIpAddr;
+    uint16_t    EtherTypeVlanId;
+    uint8_t     skipStackBuffering = 0;
+    uint8_t     multicastCheck;
+
+    stackDestAddr = rxArg->destAddress;
+    rxArg->destAddress = (uint32_t)(&(tempDest[0]));
+    pktLen = ICSS_EMAC_rxPktGet(rxArg, NULL);  
+    multicastCheck = (tempDest[0] & 0x1);
+    /*Check for Vlan tag before this*/
+    EtherTypeVlanId = (uint16_t)((tempDest[3] & 0xFFFF));
+    
+    if(EtherTypeVlanId != 0x0081) 
+    {
+        srcIpAddr = (tempDest[6] >> 16) | (tempDest[7] << 16);
+        if(multicastCheck == 0) 
+        {
+            if(EtherTypeVlanId != 0x9288) 
+            {
+                if(!(EtherTypeVlanId == 0x0008 && srcIpAddr == 0x6400a8c0))
+                {
+                    if(rxArg->port != 1)
+                        skipStackBuffering = 1;
+                }
+            }
+        }
+    }
+
+    if(skipStackBuffering == 0 && pktLen > 0 && pktLen < 1518) {
+        /* Accept frame */
+        rxArg->destAddress = stackDestAddr;
+        memcpy((uint32_t*)stackDestAddr,&(tempDest[0]), pktLen);
+    }
+    else {
+        pktLen = -1;
+    }
+    return pktLen;
 }

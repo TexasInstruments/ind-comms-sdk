@@ -39,7 +39,7 @@
  <tbody>
      <tr style="height: 40px;">
          <td id="projectlogo"><a href="https://www.ti.com"><img alt="Logo" src="ti_logo.svg" /></a></td>
-         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.0.3</span></div></td>
+         <td id="projectalign"><div id="projectname"> PROFINET Device<span id="projectnumber">4.1.0</span></div></td>
          <td id="projectbrief" align="right"><img src=PROFINETLogoIcon.png /></a></td>
          <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -125,7 +125,7 @@ $(document).ready(function(){initNavTree('group__PN__API__IOD__DATA__DOXY__GROUP
 <dl class="section remark"><dt>Remarks</dt><dd><ol type="1">
 <li>Without this function, the IO data exchange between the IO device and IO controller would still take place but on the stack level (isolated from the user application). This means, the cyclic exchange will continue but the values of input/output data won't be up to date.<br  />
 </li>
-<li>Before calling this function, the user application needs to have a mechanism to handle the event coming from Profinet stack. In Kunbus demo app, this mechanism is implemented as a separate thread (see <a class="el" href="group__PN__APP__IOD__DATA__DOXY__GROUP_gaa89f9fda4193ccc5a2702c66dafc67a5.html#gaa89f9fda4193ccc5a2702c66dafc67a5" title="Initiates continuous exchange of IO data between the user application and Profinet stack for all ARs ...">PN_APP_IOD_initCyclicDataExchange()</a>) which blocks while waiting for the event, and once it arrives, an IO data read/write process is initiated.</li>
+<li>Before calling this function, the user application needs to have a mechanism to handle the event coming from Profinet stack. In demo app, this mechanism is implemented as a separate thread (see <a class="el" href="group__PN__APP__IOD__DATA__DOXY__GROUP_gaa89f9fda4193ccc5a2702c66dafc67a5.html#gaa89f9fda4193ccc5a2702c66dafc67a5" title="Initiates continuous exchange of IO data between the user application and Profinet stack for all ARs ...">PN_APP_IOD_initCyclicDataExchange()</a>) which blocks while waiting for the event, and once it arrives, an IO data read/write process is initiated.</li>
 </ol>
 </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -165,7 +165,7 @@ $(document).ready(function(){initNavTree('group__PN__API__IOD__DATA__DOXY__GROUP
 <div class="line">status = <a class="code hl_function" href="group__PN__API__IOD__DATA__DOXY__GROUP_gadfcc5c138a929bff32bf61ed15991cdf.html#gadfcc5c138a929bff32bf61ed15991cdf">PN_API_IOD_activateCyclicDataExchange</a>(pnHandle);</div>
 <div class="ttc" id="agroup__PN__API__IOD__DATA__DOXY__GROUP_gadfcc5c138a929bff32bf61ed15991cdf_html_gadfcc5c138a929bff32bf61ed15991cdf"><div class="ttname"><a href="group__PN__API__IOD__DATA__DOXY__GROUP_gadfcc5c138a929bff32bf61ed15991cdf.html#gadfcc5c138a929bff32bf61ed15991cdf">PN_API_IOD_activateCyclicDataExchange</a></div><div class="ttdeci">uint32_t PN_API_IOD_activateCyclicDataExchange(PN_API_IOD_Handle_t *const pnHandle)</div><div class="ttdoc">Activates the exchange of IO data between the user application and Profinet stack for all ARs (RT,...</div></div>
 <div class="ttc" id="agroup__PN__API__IOD__HANDLE__DOXY__GROUP_ga2080a0c22b35fb4771e45ff3c7962aab_html_ga2080a0c22b35fb4771e45ff3c7962aab"><div class="ttname"><a href="group__PN__API__IOD__HANDLE__DOXY__GROUP_ga2080a0c22b35fb4771e45ff3c7962aab.html#ga2080a0c22b35fb4771e45ff3c7962aab">PN_API_IOD_new</a></div><div class="ttdeci">PN_API_IOD_Handle_t * PN_API_IOD_new(void)</div><div class="ttdoc">Creates Profinet API handle.</div></div>
-<div class="ttc" id="agroup__PN__API__IOD__TYPES__DOXY__GROUP_ga8c1b84cb058f2349a6de48f753adf12e_html_ga8c1b84cb058f2349a6de48f753adf12e"><div class="ttname"><a href="group__PN__API__IOD__TYPES__DOXY__GROUP_ga8c1b84cb058f2349a6de48f753adf12e.html#ga8c1b84cb058f2349a6de48f753adf12e">PN_API_IOD_Handle_t</a></div><div class="ttdeci">struct PN_API_IOD_Handle PN_API_IOD_Handle_t</div><div class="ttdef"><b>Definition</b> pn_api_iod_types.h:63</div></div>
+<div class="ttc" id="agroup__PN__API__IOD__TYPES__DOXY__GROUP_ga8c1b84cb058f2349a6de48f753adf12e_html_ga8c1b84cb058f2349a6de48f753adf12e"><div class="ttname"><a href="group__PN__API__IOD__TYPES__DOXY__GROUP_ga8c1b84cb058f2349a6de48f753adf12e.html#ga8c1b84cb058f2349a6de48f753adf12e">PN_API_IOD_Handle_t</a></div><div class="ttdeci">struct PN_API_IOD_Handle PN_API_IOD_Handle_t</div><div class="ttdef"><b>Definition</b> pn_api_iod_types.h:59</div></div>
 <div class="ttc" id="agroup__PN__APP__IOD__DATA__DOXY__GROUP_gaa89f9fda4193ccc5a2702c66dafc67a5_html_gaa89f9fda4193ccc5a2702c66dafc67a5"><div class="ttname"><a href="group__PN__APP__IOD__DATA__DOXY__GROUP_gaa89f9fda4193ccc5a2702c66dafc67a5.html#gaa89f9fda4193ccc5a2702c66dafc67a5">PN_APP_IOD_initCyclicDataExchange</a></div><div class="ttdeci">uint32_t PN_APP_IOD_initCyclicDataExchange(PN_API_IOD_Handle_t *const pnHandle)</div><div class="ttdoc">Initiates continuous exchange of IO data between the user application and Profinet stack for all ARs ...</div></div>
 </div><!-- fragment --> </dd></dl>
 

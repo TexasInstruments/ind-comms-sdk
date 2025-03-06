@@ -1,43 +1,42 @@
 /*!
- * \file pn_app_iod_data.c
+ *  \file pn_app_iod_data.c
  *
- * \brief
- * Functions and callbacks for handling Profinet data.
+ *  \brief
+ *  Functions and callbacks for handling Profinet data.
  *
- * \author
- * KUNBUS GmbH
+ *  \author
+ *  Texas Instruments Incorporated
  *
- * \copyright
- * Copyright (c) 2023, KUNBUS GmbH<br /><br />
- * SPDX-License-Identifier: BSD-3-Clause
+ *  \copyright
+ *  Copyright (C) 2023 Texas Instruments Incorporated
  *
- * Copyright (c) 2024 KUNBUS GmbH.
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
  *
- * <ol>
- * <li>Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer./<li>
- * <li>Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.</li>
- * <li>Neither the name of the copyright holder nor the names of its contributors
- * may be used to endorse or promote products derived from this software without
- * specific prior written permission.</li>
- * </ol>
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
  *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "pn_app_iod_data.h"
@@ -61,6 +60,9 @@ uint8_t PN_APP_cyclicDataTaskStack[PN_APP_CYCLIC_TASK_STACK_SIZE]__attribute__((
 
 extern OSAL_SCHED_EventHandle_t *dataExchangeEvent; /* DO NOT CHANGE! (used by Profinet stack) */
 uint8_t inDataCounter = 0;
+bool inDataChanged = false;
+bool firstInDataWrite = true;
+uint8_t outDataUpdateInd = 0;
 
 /*! \ingroup PN_API_IOD_DATA_DOXY_GROUP
  * @{
@@ -151,10 +153,25 @@ PN_API_IOD_IOXS PN_APP_IOD_cbDataWrite(
                 demoInDataIocsOld[slotIndex][subslotIndex] = remoteIocs;
             }
 
-            /* Increase input data counter to send a new value next time */
-            inDataCounter++;
+            /* Set input data to the latest inDataCounter value */
             demoInData[slotIndex][subslotIndex][0] = inDataCounter;
-        }
+
+            /* Notify a change in inDataCounter value */
+            if(true == inDataChanged)
+            {
+                OSAL_printf("PN input data changed!\r\n");
+                inDataChanged = false;
+            }
+
+            /* Notify the beginning of user input data usage */
+            if(true == firstInDataWrite)
+            {
+                /* Set the output hardware signal to "high" (for measurement purpose). */
+                PN_APP_IOD_setOutHwSignal(1);
+
+                /* The output hardware signal should only be triggered once at the beginning. */
+                firstInDataWrite = false;
+            }        }
 
         status = demoInDataIops[slotIndex][subslotIndex];
     }
@@ -183,8 +200,43 @@ PN_API_IOD_IOXS PN_APP_IOD_cbDataRead(
             (0 < bufLen) &&
             (NULL != buffer))
         {
-            OSAL_MEMORY_memcpy(&demoOutData[slotIndex][subslotIndex][0], buffer, bufLen);
+            if( PN_API_IOD_STATUS_GOOD == remoteIops)
+            {
+                /* If old iops is bad, we send return of submodule alarm */
+                if(PN_API_IOD_STATUS_GOOD != demoOutDataIopsOld[slotIndex][subslotIndex])
+                {
+                    uint32_t api = 0;
+                    uint32_t usrHandle = 0;
+                    PN_API_IOD_sendRetOfSubAlarm(pnHandle, api, addr, usrHandle);
+                }
 
+                /* Verify if output value has changed */
+                uint8_t retVal = OSAL_MEMORY_memcmp(&demoOutData[slotIndex][subslotIndex][0], buffer, bufLen);
+                if( 0 != retVal)
+                {
+                    /* Copy new output value */
+                    OSAL_MEMORY_memcpy(&demoOutData[slotIndex][subslotIndex][0], buffer, bufLen);
+
+                    /* Indicate new output data by changing led state */
+                    PN_APP_IOD_cbSetLed(pnHandle, PN_API_IOD_LedUser02 , outDataUpdateInd);
+                    outDataUpdateInd =~ outDataUpdateInd;
+                }
+
+                demoOutDataIocs[slotIndex][subslotIndex] = PN_API_IOD_STATUS_GOOD;
+
+                /* Set led off, output data is valid again; Led is ON when iops is bad to signal that
+                substitute value is being used */
+                PN_APP_IOD_cbSetLed(pnHandle, PN_API_IOD_LedUser00 , 0);
+            }
+            else
+            {
+                /* Use substitute value */
+                OSAL_MEMORY_memset(&demoOutData[slotIndex][subslotIndex][0], 0x5a, bufLen);
+                demoOutDataIocs[slotIndex][subslotIndex] = PN_API_IOD_STATUS_GOOD;
+
+                /* Set led on, output data is invalid */
+                PN_APP_IOD_cbSetLed(pnHandle, PN_API_IOD_LedUser00 , 1);
+            }
             /* Provider status (of remote IO controller) */
             demoOutDataIops[slotIndex][subslotIndex] = remoteIops;
 
@@ -197,16 +249,7 @@ PN_API_IOD_IOXS PN_APP_IOD_cbDataRead(
                 demoOutDataIopsOld[slotIndex][subslotIndex] = remoteIops;
             }
 
-            demoOutDataIocs[slotIndex][subslotIndex] = PN_API_IOD_STATUS_GOOD;
-
             status = demoOutDataIocs[slotIndex][subslotIndex];
-
-            /* Use the received output value to set LED States */
-            for (int8_t led = 0; led < 8; led++)
-            {
-                bool state = (demoOutData[slotIndex][subslotIndex][0] >> led) & 0x01;
-                PN_APP_IOD_cbSetLed(pnHandle, PN_API_IOD_LedUser00 + led, state);
-            }
         }
     }
 
@@ -430,7 +473,7 @@ static void PN_APP_IOD_cyclicDataTask(void* pvTaskArg)
          */
         if (PN_API_OK == status)
         {
-            PN_API_IOD_initiateDataRead(pnHandle);
+            PN_API_IOD_initiateDataRead(pnHandle); /* Must be called before PN_API_IOD_initiateDataWrite */
 
             PN_API_IOD_initiateDataWrite(pnHandle);
         }
